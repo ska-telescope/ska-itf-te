@@ -3,12 +3,17 @@
 Created on Mon Feb 24 10:23:49 2020
 
 @author: Rishad modifed by Sias 
-@modify: Monde: 14-02-2022
-        : Added the host and port numbers
-        : Copied Power and Frequency from the NoiseIncreaseRev1.py
-          for sig gen use only
-Mod Gen ?
-Modulation ?
+@modify: Monde and Vhuli: 
+        Date: 14-02-2022
+        Affil: SKAO Test Engineers
+        Description: 
+        This script remotely controls basic settings of the signal generator
+        There is no device connected at the sig gen output, the sig get is DUT
+        Mods:
+        Added the host and port numbers
+        Copied Power and Frequency from the NoiseIncreaseRev1.py
+        for sig gen use only
+        Added funtion calls
 """
 
 from re import S
@@ -33,9 +38,9 @@ ON = 'ON'
 AM_Mod = 'AM'
 FM_Mod = 'FM'
 PM_Mod = 'PM'
+default_timeout = 1
 # --------------------------------------------
          
-default_timeout = 1
 
 def initSigGen():
     """
@@ -52,15 +57,11 @@ def initSigGen():
         print(e,"Check to see if the port number is {PORT}")
     s.sendall(b'*IDN?\r\n')                             
     data = s.recv(1024)
-    #print('Received', data)
-    sig_gen_id = data                           # for testing
     state=0
     setstate='OUTP1 {}\r\n'.format(state)       # Sets RF Output
     s.sendall(bytes(setstate, encoding='utf8'))
     s.sendall(b'OUTP1?\r\n')
     data=s.recv(1024)
-    set_state = data                            # for testing
-    #print('Received', data)
     s.close()
     if data.decode('utf8')=='1\n':      # 
         print("RF Output On")
@@ -217,8 +218,6 @@ def setupSigGen():
     time.sleep(2)                   # Wait a bit   
     setSigGenState(One)             # Turn on sig gen output
     time.sleep(2)                   # Wait a bit
-    #setSigGenModsState(OFF)        # Switch all modulations on
-    #time.sleep(5)                  # Wait a bit
     setSigGenModState(AM_Mod,ON)    # Switch AM Modulation on
     time.sleep(2)                   # Wait a bit
     setSigGenModState(AM_Mod,OFF)   # Switch AM Modulation off
