@@ -168,6 +168,48 @@ class sa_sock(socket.socket):
         rx_str = self.sa_requestdata('*OPC?','default',maximum_wait_time_s)
         return list(eval(self.sa_requestdata('TRACE1? TRACE1')))
         
+def dump_data(self):
+
+        # turns on color printing
+        self.sa_sendcmd('HCOP:DEV:COL ON')
+
+        # select file format
+        # (WMF | GDI | EWMF | BMP | PNG | JPEG | JPG | PDF | SVG | DOC | RTF)
+        self.sa_sendcmd('HCOP:DEV:LANG PNG')
+
+        # set print to file
+        # self.sa_sendcmd("HCOP:DEST 'MMEM'")         # Save screenshot in internal memory
+
+        filePathInstr = r"\Public\Screen Shots\hcopy_dev.png"
+        filePathPc = r"/Users/monde.manzini/Downloads/hcopy.png"    # pc temp dir
+        fileDataContent = '#220'
+
+        # file path on instrument
+        self.sa_sendcmd(f'MMEM:NAME {filePathInstr}')       # Creates a new file in the instrument
+        self.sa_sendcmd(f'MMEM:MDIR {filePathInstr}')       # Create sITF dir in the instrument
+        self.sa_sendcmd(f'MMEM:CDIR {filePathInstr}')       # Open sITF dir in the instrument
+
+        # create screenshot
+        # self.sa_sendcmd('HCOP')
+        self.sa_sendcmd("HCOP:DEST 'MMEM'")
+        self.sa_sendcmd(':HCOP')
+
+        # wait for instrument to finish writing
+        self.sa_sendcmd('*OPC')
+
+        # read instrument dirs
+        query_scrn_shot = self.sa_requestdata('MMEM:CAT:DIR?')
+        print(query_scrn_shot)
+        
+
+        # ask for file data from instrument
+        #fileData = self.sa_requestdata(f'MMEM:DATA? {filePathInstr}')
+
+        # save data in file on local hard drive
+        newFile = open(filePathPc, "wb")
+        # newFile.write(fileData)
+        newFile.close()
+        
 if __name__ == '__main__':
     print("/------Setup spectrum analyser---------/")
     a = sa_sock()
@@ -175,3 +217,4 @@ if __name__ == '__main__':
     a.sa_sweep(f_start,f_stop,numPoints)
     a.sa_bw('off',Rbw,'off',Vbw)
     a.sa_amplitude(-10,10) 
+    a.dump_data()
