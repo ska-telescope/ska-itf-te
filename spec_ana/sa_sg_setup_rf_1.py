@@ -31,8 +31,9 @@ from numpy import double
 from re import S
 import pyvisa_py
 import pyvisa
-
-#import numpy as np # will help when we want to plot the graph
+import matplotlib.pyplot as plt
+import numpy as np
+# will help when we want to plot the graph
 
 sys.path.append('../sig_gen/') # adding signal generator path so that we can call a script from sig_gen folder
 from sg_smb100a_output_discrete_freq_a import sig_sock #Import the Signal Generator Socket class from sig_gen folder
@@ -172,6 +173,12 @@ if __name__ == '__main__':
 
     print(freq_vals)
     print(ampl_vals)
+    plt.plot(freq_vals, ampl_vals)
+    plt.xlabel('Frequecy in Hz')
+    plt.ylabel('Amplitude in dBm')
+    plt.savefig("Power as function frequency.pdf")
+    plt.grid()
+    plt.show()
 
     #sa_hcopy()
     print("/------end  main ---------/") 
