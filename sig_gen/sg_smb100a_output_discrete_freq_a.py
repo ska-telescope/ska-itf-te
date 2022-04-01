@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 """
 @author: Monde 
 @Date: 24-03-2022
@@ -134,7 +134,7 @@ class sig_sock(socket.socket):
         """
         self.sg_sendcmd(f'FREQ {Freq}')                             # Set frequency
         data = self.sg_requestdata('FREQ?')                         # Query frequency
-        print(f"Sig gen frequency = {(data/1e6)} MHz")              # Display received frequency
+        print(f"Sig gen frequency = {(float(data)/1e6)} MHz")              # Display received frequency
         
     def sigGenFreqs(self):
         """
@@ -149,7 +149,7 @@ class sig_sock(socket.socket):
             cur_freq = (100*i)                              # Compute and iterate frequency multiples
             cur_freq_str = str(cur_freq) + 'MHz'            # Convert frequency to string & add units
             self.sg_sendcmd(f'FREQ {cur_freq_str}')         # Set frequency 
-            print(f"Set Frequency to {cur_freq_str}...")       # Print current frequency
+            print(f"Set Frequency to {cur_freq_str}...")    # Print current frequency
             print(i)
 
     def closeGenSock(self):

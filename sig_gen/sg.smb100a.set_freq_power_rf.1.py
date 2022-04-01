@@ -138,8 +138,15 @@ def setSigGenRF(sg, rf_out = RF_ON):
     '''    
 
     sg.sendall(bytes('OUTP1 %i\r\n' % rf_out, encoding='utf8'))
+<<<<<<< HEAD
+    sg.sendall(b'OUTP1?\r\n')
+    response = sg.recv(1024)
+    
+    if response.decode("UTF-8") == "1\n":
+=======
     
     if getSigGenRFState(sg) == RF_ON:
+>>>>>>> 68e3b575b872b686f0bfc315701ee74069b3e319
         print('RF is on')
     else: 
         print(("RF is off"))
