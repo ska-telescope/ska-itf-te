@@ -40,7 +40,7 @@ class sig_sock(socket.socket):
         Sets the Display to On in Remote mode
         @params 
             sigAddress          : sigHOST str, sigPORT int
-            default_timeout     : int
+            default_timeout     : integer [Optional] Timeout for waiting to establish connection
             long_delay          : int
             short_delay         : int
             default_buffer      : int
