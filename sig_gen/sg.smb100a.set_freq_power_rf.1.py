@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+
 # -*- coding: utf-8 -*-
 """
 Created on 1 April 2022
@@ -26,11 +29,16 @@ ON = "ON"
 # --------------------------------------------
          
 
-def initSigGen(rfstate = RF_OFF):
-    """
-    This function establishes a socket connection and identifies the instrument
-    @params     : None
-    """
+def initSigGen():
+    '''
+    This function establishes a socket connection and returns the active socket connection
+        
+        Parameters:
+            rf_state (int)  : RF_ON or RF_OFF
+    
+        Returns:
+            sg              : Sig gen socket connection
+    '''
     
     try:
         
@@ -38,35 +46,64 @@ def initSigGen(rfstate = RF_OFF):
         sg.connect((SG_HOST, SG_PORT))
         sg.settimeout(DEFAULT_TIMEOUT)
         if sg:
-            print(sg, "Connection succesful.")
+            print(sg, "\nConnection succesful.\n\n")
         else:
-            print(sg, "Connection unsuccessful!") 
+            print(sg, "\nConnection unsuccessful!\n\n") 
             sys.exit()                                      # Exit the code if unsuccessful
             
     except Exception as e:
         print(e, "Exception connecting to SG")
+
+    return sg                                               # Returns sig gen socket
+    
+def getSigGenIDN(sg):
+    '''
+    This function returns the Sig Gen IDN
         
+        Parameters:
+            sg              : socket connection
+    
+        Returns:
+            IDN              : Sig gen IDN response as string
+    '''    
+
     sg.sendall(b'*IDN?\r\n')                                # Get system identification
     response = sg.recv(1024)
-    print(response.decode('utf8'))
     
-    sg.sendall(bytes('OUTP1 %i\r\n' % rfstate , encoding='utf8'))   # Sets RF Output OFF
+    return response.decode('utf8')
+
+
+
+def getSigGenRFState(sg):
+    '''
+    This function returns the Sig Gen RF Status
+        
+        Parameters:
+            sg              : socket connection
+    
+        Returns:
+            RF Status       : Sig gen RF Status as RF_ON or RF_OFF
+    '''        
+    
+
     sg.sendall(b'OUTP1?\r\n')
     response = sg.recv(1024)
     
     if response.decode('utf8') == '1\n':      # 
-        print("RF Output On")
+        return RF_ON
     else: 
-        print("RF Output Off")
+        return RF_OFF
     
-    return sg
 
 def setSigGenPower(sg, power = -10):
-    """
+    '''
     This function sets the power of the signal generator
-    @param  sg
-    @param  Power: integer
-    """
+        
+        Parameters:
+            sg              : socket connection
+            power           : power level in dBm (default = -10)
+
+    '''    
     
     sg.sendall(bytes('POW %i\r\n' % power, encoding='utf8'))
     sg.sendall(b'POW?\r\n')
@@ -75,11 +112,14 @@ def setSigGenPower(sg, power = -10):
     print("Sig gen power = %i dBm" % int(response))
 
 def setSigGenFreq(sg, freq = 1e9):
-    """
-    Identify instrument. Can be used as a connectivity check.
-    @param  sg
-    @param  freq in Hz
-    """
+    '''
+    This function sets the frequency of the signal generator
+        
+        Parameters:
+            sg (socket)
+            freq           : frequency in Hz (default = 1e9 or 1 GHz)
+
+    '''    
     
     sg.sendall(bytes("FREQ %i\r\n" % freq, encoding='utf8'))
     sg.sendall(b'FREQ?\r\n')
@@ -87,12 +127,15 @@ def setSigGenFreq(sg, freq = 1e9):
     
     print(f"Sig gen frequency = %i MHz" % int(response/1e6))
 
-def setSigGenRFOn(sg, rf_out = RF_ON):
-    """
-    This function turns on/off the RF output state
-    @param  sg
-    @params rfOut:  RF_ON or RF_OFF
-    """
+def setSigGenRF(sg, rf_out = RF_ON):
+    '''
+    This function sets the RF output to on or off
+        
+        Parameters:
+            sg              : socket connection
+            rf_out          : RF_ON or RF_OFF (default RF_ON)
+
+    '''    
 
     sg.sendall(bytes('OUTP1 %i\r\n' % rf_out, encoding='utf8'))
     sg.sendall(b'OUTP1?\r\n')
@@ -104,13 +147,16 @@ def setSigGenRFOn(sg, rf_out = RF_ON):
         print(("RF is off"))
 
 def setSigGenModsStateOff(sg, mods_state = OFF):  
-    """
-    This function sets all modulation modes off
-    @param  sg
-    @param mods_state : String
-    """
+    '''
+    This function sets the modulation modes off
+        
+        Parameters:
+            sg              : socket connection
+            mods_state      : modulation state (default OFF)
 
-    sg.sendall(bytes('MOD:STAT %s\r\n' % mods_state, encoding='utf8'))
+    '''    
+
+    sg.sendall(bytes('MOD:STAT %s\r\n' % mods_state, encoding='utf8'))  #Turn mods states off
     sg.sendall(b'MOD:STAT?\n')
     data = sg.recv(1024)
 
@@ -119,30 +165,43 @@ def setSigGenModsStateOff(sg, mods_state = OFF):
     else: print(("All modulations On"))
 
     
-def setupSigGen(sg, power = -20, freq = 1e9, rf_out = RF_OFF):
-    """
-    This function sets up the sig gen - power, freq, rf on or off
-    @param  sg
-    @param power    : int
-    @param freq     : int
-    @param rf_out    : RF_ON or RF_OFF
-    """    
+def setSigGen(sg, power = -20, freq = 1e9, rf_out = RF_ON):
+    '''
+    This function sets the power, frequency and RF on or off
+        
+        Parameters:
+            sg              : socket connection
+            power           : power level to be set in dBm (default -20)
+            freq            : freq level to be set in Hz (default 1e9)
+            rf_out          : RF_ON or RF_OFF (default RF_ON)
+
+    '''        
+    
+    print("IDN : %s" % getSigGenIDN(sg))    # Get IDN of SG
+        
+    if getSigGenRFState(sg) == RF_ON:      # Check RF status
+        print("RF is on\n")
+    else:
+        print("RF is off\n")
     
     setSigGenModsStateOff(sg)       # Set all modes to off
     setSigGenPower(sg, power)       # Set power to specified level
     setSigGenFreq(sg, freq)         # Set frequency to specified level
-    setSigGenRFOn(sg, rf_out)       # Set RF on or off
+    setSigGenRF(sg, rf_out)         # Set RF on or off
    
 # ---------------------Main Function-----------------------------------
 
-parser = argparse.ArgumentParser(description = "Specify Sig Gen Freq and Power and turn on RF Output")
-parser.add_argument("power", type=int, help="the power level (dBm)")
-parser.add_argument("freq", type=float, help="the frequency (Hz)")
-args = parser.parse_args()
+if __name__ == '__main__':
+    
+    # Set up arguments to be parsed 
+    parser = argparse.ArgumentParser(description = "Specify Sig Gen Freq and Power and turn on RF Output")
+    parser.add_argument("power", type=int, help="the power level (dBm)")
+    parser.add_argument("freq", type=float, help="the frequency (Hz)")
+    args = parser.parse_args()
 
-# Initiaslise the signal generator to a known state
-sg = initSigGen()
-# Set up sig gen to specified power and frequency and turn RF on
-setupSigGen(sg, args.power, args.freq, RF_ON)
-
-sg.close()
+    # Initiaslise the signal generator to a known state
+    sg = initSigGen()
+    # Set up sig gen to specified power and frequency and turn RF on
+    setSigGen(sg, args.power, args.freq)
+    # Close socket to SG
+    sg.close()
