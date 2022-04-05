@@ -5,10 +5,12 @@
 """
 Created on 1 April 2022
 
-@author: benjamin Lunsky
+@author:    Benjamin Lunsky
             Setup Sig Gen Frequency and turn RF ON
-@modifier: Monde    02 April 2022
+@modifier:  Monde    02 April 2022
             Removed conflict and conflict markers
+@modifier:  Benjamin 5 April 2022
+            Fixed doc string formatting adn print formatting
 """
 
 import time
@@ -32,7 +34,7 @@ ON = "ON"
          
 
 def initSigGen():
-    '''
+    """
     This function establishes a socket connection and returns the active socket connection
         
         Parameters:
@@ -40,7 +42,7 @@ def initSigGen():
     
         Returns:
             sg              : Sig gen socket connection
-    '''
+    """
     
     try:
         
@@ -59,7 +61,7 @@ def initSigGen():
     return sg                                               # Returns sig gen socket
     
 def getSigGenIDN(sg):
-    '''
+    """
     This function returns the Sig Gen IDN
         
         Parameters:
@@ -67,7 +69,7 @@ def getSigGenIDN(sg):
     
         Returns:
             IDN              : Sig gen IDN response as string
-    '''    
+    """    
 
     sg.sendall(b'*IDN?\r\n')                                # Get system identification
     response = sg.recv(1024)
@@ -77,7 +79,7 @@ def getSigGenIDN(sg):
 
 
 def getSigGenRFState(sg):
-    '''
+    """
     This function returns the Sig Gen RF Status
         
         Parameters:
@@ -85,7 +87,7 @@ def getSigGenRFState(sg):
     
         Returns:
             RF Status       : Sig gen RF Status as RF_ON or RF_OFF
-    '''        
+    """        
     
 
     sg.sendall(b'OUTP1?\r\n')
@@ -98,48 +100,48 @@ def getSigGenRFState(sg):
     
 
 def setSigGenPower(sg, power = -10):
-    '''
+    """
     This function sets the power of the signal generator
         
         Parameters:
             sg              : socket connection
             power           : power level in dBm (default = -10)
 
-    '''    
+    """    
     
-    sg.sendall(bytes('POW %i\r\n' % power, encoding='utf8'))
+    sg.sendall(bytes('POW {}\r\n'.format(power), encoding='utf8'))
     sg.sendall(b'POW?\r\n')
     response = float(sg.recv(1024))
     
-    print("Sig gen power = %i dBm" % int(response))
+    print("Sig gen power = {} dBm".format(response)
 
 def setSigGenFreq(sg, freq = 1e9):
-    '''
+    """
     This function sets the frequency of the signal generator
         
         Parameters:
             sg (socket)
             freq           : frequency in Hz (default = 1e9 or 1 GHz)
 
-    '''    
+    """    
     
-    sg.sendall(bytes("FREQ %i\r\n" % freq, encoding='utf8'))
+    sg.sendall(bytes("FREQ {}\r\n".format(freq), encoding='utf8'))    # Sent frequency to Sig Gen
     sg.sendall(b'FREQ?\r\n')
     response = float(sg.recv(1024))
     
-    print("Sig gen frequency = %i MHz" % int(response/1e6))
+    print("Sig gen frequency = {:b} MHz".format(response/1e6)
 
 def setSigGenRF(sg, rf_out = RF_ON):
-    '''
+    """
     This function sets the RF output to on or off
         
         Parameters:
             sg              : socket connection
             rf_out          : RF_ON or RF_OFF (default RF_ON)
 
-    '''    
+    """    
 
-    sg.sendall(bytes('OUTP1 %i\r\n' % rf_out, encoding='utf8'))
+    sg.sendall(bytes('OUTP1 {:b}\r\n'.format(rf_out), encoding='utf8')) # Sent RF on / off to Sig Gen
 
     if getSigGenRFState(sg) == RF_ON:
         print('RF is on')
@@ -147,16 +149,16 @@ def setSigGenRF(sg, rf_out = RF_ON):
         print(("RF is off"))
 
 def setSigGenModsStateOff(sg, mods_state = OFF):  
-    '''
+    """
     This function sets the modulation modes off
         
         Parameters:
             sg              : socket connection
             mods_state      : modulation state (default OFF)
 
-    '''    
+    """    
 
-    sg.sendall(bytes('MOD:STAT %s\r\n' % mods_state, encoding='utf8'))  #Turn mods states off
+    sg.sendall(bytes('MOD:STAT {}\r\n'.format(mods_state), encoding='utf8'))  #Turn mods states off
     sg.sendall(b'MOD:STAT?\n')
     data = sg.recv(1024)
 
@@ -166,7 +168,7 @@ def setSigGenModsStateOff(sg, mods_state = OFF):
 
     
 def setSigGen(sg, power = -20, freq = 1e9, rf_out = RF_ON):
-    '''
+    """
     This function sets the power, frequency and RF on or off
         
         Parameters:
@@ -175,9 +177,9 @@ def setSigGen(sg, power = -20, freq = 1e9, rf_out = RF_ON):
             freq            : freq level to be set in Hz (default 1e9)
             rf_out          : RF_ON or RF_OFF (default RF_ON)
 
-    '''        
+    """        
     
-    print("IDN : %s" % getSigGenIDN(sg))    # Get IDN of SG
+    print("IDN : {}".format(getSigGenIDN(sg)))    # Get IDN of SG
         
     if getSigGenRFState(sg) == RF_ON:      # Check RF status
         print("RF is on\n")
