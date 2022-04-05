@@ -7,6 +7,8 @@ Created on 1 April 2022
 
 @author: benjamin Lunsky
             Setup Sig Gen Frequency and turn RF ON
+@modifier: Monde    02 April 2022
+            Removed conflict and conflict markers
 """
 
 import time
@@ -125,7 +127,7 @@ def setSigGenFreq(sg, freq = 1e9):
     sg.sendall(b'FREQ?\r\n')
     response = float(sg.recv(1024))
     
-    print(f"Sig gen frequency = %i MHz" % int(response/1e6))
+    print("Sig gen frequency = %i MHz" % int(response/1e6))
 
 def setSigGenRF(sg, rf_out = RF_ON):
     '''
@@ -138,15 +140,8 @@ def setSigGenRF(sg, rf_out = RF_ON):
     '''    
 
     sg.sendall(bytes('OUTP1 %i\r\n' % rf_out, encoding='utf8'))
-<<<<<<< HEAD
-    sg.sendall(b'OUTP1?\r\n')
-    response = sg.recv(1024)
-    
-    if response.decode("UTF-8") == "1\n":
-=======
-    
+
     if getSigGenRFState(sg) == RF_ON:
->>>>>>> 68e3b575b872b686f0bfc315701ee74069b3e319
         print('RF is on')
     else: 
         print(("RF is off"))
