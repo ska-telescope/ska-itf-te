@@ -36,7 +36,7 @@ import numpy as np
 # will help when we want to plot the graph
 
 sys.path.append('sig_gen/') # adding signal generator path so that we can call a script from sig_gen folder
-from sg_smb100a_output_discrete_freq_a import sig_sock #Import the Signal Generator Socket class from sig_gen folder
+from sg_smb100a_output_discrete_freq_1 import sig_sock #Import the Signal Generator Socket class from sig_gen folder
 
 #%%
 #-----------------------import libraries for Spectrum analyzer----------------#
