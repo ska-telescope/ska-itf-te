@@ -35,12 +35,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 # will help when we want to plot the graph
 
-sys.path.append('sig_gen/') # adding signal generator path so that we can call a script from sig_gen folder
+sys.path.append('../sig_gen/') # adding signal generator path so that we can call a script from sig_gen folder
 from sg_smb100a_output_discrete_freq_1 import sig_sock #Import the Signal Generator Socket class from sig_gen folder
 
 #%%
 #-----------------------import libraries for Spectrum analyzer----------------#
-sys.path.append('spec_ana/') # adding spectraum analyser path so that we can call a script from spec_ana folder
+sys.path.append('../spec_ana/') # adding spectraum analyser path so that we can call a script from spec_ana folder
 from sa_fsh8_setup_rf_1 import sa_sock #Import the Spectrum Analyser Socket Function
 
 #%%
