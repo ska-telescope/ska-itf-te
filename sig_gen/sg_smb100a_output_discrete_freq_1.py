@@ -146,7 +146,7 @@ class sig_sock(socket.socket):
         for i in range(1,24):                               # Offset to 1, freq cannot be 0 MHz
             time.sleep(3)                                   # Delay 3 secs for visibility
             cur_freq = (100*i)                              # Compute and iterate frequency multiples
-            cur_freq_str = str(cur_freq) + 'MHz'            # Convert frequency to string & add units
+            cur_freq_str = str(cur_freq) + ' MHz'            # Convert frequency to string & add units
             self.sg_sendcmd(f'FREQ {cur_freq_str}')         # Set frequency 
             print(f"Set Frequency to {cur_freq_str}...")       # Print current frequency
 
