@@ -113,7 +113,7 @@ def setSigGenPower(sg, power = -10):
     sg.sendall(b'POW?\r\n')
     response = float(sg.recv(1024))
     
-    print("Sig gen power = {} dBm".format(response)
+    print("Sig gen power = {} dBm".format(response))
 
 def setSigGenFreq(sg, freq = 1e9):
     """
@@ -129,7 +129,7 @@ def setSigGenFreq(sg, freq = 1e9):
     sg.sendall(b'FREQ?\r\n')
     response = float(sg.recv(1024))
     
-    print("Sig gen frequency = {:b} MHz".format(response/1e6)
+    print("Sig gen frequency = {:f} MHz".format(response/1e6))
 
 def setSigGenRF(sg, rf_out = RF_ON):
     """
