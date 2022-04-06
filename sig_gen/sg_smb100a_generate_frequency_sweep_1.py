@@ -36,8 +36,6 @@ SG_ADDRESS = (SG_PORT, SG_HOST)
 DEFAULT_TIMEOUT = 1        # Default socket timeout
 RF_OFF = 0
 RF_ON = 1
-OFF = "OFF"
-ON = "ON"
 
 dump_str = ''
 
@@ -128,7 +126,7 @@ class SG_SOCK(socket.socket):
                 if return_str.endswith(b'\n'):                  
                     return return_str[:-1] 
 
-    def setSigGenRF(self, rf_state = ON):
+    def setSigGenRF(self, rf_state = RF_ON):
         """
         This function sets and returns the RF Status
             @params:
@@ -178,8 +176,6 @@ class SG_SOCK(socket.socket):
         self.sa_sendcmd('FREQ:STOP?')
         data = float(self.recv(1024))
         print(f"Sig gen stop frequency = {(data/1e6)} MHz")
-        print(data)
-        
         return freq_stop
 
     def setSigGenSweep(self, freq_start, freq_stop, freq_step, dwel_time, sweep_mode):
@@ -194,28 +190,28 @@ class SG_SOCK(socket.socket):
             sweep_mode      : sweep mode (auto / manual)
         """   
         centFreq = (freq_start+freq_stop)/2
-        time.sleep(2)
+        time.sleep(1)
         span = freq_stop-freq_start    
-        time.sleep(2)
+        time.sleep(1)
         # 1. Set the sweep range
         self.sa_sendcmd(f'FREQ:CENT {centFreq} Hz')
-        time.sleep(2)
+        time.sleep(1)
         self.sa_sendcmd(f'FREQ:SPAN {span} Hz')
-        time.sleep(2)
+        time.sleep(1)
         # 2. Select linear or logarithmic spacing
         self.sa_sendcmd('SWE:FREQ:SPAC LIN')
-        time.sleep(2)
+        time.sleep(1)
         # 3. Set the step width and dwell time
         self.sa_sendcmd(f'SWE:FREQ:STEP:LIN {freq_step} Hz')
-        time.sleep(2)
+        time.sleep(1)
         self.sa_sendcmd(f'SWE:FREQ:DWEL {dwel_time} ms')
-        time.sleep(2)
+        time.sleep(1)
         # 4. Select the trigger mode
         self.sa_sendcmd('TRIG:FSW:SOUR SING')
-        time.sleep(2)
+        time.sleep(1)
         # 5. Select sweep mode and activate the sweep
         self.sa_sendcmd(f'SWE:FREQ:MODE {sweep_mode}')
-        time.sleep(2)
+        time.sleep(1)
         self.sa_sendcmd('FREQ:MODE SWE')
         # 6. Trigger the sweep
         self.sa_sendcmd('SOUR:SWE:FREQ:EXEC')
@@ -245,15 +241,15 @@ if __name__ == '__main__':
     sigGen = SG_SOCK()                        
     # Initiaslise the signal generator to a known state
     sigGen.initSigGen((SG_HOST,SG_PORT))    
-    time.sleep(2)
-    sigGen.setSigGenRF(ON)
-    time.sleep(2)
+    time.sleep(1)
+    sigGen.setSigGenRF(RF_ON)
+    time.sleep(1)
     sigGen.setSigGenPower(-30)                              
-    time.sleep(2)
+    time.sleep(1)
     sigGen.setSigGenStartFreq(args.freq_start)
-    time.sleep(2)
-    sigGen.setSigGenStartFreq(args.freq_stop)
-    time.sleep(2)
+    time.sleep(1)
+    sigGen.setSigGenStopFreq(args.freq_stop)
+    time.sleep(1)
     # Set up sig gen to start freq, stop freq, step freq, dwell time and sweep mode
     sigGen.setSigGenSweep(args.freq_start, args.freq_stop, args.freq_step, args.dwel_time, args.sweep_mode)  # Sets the freq sweep of the Sig Gen
     print("/------End of Setup signal generator---------/")
