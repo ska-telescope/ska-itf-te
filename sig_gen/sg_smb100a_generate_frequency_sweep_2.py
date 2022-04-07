@@ -44,13 +44,13 @@ RF_OFF = 0
 RF_ON = 1
 
 dump_str = ''
-
+freq_start = ''
+freq_stop = ''
 # --------------------------------------------
-
 
 class SG_SOCK(socket.socket):
     def initSigGen(self,sigAddress,DEFAULT_TIMEOUT = 1,default_buffer = 1024,short_delay = 0.1,long_delay = 1):
-        """ Establish socket connection
+        """ Establish socket connection.
 
         This function:
             Establishes a socket connection to the Signal Generator. Uses address (Including Port Number) as an argument.
@@ -170,14 +170,13 @@ class SG_SOCK(socket.socket):
             dwel_time       : duration of frequency output in ms (default=1000 ms)
             sweep_mode      : sweep mode (auto / manual)
         """ 
-        self.sa_sendcmd(f'SOUR:FREQ:STAR {freq_start}Hz')
+        self.sa_sendcmd(f'SOUR:FREQ:STAR {freq_start}')
         time.sleep(5)
         self.sa_sendcmd('FREQ:STAR?')
         data = float(self.recv(1024))
         print(f"Sig gen start frequency = {(data/1e6)} MHz")
         freq_start = data
-   
-        self.sa_sendcmd(f'SOUR:FREQ:STOP {freq_stop}Hz')
+        self.sa_sendcmd(f'SOUR:FREQ:STOP {freq_stop}')
         time.sleep(5)
         self.sa_sendcmd('FREQ:STOP?')
         data = float(self.recv(1024))
@@ -241,5 +240,5 @@ if __name__ == '__main__':
     sigGen.setSigGenPower(-30)                              
     time.sleep(1)
     # Set up sig gen to start freq, stop freq, step freq, dwell time and sweep mode
-    sigGen.setSigGenSweep(freq_start, freq_stop, args.freq_step, args.dwel_time, args.sweep_mode)  # Sets the freq sweep of the Sig Gen
+    sigGen.setSigGenSweep(args.freq_start, args.freq_stop, args.freq_step, args.dwel_time, args.sweep_mode)  # Sets the freq sweep of the Sig Gen
     print("/------End of Setup signal generator---------/")
