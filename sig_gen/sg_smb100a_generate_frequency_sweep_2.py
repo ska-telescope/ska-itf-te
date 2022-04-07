@@ -9,9 +9,9 @@
     2. The parameters can be adjusted as per user requirements
     3. Where it applies SG denotes Signal Generator 
     4. Run the script by parsing the following arguments on the terminal:
-        - start frequency = 100000000, integer with no units [100 MHz]
-        - stop frequency = 2000000000, integer with no units [2 GHz]
-        - step frequency = 100000000, integer with no units [100 MHz]
+        - start frequency = 100000000 or 100e6, integer with no units [100 MHz]
+        - stop frequency = 2000000000 or 2e9, integer with no units [2 GHz]
+        - step frequency = 100000000 or 100e6, integer with no units [100 MHz]
         - sweep mode = 'auto', string [auto/man]  
 @Notes: 
     1. This script was written for the SMB100A Signal Generator. Raw ethernet socket communication is used
