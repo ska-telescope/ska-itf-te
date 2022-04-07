@@ -9,24 +9,23 @@
     2. The parameters can be adjusted as per user requirements
     3. Where it applies SG denotes Signal Generator 
     4. Run the script by parsing the following arguments on the terminal:
-        - start frequency = 100000000 or 100e6, integer with no units [100 MHz]
-        - stop frequency = 2000000000 or 2000e6 or 2e9, integer with no units [2 GHz]
-        - step frequency = 100000000 or 100e6, integer with no units [100 MHz]
+        - start frequency = 100000000, integer with no units [100 MHz]
+        - stop frequency = 2000000000, integer with no units [2 GHz]
+        - step frequency = 100000000, integer with no units [100 MHz]
         - sweep mode = 'auto', string [auto/man]  
 @Notes: 
     1. This script was written for the SMB100A Signal Generator. Raw ethernet socket communication is used
         and thus VISA library/installation is not required
     2. This script uses scpi protocol for the automatic test equipment intended
 
-@Revision: 1
+@Revision: A
 
-@ modifier: Monde
+@modifier: Monde 
 @Date: 07-04-2022
 @Functional Description: 
-    1. Moved start and stop frequency functions to the sweep gen function
-    2. Tidy up docstrings
-    3. File Renaming
-
+    1. Moved the start and stop freq functions to the sweep func
+    2. Tidy docstrings
+    3. File renaming to _2
 @Revision: 2
 """
 
@@ -45,25 +44,25 @@ RF_OFF = 0
 RF_ON = 1
 
 dump_str = ''
-freq_start = ''
-freq_stop = ''
+
 # --------------------------------------------
+
 
 class SG_SOCK(socket.socket):
     def initSigGen(self,sigAddress,DEFAULT_TIMEOUT = 1,default_buffer = 1024,short_delay = 0.1,long_delay = 1):
-        """ Establish socket connection.
+        """ Establish socket connection
 
-                This function:
-                    Establishes a socket connection to the Signal Generator. Uses address (Including Port Number) as an argument.
-                    Performs a reset on the unit and sets the fixed frequency generator mode. 
-                    Sets the Display to On in Remote mode
-                @params 
-                    sigAddress          :   sigHOST str IP address of the device
+        This function:
+            Establishes a socket connection to the Signal Generator. Uses address (Including Port Number) as an argument.
+            Performs a reset on the unit and sets the fixed frequency generator mode. 
+            Sets the Display to On in Remote mode
+            @params 
+                sigAddress         :   sigHOST str IP address of the device
                                             sigPORT int port number to device access
-                    default_timeout     : int [Optional] Timeout for waiting to establish connection
-                    long_delay          : int
-                    short_delay         : int
-                    default_buffer      : int
+                default_timeout     : int [Optional] Timeout for waiting to establish connection
+                long_delay          : int
+                short_delay         : int
+                default_buffer      : int
         """
         try:
             self.connect(sigAddress)                                
@@ -81,7 +80,7 @@ class SG_SOCK(socket.socket):
             print(e,f"Check to see if the port number is {SG_PORT}")
 
     def sa_dumpdata(self):
-        """ Display requested data.
+        """ Display received data.
 
         This function receives and displays the data after a query command
         @params: 
@@ -106,11 +105,11 @@ class SG_SOCK(socket.socket):
         self.sendall(bytes('\n', encoding='utf8'))
 
     def sa_requestdata(self,request_str,response_buffer = 'default',timeout_max = 20):
-        """ Request/query data.
+        """ Request data.
 
         This function requests and reads the command to and from the test device
         @params:
-            command  : scpi string   
+            command  : scpi string  
         """ 
         if type(response_buffer) == str:
             response_buffer = self.default_buffer
@@ -132,7 +131,7 @@ class SG_SOCK(socket.socket):
                     return return_str[:-1] 
 
     def setSigGenRF(self, rf_state = RF_ON):
-        """ Set RF state.
+        """ Set RF output.
 
         This function sets and returns the RF Status
             @params:
@@ -160,7 +159,8 @@ class SG_SOCK(socket.socket):
         print(f"Sig gen power = {data.decode()} dBm")
         
     def setSigGenSweep(self, freq_start, freq_stop, freq_step, dwel_time, sweep_mode):
-        """
+        """ Generate sweep.
+
         This function sets the sweep frequency of the signal generator
         at 100MHz step
         @params:
@@ -169,25 +169,26 @@ class SG_SOCK(socket.socket):
             freq_step       : step frequency in Hz (default = 100 MHz)
             dwel_time       : duration of frequency output in ms (default=1000 ms)
             sweep_mode      : sweep mode (auto / manual)
-        """   
-        self.sa_sendcmd(f'SOUR:FREQ:STAR {freq_start}')
+        """ 
+        self.sa_sendcmd(f'SOUR:FREQ:STAR {freq_start}Hz')
         time.sleep(5)
         self.sa_sendcmd('FREQ:STAR?')
         data = float(self.recv(1024))
         print(f"Sig gen start frequency = {(data/1e6)} MHz")
         freq_start = data
-        self.sa_sendcmd(f'SOUR:FREQ:STOP {freq_stop}')
+   
+        self.sa_sendcmd(f'SOUR:FREQ:STOP {freq_stop}Hz')
         time.sleep(5)
         self.sa_sendcmd('FREQ:STOP?')
         data = float(self.recv(1024))
         print(f"Sig gen stop frequency = {(data/1e6)} MHz")
-        freq_stop = data
-        cent_freq = (freq_start+freq_stop)/2
+        freq_stop = data  
+        centFreq = (freq_start+freq_stop)/2
         time.sleep(1)
-        span = (freq_stop-freq_start)    
+        span = freq_stop-freq_start    
         time.sleep(1)
         # 1. Set the sweep range
-        self.sa_sendcmd(f'FREQ:CENT {cent_freq} Hz')
+        self.sa_sendcmd(f'FREQ:CENT {centFreq} Hz')
         time.sleep(1)
         self.sa_sendcmd(f'FREQ:SPAN {span} Hz')
         time.sleep(1)
@@ -195,7 +196,7 @@ class SG_SOCK(socket.socket):
         self.sa_sendcmd('SWE:FREQ:SPAC LIN')
         time.sleep(1)
         # 3. Set the step width and dwell time
-        self.sa_sendcmd(f'SWE:FREQ:STEP:LIN {freq_step}')
+        self.sa_sendcmd(f'SWE:FREQ:STEP:LIN {freq_step} Hz')
         time.sleep(1)
         self.sa_sendcmd(f'SWE:FREQ:DWEL {dwel_time} ms')
         time.sleep(1)
@@ -232,7 +233,7 @@ if __name__ == '__main__':
 
     print("/------Setup signal generator---------/")
     sigGen = SG_SOCK()                        
-    # Initialise the signal generator to a known state
+    # Initiaslise the signal generator to a known state
     sigGen.initSigGen((SG_HOST,SG_PORT))    
     time.sleep(1)
     sigGen.setSigGenRF(RF_ON)
@@ -240,5 +241,5 @@ if __name__ == '__main__':
     sigGen.setSigGenPower(-30)                              
     time.sleep(1)
     # Set up sig gen to start freq, stop freq, step freq, dwell time and sweep mode
-    sigGen.setSigGenSweep(args.freq_start, args.freq_stop, args.freq_step, args.dwel_time, args.sweep_mode)
+    sigGen.setSigGenSweep(freq_start, freq_stop, args.freq_step, args.dwel_time, args.sweep_mode)  # Sets the freq sweep of the Sig Gen
     print("/------End of Setup signal generator---------/")
