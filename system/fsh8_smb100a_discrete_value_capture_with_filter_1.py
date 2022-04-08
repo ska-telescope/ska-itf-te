@@ -158,28 +158,32 @@ def setupSG():
 #-----------------------------------------------------------------------------   
 if __name__ == '__main__':
     print("/------running main ---------/") 
-    freq_vals = []
-    ampl_vals = []
+    # freq_vals = []
+    # ampl_vals = []
     sg = setupSG()
     time.sleep(1) 
     sa = setupSA()
     time.sleep(1) 
-
-    for x in range(20):
-        sg.setSigGenFreq((x+1) * 100e6)
+    for i in range(20):
+        sg.setSigGenFreq((i+1) * 100e6)
         time.sleep(1)
-        marker_val = sa.sa_marker()
-        freq_vals.append(float(marker_val[0]))
-        ampl_vals.append(float(marker_val[1]))
+        sa.sa_traceMaxHold()
 
-    print(freq_vals)
-    print(ampl_vals)
-    plt.plot(freq_vals, ampl_vals)
-    plt.xlabel('Frequecy in Hz')
-    plt.ylabel('Amplitude in dBm')
-    plt.savefig("Power as function frequency.pdf")
-    plt.grid()
-    plt.show()
+    # for x in range(20):
+    #     sg.setSigGenFreq((x+1) * 100e6)
+    #     time.sleep(1)
+    #     marker_val = sa.sa_marker()
+    #     freq_vals.append(float(marker_val[0]))
+    #     ampl_vals.append(float(marker_val[1]))
+
+    # print(freq_vals)
+    # print(ampl_vals)
+    # plt.plot(freq_vals, ampl_vals)
+    # plt.xlabel('Frequecy in Hz')
+    # plt.ylabel('Amplitude in dBm')
+    # plt.savefig("Power as function frequency.pdf")
+    # plt.grid()
+    # plt.show()
 
     #sa_hcopy()
     print("/------end  main ---------/") 

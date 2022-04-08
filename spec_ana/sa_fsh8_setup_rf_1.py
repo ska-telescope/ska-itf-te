@@ -203,6 +203,13 @@ class sa_sock(socket.socket):
         # amp_dbm = float(self.sa_requestdata('1023'))
         return [freq_hz, amp_dbm]   
 
+    def sa_traceMaxHold(self): 
+    #     """
+    #     function for trace max hold 
+    #     """
+        self.sa_sendcmd("DISP:TRAC:MODE MAXH")
+        return          
+
 if __name__ == '__main__':
     print("/------Setup spectrum analyser---------/")
     specAnal = sa_sock()
