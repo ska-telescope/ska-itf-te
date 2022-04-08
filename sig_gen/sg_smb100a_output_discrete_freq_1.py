@@ -133,7 +133,7 @@ class sig_sock(socket.socket):
         """
         self.sg_sendcmd(f'FREQ {Freq}')                             # Set frequency
         data = self.sg_requestdata('FREQ?')                         # Query frequency
-        print(f"Sig gen frequency = {(data/1e6)} MHz")              # Display received frequency
+        print(f"Sig gen frequency = {(float(data)/1e6)} MHz")              # Display received frequency
         
     def sigGenFreqs(self):
         """
