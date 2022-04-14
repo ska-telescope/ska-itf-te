@@ -1,5 +1,5 @@
 
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Created on Tue Mar 12 15:36:34 2019
@@ -44,9 +44,6 @@ sys.path.append('../spec_ana/') # adding spectraum analyser path so that we can 
 from sa_fsh8_setup_rf_1 import sa_sock #Import the Spectrum Analyser Socket Function
 
 #%%
-#-----------------------import libraries for Spectrum analyzer hcopy----------------#
-from sa_fsh8_screen_grab_rf_1 import sa_hcopy
-
 #%%
 #Constants and variable definitions
 #.............................................................................#
@@ -71,7 +68,7 @@ default_timeout = 1             # Default socket timeout
 rf_state = 0                    # Default RF Out state
 #%%
 #----------------------------SA_FSH8 socket connect--------------------------------#
-specHOST = '10.8.88.138'
+specHOST = '10.8.88.232' # changed port to from 138 to 232
 specPORT = 5555
 
 #------------------------------SA_FSH8 Setup----------------------------------#
@@ -109,82 +106,37 @@ def setupSG():
     #time.sleep(1)                                       # Delay 1 sec
     #sigGen.closeGenSock()                               # Close socket
     print("/------End of Setup signal generator---------/")
-
     # i guess running this as as function it should return something
     return sigGen
     #-----------------------------SetUp Spectrum_Analyzer for Screenshot---------------------------------------#
     
-    def sa_hcopy():
-        SA_FSH8 = None
-    try:
-        # connecting via socket without using visa adjust the VISA Resources
-        #Setting reset to True (default is False) resets your instrument. It is equivalent to calling the reset() method.
-        #Setting id_query to True (default is True) checks, whether your instrument can be used with the RsInstrument module.
-        #  "SelectVisa='socket'">>>Using RsInstrument without VISA for LAN Raw socket communication
-        SA_FSH8 = RsInstrument('TCPIP::10.8.88.138::5555::SOCKET', False, False, "SelectVisa='socket'")
-        SA_FSH8.opc_timeout = 3000  # Timeout for opc-synchronised operations
-        SA_FSH8.instrument_status_checking = True  # Error check after each command
-    except Exception as ex:
-        print('Error initializing the instrument session:\n' + ex.args[0])
-        exit()
-    
-    print(f'Device IDN: {SA_FSH8.idn_string}')
-    print(f'Device Options: {",".join(SA_FSH8.instrument_options)}\n')
-
-    #rth.clear_status()
-    #rth.reset()
-    ##set print to file
-  
-    file_path_SA_FSH8 = r'\Public\Screen Shots\test_capture1.png' # Instrument screenshoot file path
-    #PC screenshoot file path(saved in googledrive)
-    file_path_PC = r'/Volumes/GoogleDrive/My Drive/System ITF/Sotfware/Spetrum Analyzer/python/Test_Scripts/v1/test_capture1.png'
-   
-    ##  select file format
-    SA_FSH8.write_str("HCOP:DEV:LANG PNG") 
-
-    ## file path on instrument
-    SA_FSH8.write_str(f"MMEM:NAME '{file_path_SA_FSH8}'")
-
-    #create screenshot
-    SA_FSH8.write_str_with_opc("HCOP:IMM") 
-
-    #copy screenshoot from intrument to the pc
-    SA_FSH8.read_file_from_instrument_to_pc(file_path_SA_FSH8, file_path_PC)
-    
-    SA_FSH8.close()
-
 #%%   
 # Main program
 #-----------------------------------------------------------------------------   
 if __name__ == '__main__':
     print("/------running main ---------/") 
-    # freq_vals = []
-    # ampl_vals = []
+    freq_vals = []
+    ampl_vals = []
     sg = setupSG()
     time.sleep(1) 
     sa = setupSA()
     time.sleep(1) 
-    for i in range(20):
-        sg.setSigGenFreq((i+1) * 100e6)
+
+    for x in range(20):
+        sg.setSigGenFreq((x+1) * 100e6)
         time.sleep(1)
-        sa.sa_traceMaxHold()
+        marker_val = sa.sa_marker()
+        freq_vals.append(float(marker_val[0]))
+        ampl_vals.append(float(marker_val[1]))
 
-    # for x in range(20):
-    #     sg.setSigGenFreq((x+1) * 100e6)
-    #     time.sleep(1)
-    #     marker_val = sa.sa_marker()
-    #     freq_vals.append(float(marker_val[0]))
-    #     ampl_vals.append(float(marker_val[1]))
+    print(freq_vals)
+    print(ampl_vals)
+    plt.plot(freq_vals, ampl_vals)
+    plt.xlabel('Frequecy in Hz')
+    plt.ylabel('Amplitude in dBm')
+    plt.savefig("Power as function frequency.pdf")
+    plt.grid()
+    plt.show()
 
-    # print(freq_vals)
-    # print(ampl_vals)
-    # plt.plot(freq_vals, ampl_vals)
-    # plt.xlabel('Frequecy in Hz')
-    # plt.ylabel('Amplitude in dBm')
-    # plt.savefig("Power as function frequency.pdf")
-    # plt.grid()
-    # plt.show()
-
-    #sa_hcopy()
     print("/------end  main ---------/") 
 

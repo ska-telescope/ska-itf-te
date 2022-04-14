@@ -3,8 +3,6 @@
 Spectrum analyzer control via TCP/IP socket
 Created on Wed Feb 09 11:41:11 2011
 For an example, run this module and execute 'sa_example()'
-
-@author: paulh
 @modify: Monde and Vhuli: 
         Date: 01-03-2022
         Affil: SKAO Test Engineers
@@ -25,7 +23,7 @@ import time
 from numpy import double
 from RsInstrument import *
 # --------------------------CONNECTION SETTING-------------------------------------------
-specHOST = '10.8.88.138'            # fsh8 spectrum analyzer IP
+specHOST = '10.8.88.232'            # fsh8 spectrum analyzer IP
 specPORT = 5555                     # fsh8 spectrum analyzer port 18? 23?
 address = (specHOST, specPORT)
 
@@ -45,8 +43,9 @@ numMeas=5 #Set the number of measurements
 
 #-------------------------SPECTRUM ANALYZER SOCKET CLASS----------------------------------
 class sa_sock(socket.socket):
-# A function to connect to the Spectrum Analyser. Uses address (Including Port Number) as an argument.
-# Performs a reset on the unit and sets to Spectrum Analyser mode. Also sets the Display to On in Remote mode
+    """ A function to connect to the Spectrum Analyser. Uses address (Including Port Number) as an argument.
+    Performs a reset on the unit and sets to Spectrum Analyser mode. Also sets the Display to On in Remote mode
+    """   
     def sa_connect(self,address,default_timeout = 1,default_buffer = 1024,short_delay = 0.1,long_delay = 1):
         self.connect(address)  # connect to spectrum analyzer via socket at IP '10.8.88.138' and Port 5555
         # Mandatory timer and buffer setup.
@@ -54,16 +53,16 @@ class sa_sock(socket.socket):
         self.delay_long_s = long_delay
         self.delay_short_s = short_delay
         self.default_buffer = default_buffer
-
-        rx_str = self.sa_requestdata('*IDN?') # requesting instrument identity and print 
+        # requesting instrument identity and print 
+        rx_str = self.sa_requestdata('*IDN?') 
         print('Connected to: %s'%rx_str)
-        self.sa_sendcmd('*CLS')                                     
-        self.sa_sendcmd('*RST')# instrument reset.
+        self.sa_sendcmd('*CLS') 
+        # instrument reset.
+        self.sa_sendcmd('*RST')
         self.sa_sendcmd('INST:SEL SAN')
         self.sa_sendcmd('SYST:DISP:UPD ON')
         time.sleep(short_delay)
-
-    #         
+         
     def sa_dumpdata(self):
         while True:
             try:
@@ -98,9 +97,9 @@ class sa_sock(socket.socket):
                     return return_str[:-1]                         # Return string
 
     def sa_sweep(self,start_f = 0,stop_f = 100e6, nr_points = 625):
-#        A function to set up the Spectrum Analyser Sweep
-# Note that number of points can only be set to FSU(P): 155, 313, 625, 1251, 1999, 2501, 5001, 10001, 20001, 30001        
-        
+        """A function to set up the Spectrum Analyser Sweep
+        Note that number of points can only be set to FSU(P): 155, 313, 625, 1251, 1999, 2501, 5001, 10001, 20001, 30001        
+        """     
         self.sa_sendcmd('FREQ:STAR %sHz'%start_f)
 #        stop_f = start_f + (nr_points-1)*delta_f
         self.sa_sendcmd('FREQ:STOP %sHz'%stop_f)
@@ -114,11 +113,12 @@ class sa_sock(socket.socket):
         return start_f_set,stop_f_set,nr_points_set #Returns the values reported by the SA
         
     def sa_bw(self,rbw_auto = 'on', rbw = 0 ,vbw_auto = 'on',vbw = 0  ):
-#   Function to set the spectrum analyser resolution and video BW
-#        rbw_auto   : Set RBW auto 'on' or 'off' : 'on'|'off'
-#        rbw        : Sets the RBW in Hz for rbw_auto == 'on'
-#        vbw_auto   : Set VBW auto 'on' or 'off' : 'on'|'off'
-#        vbw        : Sets the VBW in Hz for vbw_auto == 'on'
+        """ Function to set the spectrum analyser resolution and video BW
+        rbw_auto   : Set RBW auto 'on' or 'off' : 'on'|'off'
+        rbw        : Sets the RBW in Hz for rbw_auto == 'on'
+        vbw_auto   : Set VBW auto 'on' or 'off' : 'on'|'off'
+        vbw        : Sets the VBW in Hz for vbw_auto == 'on 
+        """
         if rbw_auto.upper() in ('ON','OFF'):
             self.sa_sendcmd('BAND:AUTO %s'%rbw_auto.upper())
             rbw_auto_set = int(self.sa_requestdata('BAND:AUTO?'))
@@ -142,18 +142,19 @@ class sa_sock(socket.socket):
     
     
     def sa_detect(self,det_mode = 'rms'):
-#        ''' Method that sets the detector mode of the Spectrum analyzer
-#        det_mode   : Sets the detector mode     : 'APE' (Autopeak)|'POS'|'NEG'|'SAMP'|'RMS'|'AVER'|'QPE' (Quasipeak)
-#        trace_mode : Sets the trace mode        : 'WRIT' (Clear/Write)|'MAXH'|'AVER'|'VIEW'
-#        '''
+        """ Method that sets the detector mode of the Spectrum analyzer
+        det_mode   : Sets the detector mode     : 'APE' (Autopeak)|'POS'|'NEG'|'SAMP'|'RMS'|'AVER'|'QPE' (Quasipeak)
+        trace_mode : Sets the trace mode        : 'WRIT' (Clear/Write)|'MAXH'|'AVER'|'VIEW'
+        """
         self.sa_sendcmd('DET %s'%det_mode.upper())
         det_mode_set = self.sa_requestdata('DET?')
         trace_mode_set = self.sa_requestdata('DISP:WIND:TRAC:MODE?')
         print('SA detector mode set to = %s'%(det_mode_set))
         
     def sa_amplitude(self,ref_level_dBm = 0, att_level_dB = 5):
-        ''' Method that sets the amplitude parameters for the spectrum analyzer and sets the attenuator
-        ref_level_dBm    : Sets the reference level [dBm]'''
+        """ Method that sets the amplitude parameters for the spectrum analyzer and sets the attenuator
+        ref_level_dBm    : Sets the reference level [dBm]
+        """
      
         self.sa_sendcmd('INP:ATT:AUTO OFF')
         self.sa_sendcmd('DISP:WIND:TRAC:Y:RLEV %sdBm'%ref_level_dBm)
@@ -165,9 +166,9 @@ class sa_sock(socket.socket):
         print('SA input attenuator set to %s dB'%(att_level_dB_set))
         
     def sa_getsweepdata(self,maximum_wait_time_s = 10*60):
-        ''' Method that starts a new sweep and downloads the data, returned as a list
+        """ Method that starts a new sweep and downloads the data, returned as a list
         Returns a list of the measured data in [dBm]
-        '''
+        """
         self.sa_dumpdata()
         self.sa_sendcmd('INIT1:CONT OFF')
         self.sa_sendcmd('INIT1')
@@ -175,40 +176,30 @@ class sa_sock(socket.socket):
         return list(eval(self.sa_requestdata('TRACE1? TRACE1')))
         
     def sa_marker(self):
-        """
-        @return FLOAT: frequency [Hz]
+        """ @return FLOAT: frequency [Hz]
         @return FLOAT: amplitude [dBm]
         """
-        # Marker 1
-        # self.sa_sendcmd("CALC:MARK1 ON")  # switch on marker 1
-        # self.sa_sendcmd("CALC:MARK1:COUN ON") # switch on frequency counter for marker 1
-        # self.sa_sendcmd("CALC:MARK1:CPE ON") #turn continus peak on
-        # self.sa_sendcmd('CALC:MARK1:X 950MHz') # marker at 2GHz frequency
-        # xmark = self.sa_requestdata("CALC:MARK1:X?") # outputs the measured value
-        # ymark = self.sa_requestdata("CALC:MARK1:Y?")
-        # print('screenshoot at %s Hz '%xmark)
-        # print('screenshoot at %s dBm '%ymark)
-
-        #Marker2 
-
         self.sa_sendcmd("CALC:MARK2 ON") 
         self.sa_sendcmd("CALC:MARK2:COUN ON") 
         self.sa_sendcmd("CALC:MARK2:CPE ON")
         self.sa_sendcmd("CALC:MARK2:MAX")
         freq_hz = self.sa_requestdata("CALC:MARK2:X?") # outputs the measured value
         amp_dbm = self.sa_requestdata("CALC:MARK2:Y?")
-        #print('Frequency at %s Hz '%freq_hz)
-        #print('Amplitude at %s dBm '%amp_dbm)
-        # freq_hz = float(self.sa_requestdata('1023'))
-        # amp_dbm = float(self.sa_requestdata('1023'))
         return [freq_hz, amp_dbm]   
 
     def sa_traceMaxHold(self): 
-    #     """
-    #     function for trace max hold 
-    #     """
+        """ function for trace max hold """
         self.sa_sendcmd("DISP:TRAC:MODE MAXH")
-        return          
+        return         
+# we need to 
+    # def sa_tracePlot(self):
+    #     fmin = 60
+    #     step_size = 0.1
+    #     FREQLIST = []
+    #     for step_number in range(630):
+    #         Frequency =  fmin + step_number * step_size 
+    #         FREQLIST.append(Frequency)
+    #     return    
 
 if __name__ == '__main__':
     print("/------Setup spectrum analyser---------/")
