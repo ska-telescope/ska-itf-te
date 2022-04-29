@@ -24,7 +24,7 @@ import argparse
 import matplotlib.pyplot as plt
 
 sys.path.append('../sig_gen/') # adding signal generator path so that we can call a script from sig_gen folder
-from sg_smb100a_generate_frequency_sweep_1_1 import SG_SOCK #Import the Signal Generator Socket class from sig_gen folder
+from sg_smb100a_generate_frequency_sweep_a import SG_SOCK #Import the Signal Generator Socket class from sig_gen folder
 
 #%%
 #-----------------------import libraries for Spectrum analyzer----------------#
