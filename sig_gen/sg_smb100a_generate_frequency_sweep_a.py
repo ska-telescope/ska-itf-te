@@ -170,18 +170,24 @@ class SG_SOCK(socket.socket):
             dwel_time       : duration of frequency output in ms (default=1000 ms)
             sweep_mode      : sweep mode (auto / manual)
         """ 
+        # start frequency acquisition
         self.sa_sendcmd(f'SOUR:FREQ:STAR {freq_start}')
         time.sleep(5)
         self.sa_sendcmd('FREQ:STAR?')
         data = float(self.recv(1024))
         print(f"Sig gen start frequency = {(data/1e6)} MHz")
         freq_start = data
+        # end of start frequency acquisition
+
+        # stop frequency acquisition
         self.sa_sendcmd(f'SOUR:FREQ:STOP {freq_stop}')
         time.sleep(5)
         self.sa_sendcmd('FREQ:STOP?')
         data = float(self.recv(1024))
         print(f"Sig gen stop frequency = {(data/1e6)} MHz")
-        freq_stop = data  
+        freq_stop = data 
+        # end of stop frequency acquisition 
+
         centFreq = (freq_start+freq_stop)/2
         time.sleep(1)
         span = freq_stop-freq_start    
