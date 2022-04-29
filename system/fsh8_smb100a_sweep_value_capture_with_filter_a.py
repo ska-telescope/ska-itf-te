@@ -39,7 +39,7 @@ SG_HOST = '10.8.88.166'             # smb100a signal generator IP
 SG_ADDRESS = (SG_PORT, SG_HOST)
 SA_HOST = '10.8.88.138'            # fsh8 spectrum analyzer IP temporary
 SA_PORT = 5555                     # fsh8 spectrum analyzer port 18? 23?
-address = (SA_HOST, SA_PORT)
+SA_ADDRESS = (SA_HOST, SA_PORT)
 #-----------------------------------------------------------
 # ----------------Initialization of Variables---------------    
 DEFAULT_TIMEOUT = 1        # Default socket timeout
@@ -67,7 +67,7 @@ numMeas=5       # Set the number of measurements
 #%%
 # ------------------------SG_SMB100A Initialization varaiables-------#
 Power = 0.0                     # Start RefLev [dBm]                              
-Freq = 100e3                    # Start frequency Minimum 100kHz     
+Freq = 900e3                    # Start frequency Minimum 900kHz     
 default_timeout = 1             # Default socket timeout
 rf_state = 0                    # Default RF Out state
 
@@ -87,7 +87,7 @@ def setupSG():
 def setupSA():
     print("/------Setup spectrum analyser---------/")
     specAnal = SA_SOCK()
-    specAnal.sa_connect((SA_HOST,SA_PORT))
+    specAnal.sa_connect((SA_ADDRESS))
     time.sleep(1) 
     specAnal.sa_sweep(args.freq_start,args.freq_stop,numPoints)
     time.sleep(1) 
@@ -119,8 +119,6 @@ def plotTrace(freq_values, power_values):
     file = open (r'./Power_vs_Freq_LPF_Plot.csv', 'w')          # Open File for writing
     file.write("Frequency in kHz;Power in dBm\n")   # Write the headline
     x=0                                             # Set counter to 0 as touple does not begin with 1
-    #while x < int(numPoints):                       # Perform loop until all sweep points are covered
-    #numPoints = 191
     numPoints = len(freq_values)
     while x < numPoints:                       # Perform loop until all sweep points are covered
         file.write(str(freq_values[x]))             # Write amplitude measurement data

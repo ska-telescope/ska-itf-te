@@ -29,7 +29,7 @@ address = (SA_HOST, SA_PORT)
 DEFAULT_TIMEOUT = 1         # Default socket timeout
 recdur = 10                 # Time in seconds to find maxhold peaks
 
-# --------------------------------------------
+# ---------------------------------------------------------
 
 class sa_sock(socket.socket):
     def sa_connect(self,address,default_timeout = 1,default_buffer = 1024,short_delay = 0.1,long_delay = 1):

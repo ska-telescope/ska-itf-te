@@ -34,7 +34,7 @@ from numpy import double
 # --------------------------CONNECTION SETTING-------------------------------------------
 SA_HOST = '10.8.88.138'         # fsh8 spectrum analyzer IP
 SA_PORT = 5555                  # fsh8 spectrum analyzer port 18? 23?
-address = (SA_HOST, SA_PORT)
+SA_ADDRESS = (SA_HOST, SA_PORT)
 
 #--------------------------MEASUREMENTS CONSTANTS----------------------------------------
 
@@ -52,9 +52,21 @@ freq_vals = []
 
 #-------------------------SPECTRUM ANALYZER SOCKET CLASS----------------------------------
 class SA_SOCK(socket.socket):
-# A function to connect to the Spectrum Analyser. Uses address (Including Port Number) as an argument.
-# Performs a reset on the unit and sets to Spectrum Analyser mode. Also sets the Display to On in Remote mode
     def sa_connect(self,address,default_timeout = 1,default_buffer = 1024,short_delay = 0.1,long_delay = 1):
+        """ Establish socket connection.
+
+        This function:
+            Establishes a socket connection to the Spectrum Analyzer. Uses address (Including Port Number) as an argument.
+            Performs a reset on the unit and sets the fixed frequency generator mode. 
+            Sets the Display to On in Remote mode
+            @params 
+                SA_ADDRESS        :   SA_HOST str IP address of the device
+                SA_PORT int port number to device access
+                default_timeout     : int [Optional] Timeout for waiting to establish connection
+                long_delay          : int
+                short_delay         : int
+                default_buffer      : int
+        """
         self.connect(address)  # connect to spectrum analyzer via socket at IP '10.8.88.138' and Port 5555
         # Mandatory timer and buffer setup.
         self.settimeout(default_timeout) 
@@ -186,15 +198,6 @@ class SA_SOCK(socket.socket):
         @return FLOAT: frequency [Hz]
         @return FLOAT: amplitude [dBm]
         """
-        # Marker 1
-        # self.sa_sendcmd("CALC:MARK1 ON")  # switch on marker 1
-        # self.sa_sendcmd("CALC:MARK1:COUN ON") # switch on frequency counter for marker 1
-        # self.sa_sendcmd("CALC:MARK1:CPE ON") #turn continus peak on
-        # self.sa_sendcmd('CALC:MARK1:X 950MHz') # marker at 2GHz frequency
-        # xmark = self.sa_requestdata("CALC:MARK1:X?") # outputs the measured value
-        # ymark = self.sa_requestdata("CALC:MARK1:Y?")
-        # print('screenshoot at %s Hz '%xmark)
-        # print('screenshoot at %s dBm '%ymark)
 
         #Marker2 
 

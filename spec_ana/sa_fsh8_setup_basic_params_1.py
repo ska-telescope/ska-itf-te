@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-Spectrum analyzer control via TCP/IP socket
-Created on Wed Feb 09 11:41:11 2011
-For an example, run this module and execute 'sa_example()'
 
 @author: paulh
 @modify: Monde and Vhuli: 
