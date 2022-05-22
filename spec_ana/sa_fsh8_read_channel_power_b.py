@@ -8,7 +8,9 @@
     1. This script reads the power of the channel in dBm
     2. The parameters can be adjusted as per user requirements
     3. Run the script by parsing the following arguments on the terminal:
-        - chann_bw: the bandwidth ofthe channel in Hz e.g. 3000000 or 3e6, integer with no units [3 MHz]
+        - freq_start: the start frequency of the channel in Hz e.g. 100000000 or 100e6, integer with no units [100 MHz]
+        - freq_stop: the stop frequency of the channel in Hz e.g. 2000000000 or 2e9, integer with no units [2 GHz]
+        - chann_bw: the bandwidth of the channel in Hz e.g. 3000000 or 3e6, integer with no units [3 MHz]
         - chann_mode: the channel mode e.g. 'CLR' for Clear/Write, 'MAX' for Max Hold, string with ''
         - pow_unit, the unit of the channel power e.g. 'DBM' | 'DBMV' | 'DBUV' | 'VOLT' | 'WATT' | 'V' | 'W', string with ''
 
@@ -17,7 +19,7 @@
         Raw ethernet socket communication is used and thus VISA library/installation is not required
     2. This script uses scpi protocol for the automatic test equipment intended
 
-@Revision: 0_1
+@Revision: b
 """
 
 #-------------------------- IMPORT REQUIRED PACKAGES-------------------------------------
@@ -32,18 +34,13 @@ SA_ADDRESS = (SA_HOST, SA_PORT)
 
 #--------------------------MEASUREMENTS CONSTANTS----------------------------------------
 
-f_start=900e6 #Start frequency
-f_stop=1670e6 #Stop frequency
-#f_stop=3000e6 #Stop frequency
-numPoints=625 #Number of measurement points (Max=625)
-Rbw=300e3 #Resolution BW of spectrum analyser
-Vbw=300e3 #Video BW of spectrum analyser
-# Rbw=3e6 #Resolution BW of spectrum analyser
-# Vbw=3e6#Video BW of spectrum analyser
-RefLev=0 # Set reference level of spectrum analyser
-Atten=0 #Set spectrum analyser attenuation
-k=1.38e-23 #Boltzman's constand
-numMeas=5 #Set the number of measurements
+numPoints=631   # Number of measurement points (Max=631)
+Rbw=300e3       # Resolution BW of spectrum analyser
+Vbw=300e3       # Video BW of spectrum analyser
+RefLev=0        # Set reference level of spectrum analyser
+Atten=0         # Set spectrum analyser attenuation
+k=1.38e-23      # Boltzman's constand
+numMeas=5       # Set the number of measurements
 #-----------------------------------------------------------
 # ----------------Initialization of Variables---------------    
 DEFAULT_TIMEOUT = 1             # Default socket timeout
@@ -52,9 +49,20 @@ DEFAULT_TIMEOUT = 1             # Default socket timeout
 
 #-------------------------SPECTRUM ANALYZER SOCKET CLASS----------------------------------
 class SA_SOCK(socket.socket):
-# A function to connect to the Spectrum Analyser. Uses address (Including Port Number) as an argument.
-# Performs a reset on the unit and sets to Spectrum Analyser mode. Also sets the Display to On in Remote mode
     def sa_connect(self,address,default_timeout = 1,default_buffer = 1024,short_delay = 0.1,long_delay = 1):
+        ''' Establish socket connect connection.
+
+        This function:
+            - Establishes a socket connection to the Signal Generator. Uses address (Including Port Number) as an argument.
+            - Performs a reset on the unit and sets the fixed frequency generator mode. 
+            - Sets the Display to On in Remote mode
+        @params 
+        specAddress         : specHOST str, specPORT int
+        default_timeout     : int timeout for waiting to establish connection
+        long_delay          : int
+        short_delay         : int
+        default_buffer      : int
+        '''    
         self.connect(address)  # connect to spectrum analyzer via socket at IP '10.8.88.138' and Port 5555
         # Mandatory timer and buffer setup.
         self.settimeout(default_timeout) 
@@ -63,32 +71,48 @@ class SA_SOCK(socket.socket):
         self.default_buffer = default_buffer
 
         rx_str = self.sa_requestdata('*IDN?') # requesting instrument identity and print 
-        print('Connected to: %s'%rx_str)
+        print(f'Connected to: {rx_str}')
         self.sa_sendcmd('*CLS')                                     
         self.sa_sendcmd('*RST')# instrument reset.
         self.sa_sendcmd('INST:SEL SAN')
         self.sa_sendcmd('SYST:DISP:UPD ON')
         time.sleep(short_delay)
-
-    #         
+       
     def sa_dumpdata(self):
+        ''' Receive string
+
+        This function receives and displays the data after a query command
+        @params:
+            command  : string    
+        '''
         while True:
             try:
                 dump_str = self.recv(self.default_buffer)
-                print('Dumping buffer data: %s'%dump_str)
+                print(f'Dumping buffer data: {dump_str}')
             except socket.timeout:
                 break
 
     def sa_sendcmd(self,command_str):
-#        A function to add \n at the end of any commands sent to the SA
+        ''' Send command
+        
+        This function sends the command and adds \n at the end of any commands 
+        sent to the test device
+        @params:
+            command_str  : string    
+        '''
         self.sendall(bytes(command_str, encoding='utf8') + b'\n')
                 
     def sa_requestdata(self,request_str,response_buffer = 'default',timeout_max = 10):
-#        A function to request trace data from the spectrum analyser. This 
+        ''' Request data
+
+        This function requests and reads the command to and from the test device
+        @params:
+            request_str  : string
+        ''' 
         if type(response_buffer) == str:
             response_buffer = self.default_buffer
         self.sa_dumpdata()                                         # Cleanup the receive buffer
-        self.sa_sendcmd(request_str)                           # Send the request
+        self.sa_sendcmd(request_str)                                # Send the request
         return_str = b''                                            # Initialize Rx buffer
         time_start = time.time()                                   # Get the start time
         while True:
@@ -105,13 +129,17 @@ class SA_SOCK(socket.socket):
                     return return_str[:-1]                         # Return string
 
     def sa_sweep(self,start_f = 0,stop_f = 100e6, nr_points = 625):
-#        A function to set up the Spectrum Analyser Sweep
-# Note that number of points can only be set to FSU(P): 155, 313, 625, 1251, 1999, 2501, 5001, 10001, 20001, 30001        
-        
-        self.sa_sendcmd('FREQ:STAR %sHz'%start_f)
-#        stop_f = start_f + (nr_points-1)*delta_f
-        self.sa_sendcmd('FREQ:STOP %sHz'%stop_f)
-        self.sa_sendcmd('SWE:POIN %s'%nr_points)
+        ''' Setup sweep
+
+        This function sets up the Spectrum Analyser Sweep
+        @params:
+                start_f FLOAT: Start frequency [MHz] 
+                stop_f FLOAT: Stop frequency [MHz] 
+                nr_points INTEGER:        
+        '''
+        self.sa_sendcmd(f'FREQ:STAR {start_f} Hz')
+        self.sa_sendcmd(f'FREQ:STOP {stop_f} Hz')
+        self.sa_sendcmd(f'SWE:POIN {nr_points}')
         start_f_set = double(self.sa_requestdata('FREQ:STAR?'))
         stop_f_set = double(self.sa_requestdata('FREQ:STOP?'))
         nr_points_set = int(self.sa_requestdata('SWE:POIN?'))
@@ -121,11 +149,15 @@ class SA_SOCK(socket.socket):
         return start_f_set,stop_f_set,nr_points_set #Returns the values reported by the SA
         
     def sa_bw(self,rbw_auto = 'on', rbw = 0 ,vbw_auto = 'on',vbw = 0  ):
-#   Function to set the spectrum analyser resolution and video BW
-#        rbw_auto   : Set RBW auto 'on' or 'off' : 'on'|'off'
-#        rbw        : Sets the RBW in Hz for rbw_auto == 'on'
-#        vbw_auto   : Set VBW auto 'on' or 'off' : 'on'|'off'
-#        vbw        : Sets the VBW in Hz for vbw_auto == 'on'
+        ''' Set resolution and video bandwidths
+
+        This function sets the resolution and video bandwidth
+        @param:
+            rbw_auto   : Set RBW auto 'on' or 'off' : 'on'|'off'
+            rbw        : Sets the RBW in Hz for rbw_auto == 'on'
+            vbw_auto   : Set VBW auto 'on' or 'off' : 'on'|'off'
+            vbw        : Sets the VBW in Hz for vbw_auto == 'on'
+        '''
         if rbw_auto.upper() in ('ON','OFF'):
             self.sa_sendcmd('BAND:AUTO %s'%rbw_auto.upper())
             rbw_auto_set = int(self.sa_requestdata('BAND:AUTO?'))
@@ -149,19 +181,25 @@ class SA_SOCK(socket.socket):
     
     
     def sa_detect(self,det_mode = 'rms'):
-#        ''' Method that sets the detector mode of the Spectrum analyzer
-#        det_mode   : Sets the detector mode     : 'APE' (Autopeak)|'POS'|'NEG'|'SAMP'|'RMS'|'AVER'|'QPE' (Quasipeak)
-#        trace_mode : Sets the trace mode        : 'WRIT' (Clear/Write)|'MAXH'|'AVER'|'VIEW'
-#        '''
+        ''' Set Detector Mode
+
+        This function sets the detector mode of the Spectrum analyzer
+        @param:
+            det_mode   : Sets the detector mode     : 'APE' (Autopeak)|'POS'|'NEG'|'SAMP'|'RMS'|'AVER'|'QPE' (Quasipeak)
+            trace_mode : Sets the trace mode        : 'WRIT' (Clear/Write)|'MAXH'|'AVER'|'VIEW'
+        '''
         self.sa_sendcmd('DET %s'%det_mode.upper())
         det_mode_set = self.sa_requestdata('DET?')
         trace_mode_set = self.sa_requestdata('DISP:WIND:TRAC:MODE?')
-        print(f"SA detector mode set to = {det_mode_set.decode()}")
+        return print(f"SA detector mode set to = {det_mode_set.decode()}")
         
     def sa_amplitude(self,ref_level_dBm = 0, att_level_dB = 5):
-        ''' Method that sets the amplitude parameters for the spectrum analyzer and sets the attenuator
-        ref_level_dBm    : Sets the reference level [dBm]'''
-     
+        ''' Set amplitude
+
+        This function sets the amplitude parameters for the spectrum analyzer and sets the attenuator
+        @param:
+            ref_level_dBm    : Sets the reference level [dBm]
+        '''
         self.sa_sendcmd('INP:ATT:AUTO OFF')
         self.sa_sendcmd('DISP:WIND:TRAC:Y:RLEV %sdBm'%ref_level_dBm)
 
@@ -172,8 +210,10 @@ class SA_SOCK(socket.socket):
         print('SA input attenuator set to %s dB'%(att_level_dB_set))
         
     def sa_getsweepdata(self,maximum_wait_time_s = 10*60):
-        ''' Method that starts a new sweep and downloads the data, returned as a list
-        Returns a list of the measured data in [dBm]
+        ''' Get sweep
+
+        This function starts a new sweep and downloads the data, returned as a list
+        @return: a list of the measured data in [dBm]
         '''
         self.sa_dumpdata()
         self.sa_sendcmd('INIT1:CONT OFF')
@@ -184,11 +224,14 @@ class SA_SOCK(socket.socket):
 #    This part of the script is pending testing when the Spectrum Analyzer is accessible
 
     def sa_CPOWConfig(self, chann_bw, chann_mode, pow_unit):
-        """Set channel bandwidth, channel power mode and power unit
+        '''Set channel bandwidth, channel power mode and power unit
 
         This function sets the channel bandwidth for power measurement
-        @params: None  
-        """
+        @params: 
+            chann_bw    : Sets the channel bandwidth [Hz]
+            chann_mode  : Sets the reference level [dBm]
+            pow_unit    : Sets the reference level [dBm]  
+        '''
         self.sa_detect('rms')
         self.sa_sendcmd(f"CALC:MARK:FUNC:CPOW:BAND {chann_bw} Hz")
         self.sa_sendcmd(f"CALC:MARK:FUNC:CPOW:MODE {chann_mode}")
@@ -196,18 +239,18 @@ class SA_SOCK(socket.socket):
         chann_bw = self.sa_requestdata(f"CALC:MARK:FUNC:CPOW:BAND?")
         chann_mode = self.sa_requestdata(f"CALC:MARK:FUNC:CPOW:MODE?")
         pow_unit = self.sa_requestdata(f"CALC:MARK:FUNC:CPOW:UNIT?")
-        print(f"Channel bandwidth = {chann_bw.decode()} Hz")
+        print(f"Channel bandwidth = {(float(chann_bw.decode())*1e-6)} MHz")
         print(f"Channel mode = {chann_mode.decode()}")
         print(f"Power unit = {pow_unit.decode()}")
-        return
+        return chann_bw, chann_mode, pow_unit
 
     def sa_getChannelPower(self):
-        """Measure channel power
+        ''' Measure channel power
 
         This function reads the channel power from the device
         @params: None
         @return FLOAT: Measured channel power [dBm]
-        """
+        '''
         self.sa_CPOWConfig(args.chann_bw, args.chann_mode, args.pow_unit)
         self.sa_sendcmd("CALC:MARK:FUNC:POW:PRES '3GPP WCDMA.chpstd'")
         self.sa_sendcmd("INIT:CONT OFF") 
@@ -220,7 +263,9 @@ class SA_SOCK(socket.socket):
 
 if __name__ == '__main__':
     # Set up arguments to be parsed 
-    parser = argparse.ArgumentParser(description = "Specify channel bandwidth, channel mode and channel power units parameters")
+    parser = argparse.ArgumentParser(description = "Specify spectrum analyzer measurement parameters")
+    parser.add_argument("freq_start", type=str, help="the start frequency incl. units (Hz)")
+    parser.add_argument("freq_stop", type=str, help="the stop frequency incl. units (Hz)")
     parser.add_argument("chann_bw", type=str, help="the bandwidth of the channel in Hz")
     parser.add_argument("chann_mode", type=str, help="the channel mode: CLR Clear/Write, MAX Max Hold")
     parser.add_argument("pow_unit", type=str, help="the unit of the channel power")
@@ -228,7 +273,7 @@ if __name__ == '__main__':
     print("/------Setup spectrum analyser---------/")
     specAnal = SA_SOCK()
     specAnal.sa_connect((SA_ADDRESS))
-    specAnal.sa_sweep(f_start,f_stop,numPoints)
+    specAnal.sa_sweep(args.freq_start,args.freq_stop,numPoints)
     specAnal.sa_bw('off',Rbw,'off',Vbw)
     specAnal.sa_amplitude(-10,10) 
     specAnal.sa_getChannelPower()
