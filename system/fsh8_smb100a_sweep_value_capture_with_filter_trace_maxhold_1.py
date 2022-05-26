@@ -79,9 +79,15 @@ def setupSA():
     return specAnal
         
 #------------------------------ PLOT ---------------------------#
- # Write csv file
 def plotTrace(freq_values, power_values): 
-    # Plot the trace
+    ''' Plot response
+
+    This function plots the power vs frequency filter response 
+
+    @params:    
+        freq_values: integer list [in Hz]
+        power_value: integer list [in dBm]
+    '''
     x_axis = freq_values
     y_axis = power_values
 
