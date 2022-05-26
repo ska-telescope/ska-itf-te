@@ -17,13 +17,13 @@ For an example, run this module and execute 'sa_example()'
         RBW, VBW, RefLev, Atten, k and numMeas
         Added funtion calls
 
-@modifier: Monde /  
+@modifier: Monde / Ben
 @Date: 26-05-2022
 @Functional Description: 
     1. Added the frequency and power sweep array computation function
     2. Tidy docstrings
     3. File renaming to sa_fsh8_set_maxhold_read_trace_1.py
-@Revision: 2
+@Revision: 
 """
 
 #-------------------------- IMPORT REQUIRED PACKAGES-------------------------------------
