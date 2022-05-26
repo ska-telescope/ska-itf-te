@@ -258,6 +258,5 @@ class SA_SOCK(socket.socket):
             freq_values.append(float(freq_start) + (i * freq_step_size))
 
         print('Power and Frequency Values acquired.')
-        print(power_values, '\n', freq_values)
         return freq_values, power_values       
 
