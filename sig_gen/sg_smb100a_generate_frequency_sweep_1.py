@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
+'''
 @author: Monde 
 @Date: 05-04-2022
 @Affiliation: Test Engineer
@@ -25,7 +25,7 @@
     2. Tidy docstrings and formatting
     3. File renaming to sg_smb100a_generate_frequency_sweep_1.py
 @Revision: 1
-"""
+'''
 
 import time
 import socket
@@ -48,8 +48,8 @@ freq_stop = ''
 # --------------------------------------------
 
 class SG_SOCK(socket.socket):
-    def initSigGen(self, sigAddress, DEFAULT_TIMEOUT = 1, default_buffer = 1024, short_delay = 0.1, long_delay = 1):
-        """ Establish socket connection.
+    def initSigGen(self, SG_ADDRESS, DEFAULT_TIMEOUT = 1, default_buffer = 1024, short_delay = 0.1, long_delay = 1):
+        ''' Establish socket connection.
 
         This function:
             Establishes a socket connection to the Signal Generator. Uses address (Including Port Number) as an argument.
@@ -62,9 +62,9 @@ class SG_SOCK(socket.socket):
                 long_delay          : int
                 short_delay         : int
                 default_buffer      : int
-        """
+        '''
         try:
-            self.connect(sigAddress)                                
+            self.connect(SG_ADDRESS)                                
             self.settimeout(DEFAULT_TIMEOUT)
             self.delay_long_s = long_delay
             self.delay_short_s = short_delay
@@ -76,15 +76,15 @@ class SG_SOCK(socket.socket):
             self.sg_sendcmd('SYST:DISP:UPD ON')
             time.sleep(short_delay)
         except Exception as e:
-            print(e, f"Check to see if the port number is {SG_PORT}")
+            print(e, f'Check to see if the port number is {SG_PORT}')
 
     def sg_dumpdata(self):
-        """ Display received data.
+        ''' Display received data.
 
         This function receives and displays the data after a query command
         @params: 
             command  : string    
-        """
+        '''
         while True:
             try:
                 dump_str = self.recv(self.default_buffer)
@@ -93,24 +93,24 @@ class SG_SOCK(socket.socket):
                 break
 
     def sg_sendcmd(self, command_str):
-        """ Send command.
+        ''' Send command.
 
         This function sends the command and adds \n at the end of any commands 
             sent to the test device
         @params: 
             command  : scpi string   
-        """
+        '''
         self.sendall(bytes(command_str, encoding = 'utf8'))
         self.sendall(bytes('\n', encoding = 'utf8'))
         time.sleep(RESPONSE_TIMEOUT)
 
     def sg_requestdata(self, request_str, response_buffer = 'default', timeout_max = 20):
-        """ Request data.
+        ''' Request data.
 
         This function requests and reads the command to and from the test device
         @params:
             command  : scpi string  
-        """ 
+        ''' 
         if type(response_buffer) == str:
             response_buffer = self.default_buffer
         self.sg_dumpdata()                                         # Cleanup the receive buffer
@@ -131,33 +131,33 @@ class SG_SOCK(socket.socket):
                     return return_str[:-1] 
 
     def setSigGenRF(self, rf_state = RF_ON):
-        """ Set RF output.
+        ''' Set RF output.
 
         This function sets and returns the RF Status
             @params:
                 rf_state  : Sig gen RF output as On or Off
             @returns:
                 rf_state  : Sig gen RF status as On or Off
-        """
+        '''
         self.sg_sendcmd(f'OUTP {rf_state}')  
         dump_str = self.sg_requestdata('OUTP?')
         if dump_str == b'1':   
-            print("RF Output On")
-        else: print("RF Output Off")
+            print('RF Output On')
+        else: print('RF Output Off')
 
     def setSigGenPower(self, power):
-        """ Set power.
+        ''' Set power.
 
         This function sets the power of the signal generator
         @params:
             power   : power level in dBm (default = -10)
-        """
+        '''
         self.sg_sendcmd(f'POW {power}')
         data = self.sg_requestdata('POW?')
         print(f'Sig gen power = {data.decode()} dBm')
         
     def setSigGenSweep(self, freq_start, freq_stop, freq_step, dwel_time):
-        """ Generate sweep.
+        ''' Generate sweep.
 
         This function sets the sweep frequency of the signal generator
         at 100MHz step
@@ -167,14 +167,14 @@ class SG_SOCK(socket.socket):
             freq_step       : step frequency in Hz (default = 100 MHz)
             dwel_time       : duration of frequency output in ms (default=1000 ms)
             sweep_mode      : sweep mode (auto / manual)
-        """ 
+        ''' 
         # start frequency acquisition
         self.sg_sendcmd(f'SOUR:FREQ:STAR {freq_start}')
         time.sleep(RESPONSE_TIMEOUT)
         self.sg_sendcmd('FREQ:STAR?')
         time.sleep(RESPONSE_TIMEOUT)
         data = float(self.recv(1024))
-        print(f"Sig gen start frequency = {(data / 1e6)} MHz")
+        print(f'Sig gen start frequency = {(data / 1e6)} MHz')
         freq_start = data
         # end of start frequency acquisition
 
@@ -184,7 +184,7 @@ class SG_SOCK(socket.socket):
         self.sg_sendcmd('FREQ:STOP?')
         data = float(self.recv(1024))
         time.sleep(RESPONSE_TIMEOUT)
-        print(f"Sig gen stop frequency = {(data / 1e6)} MHz")
+        print(f'Sig gen stop frequency = {(data / 1e6)} MHz')
         freq_stop = data 
         # end of stop frequency acquisition 
 
@@ -196,7 +196,7 @@ class SG_SOCK(socket.socket):
         freq_step = data
         # End of step frequency acquisition
 
-        centFreq = (freq_start + freq_stop)/2
+        centFreq = (freq_start + freq_stop) / 2
         span = freq_stop - freq_start    
         # 1. Set the sweep range
         self.sg_sendcmd(f'FREQ:CENT {centFreq} Hz')
@@ -213,7 +213,7 @@ class SG_SOCK(socket.socket):
         self.sg_sendcmd('FREQ:MODE SWE')
         # 6. Trigger the sweep     
         self.sg_sendcmd('SOUR:SWE:FREQ:EXEC')
-        print("Executing sweep...")
+        print('Executing sweep...')
 
     def closeGenSock(self):
         self.close()
@@ -227,9 +227,9 @@ class SG_SOCK(socket.socket):
 # -----------------------
 if __name__ == '__main__':
     # Set up arguments to be parsed 
-    parser = argparse.ArgumentParser(description = "Specify Sig Gen Start Frequency, Stop Frequency, Step Frequency, Dwell Time and Sweep Mode")
-    parser.add_argument("freq_start", type = str, help = "the start frequency incl. units (Hz)")
-    parser.add_argument("freq_stop", type = str, help = "the stop frequency incl. units (Hz)")
-    parser.add_argument("freq_step", type = str, help = "the step frequency incl. units (Hz)")
-    parser.add_argument("dwel_time", type = int, help = "the sweep dwell time (ms)")
+    parser = argparse.ArgumentParser(description = 'Specify Sig Gen Start Frequency, Stop Frequency, Step Frequency and Dwell Time')
+    parser.add_argument('freq_start', type = str, help = 'the start frequency incl. units (Hz)')
+    parser.add_argument('freq_stop', type = str, help = 'the stop frequency incl. units (Hz)')
+    parser.add_argument('freq_step', type = str, help = 'the step frequency incl. units (Hz)')
+    parser.add_argument('dwel_time', type = int, help = 'the sweep dwell time (ms)')
     args = parser.parse_args()
