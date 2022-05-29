@@ -175,8 +175,8 @@ class SA_SOCK(socket.socket):
             else:
                 vbw_set = 0.0    
                 
-        print(f'SA RBW set to AUTO {rbw_auto_set}, RBW = {round((rbw_set * 1e-3)), 2} kHz')
-        print(f'SA VBW set to AUTO {vbw_auto_set}, VBW = {round(vbw_set * 1e-3), 2} kHz')
+        print(f'SA RBW set to AUTO {rbw_auto_set}, RBW = {round((rbw_set * 1e-3), 2)} kHz')
+        print(f'SA VBW set to AUTO {vbw_auto_set}, VBW = {round((vbw_set * 1e-3), 2)} kHz')
     
     
     def sa_detect(self, det_mode = 'rms'):
@@ -222,7 +222,7 @@ class SA_SOCK(socket.socket):
         """
         # Switch on trace2, set sweep time, and set trace2 mode to max hold, 
         # trace 2 detectorauto peak
-        self.sa_sendcmd('SWE:TIME 24 ms')
+        #self.sa_sendcmd('SWE:TIME 24 ms')
         self.sa_sendcmd('DISP:TRAC2 ON')
         self.sa_sendcmd('DET APE')
         self.sa_sendcmd('DISP:TRAC2:MODE MAXH')
@@ -253,7 +253,7 @@ class SA_SOCK(socket.socket):
             power_data_flo = round(float(s), 2) 
             power_values.append(power_data_flo)
 
-        freq_step_size = int((float(freq_stop) - float(freq_start)) / (No_of_Sweep_Points-1))
+        freq_step_size = int((float(freq_stop) - float(freq_start)) / (No_of_Sweep_Points - 1))
         for i in range(0, No_of_Sweep_Points, 1):
             freq_values.append(float(freq_start) + (i * freq_step_size))
 
