@@ -36,7 +36,7 @@ from sa_fsh8_set_maxhold_read_trace_1 import freq_values
 # -----------------Connection Settings----------------------
 SG_PORT = 5025                      # default SMB R&S port 
 SG_HOST = '10.8.88.166'             # smb100a signal generator IP
-SG_ADDRESS = (SG_PORT, SG_HOST)
+SG_ADDRESS = (SG_HOST, SG_PORT)
 SA_HOST = '10.8.88.138'             # fsh8 spectrum analyzer IP temporary
 SA_PORT = 5555                      # fsh8 spectrum analyzer port 18? 23?
 SA_ADDRESS = (SA_HOST, SA_PORT)
@@ -60,7 +60,7 @@ VBW = 3e6       # Video BW of spectrum analyser
 def setupSG():  
     print('/------Setup signal generator---------/')
     sigGen = SG_SOCK()                                 # Call main class
-    sigGen.initSigGen((SG_HOST, SG_PORT))    
+    sigGen.initSigGen(SG_ADDRESS)    
     sigGen.setSigGenRF(RF_ON)
     sigGen.setSigGenPower(-30)     
     print('/------End of Setup signal generator---------/')
