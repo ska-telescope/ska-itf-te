@@ -34,7 +34,7 @@ import argparse
 # -----------------Connection Settings----------------------
 SG_PORT = 5025                      # default SMB R&S port 
 SG_HOST = '10.8.88.166'             # smb100a signal generator IP
-SG_ADDRESS = (SG_PORT, SG_HOST)
+SG_ADDRESS = (SG_HOST, SG_PORT)
 #-----------------------------------------------------------
 # ----------------Initialization of Variables---------------    
 DEFAULT_TIMEOUT = 1        # Default socket timeout
