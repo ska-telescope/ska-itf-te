@@ -23,8 +23,8 @@ import socket
 # The script uses raw ethernet socket communication, and thus VISA library/installation is not required
 
 # -----------Connection Settings--------------
-SIGPORT = 5025             # default SMB R&S port 
-SIGHOST = '10.8.88.166'    # IP Address of the SMB100A                    
+SG_PORT = 5025             # default SMB R&S port 
+SG_HOST = '10.8.88.166'    # Sig gen IP                   
 #---------------------------------------------
 
 
@@ -49,12 +49,12 @@ def initSigGen():
     '''
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.connect((SIGHOST, SIGPORT))
+        s.connect((SG_HOST, SG_PORT))
         s.settimeout(DEFAULT_TIMEOUT)
         if s:
             print(s, 'Connection succesful.')
     except Exception as e:
-        print(e, f'Check to see if the port number is {SIGPORT}')
+        print(e, f'Check to see if the port number is {SG_PORT}')
     s.sendall(b'*IDN?\r\n')                             
     data = s.recv(1024)
     state = 0
@@ -76,10 +76,10 @@ def setSigGenPower(power):
     '''
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.connect((SIGHOST, SIGPORT))
+        s.connect((SG_HOST, SG_PORT))
         s.settimeout(1)
     except Exception as e:
-        print(e, f'Check to see if the port number is {SIGPORT}')
+        print(e, f'Check to see if the port number is {SG_PORT}')
     setpower = 'POW {}\r\n'.format(power)
     s.sendall(bytes(setpower, encoding = 'utf8'))
     s.sendall(b'POW?\r\n')
@@ -95,10 +95,10 @@ def setSigGenFreq(Freq):
     '''
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.connect((SIGHOST, SIGPORT))
+        s.connect((SG_HOST, SG_PORT))
         s.settimeout(1)
     except Exception as e:
-        print(e, f'Check to see if the port number is {SIGPORT}')
+        print(e, f'Check to see if the port number is {SG_PORT}')
     setfreq = 'FREQ {}\r\n'.format(Freq)
     s.sendall(bytes(setfreq, encoding = 'utf8'))
     s.sendall(b'FREQ?\r\n')
@@ -111,14 +111,14 @@ def setSigGenState(RFOut):
 
     This function turns on/off the RF output state
     @params:
-        RFOut:  Integer
+        RFOut:  integer / string On/Off One/Zero
     '''
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.connect((SIGHOST, SIGPORT))
+        s.connect((SG_HOST, SG_PORT))
         s.settimeout(1)
     except Exception as e:
-        print(e, f'Check to see if the port number is {SIGPORT}')
+        print(e, f'Check to see if the port number is {SG_PORT}')
     setstate = 'OUTP1 {}\r\n'.format(RFOut)
     s.sendall(bytes(setstate, encoding = 'utf8'))
     s.sendall(b'OUTP1?\r\n')
@@ -138,10 +138,10 @@ def setSigGenModsState(ModsState):
     '''
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.connect((SIGHOST, SIGPORT))
+        s.connect((SG_HOST, SG_PORT))
         s.settimeout(1)
     except Exception as e:
-        print(e, f'Check to see if the port number is {SIGPORT}')
+        print(e, f'Check to see if the port number is {SG_PORT}')
     setModsState = 'MOD:STAT {}\r\n'.format(ModsState)
     s.sendall(bytes(setModsState, encoding = 'utf8'))
     s.sendall(b'MOD:STAT?\n')
@@ -164,10 +164,10 @@ def setSigGenModState(ModState, Val):
     '''
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.connect((SIGHOST, SIGPORT))
+        s.connect((SG_HOST, SG_PORT))
         s.settimeout(1)
     except Exception as e:
-        print(e, f'Check to see if the port number is {SIGPORT}')
+        print(e, f'Check to see if the port number is {SG_PORT}')
     setModState = '{}:STAT {}\r\n'.format(ModState, Val)
     s.sendall(bytes(setModState, encoding = 'utf8'))
     setModState = '{}:STAT?\r\n'.format(ModState)
@@ -188,10 +188,10 @@ def LFOutputState(LFOState):
     '''
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.connect((SIGHOST, SIGPORT))
+        s.connect((SG_HOST, SG_PORT))
         s.settimeout(1)
     except Exception as e:
-        print(e, f'Check to see if the port number is {SIGPORT}')
+        print(e, f'Check to see if the port number is {SG_PORT}')
     setLFOState = 'LFO:SWE:MODE?\r\n'
     s.sendall(bytes(setLFOState, encoding = 'utf8'))
     setLFOState = 'LFO {}\r\n'.format(LFOState)
