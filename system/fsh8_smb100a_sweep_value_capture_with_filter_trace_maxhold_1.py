@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
+'''
 @author: Monde 
 @Date: 05-04-2022
 @Affiliation: Test Engineer
@@ -16,8 +16,8 @@
         and thus VISA library/installation is not required
     2. This script uses scpi protocol for the automatic test equipment intended
 
-@Revision: 0_1
-"""
+@Revision: 1
+'''
 import sys
 import time
 import argparse
@@ -54,28 +54,28 @@ numPoints = 631
 #-----------------SA_FSH8 initialization Variables----------
 NUMPOINTS = 631   # Number of measurement points (Max=625)
 RBW = 3e6         # Resolution BW of spectrum analyser
-VBW = 300e3       # Video BW of spectrum analyser
+VBW = 3e6       # Video BW of spectrum analyser
 #%%
 #-------------------SG_SMB100A Setup-------------------------#
 def setupSG():  
-    print("/------Setup signal generator---------/")
+    print('/------Setup signal generator---------/')
     sigGen = SG_SOCK()                                 # Call main class
     sigGen.initSigGen((SG_HOST, SG_PORT))    
     sigGen.setSigGenRF(RF_ON)
     sigGen.setSigGenPower(-30)     
-    print("/------End of Setup signal generator---------/")
+    print('/------End of Setup signal generator---------/')
     return sigGen
 
 #------------------------SA_FSH8 Setup-------------------------#
 def setupSA():
-    print("/------Setup spectrum analyser---------/")
+    print('/------Setup spectrum analyser---------/')
     specAnal = SA_SOCK()
     specAnal.sa_connect((SA_ADDRESS))
     specAnal.sa_sweep(args.freq_start, args.freq_stop, NUMPOINTS)
     specAnal.sa_bw('off', RBW, 'off', VBW) # Set the SA Resolution bandwidth mode to Manual, 100 KHz. Set the Video BW to Manual, 100 KHz 
     specAnal.sa_amplitude(-10, 10) 
     specAnal.sa_traceMaxHold()
-    print("/------End of Setup Spectrum Analyzer---------/")
+    print('/------End of Setup Spectrum Analyzer---------/')
     return specAnal
         
 #------------------------------ PLOT ---------------------------#
@@ -109,7 +109,7 @@ if __name__ == '__main__':
     parser.add_argument('dwel_time', type = int, help = 'the sweep dwell time (ms)')
     args = parser.parse_args()
 
-    print("/--------- Running main Code ---------/") 
+    print('/--------- Running main Code ---------/') 
     sg = setupSG()
     time.sleep(1) 
     sa = setupSA()
@@ -125,6 +125,6 @@ if __name__ == '__main__':
     
     sa.sa_getTraceParams(args.freq_start, args.freq_stop)
     plotTrace(freq_values, power_values)
-    print("Displayed plot...")
-    print("End of program.")
+    print('Displayed plot...')
+    print('End of program.')
 
