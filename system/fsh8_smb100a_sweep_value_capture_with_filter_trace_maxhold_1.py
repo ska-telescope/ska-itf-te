@@ -46,9 +46,6 @@ DEFAULT_TIMEOUT = 1        # Default socket timeout
 RF_OFF = 0
 RF_ON = 1
 
-freq_start = ''
-freq_stop = ''
-numPoints = 631
 # -----------------SA AND SG INITIALIZATION-----------------
 
 #-----------------SA_FSH8 initialization Variables----------
