@@ -70,11 +70,11 @@ def setupSG():
 def setupSA():
     print('/------Setup spectrum analyser---------/')
     specAnal = SA_SOCK()
-    specAnal.sa_connect((SA_ADDRESS))
-    specAnal.sa_sweep(args.freq_start, args.freq_stop, NUMPOINTS)
-    specAnal.sa_bw('off', RBW, 'off', VBW) # Set the SA Resolution bandwidth mode to Manual, 100 KHz. Set the Video BW to Manual, 100 KHz 
-    specAnal.sa_amplitude(-10, 10) 
-    specAnal.sa_traceMaxHold()
+    specAnal.connectSpecAna((SA_ADDRESS))
+    specAnal.setSpecAnaSweep(args.freq_start, args.freq_stop, NUMPOINTS)
+    specAnal.setSpecAnaBandwidth('off', RBW, 'off', VBW) # Set the SA Resolution bandwidth mode to Manual, 100 KHz. Set the Video BW to Manual, 100 KHz 
+    specAnal.setSpecAnaAmplitude(-10, 10) 
+    specAnal.setSpecAnaMaxHold()
     print('/------End of Setup Spectrum Analyzer---------/')
     return specAnal
         
@@ -123,7 +123,7 @@ if __name__ == '__main__':
         time.sleep(10)          # wait for sweep to complete  
         print(f'count = {count}...')
     
-    sa.sa_getTraceParams(args.freq_start, args.freq_stop)
+    sa.getSpecAnaTraceParams(args.freq_start, args.freq_stop)
     plotTrace(freq_values, power_values)
     print('Displayed plot...')
     print('End of program.')
