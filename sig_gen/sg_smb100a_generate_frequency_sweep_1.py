@@ -69,16 +69,16 @@ class SG_SOCK(socket.socket):
             self.delay_long_s = long_delay
             self.delay_short_s = short_delay
             self.default_buffer = default_buffer
-            rx_str = self.sg_requestdata('*IDN?')
+            rx_str = self.requestSigGenData('*IDN?')
             print(f'Connected to: {rx_str}')
-            self.sg_sendcmd('*CLS')                                     
-            self.sg_sendcmd('*RST')
-            self.sg_sendcmd('SYST:DISP:UPD ON')
+            self.sendSigGenCmd('*CLS')                                     
+            self.sendSigGenCmd('*RST')
+            self.sendSigGenCmd('SYST:DISP:UPD ON')
             time.sleep(short_delay)
         except Exception as e:
             print(e, f'Check to see if the port number is {SG_PORT}')
 
-    def sg_dumpdata(self):
+    def dumpSigGenData(self): 
         ''' Display received data.
 
         This function receives and displays the data after a query command
@@ -92,7 +92,7 @@ class SG_SOCK(socket.socket):
             except socket.timeout:
                 break
 
-    def sg_sendcmd(self, command_str):
+    def sendSigGenCmd(self, command_str):
         ''' Send command.
 
         This function sends the command and adds \n at the end of any commands 
@@ -104,7 +104,7 @@ class SG_SOCK(socket.socket):
         self.sendall(bytes('\n', encoding = 'utf8'))
         time.sleep(RESPONSE_TIMEOUT)
 
-    def sg_requestdata(self, request_str, response_buffer = 'default', timeout_max = 20):
+    def requestSigGenData(self, request_str, response_buffer = 'default', timeout_max = 20):
         ''' Request data.
 
         This function requests and reads the command to and from the test device
@@ -113,8 +113,8 @@ class SG_SOCK(socket.socket):
         ''' 
         if type(response_buffer) == str:
             response_buffer = self.default_buffer
-        self.sg_dumpdata()                                         # Cleanup the receive buffer
-        self.sg_sendcmd(request_str)                           # Send the request
+        self.dumpSigGenData()                                         # Cleanup the receive buffer
+        self.sendSigGenCmd(request_str)                           # Send the request
         return_str = b''                                            # Initialize Rx buffer
         time_start = time.time()                                   # Get the start time
         while True:
@@ -139,8 +139,8 @@ class SG_SOCK(socket.socket):
             @returns:
                 rf_state  : Sig gen RF status as On or Off
         '''
-        self.sg_sendcmd(f'OUTP {rf_state}')  
-        dump_str = self.sg_requestdata('OUTP?')
+        self.sendSigGenCmd(f'OUTP {rf_state}')  
+        dump_str = self.requestSigGenData('OUTP?')
         if dump_str == b'1':   
             print('RF Output On')
         else: print('RF Output Off')
@@ -152,8 +152,8 @@ class SG_SOCK(socket.socket):
         @params:
             power   : power level in dBm (default = -10)
         '''
-        self.sg_sendcmd(f'POW {power}')
-        data = self.sg_requestdata('POW?')
+        self.sendSigGenCmd(f'POW {power}')
+        data = self.requestSigGenData('POW?')
         print(f'Sig gen power = {data.decode()} dBm')
         
     def setSigGenSweep(self, freq_start, freq_stop, freq_step, dwel_time):
@@ -169,9 +169,9 @@ class SG_SOCK(socket.socket):
             sweep_mode      : sweep mode (auto / manual)
         ''' 
         # start frequency acquisition
-        self.sg_sendcmd(f'SOUR:FREQ:STAR {freq_start}')
+        self.sendSigGenCmd(f'SOUR:FREQ:STAR {freq_start}')
         time.sleep(RESPONSE_TIMEOUT)
-        self.sg_sendcmd('FREQ:STAR?')
+        self.sendSigGenCmd('FREQ:STAR?')
         time.sleep(RESPONSE_TIMEOUT)
         data = float(self.recv(1024))
         print(f'Sig gen start frequency = {(data / 1e6)} MHz')
@@ -179,9 +179,9 @@ class SG_SOCK(socket.socket):
         # end of start frequency acquisition
 
         # stop frequency acquisition
-        self.sg_sendcmd(f'SOUR:FREQ:STOP {freq_stop}')
+        self.sendSigGenCmd(f'SOUR:FREQ:STOP {freq_stop}')
         time.sleep(RESPONSE_TIMEOUT)
-        self.sg_sendcmd('FREQ:STOP?')
+        self.sendSigGenCmd('FREQ:STOP?')
         data = float(self.recv(1024))
         time.sleep(RESPONSE_TIMEOUT)
         print(f'Sig gen stop frequency = {(data / 1e6)} MHz')
@@ -189,8 +189,8 @@ class SG_SOCK(socket.socket):
         # end of stop frequency acquisition 
 
          # Step frequency acquisition - return from args.str to int
-        self.sg_sendcmd(f'SOUR:FREQ:STEP {freq_step}')
-        self.sg_sendcmd('FREQ:STEP?')
+        self.sendSigGenCmd(f'SOUR:FREQ:STEP {freq_step}')
+        self.sendSigGenCmd('FREQ:STEP?')
         time.sleep(RESPONSE_TIMEOUT)
         data = float(self.recv(1024))
         freq_step = data
@@ -199,20 +199,20 @@ class SG_SOCK(socket.socket):
         centFreq = (freq_start + freq_stop) / 2
         span = freq_stop - freq_start    
         # 1. Set the sweep range
-        self.sg_sendcmd(f'FREQ:CENT {centFreq} Hz')
-        self.sg_sendcmd(f'FREQ:SPAN {span} Hz')
+        self.sendSigGenCmd(f'FREQ:CENT {centFreq} Hz')
+        self.sendSigGenCmd(f'FREQ:SPAN {span} Hz')
         # 2. Select linear or logarithmic spacing
-        self.sg_sendcmd('SWE:FREQ:SPAC LIN')
+        self.sendSigGenCmd('SWE:FREQ:SPAC LIN')
         # 3. Set the step width and dwell time
-        self.sg_sendcmd(f'SWE:FREQ:STEP:LIN {freq_step} Hz')
-        self.sg_sendcmd(f'SWE:FREQ:DWEL {dwel_time} ms')
+        self.sendSigGenCmd(f'SWE:FREQ:STEP:LIN {freq_step} Hz')
+        self.sendSigGenCmd(f'SWE:FREQ:DWEL {dwel_time} ms')
         # 4. Select the trigger mode
-        self.sg_sendcmd('TRIG:FSW:SOUR SING')
+        self.sendSigGenCmd('TRIG:FSW:SOUR SING')
         # 5. Select sweep mode and activate the sweep
-        self.sg_sendcmd(f'SWE:FREQ:MODE AUTO')
-        self.sg_sendcmd('FREQ:MODE SWE')
+        self.sendSigGenCmd(f'SWE:FREQ:MODE AUTO')
+        self.sendSigGenCmd('FREQ:MODE SWE')
         # 6. Trigger the sweep     
-        self.sg_sendcmd('SOUR:SWE:FREQ:EXEC')
+        self.sendSigGenCmd('SOUR:SWE:FREQ:EXEC')
         print('Executing sweep...')
 
     def closeGenSock(self):
