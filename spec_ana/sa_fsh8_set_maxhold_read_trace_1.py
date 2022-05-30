@@ -48,7 +48,7 @@ ampl_vals = []
 freq_vals = []
 #-------------------------SPECTRUM ANALYZER SOCKET CLASS----------------------------------
 class SA_SOCK(socket.socket):
-    def sa_connect(self, address, default_timeout = 1, default_buffer = 1024, short_delay = 0.1, long_delay = 1):
+    def connectSpecAna(self, address, default_timeout = 1, default_buffer = 1024, short_delay = 0.1, long_delay = 1):
         ''' Establish socket connect connection.
 
         This function:
@@ -69,14 +69,14 @@ class SA_SOCK(socket.socket):
         self.delay_short_s = short_delay
         self.default_buffer = default_buffer
 
-        rx_str = self.sa_requestdata('*IDN?') # requesting instrument identity and print 
+        rx_str = self.requestSpecAnaData('*IDN?') # requesting instrument identity and print 
         print(f'Connected to: {rx_str}')
-        self.sa_sendcmd('*CLS')     
+        self.sendSpecAnaCmd('*CLS')     
         time.sleep(3)                                
-        self.sa_sendcmd('*RST')                 # instrument reset
+        self.sendSpecAnaCmd('*RST')                 # instrument reset
         time.sleep(5)
-        self.sa_sendcmd('INST:SEL SAN')         # spectrum analyzer mode
-        self.sa_sendcmd('SYST:DISP:UPD ON')    
+        self.sendSpecAnaCmd('INST:SEL SAN')         # spectrum analyzer mode
+        self.sendSpecAnaCmd('SYST:DISP:UPD ON')    
         time.sleep(short_delay)
 
     def sa_dumpdata(self):
@@ -92,7 +92,7 @@ class SA_SOCK(socket.socket):
             except socket.timeout:
                 break
 
-    def sa_sendcmd(self, command_str):
+    def sendSpecAnaCmd(self, command_str):
         ''' Send command
         
         This function sends the command and adds \n at the end of any commands 
@@ -103,7 +103,7 @@ class SA_SOCK(socket.socket):
         self.sendall(bytes(command_str, encoding='utf8') + b'\n')
         time.sleep(RESPONSE_TIMEOUT)
                 
-    def sa_requestdata(self,request_str, response_buffer = 'default', timeout_max = 10):
+    def requestSpecAnaData(self,request_str, response_buffer = 'default', timeout_max = 10):
         ''' Request data
 
         This function requests and reads the command to and from the test device
@@ -113,7 +113,7 @@ class SA_SOCK(socket.socket):
         if type(response_buffer) == str:
             response_buffer = self.default_buffer
         self.sa_dumpdata()                                         # Cleanup the receive buffer
-        self.sa_sendcmd(request_str)                           # Send the request
+        self.sendSpecAnaCmd(request_str)                           # Send the request
         return_str = b''                                            # Initialize Rx buffer
         time_start = time.time()                                   # Get the start time
         while True:
@@ -129,7 +129,7 @@ class SA_SOCK(socket.socket):
                 if return_str.endswith(b'\n'):                      # Test to see if end of line has been reached, i.e. all the data Rx
                     return return_str[:-1]                         # Return string
 
-    def sa_sweep(self, start_f = 0, stop_f = 100e6, nr_points = 625):
+    def setSpecAnaSweep(self, start_f = 0, stop_f = 100e6, nr_points = 625):
         ''' Setup sweep
 
         This function sets up the Spectrum Analyser Sweep parameters
@@ -138,16 +138,16 @@ class SA_SOCK(socket.socket):
                 stop_f FLOAT: Stop frequency [MHz] 
                 nr_points INTEGER:        
         '''
-        self.sa_sendcmd(f'FREQ:STAR {start_f} Hz')
-        self.sa_sendcmd(f'FREQ:STOP {stop_f} Hz')
-        self.sa_sendcmd(f'SWE:POIN {nr_points}')
-        start_f_set = double(self.sa_requestdata('FREQ:STAR?'))
-        stop_f_set = double(self.sa_requestdata('FREQ:STOP?'))
-        nr_points_set = int(self.sa_requestdata('SWE:POIN?'))
+        self.sendSpecAnaCmd(f'FREQ:STAR {start_f} Hz')
+        self.sendSpecAnaCmd(f'FREQ:STOP {stop_f} Hz')
+        self.sendSpecAnaCmd(f'SWE:POIN {nr_points}')
+        start_f_set = double(self.requestSpecAnaData('FREQ:STAR?'))
+        stop_f_set = double(self.requestSpecAnaData('FREQ:STOP?'))
+        nr_points_set = int(self.requestSpecAnaData('SWE:POIN?'))
         print(f'SA Start Freq: {start_f_set * 1e-6} MHz, Stop Freq: {stop_f_set * 1e-6} MHz, Points: {nr_points_set}')      
         return start_f_set, stop_f_set, nr_points_set #Returns the values reported by the SA
         
-    def sa_bw(self, rbw_auto = 'on', rbw = 0, vbw_auto = 'on', vbw = 0):
+    def setSpecAnaBandwidth(self, rbw_auto = 'on', rbw = 0, vbw_auto = 'on', vbw = 0):
         ''' Set resolution and video bandwidths
 
         This function sets the resolution and video bandwidth
@@ -158,20 +158,20 @@ class SA_SOCK(socket.socket):
             vbw        : Sets the VBW in Hz for vbw_auto == 'on'
         '''
         if rbw_auto.upper() in ('ON', 'OFF'):
-            self.sa_sendcmd(f'BAND:AUTO {rbw_auto.upper()}')
-            rbw_auto_set = int(self.sa_requestdata('BAND:AUTO?'))
+            self.sendSpecAnaCmd(f'BAND:AUTO {rbw_auto.upper()}')
+            rbw_auto_set = int(self.requestSpecAnaData('BAND:AUTO?'))
             if rbw_auto.upper() == 'OFF':
-                self.sa_sendcmd(f'BAND {rbw}')
-                rbw_set = double(self.sa_requestdata('BAND?'))
+                self.sendSpecAnaCmd(f'BAND {rbw}')
+                rbw_set = double(self.requestSpecAnaData('BAND?'))
             else:
                 rbw_set = 0.0
                 
         if vbw_auto.upper() in ('ON', 'OFF'):
-            self.sa_sendcmd(f'BAND:VID:AUTO {vbw_auto.upper()}')
-            vbw_auto_set = int(self.sa_requestdata('BAND:VID:AUTO?'))
+            self.sendSpecAnaCmd(f'BAND:VID:AUTO {vbw_auto.upper()}')
+            vbw_auto_set = int(self.requestSpecAnaData('BAND:VID:AUTO?'))
             if vbw_auto.upper() == 'OFF':
-                self.sa_sendcmd(f'BAND:VID {vbw}')
-                vbw_set = double(self.sa_requestdata('BAND:VID?'))
+                self.sendSpecAnaCmd(f'BAND:VID {vbw}')
+                vbw_set = double(self.requestSpecAnaData('BAND:VID?'))
             else:
                 vbw_set = 0.0    
                 
@@ -187,21 +187,21 @@ class SA_SOCK(socket.socket):
             det_mode   : Sets the detector mode     : 'APE' (Autopeak)|'POS'|'NEG'|'SAMP'|'RMS'|'AVER'|'QPE' (Quasipeak)
             trace_mode : Sets the trace mode        : 'WRIT' (Clear/Write)|'MAXH'|'AVER'|'VIEW'
         '''
-        self.sa_sendcmd(f'DET {det_mode.upper()}')
-        det_mode_set = self.sa_requestdata('DET?')
-        trace_mode_set = self.sa_requestdata('DISP:WIND:TRAC:MODE?')
+        self.sendSpecAnaCmd(f'DET {det_mode.upper()}')
+        det_mode_set = self.requestSpecAnaData('DET?')
+        trace_mode_set = self.requestSpecAnaData('DISP:WIND:TRAC:MODE?')
         return print(f'SA detector mode set to = {det_mode_set.decode()}')
         
-    def sa_amplitude(self, ref_level_dBm = 0, att_level_dB = 5):
+    def setSpecAnaAmplitude(self, ref_level_dBm = 0, att_level_dB = 5):
         ''' Method that sets the amplitude parameters for the spectrum analyzer and sets the attenuator
         ref_level_dBm    : Sets the reference level [dBm]'''
      
-        self.sa_sendcmd('INP:ATT:AUTO OFF')
-        self.sa_sendcmd(f'DISP:WIND:TRAC:Y:RLEV {ref_level_dBm}dBm')
+        self.sendSpecAnaCmd('INP:ATT:AUTO OFF')
+        self.sendSpecAnaCmd(f'DISP:WIND:TRAC:Y:RLEV {ref_level_dBm}dBm')
 
-        self.sa_sendcmd(f'INP:ATT {att_level_dB} dB')
-        ref_level_dBm_set = double(self.sa_requestdata('DISP:WIND:TRAC:Y:RLEV?'))
-        att_level_dB_set = double(self.sa_requestdata('INP:ATT?'))
+        self.sendSpecAnaCmd(f'INP:ATT {att_level_dB} dB')
+        ref_level_dBm_set = double(self.requestSpecAnaData('DISP:WIND:TRAC:Y:RLEV?'))
+        att_level_dB_set = double(self.requestSpecAnaData('INP:ATT?'))
         print(f'SA amplitude reference level set to REF {ref_level_dBm_set} dBm')
         print(f'SA input attenuator set to {att_level_dB_set} dB')
         
@@ -210,30 +210,30 @@ class SA_SOCK(socket.socket):
         Returns a list of the measured data in [dBm]
         '''
         self.sa_dumpdata()
-        self.sa_sendcmd('INIT1:CONT OFF')
-        self.sa_sendcmd('INIT1')
-        rx_str = self.sa_requestdata('*OPC?', 'default', maximum_wait_time_s)
-        return list(eval(self.sa_requestdata('TRACE1? TRACE1')))
+        self.sendSpecAnaCmd('INIT1:CONT OFF')
+        self.sendSpecAnaCmd('INIT1')
+        rx_str = self.requestSpecAnaData('*OPC?', 'default', maximum_wait_time_s)
+        return list(eval(self.requestSpecAnaData('TRACE1? TRACE1')))
 
-    def sa_traceMaxHold(self): 
+    def setSpecAnaMaxHold(self): 
         """ Set MaxHold On
 
         This function sets turns on the trace max hold 
         """
         # Switch on trace2, set sweep time, and set trace2 mode to max hold, 
         # trace 2 detectorauto peak
-        #self.sa_sendcmd('SWE:TIME 24 ms')
-        self.sa_sendcmd('DISP:TRAC2 ON')
-        self.sa_sendcmd('DET APE')
-        self.sa_sendcmd('DISP:TRAC2:MODE MAXH')
+        #self.sendSpecAnaCmd('SWE:TIME 24 ms')
+        self.sendSpecAnaCmd('DISP:TRAC2 ON')
+        self.sendSpecAnaCmd('DET APE')
+        self.sendSpecAnaCmd('DISP:TRAC2:MODE MAXH')
         # Switch on trace 1, and set trace 1 mode to max hold, trace1 detector auto peak
-        self.sa_sendcmd('DISP:TRAC1 ON')
-        self.sa_sendcmd('DISP:TRAC1:MODE WRIT')
-        self.sa_sendcmd('DET:AUTO OFF')
-        self.sa_sendcmd('DET APE')
+        self.sendSpecAnaCmd('DISP:TRAC1 ON')
+        self.sendSpecAnaCmd('DISP:TRAC1:MODE WRIT')
+        self.sendSpecAnaCmd('DET:AUTO OFF')
+        self.sendSpecAnaCmd('DET APE')
         return print('Max and Hold Mode activated.')  
 
-    def sa_getTraceParams(self, freq_start, freq_stop): 
+    def getSpecAnaTraceParams(self, freq_start, freq_stop): 
         ''' Read trace data
         
         This function reads the power trace data and calculates the 
@@ -243,12 +243,12 @@ class SA_SOCK(socket.socket):
             freq_start      : start frequency in Hz
             freq_stop       : stop frequency in Hz
         '''                                                    
-        self.sa_sendcmd('FORM:DATA ASC')                     
-        power_data = self.sa_requestdata('TRAC:DATA? TRACE2')
+        self.sendSpecAnaCmd('FORM:DATA ASC')                     
+        power_data = self.requestSpecAnaData('TRAC:DATA? TRACE2')
         power_data = power_data.decode()
         power_data = str(power_data)
         power_data = power_data.split(',') 
-        No_of_Sweep_Points = int(self.sa_requestdata('SWE:POIN?'))
+        No_of_Sweep_Points = int(self.requestSpecAnaData('SWE:POIN?'))
         for s in power_data:
             power_data_flo = round(float(s), 2) 
             power_values.append(power_data_flo)
