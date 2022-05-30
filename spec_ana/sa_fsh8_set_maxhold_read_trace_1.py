@@ -216,10 +216,10 @@ class SA_SOCK(socket.socket):
         return list(eval(self.requestSpecAnaData('TRACE1? TRACE1')))
 
     def setSpecAnaMaxHold(self): 
-        """ Set MaxHold On
+        ''' Set MaxHold On
 
         This function sets turns on the trace max hold 
-        """
+        '''
         # Switch on trace2, set sweep time, and set trace2 mode to max hold, 
         # trace 2 detectorauto peak
         #self.sendSpecAnaCmd('SWE:TIME 24 ms')
