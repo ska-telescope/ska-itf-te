@@ -172,7 +172,7 @@ class SA_SOCK(socket.socket):
         print(f'SA VBW set to AUTO {vbw_auto_set}, VBW = {round(vbw_set * 1e-3), 2} kHz')
     
     
-    def sa_detect(self, det_mode = 'rms'):
+    def setSpecAnaDetector(self, det_mode = 'rms'):
         ''' Set Detector Mode
 
         This function sets the detector mode of the Spectrum analyzer
@@ -183,8 +183,8 @@ class SA_SOCK(socket.socket):
         self.sendSpecAnaCmd(f'DET {det_mode.upper()}')
         det_mode_set = self.requestSpecAnaData('DET?')
         trace_mode_set = self.requestSpecAnaData('DISP:WIND:TRAC:MODE?')
-        print(f"SA trace mode set to = {trace_mode_set.decode()}")
-        return print(f"SA detector mode set to = {det_mode_set.decode()}")
+        print(f'SA trace mode set to = {trace_mode_set.decode()}')
+        return print(f'SA detector mode set to = {det_mode_set.decode()}')
         
     def setSpecAnaAmplitude(self, ref_level_dBm = 0, att_level_dB = 5):
         ''' Set amplitude
@@ -224,7 +224,7 @@ class SA_SOCK(socket.socket):
             chann_mode  : Sets the reference level [dBm]
             pow_unit    : Sets the reference level [dBm]  
         '''
-        self.sa_detect('rms')
+        self.setSpecAnaDetector('rms')
         self.sendSpecAnaCmd(f'CALC:MARK:FUNC:CPOW:BAND {chann_bw} Hz')
         self.sendSpecAnaCmd(f'CALC:MARK:FUNC:CPOW:MODE {chann_mode}')
         self.sendSpecAnaCmd(f'CALC:MARK:FUNC:CPOW:UNIT {pow_unit}')
