@@ -34,10 +34,12 @@ SA_ADDRESS = (SA_HOST, SA_PORT)
 
 # ----------------CONSTANTS---------------    
 NUMPOINTS = 631                 # Number of measurement points (Max=625)
-RBW = 1e6                       # Resolution BW of spectrum analyser
+RBW = 10e3                       # Resolution BW of spectrum analyser
 VBW = 300e3                     # Video BW of spectrum analyser
 DEFAULT_TIMEOUT = 1             # Default socket timeout
 RESPONSE_TIMEOUT = 0.01
+
+#%%  
 
 #-------------------------SPECTRUM ANALYZER SOCKET CLASS----------------------------------
 class SA_SOCK(socket.socket):
@@ -168,8 +170,8 @@ class SA_SOCK(socket.socket):
             else:
                 vbw_set = 0.0    
                 
-        print(f'SA RBW set to AUTO {rbw_auto_set}, RBW = {round(rbw_set * 1e-3), 2} kHz')
-        print(f'SA VBW set to AUTO {vbw_auto_set}, VBW = {round(vbw_set * 1e-3), 2} kHz')
+        print(f'SA RBW set to AUTO {rbw_auto_set}, RBW = {round((rbw_set * 1e-3), 2)} kHz')
+        print(f'SA VBW set to AUTO {vbw_auto_set}, VBW = {round((vbw_set * 1e-3), 2)} kHz')
     
     
     def setSpecAnaDetector(self, det_mode = 'rms'):
@@ -228,35 +230,47 @@ class SA_SOCK(socket.socket):
         self.sendSpecAnaCmd(f'CALC:MARK:FUNC:CPOW:BAND {chann_bw} Hz')
         self.sendSpecAnaCmd(f'CALC:MARK:FUNC:CPOW:MODE {chann_mode}')
         self.sendSpecAnaCmd(f'CALC:MARK:FUNC:CPOW:UNIT {pow_unit}')
+        time.sleep(RESPONSE_TIMEOUT)
         chann_bw = self.requestSpecAnaData(f'CALC:MARK:FUNC:CPOW:BAND?')
         chann_mode = self.requestSpecAnaData(f'CALC:MARK:FUNC:CPOW:MODE?')
         pow_unit = self.requestSpecAnaData(f'CALC:MARK:FUNC:CPOW:UNIT?')
+        time.sleep(RESPONSE_TIMEOUT)
         print(f'Channel bandwidth = {(float(chann_bw.decode()) * 1e-6)} MHz')
         print(f'Channel mode = {chann_mode.decode()}')
         print(f'Power unit = {pow_unit.decode()}')
+
         return chann_bw, chann_mode, pow_unit
 
     def getSpecAnaPower(self):
         ''' Measure channel power
 
-        This function reads the channel power from the device
+        This function sets the single sweep and reads the channel power from the device
         @params: None
         @return float: Measured channel power [dBm]
         '''
         self.configSpecAnaPow(args.chann_bw, args.chann_mode, args.pow_unit)
+        # makes sure that the that the signal power level does not overload the R&S FSH
+        self.sendSpecAnaCmd('CALC:MARK:FUNC:LEV:ONCE')  
+        self.sendSpecAnaCmd('CALC:MARK:FUNC:POW ON')
         self.sendSpecAnaCmd('CALC:MARK:FUNC:POW:PRES "3GPP WCDMA.chpstd"')
         self.sendSpecAnaCmd('INIT:CONT OFF') 
-        self.sendSpecAnaCmd('CALC:MARK:FUNC:POW ON')
-        self.sendSpecAnaCmd('CALC:MARK:FUNC:POW:SEL CPOW')
         self.sendSpecAnaCmd('INIT;*WAI')
+        self.sendSpecAnaCmd('SWE:TIME:AUTO ON')         # Auto sweep time
+        #self.sendSpecAnaCmd('CALC:MARK:FUNC:POW:SEL OBW')
+        #parserself.sendSpecAnaCmd('CALC:MARK:FUNC:OBW:BAND:PCT 90')
+        #obw_set = self.requestSpecAnaData('CALC:MARK:FUNC:POW:RES? OBW')
+        #print(f'Occupied bandwidth is {obw_set.decode()} Hz')
+        self.sendSpecAnaCmd('CALC:MARK:FUNC:POW:SEL CPOW')
         chan_pow = self.requestSpecAnaData('CALC:MARK:FUNC:POW:RES? CPOW')
-        return print(f'Channel power is {chan_pow.decode()}')
+        # noise_pwr = print(f'{chan_pow / chann_bw} dbm/Hz'))
+        return print(f'Channel power is {chan_pow.decode()} dBm')
+        
 
 if __name__ == '__main__':
     # Set up arguments to be parsed 
     parser = argparse.ArgumentParser(description = 'Specify spectrum analyzer channel power measurement parameters')
-    parser.add_argument('freq_start', type = str, help = 'the start frequency incl. units (Hz)')
-    parser.add_argument('freq_stop', type = str, help = 'the stop frequency incl. units (Hz)')
+    #parser.add_argument('freq_start', type = str, help = 'the start frequency incl. units (Hz)')
+    #parser.add_argument('freq_stop', type = str, help = 'the stop frequency incl. units (Hz)')
     parser.add_argument('chann_bw', type = str, help = 'the bandwidth of the channel in Hz')
     parser.add_argument('chann_mode', type = str, help = 'the channel mode: CLR Clear/Write, MAX Max Hold')
     parser.add_argument('pow_unit', type = str, help = 'the unit of the channel power')
@@ -264,7 +278,7 @@ if __name__ == '__main__':
     print("/------Setup spectrum analyser---------/")
     specAnal = SA_SOCK()
     specAnal.connectSpecAna((SA_ADDRESS))
-    specAnal.setSpecAnaSweep(args.freq_start, args.freq_stop, NUMPOINTS)
+    #specAnal.setSpecAnaSweep(args.freq_start, args.freq_stop, NUMPOINTS)
     specAnal.setSpecAnaBandwidth('off', RBW, 'off', VBW)
     specAnal.setSpecAnaAmplitude(-10, 10) 
     specAnal.getSpecAnaPower()
