@@ -49,7 +49,7 @@ ampl_vals = []
 freq_vals = []
 #-------------------------SPECTRUM ANALYZER SOCKET CLASS----------------------------------
 class SA_SOCK(socket.socket):
-    def connectSpecAna(self, address, default_timeout = 1, default_buffer = 1024, short_delay = 0.1, long_delay = 1):
+    def connectSpecAna(self, SA_ADDRESS, default_timeout = 1, default_buffer = 1024, short_delay = 0.1, long_delay = 1):
         ''' Establish socket connect connection.
 
         This function:
@@ -59,11 +59,11 @@ class SA_SOCK(socket.socket):
         @params 
         specAddress         : specHOST str, specPORT int
         default_timeout     : int timeout for waiting to establish connection
-        long_delay          : int
-        short_delay         : int
-        default_buffer      : int
+        long_delay          : int time delay 1000 ms
+        short_delay         : int time delay 100 ms
+        default_buffer      : int 1024 bytes
         '''    
-        self.connect(address)  # connect to spectrum analyzer via socket at IP '10.8.88.138' and Port 5555
+        self.connect(SA_ADDRESS)  # connect to spectrum analyzer via socket at IP '10.8.88.138' and Port 5555
         # Mandatory timer and buffer setup.
         self.settimeout(default_timeout) 
         self.delay_long_s = long_delay
@@ -80,11 +80,12 @@ class SA_SOCK(socket.socket):
         self.sendSpecAnaCmd('SYST:DISP:UPD ON')    
         time.sleep(short_delay)
 
-    def sa_dumpdata(self):
+    def dumpSpecAnaData(self):
         ''' Receive string
 
         This function receives and displays the data after a query command
         @params:
+            None
         '''   
         while True:
             try:
@@ -180,7 +181,7 @@ class SA_SOCK(socket.socket):
         print(f'SA VBW set to AUTO {vbw_auto_set}, VBW = {round((vbw_set * 1e-3), 2)} kHz')
     
     
-    def sa_detect(self, det_mode = 'rms'):
+    def setSpecAnaDetector(self, det_mode = 'rms'):
         ''' Set Detector Mode
 
         This function sets the detector mode of the Spectrum analyzer
@@ -191,6 +192,7 @@ class SA_SOCK(socket.socket):
         self.sendSpecAnaCmd(f'DET {det_mode.upper()}')
         det_mode_set = self.requestSpecAnaData('DET?')
         trace_mode_set = self.requestSpecAnaData('DISP:WIND:TRAC:MODE?')
+        print(f'SA trace mode set to = {trace_mode_set.decode()}')
         return print(f'SA detector mode set to = {det_mode_set.decode()}')
         
     def setSpecAnaAmplitude(self, ref_level_dBm = 0, att_level_dB = 5):
