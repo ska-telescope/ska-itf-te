@@ -25,6 +25,7 @@
 #-------------------------- IMPORT REQUIRED PACKAGES-------------------------------------
 import socket
 import time
+import math
 from numpy import double
 import argparse
 # --------------------------CONNECTION SETTINGS-------------------------------------------
@@ -262,8 +263,10 @@ class SA_SOCK(socket.socket):
         #print(f'Occupied bandwidth is {obw_set.decode()} Hz')
         self.sendSpecAnaCmd('CALC:MARK:FUNC:POW:SEL CPOW')
         chan_pow = self.requestSpecAnaData('CALC:MARK:FUNC:POW:RES? CPOW')
-        # noise_pwr = print(f'{chan_pow / chann_bw} dbm/Hz'))
-        return print(f'Channel power is {chan_pow.decode()} dBm')
+        power_spectral_density = float(chan_pow.decode()) - (10 * math.log(RBW, 10))
+        print(f'noise_pwr = {round(power_spectral_density, 2)} dBm/Hz')
+        return
+        # return print(f'Channel power is {chan_pow.decode()} dBm')
         
 
 if __name__ == '__main__':
