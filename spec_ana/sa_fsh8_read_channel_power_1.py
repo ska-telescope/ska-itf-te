@@ -264,16 +264,15 @@ class SA_SOCK(socket.socket):
         self.sendSpecAnaCmd('CALC:MARK:FUNC:POW:SEL CPOW')
         chan_pow = self.requestSpecAnaData('CALC:MARK:FUNC:POW:RES? CPOW')
         power_spectral_density = float(chan_pow.decode()) - (10 * math.log(RBW, 10))
-        print(f'noise_pwr = {round(power_spectral_density, 2)} dBm/Hz')
-        return
+        return print(f'Channel Power = {round(power_spectral_density, 2)} dBm/Hz')
         # return print(f'Channel power is {chan_pow.decode()} dBm')
         
 
 if __name__ == '__main__':
     # Set up arguments to be parsed 
     parser = argparse.ArgumentParser(description = 'Specify spectrum analyzer channel power measurement parameters')
-    #parser.add_argument('freq_start', type = str, help = 'the start frequency incl. units (Hz)')
-    #parser.add_argument('freq_stop', type = str, help = 'the stop frequency incl. units (Hz)')
+    parser.add_argument('freq_start', type = str, help = 'the start frequency incl. units (Hz)')
+    parser.add_argument('freq_stop', type = str, help = 'the stop frequency incl. units (Hz)')
     parser.add_argument('chann_bw', type = str, help = 'the bandwidth of the channel in Hz')
     parser.add_argument('chann_mode', type = str, help = 'the channel mode: CLR Clear/Write, MAX Max Hold')
     parser.add_argument('pow_unit', type = str, help = 'the unit of the channel power')
@@ -281,7 +280,7 @@ if __name__ == '__main__':
     print("/------Setup spectrum analyser---------/")
     specAnal = SA_SOCK()
     specAnal.connectSpecAna((SA_ADDRESS))
-    #specAnal.setSpecAnaSweep(args.freq_start, args.freq_stop, NUMPOINTS)
+    specAnal.setSpecAnaSweep(args.freq_start, args.freq_stop, NUMPOINTS)
     specAnal.setSpecAnaBandwidth('off', RBW, 'off', VBW)
     specAnal.setSpecAnaAmplitude(-10, 10) 
     specAnal.getSpecAnaPower()
