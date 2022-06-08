@@ -257,13 +257,9 @@ class SA_SOCK(socket.socket):
         self.sendSpecAnaCmd('INIT:CONT OFF') 
         self.sendSpecAnaCmd('INIT;*WAI')
         self.sendSpecAnaCmd('SWE:TIME:AUTO ON')         # Auto sweep time
-        #self.sendSpecAnaCmd('CALC:MARK:FUNC:POW:SEL OBW')
-        #parserself.sendSpecAnaCmd('CALC:MARK:FUNC:OBW:BAND:PCT 90')
-        #obw_set = self.requestSpecAnaData('CALC:MARK:FUNC:POW:RES? OBW')
-        #print(f'Occupied bandwidth is {obw_set.decode()} Hz')
         self.sendSpecAnaCmd('CALC:MARK:FUNC:POW:SEL CPOW')
         chan_pow = self.requestSpecAnaData('CALC:MARK:FUNC:POW:RES? CPOW')
-        power_spectral_density = float(chan_pow.decode()) - (10 * math.log(RBW, 10))
+        power_spectral_density = float(chan_pow.decode()) - (10 * math.log(float(args.chann_bw), 10))
         return print(f'Channel Power = {round(power_spectral_density, 2)} dBm/Hz')
         # return print(f'Channel power is {chan_pow.decode()} dBm')
         
