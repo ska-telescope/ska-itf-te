@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 '''
 @author: Vhuli / Monde 
@@ -18,7 +18,7 @@
 import time
 import socket
 import argparse
-from scpi_database import sig_gen_scpi_cmds, common_scpi_cmds
+#from scpi_database import sig_gen_scpi_cmds, common_scpi_cmds
 
 # -----------------Connection Settings----------------------
 SG_PORT = 5025                      # default SMB R&S port 
@@ -61,8 +61,8 @@ class SG_SOCK(socket.socket):
             self.default_buffer = default_buffer
             rx_str = self.requestSigGenData('*IDN?')
             print(f'Connected to: {rx_str}')
-            self.sendSigGenCmd(common_scpi_cmds['clear_status'])                                     
-            self.sendSigGenCmd(common_scpi_cmds['reset']) 
+            self.sendSigGenCmd('*CLR')                                     
+            self.sendSigGenCmd('*RST') 
             self.sendSigGenCmd('SYST:DISP:UPD ON')
             time.sleep(short_delay)
         except Exception as e:

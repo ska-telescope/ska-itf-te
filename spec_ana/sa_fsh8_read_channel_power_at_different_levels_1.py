@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 @author: Vhuli and Monde 
@@ -30,8 +30,6 @@ RBW = 10e3                       # Resolution BW of spectrum analyser
 VBW = 300e3                     # Video BW of spectrum analyser
 DEFAULT_TIMEOUT = 1             # Default socket timeout
 RESPONSE_TIMEOUT = 0.01
-
-channel_power = []
 #%%  
 
 #-------------------------SPECTRUM ANALYZER SOCKET CLASS----------------------------------
@@ -249,10 +247,7 @@ class SA_SOCK(socket.socket):
         self.sendSpecAnaCmd('INIT;*WAI')
         self.sendSpecAnaCmd('SWE:TIME:AUTO ON')         # Auto sweep time
         self.sendSpecAnaCmd('CALC:MARK:FUNC:POW:SEL CPOW')
-        chann_power = self.requestSpecAnaData('CALC:MARK:FUNC:POW:RES? CPOW')
+        channel_power = self.requestSpecAnaData('CALC:MARK:FUNC:POW:RES? CPOW')
         time.sleep(0.01)
-        channel_power.append(float(chann_power.decode()))
-        print(f'Channel power = {chann_power.decode()}')
-        print(f'Channel power list = {channel_power}')
-        return channel_power       
+        return (channel_power)       
 
