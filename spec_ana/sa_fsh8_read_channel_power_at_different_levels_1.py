@@ -5,15 +5,8 @@
 @Date: 20-06-2022
 @Affiliation: Test Engineers
 @Functional Description: 
-    1. This script reads the power of the channel in dBm
-    2. The parameters can be adjusted as per user requirements
-    3. Run the script by parsing the following arguments on the terminal:
-        - freq_start: the start frequency of the channel in Hz e.g. 100000000 or 100e6, integer with no units [100 MHz]
-        - freq_stop: the stop frequency of the channel in Hz e.g. 2000000000 or 2e9, integer with no units [2 GHz]
-        - chann_bw: the bandwidth of the channel in Hz e.g. 3000000 or 3e6, integer with no units [3 MHz]
-        - chann_mode: the channel mode e.g. 'CLR' for Clear/Write, 'MAX' for Max Hold, string with ''
-        - pow_unit, the unit of the channel power e.g. 'DBM' | 'DBMV' | 'DBUV' | 'VOLT' | 'WATT' | 'V' | 'W', string with ''
-
+    1. This script reads the power of the channel in dBm and passes it to the higher-level script
+ 
 @Notes: 
     1. This script was written for the FSH8 Spectrum Analyzer. 
         Raw ethernet socket communication is used and thus VISA library/installation is not required
