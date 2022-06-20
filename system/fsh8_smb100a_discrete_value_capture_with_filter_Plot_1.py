@@ -2,22 +2,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Tue Mar 12 15:36:34 2019
-@author: S. Malan
-@modified by Vhulie 3 March 2022
-
-1. connect to SG
+@author:  Vhulie and Monde 3 March 2022
+1. Connect to SG
 2. Set up SG
-3. connect to SA
+3. Connect to SA
 4. Set up SA
-5. Take a screenshoot
-.
-.
-.
 5. FOR Loop
 6. append to lists x.append(number)
-7. copy and paste those numbers for now into an email to me
-
 """
 #%%
 #-----------------------Import functions that do the work--------------------#
@@ -51,21 +42,21 @@ from sa_fsh8_setup_rf_1 import sa_sock #Import the Spectrum Analyser Socket Func
 #.............................................................................#
 
 #------------------------SA_FSH8 initializatio varaibles----------------------#
-f_start=100e6 #Start frequency
-f_stop=2e9 #Stop frequency
-numPoints=625 #Number of measurement points (Max=625)
-Rbw=2e6 #Resolution BW of spectrum analyser
-Vbw=300e3 #Video BW of spectrum analyser
-RefLev=0 # Set reference level of spectrum analyser
-Atten=0 #Set spectrum analyser attenuation
-k=1.38e-23 #Boltzman's constand
-numMeas=5 #Set the number of measurements
+F_START = 100e6 #Start frequency
+F_STOP = 2e9 #Stop frequency
+NUMPONTS = 625 #Number of measurement points (Max=625)
+RBW = 2e6 #Resolution BW of spectrum analyser
+VBW = 300e3 #Video BW of spectrum analyser
+REFLEV = 0 # Set reference level of spectrum analyser
+ATTEN =0 #Set spectrum analyser attenuation
+K = 1.38e-23 #Boltzman's constand
+NUMMEAS = 5 #Set the number of measurements
 #%%
 # ------------------------SG_SMB100A constants Initialization varaiables-------#
-Power = 0.0                     # Start RefLev [dBm]                              
-Freq = 100e3                    # Start frequency Minimum 100kHz     
-default_timeout = 1             # Default socket timeout
-rf_state = 0                    # Default RF Out state
+POWER = 0.0                # Start RefLev [dBm]                              
+FREQ = 100e3               # Start frequency Minimum 100kHz     
+DEFAULT_TIMEOUT  = 1       # Default socket timeout
+RF_STATE = 0               # Default RF Out state
 #%%
 #----------------------------SA_FSH8 socket connect--------------------------------#
 specHOST = '10.8.88.232' # changed port to from 138 to 232
@@ -77,9 +68,9 @@ def setupSA():
     specAnal = sa_sock()
     specAnal.sa_connect((specHOST,specPORT))
     time.sleep(1) 
-    specAnal.sa_sweep(f_start,f_stop,numPoints)
+    specAnal.sa_sweep(F_START,F_STOP,NUMPONTS)
     time.sleep(1) 
-    specAnal.sa_bw('off',Rbw,'off',Vbw) # Set the SA Resolution bandwidth mode to Manual, 100 KHz. Set the Video BW to Manual, 100 KHz 
+    specAnal.sa_bw('off',RBW,'off',VBW) # Set the SA Resolution bandwidth mode to Manual, 100 KHz. Set the Video BW to Manual, 100 KHz 
     time.sleep(1) 
     specAnal.sa_amplitude(-10,10) 
     time.sleep(1) 
@@ -99,12 +90,7 @@ def setupSG():
     sigGen.sig_gen_connect((sigHOST,sigPORT))           # Connect Sig Gen remotely
     time.sleep(1)                                       # Delay 1 sec
     sigGen.setRFOut('ON')                               # Activate Output signal                                
-    #time.sleep(1)                                       # Delay 1 sec
-    #sigGen.sigGenFreqs()                                # Activate frequency generator
-    #time.sleep(1)                                       # Delay 1 sec
     sigGen.setSigGenPower(-20)                          # Sets Sig Gen power
-    #time.sleep(1)                                       # Delay 1 sec
-    #sigGen.closeGenSock()                               # Close socket
     print("/------End of Setup signal generator---------/")
     # i guess running this as as function it should return something
     return sigGen
