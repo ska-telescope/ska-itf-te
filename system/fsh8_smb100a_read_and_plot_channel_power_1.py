@@ -7,10 +7,15 @@
 @Functional Description: 
     1. This script generates discreet power values from -10 dBm to +10 dBm at 5 dB steps
     2. The parameters can be adjusted as per user requirements
-    3. Run the script by parsing the following arguments on the terminal:
+    3. Before running this script, run the cmd "./script_name --help" to view the script parameters required
+    4. Run the script by parsing the following arguments on the terminal:
         - start power = -10, signed integer with no units [-10 dBm]
         - stop power = 5, unsigned integer with no units [5 dB]
-        - step power = +10, signedinteger with no units [+10 dBm]
+        - step power = +10, signed integer with no units [+10 dBm]
+        - freq_start: the start frequency of the channel in Hz e.g. 100000000 or 100e6, integer with no units [100 MHz]
+        - freq_stop: the stop frequency of the channel in Hz e.g. 2000000000 or 2e9, integer with no units [2 GHz]
+        - chann_bw: the bandwidth of the channel in Hz e.g. 3000000 or 3e6, integer with no units [3 MHz]
+
 @Notes: 
     1. This script was written for the FSH8 Spectrum Analyzer and SMB100A Signal Generator. 
     2. Raw ethernet socket communication is used
@@ -97,14 +102,13 @@ def plotTrace(channel_power_values, set_power_values):
 if __name__ == '__main__':
     # Set up arguments to be parsed 
     parser = argparse.ArgumentParser(description = 'Specify Start and Stop Frequency')
-    parser.add_argument('start_power', type = int, help = 'the start power incl. units (dBm)')
-    parser.add_argument('stop_power', type = int, help = 'the stop power incl. units (dBm)')
-    parser.add_argument('step_power', type = int, help = 'the step power incl. units (dBm)')
-    parser.add_argument('freq_start', type = str, help = 'the start frequency incl. units (Hz)')
-    parser.add_argument('freq_stop', type = str, help = 'the stop frequency incl. units (Hz)')
-    parser.add_argument('chann_bw', type = str, help = 'the bandwidth of the channel in Hz')
+    parser.add_argument('start_power', type = int, help = 'the start power (dBm) e.g. -10, signed integer with no units [-10 dBm]')
+    parser.add_argument('stop_power', type = int, help = 'the stop power (dBm) e.g. +10, signed integer with no units [+10 dBm]')
+    parser.add_argument('step_power', type = int, help = 'the step power (dBm) e.g. +5, signed integer with no units [+5 dBm]')
+    parser.add_argument('freq_start', type = str, help = 'the start frequency of the channel (Hz) e.g. 100000000 or 100e6, integer with no units [100 MHz]')
+    parser.add_argument('freq_stop', type = str, help = 'the stop frequency of the channel (Hz) e.g. 2000000000 or 2e9, integer with no units [2 GHz]')
+    parser.add_argument('chann_bw', type = str, help = 'the bandwidth of the channel (Hz) e.g. 3000000 or 3e6, integer with no units [3 MHz]')
     args = parser.parse_args()
-
     print('/--------- Running main Code ---------/') 
     SigGen = setupSG()
     time.sleep(1) 
@@ -121,16 +125,16 @@ if __name__ == '__main__':
     # Set and read channel power values
     set_power = []
     current_power = args.start_power
-    SigGen.setSigGenPower(current_power)
+    #SigGen.setSigGenPower(current_power)
     while current_power <= args.stop_power:
         SigGen.setSigGenPower(current_power) 
         SpecAna.getSpecAnaPower(args.chann_bw)
         current_power += args.step_power
         set_power.append(current_power)
         time.sleep(0.01)
-
     print(channel_power, set_power)
+
     # Plot the results
-    plotTrace(channel_power, set_power)
     print('Displayed plot...')
+    plotTrace(channel_power, set_power)
     print('End of program.')
