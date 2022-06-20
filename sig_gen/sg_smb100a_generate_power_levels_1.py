@@ -2,16 +2,11 @@
 # -*- coding: utf-8 -*-
 '''
 @author: Vhuli / Monde 
-@Date: 05-06-2022
+@Date: 20-06-2022
 @Affiliation: Test Engineers
 @Functional Description: 
-    1. This script generates discreet power values from -10 dBm to +10 dBm at 5 dB steps
-    2. The parameters can be adjusted as per user requirements
-    3. Where it applies SG denotes Signal Generator 
-    4. Run the script by parsing the following arguments on the terminal:
-        - start power = -10, signed integer with no units [-10 dBm]
-        - stop power = 5, unsigned integer with no units [5 dB]
-        - step frequency = +10, signedinteger with no units [+10 dBm]
+    1. This script generates power or frequency values as per user settings 
+    
 @Notes: 
     1. This script was written for the SMB100A Signal Generator. Raw ethernet socket communication is used
         and thus VISA library/installation is not required
@@ -164,7 +159,7 @@ class SG_SOCK(socket.socket):
         data = self.requestSigGenData('FREQ?')
         print(f'Signal Generator Frequency = {float(data.decode()) / 1e6} MHz')  
 
-    def closeGenSock(self):
+    def closeSigGenSock(self):
         self.close()
         print('Signal Generator socket Disconnected')
 
