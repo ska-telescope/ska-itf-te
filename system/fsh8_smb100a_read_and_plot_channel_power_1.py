@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 '''
 @author: Vhuli / Monde 
@@ -32,12 +32,13 @@ import matplotlib.pyplot as plt
 
 sys.path.append('../sig_gen/') # adding signal generator path so that we can call a script from sig_gen folder
 from sg_smb100a_generate_power_levels_1 import SG_SOCK # Import the Signal Generator Socket class from sig_gen folder
-from sg_smb100a_generate_power_levels_1 import power
+#from sg_smb100a_generate_power_levels_1 import power
 #%%
 #-----------------------import libraries for Spectrum analyzer----------------#
 sys.path.append('../spec_ana/')                 # adding spectraum analyser path so that we can call a script from spec_ana folder
+import sa_fsh8_read_channel_power_at_different_levels_1
 from sa_fsh8_read_channel_power_at_different_levels_1 import SA_SOCK        # Import the Spectrum Analyser Socket Function
-from sa_fsh8_read_channel_power_at_different_levels_1 import channel_power
+#from sa_fsh8_read_channel_power_at_different_levels_1 import channel_power
 
 # -----------------Connection Settings----------------------
 SG_PORT = 5025                      # default SMB R&S port 
@@ -124,17 +125,21 @@ if __name__ == '__main__':
 
     # Set and read channel power values
     set_power = []
+    read_channel_power =[]
     current_power = args.start_power
-    #SigGen.setSigGenPower(current_power)
     while current_power <= args.stop_power:
-        SigGen.setSigGenPower(current_power) 
-        SpecAna.getSpecAnaPower(args.chann_bw)
-        current_power += args.step_power
+        SigGen.setSigGenPower(current_power)
         set_power.append(current_power)
+        print(f'Set power is {set_power}') 
+        SpecAna.getSpecAnaPower(args.chann_bw, channel_power=0) # for setting , we can change cbw
+        current_power += args.step_power
+        read_channel_power.append(SpecAna.getSpecAnaPower.channel_power)
+        print(read_channel_power)
         time.sleep(0.01)
-    print(channel_power, set_power)
+
+    # print(SpecAna.getSpecAnaPower.channel_power, set_power)
 
     # Plot the results
     print('Displayed plot...')
-    plotTrace(channel_power, set_power)
+    # plotTrace(SpecAna.getSpecAnaPower.channel_power, set_power)
     print('End of program.')

@@ -2,13 +2,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-@author:  Vhulie and Monde 3 March 2022
-1. Connect to SG
+Created on Tue Mar 12 15:36:34 2019
+@author: S. Malan
+@modified by Vhulie 3 March 2022
+
+1. connect to SG
 2. Set up SG
-3. Connect to SA
+3. connect to SA
 4. Set up SA
-5. FOR Loop
-6. append to lists x.append(number)
+5. TRace Plot
 """
 #%%
 #-----------------------Import functions that do the work--------------------#
@@ -27,7 +29,7 @@ import numpy as np
 # will help when we want to plot the graph
 
 sys.path.append('../sig_gen/') # adding signal generator path so that we can call a script from sig_gen folder
-from sg_smb100a_output_discrete_freq_a import sig_sock #Import the Signal Generator Socket class from sig_gen folder
+from sg_smb100a_output_discrete_freq_1 import sig_sock #Import the Signal Generator Socket class from sig_gen folder
 
 #%%
 #-----------------------import libraries for Spectrum analyzer----------------#
@@ -59,7 +61,7 @@ DEFAULT_TIMEOUT  = 1       # Default socket timeout
 RF_STATE = 0               # Default RF Out state
 #%%
 #----------------------------SA_FSH8 socket connect--------------------------------#
-specHOST = '10.8.88.138' # changed port to from 138 to 232
+specHOST = '10.8.88.232' # changed port to from 138 to 232
 specPORT = 5555
 
 #------------------------------SA_FSH8 Setup----------------------------------#
@@ -90,7 +92,12 @@ def setupSG():
     sigGen.sig_gen_connect((sigHOST,sigPORT))           # Connect Sig Gen remotely
     time.sleep(1)                                       # Delay 1 sec
     sigGen.setRFOut('ON')                               # Activate Output signal                                
+    #time.sleep(1)                                       # Delay 1 sec
+    #sigGen.sigGenFreqs()                                # Activate frequency generator
+    #time.sleep(1)                                       # Delay 1 sec
     sigGen.setSigGenPower(-20)                          # Sets Sig Gen power
+    #time.sleep(1)                                       # Delay 1 sec
+    #sigGen.closeGenSock()                               # Close socket
     print("/------End of Setup signal generator---------/")
     # i guess running this as as function it should return something
     return sigGen
@@ -101,28 +108,29 @@ def setupSG():
 #-----------------------------------------------------------------------------   
 if __name__ == '__main__':
     print("/------running main ---------/") 
-    freq_vals = []
-    ampl_vals = []
-    sg = setupSG()
-    time.sleep(1) 
-    sa = setupSA()
-    time.sleep(1) 
+    # call the trace plot anf plot.
+    # freq_vals = []
+    # ampl_vals = []
+    # sg = setupSG()
+    # time.sleep(1) 
+    # sa = setupSA()
+    # time.sleep(1) 
+    # # call the trace plot anf plot.
+    # for x in range(20):
+    #     sg.setSigGenFreq((x+1) * 100e6)
+    #     time.sleep(1)
+    #     marker_val = sa.sa_marker()
+    #     freq_vals.append(float(marker_val[0]))
+    #     ampl_vals.append(float(marker_val[1]))
 
-    for x in range(20):
-        sg.setSigGenFreq((x+1) * 100e6)
-        time.sleep(1)
-        marker_val = sa.sa_marker()
-        freq_vals.append(float(marker_val[0]))
-        ampl_vals.append(float(marker_val[1]))
-
-    print(freq_vals)
-    print(ampl_vals)
-    plt.plot(freq_vals, ampl_vals)
-    plt.xlabel('Frequecy in Hz')
-    plt.ylabel('Amplitude in dBm')
-    plt.savefig("Power as function frequency.pdf")
-    plt.grid()
-    plt.show()
+    # print(freq_vals)
+    # print(ampl_vals)
+    # plt.plot(freq_vals, ampl_vals)
+    # plt.xlabel('Frequecy in Hz')
+    # plt.ylabel('Amplitude in dBm')
+    # plt.savefig("Power as function frequency.pdf")
+    # plt.grid()
+    # plt.show()
 
     print("/------end  main ---------/") 
 
