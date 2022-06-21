@@ -231,7 +231,7 @@ class SA_SOCK(socket.socket):
         #print(f'Power unit = {pow_unit.decode()}')
         return chann_bw, chann_mode, pow_unit
 
-    def getSpecAnaPower(self, chann_bw):
+    def getSpecAnaPower(self, chann_bw, channel_power):
         ''' Measure channel power
 
         This function sets the single sweep and reads the channel power from the device
@@ -249,5 +249,5 @@ class SA_SOCK(socket.socket):
         self.sendSpecAnaCmd('CALC:MARK:FUNC:POW:SEL CPOW')
         channel_power = self.requestSpecAnaData('CALC:MARK:FUNC:POW:RES? CPOW')
         time.sleep(0.01)
-        return (channel_power)       
+        return channel_power       
 
