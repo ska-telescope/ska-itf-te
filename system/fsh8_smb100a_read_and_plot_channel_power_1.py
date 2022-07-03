@@ -36,10 +36,8 @@ from sg_smb100a_generate_power_levels_1 import SG_SOCK # Import the Signal Gener
 #%%
 #-----------------------import libraries for Spectrum analyzer----------------#
 sys.path.append('../spec_ana/')                 # adding spectraum analyser path so that we can call a script from spec_ana folder
-import sa_fsh8_read_channel_power_at_different_levels_1
 from sa_fsh8_read_channel_power_at_different_levels_1 import SA_SOCK        # Import the Spectrum Analyser Socket Function
-#from sa_fsh8_read_channel_power_at_different_levels_1 import channel_power
-
+# from sa_fsh8_read_channel_power_at_different_levels_1 import channel_power
 # -----------------Connection Settings----------------------
 SG_PORT = 5025                      # default SMB R&S port 
 SG_HOST = '10.8.88.166'             # smb100a signal generator IP
@@ -123,17 +121,18 @@ if __name__ == '__main__':
     SigGen.setSigGenFreq(cent_freq.decode())
     SigGen.setSigGenRF(RF_ON)
 
-    # Set and read channel power values
+    # Set power values from SG and read channel power values from SA
     set_power = []
     read_channel_power =[]
     current_power = args.start_power
+    channel_power = SpecAna.requestSpecAnaData('CALC:MARK:FUNC:POW:RES? CPOW')
     while current_power <= args.stop_power:
         SigGen.setSigGenPower(current_power)
         set_power.append(current_power)
         print(f'Set power is {set_power}') 
-        SpecAna.getSpecAnaPower(args.chann_bw, channel_power=0) # for setting , we can change cbw
+        SpecAna.getSpecAnaPower(args.chann_bw, channel_power) # for setting , we can change cbw
         current_power += args.step_power
-        read_channel_power.append(SpecAna.getSpecAnaPower.channel_power)
+        read_channel_power.append(channel_power)
         print(read_channel_power)
         time.sleep(0.01)
 
