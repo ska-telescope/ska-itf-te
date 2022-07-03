@@ -37,7 +37,8 @@ from sg_smb100a_generate_power_levels_1 import SG_SOCK # Import the Signal Gener
 #-----------------------import libraries for Spectrum analyzer----------------#
 sys.path.append('../spec_ana/')                 # adding spectraum analyser path so that we can call a script from spec_ana folder
 from sa_fsh8_read_channel_power_at_different_levels_1 import SA_SOCK        # Import the Spectrum Analyser Socket Function
-# from sa_fsh8_read_channel_power_at_different_levels_1 import channel_power
+#from sa_fsh8_read_channel_power_at_different_levels_1 import channel_power
+
 # -----------------Connection Settings----------------------
 SG_PORT = 5025                      # default SMB R&S port 
 SG_HOST = '10.8.88.166'             # smb100a signal generator IP
@@ -121,24 +122,24 @@ if __name__ == '__main__':
     SigGen.setSigGenFreq(cent_freq.decode())
     SigGen.setSigGenRF(RF_ON)
 
-    # Set power values from SG and read channel power values from SA
-    set_power = []
-    read_channel_power =[]
+    # Set and read channel power values
+    set_power = []  #take this out
+    power_levels = []
+    sa_power_level =[]
+    SpecAna.configSpecAnaPow(args.chann_bw, 'CLR', 'DBM')
     current_power = args.start_power
-    channel_power = SpecAna.requestSpecAnaData('CALC:MARK:FUNC:POW:RES? CPOW')
+    #SigGen.setSigGenPower(current_power)
     while current_power <= args.stop_power:
-        SigGen.setSigGenPower(current_power)
-        set_power.append(current_power)
-        print(f'Set power is {set_power}') 
-        SpecAna.getSpecAnaPower(args.chann_bw, channel_power) # for setting , we can change cbw
+        SigGen.setSigGenPower(current_power) 
+        sa_band_power = SpecAna.getSpecAnaPower() # for setting window , we can change a window by parsing a differnty cbw
+        set_power.append(current_power)  #power_levels.append(current_power)
+        sa_power_level.append(sa_band_power)   #sa_power_level
         current_power += args.step_power
-        read_channel_power.append(channel_power)
-        print(read_channel_power)
-        time.sleep(0.01)
-
-    # print(SpecAna.getSpecAnaPower.channel_power, set_power)
+        print(set_power)
+        print(f"band power is {sa_band_power}")
+    print(sa_power_level, set_power)
 
     # Plot the results
     print('Displayed plot...')
-    # plotTrace(SpecAna.getSpecAnaPower.channel_power, set_power)
+    plotTrace(sa_power_level, set_power)
     print('End of program.')
