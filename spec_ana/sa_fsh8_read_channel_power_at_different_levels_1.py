@@ -225,6 +225,13 @@ class SA_SOCK(socket.socket):
         chann_mode = self.requestSpecAnaData(f'CALC:MARK:FUNC:CPOW:MODE?')
         pow_unit = self.requestSpecAnaData(f'CALC:MARK:FUNC:CPOW:UNIT?')
         time.sleep(RESPONSE_TIMEOUT)
+<<<<<<< HEAD
+=======
+        #print(f'Channel bandwidth = {(float(chann_bw.decode()) * 1e-6)} MHz')
+        #print(f'Channel mode = {chann_mode.decode()}')
+        #print(f'Power unit = {pow_unit.decode()}')
+        #return chann_bw, chann_mode, pow_unit
+>>>>>>> d69d36384cdf800f7fa6e79cc281972b61b23256
 
     def getSpecAnaPower(self):
         ''' Measure channel power
@@ -233,11 +240,25 @@ class SA_SOCK(socket.socket):
         @params: None
         @return float: Measured channel power [dBm]
         '''
+<<<<<<< HEAD
+=======
+        #self.configSpecAnaPow(chann_bw, chann_mode, pow_unit)  #call this once (BL)
+        #self.channel_power = 0
+>>>>>>> d69d36384cdf800f7fa6e79cc281972b61b23256
         # makes sure that the that the signal power level does not overload the R&S FSH
         self.sendSpecAnaCmd('CALC:MARK:FUNC:POW:SEL CPOW')      # This should be done before setting the channel power ON (POW ON)
         self.sendSpecAnaCmd('CALC:MARK:FUNC:LEV:ONCE')  
         self.sendSpecAnaCmd('CALC:MARK:FUNC:POW ON')
+<<<<<<< HEAD
         self.sendSpecAnaCmd('INIT:CONT OFF') 
         self.sendSpecAnaCmd('INIT;*WAI')
         self.sendSpecAnaCmd('SWE:TIME:AUTO ON')         # Auto sweep time
         return self.requestSpecAnaData('CALC:MARK:FUNC:POW:RES? CPOW')
+=======
+        #self.sendSpecAnaCmd('CALC:MARK:FUNC:POW:PRES "3GPP WCDMA.chpstd"')
+        self.sendSpecAnaCmd('INIT:CONT OFF') 
+        self.sendSpecAnaCmd('INIT;*WAI')
+        self.sendSpecAnaCmd('SWE:TIME:AUTO ON')         # Auto sweep time
+        return self.requestSpecAnaData('CALC:MARK:FUNC:POW:RES? CPOW')      
+
+>>>>>>> d69d36384cdf800f7fa6e79cc281972b61b23256

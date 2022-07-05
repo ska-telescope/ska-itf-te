@@ -48,7 +48,7 @@ freq_stop = ''
 # --------------------------------------------
 
 class SG_SOCK(socket.socket):
-    def initSigGen(self, SG_ADDRESS, DEFAULT_TIMEOUT = 1, default_buffer = 1024, short_delay = 0.1, long_delay = 1):
+    def connectSigGen(self, SG_ADDRESS, DEFAULT_TIMEOUT = 1, default_buffer = 1024, short_delay = 0.1, long_delay = 1):
         ''' Establish socket connection.
 
         This function:
@@ -233,3 +233,8 @@ if __name__ == '__main__':
     parser.add_argument('freq_step', type = str, help = 'the step frequency incl. units (Hz)')
     parser.add_argument('dwel_time', type = int, help = 'the sweep dwell time (ms)')
     args = parser.parse_args()
+    print("/------Setup spectrum analyser---------/")
+    SigGen = SG_SOCK()
+    SigGen.connectSigGen((SG_ADDRESS))
+    SigGen.setSigGenPowSweep(args.freq_start, args.freq_stop, NUMPOINTS)
+    SigGen.closeGenSock()
