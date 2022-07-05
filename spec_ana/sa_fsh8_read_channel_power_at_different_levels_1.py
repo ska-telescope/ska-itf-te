@@ -34,6 +34,7 @@ RESPONSE_TIMEOUT = 0.01
 
 #-------------------------SPECTRUM ANALYZER SOCKET CLASS----------------------------------
 class SA_SOCK(socket.socket):
+    
     def connectSpecAna(self, address, default_timeout = 1, default_buffer = 1024, short_delay = 0.1, long_delay = 1):
         ''' Establish socket connect connection.
 
@@ -175,8 +176,6 @@ class SA_SOCK(socket.socket):
         self.sendSpecAnaCmd(f'DET {det_mode.upper()}')
         det_mode_set = self.requestSpecAnaData('DET?')
         trace_mode_set = self.requestSpecAnaData('DISP:WIND:TRAC:MODE?')
-        #print(f'SA trace mode set to = {trace_mode_set.decode()}')
-        #return print(f'SA detector mode set to = {det_mode_set.decode()}')
         return trace_mode_set.decode(), det_mode_set.decode()
         
     def setSpecAnaAmplitude(self, ref_level_dBm = 0, att_level_dB = 5):
@@ -208,7 +207,7 @@ class SA_SOCK(socket.socket):
         print(f'Operation Complete = {rx_str} dB')
         return list(eval(self.requestSpecAnaData('TRACE1? TRACE1')))
 
-    def configSpecAnaPow(self, chann_bw):
+    def configSpecAnaPow(self, chann_bw, chann_mode, pow_unit):
         '''Set channel bandwidth, channel power mode and power unit
 
         This function sets the channel bandwidth for power measurement
@@ -219,35 +218,26 @@ class SA_SOCK(socket.socket):
         '''
         self.setSpecAnaDetector('rms')
         self.sendSpecAnaCmd(f'CALC:MARK:FUNC:CPOW:BAND {chann_bw} Hz')
-        self.sendSpecAnaCmd(f'CALC:MARK:FUNC:CPOW:MODE CLR')
-        self.sendSpecAnaCmd(f'CALC:MARK:FUNC:CPOW:UNIT DBM')
+        self.sendSpecAnaCmd(f'CALC:MARK:FUNC:CPOW:MODE {chann_mode}')
+        self.sendSpecAnaCmd(f'CALC:MARK:FUNC:CPOW:UNIT {pow_unit}')
         time.sleep(RESPONSE_TIMEOUT)
         chann_bw = self.requestSpecAnaData(f'CALC:MARK:FUNC:CPOW:BAND?')
         chann_mode = self.requestSpecAnaData(f'CALC:MARK:FUNC:CPOW:MODE?')
         pow_unit = self.requestSpecAnaData(f'CALC:MARK:FUNC:CPOW:UNIT?')
         time.sleep(RESPONSE_TIMEOUT)
-        #print(f'Channel bandwidth = {(float(chann_bw.decode()) * 1e-6)} MHz')
-        #print(f'Channel mode = {chann_mode.decode()}')
-        #print(f'Power unit = {pow_unit.decode()}')
-        return chann_bw, chann_mode, pow_unit
 
-    def getSpecAnaPower(self, chann_bw, channel_power):
+    def getSpecAnaPower(self):
         ''' Measure channel power
 
         This function sets the single sweep and reads the channel power from the device
         @params: None
         @return float: Measured channel power [dBm]
         '''
-        self.configSpecAnaPow(chann_bw)
         # makes sure that the that the signal power level does not overload the R&S FSH
+        self.sendSpecAnaCmd('CALC:MARK:FUNC:POW:SEL CPOW')      # This should be done before setting the channel power ON (POW ON)
         self.sendSpecAnaCmd('CALC:MARK:FUNC:LEV:ONCE')  
         self.sendSpecAnaCmd('CALC:MARK:FUNC:POW ON')
-        self.sendSpecAnaCmd('CALC:MARK:FUNC:POW:PRES "3GPP WCDMA.chpstd"')
         self.sendSpecAnaCmd('INIT:CONT OFF') 
         self.sendSpecAnaCmd('INIT;*WAI')
         self.sendSpecAnaCmd('SWE:TIME:AUTO ON')         # Auto sweep time
-        self.sendSpecAnaCmd('CALC:MARK:FUNC:POW:SEL CPOW')
-        channel_power = self.requestSpecAnaData('CALC:MARK:FUNC:POW:RES? CPOW')
-        time.sleep(0.01)
-        return channel_power       
-
+        return self.requestSpecAnaData('CALC:MARK:FUNC:POW:RES? CPOW')
