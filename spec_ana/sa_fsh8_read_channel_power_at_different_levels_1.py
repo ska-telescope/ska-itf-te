@@ -240,4 +240,4 @@ class SA_SOCK(socket.socket):
         self.sendSpecAnaCmd('INIT:CONT OFF') 
         self.sendSpecAnaCmd('INIT;*WAI')
         self.sendSpecAnaCmd('SWE:TIME:AUTO ON')         # Auto sweep time
-        return self.requestSpecAnaData('CALC:MARK:FUNC:POW:RES? CPOW')
+        return (self.requestSpecAnaData('CALC:MARK:FUNC:POW:RES? CPOW')).decode()
