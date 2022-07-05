@@ -260,8 +260,10 @@ class SA_SOCK(socket.socket):
         self.sendSpecAnaCmd('CALC:MARK:FUNC:POW:SEL CPOW')
         chan_pow = self.requestSpecAnaData('CALC:MARK:FUNC:POW:RES? CPOW')
         power_spectral_density = float(chan_pow.decode()) - (10 * math.log(float(args.chann_bw), 10))
+        self.sendSpecAnaCmd('CALC:MARK ON')
+        self.sendSpecAnaCmd('CALC:MARK:FUNC:NOIS ON')
+        #return print(f'Channel power is {chan_pow.decode()}')
         return print(f'Channel Power = {round(power_spectral_density, 2)} dBm/Hz')
-        # return print(f'Channel power is {chan_pow.decode()} dBm')
         
 
 if __name__ == '__main__':
