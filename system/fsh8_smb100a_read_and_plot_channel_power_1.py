@@ -14,7 +14,7 @@
         - step power = +10, signed integer with no units [+10 dBm]
         - freq_start: the start frequency of the channel in Hz e.g. 100000000 or 100e6, integer with no units [100 MHz]
         - freq_stop: the stop frequency of the channel in Hz e.g. 2000000000 or 2e9, integer with no units [2 GHz]
-        - chann_bw: the bandwidth of the channel in Hz e.g. 3000000 or 3e6, integer with no units [3 MHz]
+        - chan_bw: the bandwidth of the channel in Hz e.g. 3000000 or 3e6, integer with no units [3 MHz]
 
 @Notes: 
     1. This script was written for the FSH8 Spectrum Analyzer and SMB100A Signal Generator. 
@@ -28,6 +28,7 @@
 import sys
 import time
 import argparse
+from turtle import onclick
 import matplotlib.pyplot as plt
 
 sys.path.append('../sig_gen/') # adding signal generator path so that we can call a script from sig_gen folder
@@ -78,22 +79,16 @@ def setupSA():
     return specAnal
         
 #------------------------------ PLOT ---------------------------#
-def plotTrace(channel_power_values, set_power_values): 
-    ''' Plot response
+def plotTrace(x_axis, y_axis, x_label, y_label, title, label): 
 
-    This function plots the power vs frequency filter response 
-
-    @params:    
-        freq_values: integer list [in Hz]
-        power_value: integer list [in dBm]
-    '''
-    x_axis = channel_power_values 
-    y_axis = set_power_values
-
-    plt.plot(x_axis, y_axis)
-    plt.xlabel('Channel Power in dBm')
-    plt.ylabel('Power Set in dBm')
-    plt.title('Channel Power Measurement')
+    plt.figure(figsize=(10,10))
+    plt.plot(x_axis, y_axis, 'r', label = label)
+    plt.plot(x_axis, y_axis, 'rx')
+    plt.legend()
+    plt.xlabel(x_label, fontsize = 16)
+    plt.ylabel(y_label, fontsize = 16)
+    plt.title(title, fontsize = 20)
+    plt.grid()
     plt.show()
 
 #%%   
@@ -107,7 +102,7 @@ if __name__ == '__main__':
     parser.add_argument('step_power', type = int, help = 'the step power (dBm) e.g. +5, signed integer with no units [+5 dBm]')
     parser.add_argument('freq_start', type = str, help = 'the start frequency of the channel (Hz) e.g. 100000000 or 100e6, integer with no units [100 MHz]')
     parser.add_argument('freq_stop', type = str, help = 'the stop frequency of the channel (Hz) e.g. 2000000000 or 2e9, integer with no units [2 GHz]')
-    parser.add_argument('chann_bw', type = str, help = 'the bandwidth of the channel (Hz) e.g. 3000000 or 3e6, integer with no units [3 MHz]')
+    parser.add_argument('chan_bw', type = str, help = 'the bandwidth of the channel (Hz) e.g. 3000000 or 3e6, integer with no units [3 MHz]')
     args = parser.parse_args()
     print('/--------- Running main Code ---------/') 
     SigGen = setupSG()
@@ -123,23 +118,22 @@ if __name__ == '__main__':
     SigGen.setSigGenRF(RF_ON)
 
     # Set and read channel power values
-    set_power = []  #take this out
-    power_levels = []
-    sa_power_level =[]
-    SpecAna.configSpecAnaPow(args.chann_bw, 'CLR', 'DBM')
+    input_power = []  
+    sa_power_level = []
+    SpecAna.configSpecAnaPow(args.chan_bw, 'CLR', 'DBM')
     current_power = args.start_power
     #SigGen.setSigGenPower(current_power)
     while current_power <= args.stop_power:
         SigGen.setSigGenPower(current_power) 
         sa_band_power = SpecAna.getSpecAnaPower() # for setting window , we can change a window by parsing a differnty cbw
-        set_power.append(current_power)  #power_levels.append(current_power)
+        print(f'Spectrum Analyser Band Power: {sa_band_power} dBm')
+        input_power.append(current_power)  
         sa_power_level.append(sa_band_power)   #sa_power_level
         current_power += args.step_power
-        print(set_power)
-        print(f"band power is {sa_band_power}")
-    print(sa_power_level, set_power)
-
+ 
     # Plot the results
     print('Displayed plot...')
-    plotTrace(sa_power_level, set_power)
+    plotTrace(input_power, sa_power_level, 'Power Input (dBm)', 'Channel Power (dBm)', 'Channel Power Measurement', f'Channel BW: {round(float(args.chan_bw)/1e6)} MHz')
     print('End of program.')
+
+# %%
