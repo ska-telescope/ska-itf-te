@@ -122,7 +122,6 @@ if __name__ == '__main__':
     sa_power_level = []
     SpecAna.configSpecAnaPow(args.chan_bw, 'CLR', 'DBM')
     current_power = args.start_power
-    #SigGen.setSigGenPower(current_power)
     while current_power <= args.stop_power:
         SigGen.setSigGenPower(current_power) 
         sa_band_power = SpecAna.getSpecAnaPower() # for setting window , we can change a window by parsing a differnty cbw
