@@ -1,4 +1,8 @@
 # ska-itf-te
+To get that nice output at the beginning of the command line, add the following to your .bashrc:
+```
+TODO
+```
 
 
 
