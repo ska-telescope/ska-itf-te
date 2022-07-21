@@ -6,7 +6,7 @@ parse_git_branch() {
 }
 
 export PATH="/usr/local/mysql/bin:$PATH"
-export PS1="\u@\h \W\[\033[32m\]\$(parse_git_branch)\[\033[00m\] $ "
+export PS1=“\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\W\[\033[32m\]$(parse_git_branch)\[\033[00m\] $ ”
 ```
 Alternatively (especially if you're using ZSH!), you can use one of the useful profiles from oh-my-zsh: install it from https://ohmyz.sh/
 
