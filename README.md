@@ -1,5 +1,14 @@
 # ska-itf-te
+To get that nice output at the beginning of the command line, add the following to your .bashrc:
+```
+parse_git_branch() {
+    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
 
+export PATH="/usr/local/mysql/bin:$PATH"
+export PS1="\u@\h \W\[\033[32m\]\$(parse_git_branch)\[\033[00m\] $ "
+```
+Alternatively (especially if you're using ZSH!), you can use one of the useful profiles from oh-my-zsh: install it from https://ohmyz.sh/
 
 
 ## Getting started
