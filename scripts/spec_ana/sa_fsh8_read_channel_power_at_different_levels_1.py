@@ -235,9 +235,15 @@ class SA_SOCK(socket.socket):
         '''
         # makes sure that the that the signal power level does not overload the R&S FSH
         self.sendSpecAnaCmd('CALC:MARK:FUNC:POW:SEL CPOW')      # This should be done before setting the channel power ON (POW ON)
-        self.sendSpecAnaCmd('CALC:MARK:FUNC:LEV:ONCE')  
+        time.sleep(1)
+        #self.sendSpecAnaCmd('CALC:MARK:FUNC:LEV:ONCE')  
+        #time.sleep(1)
         self.sendSpecAnaCmd('CALC:MARK:FUNC:POW ON')
+        time.sleep(1)
         self.sendSpecAnaCmd('INIT:CONT OFF') 
+        time.sleep(1)
         self.sendSpecAnaCmd('INIT;*WAI')
+        time.sleep(1)
         self.sendSpecAnaCmd('SWE:TIME:AUTO ON')         # Auto sweep time
+        time.sleep(1)
         return (self.requestSpecAnaData('CALC:MARK:FUNC:POW:RES? CPOW')).decode()
