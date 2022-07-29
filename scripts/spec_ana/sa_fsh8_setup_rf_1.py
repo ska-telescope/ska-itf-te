@@ -23,23 +23,23 @@ import time
 from numpy import double
 from RsInstrument import *
 # --------------------------CONNECTION SETTING-------------------------------------------
-specHOST = '10.8.88.232'            # fsh8 spectrum analyzer IP
+specHOST = '10.8.88.138'            # fsh8 spectrum analyzer IP
 specPORT = 5555                     # fsh8 spectrum analyzer port 18? 23?
 address = (specHOST, specPORT)
 
 #--------------------------MEASUREMENTS CONSTANTS----------------------------------------
-f_start=900e6 #Start frequency
-f_stop=1670e6 #Stop frequency
+f_start = 900e6 #Start frequency
+f_stop = 1670e6 #Stop frequency
 #f_stop=3000e6 #Stop frequency
-numPoints=625 #Number of measurement points (Max=625)
-Rbw=2000e3 #Resolution BW of spectrum analyser
-Vbw=300e3 #Video BW of spectrum analyser
+numPoints = 625 #Number of measurement points (Max=625)
+Rbw = 3000e3 #Resolution BW of spectrum analyser
+Vbw = 300e3 #Video BW of spectrum analyser
 # Rbw=3e6 #Resolution BW of spectrum analyser
 # Vbw=3e6#Video BW of spectrum analyser
-RefLev=0 # Set reference level of spectrum analyser
-Atten=0 #Set spectrum analyser attenuation
-k=1.38e-23 #Boltzman's constand
-numMeas=5 #Set the number of measurements
+RefLev = -10 # Set reference level of spectrum analyser
+Atten = 10 #Set spectrum analyser attenuation
+k = 1.38e-23 #Boltzman's constand
+numMeas = 5 #Set the number of measurements
 
 #-------------------------SPECTRUM ANALYZER SOCKET CLASS----------------------------------
 class sa_sock(socket.socket):
@@ -151,18 +151,18 @@ class sa_sock(socket.socket):
         trace_mode_set = self.sa_requestdata('DISP:WIND:TRAC:MODE?')
         print('SA detector mode set to = %s'%(det_mode_set))
         
-    def sa_amplitude(self,ref_level_dBm = 0, att_level_dB = 5):
+    def sa_amplitude(self, ref_level_dBm = 0, att_level_dB = 10):
         """ Method that sets the amplitude parameters for the spectrum analyzer and sets the attenuator
         ref_level_dBm    : Sets the reference level [dBm]
         """
      
         self.sa_sendcmd('INP:ATT:AUTO OFF')
-        self.sa_sendcmd('DISP:WIND:TRAC:Y:RLEV %sdBm'%ref_level_dBm)
-
-        self.sa_sendcmd('INP:ATT %s dB'%att_level_dB)
+        time.sleep(5)
+        self.sa_sendcmd('INP:ATT %i dB' % att_level_dB)
+        self.sa_sendcmd('DISP:WIND:TRAC:Y:RLEV %i' % ref_level_dBm)
         ref_level_dBm_set = double(self.sa_requestdata('DISP:WIND:TRAC:Y:RLEV?'))
         att_level_dB_set = double(self.sa_requestdata('INP:ATT?'))
-        print('SA amplitude reference level set to REF %0.2f dBm'%(ref_level_dBm_set))
+        print('SA amplitude reference level set to REF %0.2f dBm' % (ref_level_dBm_set))
         print('SA input attenuator set to %s dB'%(att_level_dB_set))
         
     def sa_getsweepdata(self,maximum_wait_time_s = 10*60):
@@ -206,6 +206,6 @@ if __name__ == '__main__':
     specAnal = sa_sock()
     specAnal.sa_connect((specHOST,specPORT))
     specAnal.sa_sweep(f_start,f_stop,numPoints)
-    specAnal.sa_bw('off',Rbw,'off',Vbw)
-    specAnal.sa_amplitude(-10,10) 
+    specAnal.sa_bw('off', Rbw, 'off', Vbw)
+    specAnal.sa_amplitude(RefLev, Atten) 
     specAnal.sa_marker()

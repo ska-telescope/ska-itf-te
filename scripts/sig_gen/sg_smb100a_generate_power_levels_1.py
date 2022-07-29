@@ -160,6 +160,7 @@ class SG_SOCK(socket.socket):
         print(f'Signal Generator Frequency = {float(data.decode()) / 1e6} MHz')  
 
     def closeSigGenSock(self):
+        self.setSigGenRF(RF_OFF)
         self.close()
         print('Signal Generator socket Disconnected')
 

@@ -19,16 +19,17 @@
 @Revision: 1
 '''
 import sys
+import os
 import time
 import argparse
 import matplotlib.pyplot as plt
 
-sys.path.append('../sig_gen/') # adding signal generator path so that we can call a script from sig_gen folder
+sys.path.insert(0, os.path.abspath(os.path.join('..') + '/sig_gen/'))
 from sg_smb100a_generate_frequency_sweep_1 import SG_SOCK # Import the Signal Generator Socket class from sig_gen folder
 
 #%%
 #-----------------------import libraries for Spectrum analyzer----------------#
-sys.path.append('../spec_ana/')                 # adding spectraum analyser path so that we can call a script from spec_ana folder
+sys.path.insert(0, os.path.abspath(os.path.join('..') + '/spec_ana/'))
 from sa_fsh8_set_maxhold_read_trace_1 import SA_SOCK        # Import the Spectrum Analyser Socket Function
 from sa_fsh8_set_maxhold_read_trace_1 import power_values
 from sa_fsh8_set_maxhold_read_trace_1 import freq_values
@@ -57,7 +58,7 @@ VBW = 3e6       # Video BW of spectrum analyser
 def setupSG():  
     print('/------Setup signal generator---------/')
     sigGen = SG_SOCK()                                 # Call main class
-    sigGen.initSigGen(SG_ADDRESS)    
+    sigGen.connectSigGen(SG_ADDRESS)    
     sigGen.setSigGenRF(RF_ON)
     sigGen.setSigGenPower(-30)     
     print('/------End of Setup signal generator---------/')
@@ -121,6 +122,9 @@ if __name__ == '__main__':
         print(f'count = {count}...')
     
     sa.getSpecAnaTraceParams(args.freq_start, args.freq_stop)
+    
+    sg.closeGenSock()
+
     plotTrace(freq_values, power_values)
     print('Displayed plot...')
     print('End of program.')

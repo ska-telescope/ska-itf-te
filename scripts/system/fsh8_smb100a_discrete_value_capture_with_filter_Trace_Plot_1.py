@@ -17,6 +17,7 @@ Created on Tue Mar 12 15:36:34 2019
 
 #-----------------------import libaries for signal generator------------------#
 import sys
+import os
 import time
 import socket
 from RsInstrument import *
@@ -28,12 +29,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 # will help when we want to plot the graph
 
-sys.path.append('../sig_gen/') # adding signal generator path so that we can call a script from sig_gen folder
+sys.path.insert(0, os.path.abspath(os.path.join('..') + '/sig_gen/'))
 from sg_smb100a_output_discrete_freq_1 import sig_sock #Import the Signal Generator Socket class from sig_gen folder
 
 #%%
 #-----------------------import libraries for Spectrum analyzer----------------#
-sys.path.append('../spec_ana/') # adding spectraum analyser path so that we can call a script from spec_ana folder
+sys.path.insert(0, os.path.abspath(os.path.join('..') + '/spec_ana/'))
 from sa_fsh8_setup_rf_1 import sa_sock #Import the Spectrum Analyser Socket Function
 
 #%%
@@ -55,7 +56,7 @@ K = 1.38e-23 #Boltzman's constand
 NUMMEAS = 5 #Set the number of measurements
 #%%
 # ------------------------SG_SMB100A constants Initialization varaiables-------#
-POWER = 0.0                # Start RefLev [dBm]                              
+POWER = -30.0                # Start RefLev [dBm]                              
 FREQ = 100e3               # Start frequency Minimum 100kHz     
 DEFAULT_TIMEOUT  = 1       # Default socket timeout
 RF_STATE = 0               # Default RF Out state
@@ -90,12 +91,12 @@ def setupSG():
     print("/------Setup signal generator---------/")
     sigGen = sig_sock()                                 # Call main class
     sigGen.sig_gen_connect((sigHOST,sigPORT))           # Connect Sig Gen remotely
-    time.sleep(1)                                       # Delay 1 sec
-    sigGen.setRFOut('ON')                               # Activate Output signal                                
+    time.sleep(1)                                       # Delay 1 sec                            
     #time.sleep(1)                                       # Delay 1 sec
     #sigGen.sigGenFreqs()                                # Activate frequency generator
     #time.sleep(1)                                       # Delay 1 sec
-    sigGen.setSigGenPower(-20)                          # Sets Sig Gen power
+    sigGen.setSigGenPower(-30)                          # Sets Sig Gen power
+    sigGen.setRFOut('ON')                               # Activate Output signal  
     #time.sleep(1)                                       # Delay 1 sec
     #sigGen.closeGenSock()                               # Close socket
     print("/------End of Setup signal generator---------/")
@@ -131,6 +132,7 @@ if __name__ == '__main__':
     # plt.savefig("Power as function frequency.pdf")
     # plt.grid()
     # plt.show()
+    # sg.closeGenSock()
 
     print("/------end  main ---------/") 
 

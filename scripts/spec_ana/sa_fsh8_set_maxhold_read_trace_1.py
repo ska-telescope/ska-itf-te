@@ -114,7 +114,7 @@ class SA_SOCK(socket.socket):
         ''' 
         if type(response_buffer) == str:
             response_buffer = self.default_buffer
-        self.sa_dumpdata()                                         # Cleanup the receive buffer
+        #self.sa_dumpdata()                                         # Cleanup the receive buffer
         self.sendSpecAnaCmd(request_str)                           # Send the request
         return_str = b''                                            # Initialize Rx buffer
         time_start = time.time()                                   # Get the start time

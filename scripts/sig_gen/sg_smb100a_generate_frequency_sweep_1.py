@@ -216,6 +216,7 @@ class SG_SOCK(socket.socket):
         print('Executing sweep...')
 
     def closeGenSock(self):
+        self.setSigGenRF(RF_OFF)
         self.close()
         print('Signal Generator socket Disconnected')
 
