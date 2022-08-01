@@ -205,5 +205,8 @@ if __name__ == '__main__':
     sg = initSigGen()
     # Set up sig gen to specified power and frequency and turn RF on
     setSigGen(sg, args.power, args.freq)
+
+    sg.setSigGenRF(RF_OFF)         # Activate Output signal 
+
     # Close socket to SG
     sg.close()

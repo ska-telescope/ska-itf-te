@@ -26,23 +26,23 @@
 '''
 
 import sys
+import os
 import time
 import argparse
 from turtle import onclick
 import matplotlib.pyplot as plt
 
-sys.path.append('../sig_gen/') # adding signal generator path so that we can call a script from sig_gen folder
+sys.path.insert(0, os.path.abspath(os.path.join('..') + '/sig_gen/'))
 from sg_smb100a_generate_power_levels_1 import SG_SOCK # Import the Signal Generator Socket class from sig_gen folder
-#from sg_smb100a_generate_power_levels_1 import power
+
 #%%
 #-----------------------import libraries for Spectrum analyzer----------------#
-sys.path.append('../spec_ana/')                 # adding spectraum analyser path so that we can call a script from spec_ana folder
+sys.path.insert(0, os.path.abspath(os.path.join('..') + '/spec_ana/'))
 from sa_fsh8_read_channel_power_at_different_levels_1 import SA_SOCK        # Import the Spectrum Analyser Socket Function
-#from sa_fsh8_read_channel_power_at_different_levels_1 import channel_power
 
 # -----------------Connection Settings----------------------
-SG_PORT = 5025                      # default SMB R&S port 
 SG_HOST = '10.8.88.166'             # smb100a signal generator IP
+SG_PORT = 5025                      # default SMB R&S port 
 SG_ADDRESS = (SG_HOST, SG_PORT)
 SA_HOST = '10.8.88.138'             # fsh8 spectrum analyzer IP temporary
 SA_PORT = 5555                      # fsh8 spectrum analyzer port 18? 23?
@@ -72,9 +72,9 @@ def setupSG():
 def setupSA():
     print('/------Setup spectrum analyser---------/')
     specAnal = SA_SOCK()
-    specAnal.connectSpecAna((SA_ADDRESS))
+    specAnal.connectSpecAna(SA_ADDRESS)
     specAnal.setSpecAnaBandwidth('off', RBW, 'off', VBW) # Set the SA Resolution bandwidth mode to Manual, 100 KHz. Set the Video BW to Manual, 100 KHz 
-    specAnal.setSpecAnaAmplitude(-10, 10) 
+    #specAnal.setSpecAnaAmplitude(-10, 10) 
     print('/------End of Setup Spectrum Analyzer---------/')
     return specAnal
         
@@ -129,6 +129,8 @@ if __name__ == '__main__':
         input_power.append(current_power)  
         sa_power_level.append(sa_band_power)   #sa_power_level
         current_power += args.step_power
+
+    SigGen.closeSigGenSock()
  
     # Plot the results
     print('Displayed plot...')

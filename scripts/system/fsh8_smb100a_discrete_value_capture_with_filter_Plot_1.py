@@ -15,6 +15,7 @@
 
 #-----------------------import libaries for signal generator------------------#
 import sys
+import os
 import time
 import socket
 from RsInstrument import *
@@ -26,12 +27,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 # will help when we want to plot the graph
 
-sys.path.append('../sig_gen/') # adding signal generator path so that we can call a script from sig_gen folder
-from sg_smb100a_output_discrete_freq_a import sig_sock #Import the Signal Generator Socket class from sig_gen folder
+sys.path.insert(0, os.path.abspath(os.path.join('..') + '/sig_gen/'))
+from sg_smb100a_output_discrete_freq_1 import sig_sock #Import the Signal Generator Socket class from sig_gen folder
 
 #%%
 #-----------------------import libraries for Spectrum analyzer----------------#
-sys.path.append('../spec_ana/') # adding spectraum analyser path so that we can call a script from spec_ana folder
+sys.path.insert(0, os.path.abspath(os.path.join('..') + '/spec_ana/'))
 from sa_fsh8_setup_rf_1 import sa_sock #Import the Spectrum Analyser Socket Function
 
 #%%
@@ -89,8 +90,8 @@ def setupSG():
     sigGen = sig_sock()                                 # Call main class
     sigGen.sig_gen_connect((sigHOST,sigPORT))           # Connect Sig Gen remotely
     time.sleep(1)                                       # Delay 1 sec
+    sigGen.setSigGenPower(-30)                          # Sets Sig Gen power
     sigGen.setRFOut('ON')                               # Activate Output signal                                
-    sigGen.setSigGenPower(-20)                          # Sets Sig Gen power
     print("/------End of Setup signal generator---------/")
     # i guess running this as as function it should return something
     return sigGen
@@ -114,6 +115,9 @@ if __name__ == '__main__':
         marker_val = sa.sa_marker()
         freq_vals.append(float(marker_val[0]))
         ampl_vals.append(float(marker_val[1]))
+
+    
+    sg.closeGenSock()
 
     print(freq_vals)
     print(ampl_vals)

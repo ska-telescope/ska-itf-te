@@ -24,17 +24,18 @@ SG_HOST = '10.8.88.166'    # Sig gen IP
 SG_ADDRESS = (SG_HOST, SG_PORT)
 #--------------------------------------------------------
 # ----------------Initialization of Variables------------
-Power = 0.0                     # Start RefLev [dBm]                              
+Power = -30.0                   # Start RefLev [dBm]                              
 Freq = 900e3                    # Start frequency Minimum 100kHz     
 DEFAULT_TIMEOUT = 1             # Default socket timeout
 rf_state = 0                    # Default RF Out state
 # --------------------Constants-------------------------
 ON = 'ON'
+OFF = 'OFF'
 # -----------Global Variables---------------------------
 dump_str = ''
 
 class sig_sock(socket.socket):
-    def sig_gen_connect(self, SG_ADDRESS, DEFAULT_TIMEOUT, default_buffer = 1024, short_delay = 0.1, long_delay = 1):
+    def sig_gen_connect(self, SG_ADDRESS, DEFAULT_TIMEOUT = 1, default_buffer = 1024, short_delay = 0.1, long_delay = 1):
         '''
         This function:
         Establishes a socket connection to the Signal Generator. Uses address (Including Port Number) as an argument.
@@ -120,8 +121,7 @@ class sig_sock(socket.socket):
         '''
         self.sg_sendcmd(f'OUTP {rf_state}')                         # Set RF Output
         dump_str = self.sg_requestdata('OUTP?')                     # Query RF Output
-        print(f'dump_str is {dump_str}')                            # Print received data 
-        if dump_str.decode('utf8') == '1\n':                          # Decode received data
+        if dump_str.decode('utf8') == '1':                          # Decode received data
             print('RF Output On')
         else: print('RF Output Off')
 
@@ -143,7 +143,7 @@ class sig_sock(socket.socket):
         '''
         self.sg_sendcmd(f'FREQ {Freq}')                             # Set frequency
         data = self.sg_requestdata('FREQ?')                         # Query frequency
-        print(f'Sig gen frequency = {(data / 1e6)} MHz')              # Display received frequency
+        print(f'Sig gen frequency = {(float(data) / 1e6)} MHz')              # Display received frequency
         
     def sigGenFreqs(self):
         ''' Generate discreet frequencies
@@ -164,6 +164,7 @@ class sig_sock(socket.socket):
             print(i)
 
     def closeGenSock(self):
+        self.setRFOut(OFF)
         self.close()                                        # Close connection socket
         print('Signal Generator socket Disconnected')
 
@@ -179,11 +180,11 @@ if __name__ == '__main__':
     sigGen = sig_sock()                                 # Call main class
     sigGen.sig_gen_connect((SG_HOST, SG_PORT))           # Connect Sig Gen remotely
     time.sleep(1)                                       # Delay 1 sec
-    sigGen.setRFOut(ON)                               # Activate Output signal                                
+    sigGen.setSigGenPower(-30)                          # Sets Sig Gen power
+    time.sleep(1)                                       # Delay 1 sec
+    sigGen.setRFOut(ON)                                 # Activate Output signal                                
     time.sleep(1)                                       # Delay 1 sec
     sigGen.sigGenFreqs()                                # Activate frequency generator
-    time.sleep(1)                                       # Delay 1 sec
-    sigGen.setSigGenPower(-30)                          # Sets Sig Gen power
     time.sleep(1)                                       # Delay 1 sec
     sigGen.closeGenSock()                               # Close socket
     print('/------End of Setup signal generator---------/')

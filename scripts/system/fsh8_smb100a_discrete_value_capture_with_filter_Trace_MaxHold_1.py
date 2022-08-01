@@ -18,6 +18,7 @@ Created on Tue Mar 12 15:36:34 2019
 
 #-----------------------import libaries for signal generator------------------#
 import sys
+import os
 import time
 import socket
 from RsInstrument import *
@@ -28,12 +29,12 @@ import pyvisa
 import numpy as np
 # will help when we want to plot the graph
 
-sys.path.append('../sig_gen/') # adding signal generator path so that we can call a script from sig_gen folder
+sys.path.insert(0, os.path.abspath(os.path.join('..') + '/sig_gen/'))
 from sg_smb100a_output_discrete_freq_1 import sig_sock #Import the Signal Generator Socket class from sig_gen folder
 
 #%%
 #-----------------------import libraries for Spectrum analyzer----------------#
-sys.path.append('../spec_ana/') # adding spectraum analyser path so that we can call a script from spec_ana folder
+sys.path.insert(0, os.path.abspath(os.path.join('..') + '/spec_ana/'))
 from sa_fsh8_setup_rf_1 import sa_sock #Import the Spectrum Analyser Socket Function
 
 #%%
@@ -59,14 +60,14 @@ DEFAULT_TIMEOUT  = 1       # Default socket timeout
 RF_STATE = 0               # Default RF Out state
 #%%
 #----------------------------SA_FSH8 socket connect--------------------------------#
-specHOST = '10.8.88.232'
+specHOST = '10.8.88.138'
 specPORT = 5555
 
 #------------------------------SA_FSH8 Setup----------------------------------#
 def setupSA():
     print("/------Setup spectrum analyser---------/")
     specAnal = sa_sock()
-    specAnal.sa_connect((specHOST,specPORT))
+    specAnal.sa_connect((specHOST, specPORT))
     time.sleep(1) 
     specAnal.sa_sweep(F_START,F_STOP,NUMPONTS)
     time.sleep(1) 
@@ -86,13 +87,13 @@ sigPORT = 5025 # 18
 def setupSG():  
     print("/------Setup signal generator---------/")
     sigGen = sig_sock()                                 # Call main class
-    sigGen.sig_gen_connect((sigHOST,sigPORT))           # Connect Sig Gen remotely
-    time.sleep(1)                                       # Delay 1 sec
-    sigGen.setRFOut('ON')                               # Activate Output signal                                
+    sigGen.sig_gen_connect((sigHOST, sigPORT))           # Connect Sig Gen remotely
+    time.sleep(1)                                       # Delay 1 sec                    
     #time.sleep(1)                                       # Delay 1 sec
     #sigGen.sigGenFreqs()                                # Activate frequency generator
     #time.sleep(1)                                       # Delay 1 sec
     sigGen.setSigGenPower(-20)                          # Sets Sig Gen power
+    sigGen.setRFOut('ON')                               # Activate Output signal     
     #time.sleep(1)                                       # Delay 1 sec
     #sigGen.closeGenSock()                               # Close socket
     print("/------End of Setup signal generator---------/")
@@ -112,5 +113,6 @@ if __name__ == '__main__':
         sg.setSigGenFreq((i+1) * 100e6)
         time.sleep(1)
         sa.sa_traceMaxHold()
+    sg.closeGenSock()
     print("/------end  main ---------/") 
 
