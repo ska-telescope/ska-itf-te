@@ -2,9 +2,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
+
+***************************
+NOTE THIS SCRIPT IS A PROOF OF CONCEPT ONLY!
+***************************
+
 Created on Tue Mar 12 15:36:34 2019
 @author: S. Malan
-@modified by Vhulie 3 March 2022
+@modified by Vhuli 3 March 2022
 
 1. connect to SG
 2. Set up SG
