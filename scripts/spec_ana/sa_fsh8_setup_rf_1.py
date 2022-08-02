@@ -46,7 +46,7 @@ class sa_sock(socket.socket):
     """ A function to connect to the Spectrum Analyser. Uses address (Including Port Number) as an argument.
     Performs a reset on the unit and sets to Spectrum Analyser mode. Also sets the Display to On in Remote mode
     """   
-    def sa_connect(self,address,default_timeout = 1,default_buffer = 1024,short_delay = 0.1,long_delay = 1):
+    def connectSpecAna(self,address,default_timeout = 1,default_buffer = 1024,short_delay = 0.1,long_delay = 1):
         self.connect(address)  # connect to spectrum analyzer via socket at IP '10.8.88.138' and Port 5555
         # Mandatory timer and buffer setup.
         self.settimeout(default_timeout) 
@@ -54,16 +54,16 @@ class sa_sock(socket.socket):
         self.delay_short_s = short_delay
         self.default_buffer = default_buffer
         # requesting instrument identity and print 
-        rx_str = self.sa_requestdata('*IDN?') 
+        rx_str = self.requestSpecAnaData('*IDN?') 
         print('Connected to: %s'%rx_str)
-        self.sa_sendcmd('*CLS') 
+        self.sendSpecAnaCmd('*CLS') 
         # instrument reset.
-        self.sa_sendcmd('*RST')
-        self.sa_sendcmd('INST:SEL SAN')
-        self.sa_sendcmd('SYST:DISP:UPD ON')
+        self.sendSpecAnaCmd('*RST')
+        self.sendSpecAnaCmd('INST:SEL SAN')
+        self.sendSpecAnaCmd('SYST:DISP:UPD ON')
         time.sleep(short_delay)
          
-    def sa_dumpdata(self):
+    def dumpSpecAnaData(self):
         while True:
             try:
                 dump_str = self.recv(self.default_buffer)
@@ -71,16 +71,16 @@ class sa_sock(socket.socket):
             except socket.timeout:
                 break
 
-    def sa_sendcmd(self,command_str):
+    def sendSpecAnaCmd(self,command_str):
 #        A function to add \n at the end of any commands sent to the SA
         self.sendall(bytes(command_str, encoding='utf8') + b'\n')
                 
-    def sa_requestdata(self,request_str,response_buffer = 'default',timeout_max = 10):
+    def requestSpecAnaData(self,request_str,response_buffer = 'default',timeout_max = 10):
 #        A function to request trace data from the spectrum analyser. This 
         if type(response_buffer) == str:
             response_buffer = self.default_buffer
-        self.sa_dumpdata()                                         # Cleanup the receive buffer
-        self.sa_sendcmd(request_str)                           # Send the request
+        self.dumpSpecAnaData()                                         # Cleanup the receive buffer
+        self.sendSpecAnaCmd(request_str)                           # Send the request
         return_str = b''                                            # Initialize Rx buffer
         time_start = time.time()                                   # Get the start time
         while True:
@@ -96,23 +96,23 @@ class sa_sock(socket.socket):
                 if return_str.endswith(b'\n'):                      # Test to see if end of line has been reached, i.e. all the data Rx
                     return return_str[:-1]                         # Return string
 
-    def sa_sweep(self,start_f = 0,stop_f = 100e6, nr_points = 625):
+    def setSpecAnaSweep(self,start_f = 0,stop_f = 100e6, nr_points = 625):
         """A function to set up the Spectrum Analyser Sweep
         Note that number of points can only be set to FSU(P): 155, 313, 625, 1251, 1999, 2501, 5001, 10001, 20001, 30001        
         """     
-        self.sa_sendcmd('FREQ:STAR %sHz'%start_f)
+        self.sendSpecAnaCmd('FREQ:STAR %sHz'%start_f)
 #        stop_f = start_f + (nr_points-1)*delta_f
-        self.sa_sendcmd('FREQ:STOP %sHz'%stop_f)
-        self.sa_sendcmd('SWE:POIN %s'%nr_points)
-        start_f_set = double(self.sa_requestdata('FREQ:STAR?'))
-        stop_f_set = double(self.sa_requestdata('FREQ:STOP?'))
-        nr_points_set = int(self.sa_requestdata('SWE:POIN?'))
+        self.sendSpecAnaCmd('FREQ:STOP %sHz'%stop_f)
+        self.sendSpecAnaCmd('SWE:POIN %s'%nr_points)
+        start_f_set = double(self.requestSpecAnaData('FREQ:STAR?'))
+        stop_f_set = double(self.requestSpecAnaData('FREQ:STOP?'))
+        nr_points_set = int(self.requestSpecAnaData('SWE:POIN?'))
         print('SA Start Freq: %s MHz, Stop Freq: %s MHz, Points: %s'% \
               (start_f_set*1e-6,stop_f_set*1e-6,nr_points_set))
         
         return start_f_set,stop_f_set,nr_points_set #Returns the values reported by the SA
         
-    def sa_bw(self,rbw_auto = 'on', rbw = 0 ,vbw_auto = 'on',vbw = 0  ):
+    def setSpecAnaBandwidth(self,rbw_auto = 'on', rbw = 0 ,vbw_auto = 'on',vbw = 0  ):
         """ Function to set the spectrum analyser resolution and video BW
         rbw_auto   : Set RBW auto 'on' or 'off' : 'on'|'off'
         rbw        : Sets the RBW in Hz for rbw_auto == 'on'
@@ -120,20 +120,20 @@ class sa_sock(socket.socket):
         vbw        : Sets the VBW in Hz for vbw_auto == 'on 
         """
         if rbw_auto.upper() in ('ON','OFF'):
-            self.sa_sendcmd('BAND:AUTO %s'%rbw_auto.upper())
-            rbw_auto_set = int(self.sa_requestdata('BAND:AUTO?'))
+            self.sendSpecAnaCmd('BAND:AUTO %s'%rbw_auto.upper())
+            rbw_auto_set = int(self.requestSpecAnaData('BAND:AUTO?'))
             if rbw_auto.upper() == 'OFF':
-                self.sa_sendcmd('BAND %s'%rbw)
-                rbw_set = double(self.sa_requestdata('BAND?'))
+                self.sendSpecAnaCmd('BAND %s'%rbw)
+                rbw_set = double(self.requestSpecAnaData('BAND?'))
             else:
                 rbw_set = 0.0
                 
         if vbw_auto.upper() in ('ON','OFF'):
-            self.sa_sendcmd('BAND:VID:AUTO %s'%vbw_auto.upper())
-            vbw_auto_set = int(self.sa_requestdata('BAND:VID:AUTO?'))
+            self.sendSpecAnaCmd('BAND:VID:AUTO %s'%vbw_auto.upper())
+            vbw_auto_set = int(self.requestSpecAnaData('BAND:VID:AUTO?'))
             if vbw_auto.upper() == 'OFF':
-                self.sa_sendcmd('BAND:VID %s'%vbw)
-                vbw_set = double(self.sa_requestdata('BAND:VID?'))
+                self.sendSpecAnaCmd('BAND:VID %s'%vbw)
+                vbw_set = double(self.requestSpecAnaData('BAND:VID?'))
             else:
                 vbw_set = 0.0    
                 
@@ -146,51 +146,53 @@ class sa_sock(socket.socket):
         det_mode   : Sets the detector mode     : 'APE' (Autopeak)|'POS'|'NEG'|'SAMP'|'RMS'|'AVER'|'QPE' (Quasipeak)
         trace_mode : Sets the trace mode        : 'WRIT' (Clear/Write)|'MAXH'|'AVER'|'VIEW'
         """
-        self.sa_sendcmd('DET %s'%det_mode.upper())
-        det_mode_set = self.sa_requestdata('DET?')
-        trace_mode_set = self.sa_requestdata('DISP:WIND:TRAC:MODE?')
+        self.sendSpecAnaCmd('DET %s'%det_mode.upper())
+        det_mode_set = self.requestSpecAnaData('DET?')
+        trace_mode_set = self.requestSpecAnaData('DISP:WIND:TRAC:MODE?')
         print('SA detector mode set to = %s'%(det_mode_set))
         
-    def sa_amplitude(self, ref_level_dBm = 0, att_level_dB = 10):
+    def setSpecAnaAmplitude(self, ref_level_dBm = 0, att_level_dB = 10):
         """ Method that sets the amplitude parameters for the spectrum analyzer and sets the attenuator
         ref_level_dBm    : Sets the reference level [dBm]
         """
      
-        self.sa_sendcmd('INP:ATT:AUTO OFF')
+        self.sendSpecAnaCmd('INP:ATT:AUTO OFF')
         time.sleep(5)
-        self.sa_sendcmd('INP:ATT %i dB' % att_level_dB)
-        self.sa_sendcmd('DISP:WIND:TRAC:Y:RLEV %i' % ref_level_dBm)
-        ref_level_dBm_set = double(self.sa_requestdata('DISP:WIND:TRAC:Y:RLEV?'))
-        att_level_dB_set = double(self.sa_requestdata('INP:ATT?'))
+        self.sendSpecAnaCmd('INP:ATT %i dB' % att_level_dB)
+        self.sendSpecAnaCmd('DISP:WIND:TRAC:Y:RLEV %i' % ref_level_dBm)
+        ref_level_dBm_set = double(self.requestSpecAnaData('DISP:WIND:TRAC:Y:RLEV?'))
+        att_level_dB_set = double(self.requestSpecAnaData('INP:ATT?'))
         print('SA amplitude reference level set to REF %0.2f dBm' % (ref_level_dBm_set))
         print('SA input attenuator set to %s dB'%(att_level_dB_set))
         
-    def sa_getsweepdata(self,maximum_wait_time_s = 10*60):
+    def getSpecAnaSweepData(self,maximum_wait_time_s = 10*60):
         """ Method that starts a new sweep and downloads the data, returned as a list
         Returns a list of the measured data in [dBm]
         """
-        self.sa_dumpdata()
-        self.sa_sendcmd('INIT1:CONT OFF')
-        self.sa_sendcmd('INIT1')
-        rx_str = self.sa_requestdata('*OPC?','default',maximum_wait_time_s)
-        return list(eval(self.sa_requestdata('TRACE1? TRACE1')))
+        self.dumpSpecAnaData()
+        self.sendSpecAnaCmd('INIT1:CONT OFF')
+        self.sendSpecAnaCmd('INIT1')
+        rx_str = self.requestSpecAnaData('*OPC?','default',maximum_wait_time_s)
+        return list(eval(self.requestSpecAnaData('TRACE1? TRACE1')))
         
     def sa_marker(self):
         """ @return FLOAT: frequency [Hz]
         @return FLOAT: amplitude [dBm]
         """
-        self.sa_sendcmd("CALC:MARK2 ON") 
-        self.sa_sendcmd("CALC:MARK2:COUN ON") 
-        self.sa_sendcmd("CALC:MARK2:CPE ON")
-        self.sa_sendcmd("CALC:MARK2:MAX")
-        freq_hz = self.sa_requestdata("CALC:MARK2:X?") # outputs the measured value
-        amp_dbm = self.sa_requestdata("CALC:MARK2:Y?")
+        self.sendSpecAnaCmd("CALC:MARK2 ON") 
+        self.sendSpecAnaCmd("CALC:MARK2:COUN ON") 
+        self.sendSpecAnaCmd("CALC:MARK2:CPE ON")
+        self.sendSpecAnaCmd("CALC:MARK2:MAX")
+        freq_hz = self.requestSpecAnaData("CALC:MARK2:X?") # outputs the measured value
+        amp_dbm = self.requestSpecAnaData("CALC:MARK2:Y?")
         return [freq_hz, amp_dbm]   
 
     def sa_traceMaxHold(self): 
         """ function for trace max hold """
-        self.sa_sendcmd("DISP:TRAC:MODE MAXH")
+        self.sendSpecAnaCmd("DISP:TRAC:MODE MAXH")
         return         
+
+    
 # we need to 
     # def sa_tracePlot(self):
     #     fmin = 60
@@ -205,7 +207,7 @@ if __name__ == '__main__':
     print("/------Setup spectrum analyser---------/")
     specAnal = sa_sock()
     specAnal.sa_connect((specHOST,specPORT))
-    specAnal.sa_sweep(f_start,f_stop,numPoints)
+    specAnal.setSpecAnaSweep(f_start,f_stop,numPoints)
     specAnal.sa_bw('off', Rbw, 'off', Vbw)
     specAnal.sa_amplitude(RefLev, Atten) 
     specAnal.sa_marker()

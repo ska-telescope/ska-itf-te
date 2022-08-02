@@ -35,7 +35,7 @@ OFF = 'OFF'
 dump_str = ''
 
 class sig_sock(socket.socket):
-    def sig_gen_connect(self, SG_ADDRESS, DEFAULT_TIMEOUT = 1, default_buffer = 1024, short_delay = 0.1, long_delay = 1):
+    def connectSigGen(self, SG_ADDRESS, DEFAULT_TIMEOUT = 1, default_buffer = 1024, short_delay = 0.1, long_delay = 1):
         '''
         This function:
         Establishes a socket connection to the Signal Generator. Uses address (Including Port Number) as an argument.
@@ -54,16 +54,16 @@ class sig_sock(socket.socket):
             self.delay_long_s = long_delay
             self.delay_short_s = short_delay
             self.default_buffer = default_buffer
-            rx_str = self.sg_requestdata('*IDN?')   # Get instrument identification
+            rx_str = self.requestSigGenData('*IDN?')   # Get instrument identification
             print(f'Connected to: {rx_str}')      # Display instrument identification
-            self.sg_sendcmd('*CLS')                 # Clear the output buffer                        
-            self.sg_sendcmd('*RST')                 # Reset unit
-            self.sg_sendcmd('SYST:DISP:UPD ON')
+            self.sendSigGenCmd('*CLS')                 # Clear the output buffer                        
+            self.sendSigGenCmd('*RST')                 # Reset unit
+            self.sendSigGenCmd('SYST:DISP:UPD ON')
             time.sleep(short_delay)
         except Exception as e:
             print(e, f'Check to see if the port number is {SG_PORT}')
 
-    def sa_dumpdata(self):
+    def dumpSigGenData(self):
         '''
         This function receives and displays the data after a query command
         @params:
@@ -76,7 +76,7 @@ class sig_sock(socket.socket):
             except socket.timeout:
                 break
 
-    def sg_sendcmd(self, command_str):
+    def sendSigGenCmd(self, command_str):
         '''
         This function sends the command and adds \n at the end of any commands 
             sent to the test device
@@ -86,7 +86,7 @@ class sig_sock(socket.socket):
         self.sendall(bytes(command_str, encoding = 'utf8'))           # Send command to device, as bytes
         self.sendall(bytes('\n', encoding = 'utf8'))                  # Send end of line termination
 
-    def sg_requestdata(self, request_str, response_buffer = 'default', timeout_max = 20):
+    def requestSigGenData(self, request_str, response_buffer = 'default', timeout_max = 20):
         ''' Send request string
 
         This function requests and reads the command to and from the test device
@@ -95,8 +95,8 @@ class sig_sock(socket.socket):
         ''' 
         if type(response_buffer) == str:
             response_buffer = self.default_buffer
-        self.sa_dumpdata()                                         # Cleanup the receive buffer
-        self.sg_sendcmd(request_str)                               # Send the request
+        self.dumpSigGenData()                                         # Cleanup the receive buffer
+        self.sendSigGenCmd(request_str)                               # Send the request
         return_str = b''                                           # Initialize Rx buffer
         time_start = time.time()                                   # Get the start time
         while True:
@@ -119,8 +119,8 @@ class sig_sock(socket.socket):
         @pa
         rams rf_state  : bool    [On/Off]
         '''
-        self.sg_sendcmd(f'OUTP {rf_state}')                         # Set RF Output
-        dump_str = self.sg_requestdata('OUTP?')                     # Query RF Output
+        self.sendSigGenCmd(f'OUTP {rf_state}')                         # Set RF Output
+        dump_str = self.requestSigGenData('OUTP?')                     # Query RF Output
         if dump_str.decode('utf8') == '1':                          # Decode received data
             print('RF Output On')
         else: print('RF Output Off')
@@ -131,9 +131,9 @@ class sig_sock(socket.socket):
         @params:
             power: float    [dBm]
         '''
-        self.sg_sendcmd(f'POW {power}')                             # Set the Power
-        data = self.sg_requestdata('POW?')                          # Query the Power
-        print(f'Sig gen power = {data} dBm')                        # Display received Power
+        self.sendSigGenCmd(f'POW {power}')                             # Set the Power
+        data = self.requestSigGenData('POW?')                          # Query the Power
+        print(f'Sig gen power = {data.decode()} dBm')                        # Display received Power
 
     def setSigGenFreq(self, Freq):
         ''' Set frequency
@@ -141,8 +141,8 @@ class sig_sock(socket.socket):
         This function sets the fixed frequency of the signal generator
         @param  Freq: float [MHz]
         '''
-        self.sg_sendcmd(f'FREQ {Freq}')                             # Set frequency
-        data = self.sg_requestdata('FREQ?')                         # Query frequency
+        self.sendSigGenCmd(f'FREQ {Freq}')                             # Set frequency
+        data = self.requestSigGenData('FREQ?')                         # Query frequency
         print(f'Sig gen frequency = {(float(data) / 1e6)} MHz')              # Display received frequency
         
     def sigGenFreqs(self):
@@ -153,13 +153,13 @@ class sig_sock(socket.socket):
         @params:
             none
         '''
-        self.sg_sendcmd('FREQ:MODE FIX')                    # Set frequency mode to fixed
+        self.sendSigGenCmd('FREQ:MODE FIX')                    # Set frequency mode to fixed
         cur_freq = 0                                        # Initialize freq container     
         for i in range(1, 24):                              # Offset to 1, freq cannot be 0 MHz
             time.sleep(2)                                   # Delay 3 secs for visibility
             cur_freq = (100 * i)                            # Compute and iterate frequency multiples
             cur_freq_str = str(cur_freq) + 'MHz'            # Convert frequency to string & add units
-            self.sg_sendcmd(f'FREQ {cur_freq_str}')         # Set frequency 
+            self.sendSigGenCmd(f'FREQ {cur_freq_str}')         # Set frequency 
             print(f'Set Frequency to {cur_freq_str}...')    # Print current frequency
             print(i)
 
