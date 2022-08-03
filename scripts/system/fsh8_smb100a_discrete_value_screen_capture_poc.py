@@ -2,14 +2,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-
-***************************
-NOTE THIS SCRIPT IS A PROOF OF CONCEPT ONLY!
-***************************
-
 Created on Tue Mar 12 15:36:34 2019
 @author: S. Malan
-@modified by Vhuli 3 March 2022
+@modified by Vhulie 3 March 2022
 
 1. connect to SG
 2. Set up SG
@@ -23,29 +18,28 @@ Created on Tue Mar 12 15:36:34 2019
 
 #-----------------------import libaries for signal generator------------------#
 import sys
-import os
 import time
 import socket
 from RsInstrument import *
-from numpy import double
+#from numpy import double
 from re import S
-import pyvisa_py
+#import pyvisa_py
 import pyvisa
 import matplotlib.pyplot as plt
-import numpy as np
+#import numpy as np
 # will help when we want to plot the graph
 
-sys.path.insert(0, os.path.abspath(os.path.join('..') + '/sig_gen/'))
+sys.path.append('../sig_gen/') # adding signal generator path so that we can call a script from sig_gen folder
 from sg_smb100a_output_discrete_freq_1 import sig_sock #Import the Signal Generator Socket class from sig_gen folder
 
 #%%
 #-----------------------import libraries for Spectrum analyzer----------------#
-sys.path.insert(0, os.path.abspath(os.path.join('..') + '/spec_ana/'))
-from sa_fsh8_set_maxhold_read_trace_1 import sa_sock #Import the Spectrum Analyser Socket Function
+sys.path.append('../spec_ana/') # adding spectraum analyser path so that we can call a script from spec_ana folder
+from sa_fsh8_setup_rf_1 import sa_sock #Import the Spectrum Analyser Socket Function
 
 #%%
 #-----------------------import libraries for Spectrum analyzer hcopy----------------#
-from sa_fsh8_screen_grab_1 import sa_hcopy
+from sa_fsh8_screen_grab_rf_1 import sa_hcopy
 
 #%%
 #Constants and variable definitions
@@ -71,20 +65,23 @@ DEFAULT_TIMEOUT  = 1       # Default socket timeout
 RF_STATE = 0               # Default RF Out state
 #%%
 #----------------------------SA_FSH8 socket connect--------------------------------#
-specHOST = '10.8.88.232'
-specPORT = 5555
-
+SG_PORT = 5025                      # default SMB R&S port 
+SG_HOST = '10.8.88.166'             # smb100a signal generator IP
+SG_ADDRESS = (SG_HOST, SG_PORT)
+SA_HOST = '10.8.88.138'             # fsh8 spectrum analyzer IP temporary
+SA_PORT = 5555                      # fsh8 spectrum analyzer port 18? 23?
+SA_ADDRESS = (SA_HOST, SA_PORT)
 #------------------------------SA_FSH8 Setup----------------------------------#
 def setupSA():
     print("/------Setup spectrum analyser---------/")
     specAnal = sa_sock()
-    specAnal.sa_connect((specHOST,specPORT))
+    specAnal.connectSpecAna(SA_ADDRESS)
     time.sleep(1) 
-    specAnal.sa_sweep(f_start,f_stop,numPoints)
+    specAnal.setSpecAnaSweep(F_START,F_STOP,NUMPONTS)
     time.sleep(1) 
-    specAnal.sa_bw('off',Rbw,'off',Vbw) # Set the SA Resolution bandwidth mode to Manual, 100 KHz. Set the Video BW to Manual, 100 KHz 
+    specAnal.setSpecAnaBandwidth('off',RBW,'off',VBW) # Set the SA Resolution bandwidth mode to Manual, 100 KHz. Set the Video BW to Manual, 100 KHz 
     time.sleep(1) 
-    specAnal.sa_amplitude(-10,10) 
+    specAnal.setSpecAnaAmplitude(-10,10) 
     time.sleep(1) 
     #specAnal.sa_marker()
     time.sleep(1) 
@@ -92,36 +89,30 @@ def setupSA():
     return specAnal
     # I guess running this as a function it should return something
 
-#------------------------------SG_SMB100A socket connect ---------------------------#
-sigHOST = '10.8.88.166'
-sigPORT = 5025 # 18
 #-----------------------------SG_SMB100A Setup---------------------------------------#
 def setupSG():  
     print("/------Setup signal generator---------/")
-    sigGen = sig_sock()                                 # Call main class
-    sigGen.sig_gen_connect((sigHOST,sigPORT))           # Connect Sig Gen remotely
-    time.sleep(1)                                       # Delay 1 sec                              
-    #time.sleep(1)                                       # Delay 1 sec
-    #sigGen.sigGenFreqs()                                # Activate frequency generator
-    #time.sleep(1)                                       # Delay 1 sec
-    sigGen.setSigGenPower(-30)                          # Sets Sig Gen power
-    sigGen.setRFOut('ON')                               # Activate Output signal  
-    #time.sleep(1)                                       # Delay 1 sec
-    #sigGen.closeGenSock()                               # Close socket
+    sigGen = sig_sock()                                  # Call main class
+    sigGen.connectSigGen(SG_ADDRESS)                    # Connect Sig Gen remotely
+    time.sleep(1)                                       # Delay 1 sec
+    sigGen.setRFOut('ON')                            # Activate Output signal                                
+    sigGen.setSigGenPower(-20)                          # Sets Sig Gen power
+                                 # Close socket
     print("/------End of Setup signal generator---------/")
 
     # i guess running this as as function it should return something
     return sigGen
+    
     #-----------------------------SetUp Spectrum_Analyzer for Screenshot---------------------------------------#
     
-    def sa_hcopy():
-        SA_FSH8 = None
+def sa_hcopy():
+    SA_FSH8 = None
     try:
         # connecting via socket without using visa adjust the VISA Resources
         #Setting reset to True (default is False) resets your instrument. It is equivalent to calling the reset() method.
         #Setting id_query to True (default is True) checks, whether your instrument can be used with the RsInstrument module.
         #  "SelectVisa='socket'">>>Using RsInstrument without VISA for LAN Raw socket communication
-        SA_FSH8 = RsInstrument('TCPIP::10.8.88.232::5555::SOCKET', False, False, "SelectVisa='socket'")
+        SA_FSH8 = RsInstrument('TCPIP::10.8.88.138::5555::SOCKET', False, False, "SelectVisa='socket'")
         SA_FSH8.opc_timeout = 3000  # Timeout for opc-synchronised operations
         SA_FSH8.instrument_status_checking = True  # Error check after each command
     except Exception as ex:
@@ -137,8 +128,9 @@ def setupSG():
   
     file_path_SA_FSH8 = r'\Public\Screen Shots\test_capture1.png' # Instrument screenshoot file path
     #PC screenshoot file path(saved in googledrive)
-    file_path_PC = r'/Users/vhulahani.manukha/Documents/git/test_capture1.png'
-   
+    file_path_PC = r'/Users/monde.manzini/Documents/sITF/ska-itf-te/system/test_capture1.png'
+    global directory 
+    directory = '/Users/monde.manzini/Documents/sITF/ska-itf-te/system/'
     ##  select file format
     SA_FSH8.write_str("HCOP:DEV:LANG PNG") 
 
@@ -163,6 +155,8 @@ if __name__ == '__main__':
     sa = setupSA()
     time.sleep(1) 
     sa_hcopy()
-    sg.closeGenSock()
-    print("/------end  main ---------/") 
+    sg.setRFOut(RF_STATE)
+    sg.closeGenSock() 
+    print(f'Snapshot saved at {directory}')
+    print("/------end of main ---------/") 
 
