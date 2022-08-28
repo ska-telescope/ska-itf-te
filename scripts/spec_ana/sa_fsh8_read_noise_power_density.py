@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 @author: Vhuli and Monde 
-@Date: 10-08-2022
+@Date: 22-08-2022
 @Affiliation: Test Engineers
 @Functional Description: 
     1. This script reads the noise power density of the NC1113B noise source in dBm/Hz at different RBWs
@@ -95,10 +95,10 @@ class SA_SOCK(socket.socket):
         @params:
             command_str  : string    
         '''
-        self.sendall(bytes(command_str, encoding='utf8') + b'\n')
+        self.sendall(bytes(command_str, encoding = 'utf8') + b'\n')
         time.sleep(RESPONSE_TIMEOUT)
                 
-    def requestSpecAnaData(self,request_str, response_buffer = 'default', timeout_max = 10):
+    def requestSpecAnaData(self, request_str, response_buffer = 'default', timeout_max = 10):
         ''' Request data
 
         This function requests and reads the command to and from the test device
@@ -219,7 +219,7 @@ class SA_SOCK(socket.socket):
         self.sendSpecAnaCmd(f'CALC:MARK ON')
         self.sendSpecAnaCmd(f'CALC:MARK:FUNC:NOIS ON')
         self.sendSpecAnaCmd(f'CALC:MARK:X {marker_freq}')
-        
+
 
     def getSpecAnaTraceParams(self, freq_start, freq_stop): 
         ''' Read trace data
@@ -238,11 +238,12 @@ class SA_SOCK(socket.socket):
         power_data = power_data.split(',') 
         No_of_Sweep_Points = int(self.requestSpecAnaData('SWE:POIN?'))
         print(f'No of Sweep Points = {No_of_Sweep_Points}')
-        pow_val_len = 0
+        
         for s in power_data:
             power_data_flo = round(float(s), 2) 
             power_values.append(power_data_flo)
-
+            
+        pow_val_len = 0
         while pow_val_len < No_of_Sweep_Points:
             pow_values.append(power_values[pow_val_len])
             pow_val_len += 1

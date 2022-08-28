@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 '''
 @author: Vhuli and Monde 
-@Date: 10-08-2022
+@Date: 22-08-2022
 @Affiliation: Test Engineers
 @Functional Description: 
     1. This script reads the noise power density of the NC1113B noise source in dBm/Hz at different RBWs
@@ -11,6 +11,7 @@
         - start frequency = 0 or 100e6, integer with no units [0 Hz]
         - stop frequency = 2000000000 or 3e9, integer with no units [3 GHz]
         - resolution bandwidth = 3000000 or 3e6, integer with no units [3 MHz]
+        - video bandwidth = 3000000 or 3e6, integer with no units [3 MHz]
  
 @Notes: 
     1. This script was written for the FSH8 Spectrum Analyzer. 
