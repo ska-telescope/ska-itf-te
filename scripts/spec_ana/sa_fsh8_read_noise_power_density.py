@@ -185,8 +185,8 @@ class SA_SOCK(socket.socket):
         self.sendSpecAnaCmd(f'DET {det_mode.upper()}')
         det_mode_set = self.requestSpecAnaData('DET?')
         trace_mode_set = self.requestSpecAnaData('DISP:WIND:TRAC:MODE?')
-        print(f'SA trace mode set to = {trace_mode_set.decode()}')
-        return print(f'SA detector mode set to = {det_mode_set.decode()}')
+        #print(f'SA trace mode set to = {trace_mode_set.decode()}')
+        return (f'SA detector mode set to = {det_mode_set.decode()}')
         
     def setSpecAnaAmplitude(self, ref_level_dBm = 0, att_level_dB = 5):
         ''' Method that sets the amplitude parameters for the spectrum analyzer and sets the attenuator
@@ -235,7 +235,9 @@ class SA_SOCK(socket.socket):
             freq_start      : start frequency in Hz
             freq_stop       : stop frequency in Hz
         '''                                                    
-        self.sendSpecAnaCmd('FORM:DATA ASC')                     
+        freq_values = []
+        pow_values = []
+        self.sendSpecAnaCmd('FORM:DATA ASC')      
         power_data = self.requestSpecAnaData('TRAC:DATA? TRACE1')
         time.sleep(0.1)
         power_data = power_data.decode()
