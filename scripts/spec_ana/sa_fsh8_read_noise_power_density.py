@@ -220,7 +220,11 @@ class SA_SOCK(socket.socket):
         self.sendSpecAnaCmd(f'CALC:MARK:FUNC:NOIS ON')
         self.sendSpecAnaCmd(f'CALC:MARK:X {marker_freq}')
 
-
+        #for i in len(marker_freq):
+        #    self.sendSpecAnaCmd(f'CALC:MARK{i+1} ON')
+        #    self.sendSpecAnaCmd(f'CALC:MARK{i+1}:FUNC:NOIS ON')
+        #    self.sendSpecAnaCmd(f'CALC:MARK{i+1}:X {marker_freq[i]}')
+            
     def getSpecAnaTraceParams(self, freq_start, freq_stop): 
         ''' Read trace data
         
@@ -233,6 +237,7 @@ class SA_SOCK(socket.socket):
         '''                                                    
         self.sendSpecAnaCmd('FORM:DATA ASC')                     
         power_data = self.requestSpecAnaData('TRAC:DATA? TRACE1')
+        time.sleep(0.1)
         power_data = power_data.decode()
         power_data = str(power_data)
         power_data = power_data.split(',') 
@@ -242,7 +247,7 @@ class SA_SOCK(socket.socket):
         for s in power_data:
             power_data_flo = round(float(s), 2) 
             power_values.append(power_data_flo)
-            
+
         pow_val_len = 0
         while pow_val_len < No_of_Sweep_Points:
             pow_values.append(power_values[pow_val_len])
