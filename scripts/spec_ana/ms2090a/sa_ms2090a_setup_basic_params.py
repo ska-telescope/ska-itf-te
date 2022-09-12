@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-@author: Vhuli and Monde 
-@Date: 07-08-2022
-@Affiliation: Test Engineers
+@author: Ben/Vhuli/Monde 
+@Date: xx-09-2022
+@Affiliation: 
 @Functional Description: 
     1. This script reads the basic parameters of the Anritsu MS2090A Spectrum Analyzer
     2. Run the script by parsing the following arguments on the terminal:
@@ -11,9 +11,8 @@
         - stop frequency = 2000000000 or 3e9, integer with no units [3 GHz]
  
 @Notes: 
-    1. This script was written for the FSH8 Spectrum Analyzer. 
+    1. This script was written for the MS2090A Spectrum Analyzer. 
         Raw ethernet socket communication is used and thus VISA library/installation is not required
-    2. This script uses scpi protocol for the automatic test equipment intended
 
 @Revision: 1
 """
