@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 @author: Ben/Vhuli/Monde 
-@Date: xx-09-2022
+@Date: 26-09-2022
 @Affiliation: 
 @Functional Description: 
     1. This script reads the basic parameters of the Anritsu MS2090A Spectrum Analyzer
@@ -21,10 +21,11 @@
 
 import socket
 import time
-from numpy import double
 import argparse
 import unittest
-from unittest import TestCase
+import os, sys
+sys.path.insert(2, os.path.abspath(os.path.join('../../../') + '/resources/'))
+from scpi_database import SACmds
 
 # -------------------------- CONNECTION SETTINGS -------------------------------------------
 SA_HOST = '10.20.7.4'         # MS2090A spectrum analyzer IP
@@ -32,7 +33,6 @@ SA_PORT = 9001                # MS2090A spectrum analyzer port
 SA_ADDRESS = (SA_HOST, SA_PORT)
 #-------------------------- CONSTANTS --------------------------
 
-FREQ_STEP = 3015873             # step frequency in MHz
 DEFAULT_TIMEOUT = 1             # Default socket timeout
 RECDUR = 5                      # Time in seconds to find maxhold peaks
 RESPONSE_TIMEOUT = 0.01
@@ -45,23 +45,6 @@ LONG_DELAY = 1
 
 # ---------------- Look up table ---------------------------
 
-SACmds = {
-    # Common commands
-    'reset-device': '*RST', 
-    'device-id': '*IDN',
-    'oper-complete': '*OPC',
-    'clear-status': '*CLS',
-
-    # Frequency Commands
-    'start-freq': ':FREQ:STAR',
-    'stop-freq': ':FREQ:STOP',
-
-    # System Settings Commands
-    'instr-mode': 'MODE',
-
-    # System Commands
-
-}
 #-------------------------SPECTRUM ANALYZER SOCKET CLASS----------------------------------
 class SA_SOCK(socket.socket):
 
@@ -81,10 +64,9 @@ class SA_SOCK(socket.socket):
         @params 
         SA_ADDRESS         : specHOST str, specPORT int
         '''    
-#check this works... 
         self.connect(SA_ADDRESS)  # connect to spectrum analyzer via socket and Port
         self.settimeout(self.response_timeout) 
-        print(f'Connected to: {self.getSACmd(SACmds["device-id"]).decode()}')
+        return self.getSACmd(SACmds["device-id"]).decode()
         
     def getSACmd(self, request_str, response_buffer = 'default', timeout_max = 10, param = ''):
         ''' Request data
@@ -96,10 +78,7 @@ class SA_SOCK(socket.socket):
         if type(response_buffer) == str:
             response_buffer = self.default_buffer                   # Cleanup the receive buffer
                                                 
-        if param == '':
-            self.setSACmd(f'{request_str}?')                        # Send the request, adds a question mark for a get/read command
-        else:
-            self.setSACmd(f'{request_str}? {param}')                # Send the request, adds a question mark for a get/read command, and adds a command
+        self.setSACmd(f'{request_str}? {param}')                # Send the request, adds a question mark for a get/read command, and adds a command
         
         return_str = b''                                            # Initialize Rx buffer
         time_start = time.time()                                    # Get the start time
@@ -116,7 +95,7 @@ class SA_SOCK(socket.socket):
                 if return_str.endswith(b'\n'):                      # Test to see if end of line has been reached, i.e. all the data Rx
                     return return_str[:-1]  
 
-    def setSACmd(self, command_str, param = ''):
+    def setSACmd(self, command_str, param = '', returnval = False):
         ''' Send command
         
         This function sends the command and adds \n at the end of any commands 
@@ -124,21 +103,18 @@ class SA_SOCK(socket.socket):
         @params:
             command_str  : string    
         '''
-        if param == '':
-            self.sendall(bytes(command_str, encoding = 'utf8') + b'\n')    
-        else:
-            self.sendall(bytes(command_str, encoding = 'utf8') + bytes(f' {param}\n', encoding = 'utf8'))
-        time.sleep(self.response_timeout)
+        self.sendall(bytes(command_str, encoding = 'utf8') + bytes(f' {param}\n', encoding = 'utf8'))
+        time.sleep(self.response_timeout)        
 
     def test_function(self, expected_param, parsed_param):
         expression_false = expected_param != parsed_param
         if expression_false:
-            TestCase.assertFalse(expression_false, False) # test Fail
+            unittest.TestCase.assertFalse(expression_false, False) # test Fail
             print('Test Fail')
         
         expression_true = expected_param = parsed_param
         if expression_true:
-            TestCase.assertTrue(expression_true, True)      # test Pass
+            unittest.TestCase.assertTrue(expression_true, True)      # test Pass
             print('Test Pass')
 
     def closeSpecAna(self):
@@ -153,10 +129,10 @@ if __name__ == '__main__':
 
     print("/------Setup spectrum analyser---------/")
     SA = SA_SOCK()
-    SA.connectSA(SA_ADDRESS)
+    print(SA.connectSA(SA_ADDRESS))
     SA.setSACmd(SACmds['reset-device'])  # Reset
     SA.setSACmd(SACmds['clear-status'])
-    SA.setSACmd(SACmds['instr-mode'], SPEC_ANA_MODE)
+    SA.setSACmd(SACmds['device-mode'], SPEC_ANA_MODE)
 
     SA.setSACmd(SACmds['start-freq'], args.start_freq)                  # set start freq
     expected_start_freq = int(SA.getSACmd(SACmds["start-freq"]).decode())
