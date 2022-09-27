@@ -74,11 +74,8 @@ class SA_SOCK(socket.socket):
         This function requests and reads the command to and from the test device
         @params:
             request_str  : string
-        ''' 
-        #if type(response_buffer) == str:
-        #    response_buffer = self.default_buffer                   # Cleanup the receive buffer
-                                                
-        self.setSACmd(f'{request_str}? {param}')                # Send the request, adds a question mark for a get/read command, and adds a command
+        '''                                     
+        self.setSACmd(f'{request_str}? {param}')                    # Send the request, adds a question mark for a get/read command, and adds a command
         
         return_str = b''                                            # Initialize Rx buffer
         time_start = time.time()                                    # Get the start time
