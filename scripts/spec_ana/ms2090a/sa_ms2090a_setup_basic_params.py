@@ -68,15 +68,15 @@ class SA_SOCK(socket.socket):
         self.settimeout(self.response_timeout) 
         return self.getSACmd(SACmds["device-id"]).decode()
         
-    def getSACmd(self, request_str, response_buffer = 'default', timeout_max = 10, param = ''):
+    def getSACmd(self, request_str, response_buffer = DEFAULT_BUFFER, timeout_max = 10, param = ''):
         ''' Request data
 
         This function requests and reads the command to and from the test device
         @params:
             request_str  : string
         ''' 
-        if type(response_buffer) == str:
-            response_buffer = self.default_buffer                   # Cleanup the receive buffer
+        #if type(response_buffer) == str:
+        #    response_buffer = self.default_buffer                   # Cleanup the receive buffer
                                                 
         self.setSACmd(f'{request_str}? {param}')                # Send the request, adds a question mark for a get/read command, and adds a command
         
