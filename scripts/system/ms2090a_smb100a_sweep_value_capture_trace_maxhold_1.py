@@ -215,9 +215,9 @@ if __name__ == '__main__':
     sa.setSACmd((SACmds['sing-sweep-state']), 'OFF')
 
     # Get trace data power values  
-    #power_data = sa.getSACmd(SACmds['trace-data'])
-    #power_data = sa.getSACmd((SACmds['trace-data']), '1')
-    power_data = sa.getSACmd(SACmds['trace'])
+    # power_data = sa.getSACmd(SACmds['trace-data'])
+    power_data = sa.getSACmd((SACmds['trace-data']), '1')
+    # power_data = sa.getSACmd(SACmds['trace'])
 
     power_data.decode()
     power_data = str(power_data)
