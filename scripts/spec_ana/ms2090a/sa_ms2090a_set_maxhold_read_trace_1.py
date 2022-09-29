@@ -45,6 +45,7 @@ class SA_SOCK(socket.socket):
         self.delay_long_s = LONG_DELAY
         self.delay_short_s = SHORT_DELAY
         self.default_buffer = DEFAULT_BUFFER
+        self.response_timeout = RESPONSE_TIMEOUT
 
     def connectSA(self, SA_ADDRESS):
         ''' Establish socket connect connection.
@@ -58,29 +59,24 @@ class SA_SOCK(socket.socket):
         self.settimeout(DEFAULT_TIMEOUT) 
         self.connect(SA_ADDRESS)  # connect to spectrum analyzer via socket and Port
         print(f'Connected to: {self.getSACmd(SACmds["device-id"])}')
-        
-    def getSACmd(self, request_str, param = '', response_buffer = 'default', timeout_max = 10):
+
+    def getSACmd(self, request_str, param = '', response_buffer = DEFAULT_BUFFER, timeout_max = 10):
         ''' Request data
 
         This function requests and reads the command to and from the test device
         @params:
             request_str  : string
-        ''' 
-        if type(response_buffer) == str:
-            response_buffer = self.default_buffer                  # Cleanup the receive buffer
-
-        if param == '':
-            self.setSACmd(f'{request_str}?')                       # Send the request, adds a question mark for a get/read command
-        else:
-            self.setSACmd(f'{request_str}?', param)               # Send the request, adds a question mark for a get/read command, and adds a command
-            
-        time.sleep(0.1)
-        return_str = b''                                           # Initialize Rx buffer
-        time_start = time.time()                                   # Get the start time
+            param        : string
+        '''                       
+        print(f'{request_str}' + f'? {param}')              
+        self.sendall(bytes(request_str + f'? {param}\n', encoding = 'utf8'))
+        time.sleep(self.response_timeout) 
+        return_str = b''                                            # Initialize Rx buffer
+        time_start = time.time()                                    # Get the start time
         while True:
-            time.sleep(self.delay_short_s)                         # Introduce a short delay
+            time.sleep(self.delay_short_s)                          # Introduce a short delay
             try:
-                return_str += self.recv(response_buffer)           # Attempt to read the buffer
+                return_str += self.recv(response_buffer)            # Attempt to read the buffer
             except socket.timeout:
                 if (time.time() - time_start) > timeout_max:
                     raise StopIteration('No data received from instrument') 
@@ -96,14 +92,22 @@ class SA_SOCK(socket.socket):
         This function sends the command and adds \n at the end of any commands 
         sent to the test device
         @params:
-            command_str  : string
-            param:  string (optional)    
+            command_str  : string    
         '''
-        if param == '':
-            self.sendall(bytes(command_str, encoding = 'utf8') + b'\n')    
-        else:
-            self.sendall(bytes(command_str, encoding = 'utf8') + bytes(f' {param}', encoding = 'utf8') + b'\n')
-        time.sleep(RESPONSE_TIMEOUT) 
+        self.sendall(bytes(command_str + f' {param}\n', encoding = 'utf8'))
+        time.sleep(self.response_timeout)        
+
+    def setSACmdResponse(self, command_str, param = ''):
+        ''' Send command
+        
+        This function sends the command and adds \n at the end of any commands 
+        sent to the test device and returns getSACmd to verify the value was set correctly
+        @params:
+            command_str  : string    
+        '''
+        self.sendall(bytes(command_str + f' {param}\n', encoding = 'utf8'))
+        time.sleep(self.response_timeout)        
+        return self.getSACmd(command_str)
 
     def closeSA(self):
         self.close()
