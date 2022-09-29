@@ -66,7 +66,7 @@ class SA_SOCK(socket.socket):
         '''    
         self.connect(SA_ADDRESS)  # connect to spectrum analyzer via socket and Port
         self.settimeout(self.response_timeout) 
-        return self.getSACmd(SACmds["device-id"]).decode()
+        return self.getSACmd(SACmds["device_id"]).decode()
         
     def getSACmd(self, request_str, response_buffer = DEFAULT_BUFFER, timeout_max = 10, param = ''):
         ''' Request data
@@ -139,19 +139,23 @@ if __name__ == '__main__':
     print("/------Setup spectrum analyser---------/")
     SA = SA_SOCK()
     print(SA.connectSA(SA_ADDRESS))
-    SA.setSACmd(SACmds['reset-device'])  # Reset
-    SA.setSACmd(SACmds['clear-status'])
-    spec_ana_mode = SA.setSACmdResponse(SACmds['device-mode'], SPEC_ANA_MODE).decode()
+    SA.setSACmd(SACmds['reset_device'])  
+    SA.setSACmd(SACmds['clear_status']) 
+
+    # Configure measurement mode to Spectrum
+    spec_ana_mode = SA.setSACmdResponse(SACmds['device_mode'], SPEC_ANA_MODE).decode()
     if spec_ana_mode != SPEC_ANA_MODE:
         print("Error setting Spectrum Analyser Mode")
     else: print(f'Spectrum Analyzer Mode set to Spectrum') 
 
-    start_freq = float(SA.setSACmdResponse(SACmds['start-freq'], args.start_freq).decode())
+    # Set start frequency of spectrum analyzer
+    start_freq = float(SA.setSACmdResponse(SACmds['start_freq'], args.start_freq).decode())
     if start_freq != float(args.start_freq):              # set start freq, check response
         print("Error setting Spectrum Analyzer Start Freq")
     else: print(f'Start Frequency = {start_freq / 1e6} MHz')
     
-    stop_freq = float(SA.setSACmdResponse(SACmds['stop-freq'], args.stop_freq).decode())
+    # Set stop frequency of spectrum analyzer
+    stop_freq = float(SA.setSACmdResponse(SACmds['stop_freq'], args.stop_freq).decode())
     if stop_freq != float(args.stop_freq):              # set stop freq, check response
         print("Error setting Spectrum Analyser Start Freq")
     else: print(f'Stop Frequency = {stop_freq / 1e6} MHz')
