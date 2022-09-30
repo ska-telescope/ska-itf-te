@@ -73,6 +73,7 @@ def setupSA():
     print('/------Setup spectrum analyser---------/')
     SA = SA_SOCK()
     SA.connectSA((SA_ADDRESS))
+    SA.setSACmd(SACmds['reset-device'])
     SA.setSACmd(SACmds['start-freq'], args.start_freq)
     SA.setSACmd(SACmds['stop-freq'], args.stop_freq)
     SA.setSACmd(SACmds['sweep-points'], NUMPOINTS)
@@ -178,10 +179,9 @@ if __name__ == '__main__':
     print('Executing sweep...')
 
 # ----------------End of Signal Generator Setup Sweep Parameters -----------------------
-
+    # Wait until the sweep is finished
     run_time_delay = int((float(args.stop_freq) - float(args.start_freq)) / float(args.step_freq) * float(args.dwel_time / 1000) + 15)
-    
-    print(f'Run time delay = {run_time_delay}')
+    #print(f'Run time delay = {run_time_delay}')
     for count in range(0, run_time_delay, 10):
         time.sleep(10)          # wait for sweep to complete  
         print(f'count = {count}...')
