@@ -68,7 +68,6 @@ SACmds = {
     'device-mode': 'MODE',                  # pass device mode e.g. MODE SPEC for spectrum analyzer
 
     # Trace Commands
-    'trace': 'TRACE',                       # read trace, no param require 
     'trace-data': 'TRACE:DATA',             # pass trace no. parameter e.g. TRACE:DATA? 1
     'trace1-state': 'DISP:TRAC1',           # pass trace no. and state e.g. DISP:TRAC1 ON
     'trace1-mode': 'TRACE1:TYPE',           # pass trace mode e.g. TRACE1:TYPE MAX
