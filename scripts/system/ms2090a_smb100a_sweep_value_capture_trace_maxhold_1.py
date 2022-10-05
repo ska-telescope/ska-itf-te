@@ -137,7 +137,6 @@ if __name__ == '__main__':
             stop_freq       : stop frequency in Hz (not more than 6 GHz)
             step_freq       : step frequency in Hz (default = 100 MHz)
             dwel_time       : duration of frequency output in ms (default=1000 ms)
-            sweep_mode      : sweep mode (auto / manual)
         ''' 
     # Display SG start frequency
     start_freq_recvd = int(sg.getSGCmd(SACmds["start-freq"]).decode())
@@ -181,7 +180,6 @@ if __name__ == '__main__':
 # ----------------End of Signal Generator Setup Sweep Parameters -----------------------
     # Wait until the sweep is finished
     run_time_delay = int((float(args.stop_freq) - float(args.start_freq)) / float(args.step_freq) * float(args.dwel_time / 1000) + 15)
-    #print(f'Run time delay = {run_time_delay}')
     for count in range(0, run_time_delay, 10):
         time.sleep(10)          # wait for sweep to complete  
         print(f'count = {count}...')
@@ -215,14 +213,13 @@ if __name__ == '__main__':
     sa.setSACmd((SACmds['sing-sweep-state']), 'OFF')
 
     # Get trace data power values  
-    # power_data = sa.getSACmd(SACmds['trace-data'])
     power_data = sa.getSACmd((SACmds['trace-data']), '1')
-    # power_data = sa.getSACmd(SACmds['trace'])
-
+    time.time(0.1)
     power_data.decode()
     power_data = str(power_data)
     power_data.split(',') 
     No_of_Sweep_Points = int(sa.getSACmd(SACmds['sweep-points']))
+    print(f'No_of_Sweep_Points = {No_of_Sweep_Points}')
     for s in power_data:
         power_data_float = round(float(s), 2) 
         power_values.append(power_data_float)
@@ -233,9 +230,13 @@ if __name__ == '__main__':
 
     print('Power and Frequency Values acquired.')
 
+    plotTrace(freq_values, power_values)
+
+    sg.setSGCmd(SGCmds['rf-state'], RF_OFF)
     sg.closeSGSock()
     sa.closeSASock()
 
     plotTrace(freq_values, power_values)
+    
     print('Displayed plot...')
     print('End of program.')

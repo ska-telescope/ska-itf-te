@@ -30,6 +30,7 @@ import time
 import socket
 import argparse
 sys.path.insert(1, os.path.abspath(os.path.join('../../') + '/resources/'))
+import scpi_database
 from scpi_database import SGCmds
 # -----------------Connection Settings----------------------
 SG_PORT = 5025                      # default SMB R&S port 
