@@ -20,8 +20,8 @@
 
 @Revision: 1
 '''
-import sys
-import os
+import sys, os, socket
+# import os
 import time
 import argparse
 import matplotlib.pyplot as plt
@@ -47,50 +47,52 @@ SA_HOST = '10.20.7.4'             # Anritsu spectrum analyzer IP temporary
 SA_PORT = 9001                    # Anritsu spectrum analyzer port 18? 23?
 SA_ADDRESS = (SA_HOST, SA_PORT)
 #-----------------------------------------------------------
-# ----------------Initialization of Variables---------------    
+# ----------------Constants---------------    
 DEFAULT_TIMEOUT = 1        # Default socket timeout
 RF_OFF = 0
 RF_ON = 1
 
-# -----------------SA AND SG INITIALIZATION-----------------
+SHORT_DELAY = 0.1
+LONG_DELAY = 1
 
 #-----------------SA initialization Variables----------
-NUMPOINTS = 631   # Number of measurement points (Max=625)
-RBW = 3e6         # Resolution BW of spectrum analyser
-VBW = 3e6       # Video BW of spectrum analyser
-#%%
+NUMPOINTS = 631     # Number of measurement points (Max=625)
+RBW = 3e6           # Resolution BW of spectrum analyser
+VBW = 3e6           # Video BW of spectrum analyser
 #-------------------SG_SMB100A Setup-------------------------#
 def setupSG():  
     print('/------Setup signal generator Class---------/\n')
     SG = SG_SOCK()                                 # Call main class
     SG.connectSG(SG_ADDRESS)    
-    SG.setSGCmd(SGCmds['rf-state'], RF_ON)
-    SG.setSGCmd(SGCmds['power'], -25)     
+    print(f'Connected to: {SG.getSGCmd(SGCmds["device_id"]).decode()}')
+    SG.setSGCmd(SGCmds['rf_state'], RF_ON)
+    SG.setSGCmd(SGCmds['power'], -25) 
     print('/------End of Setup signal generator---------/\n\n')
     return SG
-#------------------------SA_FSH8 Setup-------------------------#
+#------------------------SA_MS2090A Setup-------------------------#
 def setupSA():
     print('/------Setup spectrum analyser---------/')
     SA = SA_SOCK()
     SA.connectSA((SA_ADDRESS))
-    SA.setSACmd(SACmds['reset-device'])
-    SA.setSACmd(SACmds['start-freq'], args.start_freq)
-    SA.setSACmd(SACmds['stop-freq'], args.stop_freq)
-    SA.setSACmd(SACmds['sweep-points'], NUMPOINTS)
-    SA.setSACmd(SACmds['rbw-auto'], 'off')
-    SA.setSACmd(SACmds['vbw-auto'], 'off')
-    SA.setSACmd(SACmds['att-level'], 10)
-    SA.setSACmd(SACmds['ref-level'], -10)
-    SA.setSACmd(SACmds['det-auto-state'], 'OFF')
-    SA.setSACmd(SACmds['det-mode'], 'RMS') 
-    SA.setSACmd(SACmds['trace1-mode'], 'MAX')
-    SA.setSACmd(SACmds['max-hold-state'], 'ON')
-    
+    SA.setSACmd(SACmds['reset_device'])
+    SA.setSACmd(SACmds['start_freq'], args.start_freq)
+    SA.setSACmd(SACmds['stop_freq'], args.stop_freq)
+    SA.setSACmd(SACmds['sweep_points'], NUMPOINTS)
+    SA.setSACmd(SACmds['rbw_auto'], 'off')
+    SA.setSACmd(SACmds['vbw_auto'], 'off')
+    SA.setSACmd(SACmds['att_level'], 10)
+    SA.setSACmd(SACmds['ref_level'], -10)
+    # SA.setSACmd(SACmds['det_auto_state'], 'OFF')
+    SA.setSACmd(SACmds['det_mode'], 'RMS') 
+    SA.setSACmd(SACmds['trace1_mode'], 'MAX')
+    # SA.setSACmd(SACmds['max_hold_state'], 'ON')
+    SA.setSACmd(SACmds['marker1-state'], 'ON')
+
     print('/------End of Setup Spectrum Analyzer---------/\n\n')
     return SA
         
 #------------------------------ PLOT ---------------------------#
-def plotTrace(freq_values, power_values): 
+def plotTrace(freq_values, power_values, ref_level): 
     ''' Plot response
 
     This function plots the power vs frequency filter response 
@@ -101,23 +103,24 @@ def plotTrace(freq_values, power_values):
     '''
     x_axis = freq_values
     y_axis = power_values
-
+    print(f'x_axis before plot = {x_axis}')
+    print(f'y_axis before plot = {y_axis}')
     plt.plot(x_axis, y_axis)
     plt.xlabel('Frequency in GHz')
     plt.ylabel('Power in dBm')
-    plt.title('Low Pass Filter Response')
+    plt.title('Sweep Maxhold Plot')
+    plt.ylim(-110, ref_level)
     plt.show()
-
-#%%   
+   
 # Main program
-#-----------------------------------------------------------------------------   
+# -----------------------------------------------------------------------------   
 if __name__ == '__main__':
     # Set up arguments to be parsed 
     parser = argparse.ArgumentParser(description = 'Specify Start and Stop Frequency')
     parser.add_argument('start_freq', type = str, help = 'the start frequency incl. units (Hz)')
     parser.add_argument('stop_freq', type = str, help = 'the stop frequency incl. units (Hz)')
     parser.add_argument('step_freq', type = str, help = 'the step frequency incl. units (Hz)')
-    parser.add_argument('dwel_time', type = int, help = 'the sweep dwell time (ms)')
+    parser.add_argument('dwel_time', type = float, help = 'the sweep dwell time (ms)')
     args = parser.parse_args()
 
     print('\n/--------- Running main Code ---------/') 
@@ -130,7 +133,7 @@ if __name__ == '__main__':
     print("/------Setup Signal Generator Sweep Parameters... ---------/")
 
     '''
-        This block of code generates a sweep frequency of the signal generator
+        The following block of code generates a sweep frequency of the signal generator
         at 100MHz step
         @params:
             start_freq      : start frequency in Hz (not less than 9 kHz)
@@ -138,105 +141,133 @@ if __name__ == '__main__':
             step_freq       : step frequency in Hz (default = 100 MHz)
             dwel_time       : duration of frequency output in ms (default=1000 ms)
         ''' 
-    # Display SG start frequency
-    start_freq_recvd = int(sg.getSGCmd(SACmds["start-freq"]).decode())
-    print(f'Signal Generator Start Frequency = {float(start_freq_recvd)/1e6} MHz') 
+    # Set and Display SG start frequency
+    sg.setSGCmd(SGCmds["start_freq"], args.start_freq)
+    start_freq_recvd = sg.getSGCmd(SGCmds["start_freq"]).decode()
+    print(f'Signal Generator Start Frequency = {float(start_freq_recvd) / 1e9} GHz') 
 
-    # Display SG stop frequency
-    stop_freq_recvd = int(sg.getSGCmd(SACmds["stop-freq"]).decode())
-    print(f'Signal Generator Stop Frequency = {float(stop_freq_recvd)/1e9} GHz')
+    # Set and Display SG stop frequency
+    sg.setSGCmd(SGCmds["stop_freq"], args.stop_freq)
+    stop_freq_recvd = int(sg.getSGCmd(SGCmds["stop_freq"]).decode())
+    print(f'Signal Generator Stop Frequency = {float(stop_freq_recvd) / 1e9} GHz')
 
     centFreq = (int(float(args.start_freq)) + int(float(args.stop_freq))) / 2
     span = int(float(args.stop_freq)) - int(float(args.start_freq))    
-    span_recvd = int(sg.getSGCmd(SGCmds['span-freq']).decode())
-    print(f"Sweep Span = {span_recvd/1e9} GHz")
+    span_recvd = int(sg.getSGCmd(SGCmds['span_freq']).decode())
+    print(f"Sweep Span = {span_recvd / 1e9} GHz")
 
         # 1. Set the sweep range
-    sg.setSGCmd(SGCmds['cent-freq'], centFreq)
-    centFreq_recvd = int(sg.getSGCmd(SGCmds['cent-freq']).decode())
-    print(f"Sweep Center Frequency = {centFreq_recvd/1e9} GHz")
-    sg.setSGCmd(SGCmds['span-freq'], span)
+    sg.setSGCmd(SGCmds['cent_freq'], centFreq)
+    centFreq_recvd = int(sg.getSGCmd(SGCmds['cent_freq']).decode())
+    print(f"Sweep Center Frequency = {centFreq_recvd / 1e9} GHz")
+    sg.setSGCmd(SGCmds['span_freq'], span)
 
         # 2. Select linear or logarithmic spacing
-    sg.setSGCmd(SGCmds['sweep-freq-spac-conf'], 'LIN')
+    sg.setSGCmd(SGCmds['sweep_freq_spac_conf'], 'LIN')
 
         # 3. Set the step width and dwell time
-    sg.setSGCmd(SGCmds['sweep-freq-step'], f'{args.step_freq}')
-    step_freq_recvd = int(sg.getSGCmd(SGCmds['step-freq']).decode())
-    print(f"Step Frequency = {step_freq_recvd/1e6} MHz")
-    sg.setSGCmd(SGCmds['sweep-freq-dwell'], f'{args.dwel_time}')
+    sg.setSGCmd(SGCmds['sweep_freq_step'], f'{args.step_freq}')
+    step_freq_recvd = int(float(sg.getSGCmd(SGCmds['step_freq']).decode()))
+    print(f"Step Frequency = {step_freq_recvd / 1e9} GHz")
+    sg.setSGCmd(SGCmds['sweep_freq_dwell'], f'{args.dwel_time}')
 
         # 4. Select the trigger mode
-    sg.setSGCmd(SGCmds['sweep-freq-trig'], 'SING')
+    sg.setSGCmd(SGCmds['sweep_freq_trig'], 'SING')
 
         # 5. Select sweep mode and activate the sweep
-    sg.setSGCmd(SGCmds['sweep-freq-mode'], 'AUTO')
-    sg.setSGCmd(SGCmds['freq-mode'], 'SWE')
+    sg.setSGCmd(SGCmds['sweep_freq_mode'], 'AUTO')
+    sg.setSGCmd(SGCmds['freq_mode'], 'SWE')
 
         # 6. Trigger the sweep     
-    sg.setSGCmd(SGCmds['sweep-freq-exec'])
+    sg.setSGCmd(SGCmds['sweep_freq_exec'])
     print('Executing sweep...')
-
 # ----------------End of Signal Generator Setup Sweep Parameters -----------------------
+
     # Wait until the sweep is finished
-    run_time_delay = int((float(args.stop_freq) - float(args.start_freq)) / float(args.step_freq) * float(args.dwel_time / 1000) + 15)
+    run_time_delay = int((float(args.stop_freq) - float(args.start_freq)) * (float(args.dwel_time) / float(args.step_freq)))
     for count in range(0, run_time_delay, 10):
         time.sleep(10)          # wait for sweep to complete  
-        print(f'count = {count}...')
-    
+        # print(f'count = {count}...')
+        print('Sweeping...')
+        # current_freq = sg.getSGCmd(SGCmds['current_freq'])
+        # set_marker_freq = sa.setSACmd((SACmds['marker_frequency']), current_freq)
+        # marker_freq_pow = sa.getSACmd(SACmds['marker_power'])
+
     ''' Read trace data
         
     This block of code reads the power trace data and calculates the 
     trace frequency points
 
-    @params:
-        freq_start      : start frequency in Hz
-        freq_stop       : stop frequency in Hz
     '''         
     
     freq_values = []
     power_values = [] 
 
     # Read and print Spectrum Analyzer start frequency
-    start_freq = int(sa.getSACmd(SACmds["start-freq"]).decode())
-    print(f'Spectrum Analyzer Start Frequency = {float(start_freq)/1e6} MHz') 
+    start_freq = sa.getSACmd(SACmds["start_freq"])
+    print(f'Spectrum Analyzer Start Frequency = {float(start_freq) / 1e6} MHz') 
 
     # Read and print SA stop frequency
-    stop_freq = int(sa.getSACmd(SACmds["stop-freq"]).decode())
-    print(f'Spectrum Analyzer Stop Frequency = {float(stop_freq)/1e9} GHz')
+    stop_freq = int(sa.getSACmd(SACmds["stop_freq"]).decode())
+    print(f'Spectrum Analyzer Stop Frequency = {float(stop_freq) / 1e9} GHz')
 
     # Confugure trace data format to be Ascii
-    sa.setSACmd(SACmds['data-format'], 'ASC')
+    sa.setSACmd(SACmds['data_format'], 'ASC')
     print('Trace data formatted to Ascii')   
 
     # Set single sweep
-    sa.setSACmd((SACmds['sing-sweep-state']), 'OFF')
+    sa.setSACmd((SACmds['sing_sweep_state']), 'OFF')
 
-    # Get trace data power values  
-    power_data = sa.getSACmd((SACmds['trace-data']), '1')
-    time.time(0.1)
-    power_data.decode()
+    # --------------- Get trace data power values ------------------  
+    # sa.getSACmd((SACmds['trace_data']), 1)     # Command not working, replaced by the chunk of code below
+    sa.sendall(bytes('TRACE:DATA? 1\n', encoding = 'utf8'))
+    time.sleep(SHORT_DELAY)
+    try:
+        return_str = sa.recv(8092)
+    except socket.timeout:
+        raise StopIteration('No data received from instrument') 
+    #print(f'return_str = {return_str} and return_str type = {type(return_str)}\n')
+    # -------------------- End of trace data power values reading -------
+
+
+    # --------------- Trace data power values conditioning -------------------
+    power_data = return_str
+    power_data = power_data.decode()
+    #print(f'decoded power_data = {power_data} and power_data type = {type(power_data)}\n')
     power_data = str(power_data)
-    power_data.split(',') 
-    No_of_Sweep_Points = int(sa.getSACmd(SACmds['sweep-points']))
-    print(f'No_of_Sweep_Points = {No_of_Sweep_Points}')
-    for s in power_data:
-        power_data_float = round(float(s), 2) 
-        power_values.append(power_data_float)
+    power_data = power_data.split(',')              # Makes variable a list
+    #print(f'decode list power_data = {power_data}')
+    power_data.pop(0)
+    power_data = [float(x) for x in power_data]
+    #print(f'final list power_data = {power_data} and power_data type = {type(power_data)}')
+    
+    No_of_Sweep_Points = int(sa.getSACmd(SACmds['sweep_points']).decode())   # Get No. of Sweep Points
+    #print(f'No of Sweep Points = {No_of_Sweep_Points}, No_of_Sweep_Points type = {type(No_of_Sweep_Points)}')
+    #for s in power_data:
+    #    power_values.append(power_data)
+    power_values = power_data
+    # -------------------- End of trace data power values conditioning -------
 
-    freq_step_size = int((float(args.stop_freq) - int(float(args.start_freq))) / (No_of_Sweep_Points - 1))
-    for i in range(0, No_of_Sweep_Points, 1):
-        freq_values.append(int(float(args.freq_start)) + (i * freq_step_size))
+    #freq_step_size = int((float(args.stop_freq) - int(float(args.start_freq))) / (No_of_Sweep_Points - 1))
+    freq_step_size = int((float(args.stop_freq) - float(args.start_freq)) / (No_of_Sweep_Points))
+    for i in range(0, (No_of_Sweep_Points - 1), 1):
+        freq_values.append(int(float(args.start_freq)) + (i * freq_step_size))
 
-    print('Power and Frequency Values acquired.')
+    #print(f'final list freq_values = {freq_values} and freq_values type = {type(freq_values)}')
 
-    plotTrace(freq_values, power_values)
+    #print(f'length of freq_values = {len(freq_values)} and length of power_values = {len(power_values)}')    
+    print('Power and Frequency Values acquired...')
 
-    sg.setSGCmd(SGCmds['rf-state'], RF_OFF)
+    ref_level = int(sa.getSACmd(SACmds['ref_level']).decode())
+    print(f'Ref Level = {ref_level}')
+
+    plotTrace(freq_values, power_values, ref_level)
+
+    # sg.setSGCmd(SGCmds['rf_state'], RF_OFF)
     sg.closeSGSock()
     sa.closeSASock()
 
-    plotTrace(freq_values, power_values)
+    # plotTrace(freq_values, power_values)
     
     print('Displayed plot...')
     print('End of program.')
