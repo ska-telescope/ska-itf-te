@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 @author: Ben/Vhuli/Monde 
-@Date: xx-09-2022
+@Date: 26-09-2022
 @Affiliation: 
 @Functional Description: 
     1. This script reads the basic parameters of the Anritsu MS2090A Spectrum Analyzer
@@ -21,10 +21,11 @@
 
 import socket
 import time
-from numpy import double
 import argparse
 import unittest
-from unittest import TestCase
+import os, sys
+sys.path.insert(2, os.path.abspath(os.path.join('../../../') + '/resources/'))
+from scpi_database import SACmds
 
 # -------------------------- CONNECTION SETTINGS -------------------------------------------
 SA_HOST = '10.20.7.4'         # MS2090A spectrum analyzer IP
@@ -32,7 +33,6 @@ SA_PORT = 9001                # MS2090A spectrum analyzer port
 SA_ADDRESS = (SA_HOST, SA_PORT)
 #-------------------------- CONSTANTS --------------------------
 
-FREQ_STEP = 3015873             # step frequency in MHz
 DEFAULT_TIMEOUT = 1             # Default socket timeout
 RECDUR = 5                      # Time in seconds to find maxhold peaks
 RESPONSE_TIMEOUT = 0.01
@@ -45,23 +45,6 @@ LONG_DELAY = 1
 
 # ---------------- Look up table ---------------------------
 
-SACmds = {
-    # Common commands
-    'reset-device': '*RST', 
-    'device-id': '*IDN',
-    'oper-complete': '*OPC',
-    'clear-status': '*CLS',
-
-    # Frequency Commands
-    'start-freq': ':FREQ:STAR',
-    'stop-freq': ':FREQ:STOP',
-
-    # System Settings Commands
-    'instr-mode': 'MODE',
-
-    # System Commands
-
-}
 #-------------------------SPECTRUM ANALYZER SOCKET CLASS----------------------------------
 class SA_SOCK(socket.socket):
 
@@ -81,26 +64,19 @@ class SA_SOCK(socket.socket):
         @params 
         SA_ADDRESS         : specHOST str, specPORT int
         '''    
-#check this works... 
         self.connect(SA_ADDRESS)  # connect to spectrum analyzer via socket and Port
         self.settimeout(self.response_timeout) 
-        print(f'Connected to: {self.getSACmd(SACmds["device-id"]).decode()}')
+        return self.getSACmd(SACmds["device_id"]).decode()
         
-    def getSACmd(self, request_str, response_buffer = 'default', timeout_max = 10, param = ''):
+    def getSACmd(self, request_str, response_buffer = DEFAULT_BUFFER, timeout_max = 10, param = ''):
         ''' Request data
 
         This function requests and reads the command to and from the test device
         @params:
             request_str  : string
-        ''' 
-        if type(response_buffer) == str:
-            response_buffer = self.default_buffer                   # Cleanup the receive buffer
-                                                
-        if param == '':
-            self.setSACmd(f'{request_str}?')                        # Send the request, adds a question mark for a get/read command
-        else:
-            self.setSACmd(f'{request_str}? {param}')                # Send the request, adds a question mark for a get/read command, and adds a command
-        
+        '''                                     
+        self.sendall(bytes(request_str + f'? {param}\n', encoding = 'utf8'))
+        time.sleep(self.response_timeout) 
         return_str = b''                                            # Initialize Rx buffer
         time_start = time.time()                                    # Get the start time
         while True:
@@ -124,21 +100,30 @@ class SA_SOCK(socket.socket):
         @params:
             command_str  : string    
         '''
-        if param == '':
-            self.sendall(bytes(command_str, encoding = 'utf8') + b'\n')    
-        else:
-            self.sendall(bytes(command_str, encoding = 'utf8') + bytes(f' {param}\n', encoding = 'utf8'))
-        time.sleep(self.response_timeout)
+        self.sendall(bytes(command_str + f' {param}\n', encoding = 'utf8'))
+        time.sleep(self.response_timeout)        
+
+    def setSACmdResponse(self, command_str, param = ''):
+        ''' Send command
+        
+        This function sends the command and adds \n at the end of any commands 
+        sent to the test device and returns getSACmd to verify the value was set correctly
+        @params:
+            command_str  : string    
+        '''
+        self.sendall(bytes(command_str + f' {param}\n', encoding = 'utf8'))
+        time.sleep(self.response_timeout)        
+        return self.getSACmd(command_str)
 
     def test_function(self, expected_param, parsed_param):
         expression_false = expected_param != parsed_param
         if expression_false:
-            TestCase.assertFalse(expression_false, False) # test Fail
+            unittest.TestCase.assertFalse(expression_false, False) # test Fail
             print('Test Fail')
         
         expression_true = expected_param = parsed_param
         if expression_true:
-            TestCase.assertTrue(expression_true, True)      # test Pass
+            unittest.TestCase.assertTrue(expression_true, True)      # test Pass
             print('Test Pass')
 
     def closeSpecAna(self):
@@ -153,21 +138,26 @@ if __name__ == '__main__':
 
     print("/------Setup spectrum analyser---------/")
     SA = SA_SOCK()
-    SA.connectSA(SA_ADDRESS)
-    SA.setSACmd(SACmds['reset-device'])  # Reset
-    SA.setSACmd(SACmds['clear-status'])
-    SA.setSACmd(SACmds['instr-mode'], SPEC_ANA_MODE)
+    print(SA.connectSA(SA_ADDRESS))
+    SA.setSACmd(SACmds['reset_device'])  
+    SA.setSACmd(SACmds['clear_status']) 
 
-    SA.setSACmd(SACmds['start-freq'], args.start_freq)                  # set start freq
-    expected_start_freq = int(SA.getSACmd(SACmds["start-freq"]).decode())
-    print(f'Start Frequency = {float(expected_start_freq)/1e6} MHz')
-    # Test whether start frequency is what was set
-    SA.test_function(expected_start_freq, float(args.start_freq))     # test start frequency 
+    # Configure measurement mode to Spectrum
+    spec_ana_mode = SA.setSACmdResponse(SACmds['device_mode'], SPEC_ANA_MODE).decode()
+    if spec_ana_mode != SPEC_ANA_MODE:
+        print("Error setting Spectrum Analyser Mode")
+    else: print(f'Spectrum Analyzer Mode set to Spectrum') 
+
+    # Set start frequency of spectrum analyzer
+    start_freq = float(SA.setSACmdResponse(SACmds['start_freq'], args.start_freq).decode())
+    if start_freq != float(args.start_freq):              # set start freq, check response
+        print("Error setting Spectrum Analyzer Start Freq")
+    else: print(f'Start Frequency = {start_freq / 1e6} MHz')
     
-    SA.setSACmd(SACmds['stop-freq'], args.stop_freq)                    # set stop freq
-    expected_stop_freq = int(SA.getSACmd(SACmds["stop-freq"]).decode())
-    print(f'Stop Frequency = {float(expected_stop_freq)/1e9} GHz')
-    # Test whether stop frequency is what was set
-    SA.test_function(float(expected_stop_freq), float(args.stop_freq))     # test start frequency 
+    # Set stop frequency of spectrum analyzer
+    stop_freq = float(SA.setSACmdResponse(SACmds['stop_freq'], args.stop_freq).decode())
+    if stop_freq != float(args.stop_freq):              # set stop freq, check response
+        print("Error setting Spectrum Analyser Start Freq")
+    else: print(f'Stop Frequency = {stop_freq / 1e6} MHz')
 
     SA.close()

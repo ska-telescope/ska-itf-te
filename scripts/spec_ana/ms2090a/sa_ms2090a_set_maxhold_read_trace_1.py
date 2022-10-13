@@ -20,6 +20,7 @@ import os
 import socket
 import time
 sys.path.insert(1, os.path.abspath(os.path.join('../../') + '/resources/'))
+# sys.path.insert(2, os.path.abspath(os.path.join('../../../') + '/resources/'))
 from scpi_database import SACmds
 
 # -------------------------- CONNECTION SETTINGS -------------------------------------------
@@ -58,7 +59,7 @@ class SA_SOCK(socket.socket):
         '''    
         self.settimeout(DEFAULT_TIMEOUT) 
         self.connect(SA_ADDRESS)  # connect to spectrum analyzer via socket and Port
-        print(f'Connected to: {self.getSACmd(SACmds["device-id"])}')
+        print(f'Connected to: {self.getSACmd(SACmds["device_id"]).decode()}')
 
     def getSACmd(self, request_str, param = '', response_buffer = DEFAULT_BUFFER, timeout_max = 10):
         ''' Request data
@@ -68,8 +69,8 @@ class SA_SOCK(socket.socket):
             request_str  : string
             param        : string
         '''                       
-        print(f'{request_str}' + f'? {param}')              
-        self.sendall(bytes(request_str + f'? {param}\n', encoding = 'utf8'))
+        cmd = f'{request_str}' + f'? {param}\n'
+        self.sendall(bytes(cmd, encoding = 'utf8'))         
         time.sleep(self.response_timeout) 
         return_str = b''                                            # Initialize Rx buffer
         time_start = time.time()                                    # Get the start time
@@ -109,6 +110,6 @@ class SA_SOCK(socket.socket):
         time.sleep(self.response_timeout)        
         return self.getSACmd(command_str)
 
-    def closeSA(self):
+    def closeSASock(self):
         self.close()
         print('Spectrum Analyzer socket Disconnected')
