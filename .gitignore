@@ -1,2 +1,4 @@
 .DS_Store
 *.pyc
+UserProfile.mak
+PrivateRules.mak

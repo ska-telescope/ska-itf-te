@@ -1,0 +1,101 @@
+ME ?= bl ## Default user that wants to connect to the ITF machines
+SSH_CONFIG_PATH ?= resources/users/$(ME)/.ssh
+SSH_HOST ?= The-Beast
+# add this line 
+# ME = <your-three-letter-initials>
+# and uncomment, in the following file:
+-include ./resources/users/UserProfile.mak
+-include PrivateRules.mak
+
+whoami:
+	@cat $(SSH_CONFIG_PATH)/config | grep User | tail -1
+
+####### Jump to hosts within the ITF network #######
+# NOTE: you need to have EduVPN set up while       #
+# SKAO IT is figuring out how to get access        #
+# granted for external users into the SKAO         #
+# network.                                         #
+####### Any day now. ###############################
+
+connect-jump-host: ## Connect to the Raspberry Pi
+	@make jump SSH_HOST="Pi"
+
+jump-the-beast: ## Jump to the ITF Minikube host
+	@make jump SSH_HOST="The-Beast"
+
+## TARGET: jump
+## SYNOPSIS: make jump
+## HOOKS: none
+## VARS:
+## 		SSH_CONFIG_PATH=path in this repository where .ssh/config files are
+##						kept to access ITF machines. NO PRIVATE KEYS!!!
+## 		SSH_HOST=hostname specified in user's .ssh/config file.
+##  Force initialisation and update of all git submodules in this project.
+jump: ## Jump to a host
+	@ssh -F $(SSH_CONFIG_PATH)/config $(SSH_HOST)
+
+curl-test: ## Curl to see if Taranta is accessible from command line
+	@curl -s localhost:8000/integration-itf/taranta | grep Taranta
+	@exit $$?
+
+curl-test-jupyter: ## Curl to see if Jupyter is accessible from command line
+	@curl -sv localhost:8080 | grep jupyter
+	@exit $$?
+
+open-jupyter: open-jupyter-tunnel curl-test-jupyter ## All in one target: open tunnel and check if Taranta is available
+	@echo "########################################################################"
+	@echo "#                                                                      #"
+	@echo "# Open http://localhost:8080 in your browswer! #"
+	@echo "#                                                                      #"
+	@echo "########################################################################"
+
+open-taranta: open-web-tunnel curl-test ## All in one target: open tunnel and check if Taranta is available
+	@echo "########################################################################"
+	@echo "#                                                                      #"
+	@echo "# Open http://localhost:8000/integration-itf/taranta in your browswer! #"
+	@echo "#                                                                      #"
+	@echo "########################################################################"
+
+close-web-tunnel: ## kill the last process registered for web
+	kill $(SSH_PORT_8000_PROCESS_ID)
+
+close-all-tunnels: ## Close the gates!
+	@make close-web-tunnel || echo "No web tunnel was closed now"
+	@make close-ssh-tunnel || echo "No ssh tunnel was closed now"
+
+ps-aux-ssh-tunnels: ## check if any SSH tunnels are currently open
+	@ps aux | grep "ssh -N -L" | grep -v grep || echo "No SSH tunnels open at this time."
+
+ps: ps-aux-ssh-tunnels ## alias for ps-aux-ssh-tunnels
+
+open-tunnel:
+	# @make close-k8s-tunnel
+	@./resources/tunnel.sh $(LOCAL_PORT) $(SOURCE_IP) $(SOURCE_PORT)
+	@ps aux | grep "ssh -N -L" | tail -1 | grep $(LOCAL_PORT)
+	@sleep 1
+
+K8S_PORT := 6443
+
+### THIS IS HARDCODED AND MAY CAUSE ISSUES LATER
+HAPROXY_IP := 10.20.7.7
+open-k8s-tunnel:
+	@make open-tunnel LOCAL_PORT=${K8S_PORT} SOURCE_IP=${HAPROXY_IP} SOURCE_PORT=${K8S_PORT}
+
+close-k8s-tunnel:
+	kill $(SSH_PORT_6643_PROCESS_ID)
+
+JUPYTER_PORT := 8080
+open-jupyter-tunnel:
+	@make open-tunnel LOCAL_PORT=${JUPYTER_PORT} SOURCE_IP=${HAPROXY_IP} SOURCE_PORT=${JUPYTER_PORT}
+
+close-jupyter-tunnel: ## kill the last process registered for Jupyter
+	kill $(SSH_PORT_8080_PROCESS_ID)
+
+open-taranta-tunnel:
+	@make close-web-tunnel
+	@./resources/tunnel.sh taranta || true
+	@ps aux | grep "ssh -N -L" | tail -1 | grep 8000
+	@rm OpenSSHPorts.mak-e || true
+	@sleep 1
+
+# open-k8s-tunnel: LOCAL_PORT := funky open-tunnel
