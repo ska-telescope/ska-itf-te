@@ -92,3 +92,64 @@ You can run the `k9s` app with the correct KUBECONFIG loaded and pointing at you
 ```
 $ make k9s
 ```
+If the above target succeeded, you should be looking at something like this:
+```
+Context: minikube                                 <?> Help                                                                                               ____  __.________        
+ Cluster: minikube                                                                                                                                       |    |/ _/   __   \______ 
+ User:    minikube                                                                                                                                       |      < \____    /  ___/ 
+ K9s Rev: v0.26.3 ⚡️v0.26.6                                                                                                                              |    |  \   /    /\___ \  
+ K8s Rev: v1.24.3                                                                                                                                        |____|__ \ /____//____  > 
+ CPU:     5%                                                                                                                                                     \/            \/  
+ MEM:     11%                                                                                                                                                                      
+┌─────────────────────────────────────────────────────────────────────────────── Contexts(all)[1] ────────────────────────────────────────────────────────────────────────────────┐
+│ NAME↑                                         CLUSTER                                    AUTHINFO                                   NAMESPACE                                   │
+│ minikube(*)                                   minikube                                   minikube                                   default                                     │
+│                                                                                                                                                                                 │
+│                                                                                                                                                                                 │
+│                                                                                                                                                                                 │
+│                                                                                                                                                                                 │
+│                                                                                                                                                                                 │
+│                                                                                                                                                                                 │
+│                                                                                                                                                                                 │
+│                                                                                                                                                                                 │
+│                                                                                                                                                                                 │
+│                                                                                                                                                                                 │
+│                                                                                                                                                                                 │
+│                                                                                                                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+  <contexts>                                                                                                                                                                    
+  ```
+  Or, you could be looking at this:
+  ```
+  Context: minikube                                 <0> all               <a>      Attach     <l>       Logs               <y> YAML                        ____  __.________        
+ Cluster: minikube                                 <1> integration-itf   <ctrl-d> Delete     <p>       Logs Previous                                     |    |/ _/   __   \______ 
+ User:    minikube                                 <2> default           <d>      Describe   <shift-f> Port-Forward                                      |      < \____    /  ___/ 
+ K9s Rev: v0.26.3 ⚡️v0.26.6                                              <e>      Edit       <s>       Shell                                             |    |  \   /    /\___ \  
+ K8s Rev: v1.24.3                                                        <?>      Help       <n>       Show Node                                         |____|__ \ /____//____  > 
+ CPU:     5%                                                             <ctrl-k> Kill       <f>       Show PortForward                                          \/            \/  
+ MEM:     11%                                                                                                                                                                      
+┌─────────────────────────────────────────────────────────────────────────── Pods(integration-itf)[15] ───────────────────────────────────────────────────────────────────────────┐
+│ NAME↑                                           PF   READY     RESTARTS STATUS         CPU   MEM   %CPU/R   %CPU/L    %MEM/R    %MEM/L IP               NODE         AGE        │
+│ dashboard-ska-tango-taranta-dashboard-test-0    ●    1/1              0 Running          3    88        3        3        68        68 172.17.0.10      minikube     6h30m      │
+│ mongodb-ska-tango-taranta-dashboard-test-0      ●    1/1              0 Running          3    41        1        0        16         8 172.17.0.20      minikube     6h30m      │
+│ signalgenerator-smb100a-0                       ●    1/1              0 Running        101    32      202      101        65        32 172.17.0.21      minikube     6h30m      │
+│ signalgenerator-test-config-5frbb               ●    0/1              0 Completed        0     0      n/a      n/a       n/a       n/a 172.17.0.11      minikube     45m        │
+│ ska-tango-base-itango-console                   ●    1/1              0 Running          0     0        0        0         0         0 172.17.0.8       minikube     6h30m      │
+│ ska-tango-base-tangodb-0                        ●    1/1              0 Running          1    72        1        0        28        28 172.17.0.16      minikube     6h30m      │
+│ ska-tango-tangogql-0                            ●    1/1              0 Running          1    47        0        0         9         4 172.17.0.12      minikube     6h30m      │
+│ spectrumanalyser-specmon26b-0                   ●    1/1              0 Running         13    31       26       13        63        31 172.17.0.18      minikube     6h30m      │
+│ spectrumanalyser-test-config-whflf              ●    0/1              0 Completed        0     0      n/a      n/a       n/a       n/a 172.17.0.19      minikube     45m        │
+│ tango-databaseds-0                              ●    1/1              1 Running          1     5        1        0         4         2 172.17.0.9       minikube     6h30m      │
+│ tangotest-test-0                                ●    1/1              0 Running         13    41        6        2        16         8 172.17.0.17      minikube     6h30m      │
+│ tangotest-test-config-276hx                     ●    0/1              0 Completed        0     0      n/a      n/a       n/a       n/a 172.17.0.13      minikube     45m        │
+│ taranta-auth-ska-tango-taranta-auth-test-0      ●    2/2              0 Running          2    18        1        1         7         7 172.17.0.15      minikube     6h30m      │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+  <namespace>   <pod>                                                                                                                                                              
+  ```
+  Learn the `k9s` commands, and open a shell (select the correct pod and use `s`) in the `ska-tango-base-itango-console` pod.
+  `k9s` will choose the container to open a shell in. You'll now see this:
+  ```
+  <<K9s-Shell>> Pod: integration-itf/ska-tango-base-itango-console | Container: itango 
+tango@ska-tango-base-itango-console:/app$ 
+```
+Run the `itango3` command and enjoy.
