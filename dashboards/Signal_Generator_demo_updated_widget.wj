@@ -1,0 +1,252 @@
+{
+  "id": "63492fccfac2bd00183d26d4",
+  "name": "Signal_Generator_demo_updated_widget",
+  "version": "1.3.4",
+  "user": "ATLAS",
+  "insertTime": "2022-10-14T09:45:48.185Z",
+  "updateTime": "2022-10-14T09:49:22.278Z",
+  "group": "group3",
+  "groupWriteAccess": true,
+  "lastUpdatedBy": "ATLAS",
+  "widget": [
+    {
+      "id": "2",
+      "x": 60,
+      "y": 17,
+      "canvas": "0",
+      "width": 25,
+      "height": 44,
+      "type": "BOX",
+      "inputs": {
+        "title": "",
+        "bigWidget": 2,
+        "smallWidget": 2,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "borderColor": "#204a87",
+        "borderWidth": 3,
+        "borderStyle": "ridge",
+        "textSize": 1,
+        "fontFamily": "Helvetica",
+        "layout": "vertical",
+        "alignment": "Right",
+        "padding": 1,
+        "customCss": "border-radius: 10px;\n"
+      },
+      "order": 0,
+      "innerWidgets": [
+        {
+          "id": "11",
+          "x": 60.7,
+          "y": 21.22,
+          "canvas": "0",
+          "width": 23.6,
+          "height": 4.8,
+          "type": "LABEL",
+          "inputs": {
+            "text": "Signal Generator",
+            "textColor": "#000000",
+            "backgroundColor": "#becedd",
+            "size": 1.5,
+            "borderWidth": 0,
+            "borderColor": "#000000",
+            "font": "Helvetica",
+            "linkTo": "",
+            "customCss": ""
+          },
+          "valid": true,
+          "order": 24
+        },
+        {
+          "id": "10",
+          "x": 60.7,
+          "y": 25.62,
+          "canvas": "0",
+          "width": 23.6,
+          "height": 4.8,
+          "type": "LABEL",
+          "inputs": {
+            "text": "Model: SMB100A",
+            "textColor": "#000000",
+            "backgroundColor": "#ffffff",
+            "size": 1,
+            "borderWidth": 0,
+            "borderColor": "#000000",
+            "font": "Helvetica",
+            "linkTo": "",
+            "customCss": ""
+          },
+          "valid": true,
+          "order": 27
+        },
+        {
+          "id": "8",
+          "x": 60.7,
+          "y": 30.020000000000003,
+          "canvas": "0",
+          "width": 23.6,
+          "height": 4.8,
+          "type": "ATTRIBUTE_DISPLAY",
+          "inputs": {
+            "attribute": {
+              "device": "test-itf/siggen/1",
+              "attribute": "adminmode",
+              "label": "adminMode"
+            },
+            "precision": 2,
+            "showDevice": false,
+            "showAttribute": "Label",
+            "scientificNotation": false,
+            "showEnumLabels": true,
+            "textColor": "#000000",
+            "backgroundColor": "#ffffff",
+            "size": 1,
+            "font": "Helvetica"
+          },
+          "valid": true,
+          "order": 28
+        },
+        {
+          "id": "9",
+          "x": 60.7,
+          "y": 34.42,
+          "canvas": "0",
+          "width": 23.6,
+          "height": 4.8,
+          "type": "ATTRIBUTE_DISPLAY",
+          "inputs": {
+            "attribute": {
+              "device": "test-itf/siggen/1",
+              "attribute": "power_dbm",
+              "label": "power_dbm"
+            },
+            "precision": 2,
+            "showDevice": false,
+            "showAttribute": "Label",
+            "scientificNotation": false,
+            "showEnumLabels": false,
+            "textColor": "#000000",
+            "backgroundColor": "#ffffff",
+            "size": 1,
+            "font": "Helvetica"
+          },
+          "valid": true,
+          "order": 44
+        },
+        {
+          "id": "1",
+          "x": 60.7,
+          "y": 38.82,
+          "canvas": "0",
+          "width": 23.6,
+          "height": 4.8,
+          "type": "DEVICE_STATUS",
+          "inputs": {
+            "device": "test-itf/siggen/1",
+            "state": {
+              "device": null,
+              "attribute": null
+            },
+            "showDeviceName": false,
+            "showStateString": true,
+            "showStateLED": true,
+            "LEDSize": 1,
+            "textSize": 1
+          },
+          "valid": true,
+          "order": 45
+        },
+        {
+          "id": "5",
+          "x": 60.7,
+          "y": 43.22,
+          "canvas": "0",
+          "width": 23.6,
+          "height": 4.8,
+          "type": "LED_DISPLAY",
+          "inputs": {
+            "attribute": {
+              "device": "test-itf/siggen/1",
+              "attribute": "rf_output_on",
+              "label": "rf_output_on"
+            },
+            "relation": ">",
+            "compare": 0,
+            "trueColor": "#3ac73a",
+            "falseColor": "#ff0000",
+            "ledSize": 1,
+            "textSize": 1,
+            "showAttributeValue": false,
+            "showDeviceName": false,
+            "showAttribute": "Label"
+          },
+          "valid": true,
+          "order": 49
+        },
+        {
+          "id": "7",
+          "x": 60.7,
+          "y": 47.62,
+          "canvas": "0",
+          "width": 23.6,
+          "height": 4.8,
+          "type": "ATTRIBUTE_DISPLAY",
+          "inputs": {
+            "attribute": {
+              "device": "test-itf/siggen/1",
+              "attribute": "frequency",
+              "label": "frequency"
+            },
+            "precision": 2,
+            "showDevice": false,
+            "showAttribute": "Label",
+            "scientificNotation": false,
+            "showEnumLabels": false,
+            "textColor": "#000000",
+            "backgroundColor": "#ffffff",
+            "size": 1,
+            "font": "Helvetica"
+          },
+          "valid": true,
+          "order": 50
+        },
+        {
+          "id": "12",
+          "x": 60.7,
+          "y": 56.419999999999995,
+          "canvas": "0",
+          "width": 23.6,
+          "height": 4.8,
+          "type": "COMMAND_ARRAY",
+          "inputs": {
+            "buttonText": "Reset",
+            "command": {
+              "device": "test-itf/siggen/1",
+              "command": "Reset",
+              "acceptedType": "DevVoid",
+              "intypedesc": "Uninitialised",
+              "outtypedesc": "(ReturnType, 'informational message')",
+              "outtype": "DevVarLongStringArray",
+              "tag": "0"
+            },
+            "commandArgs": [],
+            "showDevice": false,
+            "showCommand": false,
+            "requireConfirmation": true,
+            "displayOutput": true,
+            "placeholder": "intype",
+            "OutputMaxSize": 20,
+            "timeDisplayOutput": 3000,
+            "textColor": "#000000",
+            "backgroundColor": "#ffffff",
+            "size": 1,
+            "font": "Helvetica"
+          },
+          "valid": true,
+          "order": 52
+        }
+      ]
+    }
+  ],
+  "variables": []
+}

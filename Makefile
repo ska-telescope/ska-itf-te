@@ -6,6 +6,7 @@ SSH_HOST ?= The-Beast
 # and uncomment, in the following file:
 -include ./resources/users/UserProfile.mak
 -include PrivateRules.mak
+-include ./resources/OpenSSHPorts.mak
 
 whoami:
 	@cat $(SSH_CONFIG_PATH)/config | grep User | tail -1
@@ -34,6 +35,52 @@ jump-the-beast: ## Jump to the ITF Minikube host
 jump: ## Jump to a host
 	@ssh -F $(SSH_CONFIG_PATH)/config $(SSH_HOST)
 
+ps-aux-ssh-tunnels: ## check if any SSH tunnels are currently open
+	@ps aux | grep "ssh -N -L" | grep -v grep || echo "No SSH tunnels open at this time."
+
+ps: ps-aux-ssh-tunnels ## alias for ps-aux-ssh-tunnels
+
+open-tunnel:
+	@./resources/tunnel.sh $(LOCAL_PORT) $(SOURCE_IP) $(SOURCE_PORT)
+	@ps aux | grep "ssh -N -L" | tail -1 | grep $(LOCAL_PORT)
+	@sleep 1
+
+close-tunnel:
+	@./resources/close_tunnels.sh $(LOCAL_PORT)
+
+K8S_PORT := 6443
+
+### THIS IS HARDCODED AND MAY CAUSE ISSUES LATER
+HAPROXY_IP := 10.20.7.7
+open-k8s-tunnel: close-k8s-tunnel
+	@make open-tunnel LOCAL_PORT=${K8S_PORT} SOURCE_IP=${HAPROXY_IP} SOURCE_PORT=${K8S_PORT}
+
+close-k8s-tunnel:
+	@make close-tunnel LOCAL_PORT=$(K8S_PORT)
+
+copy-kubeconfig:
+	scp -F $(SSH_CONFIG_PATH)/config $(SSH_HOST):/srv/deploy-itf/KUBECONFIG .
+
+k9s: open-k8s-tunnel
+	k9s --kubeconfig KUBECONFIG
+
+JUPYTER_PORT := 8080
+open-jupyter-tunnel: close-jupyter-tunnel
+	@make open-tunnel LOCAL_PORT=${JUPYTER_PORT} SOURCE_IP=${HAPROXY_IP} SOURCE_PORT=${JUPYTER_PORT}
+
+close-jupyter-tunnel: ## kill the last process registered for Jupyter
+	@kill $(SSH_PORT_8080_PROCESS_ID) || echo "JUPYTER: Could not kill pid $(SSH_PORT_8080_PROCESS_ID)"
+
+TARANTA_PORT := 8000
+open-taranta-tunnel: close-taranta-tunnel
+	@make open-tunnel LOCAL_PORT=${TARANTA_PORT} SOURCE_IP=${HAPROXY_IP} SOURCE_PORT=80
+
+close-taranta-tunnel: ## kill the last process registered for web
+	@kill $(SSH_PORT_8000_PROCESS_ID) || echo "TARANTA: Could not kill pid $(SSH_PORT_8000_PROCESS_ID)"
+
+open-all-tunnels: open-k8s-tunnel open-taranta-tunnel open-jupyter-tunnel
+close-all-tunnels: close-k8s-tunnel close-taranta-tunnel close-jupyter-tunnel ## Close the gates!
+
 curl-test: ## Curl to see if Taranta is accessible from command line
 	@curl -s localhost:8000/integration-itf/taranta | grep Taranta
 	@exit $$?
@@ -49,53 +96,9 @@ open-jupyter: open-jupyter-tunnel curl-test-jupyter ## All in one target: open t
 	@echo "#                                                                      #"
 	@echo "########################################################################"
 
-open-taranta: open-web-tunnel curl-test ## All in one target: open tunnel and check if Taranta is available
+open-taranta: open-taranta-tunnel curl-test ## All in one target: open tunnel and check if Taranta is available
 	@echo "########################################################################"
 	@echo "#                                                                      #"
 	@echo "# Open http://localhost:8000/integration-itf/taranta in your browswer! #"
 	@echo "#                                                                      #"
 	@echo "########################################################################"
-
-close-web-tunnel: ## kill the last process registered for web
-	kill $(SSH_PORT_8000_PROCESS_ID)
-
-close-all-tunnels: ## Close the gates!
-	@make close-web-tunnel || echo "No web tunnel was closed now"
-	@make close-ssh-tunnel || echo "No ssh tunnel was closed now"
-
-ps-aux-ssh-tunnels: ## check if any SSH tunnels are currently open
-	@ps aux | grep "ssh -N -L" | grep -v grep || echo "No SSH tunnels open at this time."
-
-ps: ps-aux-ssh-tunnels ## alias for ps-aux-ssh-tunnels
-
-open-tunnel:
-	# @make close-k8s-tunnel
-	@./resources/tunnel.sh $(LOCAL_PORT) $(SOURCE_IP) $(SOURCE_PORT)
-	@ps aux | grep "ssh -N -L" | tail -1 | grep $(LOCAL_PORT)
-	@sleep 1
-
-K8S_PORT := 6443
-
-### THIS IS HARDCODED AND MAY CAUSE ISSUES LATER
-HAPROXY_IP := 10.20.7.7
-open-k8s-tunnel:
-	@make open-tunnel LOCAL_PORT=${K8S_PORT} SOURCE_IP=${HAPROXY_IP} SOURCE_PORT=${K8S_PORT}
-
-close-k8s-tunnel:
-	kill $(SSH_PORT_6643_PROCESS_ID)
-
-JUPYTER_PORT := 8080
-open-jupyter-tunnel:
-	@make open-tunnel LOCAL_PORT=${JUPYTER_PORT} SOURCE_IP=${HAPROXY_IP} SOURCE_PORT=${JUPYTER_PORT}
-
-close-jupyter-tunnel: ## kill the last process registered for Jupyter
-	kill $(SSH_PORT_8080_PROCESS_ID)
-
-open-taranta-tunnel:
-	@make close-web-tunnel
-	@./resources/tunnel.sh taranta || true
-	@ps aux | grep "ssh -N -L" | tail -1 | grep 8000
-	@rm OpenSSHPorts.mak-e || true
-	@sleep 1
-
-# open-k8s-tunnel: LOCAL_PORT := funky open-tunnel
