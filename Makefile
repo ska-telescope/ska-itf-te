@@ -41,45 +41,51 @@ ps-aux-ssh-tunnels: ## check if any SSH tunnels are currently open
 ps: ps-aux-ssh-tunnels ## alias for ps-aux-ssh-tunnels
 
 open-tunnel:
-	@./resources/tunnel.sh $(LOCAL_PORT) $(SOURCE_IP) $(SOURCE_PORT)
-	@ps aux | grep "ssh -N -L" | tail -1 | grep $(LOCAL_PORT)
+	@resources/tunnel.sh $(LOCAL_PORT) $(SOURCE_IP) $(SOURCE_PORT)
+	@ps aux | grep "ssh -N -L" | grep $(LOCAL_PORT)
 	@sleep 1
 
 close-tunnel:
-	@./resources/close_tunnels.sh $(LOCAL_PORT)
-
-K8S_PORT := 6443
+	@echo "Killing PID $(PROCESS_ID)"
+	@./resources/close_tunnels.sh $(LOCAL_PORT) || echo "ERROR: could not close port $(LOCAL_PORT) - PID = $(PROCESS_ID)"
 
 ### THIS IS HARDCODED AND MAY CAUSE ISSUES LATER
 HAPROXY_IP := 10.20.7.7
+
+K8S_PORT := 6443
 open-k8s-tunnel: close-k8s-tunnel
 	@make open-tunnel LOCAL_PORT=${K8S_PORT} SOURCE_IP=${HAPROXY_IP} SOURCE_PORT=${K8S_PORT}
 
 close-k8s-tunnel:
-	@make close-tunnel LOCAL_PORT=$(K8S_PORT)
+	@make close-tunnel LOCAL_PORT=$(K8S_PORT) PROCESS_ID=$(SSH_PORT_8080_PROCESS_ID)
 
 copy-kubeconfig:
 	scp -F $(SSH_CONFIG_PATH)/config $(SSH_HOST):/srv/deploy-itf/KUBECONFIG .
+	sed -i -e "s/192\.168\.49\.2/localhost/" KUBECONFIG
+	rm KUBECONFIG-e
 
-k9s: open-k8s-tunnel
-	k9s --kubeconfig KUBECONFIG
+k9s: open-k8s-tunnel launch-k9s
+
+launch-k9s:
+	k9s --kubeconfig KUBECONFIG -n integration-itf
 
 JUPYTER_PORT := 8080
 open-jupyter-tunnel: close-jupyter-tunnel
 	@make open-tunnel LOCAL_PORT=${JUPYTER_PORT} SOURCE_IP=${HAPROXY_IP} SOURCE_PORT=${JUPYTER_PORT}
 
 close-jupyter-tunnel: ## kill the last process registered for Jupyter
-	@kill $(SSH_PORT_8080_PROCESS_ID) || echo "JUPYTER: Could not kill pid $(SSH_PORT_8080_PROCESS_ID)"
+	@make close-tunnel LOCAL_PORT=$(JUPYTER_PORT) PROCESS_ID=$(SSH_PORT_8080_PROCESS_ID)
 
 TARANTA_PORT := 8000
 open-taranta-tunnel: close-taranta-tunnel
-	@make open-tunnel LOCAL_PORT=${TARANTA_PORT} SOURCE_IP=${HAPROXY_IP} SOURCE_PORT=80
+	@make open-tunnel LOCAL_PORT=$(TARANTA_PORT) SOURCE_IP=$(HAPROXY_IP) SOURCE_PORT=80
 
 close-taranta-tunnel: ## kill the last process registered for web
-	@kill $(SSH_PORT_8000_PROCESS_ID) || echo "TARANTA: Could not kill pid $(SSH_PORT_8000_PROCESS_ID)"
+	@make close-tunnel LOCAL_PORT=$(TARANTA_PORT) PROCESS_ID=$(SSH_PORT_8000_PROCESS_ID)
 
-open-all-tunnels: open-k8s-tunnel open-taranta-tunnel open-jupyter-tunnel
-close-all-tunnels: close-k8s-tunnel close-taranta-tunnel close-jupyter-tunnel ## Close the gates!
+open-all-tunnels: open-k8s-tunnel open-jupyter-tunnel open-taranta-tunnel
+	@echo "All tunnels opened"
+close-all-tunnels: close-k8s-tunnel close-jupyter-tunnel close-taranta-tunnel ## Close the gates!
 
 curl-test: ## Curl to see if Taranta is accessible from command line
 	@curl -s localhost:8000/integration-itf/taranta | grep Taranta
