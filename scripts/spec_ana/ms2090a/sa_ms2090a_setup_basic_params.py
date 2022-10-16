@@ -22,9 +22,11 @@
 import socket
 import time
 import argparse
-import unittest
+# import unittest
 import os, sys
-sys.path.insert(2, os.path.abspath(os.path.join('../../../') + '/resources/'))
+#sys.path.insert(2, os.path.abspath(os.path.join('../../../') + '/resources/'))
+sys.path.insert(1, os.path.abspath(os.path.join('../../') + '/resources/')) # for the notebook
+
 from scpi_database import SACmds
 
 # -------------------------- CONNECTION SETTINGS -------------------------------------------
@@ -79,18 +81,18 @@ class SA_SOCK(socket.socket):
         time.sleep(self.response_timeout) 
         return_str = b''                                            # Initialize Rx buffer
         time_start = time.time()                                    # Get the start time
-        while True:
-            time.sleep(self.delay_short_s)                          # Introduce a short delay
-            try:
-                return_str += self.recv(response_buffer)            # Attempt to read the buffer
-            except socket.timeout:
-                if (time.time() - time_start) > timeout_max:
-                    raise StopIteration('No data received from instrument') 
-                else:
-                    time.sleep(self.delay_short_s)                  # No response, keep waiting
+        #while True:
+        time.sleep(self.delay_short_s)                          # Introduce a short delay
+        try:
+            return_str += self.recv(response_buffer)            # Attempt to read the buffer
+        except socket.timeout:
+            if (time.time() - time_start) > timeout_max:
+                raise StopIteration('No data received from instrument') 
             else:
-                if return_str.endswith(b'\n'):                      # Test to see if end of line has been reached, i.e. all the data Rx
-                    return return_str[:-1]  
+                time.sleep(self.delay_short_s)                  # No response, keep waiting
+        else:
+            if return_str.endswith(b'\n'):                      # Test to see if end of line has been reached, i.e. all the data Rx
+                return return_str[:-1]  
 
     def setSACmd(self, command_str, param = ''):
         ''' Send command
@@ -115,16 +117,16 @@ class SA_SOCK(socket.socket):
         time.sleep(self.response_timeout)        
         return self.getSACmd(command_str)
 
-    def test_function(self, expected_param, parsed_param):
-        expression_false = expected_param != parsed_param
-        if expression_false:
-            unittest.TestCase.assertFalse(expression_false, False) # test Fail
-            print('Test Fail')
+    # def test_function(self, expected_param, parsed_param):
+    #     expression_false = expected_param != parsed_param
+    #     if expression_false:
+    #         unittest.TestCase.assertFalse(expression_false, False) # test Fail
+    #         print('Test Fail')
         
-        expression_true = expected_param = parsed_param
-        if expression_true:
-            unittest.TestCase.assertTrue(expression_true, True)      # test Pass
-            print('Test Pass')
+    #     expression_true = expected_param = parsed_param
+    #     if expression_true:
+    #         unittest.TestCase.assertTrue(expression_true, True)      # test Pass
+    #         print('Test Pass')
 
     def closeSpecAna(self):
         self.close()
