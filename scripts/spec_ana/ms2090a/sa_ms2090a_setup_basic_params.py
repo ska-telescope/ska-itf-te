@@ -30,7 +30,7 @@ sys.path.insert(1, os.path.abspath(os.path.join('../../') + '/resources/')) # fo
 from scpi_database import SACmds
 
 # -------------------------- CONNECTION SETTINGS -------------------------------------------
-SA_HOST = '10.20.7.4'         # MS2090A spectrum analyzer IP
+SA_HOST = 'za-itf-spectrum-analyser.ad.skatelescope.org'  # '10.20.7.4'         # MS2090A spectrum analyzer IP
 SA_PORT = 9001                # MS2090A spectrum analyzer port
 SA_ADDRESS = (SA_HOST, SA_PORT)
 #-------------------------- CONSTANTS --------------------------
