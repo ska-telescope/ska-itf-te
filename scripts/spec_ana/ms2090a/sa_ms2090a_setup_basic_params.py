@@ -22,7 +22,6 @@
 import socket
 import time
 import argparse
-# import unittest
 import os, sys
 #sys.path.insert(2, os.path.abspath(os.path.join('../../../') + '/resources/'))
 sys.path.insert(1, os.path.abspath(os.path.join('../../') + '/resources/')) # for the notebook
