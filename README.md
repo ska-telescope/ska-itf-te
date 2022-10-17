@@ -1,14 +1,4 @@
 # ska-itf-te
-To get that nice output at the beginning of the command line, add the following to your .bashrc:
-```
-parse_git_branch() {
-    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
-}
-
-export PATH="/usr/local/mysql/bin:$PATH"
-export PS1="\u@\h \W\[\033[32m\]\$(parse_git_branch)\[\033[00m\] $ "
-```
-Alternatively (especially if you're using ZSH!), you can use one of the useful profiles from oh-my-zsh: install it from https://ohmyz.sh/
 
 ## Makefile for SW server access
 A subset of the makefile commands available in the [Deploy Mid ITF](https://gitlab.com/ska-telescope/sdi/ska-cicd-deploy-low-itf) have been added to the resources folder.
@@ -153,3 +143,16 @@ Context: minikube                                 <?> Help                      
 tango@ska-tango-base-itango-console:/app$ 
 ```
 Run the `itango3` command and enjoy.
+
+## Bash customisation
+
+To get that nice output at the beginning of the command line, add the following to your .bashrc:
+```
+parse_git_branch() {
+    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+
+export PATH="/usr/local/mysql/bin:$PATH"
+export PS1="\u@\h \W\[\033[32m\]\$(parse_git_branch)\[\033[00m\] $ "
+```
+Other customisations such as `alias`es also make life simpler. Speak to your nearest SW Support Specialist for more information.
