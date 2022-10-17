@@ -1,3 +1,6 @@
+# Add SKAO Makefile includes
+-include .make/base.mk
+
 ME ?= bl ## Default user that wants to connect to the ITF machines
 SSH_CONFIG_PATH ?= resources/users/$(ME)/.ssh
 SSH_HOST ?= The-Beast
@@ -108,3 +111,4 @@ open-taranta: open-taranta-tunnel curl-test ## All in one target: open tunnel an
 	@echo "# Open http://localhost:8000/integration-itf/taranta in your browswer! #"
 	@echo "#                                                                      #"
 	@echo "########################################################################"
+
