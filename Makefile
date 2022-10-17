@@ -63,7 +63,7 @@ close-k8s-tunnel:
 	@make close-tunnel LOCAL_PORT=$(K8S_PORT) PROCESS_ID=$(SSH_PORT_8080_PROCESS_ID)
 
 copy-kubeconfig:
-	scp -F $(SSH_CONFIG_PATH)/config Pi:~/KUBECONFIG .
+	scp -F $(SSH_CONFIG_PATH)/config $(SSH_HOST):/srv/deploy-itf/KUBECONFIG .
 	sed -i -e "s/192\.168\.49\.2/localhost/" KUBECONFIG
 	rm KUBECONFIG-e
 
