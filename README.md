@@ -7,6 +7,9 @@ A subset of the makefile commands available in the [Deploy Mid ITF](https://gitl
 
 ### Prerequisites
 
+#### VPN
+You need to be on the SARAO VPN (or in the SARAO network) in order for this to work.
+#### Make variables
 You need to set one `make` variable in order to use your own acces pattern. Do that with this command, substituting `<your-initials>` with your initials which are also the foldernames under `resources/users/`:
 ```
 $ echo ME=<your-initials> >> resources/users/UserProfile.mak
@@ -152,7 +155,6 @@ parse_git_branch() {
     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
 
-export PATH="/usr/local/mysql/bin:$PATH"
 export PS1="\u@\h \W\[\033[32m\]\$(parse_git_branch)\[\033[00m\] $ "
 ```
 Other customisations such as `alias`es also make life simpler. Speak to your nearest SW Support Specialist for more information.
