@@ -55,6 +55,10 @@ close-tunnel:
 ### THIS IS HARDCODED AND MAY CAUSE ISSUES LATER
 HAPROXY_IP := 10.20.7.7
 
+ssh-login:
+	make open-tunnel LOCAL_PORT=2234 SOURCE_IP=${HAPROXY_IP} SOURCE_PORT=22
+	ssh $(USER_AT)localhost -p 2234
+
 K8S_PORT := 6443
 open-k8s-tunnel: close-k8s-tunnel
 	@make open-tunnel LOCAL_PORT=${K8S_PORT} SOURCE_IP=${HAPROXY_IP} SOURCE_PORT=${K8S_PORT}

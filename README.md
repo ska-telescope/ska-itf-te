@@ -20,6 +20,26 @@ $ make whoami
     User b.lunsky
 ```
 #### Set up passwordless SSH access
+
+First SSH onto the machine (note the `@` at the end of the variable showing your name), using your Jira/Confluence password when asked for it:
+```
+$ make ssh-login USER_AT=b.lunsky@
+make open-tunnel LOCAL_PORT=2234 SOURCE_IP=10.20.7.7 SOURCE_PORT=22
+make[1]: Entering directory '/Users/aragorn/code/ska-itf-te'
+aragorn          96903   0.0  0.0 33600116   1144 s004  S+    3:13pm   0:00.00 /bin/sh -c ps aux | grep "ssh -N -L" | grep 2234
+aragorn          96900   0.0  0.0 33762352   2480 s004  S+    3:13pm   0:00.01 ssh -N -L 2234:10.20.7.7:22 pi@mid-itf.duckdns.org -p 2322
+ssh b.lunsky@localhost -p 2234
+b.lunsky@localhost's password:
+```
+Now create a folder called `.ssh` and exit:
+```
+b.lunsky@za-itf-sw:~ $ mkdir ~/.ssh
+b.lunsky@za-itf-sw:~ $ exit
+logout
+Connection to localhost closed.
+<your-own-machine> $ 
+```
+
 Jump to The Beast using the `make jump` command. You'll be asked your password - this is the same one you use for logging into JIRA.
 ```
 $ make jump
