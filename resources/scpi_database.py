@@ -84,11 +84,12 @@ SACmds = {
     'device_mode': 'MODE',                  # pass device mode e.g. MODE SPEC for spectrum analyzer
 
     # Trace Commands
-    'trace': 'TRACE',                       # read trace, no param require 
-    'trace_data': 'TRACE:DATA',             # pass trace no. parameter e.g. TRACE:DATA? 1
-    'trace1_state': 'DISP:TRAC1',           # pass trace no. and state e.g. DISP:TRAC1 ON
-    'trace1_mode': 'TRACE1:TYPE',           # pass trace mode e.g. TRACE1:TYPE MAX
-    'max_hold_state': 'MAXH:STAT',          # pass maxhold state parameter e.g. MAXH:STAT ON
+    'trace': 'TRACE',                           # read trace, no param require 
+    'trace_data': 'TRACE:DATA',                 # pass trace no. parameter e.g. TRACE:DATA? 1
+    'trace1_state': 'DISP:TRAC1',               # pass trace no. and state e.g. DISP:TRAC1 ON
+    'trace1_mode': 'TRACE1:TYPE',               # pass trace mode e.g. TRACE1:TYPE MAX
+    'max_hold_state': 'MAXH:STAT',              # pass maxhold state parameter e.g. MAXH:STAT ON
+    'scale_per_div': 'DISP:WIND:TRACE:Y:PDIV',  # pass scale / div parameter e.g. DISP:WIND:TRACE:Y:PDIV 5
     
     # Detector commands
     'det_auto_state': 'DET:AUTO',           # pass ON or OFF e.g. DET:AUTO OFF
@@ -96,9 +97,25 @@ SACmds = {
 
     # Data commands
     'data_format': 'FORM:DATA',             # pass data format mode e.g.FORM:DATA ASC
-    'marker1-state': 'CALC:MARK1:STAT',     # pass marker state e.g. CALCulate:MARKer<n>:STATe OFF
-    'marker_frequency': 'CALC:MARK1:X',     # pass frequency value e.g. CALC:MARK1:X 10 MHz
-    'marker_power': 'CALC:MARK1:Y',
+    'marker1_state': 'CALC:MARK1:STAT',     # pass marker state e.g. CALCulate:MARKer<n>:STATe OFF
+    'marker2_state': 'CALC:MARK2:STAT',     # pass marker state e.g. CALCulate:MARKer<n>:STATe OFF
+    'marker3_state': 'CALC:MARK3:STAT',     # pass marker state e.g. CALCulate:MARKer<n>:STATe OFF
+    'marker4_state': 'CALC:MARK4:STAT',     # pass marker state e.g. CALCulate:MARKer<n>:STATe OFF
+    'marker5_state': 'CALC:MARK5:STAT',     # pass marker state e.g. CALCulate:MARKer<n>:STATe OFF
+    'marker6_state': 'CALC:MARK6:STAT',     # pass marker state e.g. CALCulate:MARKer<n>:STATe OFF
+    'marker1_frequency': 'CALC:MARK1:X',     # pass frequency value e.g. CALC:MARK1:X 10 MHz
+    'marker2_frequency': 'CALC:MARK2:X',     # pass frequency value e.g. CALC:MARK1:X 10 MHz
+    'marker3_frequency': 'CALC:MARK3:X',     # pass frequency value e.g. CALC:MARK1:X 10 MHz
+    'marker4_frequency': 'CALC:MARK4:X',     # pass frequency value e.g. CALC:MARK1:X 10 MHz
+    'marker5_frequency': 'CALC:MARK5:X',     # pass frequency value e.g. CALC:MARK1:X 10 MHz
+    'marker6_frequency': 'CALC:MARK6:X',     # pass frequency value e.g. CALC:MARK1:X 10 MHz
+    'marker1_power': 'CALC:MARK1:Y',        # no par, query only e.g. :CALC:MARK1:Y?
+    'marker2_power': 'CALC:MARK2:Y',        # no par, query only e.g. :CALC:MARK2:Y?
+    'marker3_power': 'CALC:MARK3:Y',        # no par, query only e.g. :CALC:MARK3:Y?
+    'marker4_power': 'CALC:MARK4:Y',        # no par, query only e.g. :CALC:MARK4:Y?
+    'marker5_power': 'CALC:MARK5:Y',        # no par, query only e.g. :CALC:MARK5:Y?
+    'marker6_power': 'CALC:MARK6:Y',        # no par, query only e.g. :CALC:MARK6:Y?
+    'marker_table': 'CALC1:MARK:TABL:STAT', # pass marker table state e.g. :CALCulate<n>:MARKer:TABLe ON
     
     
 }

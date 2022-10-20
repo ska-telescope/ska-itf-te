@@ -73,7 +73,7 @@ class SG_SOCK(socket.socket):
         '''    
         self.connect(SG_ADDRESS)  # connect to spectrum analyzer via socket and Port
         self.settimeout(self.response_timeout) 
-        print(f'Connected to: {self.getSGCmd(SGCmds["device_id"]).decode()}')
+        return self.getSGCmd(SGCmds["device_id"]).decode()
         
         
     def getSGCmd(self, request_str, response_buffer = DEFAULT_BUFFER, timeout_max = 10, param = ''):
