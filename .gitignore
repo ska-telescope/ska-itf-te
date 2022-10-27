@@ -1,2 +1,7 @@
 .DS_Store
 *.pyc
+UserProfile.mak
+PrivateRules.mak
+KUBECONFIG
+OpenSSHPorts.mak
+
