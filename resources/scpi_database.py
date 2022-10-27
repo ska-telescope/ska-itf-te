@@ -116,6 +116,7 @@ SACmds = {
     'marker5_power': 'CALC:MARK5:Y',        # no par, query only e.g. :CALC:MARK5:Y?
     'marker6_power': 'CALC:MARK6:Y',        # no par, query only e.g. :CALC:MARK6:Y?
     'marker_table': 'CALC1:MARK:TABL:STAT', # pass marker table state e.g. :CALCulate<n>:MARKer:TABLe ON
-    
+    'marker1-function': 'CALC:MARK1:FUNC',  # pass marker function e.g. CALC:MARK1:FUNC NOIS
+    'marker1-mode': 'CALC:MARK1:MODE'       # pass marker mode e.g. CALC:MARK:MODE DELT
     
 }
