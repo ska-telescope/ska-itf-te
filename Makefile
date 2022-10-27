@@ -106,7 +106,7 @@ curl-test: ## Curl to see if Taranta is accessible from command line
 	@exit $$?
 
 curl-test-jupyter: ## Curl to see if Jupyter is accessible from command line
-	@curl -sv localhost:8080 | grep jupyter
+	@curl -sv localhost:8080
 	@exit $$?
 
 open-jupyter: open-jupyter-tunnel curl-test-jupyter jupyter-links ## All in one target: open tunnel and check if Taranta is available
