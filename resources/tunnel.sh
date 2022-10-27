@@ -15,7 +15,7 @@ SSH_PORT_2234_PROCESS_ID=" >> $FILE
 
 fi
 
-ssh -N -L $1:$2:$3 pi@mid-itf.duckdns.org -p 2322 &
+ssh -N -L $1:$2:$3 $4@mid-itf.duckdns.org -p 2322 &
 PID=$!
 sed -i -e "s/SSH_PORT_$1_PROCESS_ID=.*/SSH_PORT_$1_PROCESS_ID=$PID/" $FILE
 rm $FILE-e || true

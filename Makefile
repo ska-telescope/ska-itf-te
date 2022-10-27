@@ -11,8 +11,11 @@ SSH_HOST ?= The-Beast
 -include PrivateRules.mak
 -include ./resources/OpenSSHPorts.mak
 
+USER=$(shell ssh -G $(SSH_HOST) | grep "^user " | head -1 | cut -d " " -f2-)
+USER_AT=$(USER)@ # Temporarily left in - redundant
+
 whoami:
-	@cat $(SSH_CONFIG_PATH)/config | grep User | tail -1
+	@echo $(USER)
 
 ####### Jump to hosts within the ITF network #######
 # NOTE: you need to have EduVPN set up while       #
@@ -44,7 +47,7 @@ ps-aux-ssh-tunnels: ## check if any SSH tunnels are currently open
 ps: ps-aux-ssh-tunnels ## alias for ps-aux-ssh-tunnels
 
 open-tunnel:
-	@resources/tunnel.sh $(LOCAL_PORT) $(SOURCE_IP) $(SOURCE_PORT)
+	resources/tunnel.sh $(LOCAL_PORT) $(SOURCE_IP) $(SOURCE_PORT) $(USER)
 	@ps aux | grep "ssh -N -L" | grep $(LOCAL_PORT)
 	@sleep 1
 
@@ -55,13 +58,17 @@ close-tunnel:
 ### THIS IS HARDCODED AND MAY CAUSE ISSUES LATER
 HAPROXY_IP := 10.20.7.7
 
-ssh-login:
-	make open-tunnel LOCAL_PORT=2234 SOURCE_IP=${HAPROXY_IP} SOURCE_PORT=22
-	ssh $(USER_AT)localhost -p 2234
+ssh-login: close-ssh-tunnel open-ssh-tunnel
+	ssh $(USER)@localhost -p 2234
+
+open-ssh-tunnel:
+	make open-tunnel LOCAL_PORT=2234 SOURCE_IP=127.0.0.1 SOURCE_PORT=22
+close-ssh-tunnel:
+	@make close-tunnel LOCAL_PORT=2234 PROCESS_ID=$(SSH_PORT_2234_PROCESS_ID)
 
 K8S_PORT := 6443
 open-k8s-tunnel: close-k8s-tunnel
-	@make open-tunnel LOCAL_PORT=${K8S_PORT} SOURCE_IP=${HAPROXY_IP} SOURCE_PORT=${K8S_PORT}
+	@make open-tunnel LOCAL_PORT=${K8S_PORT} SOURCE_IP=127.0.0.1 SOURCE_PORT=${K8S_PORT}
 
 close-k8s-tunnel:
 	@make close-tunnel LOCAL_PORT=$(K8S_PORT) PROCESS_ID=$(SSH_PORT_8080_PROCESS_ID)
@@ -78,21 +85,21 @@ launch-k9s:
 
 JUPYTER_PORT := 8080
 open-jupyter-tunnel: close-jupyter-tunnel
-	@make open-tunnel LOCAL_PORT=${JUPYTER_PORT} SOURCE_IP=${HAPROXY_IP} SOURCE_PORT=${JUPYTER_PORT}
+	@make open-tunnel LOCAL_PORT=${JUPYTER_PORT} SOURCE_IP=127.0.0.1 SOURCE_PORT=${JUPYTER_PORT}
 
 close-jupyter-tunnel: ## kill the last process registered for Jupyter
 	@make close-tunnel LOCAL_PORT=$(JUPYTER_PORT) PROCESS_ID=$(SSH_PORT_8080_PROCESS_ID)
 
 TARANTA_PORT := 8000
 open-taranta-tunnel: close-taranta-tunnel
-	@make open-tunnel LOCAL_PORT=$(TARANTA_PORT) SOURCE_IP=$(HAPROXY_IP) SOURCE_PORT=80
+	@make open-tunnel LOCAL_PORT=$(TARANTA_PORT) SOURCE_IP=127.0.0.1 SOURCE_PORT=80
 
 close-taranta-tunnel: ## kill the last process registered for web
 	@make close-tunnel LOCAL_PORT=$(TARANTA_PORT) PROCESS_ID=$(SSH_PORT_8000_PROCESS_ID)
 
-open-all-tunnels: open-k8s-tunnel open-jupyter-tunnel open-taranta-tunnel
+open-all-tunnels: open-k8s-tunnel open-jupyter-tunnel open-taranta-tunnel open-ssh-tunnel
 	@echo "All tunnels opened"
-close-all-tunnels: close-k8s-tunnel close-jupyter-tunnel close-taranta-tunnel ## Close the gates!
+close-all-tunnels: close-k8s-tunnel close-jupyter-tunnel close-taranta-tunnel close-ssh-tunnel ## Close the gates!
 
 curl-test: ## Curl to see if Taranta is accessible from command line
 	@curl -s localhost:8000/integration-itf/taranta | grep Taranta
@@ -102,14 +109,18 @@ curl-test-jupyter: ## Curl to see if Jupyter is accessible from command line
 	@curl -sv localhost:8080 | grep jupyter
 	@exit $$?
 
-open-jupyter: open-jupyter-tunnel curl-test-jupyter ## All in one target: open tunnel and check if Taranta is available
+open-jupyter: open-jupyter-tunnel curl-test-jupyter jupyter-links ## All in one target: open tunnel and check if Taranta is available
+
+jupyter-links:
 	@echo "########################################################################"
 	@echo "#                                                                      #"
 	@echo "# Open http://localhost:8080 in your browswer! #"
 	@echo "#                                                                      #"
 	@echo "########################################################################"
 
-open-taranta: open-taranta-tunnel curl-test ## All in one target: open tunnel and check if Taranta is available
+open-taranta: open-taranta-tunnel curl-test taranta-links ## All in one target: open tunnel and check if Taranta is available
+
+taranta-links:
 	@echo "########################################################################"
 	@echo "#                                                                      #"
 	@echo "# Open http://localhost:8000/integration-itf/taranta in your browswer! #"

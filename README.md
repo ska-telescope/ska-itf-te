@@ -17,13 +17,13 @@ $ echo ME=<your-initials> >> resources/users/UserProfile.mak
 Test if this worked, by verifying your name shows up when you ask that existential question:
 ```
 $ make whoami
-    User b.lunsky
+    b.lunsky
 ```
 #### Set up passwordless SSH access
 
-First SSH onto the machine (note the `@` at the end of the variable showing your name), using your Jira/Confluence password when asked for it:
+First SSH onto the machine, using your Jira/Confluence password when asked for it:
 ```
-$ make ssh-login USER_AT=b.lunsky@
+$ make ssh-login
 make open-tunnel LOCAL_PORT=2234 SOURCE_IP=10.20.7.7 SOURCE_PORT=22
 make[1]: Entering directory '/Users/aragorn/code/ska-itf-te'
 aragorn          96903   0.0  0.0 33600116   1144 s004  S+    3:13pm   0:00.00 /bin/sh -c ps aux | grep "ssh -N -L" | grep 2234
