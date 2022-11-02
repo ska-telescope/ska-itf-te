@@ -114,7 +114,7 @@ open-jupyter: open-jupyter-tunnel curl-test-jupyter jupyter-links ## All in one 
 jupyter-links:
 	@echo "########################################################################"
 	@echo "#                                                                      #"
-	@echo "# Open http://localhost:8080 in your browswer! #"
+	@echo "# Open http://localhost:8080 in your browser! #"
 	@echo "#                                                                      #"
 	@echo "########################################################################"
 
@@ -123,7 +123,9 @@ open-taranta: open-taranta-tunnel curl-test taranta-links ## All in one target: 
 taranta-links:
 	@echo "########################################################################"
 	@echo "#                                                                      #"
-	@echo "# Open http://localhost:8000/integration-itf/taranta in your browswer! #"
+	@echo "# Open http://localhost:8000/integration-itf/taranta in your browser! #"
 	@echo "#                                                                      #"
 	@echo "########################################################################"
 
+itango:
+	kubectl -n $(KUBE_NAMESPACE) --kubeconfig KUBECONFIG exec --stdin --tty ska-tango-base-itango-console  -- itango3
