@@ -71,7 +71,7 @@ open-k8s-tunnel: close-k8s-tunnel
 	@make open-tunnel LOCAL_PORT=${K8S_PORT} SOURCE_IP=127.0.0.1 SOURCE_PORT=${K8S_PORT}
 
 close-k8s-tunnel:
-	@make close-tunnel LOCAL_PORT=$(K8S_PORT) PROCESS_ID=$(SSH_PORT_8080_PROCESS_ID)
+	@make close-tunnel LOCAL_PORT=$(K8S_PORT) PROCESS_ID=$(SSH_PORT_6443_PROCESS_ID)
 
 copy-kubeconfig:
 	scp -F $(SSH_CONFIG_PATH)/config $(SSH_HOST):/srv/deploy-itf/KUBECONFIG .
