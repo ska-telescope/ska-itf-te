@@ -92,18 +92,18 @@ close-jupyter-tunnel: ## kill the last process registered for Jupyter
 
 TARANTA_PORT := 8000
 open-taranta-tunnel: close-taranta-tunnel
-	@make open-tunnel LOCAL_PORT=$(TARANTA_PORT) SOURCE_IP=127.0.0.1 SOURCE_PORT=80
+	make open-tunnel LOCAL_PORT=$(TARANTA_PORT) SOURCE_IP=127.0.0.1 SOURCE_PORT=80
 
 close-taranta-tunnel: ## kill the last process registered for web
-	@make close-tunnel LOCAL_PORT=$(TARANTA_PORT) PROCESS_ID=$(SSH_PORT_8000_PROCESS_ID)
+	make close-tunnel LOCAL_PORT=$(TARANTA_PORT) PROCESS_ID=$(SSH_PORT_8000_PROCESS_ID)
 
 open-all-tunnels: open-k8s-tunnel open-jupyter-tunnel open-taranta-tunnel open-ssh-tunnel
 	@echo "All tunnels opened"
 close-all-tunnels: close-k8s-tunnel close-jupyter-tunnel close-taranta-tunnel close-ssh-tunnel ## Close the gates!
 
 curl-test: ## Curl to see if Taranta is accessible from command line
-	@curl -s localhost:8000/integration-itf/taranta | grep Taranta
-	@exit $$?
+	curl -s localhost:8000/integration-itf/taranta | grep Taranta
+	exit $$?
 
 curl-test-jupyter: ## Curl to see if Jupyter is accessible from command line
 	@curl -sv localhost:8080
