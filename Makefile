@@ -1,131 +1,104 @@
-# Add SKAO Makefile includes
--include .make/base.mk
+# All the old connection targets that we used to need are here.
+# TODO: remove if no longer needed.
+-include resources/itf-connect.mk
 
-ME ?= bl ## Default user that wants to connect to the ITF machines
-SSH_CONFIG_PATH ?= resources/users/$(ME)/.ssh
-SSH_HOST ?= The-Beast
-# add this line 
-# ME = <your-three-letter-initials>
-# and uncomment, in the following file:
--include ./resources/users/UserProfile.mak
+#Private targets and variables not to be checked in
 -include PrivateRules.mak
--include ./resources/OpenSSHPorts.mak
 
-USER=$(shell ssh -G $(SSH_HOST) | grep "^user " | head -1 | cut -d " " -f2-)
-USER_AT=$(USER)@ # Temporarily left in - redundant
+#inlucde basic necessities for the Makefiles to work
+include .make/base.mk
 
-whoami:
-	@echo $(USER)
+########################################################################
+# PYTHON
+########################################################################
 
-####### Jump to hosts within the ITF network #######
-# NOTE: you need to have EduVPN set up while       #
-# SKAO IT is figuring out how to get access        #
-# granted for external users into the SKAO         #
-# network.                                         #
-####### Any day now. ###############################
+include .make/python.mk
 
-connect-jump-host: ## Connect to the Raspberry Pi
-	@make jump SSH_HOST="Pi"
+# https://github.com/pytest-dev/pytest-bdd/issues/401
+PYTHON_VARS_BEFORE_PYTEST = PYTHONDONTWRITEBYTECODE=True
 
-jump-the-beast: ## Jump to the ITF Minikube host
-	@make jump SSH_HOST="The-Beast"
+# better be verbose for debugging
+PYTHON_VARS_AFTER_PYTEST ?= -v
 
-## TARGET: jump
-## SYNOPSIS: make jump
-## HOOKS: none
-## VARS:
-## 		SSH_CONFIG_PATH=path in this repository where .ssh/config files are
-##						kept to access ITF machines. NO PRIVATE KEYS!!!
-## 		SSH_HOST=hostname specified in user's .ssh/config file.
-##  Force initialisation and update of all git submodules in this project.
-jump: ## Jump to a host
-	@ssh -F $(SSH_CONFIG_PATH)/config $(SSH_HOST)
+PYTHON_TEST_FILE = tests/unit
 
-ps-aux-ssh-tunnels: ## check if any SSH tunnels are currently open
-	@ps aux | grep "ssh -N -L" | grep -v grep || echo "No SSH tunnels open at this time."
+python-post-lint:
+	mypy --config-file mypy.ini src/ tests/
 
-ps: ps-aux-ssh-tunnels ## alias for ps-aux-ssh-tunnels
+.PHONY: python-post-lint
 
-open-tunnel:
-	resources/tunnel.sh $(LOCAL_PORT) $(SOURCE_IP) $(SOURCE_PORT) $(USER)
-	@ps aux | grep "ssh -N -L" | grep $(LOCAL_PORT)
-	@sleep 1
+########################################################################
+# DOCS
+########################################################################
 
-close-tunnel:
-	@echo "Killing PID $(PROCESS_ID)"
-	@./resources/close_tunnels.sh $(LOCAL_PORT) || echo "ERROR: could not close port $(LOCAL_PORT) - PID = $(PROCESS_ID)"
+include .make/docs.mk
 
-### THIS IS HARDCODED AND MAY CAUSE ISSUES LATER
-HAPROXY_IP := 10.20.7.7
+DOCS_SPHINXOPTS = -n -W --keep-going
 
-ssh-login: close-ssh-tunnel open-ssh-tunnel
-	ssh $(USER)@localhost -p 2234
+########################################################################
+# OCI
+########################################################################
 
-open-ssh-tunnel:
-	make open-tunnel LOCAL_PORT=2234 SOURCE_IP=127.0.0.1 SOURCE_PORT=22
-close-ssh-tunnel:
-	@make close-tunnel LOCAL_PORT=2234 PROCESS_ID=$(SSH_PORT_2234_PROCESS_ID)
+include .make/oci.mk
 
-K8S_PORT := 6443
-open-k8s-tunnel: close-k8s-tunnel
-	@make open-tunnel LOCAL_PORT=${K8S_PORT} SOURCE_IP=127.0.0.1 SOURCE_PORT=${K8S_PORT}
+########################################################################
+# Helm
+########################################################################
 
-close-k8s-tunnel:
-	@make close-tunnel LOCAL_PORT=$(K8S_PORT) PROCESS_ID=$(SSH_PORT_6443_PROCESS_ID)
+include .make/helm.mk
 
-copy-kubeconfig:
-	scp -F $(SSH_CONFIG_PATH)/config $(SSH_HOST):/srv/deploy-itf/KUBECONFIG .
-	sed -i -e "s/192\.168\.49\.2/localhost/" KUBECONFIG
-	rm KUBECONFIG-e
+# only publish main chart not test parent
+HELM_CHARTS_TO_PUBLISH=$(PROJECT_NAME)
 
-k9s: open-k8s-tunnel launch-k9s
+########################################################################
+# K8S
+########################################################################
 
-launch-k9s:
-	k9s --kubeconfig KUBECONFIG -n integration-itf
+include .make/k8s.mk
 
-JUPYTER_PORT := 8080
-open-jupyter-tunnel: close-jupyter-tunnel
-	@make open-tunnel LOCAL_PORT=${JUPYTER_PORT} SOURCE_IP=127.0.0.1 SOURCE_PORT=${JUPYTER_PORT}
+DEPLOYMENT_CONTEXT ?= ITF-mid # TODO: Ask @Malte what this means.
 
-close-jupyter-tunnel: ## kill the last process registered for Jupyter
-	@make close-tunnel LOCAL_PORT=$(JUPYTER_PORT) PROCESS_ID=$(SSH_PORT_8080_PROCESS_ID)
+# Chart for testing
+ifeq ($(shell kubectl config current-context),minikube)
+MINIKUBE ?= true
+else
+MINIKUBE ?= false
+endif
 
-TARANTA_PORT := 8000
-open-taranta-tunnel: close-taranta-tunnel
-	make open-tunnel LOCAL_PORT=$(TARANTA_PORT) SOURCE_IP=127.0.0.1 SOURCE_PORT=80
+ifneq ($(CI_JOB_ID),)
+# For k8s-install-chart
+_gitlab_image_tag = $(VERSION)-dev.c$(CI_COMMIT_SHORT_SHA)
+_gitlab_registry = $(CI_REGISTRY_IMAGE)
+else
+# If we're running locally, use the most recent image from GitLab
+_gitlab_image_tag = $(VERSION)-dev.c$(shell git rev-parse --short=8 @{u})
+_gitlab_registry = registry.gitlab.com/$(shell git remote -v | head -1 | grep -oE 'ska-telescope(/[a-z0-9-]{1,}){1,}')
+endif
 
-close-taranta-tunnel: ## kill the last process registered for web
-	make close-tunnel LOCAL_PORT=$(TARANTA_PORT) PROCESS_ID=$(SSH_PORT_8000_PROCESS_ID)
+K8S_CHART_PARAMS += \
+	--set global.minikube=$(MINIKUBE) \
+ 	# --set ska-psi-low-subrack.image.registry=$(_gitlab_registry) \
+ 	# --set ska-psi-low-subrack.image.tag=$(_gitlab_image_tag)
 
-open-all-tunnels: open-k8s-tunnel open-jupyter-tunnel open-taranta-tunnel open-ssh-tunnel
-	@echo "All tunnels opened"
-close-all-tunnels: close-k8s-tunnel close-jupyter-tunnel close-taranta-tunnel close-ssh-tunnel ## Close the gates!
+# hack out PYTHONPATH - why is it even there? #TODO: Ask at CoP what the issue is here.
+# hack in test target directory
+K8S_TEST_TEST_COMMAND = unset PYTHONPATH; \
+						$(PYTHON_VARS_BEFORE_PYTEST) pytest \
+						$(PYTHON_VARS_AFTER_PYTEST) ./tests/functional \
+						 | tee pytest.stdout ## k8s-test test command to run in container
 
-curl-test: ## Curl to see if Taranta is accessible from command line
-	curl -s localhost:8000/integration-itf/taranta | grep Taranta
-	exit $$?
+# TODO: re-enable this as part of AT-335
+# ifeq ($(MAKECMDGOALS),k8s-test)
+# PYTHON_VARS_AFTER_PYTEST += \
+#     --cucumberjson=build/reports/cucumber.json \
+# 	--json-report --json-report-file=build/reports/report.json
 
-curl-test-jupyter: ## Curl to see if Jupyter is accessible from command line
-	@curl -sv localhost:8080
-	@exit $$?
+K8S_CHART_PARAMS += --set ska-taranta.enabled=false
+endif
 
-open-jupyter: open-jupyter-tunnel curl-test-jupyter jupyter-links ## All in one target: open tunnel and check if Taranta is available
+K8S_TEST_RUNNER_ADD_ARGS += --env=TANGO_HOST=$(shell helm get -n $(KUBE_NAMESPACE) values -a $(HELM_RELEASE) -o json | jq '.global.tango_host')
 
-jupyter-links:
-	@echo "########################################################################"
-	@echo "#                                                                      #"
-	@echo "# Open http://localhost:8080 in your browser! #"
-	@echo "#                                                                      #"
-	@echo "########################################################################"
-
-open-taranta: open-taranta-tunnel curl-test taranta-links ## All in one target: open tunnel and check if Taranta is available
-
-taranta-links:
-	@echo "########################################################################"
-	@echo "#                                                                      #"
-	@echo "# Open http://localhost:8000/integration-itf/taranta in your browser! #"
-	@echo "#                                                                      #"
-	@echo "########################################################################"
-
-itango:
-	kubectl -n $(KUBE_NAMESPACE) --kubeconfig KUBECONFIG exec --stdin --tty ska-tango-base-itango-console  -- itango3
+# PROXY_VALUES = \
+# --env=http_proxy=${http_proxy} \
+# --env=https_proxy=${http_proxy} \
+# --env=no_proxy=${no_proxy}
