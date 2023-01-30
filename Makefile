@@ -1,6 +1,6 @@
 # All the old connection targets that we used to need are here.
 # TODO: remove if no longer needed.
--include resources/itf-connect.mk
+# -include resources/itf-connect.mk
 
 #Private targets and variables not to be checked in
 -include PrivateRules.mak
@@ -12,7 +12,7 @@ include .make/base.mk
 # PYTHON
 ########################################################################
 
-include .make/python.mk
+include .make/*.mk
 
 # https://github.com/pytest-dev/pytest-bdd/issues/401
 PYTHON_VARS_BEFORE_PYTEST = PYTHONDONTWRITEBYTECODE=True
