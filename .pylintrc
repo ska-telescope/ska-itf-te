@@ -1,0 +1,13 @@
+[MESSAGES CONTROL]
+disable=
+    duplicate-code,
+    fixme,
+    # try-except-raise is a great way to write self-documenting code!
+    try-except-raise,
+
+enable=
+    useless-suppression,
+
+[SIMILARITIES]
+min-similarity-lines=7
+ignore-imports=yes
