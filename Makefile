@@ -88,10 +88,10 @@ K8S_TEST_TEST_COMMAND = unset PYTHONPATH; \
 						 | tee pytest.stdout ## k8s-test test command to run in container
 
 # TODO: re-enable this as part of AT-335
-# ifeq ($(MAKECMDGOALS),k8s-test)
-# PYTHON_VARS_AFTER_PYTEST += \
-#     --cucumberjson=build/reports/cucumber.json \
-# 	--json-report --json-report-file=build/reports/report.json
+ifeq ($(MAKECMDGOALS),k8s-test)
+PYTHON_VARS_AFTER_PYTEST += \
+    --cucumberjson=build/reports/cucumber.json \
+	--json-report --json-report-file=build/reports/report.json
 
 K8S_CHART_PARAMS += --set ska-taranta.enabled=false
 endif
