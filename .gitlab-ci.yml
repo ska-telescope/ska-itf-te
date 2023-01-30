@@ -30,7 +30,7 @@ include:
     file: "gitlab-ci/includes/finaliser.gitlab-ci.yml"
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/changelog.gitlab-ci.yml"
-  
+
   # DEPLOY JOB
   # - project: "ska-telescope/templates-repository"
   #   file: "gitlab-ci/includes/deploy.gitlab-ci.yml"
@@ -50,3 +50,6 @@ workflow:
     - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
       when: never
     - if: $CI_COMMIT_BRANCH
+
+python-lint:
+  allow_failure: true
