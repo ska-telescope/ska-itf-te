@@ -6,8 +6,8 @@ cache:
     - build
 stages:
   - lint
-  # - build
-  # - deploy
+  - build
+  - deploy
   - test
   - upload
   - publish
@@ -18,28 +18,30 @@ include:
     file: "gitlab-ci/includes/python.gitlab-ci.yml"
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/docs.gitlab-ci.yml"
-  - project: "ska-telescope/templates-repository"
-    file: "gitlab-ci/includes/oci-image.gitlab-ci.yml"
-  - project: "ska-telescope/templates-repository"
-    file: "gitlab-ci/includes/k8s.gitlab-ci.yml"
+  # - project: "ska-telescope/templates-repository"
+  #   file: "gitlab-ci/includes/oci-image.gitlab-ci.yml"
+  # - project: "ska-telescope/templates-repository"
+  #   file: "gitlab-ci/includes/k8s.gitlab-ci.yml"
   # For helm, only include linting for now, since we don't want to build
   # or publish a chart yet
-  - project: "ska-telescope/templates-repository"
-    file: "gitlab-ci/includes/helm-chart-lint.gitlab-ci.yml"
+  # - project: "ska-telescope/templates-repository"
+  #   file: "gitlab-ci/includes/helm-chart-lint.gitlab-ci.yml"
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/finaliser.gitlab-ci.yml"
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/changelog.gitlab-ci.yml"
-  - project: "ska-telescope/templates-repository"
-    file: "gitlab-ci/includes/deploy.gitlab-ci.yml"
+  
+  # DEPLOY JOB
+  # - project: "ska-telescope/templates-repository"
+  #   file: "gitlab-ci/includes/deploy.gitlab-ci.yml"
 
-k8s-test:
-  tags:
-    - k8srunner-mid-itf
+# k8s-test:
+#   tags:
+#     - k8srunner-mid-itf # job should run in ITF cluster, not STFC Cloud
 
-stop-k8s-test:
-  tags:
-    - k8srunner-mid-itf
+# stop-k8s-test:
+#   tags:
+#     - k8srunner-mid-itf # job should run in ITF cluster, not STFC Cloud
 
 # stop from running two pipelines when pushing to a branch with a MR
 workflow:
