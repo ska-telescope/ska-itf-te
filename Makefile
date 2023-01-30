@@ -87,7 +87,6 @@ K8S_TEST_TEST_COMMAND = unset PYTHONPATH; \
 						$(PYTHON_VARS_AFTER_PYTEST) ./tests/functional \
 						 | tee pytest.stdout ## k8s-test test command to run in container
 
-# TODO: re-enable this as part of AT-335
 ifeq ($(MAKECMDGOALS),k8s-test)
 PYTHON_VARS_AFTER_PYTEST += \
     --cucumberjson=build/reports/cucumber.json \
