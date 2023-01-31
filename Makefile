@@ -37,3 +37,12 @@ PYTHON_VARS_AFTER_PYTEST= --disable-pytest-warnings
 # # All the old connection targets that we used to need are here.
 # # TODO: remove if no longer needed.
 -include resources/itf-connect.mk
+
+### USEFUL BITS FROM LOW
+# better be verbose for debugging
+PYTHON_VARS_AFTER_PYTEST ?= -v
+
+python-post-lint:
+	mypy --config-file mypy.ini src/ tests/
+
+.PHONY: python-post-lint
