@@ -5,3 +5,5 @@ PrivateRules.mak
 KUBECONFIG
 OpenSSHPorts.mak
 build
+dryrun.log
+configurationCache.log
