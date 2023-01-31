@@ -8,3 +8,6 @@ build
 dryrun.log
 configurationCache.log
 .coverage
+.mypy_cache
+.mypy_cache
+.pytest_cache

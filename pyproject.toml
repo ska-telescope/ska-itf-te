@@ -17,6 +17,8 @@ Sphinx = "^5.1.0"
 sphinx-rtd-theme = "^1.0.0"
 recommonmark = "^0.7.1"
 ska-tango-testing = "^0.5.3"
+pytest-bdd = "^6.1.1"
+ska-ser-test-equipment = "^0.6.2"
 
 [tool.poetry.dev-dependencies]
 black = {version = "^22.6.0", allow-prereleases = true}
