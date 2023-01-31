@@ -14,12 +14,8 @@
         "python.linting.enabled": true,
         "python.linting.pylintEnabled": true,
         "python.linting.pylintPath": "/usr/local/bin/pylint",
-        "makefile.extensionOutputFolder": "./.vscode",
-        "python.testing.pytestArgs": [
-            "tests"
-        ],
-        "python.testing.unittestEnabled": false,
-        "python.testing.pytestEnabled": true
+        // "python.testing.unittestEnabled": false,
+        // "python.testing.pytestEnabled": true
     },
     // Add the IDs of extensions you want installed when the container is created.
     "extensions": [
