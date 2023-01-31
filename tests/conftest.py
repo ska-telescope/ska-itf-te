@@ -1,106 +1,81 @@
-"""This module contains test harness elements common to all unit tests."""
-import logging
-from typing import Dict
+"""This module defines the --xray-ids option and its behaviour."""
+
+import functools
+from typing import List, Set, TypedDict
 
 import pytest
-from ska_tango_testing.mock import MockCallable, MockCallableGroup
+from ska_ser_test_equipment.scpi import (
+    InterfaceDefinitionFactory,
+    InterfaceDefinitionType,
+    SupportedProtocol,
+)
+
+InstrumentInfoType = TypedDict(
+    "InstrumentInfoType",
+    {
+        "protocol": SupportedProtocol,
+        "host": str,
+        "port": int,
+        "simulator": bool,
+    },
+)
 
 
-def pytest_itemcollected(item: pytest.Item) -> None:
+# TODO: https://github.com/pytest-dev/pytest-forked/issues/67
+# We're stuck on pytest 6.2 until this gets fixed, and this version of
+# pytest is not fully typehinted
+def pytest_addoption(parser) -> None:  # type: ignore[no-untyped-def]
     """
-    Modify a test after it has been collected by pytest.
+    Implement  the `--xray-ids` option.
 
-    This hook implementation adds the "forked" custom mark to all tests
-    that use the `signal_generator_device` fixture, causing them to be
-    sandboxed in their own process.
+    Restricts the set of tests to only those marked with xray(JIRA_ID),
+    where JIRA_ID is one of the specified comma-separated IDs.
 
-    :param item: the collected test for which this hook is called
+    It would be nice to upstream this to pytest-jira-xray...
+
+    :param parser: the command line options parser
     """
-    fixture_names = item.fixturenames  # type: ignore[attr-defined]
-    if (
-        "signal_generator_device" in fixture_names
-        or "spectrum_analyser_device" in fixture_names
-    ):
-        item.add_marker("forked")
-
-
-@pytest.fixture()
-def logger() -> logging.Logger:
-    """
-    Fixture that returns a default logger.
-
-    The logger will be set to DEBUG level, as befits testing.
-
-    :return: a logger
-    """
-    debug_logger = logging.getLogger()
-    debug_logger.setLevel(logging.DEBUG)
-    return debug_logger
-
-
-@pytest.fixture(name="callbacks")
-def fixture_callbacks() -> MockCallableGroup:
-    """
-    Return a dictionary of callbacks with asynchrony support.
-
-    :return: a collections.defaultdict that returns callbacks by name.
-    """
-    return MockCallableGroup(
-        "communication_status",
-        "component_state",
-        "task",
-        timeout=5.0,
+    xray = parser.getgroup("Jira Xray report")
+    xray.addoption(
+        "--xray-ids",
+        action="store",
+        type=functools.partial(str.split, sep=","),
+        metavar="JIRA_ID[,...]",
+        help="only run tests marked with the specified Jira IDs",
     )
 
 
-@pytest.fixture(name="communication_status_callback")
-def fixture_communication_status_callback(
-    callbacks: MockCallableGroup,
-) -> MockCallableGroup._Callable:
+# TODO: https://github.com/pytest-dev/pytest-forked/issues/67
+# We're stuck on pytest 6.2 until this gets fixed, and this version of
+# pytest is not fully typehinted
+def pytest_collection_modifyitems(  # type: ignore[no-untyped-def]
+    config, items: List[pytest.Item]
+) -> None:
     """
-    Return a mock callback with asynchrony support.
+    Handle our custom --xray-ids option.
 
-    This mock callback can be registered with the component manager, so
-    that it is called when the status of communication with the
-    component changes.
+    For each test, get the id args passed to all xray markers. Only
+    include the test if at least one of the ids appears in --xray-ids.
 
-    :param callbacks: a dictionary from which callbacks with asynchrony
-        support can be accessed.
-
-    :return: a callback with asynchrony support
+    :param config: the pytest config object
+    :param items: list of tests collected by pytest
     """
-    return callbacks["communication_status"]
+
+    def xray_ids(test: pytest.Item) -> Set[str]:
+        return {m.args[0] for m in test.iter_markers(name="xray")}
+
+    target_ids = config.getoption("--xray-ids")
+    if target_ids:
+        items[:] = [i for i in items if xray_ids(i).intersection(target_ids)]
 
 
-@pytest.fixture(name="component_state_callback")
-def fixture_component_state_callback(
-    callbacks: Dict[str, MockCallable]
-) -> MockCallable:
+@pytest.fixture()
+def interface_definition(model: str) -> InterfaceDefinitionType:
     """
-    Return a mock callback with asynchrony support.
+    Return the SCPI interface definition for an instrument model.
 
-    This mock callback can be registered with the component manager, so
-    that it is called when the state of the component changes.
+    :param model: the name of the instrument model.
 
-    :param callbacks: a dictionary from which callbacks with asynchrony
-        support can be accessed.
-
-    :return: a callback with asynchrony support
+    :return: the SCPI interface definition
     """
-    return callbacks["component_state"]
-
-
-@pytest.fixture(name="task_callback")
-def fixture_task_callback(callbacks: Dict[str, MockCallable]) -> MockCallable:
-    """
-    Return a mock callback with asynchrony support.
-
-    This mock callback is intended to be passed to a long-running
-    command as a task callback.
-
-    :param callbacks: a dictionary from which callbacks with asynchrony
-        support can be accessed.
-
-    :return: a callback with asynchrony support
-    """
-    return callbacks["task"]
+    return InterfaceDefinitionFactory()(model)

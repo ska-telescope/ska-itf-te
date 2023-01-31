@@ -18,13 +18,6 @@ from typing import (
 import pytest
 import tango
 from ska_control_model import LoggingLevel
-from ska_tango_testing.context import (
-    TangoContextProtocol,
-    ThreadedTestTangoContextManager,
-    TrueTangoContextManager,
-)
-from ska_tango_testing.mock.tango import MockTangoEventCallbackGroup
-
 from ska_ser_test_equipment.scpi import SupportedProtocol
 from ska_ser_test_equipment.signal_generator import (
     SignalGeneratorDevice,
@@ -34,6 +27,13 @@ from ska_ser_test_equipment.spectrum_analyser import (
     SpectrumAnalyserDevice,
     SpectrumAnalyserSimulator,
 )
+from ska_tango_testing.context import (
+    TangoContextProtocol,
+    ThreadedTestTangoContextManager,
+    TrueTangoContextManager,
+)
+from ska_tango_testing.mock.tango import MockTangoEventCallbackGroup
+
 from tests.conftest import InstrumentInfoType
 
 
