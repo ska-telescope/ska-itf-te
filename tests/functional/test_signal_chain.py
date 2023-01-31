@@ -55,7 +55,9 @@ def put_signal_generator_online(
         tango.EventType.CHANGE_EVENT,
         change_event_callbacks["siggen_adminMode"],
     )
-    change_event_callbacks.assert_change_event("siggen_adminMode", starting_admin_mode)
+    change_event_callbacks.assert_change_event(
+        "siggen_adminMode", starting_admin_mode
+    )
 
     starting_state = signal_generator_device.state()
     signal_generator_device.subscribe_event(
@@ -72,11 +74,15 @@ def put_signal_generator_online(
             change_event_callbacks[f"siggen_{attribute_name}"],
         )
     for attribute_name in ["frequency", "power_dbm", "rf_output_on"]:
-        change_event_callbacks[f"siggen_{attribute_name}"].assert_against_call()
+        change_event_callbacks[
+            f"siggen_{attribute_name}"
+        ].assert_against_call()
 
     if starting_admin_mode != AdminMode.ONLINE:
         signal_generator_device.adminMode = AdminMode.ONLINE
-        change_event_callbacks.assert_change_event("siggen_adminMode", AdminMode.ONLINE)
+        change_event_callbacks.assert_change_event(
+            "siggen_adminMode", AdminMode.ONLINE
+        )
         assert signal_generator_device.adminMode == AdminMode.ONLINE
 
         if starting_state == tango.DevState.DISABLE:
@@ -162,7 +168,9 @@ def turn_off_signal_generator_rf_output(
     """
     if signal_generator_device.rf_output_on:
         signal_generator_device.rf_output_on = False
-        change_event_callbacks["siggen_rf_output_on"].assert_change_event(False)
+        change_event_callbacks["siggen_rf_output_on"].assert_change_event(
+            False
+        )
         assert not signal_generator_device.rf_output_on
 
 
@@ -202,7 +210,9 @@ def put_spectrum_analyser_online(
         tango.EventType.CHANGE_EVENT,
         change_event_callbacks["spectana_state"],
     )
-    change_event_callbacks.assert_change_event("spectana_state", starting_state)
+    change_event_callbacks.assert_change_event(
+        "spectana_state", starting_state
+    )
 
     for attribute_name in [
         "frequency_start",
@@ -221,7 +231,9 @@ def put_spectrum_analyser_online(
         "frequency_peak",
         "power_peak",
     ]:
-        change_event_callbacks[f"spectana_{attribute_name}"].assert_against_call()
+        change_event_callbacks[
+            f"spectana_{attribute_name}"
+        ].assert_against_call()
 
     if starting_admin_mode != AdminMode.ONLINE:
         spectrum_analyser_device.adminMode = AdminMode.ONLINE
@@ -297,9 +309,9 @@ def initialise_spectrum_analyser(
 
     for attribute, value in initial_values.items():
         if value != factory_default_settings[attribute]:
-            change_event_callbacks[f"spectana_{attribute}"].assert_change_event(
-                factory_default_settings[attribute]
-            )
+            change_event_callbacks[
+                f"spectana_{attribute}"
+            ].assert_change_event(factory_default_settings[attribute])
 
 
 @when(
@@ -323,7 +335,9 @@ def set_spectrum_analyser_frequency_stop(
     :param change_event_callbacks: dictionary of mock change event
         callbacks with asynchrony support
     """
-    if spectrum_analyser_device.frequency_stop != pytest.approx(frequency_stop):
+    if spectrum_analyser_device.frequency_stop != pytest.approx(
+        frequency_stop
+    ):
         spectrum_analyser_device.frequency_stop = frequency_stop
         change_event_callbacks["spectana_frequency_stop"].assert_change_event(
             pytest.approx(frequency_stop)
@@ -351,7 +365,9 @@ def set_spectrum_analyser_frequency_start(
     :param change_event_callbacks: dictionary of mock change event
         callbacks with asynchrony support
     """
-    if spectrum_analyser_device.frequency_start != pytest.approx(frequency_start):
+    if spectrum_analyser_device.frequency_start != pytest.approx(
+        frequency_start
+    ):
         spectrum_analyser_device.frequency_start = frequency_start
         change_event_callbacks["spectana_frequency_start"].assert_change_event(
             pytest.approx(frequency_start),
@@ -387,7 +403,11 @@ def set_signal_generator_frequency(
         )
 
 
-@when(parsers.parse("the user specifies the Signal Generator power as {power:f} dBm"))
+@when(
+    parsers.parse(
+        "the user specifies the Signal Generator power as {power:f} dBm"
+    )
+)
 def set_signal_generator_power(
     signal_generator_device: tango.DeviceProxy,
     power: float,
@@ -429,7 +449,8 @@ def turn_signal_generator_rf_output_on(
 
 @then(
     parsers.parse(
-        "the Spectrum Analyser peak frequency is approximately {frequency:f} " "Hz"
+        "the Spectrum Analyser peak frequency is approximately {frequency:f} "
+        "Hz"
     )
 )
 def check_spectrum_analyser_frequency_peak_is(
@@ -460,10 +481,16 @@ def check_spectrum_analyser_frequency_peak_is(
     # support this. The easily way to handle this is to fall back to the old
     # sleep-then-read-the-attribute approach.
     time.sleep(15)
-    assert spectrum_analyser_device.frequency_peak == pytest.approx(frequency, rel=1e-3)
+    assert spectrum_analyser_device.frequency_peak == pytest.approx(
+        frequency, rel=1e-3
+    )
 
 
-@then(parsers.parse("the Spectrum Analyser peak power is no more than {power:f} dBm"))
+@then(
+    parsers.parse(
+        "the Spectrum Analyser peak power is no more than {power:f} dBm"
+    )
+)
 def check_spectrum_analyser_power_peak_is_no_more_than(
     spectrum_analyser_device: tango.DeviceProxy,
     power: float,

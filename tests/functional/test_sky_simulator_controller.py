@@ -18,8 +18,14 @@ from pytest_bdd import given, parsers, scenario, then, when
     "Test SCPI device returns identity",
 )
 def test_scpi_device_returns_identity():
-    """Test SCPI device returns identity."""
+    """
+    Test SCPI device returns identity.
+
+    :raises NotImplementedError: because this command is not yet
+        implemented
+    """
     raise NotImplementedError
+
 
 @pytest.mark.xfail(
     reason="BDD tests are required to fail, before the code implementation."
@@ -35,7 +41,7 @@ def test_skysimctl_can_switch_on_signal_sources():
     :raises NotImplementedError: because this command is not yet
         implemented
     """
-    raise NotImplementedError  
+    raise NotImplementedError
 
 
 @given("the SkySimController is initialised (all signal sources OFF)")

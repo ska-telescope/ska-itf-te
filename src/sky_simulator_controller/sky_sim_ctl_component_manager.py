@@ -15,8 +15,6 @@ from typing import Any, Callable, Dict, Final, Optional, Tuple
 
 from ska_control_model.power_state import PowerState
 from ska_control_model.task_status import TaskStatus
-from ska_tango_base.poller import PollingComponentManager
-
 from ska_ser_test_equipment.scpi import (
     AttributeClient,
     AttributeRequest,
@@ -26,6 +24,7 @@ from ska_ser_test_equipment.scpi import (
     ScpiClient,
     SupportedProtocol,
 )
+from ska_tango_base.poller import PollingComponentManager
 
 
 # pylint: disable-next=too-many-instance-attributes

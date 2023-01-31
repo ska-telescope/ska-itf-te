@@ -11,7 +11,6 @@ from typing import Any
 
 import tango
 import tango.server
-
 from ska_ser_test_equipment.base.base_device import TestEquipmentBaseDevice
 from ska_ser_test_equipment.scpi import InterfaceDefinitionFactory
 
