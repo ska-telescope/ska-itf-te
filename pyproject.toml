@@ -8,7 +8,7 @@ readme = "README.md"
 packages = [{include = "sky_simulator_controller", from = "src"}]
 
 [[tool.poetry.source]]
-name = 'ska-nexus'
+name = 'skao'
 url = 'https://artefact.skao.int/repository/pypi-internal/simple'
 
 [tool.poetry.dependencies]
@@ -16,9 +16,23 @@ python = "^3.9"
 Sphinx = "^5.1.0"
 sphinx-rtd-theme = "^1.0.0"
 recommonmark = "^0.7.1"
+ska-tango-testing = "^0.5.3"
 
 [tool.poetry.dev-dependencies]
 black = {version = "^22.6.0", allow-prereleases = true}
+
+[tool.poetry.group.dev.dependencies]
+black = "^22.12.0"
+flake8 = "^6.0.0"
+isort = "^5.12.0"
+pylint = "^2.15.10"
+pylint-junit = "^0.3.2"
+pytest = "^7.2.1"
+pytest-cov = "^4.0.0"
+flake8-docstrings = "^1.7.0"
+flake8-rst-docstrings = "^0.3.0"
+darglint = "^1.8.1"
+mypy = "^0.991"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
