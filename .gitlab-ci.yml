@@ -1,55 +1,40 @@
 image: $SKA_K8S_TOOLS_DOCKER_BUILDER_IMAGE
+
+default:
+  tags:
+    - k8srunner
+
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
-cache:
-  paths:
-    - build
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
 stages:
   - lint
   - build
-  - deploy
   - test
-  - upload
   - publish
   - pages
   - scan
+
+# Enable caching for python
+cache:
+  key: $CI_COMMIT_REF_SLUG
+  paths:
+    - .cache/pip
+
 include:
+  # Python
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/python.gitlab-ci.yml"
+  
+  # OCI
   - project: "ska-telescope/templates-repository"
-    file: "gitlab-ci/includes/docs.gitlab-ci.yml"
-  # - project: "ska-telescope/templates-repository"
-  #   file: "gitlab-ci/includes/oci-image.gitlab-ci.yml"
-  # - project: "ska-telescope/templates-repository"
-  #   file: "gitlab-ci/includes/k8s.gitlab-ci.yml"
-  # For helm, only include linting for now, since we don't want to build
-  # or publish a chart yet
-  # - project: "ska-telescope/templates-repository"
-  #   file: "gitlab-ci/includes/helm-chart-lint.gitlab-ci.yml"
+    file: "gitlab-ci/includes/oci-image.gitlab-ci.yml"
+
+    # .post step finalisers eg: badges
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/finaliser.gitlab-ci.yml"
-  - project: "ska-telescope/templates-repository"
-    file: "gitlab-ci/includes/changelog.gitlab-ci.yml"
 
-  # DEPLOY JOB
-  # - project: "ska-telescope/templates-repository"
-  #   file: "gitlab-ci/includes/deploy.gitlab-ci.yml"
-
-# k8s-test:
-#   tags:
-#     - k8srunner-mid-itf # job should run in ITF cluster, not STFC Cloud
-
-# stop-k8s-test:
-#   tags:
-#     - k8srunner-mid-itf # job should run in ITF cluster, not STFC Cloud
-
-# stop from running two pipelines when pushing to a branch with a MR
-workflow:
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
-      when: never
-    - if: $CI_COMMIT_BRANCH
 
 python-lint:
   allow_failure: true
