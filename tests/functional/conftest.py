@@ -27,6 +27,10 @@ from ska_ser_test_equipment.spectrum_analyser import (
     SpectrumAnalyserDevice,
     SpectrumAnalyserSimulator,
 )
+from . import (
+SkySimulatorControllerDevice,
+SkySimulatorControllerSimulator,
+)
 from ska_tango_testing.context import (
     TangoContextProtocol,
     ThreadedTestTangoContextManager,

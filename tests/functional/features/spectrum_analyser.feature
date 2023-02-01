@@ -12,4 +12,4 @@ Feature: Spectrum Analyser
         Examples:
             | start_freq        | stop_freq |  
             | 25000000.0        | 75000000.0     |  
-            | 50000000.0        | 200000000.0    | 
+            | 50000000.0        | 200000000.0    |

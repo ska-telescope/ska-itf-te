@@ -46,7 +46,7 @@ class SkySimulatorControllerComponentManager(
         update_rate: float = 5.0,
     ) -> None:
         """
-        Initialise a new signal generator component manager instance.
+        Initialise a new sky simulator controller component manager instance.
 
         :param interface_definition: definition of the sky simulator
             controller's SCPI interface
