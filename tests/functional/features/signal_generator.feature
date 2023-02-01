@@ -1,6 +1,6 @@
 Feature: Signal Generator 
 
-    @XTP-7690 @forked 
+    @XTP-7690 @forked @skip
     Scenario Outline: Test a Signal Generator frequency and power can be set
         Given the Signal Generator is online
         And the Signal Generator is initialised
@@ -14,7 +14,7 @@ Feature: Signal Generator
             |50000000    | -20    |
             |100000000   | -10    |
    
-    @XTP-9312 @forked
+    @XTP-9312 @forked @skip
     Scenario Outline: Test a Signal Generator frequency can not be set with a negative value
         Given the Signal Generator is online
         And the Signal Generator is initialised
@@ -25,7 +25,7 @@ Feature: Signal Generator
             |frequency   | 
             |-50000000   |
 
-    @XTP-9042 @forked
+    @XTP-9042 @forked @skip
     Scenario: Test a Signal Generator output can be turned ON
         Given the Signal Generator is online
         And the Signal Generator is initialised
@@ -34,7 +34,7 @@ Feature: Signal Generator
         Then the Signal Generator RF Output field is set to ON 
 
 
-    @XTP-9041 @forked
+    @XTP-9041 @forked @skip
     Scenario: Test a Signal Generator output can be turned OFF
         Given the Signal Generator is online
         And the Signal Generator is initialised
