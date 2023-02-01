@@ -1,52 +1,19 @@
-# include makefile targets from the submodule
-include .make/oci.mk
+#########################################################################
+# WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING 
+#########################################################################
+# This Makefile was copied from the Low ITF repository and caused a world
+# of pain. Don't just use.
+PROJECT = ska-ser-test-equipment
 
-# include k8s support
-include .make/k8s.mk
+# only publish main chart not test umbrella
+HELM_CHARTS_TO_PUBLISH=$(PROJECT)
 
-# include Helm Chart support
-include .make/helm.mk
+# Chart for testing
+MINIKUBE ?= true
+VALUES ?=
+TANGO_HOST ?= tango-databaseds:10000  ## TANGO_HOST needed for k8s-test
 
-# Include Python support
-include .make/python.mk
-
-# include raw support
-include .make/raw.mk
-
-# include core make support
-include .make/base.mk
-
-# include your own private variables for custom deployment configuration
--include PrivateRules.mak
-
-example-start-server:
-	uvicorn src.ska_cicd_training_pipeline_machinery.main:app --reload
-
-PYTHON_VARS_AFTER_PYTEST= --disable-pytest-warnings
-
- python-pre-test:
-	@echo "python-pre-test: running with: $(PYTHON_VARS_BEFORE_PYTEST) with $(PYTHON_RUNNER) pytest $(PYTHON_VARS_AFTER_PYTEST); \
-    $(PYTHON_TEST_FILE)";\
-    echo "Python Version:";\
-    python -V;\
-    echo "-----------------------";\
-    echo "Environment variables:";\
-    printenv;\
-    echo "-----------------------"
-
-# # All the old connection targets that we used to need are here.
-# # TODO: remove if no longer needed.
--include resources/itf-connect.mk
-
-### USEFUL BITS FROM LOW
-# better be verbose for debugging
-PYTHON_VARS_AFTER_PYTEST ?= -v
-
-python-post-lint:
-	mypy --config-file mypy.ini src/ tests/
-
-.PHONY: python-post-lint
-
+#### PYTHON CUSTOM VARS
 DOCS_SPHINXOPTS=-n -W --keep-going
 
 # Use the previously built image when running in the pipeline
@@ -79,3 +46,30 @@ K8S_TEST_TEST_COMMAND = unset PYTHONPATH; TANGO_HOST=$(TANGO_HOST) \
 						$(PYTHON_VARS_AFTER_PYTEST) ./tests/functional \
 						 | tee pytest.stdout ## k8s-test test command to run in container
 endif
+
+K8S_CHART = test-parent
+K8S_CHART_PARAMS = --set global.tango_host=$(TANGO_HOST) --set global.minikube=$(MINIKUBE) $(VALUES)
+
+-include PrivateRules.mak
+
+include .make/base.mk
+
+include .make/python.mk
+
+include .make/oci.mk
+
+include .make/helm.mk
+
+include .make/k8s.mk
+
+python-post-format:
+	docformatter -r -i --pre-summary-newline src/ tests/
+
+python-post-lint:
+	mypy --config-file mypy.ini src/ tests/
+
+### PYTHON END
+
+k8s-reinstall-chart: k8s-uninstall-chart k8s-install-chart
+
+.PHONY: python-post-format python-post-lint
