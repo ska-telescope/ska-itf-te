@@ -1,6 +1,6 @@
 {
     "name": "ska-mid-itf devcontainer",
-    "dockerFile": "Dockerfile",
+    "dockerFile": "../Dockerfile",
     "context": "..",
     // Set *default* container specific settings.json values on container create.
     "settings": {
@@ -23,10 +23,11 @@
         "trond-snekvik.simple-rst",
         "davidanson.vscode-markdownlint",
         "ryanluker.vscode-coverage-gutters"
+    ],
     // Use 'forwardPorts' to make a list of ports inside the container available locally.
     // "forwardPorts": [],
     // Use 'postCreateCommand' to run commands after the container is created.
-    "postCreateCommand": "poetry config virtualenvs.create true && poetry install && poetry shell",
+    "postCreateCommand": "pip list",
     // Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
     "remoteUser": "tango"
     // "remoteEnv": {
