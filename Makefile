@@ -28,7 +28,8 @@ python-pre-lint:
 	@echo "python-pre-lint: upgrade poetry for the time being."\
 	python -V;\
 	poetry --version;\
-	poetry install --with dev;
+	poetry install --with dev;\
+	poetry show;
 
 python-pre-test:
 	@echo "python-pre-test: running with: $(PYTHON_VARS_BEFORE_PYTEST) with $(PYTHON_RUNNER) pytest $(PYTHON_VARS_AFTER_PYTEST); \
