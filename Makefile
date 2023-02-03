@@ -28,7 +28,8 @@ python-pre-lint:
 	@echo "python-pre-lint: upgrade poetry for the time being."\
 	python -V;\
 	poetry --version;\
-	bash .make/resources/gitlab_section.sh poetryinstall "Install dependencies" poetry install --with dev;\
+	poetry config virtualenvs.create false;\
+	bash .make/resources/gitlab_section.sh poetryinstall "Install dependencies" poetry shell && poetry install --with dev;\
 	poetry show;
 
 python-pre-test:
