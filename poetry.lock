@@ -507,7 +507,7 @@ files = [
 name = "isort"
 version = "5.12.0"
 description = "A Python utility / library to sort Python imports."
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.8.0"
 files = [
@@ -1608,4 +1608,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<4.0"
-content-hash = "bd4bb09800d71a734269250dcba36507fd2116b3b70eb07ab3cd0cbc89dd9b99"
+content-hash = "435e4d60c5ed03b268d7267d2f0151589385564b20a9646638e955c25154e869"

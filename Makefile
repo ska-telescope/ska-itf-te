@@ -32,12 +32,9 @@ PYTHON_VARS_AFTER_PYTEST= --disable-pytest-warnings
 python-pre-test:
 	@echo "python-pre-test: running with: $(PYTHON_VARS_BEFORE_PYTEST) with $(PYTHON_RUNNER) pytest $(PYTHON_VARS_AFTER_PYTEST); \
     $(PYTHON_TEST_FILE)";\
-    echo "Python Version:";\
-    python -V;\
+	bash .make/resources/gitlab_section.sh environment "Environment" python -V && printenv;\
     echo "-----------------------";\
-    echo "Environment variables:";\
-    printenv;\
-    echo "-----------------------"
+	bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install --upgrade poetry;\
 
 # # All the old connection targets that we used to need are here.
 # # TODO: remove if no longer needed.
