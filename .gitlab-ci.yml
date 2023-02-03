@@ -8,6 +8,7 @@ stages:
   - lint
   - build
   - deploy
+  - integration # no idea what this is for
   - test
   - upload
   - publish
