@@ -5,7 +5,7 @@ description = "User facing layer for SKA Mid ITF"
 authors = ["ATLAS"]
 license = "BSD 3-Clause"
 readme = "README.md"
-packages = [{include = "sky_simulator_controller", from = "src"}]
+packages = [{include = "ska_sky_simulator_controller", from = "src"}]
 
 [[tool.poetry.source]]
 name = 'skao'
