@@ -40,7 +40,7 @@ python-pre-test:
     echo "-----------------------";\
 	poetry config virtualenvs.create false;\
 	bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install --upgrade poetry;\
-	bash .make/resources/gitlab_section.sh install_dependencies "Install dependencies" poetry install;\
+	bash .make/resources/gitlab_section.sh install_dependencies "Install dependencies" poetry install --with dev;\
 
 
 # # All the old connection targets that we used to need are here.
