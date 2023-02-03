@@ -35,9 +35,12 @@ python-pre-lint:
 python-pre-test:
 	@echo "python-pre-test: running with: $(PYTHON_VARS_BEFORE_PYTEST) with $(PYTHON_RUNNER) pytest $(PYTHON_VARS_AFTER_PYTEST); \
     $(PYTHON_TEST_FILE)";\
-	bash .make/resources/gitlab_section.sh environment "Environment" python -V && printenv;\
+	python -V;\
+	bash .make/resources/gitlab_section.sh environment "Environment"  printenv;\
     echo "-----------------------";\
 	bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install --upgrade poetry;\
+	bash .make/resources/gitlab_section.sh install_dependencies "Install dependencies" poetry install;\
+
 
 # # All the old connection targets that we used to need are here.
 # # TODO: remove if no longer needed.
