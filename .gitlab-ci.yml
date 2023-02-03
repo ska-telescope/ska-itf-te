@@ -9,6 +9,7 @@ stages:
   - build
   - deploy
   - integration # no idea what this is for
+  # - staging
   - test
   - upload
   - publish
@@ -28,13 +29,13 @@ include:
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/helm-chart.gitlab-ci.yml"
   # k8s steps
-  # - project: "ska-telescope/templates-repository"
-  #   file: "gitlab-ci/includes/k8s.gitlab-ci.yml"
+  - project: "ska-telescope/templates-repository"
+    file: "gitlab-ci/includes/k8s.gitlab-ci.yml"
 
   # changelog release page
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/changelog.gitlab-ci.yml"
 
   # deploy steps
-  - project: "ska-telescope/templates-repository"
-    file: "gitlab-ci/includes/deploy.gitlab-ci.yml"
+  # - project: "ska-telescope/templates-repository"
+  #   file: "gitlab-ci/includes/deploy.gitlab-ci.yml"
