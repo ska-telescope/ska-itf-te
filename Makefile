@@ -38,6 +38,7 @@ python-pre-test:
 	python -V;\
 	bash .make/resources/gitlab_section.sh environment "Environment"  printenv;\
     echo "-----------------------";\
+	poetry config virtualenvs.create false;\
 	bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install --upgrade poetry;\
 	bash .make/resources/gitlab_section.sh install_dependencies "Install dependencies" poetry install;\
 
