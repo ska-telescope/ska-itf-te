@@ -27,7 +27,7 @@ from ska_ser_test_equipment.spectrum_analyser import (
     SpectrumAnalyserDevice,
     SpectrumAnalyserSimulator,
 )
-from sky_simulator_controller import (
+from ska_sky_simulator_controller import (
     SkySimulatorControllerDevice,
     SkySimulatorControllerSimulator,
 )
