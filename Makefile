@@ -24,7 +24,12 @@ example-start-server:
 
 PYTHON_VARS_AFTER_PYTEST= --disable-pytest-warnings
 
- python-pre-test:
+python-pre-lint:
+	@echo "python-pre-lint: upgrade poetry for the time being."\
+	python -V;\
+	pip install --upgrade poetry;\
+
+python-pre-test:
 	@echo "python-pre-test: running with: $(PYTHON_VARS_BEFORE_PYTEST) with $(PYTHON_RUNNER) pytest $(PYTHON_VARS_AFTER_PYTEST); \
     $(PYTHON_TEST_FILE)";\
     echo "Python Version:";\
