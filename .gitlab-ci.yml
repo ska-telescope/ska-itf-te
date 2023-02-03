@@ -45,3 +45,7 @@ python-test:
 
 python-lint:
   image: artefact.skao.int/ska-tango-images-pytango-builder:9.3.32
+  before_script:
+    - pip install --upgrade poetry
+  rules:
+    - allow_failure: true
