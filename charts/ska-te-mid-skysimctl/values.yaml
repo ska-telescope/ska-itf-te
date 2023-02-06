@@ -1,0 +1,75 @@
+enabled: true
+
+system: SW-infrastructure
+subsystem: ska-ser-test-equipment
+
+labels:
+  app: ska-ser-test-equipment
+
+global:
+  facility: cloud-test # psi-low / mid-itf / low-aa0.5 etc
+  minikube: true
+  tango_host: databaseds-tango-base-test:10000
+  retry:
+    - "--tries=10"
+    - "--sleep=5"
+
+livenessProbe:
+  initialDelaySeconds: 0
+  periodSeconds: 10
+  timeoutSeconds: 3
+  successThreshold: 1
+  failureThreshold: 3
+readinessProbe:
+  initialDelaySeconds: 0
+  periodSeconds: 10
+  timeoutSeconds: 3
+  successThreshold: 1
+  failureThreshold: 3
+
+dsconfig:
+  timeout: 300s
+  image:
+    registry: artefact.skao.int
+    image: ska-tango-images-tango-dsconfig
+    tag: 1.5.5
+    pullPolicy: IfNotPresent
+
+itango:
+  image:
+    registry: artefact.skao.int
+    image: ska-tango-images-tango-itango
+    tag: 9.3.9
+    pullPolicy: IfNotPresent
+
+image:
+  registry: artefact.skao.int
+  image: ska-ser-test-equipment
+  tag: 0.6.2
+  pullPolicy: IfNotPresent
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 100Mi
+  requests:
+    cpu: 50m
+    memory: 50Mi
+
+deviceServers:
+  skysimulatorcontroller:
+    file: "data/skysimctl.yaml"
+    devices:
+      - name: SkySimCtl
+        model: SkySimCtl # optional: defaults to <name> in upper case
+        # port: 5025 # optional: defaults to "5025"
+        # protocol: tcp # optional: defaults to "tcp"
+
+simulators:
+  enabled: true
+
+nodeSelector: {}
+
+affinity: {}
+
+tolerations: []

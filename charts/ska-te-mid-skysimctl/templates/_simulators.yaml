@@ -1,0 +1,94 @@
+{{- /*
+ska-ser-test-equipment.simulators.tpl
+This will create a (SCPI) simulator per deviceserver instance.
+Note: it requires env to be set in the deviceserver yaml definitions
+and assumes that the application for the simulator is named
+<DeviceserverClass>Simulator
+
+Parameters:
+- deviceserver (the deviceserver entire yaml tag)
+- image (to be used for the deviceserver)
+- local (the local chart)
+- instance (of the device server)
+*/}}
+{{ define "ska-sky-simulator-controller.simulators.tpl" }}
+
+{{ $chart := .local }}
+{{ $deviceserver := .deviceserver }}
+{{ $component := "simulator" }}
+{{ $function := "device-simulation" }}
+{{ $domain := "simulation" }}
+{{ $intent := "enabling" }}
+---
+{{- if $chart.Values.simulators.enabled }}
+{{- range $instance := $deviceserver.server.instances }}
+{{ $safe_instance := $instance.name | toString | replace "_" "-" }}
+{{- if has $safe_instance $deviceserver.instances }}
+{{- range $device := $deviceserver.devices }}
+{{- if eq ( $device.name | toString ) $safe_instance }}
+{{ $port := coalesce $device.port 5025 }}
+{{ $protocol := coalesce $device.protocol "tcp" }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $component }}-{{ $safe_instance }}
+  namespace: {{ $chart.Release.Namespace }}
+  labels:
+    component: {{ $component }}-{{ $safe_instance }}
+    function: {{ $function }}
+    domain: {{ $domain }}
+    intent: {{ $intent }}
+spec:
+  ports:
+  - name: {{ $protocol }}
+    port: {{ $port }}
+  type: ClusterIP
+  selector:
+    component: {{ $component }}-{{ $safe_instance }}
+    function: {{ $function }}
+    domain: {{ $domain }}
+    intent: {{ $intent }}
+---
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ $component }}-{{ $safe_instance }}
+  namespace: {{ $chart.Release.Namespace }}
+  labels:
+    component: {{ $component }}-{{ $safe_instance }}
+    function: {{ $function }}
+    domain: {{ $domain }}
+    intent: {{ $intent }}
+spec:
+  selector:
+    matchLabels:
+      component: {{ $component }}-{{ $safe_instance }}
+      function: {{ $function }}
+      domain: {{ $domain }}
+      intent: {{ $intent }}
+  serviceName: {{ $component }}-{{ $safe_instance }}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        component: {{ $component }}-{{ $safe_instance }}
+        function: {{ $function }}
+        domain: {{ $domain }}
+        intent: {{ $intent }}
+    spec:
+      containers:
+      - name: simulator
+        image: "{{ tpl ($deviceserver.image.registry | toString) $chart }}/{{ tpl ($deviceserver.image.image | toString) $chart }}:{{ tpl ($deviceserver.image.tag | toString) $chart }}"
+        imagePullPolicy: {{ tpl ($deviceserver.image.pullPolicy | toString) $chart }}
+        command:
+          - "{{ $deviceserver.command }}Simulator"
+        env:
+{{ toYaml $instance.env | indent 10 }}
+{{ end }}
+{{ end }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{ end }}

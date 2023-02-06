@@ -1,0 +1,38 @@
+apiVersion: v2
+name: ska-te-mid-skysimctl-test-parent
+description: A Helm chart for testing Tango controls of the Sky Simulator and other test equipment for Mid ITF
+type: application
+version: 0.1.0
+appVersion: 0.1.0
+icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
+dependencies:
+  - name: ska-tango-util
+    version: 0.3.16
+    repository: https://artefact.skao.int/repository/helm-internal
+  - name: ska-tango-base
+    version: 0.3.16
+    repository: https://artefact.skao.int/repository/helm-internal
+  - name: ska-ser-test-equipment
+    version: 0.6.2
+    repository: file://../ska-te-mid-skysimctl
+    alias: skysimctl
+  - name: ska-tango-taranta-dashboard
+    version: 1.3.0
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-taranta.enabled
+  - name: ska-tango-taranta-dashboard-pvc
+    version: 1.3.0
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-taranta.enabled
+  - name: ska-tango-taranta
+    version: 1.3.4
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-taranta.enabled
+  - name: ska-tango-tangogql
+    version: 1.3.4
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-taranta.enabled
+  - name: ska-taranta-auth
+    version: 0.1.5
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-taranta.enabled

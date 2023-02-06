@@ -1,0 +1,49 @@
+global:
+  minikube: true
+  tango_host: databaseds-tango-base-test:10000
+  telescope: test
+  facility: test-itf
+  exposeAllDS: true
+  sub-system:
+    ska-tango-base:
+      enabled: false
+
+ska-tango-base:
+  itango:
+    enabled: true
+  tangorest:
+    enabled: true
+
+ska-taranta:
+  enabled: false
+  tangogql:
+    replicas: 1
+    resources:
+      requests:
+        cpu: 600m # 600m = 0.6 CPU
+        memory: 512Mi # 512Mi = 0.5 GB mem
+      limits:
+        cpu: 1000m # 1000m = 1 CPU
+        memory: 1024Mi # 1024Mi = 1 GB mem
+
+# Defaults
+skysimctl:
+  deviceServers:
+    skysimulatorcontroller:
+      devices:
+        - name: tsg4104a
+          #model: TSG4104A
+          #host: simulator-tsg4104a
+          #port: 5025
+        - name: smb100a
+          #model: SMB100A
+          #host: simulator-smb100a
+          #port: 5025
+    spectrumanalyser:
+      devices:
+        - name: specmon26b
+          #model: SPECMON26B
+          #host: simulator-specmon26b
+          #port: 5025
+#  simulators:
+#    enabled: true
