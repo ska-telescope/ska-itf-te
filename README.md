@@ -1,5 +1,18 @@
 # ska-itf-te
+## Tests including Test Equipment and SUT software
+Refer to documentation hosted in the [Developer Portal](https://developer.skao.int/projects/ska-mid-itf/en/latest/?badge=latest). If the link is broken, contact the System Team for assistance in building the project in RTD and enabling it as a subproject of the DevPortal.
 
+
+## Makefile for deployment of Test Equipment and SUT in Minikube or ITF cluster
+This repository follows the SKA standard repo structure for deploying a Tango Device in a containerised environment. It uses an umbrella chart for deployment of the SUT and the test equipment packages developed in this repository.
+
+### Sky Simulator Controller
+The Sky Simulator is a set of Test Equipment used to provide a signal that can be fed into the Correlator, in order to verify its correct behaviour. The SkySim Controller is a Raspberry Pi device that uses GPIO pins connected with relays to enable/disable the various signal/noise sources independently and remotely.
+The remote control is provided by the SkySimController Tango Device deployed alongside the other Test Equipment and SUT, thus enabling remote users to flip switches and control input signals. 
+
+To be handled with care. Don't deploy access to the Test Equipment unnecessarily.
+
+# Old info (remove when no longer relevant!)
 ## Makefile for SW server access
 A subset of the makefile commands available in the [Deploy Mid ITF](https://gitlab.com/ska-telescope/sdi/ska-cicd-deploy-low-itf) have been added to the resources folder.
 
