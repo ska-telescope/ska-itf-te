@@ -1,6 +1,6 @@
 {
     "name": "ska-mid-itf devcontainer",
-    "dockerFile": "../Dockerfile",
+    "dockerFile": "Dockerfile-devcontainer",
     "context": "..",
     // Set *default* container specific settings.json values on container create.
     "settings": {
@@ -14,6 +14,8 @@
         "python.linting.enabled": true,
         "python.linting.pylintEnabled": true,
         "python.linting.pylintPath": "/usr/local/bin/pylint",
+        "git.enabled": true,
+        "git.path": "/usr/bin/git"
         // "python.testing.unittestEnabled": false,
         // "python.testing.pytestEnabled": true
     },
@@ -27,7 +29,7 @@
     // Use 'forwardPorts' to make a list of ports inside the container available locally.
     // "forwardPorts": [],
     // Use 'postCreateCommand' to run commands after the container is created.
-    "postCreateCommand": "pip list",
+    // "postCreateCommand": "pip list",
     // Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
     "remoteUser": "tango"
     // "remoteEnv": {

@@ -1,40 +1,53 @@
 image: $SKA_K8S_TOOLS_DOCKER_BUILDER_IMAGE
-
-default:
-  tags:
-    - k8srunner
-
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
-  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
-
+cache:
+  paths:
+    - build
 stages:
   - lint
   - build
+  - deploy
+  - integration # no idea what this is for
+  # - staging
   - test
+  - upload
   - publish
   - pages
   - scan
-
-# Enable caching for python
-cache:
-  key: $CI_COMMIT_REF_SLUG
-  paths:
-    - .cache/pip
-
 include:
-  # Python
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/python.gitlab-ci.yml"
-  
-  # OCI
+  - project: "ska-telescope/templates-repository"
+    file: "gitlab-ci/includes/docs.gitlab-ci.yml"
+  # OCI Images
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/oci-image.gitlab-ci.yml"
-
-    # .post step finalisers eg: badges
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/finaliser.gitlab-ci.yml"
+  # Helm Charts
+  - project: "ska-telescope/templates-repository"
+    file: "gitlab-ci/includes/helm-chart.gitlab-ci.yml"
+  # k8s steps
+  # - project: "ska-telescope/templates-repository"
+  #   file: "gitlab-ci/includes/k8s.gitlab-ci.yml"
 
+  # changelog release page
+  - project: "ska-telescope/templates-repository"
+    file: "gitlab-ci/includes/changelog.gitlab-ci.yml"
+
+  # deploy steps
+  # - project: "ska-telescope/templates-repository"
+  #   file: "gitlab-ci/includes/deploy.gitlab-ci.yml"
+
+python-test:
+  image: artefact.skao.int/ska-tango-images-pytango-builder:9.3.32
+  before_script:
+    - bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install --upgrade poetry
 
 python-lint:
-  allow_failure: true
+  image: artefact.skao.int/ska-tango-images-pytango-builder:9.3.32
+  before_script:
+    - bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install --upgrade poetry
+  rules:
+    - allow_failure: true
