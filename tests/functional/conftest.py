@@ -27,10 +27,6 @@ from ska_ser_test_equipment.spectrum_analyser import (
     SpectrumAnalyserDevice,
     SpectrumAnalyserSimulator,
 )
-from sky_simulator_controller import (
-    SkySimulatorControllerDevice,
-    SkySimulatorControllerSimulator,
-)
 from ska_tango_testing.context import (
     TangoContextProtocol,
     ThreadedTestTangoContextManager,
@@ -38,6 +34,10 @@ from ska_tango_testing.context import (
 )
 from ska_tango_testing.mock.tango import MockTangoEventCallbackGroup
 
+from ska_sky_simulator_controller import (
+    SkySimulatorControllerDevice,
+    SkySimulatorControllerSimulator,
+)
 from tests.conftest import InstrumentInfoType
 
 
@@ -347,7 +347,10 @@ def deployment_has_simulators(
 
     :return: whether this test deployment has any simulators in it.
     """
-    return signal_generator_info["simulator"] or spectrum_analyser_info["simulator"]
+    return (
+        signal_generator_info["simulator"]
+        or spectrum_analyser_info["simulator"]
+    )
 
 
 @pytest.fixture(name="tango_context", scope="session")
