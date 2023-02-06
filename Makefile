@@ -19,10 +19,13 @@ include .make/base.mk
 # include your own private variables for custom deployment configuration
 -include PrivateRules.mak
 
-example-start-server:
-	uvicorn src.ska_cicd_training_pipeline_machinery.main:app --reload
-
 PYTHON_VARS_AFTER_PYTEST= --disable-pytest-warnings
+
+# I think this is the chart name for CI purposes, default values are taken from the reponame
+K8S_CHART=ska-te-mid-skysimctl
+
+# I think this is the variable that is used to pick charts to be deployed in CI.
+HELM_CHARTS=ska-te-mid-skysimctl
 
 python-pre-lint:
 	@echo "python-pre-lint: upgrade poetry for the time being."\
