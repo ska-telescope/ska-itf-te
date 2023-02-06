@@ -1,0 +1,48 @@
+global:
+  minikube: true
+  tango_host: databaseds-tango-base-test:10000
+  telescope: mid-itf
+  exposeAllDS: true
+  sub-system:
+    ska-tango-base:
+      enabled: false
+
+ska-tango-base:
+  itango:
+    enabled: true
+
+test_equipment:
+  simulators:
+    enabled: false
+  deviceServers:
+    signalgenerator:
+      devices:
+        - name: smb100a
+          model: SMB100A
+          host: 10.20.7.1 # hostname za-itf-signal-generator.ad.skatelescope.org - TODO: figure out if hostnames can be used
+          port: 5025
+          resources:
+            limits:
+              skao.int/signal-generator-01: "1"
+    spectrumanalyser:
+      devices:
+        - name: anritsu
+          model: MS2090A
+          host: 10.20.7.4 # hostname za-itf-spectrum-analyser.ad.skatelescope.org - TODO: figure out if hostnames can be used
+          port: 9001
+          resources:
+            limits:
+              skao.int/spectrum-analyser-01: "1"
+    skysimulatorcontroller:
+      devices:
+        - name: skysimctl
+          model: SKYSIMCTL
+          host: 192.168.1.12
+          port: 5025
+          resources:
+            limits:
+              skao.int/sky-simulator-controller-01: "1"
+
+# TARANTA
+ska-taranta:
+  enabled: true

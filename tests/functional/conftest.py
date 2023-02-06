@@ -34,8 +34,10 @@ from ska_tango_testing.context import (
 )
 from ska_tango_testing.mock.tango import MockTangoEventCallbackGroup
 
-from ska_sky_simulator_controller import (
+from ska_sky_simulator_controller.sky_sim_ctl_device import (
     SkySimulatorControllerDevice,
+)
+from ska_sky_simulator_controller.sky_sim_ctl_simulator import (
     SkySimulatorControllerSimulator,
 )
 from tests.conftest import InstrumentInfoType
