@@ -1,4 +1,4 @@
-model: SkySimCtl
+model: SKYSIMCTL
 poll_rate: 0.1
 timeout: 0.5
 supports_chains: yes
@@ -6,27 +6,30 @@ attributes:
   identity:
     field: "*IDN"
     type: str
-    value: SkySimCtl v1.0, 2023/01/??
+    value: SkySimCtl v1.0, 2023/01/27
   reset:
     field: "*RST"
+  output:
+    field: "OUTP"
+    type: str
   gpio_1:
     field: GPIO_1
     type: bool
   gpio_2:
-    field: GPIO_2
+    field: GPIO_1
     type: bool
   gpio_3:
-    field: GPIO_3
+    field: GPIO_1
     type: bool
   gpio_4:
-    field: GPIO_4
+    field: GPIO_1
     type: bool
   gpio_5:
-    field: GPIO_5
+    field: GPIO_1
     type: bool
   gpio_6:
-    field: GPIO_6
+    field: GPIO_1
     type: bool
   gpio_7:
-    field: GPIO_7
+    field: GPIO_1
     type: bool

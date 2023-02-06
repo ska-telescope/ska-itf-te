@@ -41,9 +41,13 @@ class SkySimulatorControllerSimulator(ScpiOverTcpSimulator):
         :param kwargs: initial values for simulator attributes; where an
             initial value is not provided for an attribute, a default
             value will be used.
+        :raises NotImplementedError: not yet implement
         """
         logging.warning("Initialise model %s", model)
-        interface_definition = InterfaceDefinitionFactory()(model)
+        try:
+            interface_definition = InterfaceDefinitionFactory()(model)
+        except KeyError:
+            raise NotImplementedError("Not part of the current story")
 
         initial_values = kwargs
         for key, value in self.DEFAULTS.items():
@@ -82,6 +86,9 @@ def main(model=None, host=None, port=0) -> int:
     logging.debug("Start model %s host %s port %s", model, host, port)
     try:
         server = SkySimulatorControllerSimulator((host, port), model)
+    except NotImplementedError as err:
+        logging.error("No interface definition for model %s", model)
+        return 1
     except OSError as err:
         logging.error("Could not open server %s:%s <%s>", host, port, str(err))
         return 1
