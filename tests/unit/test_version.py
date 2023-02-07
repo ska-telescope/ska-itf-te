@@ -1,8 +1,26 @@
 """This module tests the ska_ser_test_equipment version."""
 
-import ska_ser_test_equipment
+from pytest_bdd import given, parsers, scenario, then
+
+from ska_sky_simulator_controller import __name__ as name
 
 
-def test_version() -> None:
-    """Test that the ska_ser_test_equipment version is as expected."""
-    assert ska_ser_test_equipment.__version__ == "0.6.2"
+@scenario("features/version.feature", "Test version of skysimctl package")
+def test_version_of_skysimctl_package():
+    """Test version of skysimctl package."""
+
+
+@given("an imported ska_sky_simulator_controller package")
+def imported_package():
+    """Fails if there is no imported ska_sky_simulator_controller package."""
+    print(name)
+
+
+@then(parsers.parse("its version is <version>"))
+def check_version(version):
+    """
+    Package version is 0.1.0.
+
+    :param version: the version of the imported package - see Jira issue.
+    """
+    assert version == "0.1.0"

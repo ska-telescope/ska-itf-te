@@ -8,7 +8,7 @@ FROM $BASE_IMAGE
 
 USER root
 
-RUN apt-get update && apt-get install gnupg2 -y
+RUN apt-get update && apt-get install gnupg2 gawk -y
 RUN poetry config virtualenvs.create false
 
 WORKDIR /app
