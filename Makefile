@@ -19,6 +19,8 @@ include .make/base.mk
 # include your own private variables for custom deployment configuration
 -include PrivateRules.mak
 
+include .make/k8s.mk
+
 example-start-server:
 	uvicorn src.ska_cicd_training_pipeline_machinery.main:app --reload
 
