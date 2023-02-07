@@ -439,6 +439,20 @@ def spectrum_analyser_device(
 
 
 @pytest.fixture(scope="session")
+def skysim_controller_device(
+    tango_context: TangoContextProtocol,
+) -> tango.DeviceProxy:
+    """
+    Return a proxy to the sky simulator controller device.
+
+    :param tango_context: the context in which the device is running.
+
+    :return: a proxy to the spectrum analyser device.
+    """
+    return tango_context.get_device("test-itf/siggen/1")
+
+
+@pytest.fixture(scope="session")
 def change_event_callbacks() -> MockTangoEventCallbackGroup:
     """
     Return a dictionary of change event callbacks with asynchrony support.
@@ -464,5 +478,6 @@ def change_event_callbacks() -> MockTangoEventCallbackGroup:
         "spectana_power_peak",
         "spectana_frequency_start",
         "spectana_frequency_stop",
+        "noise_generator_on",
         timeout=10.0,
     )

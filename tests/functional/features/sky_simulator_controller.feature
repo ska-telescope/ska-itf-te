@@ -27,15 +27,16 @@ Feature: Sky Simulator components can be controlled remotely using Tango device 
 		Examples:
 		    
 		    | signal_source_name            |
-		    | "gaussian_noise_source"       |
-		    | "programmable_attenuator"     |
-		    | "correlated_noise_source"     |
-		    | "h_channel"                   |
-		    | "v_channel"                   |
-		    | "uncorrelated_noise_sources"  |
-		    | "band_1"                      |
-		    | "band_2"                      |
-		    | "band_3"                      |	
+		    | "siggen_rf_output_on"       |
+	#	    | "gaussian_noise_source"       |
+	#	    | "programmable_attenuator"     |
+	#	    | "correlated_noise_source"     |
+	#	    | "h_channel"                   |
+	#	    | "v_channel"                   |
+	#	    | "uncorrelated_noise_sources"  |
+	#	    | "band_1"                      |
+	#	    | "band_2"                      |
+	#	    | "band_3"                      |
 
 	#Test if, when asked its name, the Sky Simulator Controller responds as expected.
 	@AT-320 @AT-318 @AT-317

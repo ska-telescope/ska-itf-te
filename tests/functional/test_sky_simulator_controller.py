@@ -3,12 +3,13 @@
 from typing import Optional
 
 import pytest
+import tango
 from pytest_bdd import given, parsers, scenario, then, when
+from ska_tango_testing.mock.tango import MockTangoEventCallbackGroup
 
-
-@pytest.mark.xfail(
-    reason="BDD tests are required to fail, before the code implementation."
-)
+#@pytest.mark.xfail(
+    #reason="BDD tests are required to fail, before the code implementation."
+#)
 @scenario(
     "features/sky_simulator_controller.feature",
     "Test SkySimCtl can switch ON signal sources",
@@ -17,14 +18,35 @@ from pytest_bdd import given, parsers, scenario, then, when
     "features/sky_simulator_controller.feature",
     "Test SCPI device returns identity",
 )
-def test_scpi_device_returns_identity():
+def test_scpi_device_returns_identity(
+    skysim_controller_device: tango.DeviceProxy,
+    change_event_callbacks: MockTangoEventCallbackGroup,
+):
     """
     Test SCPI device returns identity.
 
     :raises NotImplementedError: because this command is not yet
         implemented
     """
-    raise NotImplementedError
+    factory_default_settings = {
+        #"noise_generator_on": False,
+        #"rf_output_on": False,
+        "siggen_rf_output_on": False,
+    }
+
+    initial_values = {
+        attribute: getattr(skysim_controller_device, attribute)
+        for attribute in factory_default_settings
+    }
+
+    skysim_controller_device.Reset()
+
+    for attribute, value in initial_values.items():
+        if value != factory_default_settings[attribute]:
+            change_event_callbacks[f"skysimctl_{attribute}"].assert_change_event(
+                factory_default_settings[attribute]
+            )
+    #raise NotImplementedError
 
 
 @pytest.mark.xfail(
@@ -45,7 +67,10 @@ def test_skysimctl_can_switch_on_signal_sources():
 
 
 @given("the SkySimController is initialised (all signal sources OFF)")
-def skysim_controller_initialised():
+def skysim_controller_initialised(
+    signal_generator_device: tango.DeviceProxy,
+    change_event_callbacks: MockTangoEventCallbackGroup,
+):
     """
     Assert that the  SkySimController is initialised.
 
@@ -56,14 +81,38 @@ def skysim_controller_initialised():
 
 
 @given("the SkySimController is online")
-def skysim_controller_online():
+def skysim_controller_online(
+    skysim_controller_device: tango.DeviceProxy,
+    change_event_callbacks: MockTangoEventCallbackGroup,
+):
     """
     Assert that the SkySimController is online.
 
     :raises NotImplementedError: because this command is not yet
         implemented
     """
-    raise NotImplementedError
+    factory_default_settings = {
+        #"noise_generator_on": False,
+        #"rf_output_on": False,
+        "siggen_rf_output_on": False,
+    }
+
+    initial_values = {
+        attribute: getattr(skysim_controller_device, attribute)
+        for attribute in factory_default_settings
+    }
+    initial_values = {}
+    for attribute in factory_default_settings
+
+
+    skysim_controller_device.Reset()
+
+    for attribute, value in initial_values.items():
+        if value != factory_default_settings[attribute]:
+            change_event_callbacks[f"skysimctl_{attribute}"].assert_change_event(
+                factory_default_settings[attribute]
+            )
+    #raise NotImplementedError
 
 
 @when("I ask its identity")
