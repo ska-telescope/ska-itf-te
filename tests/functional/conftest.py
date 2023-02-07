@@ -34,11 +34,12 @@ from ska_tango_testing.context import (
 )
 from ska_tango_testing.mock.tango import MockTangoEventCallbackGroup
 
-from ska_sky_simulator_controller import (
+from tests.conftest import InstrumentInfoType
+
+"""from ska_sky_simulator_controller import (
     SkySimulatorControllerDevice,
     SkySimulatorControllerSimulator,
-)
-from tests.conftest import InstrumentInfoType
+)"""
 
 
 # TODO: https://github.com/pytest-dev/pytest-forked/issues/67
