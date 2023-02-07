@@ -8,7 +8,7 @@ FROM $BASE_IMAGE
 
 USER root
 
-RUN apt-get update && apt-get install gnupg2 gawk -y
+RUN apt-get update && apt-get install gnupg2 gawk git vim -y
 RUN poetry config virtualenvs.create false
 
 WORKDIR /app
@@ -16,12 +16,6 @@ COPY --chown=tango:tango . /app
 
 RUN pip install --upgrade poetry
 RUN poetry install
-
-# # hangs on: • Installing untokenize (0.1.1)
-# # so use pip instead
-# RUN poetry export --format requirements.txt --output poetry-requirements.txt --without-hashes && \
-#     pip install -r poetry-requirements.txt && \
-#     rm poetry-requirements.txt && pip install .
 
 USER tango
 

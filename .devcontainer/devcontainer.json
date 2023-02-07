@@ -33,7 +33,7 @@
     // Use 'forwardPorts' to make a list of ports inside the container available locally.
     // "forwardPorts": [],
     // Use 'postCreateCommand' to run commands after the container is created.
-    // "postCreateCommand": "pip list",
+    "postCreateCommand": "git config --global --add safe.directory /workspaces/mid-itf",
     // Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
     "remoteUser": "tango"
     // "remoteEnv": {
