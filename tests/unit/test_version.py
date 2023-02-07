@@ -2,9 +2,9 @@
 
 from pytest_bdd import given, parsers, scenario, then
 
-# import pytest
-
 from ska_sky_simulator_controller import __version__ as version
+
+# import pytest
 
 
 # @pytest.mark.skip
@@ -24,6 +24,6 @@ def check_version(test_version):
     """
     Package version is 0.1.0.
 
-    :param version: the version of the imported package - see Jira issue.
+    :param test_version: the version of the imported package - see Jira issue.
     """
     assert version == test_version
