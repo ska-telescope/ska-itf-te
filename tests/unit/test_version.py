@@ -2,9 +2,12 @@
 
 from pytest_bdd import given, parsers, scenario, then
 
+# import pytest
+
 from ska_sky_simulator_controller import __version__ as version
 
 
+# @pytest.mark.skip
 @scenario("features/version.feature", "Test version of skysimctl package")
 def test_version_of_skysimctl_package():
     """Test version of skysimctl package."""
