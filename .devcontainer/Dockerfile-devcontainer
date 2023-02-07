@@ -21,8 +21,6 @@ RUN poetry install
 
 USER tango
 
-RUN git config --global --add safe.directory $(pwd)
-
 RUN poetry config virtualenvs.create false
 RUN poetry shell && poetry install
 
