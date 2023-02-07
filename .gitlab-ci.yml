@@ -45,22 +45,6 @@ python-test:
   before_script:
     - bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install --upgrade poetry
 
-upload-xtp:
-  stage: upload
-  dependencies:
-    - k8s-test
-  image: artefact.skao.int/ska-tango-images-pytango-runtime:9.3.19
-  script:
-    - pip3 install -U ska-ser-skallop
-    - xtp-xray-upload -v -i tests/xray-config.json -f build/reports/cucumber.json
-  allow_failure: true
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      when: always
-    - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
-      when: manual
-
-
 python-lint:
   image: artefact.skao.int/ska-tango-images-pytango-builder:9.3.32
   before_script:
