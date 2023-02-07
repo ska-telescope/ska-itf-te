@@ -16,7 +16,7 @@ def imported_package():
     print(name)
 
 
-@then(parsers.parse("its version is <version>"))
+@then(parsers.parse("its version is {version}"))
 def check_version(version):
     """
     Package version is 0.1.0.
