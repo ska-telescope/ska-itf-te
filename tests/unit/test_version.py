@@ -2,9 +2,9 @@
 
 from pytest_bdd import given, parsers, scenario, then
 
-# import pytest
-
 from ska_sky_simulator_controller import __version__ as version
+
+# import pytest
 
 
 # @pytest.mark.skip

@@ -16,6 +16,9 @@ include .make/raw.mk
 # include core make support
 include .make/base.mk
 
+# include xray support
+include .make/xray.mk
+
 # include your own private variables for custom deployment configuration
 -include PrivateRules.mak
 
