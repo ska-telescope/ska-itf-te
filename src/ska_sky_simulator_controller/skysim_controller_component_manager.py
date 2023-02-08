@@ -28,7 +28,7 @@ from ska_tango_base.poller import PollingComponentManager
 
 
 # pylint: disable-next=too-many-instance-attributes
-class SkySimulatorControllerComponentManager(
+class SkysimControllerComponentManager(
     PollingComponentManager[AttributeRequest, AttributeResponse]
 ):
     """A component manager for a sky simulator controller."""
@@ -254,14 +254,14 @@ class SkySimulatorControllerComponentManager(
                 self.logger.debug("Adding queries.")
                 # TODO: add set_queries
                 attribute_request.set_queries(
-                    "frequency",
+                    "rf_output_on",
+                    "power_cycled",
+                    #     "frequency",
                     #     "power_dbm",
-                    #     "rf_output_on",
                     #     "query_error",
                     #     "device_error",
                     #     "execution_error",
                     #     "command_error",
-                    #     "power_cycled",
                 )
                 self._tick = 0
         self.logger.debug("Returning request for next poll.")

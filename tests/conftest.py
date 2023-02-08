@@ -3,6 +3,7 @@
 import functools
 from typing import List, Set, TypedDict
 
+import logging
 import pytest
 from ska_ser_test_equipment.scpi import (
     InterfaceDefinitionFactory,
@@ -78,4 +79,5 @@ def interface_definition(model: str) -> InterfaceDefinitionType:
 
     :return: the SCPI interface definition
     """
+    logging.info("Get interface definition for %s", model)
     return InterfaceDefinitionFactory()(model)

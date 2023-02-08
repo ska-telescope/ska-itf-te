@@ -14,19 +14,19 @@ from typing import (
     cast,
     get_args,
 )
-
+import logging
 import pytest
 import tango
 from ska_control_model import LoggingLevel
 from ska_ser_test_equipment.scpi import SupportedProtocol
-from ska_ser_test_equipment.signal_generator import (
-    SignalGeneratorDevice,
-    SignalGeneratorSimulator,
-)
-from ska_ser_test_equipment.spectrum_analyser import (
-    SpectrumAnalyserDevice,
-    SpectrumAnalyserSimulator,
-)
+#from ska_ser_test_equipment.signal_generator import (
+    #SignalGeneratorDevice,
+    #SignalGeneratorSimulator,
+#)
+#from ska_ser_test_equipment.spectrum_analyser import (
+    #SpectrumAnalyserDevice,
+    #SpectrumAnalyserSimulator,
+#)
 from ska_tango_testing.context import (
     TangoContextProtocol,
     ThreadedTestTangoContextManager,
@@ -34,11 +34,11 @@ from ska_tango_testing.context import (
 )
 from ska_tango_testing.mock.tango import MockTangoEventCallbackGroup
 
-from ska_sky_simulator_controller.sky_sim_ctl_device import (
-    SkySimulatorControllerDevice,
+from ska_sky_simulator_controller.skysim_controller_device import (
+    SkysimControllerDevice,
 )
-from ska_sky_simulator_controller.sky_sim_ctl_simulator import (
-    SkySimulatorControllerSimulator,
+from ska_sky_simulator_controller.skysim_controller_simulator import (
+    SkysimControllerSimulator,
 )
 from tests.conftest import InstrumentInfoType
 
@@ -90,220 +90,220 @@ def pytest_bdd_apply_tag(
     return None
 
 
-@pytest.fixture(name="signal_generator_model", scope="session")
-def signal_generator_model_fixture() -> str:
-    """
-    Return the signal generator model.
+#@pytest.fixture(name="signal_generator_model", scope="session")
+#def signal_generator_model_fixture() -> str:
+    #"""
+    #Return the signal generator model.
 
-    :return: the signal generator model.
-    """
-    return "TSG4104A"
-
-
-@pytest.fixture(name="signal_generator_initial_values", scope="session")
-def signal_generator_initial_values_fixture(
-    signal_generator_model: str,
-) -> Dict[str, Any]:
-    """
-    Return a dictionary of expected signal generator device attribute values.
-
-    :param signal_generator_model: name of the model of the signal generator
-
-    :return: expected signal generator device attribute values.
-    """
-    identities = {
-        "TSG4104A": "Tektronix,TSG4104A,s/nC010133,ver2.03.26",
-        "SMB100A": "Rohde&Schwarz,SMB100A,1406.6000k03/183286,4.20.028.58",
-    }
-
-    initial_values = SignalGeneratorSimulator.DEFAULTS.copy()
-    initial_values["identity"] = identities[signal_generator_model]
-    initial_values["power_cycled"] = True
-    return initial_values
+    #:return: the signal generator model.
+    #"""
+    #return "TSG4104A"
 
 
-@pytest.fixture(name="signal_generator_simulator_launcher", scope="session")
-def signal_generator_simulator_launcher_fixture(
-    signal_generator_model: str,
-) -> Callable[[], ContextManager[SignalGeneratorSimulator]]:
-    """
-    Return a context manager factory for a signal generator simulator.
+#@pytest.fixture(name="signal_generator_initial_values", scope="session")
+#def signal_generator_initial_values_fixture(
+    #signal_generator_model: str,
+#) -> Dict[str, Any]:
+    #"""
+    #Return a dictionary of expected signal generator device attribute values.
 
-    That is, a callable that, when called, returns a context manager
-    that spins up a simulator, yields it for use in testing, and then
-    shuts its down afterwards.
+    #:param signal_generator_model: name of the model of the signal generator
 
-    :param signal_generator_model: name of the signal generator model
+    #:return: expected signal generator device attribute values.
+    #"""
+    #identities = {
+        #"TSG4104A": "Tektronix,TSG4104A,s/nC010133,ver2.03.26",
+        #"SMB100A": "Rohde&Schwarz,SMB100A,1406.6000k03/183286,4.20.028.58",
+    #}
 
-    :return: a signal generator simulator context manager factory
-    """
-
-    @contextmanager
-    def launch_simulator() -> Iterator[SignalGeneratorSimulator]:
-        address = ("localhost", 0)  # let the kernel give us a port
-        server = SignalGeneratorSimulator(
-            address, signal_generator_model, power_cycled=True
-        )
-        with server:
-            server_thread = threading.Thread(
-                name="Signal generator simulator thread",
-                target=server.serve_forever,
-            )
-            server_thread.daemon = True  # don't hang on exit
-            server_thread.start()
-            yield server
-            server.shutdown()
-            server_thread.join()
-
-    return launch_simulator
+    #initial_values = SignalGeneratorSimulator.DEFAULTS.copy()
+    #initial_values["identity"] = identities[signal_generator_model]
+    #initial_values["power_cycled"] = True
+    #return initial_values
 
 
-@pytest.fixture(name="signal_generator_info", scope="session")
-def signal_generator_info_fixture(
-    signal_generator_model: str,
-    signal_generator_simulator_launcher: Callable[
-        [], ContextManager[SignalGeneratorSimulator]
-    ],
-) -> Generator[Dict[str, Any], None, None]:
-    """
-    Return information about the signal generator.
+#@pytest.fixture(name="signal_generator_simulator_launcher", scope="session")
+#def signal_generator_simulator_launcher_fixture(
+    #signal_generator_model: str,
+#) -> Callable[[], ContextManager[SignalGeneratorSimulator]]:
+    #"""
+    #Return a context manager factory for a signal generator simulator.
 
-    The information consists of the protocol, host and port, and whether
-    it is a simulator.
+    #That is, a callable that, when called, returns a context manager
+    #that spins up a simulator, yields it for use in testing, and then
+    #shuts its down afterwards.
 
-    :param signal_generator_model: name of the signal generator model
-    :param signal_generator_simulator_launcher: callable that, when
-        called, returns a signal generator simulator context that
-        yields a simulator that is running as a TCP server.
+    #:param signal_generator_model: name of the signal generator model
 
-    :yields: the protocol, host and port of the signal generator
-    """
-    address_var = f"{signal_generator_model}_ADDRESS"
-    if address_var in os.environ:
-        [protocol, host, port_str] = os.environ[address_var].split(":")
+    #:return: a signal generator simulator context manager factory
+    #"""
 
-        assert protocol in get_args(SupportedProtocol)
-        yield {
-            "protocol": cast(SupportedProtocol, protocol),
-            "host": host,
-            "port": int(port_str),
-            "simulator": False,
-        }
-    else:
-        with signal_generator_simulator_launcher() as simulator:
-            host, port = simulator.server_address
-            yield {
-                "protocol": "tcp",
-                "host": host,
-                "port": port,
-                "simulator": True,
-            }
+    #@contextmanager
+    #def launch_simulator() -> Iterator[SignalGeneratorSimulator]:
+        #address = ("localhost", 0)  # let the kernel give us a port
+        #server = SignalGeneratorSimulator(
+            #address, signal_generator_model, power_cycled=True
+        #)
+        #with server:
+            #server_thread = threading.Thread(
+                #name="Signal generator simulator thread",
+                #target=server.serve_forever,
+            #)
+            #server_thread.daemon = True  # don't hang on exit
+            #server_thread.start()
+            #yield server
+            #server.shutdown()
+            #server_thread.join()
+
+    #return launch_simulator
 
 
-@pytest.fixture(name="spectrum_analyser_model", scope="session")
-def spectrum_analyser_model_fixture() -> str:
-    """
-    Return the spectrum analyser model.
+#@pytest.fixture(name="signal_generator_info", scope="session")
+#def signal_generator_info_fixture(
+    #signal_generator_model: str,
+    #signal_generator_simulator_launcher: Callable[
+        #[], ContextManager[SignalGeneratorSimulator]
+    #],
+#) -> Generator[Dict[str, Any], None, None]:
+    #"""
+    #Return information about the signal generator.
 
-    :return: the spectrum analyser model.
-    """
-    return "SPECMON26B"
+    #The information consists of the protocol, host and port, and whether
+    #it is a simulator.
 
+    #:param signal_generator_model: name of the signal generator model
+    #:param signal_generator_simulator_launcher: callable that, when
+        #called, returns a signal generator simulator context that
+        #yields a simulator that is running as a TCP server.
 
-@pytest.fixture(name="signal_generator_initial_values", scope="session")
-def spectrum_analyser_initial_values_fixture(
-    spectrum_analyser_model: str,
-) -> Dict[str, Any]:
-    """
-    Return a dictionary of expected spectrum analyser device attribute values.
+    #:yields: the protocol, host and port of the signal generator
+    #"""
+    #address_var = f"{signal_generator_model}_ADDRESS"
+    #if address_var in os.environ:
+        #[protocol, host, port_str] = os.environ[address_var].split(":")
 
-    :param spectrum_analyser_model: name of the model of the spectrum analyser
-
-    :return: expected spectrum analyser device attribute values.
-    """
-    identities = {
-        "SPECMON26B": "TEKTRONIX,SPECMON26B,PQ00112, FV:3.9.0031.0",
-    }
-
-    initial_values = SpectrumAnalyserSimulator.DEFAULTS.copy()
-    initial_values["identity"] = identities[spectrum_analyser_model]
-    return initial_values
-
-
-@pytest.fixture(name="spectrum_analyser_simulator_launcher", scope="session")
-def spectrum_analyser_simulator_launcher_fixture(
-    spectrum_analyser_model: str,
-) -> Callable[[], ContextManager[SpectrumAnalyserSimulator]]:
-    """
-    Return a context manager factory for a spectrum analyser simulator.
-
-    That is, a callable that, when called, returns a context manager
-    that spins up a simulator, yields it for use in testing, and then
-    shuts its down afterwards.
-
-    :param spectrum_analyser_model: name of the spectrum analyser model
-
-    :return: a spectrum analyser simulator context manager factory
-    """
-
-    @contextmanager
-    def launch_simulator() -> Iterator[SpectrumAnalyserSimulator]:
-        address = ("localhost", 0)  # let the kernel give us a port
-        server = SpectrumAnalyserSimulator(address, spectrum_analyser_model)
-        with server:
-            server_thread = threading.Thread(
-                name="Spectrum analyser simulator thread",
-                target=server.serve_forever,
-            )
-            server_thread.daemon = True  # don't hang on exit
-            server_thread.start()
-            yield server
-            server.shutdown()
-            server_thread.join()
-
-    return launch_simulator
+        #assert protocol in get_args(SupportedProtocol)
+        #yield {
+            #"protocol": cast(SupportedProtocol, protocol),
+            #"host": host,
+            #"port": int(port_str),
+            #"simulator": False,
+        #}
+    #else:
+        #with signal_generator_simulator_launcher() as simulator:
+            #host, port = simulator.server_address
+            #yield {
+                #"protocol": "tcp",
+                #"host": host,
+                #"port": port,
+                #"simulator": True,
+            #}
 
 
-@pytest.fixture(name="spectrum_analyser_info", scope="session")
-def spectrum_analyser_info_fixture(
-    spectrum_analyser_model: str,
-    spectrum_analyser_simulator_launcher: Callable[
-        [], ContextManager[SpectrumAnalyserSimulator]
-    ],
-) -> Generator[InstrumentInfoType, None, None]:
-    """
-    Return information about the spectrum analyser.
+#@pytest.fixture(name="spectrum_analyser_model", scope="session")
+#def spectrum_analyser_model_fixture() -> str:
+    #"""
+    #Return the spectrum analyser model.
 
-    The information consists of the protocol, host and port, and whether
-    it is a simulator.
+    #:return: the spectrum analyser model.
+    #"""
+    #return "SPECMON26B"
 
-    :param spectrum_analyser_model: name of the spectrum analyser model
-    :param spectrum_analyser_simulator_launcher: callable that, when
-        called, returns a spectrum analyser simulator context that
-        yields a simulator that is running as a TCP server.
 
-    :yields: the protocol, host and port of the spectrum analyser
-    """
-    address_var = f"{spectrum_analyser_model}_ADDRESS"
-    if address_var in os.environ:
-        [protocol, host, port_str] = os.environ[address_var].split(":")
+#@pytest.fixture(name="signal_generator_initial_values", scope="session")
+#def spectrum_analyser_initial_values_fixture(
+    #spectrum_analyser_model: str,
+#) -> Dict[str, Any]:
+    #"""
+    #Return a dictionary of expected spectrum analyser device attribute values.
 
-        assert protocol in get_args(SupportedProtocol)
-        yield {
-            "protocol": cast(SupportedProtocol, protocol),
-            "host": host,
-            "port": int(port_str),
-            "simulator": False,
-        }
-    else:
-        with spectrum_analyser_simulator_launcher() as simulator:
-            host, port = simulator.server_address
-            yield {
-                "protocol": "tcp",
-                "host": host,
-                "port": port,
-                "simulator": True,
-            }
+    #:param spectrum_analyser_model: name of the model of the spectrum analyser
+
+    #:return: expected spectrum analyser device attribute values.
+    #"""
+    #identities = {
+        #"SPECMON26B": "TEKTRONIX,SPECMON26B,PQ00112, FV:3.9.0031.0",
+    #}
+
+    #initial_values = SpectrumAnalyserSimulator.DEFAULTS.copy()
+    #initial_values["identity"] = identities[spectrum_analyser_model]
+    #return initial_values
+
+
+#@pytest.fixture(name="spectrum_analyser_simulator_launcher", scope="session")
+#def spectrum_analyser_simulator_launcher_fixture(
+    #spectrum_analyser_model: str,
+#) -> Callable[[], ContextManager[SpectrumAnalyserSimulator]]:
+    #"""
+    #Return a context manager factory for a spectrum analyser simulator.
+
+    #That is, a callable that, when called, returns a context manager
+    #that spins up a simulator, yields it for use in testing, and then
+    #shuts its down afterwards.
+
+    #:param spectrum_analyser_model: name of the spectrum analyser model
+
+    #:return: a spectrum analyser simulator context manager factory
+    #"""
+
+    #@contextmanager
+    #def launch_simulator() -> Iterator[SpectrumAnalyserSimulator]:
+        #address = ("localhost", 0)  # let the kernel give us a port
+        #server = SpectrumAnalyserSimulator(address, spectrum_analyser_model)
+        #with server:
+            #server_thread = threading.Thread(
+                #name="Spectrum analyser simulator thread",
+                #target=server.serve_forever,
+            #)
+            #server_thread.daemon = True  # don't hang on exit
+            #server_thread.start()
+            #yield server
+            #server.shutdown()
+            #server_thread.join()
+
+    #return launch_simulator
+
+
+#@pytest.fixture(name="spectrum_analyser_info", scope="session")
+#def spectrum_analyser_info_fixture(
+    #spectrum_analyser_model: str,
+    #spectrum_analyser_simulator_launcher: Callable[
+        #[], ContextManager[SpectrumAnalyserSimulator]
+    #],
+#) -> Generator[InstrumentInfoType, None, None]:
+    #"""
+    #Return information about the spectrum analyser.
+
+    #The information consists of the protocol, host and port, and whether
+    #it is a simulator.
+
+    #:param spectrum_analyser_model: name of the spectrum analyser model
+    #:param spectrum_analyser_simulator_launcher: callable that, when
+        #called, returns a spectrum analyser simulator context that
+        #yields a simulator that is running as a TCP server.
+
+    #:yields: the protocol, host and port of the spectrum analyser
+    #"""
+    #address_var = f"{spectrum_analyser_model}_ADDRESS"
+    #if address_var in os.environ:
+        #[protocol, host, port_str] = os.environ[address_var].split(":")
+
+        #assert protocol in get_args(SupportedProtocol)
+        #yield {
+            #"protocol": cast(SupportedProtocol, protocol),
+            #"host": host,
+            #"port": int(port_str),
+            #"simulator": False,
+        #}
+    #else:
+        #with spectrum_analyser_simulator_launcher() as simulator:
+            #host, port = simulator.server_address
+            #yield {
+                #"protocol": "tcp",
+                #"host": host,
+                #"port": port,
+                #"simulator": True,
+            #}
 
 
 @pytest.fixture(name="true_context", scope="session")
@@ -331,8 +331,7 @@ def true_context_fixture(request: pytest.FixtureRequest) -> bool:
 
 @pytest.fixture(scope="session")
 def deployment_has_simulators(
-    signal_generator_info: InstrumentInfoType,
-    spectrum_analyser_info: InstrumentInfoType,
+    skysim_controller_info: InstrumentInfoType,
 ) -> bool:
     """
     Return whether this test deployment has any simulators in it.
@@ -350,18 +349,15 @@ def deployment_has_simulators(
     :return: whether this test deployment has any simulators in it.
     """
     return (
-        signal_generator_info["simulator"]
-        or spectrum_analyser_info["simulator"]
+        skysim_controller_info["simulator"]
     )
 
 
 @pytest.fixture(name="tango_context", scope="session")
 def tango_context_fixture(
     true_context: bool,
-    signal_generator_model: str,
-    signal_generator_info: InstrumentInfoType,
-    spectrum_analyser_model: str,
-    spectrum_analyser_info: InstrumentInfoType,
+    skysim_controller_model: str,
+    skysim_controller_info: InstrumentInfoType,
 ) -> Generator[TangoContextProtocol, None, None]:
     """
     Yield a Tango context containing the devices under test.
@@ -388,54 +384,54 @@ def tango_context_fixture(
         context_manager = ThreadedTestTangoContextManager()
         cast(ThreadedTestTangoContextManager, context_manager).add_device(
             "test-itf/siggen/1",
-            SignalGeneratorDevice,
-            Model=signal_generator_model,
-            Protocol=signal_generator_info["protocol"],
-            Host=signal_generator_info["host"],
-            Port=signal_generator_info["port"],
+            SkysimControllerDevice,
+            Model=skysim_controller_model,
+            Protocol=skysim_controller_info["protocol"],
+            Host=skysim_controller_info["host"],
+            Port=skysim_controller_info["port"],
             UpdateRate=1.0,
             LoggingLevelDefault=int(LoggingLevel.DEBUG),
         )
-        cast(ThreadedTestTangoContextManager, context_manager).add_device(
-            "test-itf/spectana/1",
-            SpectrumAnalyserDevice,
-            Model=spectrum_analyser_model,
-            Protocol=spectrum_analyser_info["protocol"],
-            Host=spectrum_analyser_info["host"],
-            Port=spectrum_analyser_info["port"],
-            UpdateRate=1.0,
-            LoggingLevelDefault=int(LoggingLevel.DEBUG),
-        )
+        #cast(ThreadedTestTangoContextManager, context_manager).add_device(
+            #"test-itf/spectana/1",
+            #SpectrumAnalyserDevice,
+            #Model=spectrum_analyser_model,
+            #Protocol=spectrum_analyser_info["protocol"],
+            #Host=spectrum_analyser_info["host"],
+            #Port=spectrum_analyser_info["port"],
+            #UpdateRate=1.0,
+            #LoggingLevelDefault=int(LoggingLevel.DEBUG),
+        #)
     with context_manager as context:
         yield context
 
 
-@pytest.fixture(scope="session")
-def signal_generator_device(
-    tango_context: TangoContextProtocol,
-) -> tango.DeviceProxy:
-    """
-    Return a proxy to the spectrum analyser device.
+#@pytest.fixture(scope="session")
+#def signal_generator_device(
+    #tango_context: TangoContextProtocol,
+#) -> tango.DeviceProxy:
+    #"""
+    #Return a proxy to the spectrum analyser device.
 
-    :param tango_context: the context in which the device is running.
+    #:param tango_context: the context in which the device is running.
 
-    :return: a proxy to the signal generator device.
-    """
-    return tango_context.get_device("test-itf/siggen/1")
+    #:return: a proxy to the signal generator device.
+    #"""
+    #return tango_context.get_device("test-itf/siggen/1")
 
 
-@pytest.fixture(scope="session")
-def spectrum_analyser_device(
-    tango_context: TangoContextProtocol,
-) -> tango.DeviceProxy:
-    """
-    Return a proxy to the spectrum analyser device.
+#@pytest.fixture(scope="session")
+#def spectrum_analyser_device(
+    #tango_context: TangoContextProtocol,
+#) -> tango.DeviceProxy:
+    #"""
+    #Return a proxy to the spectrum analyser device.
 
-    :param tango_context: the context in which the device is running.
+    #:param tango_context: the context in which the device is running.
 
-    :return: a proxy to the spectrum analyser device.
-    """
-    return tango_context.get_device("test-itf/spectana/1")
+    #:return: a proxy to the spectrum analyser device.
+    #"""
+    #return tango_context.get_device("test-itf/spectana/1")
 
 
 @pytest.fixture(scope="session")
@@ -481,3 +477,122 @@ def change_event_callbacks() -> MockTangoEventCallbackGroup:
         "noise_generator_on",
         timeout=10.0,
     )
+
+# New stuff for sky simulator controller
+
+
+
+
+@pytest.fixture(name="skysim_controller_model", scope="session")
+def skysim_controller_model_fixture() -> str:
+    """
+    Return the signal generator model.
+
+    :return: the signal generator model.
+    """
+    modl = "SKYSIMCTL"
+    logging.info("Sky simulator controller model %s", modl)
+    return modl
+
+
+@pytest.fixture(name="skysim_controller_initial_values", scope="session")
+def skysim_controller_initial_values_fixture(
+    skysim_controller_model: str,
+) -> Dict[str, Any]:
+    """
+    Return a dictionary of expected signal generator device attribute values.
+
+    :param sky_simulator_controller_model: name of the model of the signal generator
+
+    :return: expected signal generator device attribute values.
+    """
+    identities = {
+        "SKYSIMCTL": "Raspberry Pi",
+    }
+    logging.info("Initial values for %s", skysim_controller_model)
+    initial_values = SkysimControllerSimulator.DEFAULTS.copy()
+    initial_values["identity"] = identities[skysim_controller_model]
+    initial_values["power_cycled"] = True
+    return initial_values
+
+
+@pytest.fixture(name="skysim_controller_simulator_launcher", scope="session")
+def skysim_controller_simulator_launcher_fixture(
+    skysim_controller_model: str,
+) -> Callable[[], ContextManager[SkysimControllerSimulator]]:
+    """
+    Return a context manager factory for a signal generator simulator.
+
+    That is, a callable that, when called, returns a context manager
+    that spins up a simulator, yields it for use in testing, and then
+    shuts its down afterwards.
+
+    :param signal_generator_model: name of the signal generator model
+
+    :return: a signal generator simulator context manager factory
+    """
+
+    @contextmanager
+    def launch_simulator() -> Iterator[SkysimControllerSimulator]:
+        # TODO let the kernel give us a port or specify one
+        address = ("localhost", 10001)
+        logging.info("Launch server %s", address)
+        server = SkysimControllerSimulator(
+            address, skysim_controller_model, power_cycled=True
+        )
+        with server:
+            server_thread = threading.Thread(
+                name="Skysim controller simulator thread",
+                target=server.serve_forever,
+            )
+            server_thread.daemon = True  # don't hang on exit
+            server_thread.start()
+            yield server
+            server.shutdown()
+            server_thread.join()
+
+    return launch_simulator
+
+
+@pytest.fixture(name="skysim_controller_info", scope="session")
+def skysim_controller_info_fixture(
+    skysim_controller_model: str,
+    skysim_controller_simulator_launcher: Callable[
+        [], ContextManager[SkysimControllerSimulator]
+    ],
+) -> Generator[Dict[str, Any], None, None]:
+    """
+    Return information about the sky simulator controller.
+
+    The information consists of the protocol, host and port, and whether
+    it is a simulator.
+
+    :param skysim_controller_model: name of the skysim controller model
+    :param skysim_controller_simulator_launcher: callable that, when
+        called, returns a skysim controller simulator context that
+        yields a simulator that is running as a TCP server.
+
+    :yields: the protocol, host and port of the skysim controller
+    """
+    address_var = f"{skysim_controller_model}_ADDRESS"
+    if address_var in os.environ:
+        logging.info("Using address %s : %s", address_var, os.environ[address_var])
+        [protocol, host, port_str] = os.environ[address_var].split(":")
+
+        assert protocol in get_args(SupportedProtocol)
+        yield {
+            "protocol": cast(SupportedProtocol, protocol),
+            "host": host,
+            "port": int(port_str),
+            "simulator": False,
+        }
+    else:
+        with skysim_controller_simulator_launcher() as simulator:
+            logging.info("Default address : %s", simulator.server_address)
+            host, port = simulator.server_address
+            yield {
+                "protocol": "tcp",
+                "host": host,
+                "port": port,
+                "simulator": True,
+            }

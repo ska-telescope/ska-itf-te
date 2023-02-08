@@ -52,7 +52,7 @@ class InterfaceDefinitionFactory:  # pylint: disable=too-few-public-methods
             "TSG4104A": "signal_generator/tektronix_tsg4104a.yaml",
             "SPECMON26B": "spectrum_analyser/tektronix_specmon26b.yaml",
             "MS2090A": "spectrum_analyser/anritsu_ms2090a.yaml",
-            "SKYSIMCTL": "sky_simulator_controller/sky_sim_ctl.yaml",
+            "SKYSIMCTL": "ska_sky_simulator_controller/sky_sim_ctl.yaml",
         }
 
     def __call__(self, model: str) -> InterfaceDefinitionType:

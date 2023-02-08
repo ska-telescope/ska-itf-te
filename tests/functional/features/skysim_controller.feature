@@ -28,8 +28,8 @@ Feature: Sky Simulator components can be controlled remotely using Tango device 
 		    
 		    | signal_source_name            |
 		    | "siggen_rf_output_on"       |
-	#	    | "gaussian_noise_source"       |
-	#	    | "programmable_attenuator"     |
+		    | "gaussian_noise_source"       |
+		    | "programmable_attenuator"     |
 	#	    | "correlated_noise_source"     |
 	#	    | "h_channel"                   |
 	#	    | "v_channel"                   |

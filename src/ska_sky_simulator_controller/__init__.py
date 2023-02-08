@@ -1,12 +1,13 @@
 """Monitoring and control of a skysimulator controller package."""
+__version__ = "0.0.1"
 __all__ = [
-    "SkySimulatorControllerComponentManager",
-    "SkySimulatorControllerDevice",
-    "SkySimulatorControllerSimulator",
+    "SkysimControllerComponentManager",
+    "SkysimControllerDevice",
+    "SkysimControllerSimulator",
 ]
 
-from .sky_sim_ctl_component_manager import (
-    SkySimulatorControllerComponentManager,
+from .skysim_controller_component_manager import (
+    SkysimControllerComponentManager,
 )
-from .sky_sim_ctl_device import SkySimulatorControllerDevice
-from .sky_sim_ctl_simulator import SkySimulatorControllerSimulator
+from .skysim_controller_device import SkysimControllerDevice
+from .skysim_controller_simulator import SkysimControllerSimulator

@@ -14,12 +14,12 @@ from ska_ser_test_equipment.scpi import (
 )
 
 
-class SkySimulatorControllerSimulator(ScpiOverTcpSimulator):
+class SkysimControllerSimulator(ScpiOverTcpSimulator):
     """A concrete simulator class."""
 
     DEFAULTS: Final[Dict[str, SupportedAttributeType]] = {
-        "gpio_1": False,
-        "gpio_2": False,
+        "gaussian_noise_source": False,
+        "programmable_attenuator": False,
         "gpio_3": False,
         "gpio_4": False,
         "gpio_5": False,
@@ -43,10 +43,11 @@ class SkySimulatorControllerSimulator(ScpiOverTcpSimulator):
             value will be used.
         :raises NotImplementedError: not yet implement
         """
-        logging.warning("Initialise model %s", model)
+        logging.warning("Initialise sky simulator controller model %s", model)
         try:
             interface_definition = InterfaceDefinitionFactory()(model)
         except KeyError:
+            # pylint: disable-next=raise-missing-from
             raise NotImplementedError("Not part of the current story")
 
         initial_values = kwargs
@@ -57,8 +58,8 @@ class SkySimulatorControllerSimulator(ScpiOverTcpSimulator):
 
     def reset(self) -> None:
         """Reset to factory default values."""
-        self.set_attribute("gpio_1", False)
-        self.set_attribute("gpio_2", False)
+        self.set_attribute("gaussian_noise_source", False)
+        self.set_attribute("programmable_attenuator", False)
         self.set_attribute("gpio_3", False)
         self.set_attribute("gpio_4", False)
         self.set_attribute("gpio_5", False)
@@ -85,9 +86,9 @@ def main(model=None, host=None, port=0) -> int:
 
     logging.debug("Start model %s host %s port %s", model, host, port)
     try:
-        server = SkySimulatorControllerSimulator((host, port), model)
+        server = SkysimControllerSimulator((host, port), model)
     except NotImplementedError as err:
-        logging.error("No interface definition for model %s", model)
+        logging.error("No interface definition for model %s: %s", model, str(err))
         return 1
     except OSError as err:
         logging.error("Could not open server %s:%s <%s>", host, port, str(err))
@@ -99,7 +100,7 @@ def main(model=None, host=None, port=0) -> int:
     return 0
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     RETURN_VALUE = 1
     try:
         LOG_LEVEL = logging.WARNING
