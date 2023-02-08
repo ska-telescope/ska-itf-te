@@ -1,14 +1,14 @@
 @SP-2854
-Feature: Sky Simulator components can be controlled remotely using Tango device server that communicates with Raspberry Pi using SCPI commands
+Feature: Skysim components can be controlled remotely using Tango device server that communicates with Raspberry Pi using SCPI commands
 	#Currently up to seven simple hardware devices can be switched ON/OFF remotely using GPIO control from a Raspberry Pi (RPi). This is already working, but access to the RPi is needed, which involves SSH connection and additional screens open. This leaves room for improvement.
 	#
-	#We can use the SCPI device simulators currently available in the SKA Test Equipment repository and instead of simulating a device we can potentially call simple GPIO commands as response to incoming SCPI commands. If the SCPI commands are simple enough, the Tango Device Servers are already available with which we can then control SCPI devices from Taranta / Jupyter Notebooks, and implementing these Device Servers should enable us to monitor and control the Sky Simulator components in similar ways as other Test Equipment.
+	#We can use the SCPI device simulators currently available in the SKA Test Equipment repository and instead of simulating a device we can potentially call simple GPIO commands as response to incoming SCPI commands. If the SCPI commands are simple enough, the Tango Device Servers are already available with which we can then control SCPI devices from Taranta / Jupyter Notebooks, and implementing these Device Servers should enable us to monitor and control the Skysim components in similar ways as other Test Equipment.
 	#
 	#Implementing the SkySim Controller in a web server running on the Raspberry Pi that can be connected to using a TCP socket (which is how the current Device Servers connect to the Device Simulators), is then all that is needed to control the hardware from Tango UIs.
 	#
 	# 
 	#
-	#The Programmable Attenuator has a simple Telnet interface, that could potentially also be communicated with from the same Raspberry Pi web server. It has two commands: Set Attenuation, and Read Attenuation. These should be added to the same Sky Simulator Controller.
+	#The Programmable Attenuator has a simple Telnet interface, that could potentially also be communicated with from the same Raspberry Pi web server. It has two commands: Set Attenuation, and Read Attenuation. These should be added to the same Skysim Controller.
 	#
 	# 
 
@@ -27,10 +27,9 @@ Feature: Sky Simulator components can be controlled remotely using Tango device 
 		Examples:
 		    
 		    | signal_source_name            |
-		    | "siggen_rf_output_on"       |
 		    | "gaussian_noise_source"       |
 		    | "programmable_attenuator"     |
-	#	    | "correlated_noise_source"     |
+		    | "correlated_noise_source"     |
 	#	    | "h_channel"                   |
 	#	    | "v_channel"                   |
 	#	    | "uncorrelated_noise_sources"  |
@@ -38,7 +37,7 @@ Feature: Sky Simulator components can be controlled remotely using Tango device 
 	#	    | "band_2"                      |
 	#	    | "band_3"                      |
 
-	#Test if, when asked its name, the Sky Simulator Controller responds as expected.
+	#Test if, when asked its name, the Skysim Controller responds as expected.
 	@AT-320 @AT-318 @AT-317
 	Scenario: Test SCPI device returns identity
 		Given the SkySimController is online

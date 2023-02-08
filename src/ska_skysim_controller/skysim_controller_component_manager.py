@@ -6,7 +6,7 @@
 # Agreement
 # See LICENSE.txt for more info.
 
-"""Monitoring and control of a Sky Simulator Controller module."""
+"""Monitoring and control of a Skysim Controller module."""
 from __future__ import annotations
 
 import logging
@@ -31,7 +31,7 @@ from ska_tango_base.poller import PollingComponentManager
 class SkysimControllerComponentManager(
     PollingComponentManager[AttributeRequest, AttributeResponse]
 ):
-    """A component manager for a sky simulator controller."""
+    """A component manager for a skysim controller."""
 
     # pylint: disable-next=too-many-arguments
     def __init__(
@@ -46,15 +46,15 @@ class SkysimControllerComponentManager(
         update_rate: float = 5.0,
     ) -> None:
         """
-        Initialise a new sky simulator controller component manager instance.
+        Initialise a new skysim controller component manager instance.
 
         :param interface_definition: definition of the sky simulator
             controller's SCPI interface
         :param protocol: the network protocol to be used to communicate
-            with the sky simulator controller
+            with the skysim controller
         :param host: the host name or IP address of the sky simulator
             controller.
-        :param port: the port of the sky simulator controller.
+        :param port: the port of the skysim controller.
         :param logger: a logger for this component manager to use for
             logging
         :param communication_state_callback: callback to be called when
@@ -112,7 +112,7 @@ class SkysimControllerComponentManager(
         )
 
         self.logger.debug(
-            f"Initialising sky simulator controller component manager: "
+            f"Initialising skysim controller component manager: "
             f"Update rate is {update_rate}. "
             f"Poll rate is {interface_definition['poll_rate']}. "
             f"Attributes will be updated roughly each {self._max_tick} polls."

@@ -47,12 +47,7 @@ class InterfaceDefinitionFactory:  # pylint: disable=too-few-public-methods
     def __init__(self) -> None:
         """Initialise a new instance."""
         self._interfaces = {
-            "SMB100A": "signal_generator/rohde_and_schwarz_smb100a.yaml",
-            "TGR2051": "signal_generator/aimtti_tgr2051.yaml",
-            "TSG4104A": "signal_generator/tektronix_tsg4104a.yaml",
-            "SPECMON26B": "spectrum_analyser/tektronix_specmon26b.yaml",
-            "MS2090A": "spectrum_analyser/anritsu_ms2090a.yaml",
-            "SKYSIMCTL": "ska_sky_simulator_controller/sky_sim_ctl.yaml",
+            "SKYSIMCTL": "ska_skysim_controller/sky_sim_ctl.yaml",
         }
 
     def __call__(self, model: str) -> InterfaceDefinitionType:
@@ -64,7 +59,7 @@ class InterfaceDefinitionFactory:  # pylint: disable=too-few-public-methods
 
         :return: SCPI interface definition for the model
         """
-        logging.warning("Model set to %s", model)
+        logging.info("Model set to %s", model)
         file_name = self._interfaces[model]
         interface_definition_data = pkgutil.get_data(
             "ska_ser_test_equipment", file_name

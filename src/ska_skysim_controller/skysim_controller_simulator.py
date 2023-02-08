@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Simple SCPI simulator for the Sky Simulator Controller implementation."""
+"""Simple SCPI simulator for the Skysim Controller implementation."""
 import argparse
 import logging
 import os
@@ -43,7 +43,7 @@ class SkysimControllerSimulator(ScpiOverTcpSimulator):
             value will be used.
         :raises NotImplementedError: not yet implement
         """
-        logging.warning("Initialise sky simulator controller model %s", model)
+        logging.info("Initialise skysim controller model %s", model)
         try:
             interface_definition = InterfaceDefinitionFactory()(model)
         except KeyError:

@@ -6,14 +6,14 @@
 # Agreement
 # See LICENSE.txt for more info.
 
-"""Module providing a Tango device for a Sky Simulator Controller."""
+"""Module providing a Tango device for a Skysim Controller."""
 from typing import Any
 import tango
 import tango.server
 
 from ska_ser_test_equipment.base.base_device import TestEquipmentBaseDevice
 from ska_ser_test_equipment.scpi import InterfaceDefinitionFactory
-from ska_sky_simulator_controller.skysim_controller_component_manager import (
+from ska_skysim_controller.skysim_controller_component_manager import (
     SkysimControllerComponentManager,
 )
 
@@ -56,7 +56,7 @@ def main(args: Any = None, **kwargs: Any) -> int:
     """
     Launch a `SkysimController` server instance.
 
-    :param args: arguments to the sky simulator controller device.
+    :param args: arguments to the skysim controller device.
     :param kwargs: keyword arguments to the server
 
     :returns: the Tango server exit code

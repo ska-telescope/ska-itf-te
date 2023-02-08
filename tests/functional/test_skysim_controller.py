@@ -1,4 +1,4 @@
-"""Sky Simulator Controller feature tests."""
+"""Skysim Controller feature tests."""
 
 from typing import Optional
 
@@ -11,11 +11,11 @@ from ska_tango_testing.mock.tango import MockTangoEventCallbackGroup
     #reason="BDD tests are required to fail, before the code implementation."
 #)
 @scenario(
-    "features/sky_simulator_controller.feature",
+    "features/skysim_controller.feature",
     "Test SkySimCtl can switch ON signal sources",
 )
 @scenario(
-    "features/sky_simulator_controller.feature",
+    "features/skysim_controller.feature",
     "Test SCPI device returns identity",
 )
 def test_scpi_device_returns_identity(
@@ -38,7 +38,7 @@ def test_scpi_device_returns_identity(
     #reason="BDD tests are required to fail, before the code implementation."
 #)
 @scenario(
-    "features/sky_simulator_controller.feature",
+    "features/skysim_controller.feature",
     "Test SkySimCtl can switch ON signal sources",
 )
 def test_skysimctl_can_switch_on_signal_sources():

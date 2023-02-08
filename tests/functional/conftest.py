@@ -34,10 +34,10 @@ from ska_tango_testing.context import (
 )
 from ska_tango_testing.mock.tango import MockTangoEventCallbackGroup
 
-from ska_sky_simulator_controller.skysim_controller_device import (
+from ska_skysim_controller.skysim_controller_device import (
     SkysimControllerDevice,
 )
-from ska_sky_simulator_controller.skysim_controller_simulator import (
+from ska_skysim_controller.skysim_controller_simulator import (
     SkysimControllerSimulator,
 )
 from tests.conftest import InstrumentInfoType
@@ -439,7 +439,7 @@ def skysim_controller_device(
     tango_context: TangoContextProtocol,
 ) -> tango.DeviceProxy:
     """
-    Return a proxy to the sky simulator controller device.
+    Return a proxy to the skysim controller device.
 
     :param tango_context: the context in which the device is running.
 
@@ -457,28 +457,11 @@ def change_event_callbacks() -> MockTangoEventCallbackGroup:
         callbacks by name.
     """
     return MockTangoEventCallbackGroup(
-        "siggen_adminMode",
-        "siggen_state",
-        "siggen_identity",
-        "siggen_frequency",
-        "siggen_power_dbm",
-        "siggen_rf_output_on",
-        "siggen_query_error",
-        "siggen_device_error",
-        "siggen_execution_error",
-        "siggen_command_error",
-        "siggen_power_cycled",
-        "spectana_adminMode",
-        "spectana_state",
-        "spectana_frequency_peak",
-        "spectana_power_peak",
-        "spectana_frequency_start",
-        "spectana_frequency_stop",
         "noise_generator_on",
         timeout=10.0,
     )
 
-# New stuff for sky simulator controller
+# New stuff for skysim controller
 
 
 
@@ -562,7 +545,7 @@ def skysim_controller_info_fixture(
     ],
 ) -> Generator[Dict[str, Any], None, None]:
     """
-    Return information about the sky simulator controller.
+    Return information about the skysim controller.
 
     The information consists of the protocol, host and port, and whether
     it is a simulator.
