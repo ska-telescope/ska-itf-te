@@ -1,4 +1,5 @@
 """This module contains functional test harness and pytest configuration."""
+import logging
 import os
 import threading
 from contextlib import contextmanager
@@ -40,6 +41,9 @@ from tests.conftest import InstrumentInfoType
     SkySimulatorControllerDevice,
     SkySimulatorControllerSimulator,
 )"""
+
+logging.debug(SkySimulatorControllerDevice)
+logging.debug(SkySimulatorControllerSimulator)
 
 
 # TODO: https://github.com/pytest-dev/pytest-forked/issues/67
