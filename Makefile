@@ -87,7 +87,8 @@ PYTHON_VARS_AFTER_PYTEST += --true-context --cucumberjson=build/reports/cucumber
 # hack out PYTHONPATH - why is it even there?
 # hack in test target directory
 K8S_TEST_TEST_COMMAND = unset PYTHONPATH; TANGO_HOST=$(TANGO_HOST) \
-						pytest \
+						pytest --cucumberjson=build/reports/cucumber.json \
+						--json-report --json-report-file=build/reports/report.json \
 						$(PYTHON_VARS_AFTER_PYTEST) ./tests/functional \
 						 | tee pytest.stdout ## k8s-test test command to run in container
 endif
