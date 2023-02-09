@@ -5,6 +5,9 @@ __all__ = [
     "SkySimulatorControllerSimulator",
 ]
 
+# TODO: parse the root-located .release file for the actual version
+__version__ = "0.1.0"
+
 from .sky_sim_ctl_component_manager import (
     SkySimulatorControllerComponentManager,
 )
