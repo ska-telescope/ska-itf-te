@@ -7,7 +7,7 @@ import sys
 from socket import gethostname
 from typing import Dict, Final, Tuple
 
-from ska_ser_test_equipment.scpi import (
+from ska_skysim_controller.scpi import (
     InterfaceDefinitionFactory,
     ScpiOverTcpSimulator,
     SupportedAttributeType,
@@ -48,7 +48,7 @@ class SkysimControllerSimulator(ScpiOverTcpSimulator):
             interface_definition = InterfaceDefinitionFactory()(model)
         except KeyError:
             # pylint: disable-next=raise-missing-from
-            raise NotImplementedError("Not part of the current story")
+            raise NotImplementedError("Model %s not supported" % model)
 
         initial_values = kwargs
         for key, value in self.DEFAULTS.items():

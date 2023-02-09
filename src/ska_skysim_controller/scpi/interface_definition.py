@@ -47,7 +47,7 @@ class InterfaceDefinitionFactory:  # pylint: disable=too-few-public-methods
     def __init__(self) -> None:
         """Initialise a new instance."""
         self._interfaces = {
-            "SKYSIMCTL": "ska_skysim_controller/sky_sim_ctl.yaml",
+            "SKYSIMCTL": "ska_skysim_controller/skysim_controller.yaml",
         }
 
     def __call__(self, model: str) -> InterfaceDefinitionType:

@@ -18,9 +18,9 @@ Feature: Skysim components can be controlled remotely using Tango device server 
 	#
 	#This test should pass when executed against the real HW as well as (first) the SkySimControllerSimulator (a Simulator that runs alongside the Tango Device Servers in the same k8s cluster).
 	@AT-319 @AT-318 @AT-317
-	Scenario Outline: Test SkySimCtl can switch ON signal sources
+	Scenario: Test SkysimController can switch ON signal sources
 		Given the SkySimController is online
-		And the SkySimController is initialised (all signal sources OFF)
+		And the SkySimController is initialised
 		When I switch on the <signal_source_name> # Get signal source names from @Ben.Lunsky
 		Then the <signal_source_name> must be ON # SCPI field value (ON/OFF) should be translated to a Tango attribute (boolean)
 		
@@ -40,7 +40,42 @@ Feature: Skysim components can be controlled remotely using Tango device server 
 	#Test if, when asked its name, the Skysim Controller responds as expected.
 	@AT-320 @AT-318 @AT-317
 	Scenario: Test SCPI device returns identity
-		Given the SkySimController is online
-		And the SkySimController is initialised (all signal sources OFF)
+		Given the SkysimController is online
+		And the SkysimController is initialised
 		When I ask its identity
-		Then it responds "SkySimController"
+		Then it responds "SkysimController"
+
+	Scenario: Test SkysimController is initialised
+		Given all signal sources OFF
+		Then it responds "initialised"
+
+	Scenario: Test SkysimController is online
+		Given the SkysimController is initialised
+		When I ask its status
+		Then it responds "online"
+
+	Scenario: Test SkysimController identity
+		Given the SkysimController is initialised
+		When I ask its identity
+		Then it responds "SKYSIMCTL"
+
+	Scenario: Test SkysimController response
+		Given the SkysimController is online
+		And the SkysimController is initialised
+		When I ask it to do its thing
+		Then it responds "SKYSIMCTL"
+
+
+	Scenario: Test SkysimController signal source is ON
+		Given the SkysimController is online
+		And the SkysimController is initialised
+		And the <signal_source_name> has been switched ON
+		When I ask it to switch on <signal_source_name>
+		Then it responds <signal_source_name> is ON
+
+		Examples:
+
+		    | signal_source_name            |
+		    | "gaussian_noise_source"       |
+		    | "programmable_attenuator"     |
+		    | "correlated_noise_source"     |

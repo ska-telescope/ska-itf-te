@@ -445,6 +445,7 @@ def skysim_controller_device(
 
     :return: a proxy to the spectrum analyser device.
     """
+    # TODO change this to test-itf/skysimctl/1
     return tango_context.get_device("test-itf/siggen/1")
 
 
@@ -571,7 +572,8 @@ def skysim_controller_info_fixture(
         }
     else:
         with skysim_controller_simulator_launcher() as simulator:
-            logging.info("Default address : %s", simulator.server_address)
+            logging.info("Default address : %s:%s", simulator.server_address[0],
+                         simulator.server_address[1])
             host, port = simulator.server_address
             yield {
                 "protocol": "tcp",

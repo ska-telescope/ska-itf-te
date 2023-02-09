@@ -111,7 +111,7 @@ class SkysimControllerComponentManager(
             gpio_7=None,
         )
 
-        self.logger.debug(
+        self.logger.info(
             f"Initialising skysim controller component manager: "
             f"Update rate is {update_rate}. "
             f"Poll rate is {interface_definition['poll_rate']}. "

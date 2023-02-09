@@ -1,4 +1,5 @@
-# ska-itf-te
+# ska-mid-itf
+SKA mid Integration Test Facility
 
 ## Makefile for SW server access
 A subset of the makefile commands available in the [Deploy Mid ITF](https://gitlab.com/ska-telescope/sdi/ska-cicd-deploy-low-itf) have been added to the resources folder.

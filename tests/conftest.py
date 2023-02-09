@@ -5,6 +5,7 @@ from typing import List, Set, TypedDict
 
 import logging
 import pytest
+
 from ska_ser_test_equipment.scpi import (
     InterfaceDefinitionFactory,
     InterfaceDefinitionType,
