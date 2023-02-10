@@ -91,9 +91,9 @@ def main(model=None, host=None, port=0) -> int:
         logging.error("No interface definition for model %s: %s", model, str(err))
         return 1
     except OSError as err:
-        logging.error("Could not open server %s:%s <%s>", host, port, str(err))
+        logging.error("Could not open server %s:%d <%s>", host, port, str(err))
         return 1
-    logging.warning("Start server")
+    logging.warning("Start server on  %s:%d", host, port)
     with server:
         server.serve_forever()
     logging.warning("Done")
@@ -123,8 +123,6 @@ if __name__ == "__main__":  # pragma: no cover
 
         args = parser.parse_args()
 
-        logging.basicConfig(level=LOG_LEVEL)
-
         logging.debug("args.name=%s", args.model)
         logging.debug("args.host=%s", args.host)
         logging.debug("args.port=%s", args.port)
@@ -138,6 +136,8 @@ if __name__ == "__main__":  # pragma: no cover
             LOG_LEVEL = logging.INFO
         else:
             LOG_LEVEL = logging.WARNING
+
+        logging.basicConfig(level=LOG_LEVEL)
 
         RETURN_VALUE = main(args.model, args.host, PORT)
     except KeyboardInterrupt:
