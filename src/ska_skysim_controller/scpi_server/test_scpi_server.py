@@ -1,10 +1,13 @@
 #!/usr/bin/python3
+"""
+SCPI instrument test
+"""
 
-import os
-import datetime
-import sys
 import argparse
+import datetime
 import logging
+import os
+import sys
 from collections import OrderedDict
 
 from ska_skysim_controller.scpi_server.scpi_client import ScpiClient
@@ -55,8 +58,8 @@ def usage(cmd):
     Help message
     """
     rcmd = os.path.basename(cmd)
-    print("Usage:\n\t%s -n <ADDRESS> [-p PORT]" % rcmd)
-    print("\t%s -host=<ADDRESS> [--port=<PORT>]" % rcmd)
+    print(f"Usage:\n\t{rcmd} -n <ADDRESS> [-p PORT]")
+    print(f"\t{rcmd} -host=<ADDRESS> [--port=<PORT>]")
     sys.exit(1)
 
 
@@ -83,16 +86,14 @@ def main(host, port):
             logging.warning("No data received")
             err_count += 1
     if err_count:
-        print("Test failed: %d errors" % err_count)
+        print(f"Test failed: {err_count} errors")
         return 1
     print("Test passed")
     return 0
 
 
 if __name__ == "__main__":  # pragma: no cover
-    """
-    Read command line
-    """
+    # Read command line
     LOG_LEVEL = logging.WARNING
     parser = argparse.ArgumentParser()
     parser.add_argument("-n", "--host", help="SCPI device hostname")
@@ -126,5 +127,5 @@ if __name__ == "__main__":  # pragma: no cover
         LOG_LEVEL = logging.WARNING
 
     logging.basicConfig(level=LOG_LEVEL)
-    test_result = main(HOST, PORT)
-    sys.exit(test_result)
+    TEST_RESULT = main(HOST, PORT)
+    sys.exit(TEST_RESULT)

@@ -1,17 +1,19 @@
 #!/usr/bin/python3
+"""
+SCPI instrument emulation
+"""
 
 import argparse
+import logging
 import os
 import socket
 import sys
-import string
-import logging
 import time
 from datetime import datetime
 
 # from ska_skysim_controller.scpi_server import __version__ as version
 VERSION = "0.0.1"
-IDENTITY = "Skysim controller %s" % VERSION
+IDENTITY = f"Skysim controller {VERSION}"
 MAX_OUTPUTS = 8
 
 CMD_HELP = \
@@ -36,7 +38,7 @@ CMD_HELP = \
     "*TST?            self-test"
 
 
-class ScpiServer(object):
+class ScpiServer():
     """
     Read SCPI commands from TCP socket
     """
@@ -48,6 +50,7 @@ class ScpiServer(object):
         self.host = host
         self.port = port
 
+    # pylint: disable-next=too-many-branches
     def read_command_system(self, rcmd):
         """
         Read system command
@@ -68,16 +71,17 @@ class ScpiServer(object):
             now = datetime.now()
             cmd_resp = now.strftime("%H:%M:%S")
         elif rcmd[5:] == "ERR?":
-            if len(self.error_msgs):
-                cmd_resp = "1, %s" % self.error_msgs[0]
+            if self.error_msgs:
+                cmd_resp = f"1, {self.error_msgs[0]}"
                 self.error_pos = 1
             else:
                 cmd_resp = "0, No error"
         elif rcmd[5:] == "ERR:NEXT?":
-            if len(self.error_msgs):
+            if self.error_msgs:
                 try:
-                    cmd_resp = "%s, %s" \
-                        % (self.error_pos+1, self.error_msgs[self.error_pos])
+                    e_num = self.error_pos+1
+                    e_msg = self.error_msgs[self.error_pos]
+                    cmd_resp = f"{e_num}, {e_msg}"
                     self.error_pos += 1
                 except IndexError:
                     cmd_resp = ""
@@ -86,13 +90,13 @@ class ScpiServer(object):
             else:
                 cmd_resp = "0, No error"
         elif rcmd[5:] == "ERR:ALL?":
-            n = 0
+            n_err = 0
             cmd_resp = ""
             for error_msg in self.error_msgs:
-                n += 1
-                cmd_resp += "%d, %s\n" % (n, error_msg)
+                n_err += 1
+                cmd_resp += f"{n_err}, {error_msg}\n"
         elif rcmd[5:] == "ERR:COUN?":
-            cmd_resp = "%d" % len(self.error_msgs)
+            cmd_resp = f"{len(self.error_msgs)}"
         else:
             cmd_resp = "ok"
         return cmd_resp
@@ -105,7 +109,7 @@ class ScpiServer(object):
         cmd_resp = "ok"
         outp_num = int(rcmd[4])
         if outp_num < 1 or outp_num > MAX_OUTPUTS:
-            return "Invalid %d" % outp_num
+            return f"Invalid {outp_num}"
         logging.info("Read input %d", outp_num)
         if rcmd[5:] == "?":
             logging.info("Read input %d", outp_num)
@@ -116,7 +120,7 @@ class ScpiServer(object):
             self.outputs[outp_num-1] = 0
         else:
             self.error_pos += 1
-            self.error_msgs.append("Invalid output command '%s'" % rcmd)
+            self.error_msgs.append(f"Invalid output command '{rcmd}'")
             cmd_resp = "huh?"
         return cmd_resp
 
@@ -137,12 +141,16 @@ class ScpiServer(object):
             outp_num += 1
 
     def status_byte(self):
+        """
+        Status byte
+        """
         bstr = ""
         for output in reversed(self.outputs):
-            bstr += "%d" % output
+            bstr += f"{output}"
         sbyte = int(bstr, 2)
         return sbyte
 
+    # pylint: disable-next=too-many-branches
     def read_command(self, rcmd):
         """
         Respond to command
@@ -152,7 +160,7 @@ class ScpiServer(object):
             cmd_resp = "Send SYST:HELP for help"
         elif rcmd == "*IDN?":
             cmd_resp = IDENTITY
-        elif rcmd == "OUTP:PROT:CLE" or rcmd == "ABOR":
+        elif rcmd in ('OUTP:PROT:CLE', 'ABOR'):
             return None
         elif rcmd[0:4] == "SYST":
             cmd_resp = self.read_command_system(rcmd)
@@ -170,13 +178,14 @@ class ScpiServer(object):
             cmd_resp = "ok"
         elif rcmd == "*TST?":
             if self.error_msgs:
-                cmd_resp = "Found %d errors" % len(self.error_msgs)
+                err_count = len(self.error_msgs)
+                cmd_resp = f"Found {err_count} errors"
             else:
                 cmd_resp = "All systems go"
         elif rcmd == "*STB?":
-            cmd_resp = "%02X" % self.status_byte()
+            cmd_resp = f"{self.status_byte():02x}"
         else:
-            self.error_msgs.append("Invalid command '%s'" % rcmd)
+            self.error_msgs.append(f"Invalid command '{rcmd}'")
             cmd_resp = "huh?"
         return cmd_resp
 
@@ -185,14 +194,14 @@ class ScpiServer(object):
         Run the thing
         """
         logging.info("Listen on %s:%s", self.host, self.port)
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as l_skt:
             retry = 3
             while retry > 0:
                 try:
-                    s.bind((self.host, self.port))
+                    l_skt.bind((self.host, self.port))
                     break
-                except OSError as e:
-                    logging.error("%s", str(e))
+                except OSError as e_bind:
+                    logging.error("%s", str(e_bind))
                 retry -= 1
                 logging.warning("Retry %d of 3", 3-retry)
                 time.sleep(60)
@@ -201,9 +210,9 @@ class ScpiServer(object):
                 return
             while True:
                 logging.info("Listening")
-                s.listen()
+                l_skt.listen()
                 try:
-                    conn, addr = s.accept()
+                    conn, addr = l_skt.accept()
                 except KeyboardInterrupt:
                     logging.warning("Interrupted")
                     return
@@ -241,12 +250,12 @@ def usage(cmd):
     Help message
     """
     rcmd = os.path.basename(cmd)
-    print("Usage:\n\t%s -n <ADDRESS> [-p PORT]" % rcmd)
-    print("\t%s -host=<ADDRESS> [--port=<PORT>]" % rcmd)
+    print(f"Usage:\n\t{rcmd} -n <ADDRESS> [-p PORT]")
+    print(f"\t{rcmd} -host=<ADDRESS> [--port=<PORT>]")
     sys.exit(1)
 
 
-def main(host, port):
+def scpi_server(host, port):
     """
     Listen for incoming connections
     """
@@ -255,9 +264,7 @@ def main(host, port):
 
 
 if __name__ == "__main__":  # pragma: no cover
-    """
-    Read command line
-    """
+    # Read command line
     LOG_LEVEL = logging.INFO
     parser = argparse.ArgumentParser()
     parser.add_argument("-n", "--host", help="SCPI simulator hostname")
@@ -291,4 +298,4 @@ if __name__ == "__main__":  # pragma: no cover
         LOG_LEVEL = logging.WARNING
 
     logging.basicConfig(level=LOG_LEVEL)
-    main(HOST, PORT)
+    scpi_server(HOST, PORT)

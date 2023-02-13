@@ -1,11 +1,10 @@
 """This module defines the --xray-ids option and its behaviour."""
 
 import functools
+import logging
 from typing import List, Set, TypedDict
 
-import logging
 import pytest
-
 from ska_ser_test_equipment.scpi import (
     InterfaceDefinitionFactory,
     InterfaceDefinitionType,

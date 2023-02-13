@@ -1,38 +1,47 @@
 #!/usr/bin/python3
-# TCP client
+"""
+TCP client
+"""
 
 import argparse
-import os
-import sys
 import logging
+import os
 import socket
+import sys
 
 HOST = "127.0.0.1"  # The server's hostname or IP address
 PORT = 5302  # The port used by the server
 MSG = b""
 
 
-class ScpiClient(object):
+# pylint: disable-next=too-few-public-methods
+class ScpiClient():
     """
     TCP client for SCPI server
     """
     def __init__(self, host, port):
+        """
+        Get the show on the road
+        """
         logging.info("Connect to host %s port %d", host, port)
         self.host = host
         self.port = port
 
     def send(self, msg):
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        """
+        Open socket and send message
+        """
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s_skt:
             try:
-                s.connect((self.host, self.port))
+                s_skt.connect((self.host, self.port))
             except ConnectionRefusedError:
                 logging.error("Connection refused")
                 return None
             logging.info("TX> %s", msg)
             txdata = bytes(msg, 'utf-8')
-            s.sendall(txdata)
+            s_skt.sendall(txdata)
             try:
-                data = s.recv(1024)
+                data = s_skt.recv(1024)
             except ConnectionResetError:
                 logging.error("Connection reset")
                 return None
@@ -49,12 +58,16 @@ def usage(cmd):
     """
     Help message
     """
+    # pylint: disable-next=unused-variable
     rcmd = os.path.basename(cmd)
-    print("Usage:\n\t%s -n <ADDRESS> -p <PORT> <MESSAGE>" % rcmd)
+    print("Usage:\n\t{rcmd} -n <ADDRESS> -p <PORT> <MESSAGE>")
     sys.exit(1)
 
 
-def main(host, port, msg):
+def scpi_client_send(host, port, msg):
+    """
+    The main peanut
+    """
     scpi_client = ScpiClient(host, port)
     rx_data = scpi_client.send(msg)
     if rx_data:
@@ -62,9 +75,7 @@ def main(host, port, msg):
 
 
 if __name__ == "__main__":  # pragma: no cover
-    """
-    Read command line
-    """
+    # Read command line
     LOG_LEVEL = logging.WARNING
     parser = argparse.ArgumentParser()
     parser.add_argument("-n", "--host", help="SCPI device hostname")
@@ -100,4 +111,4 @@ if __name__ == "__main__":  # pragma: no cover
     MSG = ' '.join(unknownargs)
 
     logging.basicConfig(level=LOG_LEVEL)
-    main(HOST, PORT, MSG)
+    scpi_client_send(HOST, PORT, MSG)

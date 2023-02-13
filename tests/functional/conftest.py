@@ -1,4 +1,5 @@
 """This module contains functional test harness and pytest configuration."""
+import logging
 import os
 import threading
 from contextlib import contextmanager
@@ -14,19 +15,11 @@ from typing import (
     cast,
     get_args,
 )
-import logging
+
 import pytest
 import tango
 from ska_control_model import LoggingLevel
 from ska_ser_test_equipment.scpi import SupportedProtocol
-#from ska_ser_test_equipment.signal_generator import (
-    #SignalGeneratorDevice,
-    #SignalGeneratorSimulator,
-#)
-#from ska_ser_test_equipment.spectrum_analyser import (
-    #SpectrumAnalyserDevice,
-    #SpectrumAnalyserSimulator,
-#)
 from ska_tango_testing.context import (
     TangoContextProtocol,
     ThreadedTestTangoContextManager,

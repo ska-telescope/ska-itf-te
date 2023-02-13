@@ -8,11 +8,12 @@
 
 """Module providing a Tango device for a Skysim Controller."""
 from typing import Any
+
 import tango
 import tango.server
-
 from ska_ser_test_equipment.base.base_device import TestEquipmentBaseDevice
 from ska_ser_test_equipment.scpi import InterfaceDefinitionFactory
+
 from ska_skysim_controller.skysim_controller_component_manager import (
     SkysimControllerComponentManager,
 )

@@ -1,16 +1,13 @@
 # coding=utf-8
-"""Skysim components can be controlled remotely using Tango device server that communicates with Raspberry Pi using SCPI commands feature tests."""
-from typing import Optional
-
+"""
+Skysim components can be controlled remotely using Tango device server
+that communicates with Raspberry Pi using SCPI commands feature tests.
+"""
 import logging
-import tango
+# from typing import Optional
 
-from pytest_bdd import (
-    given,
-    scenario,
-    then,
-    when,
-)
+import tango
+from pytest_bdd import given, scenario, then, when
 from ska_tango_testing.mock.tango import MockTangoEventCallbackGroup
 
 
@@ -25,7 +22,8 @@ def test_scpi_device_returns_identity(
     logging.info("Identity is %s", identity)
 
 
-@scenario('features/skysim_controller.feature', 'Test SkysimController can switch ON signal sources')
+@scenario('features/skysim_controller.feature',
+          'Test SkysimController can switch ON signal sources')
 def test_skysimcontroller_can_switch_on_signal_sources():
     """
     Test SkysimController can switch ON signal sources.
@@ -57,14 +55,11 @@ def test_skysimcontroller_is_initialised(
 @scenario('features/skysim_controller.feature', 'Test SkysimController is online')
 def test_skysimcontroller_is_online(
     skysim_controller_device: tango.DeviceProxy,
-    # pylint: disable-next=unused-argument
     change_event_callbacks: MockTangoEventCallbackGroup,
 ):
     """Test SkysimController is online."""
     logging.info("")
     factory_default_settings = {
-        #"noise_generator_on": False,
-        #"rf_output_on": False,
         "siggen_rf_output_on": False,
     }
 
@@ -98,7 +93,8 @@ def test_skysimcontroller_response():
     logging.info("Test SkysimController response")
 
 
-@scenario('features/skysim_controller.feature', 'Test SkysimController signal source is ON')
+@scenario('features/skysim_controller.feature',
+          'Test SkysimController signal source is ON')
 def test_skysimcontroller_signal_source_is_on():
     """Test SkysimController signal source is ON."""
     logging.info("Test SkysimController signal source is ON")
@@ -126,18 +122,6 @@ def the_skysimcontroller_is_initialised():
 def the_skysimcontroller_is_online():
     """the SkySimController is online."""
     logging.info("Set as online")
-
-
-@given('the SkysimController is initialised')
-def the_skysimcontroller_is_initialised():
-    """the SkysimController is initialised."""
-    logging.info("Check initialised")
-
-
-@given('the SkysimController is online')
-def the_skysimcontroller_is_online():
-    """the SkysimController is online."""
-    logging.info("")
 
 
 @when('I ask it to do its thing')

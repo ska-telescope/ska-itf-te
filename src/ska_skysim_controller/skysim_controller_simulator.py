@@ -48,7 +48,7 @@ class SkysimControllerSimulator(ScpiOverTcpSimulator):
             interface_definition = InterfaceDefinitionFactory()(model)
         except KeyError:
             # pylint: disable-next=raise-missing-from
-            raise NotImplementedError("Model %s not supported" % model)
+            raise NotImplementedError(f"Model {model} not supported")
 
         initial_values = kwargs
         for key, value in self.DEFAULTS.items():
