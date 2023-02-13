@@ -109,8 +109,8 @@ if __name__ == "__main__":  # pragma: no cover
         parser.add_argument("-n", "--host", help="simulator hostname")
         parser.add_argument("-p", "--port", help="simulator port number")
         parser.add_argument(
-            "-i",
-            "--info",
+            "-v",
+            "--verbose",
             action="store_true",
             help="Set logging level to INFO",
         )
@@ -121,7 +121,8 @@ if __name__ == "__main__":  # pragma: no cover
             help="Set logging level to DEBUG",
         )
 
-        args = parser.parse_args()
+        # args = parser.parse_args()
+        args, unknownargs = parser.parse_known_args()
 
         logging.debug("args.name=%s", args.model)
         logging.debug("args.host=%s", args.host)
