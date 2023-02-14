@@ -1,5 +1,7 @@
 # ska-mid-itf Readme
-This  project contains contains the software to test the hardware and other subsystems in the SKA MID ITF facility. It provides tests through SCPI and Tango to control remote devices through RaspberryPi GPIO pins. Currently hardware that can be tested include Attenuator, Signal Generator,
+Welcome to the Mid ITF Tests project. Here you can find methods to connect to hosts in the Mid Integration Test Facility (ITF) network, System Under Test (SUT) and Test Equipment (TE), as well as tests (BDD and python tests) and scripts for interacting with the SUT and TE.
+
+Control can be done using Taranta Dashboards and Jupyter Notebooks.
 Spectrum Analyser.
 
 ## Makefile for SW server access

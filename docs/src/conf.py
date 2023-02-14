@@ -23,7 +23,7 @@ def setup(app):
 
 # -- Project information -----------------------------------------------------
 
-project = "Sky Simulator Controller"
+project = "SKA Mid ITF Tests"
 copyright = "Adriaan de Beer, adebeer@sarao.ac.za"
 author = "ATLAS Team"
 

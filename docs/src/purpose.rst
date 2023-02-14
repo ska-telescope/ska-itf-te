@@ -4,8 +4,6 @@ Purpose
 
 Purpose of the ska-mid-itf
 ==========================
-"The ska-mid-itf contains the Sky Simulator Controller which can interface with Tango and SCPI for a RaspberryPi and container runtime testing.
-This  project contains contains the software to test the hardware and other subsystems in the SKA MID ITF facility. 
-It provides tests through SCPI and Tango to control remote devices through RaspberryPi GPIO pins. Currently hardware that can be tested i.e.
-can be switched on and off include Attenuator, Signal Generator, Spectrum Analyser."
+"This project contains tests, deployment infrastructure and Helm charts for the remote control software for the Mid ITF Test Equipment to be used to test the SKAO products as they arrive in the SKA MID ITF facility. 
+Test results are automatically uploaded to Jira using the Xray plugin. The test results can then be used for Requirement coverage reports."
 
