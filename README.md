@@ -1,7 +1,9 @@
-# ska-itf-te
+# ska-mid-itf Readme
+This  project contains contains the software to test the hardware and other subsystems in the SKA MID ITF facility. It provides tests through SCPI and Tango to control remote devices through RaspberryPi GPIO pins. Currently hardware that can be tested include Attenuator, Signal Generator,
+Spectrum Analyser.
 
 ## Makefile for SW server access
-A subset of the makefile commands available in the [Deploy Mid ITF](https://gitlab.com/ska-telescope/sdi/ska-cicd-deploy-low-itf) have been added to the resources folder.
+A subset of the makefile commands available in the [Deploy Mid ITF](https://gitlab.com/ska-telescope/sdi/ska-cicd-deploy-mid-itf) have been added to the resources folder.
 
 #### PRO TIP: ALWAYS ADD ` --dry` TO THE END OF A MAKE COMMAND IF YOU WANT TO SEE WHAT IT IS GOING TO TRY TO DO.
 
@@ -93,7 +95,6 @@ a.debeer@za-itf-sw:~$
 
 ## Run iTango (an interactive Tango session) on the SW Server
 
-### Prerequisites
 Ensure you have [k9s](https://k9scli.io/topics/install/) installed, and that remote access to the SW host is established.
 
 #### Copy the KUBECONFIG file
