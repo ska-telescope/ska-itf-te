@@ -1,5 +1,8 @@
 # ska-itf-te
 
+## Documentation
+For more information on this project please see [`readme`](https://developer.skao.int/projects/ska-telescope-ska-mid-itf/en/latest/)
+
 ## Makefile for SW server access
 A subset of the makefile commands available in the [Deploy Mid ITF](https://gitlab.com/ska-telescope/sdi/ska-cicd-deploy-low-itf) have been added to the resources folder.
 
