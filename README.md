@@ -1,7 +1,11 @@
-# ska-itf-te
+# ska-mid-itf Readme
+Welcome to the Mid ITF Tests project. Here you can find methods to connect to hosts in the Mid Integration Test Facility (ITF) network, System Under Test (SUT) and Test Equipment (TE), as well as tests (BDD and python tests) and scripts for interacting with the SUT and TE.
+
+Control can be done using Taranta Dashboards and Jupyter Notebooks.
+Spectrum Analyser.
 
 ## Makefile for SW server access
-A subset of the makefile commands available in the [Deploy Mid ITF](https://gitlab.com/ska-telescope/sdi/ska-cicd-deploy-low-itf) have been added to the resources folder.
+A subset of the makefile commands available in the [Deploy Mid ITF](https://gitlab.com/ska-telescope/sdi/ska-cicd-deploy-mid-itf) have been added to the resources folder.
 
 #### PRO TIP: ALWAYS ADD ` --dry` TO THE END OF A MAKE COMMAND IF YOU WANT TO SEE WHAT IT IS GOING TO TRY TO DO.
 
@@ -93,7 +97,6 @@ a.debeer@za-itf-sw:~$
 
 ## Run iTango (an interactive Tango session) on the SW Server
 
-### Prerequisites
 Ensure you have [k9s](https://k9scli.io/topics/install/) installed, and that remote access to the SW host is established.
 
 #### Copy the KUBECONFIG file
