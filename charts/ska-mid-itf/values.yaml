@@ -1,0 +1,55 @@
+global:
+  minikube: true
+  tango_host: databaseds-tango-base-test:10000
+  facility: test-itf
+  exposeAllDS: true
+  sub-system:
+    ska-tango-base:
+      enabled: false
+
+ska-tango-base:
+  itango:
+    enabled: true
+
+test_equipment:
+  simulators:
+    enabled: false
+  deviceServers:
+    signalgenerator:
+      devices:
+        - name: smb100a
+          model: SMB100A
+          host: 10.20.7.1
+          port: 5025
+          resources:
+            limits:
+              skao.int/signal-generator-01: "1"
+
+# SPOOKD
+spookd:
+  deviceMapping:
+    - hosts:
+        - minikube
+      devices:
+        - resourceName: skao.int/signal-generator-01
+          instanceID: "0001"
+          env:
+            IP: localhost
+
+# TARANTA
+ska-taranta:
+  enabled: true
+  namespace: taranta
+  tangogql:
+    replicas: 1
+    resources:
+      requests:
+        cpu: 600m # 600m = 0.6 CPU
+        memory: 512Mi # 512Mi = 0.5 GB mem
+      limits:
+        cpu: 1000m # 1000m = 1 CPU
+        memory: 1024Mi # 1024Mi = 1 GB mem
+
+# CIA
+cia:
+  enabled: false
