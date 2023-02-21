@@ -39,7 +39,6 @@ spookd:
 # TARANTA
 ska-taranta:
   enabled: true
-  namespace: taranta
   tangogql:
     replicas: 1
     resources:

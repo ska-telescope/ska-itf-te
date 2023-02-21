@@ -8,62 +8,15 @@ icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_201
 dependencies:
   # Tango
   - name: ska-tango-util
-    version: 0.3.14 # Check latest version
+    version: 0.3.17 # Check latest version
     repository: https://artefact.skao.int/repository/helm-internal
 
   - name: ska-tango-base
-    version: 	0.4.1 # Check latest version
+    version: 0.3.17 # Check latest version
     repository: https://artefact.skao.int/repository/helm-internal
 
   # SPOOKD
   - name: ska-ser-k8s-spookd
-    #namespace: spookd
     version: 0.2.1 # check latest version
-    repository: file://../ska-ser-k8s-spookd
+    repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-ser-k8s-spookd.enabled
-
-  # Test Equipment
-  - name: ska-ser-test-equipment
-    #namespace: ser-test-equipment
-    version: 0.6.1 # Check latest version
-    # repository: file://../../.te/ska-ser-test-equipment/charts/ska-ser-test-equipment # TODO: switch When update is published
-    repository: https://artefact.skao.int/repository/helm-internal # TODO: switch When update is published
-    alias: test_equipment
-
-  # Taranta
-  - name: ska-tango-taranta-dashboard
-    #namespace: tango-tar-dashboard
-    version: 1.3.0
-    repository: https://artefact.skao.int/repository/helm-internal
-    condition: ska-taranta.enabled
-  - name: ska-tango-taranta-dashboard-pvc
-    #namespace: tango-tar-dashboard-pvc
-    version: 1.3.0
-    repository: https://artefact.skao.int/repository/helm-internal
-    condition: ska-taranta.enabled
-  - name: ska-tango-taranta
-    #namespace: tango-tar
-    version: 1.3.3
-    repository: https://artefact.skao.int/repository/helm-internal
-    condition: ska-taranta.enabled
-  - name: ska-tango-tangogql
-    #namespace: tango-tangogql
-    version: 1.3.4
-    repository: https://artefact.skao.int/repository/helm-internal
-    condition: ska-taranta.enabled
-  - name: ska-tango-taranta-auth
-    #namespace: tango-tar-auth
-    version: 0.1.6
-    repository: https://artefact.skao.int/repository/helm-internal
-    condition: ska-taranta.enabled
-
-  # Configuration Inspector API
-  - name: ska-ser-config-inspector
-    version: 0.1.0
-    repository: https://artefact.skao.int/repository/helm-internal
-    condition: cia.enabled
-
-  # SKA Landing Page
-  - name: ska-landingpage
-    version: 0.8.3
-    repository: https://artefact.skao.int/repository/helm-internal

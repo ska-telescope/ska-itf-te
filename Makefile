@@ -19,8 +19,8 @@ include .make/base.mk
 # include your own private variables for custom deployment configuration
 -include PrivateRules.mak
 
-example-start-server:
-	uvicorn src.ska_cicd_training_pipeline_machinery.main:app --reload
+# include namespace-specific targets
+-include resources/k8s-installs.mk
 
 PYTHON_VARS_AFTER_PYTEST= --disable-pytest-warnings
 

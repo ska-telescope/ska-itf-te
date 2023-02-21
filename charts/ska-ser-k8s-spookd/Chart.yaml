@@ -1,6 +1,0 @@
-apiVersion: v2
-appVersion: 0.2.1
-description: A Helm chart to deploy Spookd, the ghost device plugin for Kubernetes.
-name: ska-ser-k8s-spookd
-type: application
-version: 0.2.1
