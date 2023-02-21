@@ -1,0 +1,18 @@
+apiVersion: v2
+name: ska-mid-itf
+description: An umbrella Helm chart so that Helm Charts of Test Equipment (SigGen and SpectrAna), SkySimCtl can be deployed to a kubernetes cluster
+type: application
+version: 0.1.0
+appVersion: 0.1.0
+icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
+dependencies:
+  # SKA Mid
+  - name: ska-mid
+    version: 0.17.5 # check latest version
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-mid.enabled
+
+  - name: ska-ser-config-inspector
+    version: 0.1.0 # check latest version
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: cia.enabled
