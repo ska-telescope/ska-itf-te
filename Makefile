@@ -44,34 +44,33 @@ python-pre-test:
 
 k8s-pre-install-chart:
 #-------------Dependencies section... Put each one of them to namespaces------------------------------
-	@minikube kubectl -- create deployment ska-tango-util --image=ska-tango-util
-	@minikube kubectl -- create deployment ska-tango-base --image=ska-tango-base
+
+	
+
+	@kubectl -- create deployment ska-tango-util --image=ska-tango-util
+	@kubectl -- create deployment ska-tango-base --image=ska-tango-base
 	
 	@make k8s-namespace KUBE_NAMESPACE=spookd
-	@minikube kubectl -- create deployment ska-ser-k8s-spookd --image=ska-ser-k8s-spookd -n spookd
 
 	@make k8s-namespace KUBE_NAMESPACE=ser-test-equipment
-	@minikube kubectl -- create deployment ska-ser-test-equipment --image=ska-ser-test-equipment -n ser-test-equipment
 
 	@make k8s-namespace KUBE_NAMESPACE=tango-tar-dashboard
-	@minikube kubectl -- create deployment ska-tango-taranta-dashboard --image=ska-tango-taranta-dashboard -n tango-tar-dashboard
 
 	@make k8s-namespace KUBE_NAMESPACE=tango-tar-dashboard-pvc
-	@minikube kubectl -- create deployment ska-tango-taranta-dashboard-pvc --image=tango-tar-dashboard-pvc -n tango-tar-dashboard-pvc
 
 	@make k8s-namespace KUBE_NAMESPACE=tango-tar
-	@minikube kubectl -- create deployment ska-tango-taranta --image=ska-tango-taranta -n tango-tar
 
 	@make k8s-namespace KUBE_NAMESPACE=tango-tangogql
-	@minikube kubectl -- create deployment ska-tango-tangogql --image=ska-tango-tangogql -n tango-tangogql
 
 	@make k8s-namespace KUBE_NAMESPACE=tango-tar-auth
-	@minikube kubectl -- create deployment ska-tango-taranta-auth --image=ska-tango-taranta-auth -n tango-tar-auth
 #----------------ENDS namespace grouping--------------------------------------
 
+
 k8s-install:
+	@echo "k8s install..."
+
 	@make k8s-install-chart K8S_CHART=ska-mid-itf KUBE_NAMESPACE=default
-# # All the old connection targets that we used to need are here.
+
 # # TODO: remove if no longer needed.
 -include resources/itf-connect.mk
 

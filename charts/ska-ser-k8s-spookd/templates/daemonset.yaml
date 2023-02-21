@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: {{ include "ska-ser-k8s-spookd.fullname" . }}
+  labels:
+    {{- include "ska-ser-k8s-spookd.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "ska-ser-k8s-spookd.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "ska-ser-k8s-spookd.selectorLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "ska-ser-k8s-spookd.serviceAccountName" . }}
+
+      # This makes the pod's hostname the same as the host's hostname
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+
+      # This is the 2022 way to ensure the pod always runs - the old
+      # "critical-pod" annotation and "CriticalAddonsOnly" toleration are out.
+      priorityClassName: system-node-critical
+
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["spookd-device-plugin"]
+          args: ["--config-map", "{{ include "ska-ser-k8s-spookd.fullname" . }}:config.yml", "--log-level", "{{ .Values.daemon.logLevel }}"]
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: device-plugins
+              mountPath: /var/lib/kubelet/device-plugins
+          {{- with .Values.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      volumes:
+        - name: device-plugins
+          hostPath:
+            path: "{{ .Values.kubeletPath | trimSuffix "/" }}/device-plugins"
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

@@ -18,9 +18,9 @@ dependencies:
   # SPOOKD
   - name: ska-ser-k8s-spookd
     #namespace: spookd
-    version: 0.2.2 # check latest version
-    repository: https://artefact.skao.int/repository/helm-internal
-    alias: spookd
+    version: 0.2.1 # check latest version
+    repository: file://../ska-ser-k8s-spookd
+    condition: ska-ser-k8s-spookd.enabled
 
   # Test Equipment
   - name: ska-ser-test-equipment
@@ -56,3 +56,14 @@ dependencies:
     version: 0.1.6
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-taranta.enabled
+
+  # Configuration Inspector API
+  - name: ska-ser-config-inspector
+    version: 0.1.0
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: cia.enabled
+
+  # SKA Landing Page
+  - name: ska-landingpage
+    version: 0.8.3
+    repository: https://artefact.skao.int/repository/helm-internal
