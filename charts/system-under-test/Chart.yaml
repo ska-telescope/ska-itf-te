@@ -6,12 +6,17 @@ version: 0.1.0
 appVersion: 0.1.0
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
-  # SKA Mid
+  # SKA Mid Software
+  # Gitlab Location: https://gitlab.com/ska-telescope/ska-skampi/-/tree/master/charts/ska-mid
+  # Releases: https://gitlab.com/ska-telescope/ska-skampi/-/releases
   - name: ska-mid
     version: 0.17.5 # check latest version
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-mid.enabled
 
+  # SKA Configuration Inspector API
+  # Gitlab Location: https://gitlab.com/ska-telescope/ska-ser-config-inspector
+  # Releases: https://gitlab.com/ska-telescope/ska-ser-config-inspector/-/releases
   - name: ska-ser-config-inspector
     version: 0.1.0 # check latest version
     repository: https://artefact.skao.int/repository/helm-internal
