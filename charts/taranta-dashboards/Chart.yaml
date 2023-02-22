@@ -15,7 +15,7 @@ dependencies:
     version: 0.3.17 # Check latest version
     repository: https://artefact.skao.int/repository/helm-internal
 
-  # Taranta application
+  # Taranta Dashboards
   - name: ska-tango-taranta-dashboard-pvc
     version: 1.3.0
     repository: https://artefact.skao.int/repository/helm-internal

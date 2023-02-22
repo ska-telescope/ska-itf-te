@@ -20,3 +20,14 @@ dependencies:
     version: 0.2.1 # check latest version
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-ser-k8s-spookd.enabled
+
+  # SKA Test Equipment
+  - name: ska-ser-test-equipment
+    version: 0.6.2 # check latest version
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: test-equipment.enabled
+
+  # - name: ska-te-skysimctl
+  #   version: 0.1.0 # check latest version
+  #   repository: https://artefact.skao.int/repository/helm-internal
+  #   condition: test-equipment.enabled

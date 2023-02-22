@@ -35,20 +35,3 @@ spookd:
           instanceID: "0001"
           env:
             IP: localhost
-
-# TARANTA
-ska-taranta:
-  enabled: true
-  tangogql:
-    replicas: 1
-    resources:
-      requests:
-        cpu: 600m # 600m = 0.6 CPU
-        memory: 512Mi # 512Mi = 0.5 GB mem
-      limits:
-        cpu: 1000m # 1000m = 1 CPU
-        memory: 1024Mi # 1024Mi = 1 GB mem
-
-# CIA
-cia:
-  enabled: false
