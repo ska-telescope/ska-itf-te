@@ -43,33 +43,8 @@ python-pre-test:
 	bash .make/resources/gitlab_section.sh install_dependencies "Install dependencies" poetry install --with dev;\
 
 k8s-pre-install-chart:
-#-------------Dependencies section... Put each one of them to namespaces------------------------------
-
-	
-
-	@kubectl -- create deployment ska-tango-util --image=ska-tango-util
-	@kubectl -- create deployment ska-tango-base --image=ska-tango-base
-	
-	@make k8s-namespace KUBE_NAMESPACE=spookd
-
-	@make k8s-namespace KUBE_NAMESPACE=ser-test-equipment
-
-	@make k8s-namespace KUBE_NAMESPACE=tango-tar-dashboard
-
-	@make k8s-namespace KUBE_NAMESPACE=tango-tar-dashboard-pvc
-
-	@make k8s-namespace KUBE_NAMESPACE=tango-tar
-
-	@make k8s-namespace KUBE_NAMESPACE=tango-tangogql
-
-	@make k8s-namespace KUBE_NAMESPACE=tango-tar-auth
-#----------------ENDS namespace grouping--------------------------------------
 
 
-k8s-install:
-	@echo "k8s install..."
-
-	@make k8s-install-chart K8S_CHART=ska-mid-itf KUBE_NAMESPACE=default
 
 # # TODO: remove if no longer needed.
 -include resources/itf-connect.mk
