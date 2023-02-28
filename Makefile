@@ -19,8 +19,8 @@ include .make/base.mk
 # include your own private variables for custom deployment configuration
 -include PrivateRules.mak
 
-example-start-server:
-	uvicorn src.ska_cicd_training_pipeline_machinery.main:app --reload
+# include namespace-specific targets
+-include resources/k8s-installs.mk
 
 PYTHON_VARS_AFTER_PYTEST= --disable-pytest-warnings
 
@@ -42,8 +42,10 @@ python-pre-test:
 	bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install --upgrade poetry;\
 	bash .make/resources/gitlab_section.sh install_dependencies "Install dependencies" poetry install --with dev;\
 
+k8s-pre-install-chart:
 
-# # All the old connection targets that we used to need are here.
+
+
 # # TODO: remove if no longer needed.
 -include resources/itf-connect.mk
 
