@@ -2,8 +2,8 @@
     "test_plans": [
         {
             "select_from_tag": {
-                "AT-317": "AT-317",
-                "default": "AT-319"
+                "AT-324": "AT-317",
+                "default": "AT-317"
             }
         }
     ],
