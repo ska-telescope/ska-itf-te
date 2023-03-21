@@ -59,8 +59,8 @@ python-lint:
     - allow_failure: true
 
 deploy-test-equipment:
+  image: $CI_REGISTRY/ska-telescope/ska-skampi/ska-skampi-ci:1.0.3
   stage: deploy
-  image: artefact.skao.int/ska-tango-images-pytango-builder:9.3.32
   before_script:
     - bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install --upgrade poetry
   variables:
