@@ -59,9 +59,9 @@ deploy-test-equipment:
   image: $CI_REGISTRY/ska-telescope/ska-skampi/ska-skampi-ci:1.0.3
   stage: deploy
   variables:
-    KUBE_NAMESPACE: mid-itf-test-equipment
+    KUBE_NAMESPACE: ci-$CI_PROJECT_NAME-test-equipment
     K8S_CHART: ska-mid-itf
-    SERVICE_ACCOUNT: ci-svc-itf-mid
+    SERVICE_ACCOUNT: ci-svc-$KUBE_NAMESPACE
   before_script:
     - bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install --upgrade poetry
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
