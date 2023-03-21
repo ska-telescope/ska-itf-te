@@ -11,9 +11,9 @@ cache:
   paths:
     - build
 stages:
+  - deploy
   - lint
   - build
-  - deploy
   - integration # no idea what this is for
   # - staging
   - test
@@ -59,6 +59,7 @@ python-lint:
     - allow_failure: true
 
 deploy-test-equipment:
+  stage: deploy
   image: artefact.skao.int/ska-tango-images-pytango-builder:9.3.32
   before_script:
     - bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install --upgrade poetry
