@@ -4,7 +4,7 @@ image: $SKA_K8S_TOOLS_DOCKER_BUILDER_IMAGE
 .tags_default:
   tags:
     - ska-k8srunner-za-itf
-    
+
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
 cache:
@@ -57,3 +57,18 @@ python-lint:
     - bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install --upgrade poetry
   rules:
     - allow_failure: true
+
+deploy-test-equipment:
+  image: artefact.skao.int/ska-tango-images-pytango-builder:9.3.32
+  before_script:
+    - bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install --upgrade poetry
+  variables:
+    KUBE_NAMESPACE: mid-itf-test-equipment
+    K8S_CHART: ska-mid-itf
+  script:
+    - make k8s-install-chart
+  rules:
+    - allow_failure: true
+    - if: $CI_PIPELINE_SOURCE == "trigger"
+      when: always
+    - when: manual
