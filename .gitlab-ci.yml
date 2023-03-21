@@ -71,7 +71,7 @@ deploy-test-equipment:
     - make k8s-install-chart
   rules:
     - allow_failure: true
-  when: manual
+  # when: manual
 #### FROM SKAMPI, COPIED FOR REFERENCE:
 # psi_mid_deploy_integration:
 #   tags:
