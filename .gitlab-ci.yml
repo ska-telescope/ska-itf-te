@@ -61,10 +61,11 @@ deploy-test-equipment:
   variables:
     KUBE_NAMESPACE: mid-itf-test-equipment
     K8S_CHART: ska-mid-itf
+    SERVICE_ACCOUNT: ci-svc-itf-mid
   before_script:
     - bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install --upgrade poetry
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
-    - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster
+    - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
     - bash .make/resources/gitlab_section.sh get_all "Check all k8s resources in $KUBE_NAMESPACE" kubectl get all,pv,pvc,ingress -n $KUBE_NAMESPACE
   script:
     - make k8s-install-chart
@@ -96,7 +97,7 @@ deploy-test-equipment:
 #   before_script:
 #   - echo $CI_JOB_NAME - $CI_JOB_STAGE
 #   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
-#   - - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster
+#   - - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
 #   - bash .make/resources/gitlab_section.sh install "Install Skampi Charts" make k8s-install-chart
 #   - bash .make/resources/gitlab_section.sh get_all "Check all k8s resources in $KUBE_NAMESPACE"
 #     kubectl get all,pv,pvc,ingress -n $KUBE_NAMESPACE
