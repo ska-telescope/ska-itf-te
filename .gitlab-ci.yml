@@ -1,10 +1,5 @@
 image: $SKA_K8S_TOOLS_DOCKER_BUILDER_IMAGE
 
-# Globally reused tags declaration for jobs
-.tags_default:
-  tags:
-    - ska-k8srunner-za-itf
-
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
 cache:
@@ -59,6 +54,8 @@ python-lint:
     - allow_failure: true
 
 deploy-test-equipment:
+  tags:
+    - ska-k8srunner-za-itf
   image: $CI_REGISTRY/ska-telescope/ska-skampi/ska-skampi-ci:1.0.3
   stage: deploy
   before_script:
@@ -73,3 +70,43 @@ deploy-test-equipment:
     # - if: $CI_PIPELINE_SOURCE == "trigger"
     #   when: always
     - when: manual
+#### FROM SKAMPI, COPIED FOR REFERENCE:
+# psi_mid_deploy_integration:
+#   tags:
+#   - k8srunner-psi-mid
+#   variables:
+#     VALUES: pipeline.yaml resources/deployment_configurations/psi-mid.yaml
+#     CONFIG: mid
+#     DEPLOYMENT_CONFIGURATION: ska-$CONFIG
+#     K8S_CHART: "$DEPLOYMENT_CONFIGURATION"
+#     INGRESS_HOST: INGRESS.IP.ADDRESS
+#     HELM_RELEASE: integration-$CONFIG-$CI_JOB_ID
+#     KUBE_NAMESPACE: integration-$CONFIG
+#     KUBE_NAMESPACE_SDP: integration-$CONFIG-sdp
+#     SERVICE_ACCOUNT: ci-svc-integration-$CONFIG
+#     ARCHIVER_DBNAME: integration_$CONFIG_archiver_db
+#   when: manual
+#   stage: deploy_integration
+#   extends:
+#   - ".psi_mid_integration_job"
+#   - ".psi_mid_deploy"
+#   rules:
+#   - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+#   before_script:
+#   - echo $CI_JOB_NAME - $CI_JOB_STAGE
+#   - bash scripts/gitlab_section.sh vars "Make config dump" make vars
+#   - - bash scripts/gitlab_section.sh creds "Create K8s Credentials" make skampi-credentials
+#   - bash scripts/gitlab_section.sh install "Install Skampi Charts" make k8s-install-chart
+#   - bash scripts/gitlab_section.sh get_all "Check all k8s resources in $KUBE_NAMESPACE"
+#     kubectl get all,pv,pvc,ingress -n $KUBE_NAMESPACE
+#   - bash scripts/gitlab_section.sh wait_for_it "Wait for all config jobs to complete"
+#     make skampi-wait-all
+#   script:
+#   - make skampi-links
+#   artifacts:
+#     name: "$CI_PROJECT_NAME-$CI_JOB_ID"
+#     paths:
+#     - build/
+#     reports:
+#       junit:
+#       - build/report.xml
