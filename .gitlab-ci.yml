@@ -70,6 +70,6 @@ deploy-test-equipment:
     - make k8s-install-chart
   rules:
     - allow_failure: true
-    - if: $CI_PIPELINE_SOURCE == "trigger"
-      when: always
+    # - if: $CI_PIPELINE_SOURCE == "trigger"
+    #   when: always
     - when: manual
