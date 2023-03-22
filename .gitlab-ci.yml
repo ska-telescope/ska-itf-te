@@ -62,9 +62,9 @@ deploy-test-equipment:
     # KUBE_NAMESPACE: ci-$CI_PROJECT_NAME-test-equipment
     K8S_CHART: ska-mid-itf
     # SERVICE_ACCOUNT: ci-svc-$KUBE_NAMESPACE
-    KUBE_NAMESPACE: ci-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG
+    KUBE_NAMESPACE: ci-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
     KUBE_NAMESPACE_SDP: ci-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-sdp
-    SERVICE_ACCOUNT: ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG
+    SERVICE_ACCOUNT: ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
   before_script:
     - bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install --upgrade poetry
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
