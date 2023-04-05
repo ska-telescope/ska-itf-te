@@ -6,7 +6,7 @@ cache:
   paths:
     - build
 stages:
-  - deploy
+  - test-equipment-setup
   - lint
   - build
   - integration # no idea what this is for
@@ -57,7 +57,7 @@ deploy-test-equipment:
   tags:
     - ska-k8srunner-za-itf
   image: $CI_REGISTRY/ska-telescope/ska-skampi/ska-skampi-ci:1.0.3
-  stage: deploy
+  stage: test-equipment-setup
   variables:
     # KUBE_NAMESPACE: ci-$CI_PROJECT_NAME-test-equipment
     K8S_CHART: ska-mid-itf
@@ -73,95 +73,51 @@ deploy-test-equipment:
     - bash .make/resources/gitlab_section.sh get_all "Check all k8s resources in $KUBE_NAMESPACE" kubectl get all,pv,pvc,ingress -n $KUBE_NAMESPACE
   script:
     - make k8s-install-chart
-  rules:
-    - allow_failure: true
+  environment:
+    name: test/ska-$CONFIG-$CI_COMMIT_REF_SLUG
+    kubernetes:
+      namespace: "$KUBE_NAMESPACE"
+    url: http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta
+    on_stop: remove-test-equipment
+  artifacts:
+    name: "$CI_PROJECT_NAME-$CI_JOB_ID"
+    paths:
+      - build/
+    reports:
+      junit:
+        - build/report.xml
   # when: manual
-#### FROM SKAMPI, COPIED FOR REFERENCE:
-# psi_mid_deploy_integration:
-#   tags:
-#   - k8srunner-psi-mid
-#   variables:
-#     VALUES: pipeline.yaml resources/deployment_configurations/psi-mid.yaml
-#     CONFIG: mid
-#     DEPLOYMENT_CONFIGURATION: ska-$CONFIG
-#     K8S_CHART: "$DEPLOYMENT_CONFIGURATION"
-#     INGRESS_HOST: INGRESS.IP.ADDRESS
-#     HELM_RELEASE: integration-$CONFIG-$CI_JOB_ID
-#     KUBE_NAMESPACE: integration-$CONFIG
-#     KUBE_NAMESPACE_SDP: integration-$CONFIG-sdp
-#     SERVICE_ACCOUNT: ci-svc-integration-$CONFIG
-#     ARCHIVER_DBNAME: integration_$CONFIG_archiver_db
-#   when: manual
-#   stage: deploy_integration
-#   extends:
-#   - ".psi_mid_integration_job"
-#   - ".psi_mid_deploy"
-#   rules:
-#   - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
-#   before_script:
-#   - echo $CI_JOB_NAME - $CI_JOB_STAGE
-#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
-#   - - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
-#   - bash .make/resources/gitlab_section.sh install "Install Skampi Charts" make k8s-install-chart
-#   - bash .make/resources/gitlab_section.sh get_all "Check all k8s resources in $KUBE_NAMESPACE"
-#     kubectl get all,pv,pvc,ingress -n $KUBE_NAMESPACE
-#   - bash .make/resources/gitlab_section.sh wait_for_it "Wait for all config jobs to complete"
-#     make skampi-wait-all
-#   script:
-#   - make skampi-links
-#   artifacts:
-#     name: "$CI_PROJECT_NAME-$CI_JOB_ID"
-#     paths:
-#     - build/
-#     reports:
-#       junit:
-#       - build/report.xml
+  allow_failure: true
 
-# mid_deploy_on_demand:
-#   tags:
-#   - k8srunner
-#   before_script:
-#   - echo $CI_JOB_NAME - $CI_JOB_STAGE
-#   - bash sripts/gitlab_section.sh vars "Make config dump" make vars
-#   - - bash scripts/gitlab_section.sh creds "Create K8s Credentials" make skampi-credentials
-#   - bash scripts/gitlab_section.sh install "Install Skampi Charts" make k8s-install-chart
-#   - bash scripts/gitlab_section.sh get_all "Check all k8s resources in $KUBE_NAMESPACE"
-#     kubectl get all,pv,pvc,ingress -n $KUBE_NAMESPACE
-#   - bash scripts/gitlab_section.sh wait_for_it "Wait for all config jobs to complete"
-#     make skampi-wait-all
-#   stage: on-demand
-#   variables:
-#     CONFIG: mid
-#     DEPLOYMENT_CONFIGURATION: ska-$CONFIG
-#     K8S_CHART: "$DEPLOYMENT_CONFIGURATION"
-#     HELM_RELEASE: test-$CONFIG-$CI_JOB_ID
-#     KUBE_NAMESPACE: ci-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-$CONFIG
-#     KUBE_NAMESPACE_SDP: ci-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-$CONFIG-sdp
-#     SERVICE_ACCOUNT: ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG
-#     ARCHIVER_DBNAME: "${CONFIG}_archiver_db"
-#     OET_INGRESS_ENABLED: 'true'
-#     SKA_TELESCOPE: SKA-${CONFIG}
-#     CENTRALNODE_FQDN: ska_${CONFIG}/tm_central/central_node
-#     SUBARRAYNODE_FQDN_PREFIX: ska_${CONFIG}/tm_subarray_node
-#     ODA_URI: http://ska-db-oda-rest-test.button-dev-ska-db-oda:5000/button-dev-ska-db-oda/api/v1
-#   extends:
-#   - ".tags_default"
-#   - ".set_dbname"
-#   - ".deploy_chart_before"
-#   script:
-#   - make skampi-links
-#   environment:
-#     name: test/ska-$CONFIG-$CI_COMMIT_REF_SLUG
-#     kubernetes:
-#       namespace: "$KUBE_NAMESPACE"
-#     url: http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta
-#     on_stop: mid_destroy_on_demand
-#   artifacts:
-#     name: "$CI_PROJECT_NAME-$CI_JOB_ID"
-#     paths:
-#     - build/
-#     reports:
-#       junit:
-#       - build/report.xml
-#   when: manual
-#   allow_failure: true
+#### FROM SKAMPI, COPIED FOR REFERENCE:
+.uninstall_chart:
+  script:
+    - echo $CI_JOB_NAME - $CI_JOB_STAGE
+    - bash scripts/gitlab_section.sh vars "Make config dump" make vars
+    - make k8s-uninstall-chart || true
+    - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all --ignore-not-found
+    - kubectl -n $KUBE_NAMESPACE_SDP delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all --ignore-not-found
+    - make k8s-delete-namespace
+    - make delete-sdp-namespace
+
+remove-test-equipment:
+  stage: test-equipment-setup
+  variables:
+    # KUBE_NAMESPACE: ci-$CI_PROJECT_NAME-test-equipment
+    K8S_CHART: ska-mid-itf
+    # SERVICE_ACCOUNT: ci-svc-$KUBE_NAMESPACE
+    KUBE_NAMESPACE: ci-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
+    KUBE_NAMESPACE_SDP: ci-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-sdp
+    SERVICE_ACCOUNT: ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
+    NEXUS_CACHE: NEXUS_CACHE
+  extends:
+    - .uninstall_chart
+  environment:
+    name: test/ska-$CONFIG-$CI_COMMIT_REF_SLUG
+    kubernetes:
+      # This repetition is needed for gitlab to parse the namespace correctly
+      namespace: $KUBE_NAMESPACE
+    url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
+    action: stop
+  when: manual
+  allow_failure: true # need to keep this to unlock the pipeline
