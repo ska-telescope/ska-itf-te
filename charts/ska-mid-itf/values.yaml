@@ -19,7 +19,7 @@ test_equipment:
       devices:
         - name: smb100a
           model: SMB100A
-          host: 10.20.7.1
+          host: 10.165.3.1
           port: 5025
           resources:
             limits:
