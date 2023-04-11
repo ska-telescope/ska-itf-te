@@ -11,7 +11,7 @@ ska-tango-base:
   itango:
     enabled: true
 
-ska-ser-test-equipment:
+test-equipment:
   enabled: true
   simulators:
     enabled: false

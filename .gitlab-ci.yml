@@ -87,6 +87,8 @@ deploy-test-equipment:
       junit:
         - build/report.xml
   # when: manual
+  needs:
+    - remove-test-equipment
   allow_failure: true
 
 #### FROM SKAMPI, COPIED FOR REFERENCE:
@@ -121,5 +123,5 @@ remove-test-equipment:
       namespace: $KUBE_NAMESPACE
     url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
     action: stop
-  when: manual
+  # when: manual
   allow_failure: true # need to keep this to unlock the pipeline
