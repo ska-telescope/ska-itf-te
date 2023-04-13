@@ -30,7 +30,7 @@ test-equipment:
 spookd:
   deviceMapping:
     - hosts:
-        - minikube
+        - za-itf-k8s-worker01
       devices:
         - resourceName: skao.int/signal-generator-01
           instanceID: "0001"
