@@ -2,7 +2,7 @@
 *.pyc
 UserProfile.mak
 PrivateRules.mak
-KUBECONFIG
+KUBECONFIG*
 OpenSSHPorts.mak
 build
 dryrun.log

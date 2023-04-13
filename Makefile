@@ -90,3 +90,13 @@ K8S_TEST_TEST_COMMAND = unset PYTHONPATH; TANGO_HOST=$(TANGO_HOST) \
 						$(PYTHON_VARS_AFTER_PYTEST) ./tests/functional \
 						 | tee pytest.stdout ## k8s-test test command to run in container
 endif
+
+itf-check-te-hosts-online:
+	@ping -c 1 ITF-GATEWAY; RC=$$?; \
+		if [[ $$RC != 0 ]]; then \
+		echo "Check VPN connection or setup your local DNS to reach the Gateway." && \
+		exit $$RC; \
+		else echo "Able to reach the Gateway host."; \
+		echo "###############################"; echo; \
+		fi;
+	@python resources/ping-itf-hosts.py

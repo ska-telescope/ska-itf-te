@@ -31,8 +31,11 @@ spookd:
   deviceMapping:
     - hosts:
         - za-itf-k8s-worker01
+        - za-itf-cloud03
+        - za-itf-cloud04
+        - za-itf-cloud05
       devices:
         - resourceName: skao.int/signal-generator-01
           instanceID: "0001"
           env:
-            IP: localhost
+            IP: 10.165.3.1
