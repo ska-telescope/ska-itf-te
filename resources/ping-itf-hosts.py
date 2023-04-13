@@ -56,7 +56,7 @@ async def main():
     ]
     tasks = [asyncio.create_task(ping_host(host)) for host in hosts_list]
 
-    print("Hello, pinging the folowing hosts:")
+    print("Pinging the folowing hosts:")
 
     await asyncio.gather(*tasks)
 
