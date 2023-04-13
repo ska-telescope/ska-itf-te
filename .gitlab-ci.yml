@@ -100,7 +100,6 @@ deploy-test-equipment:
     - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all --ignore-not-found
     - kubectl -n $KUBE_NAMESPACE_SDP delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all --ignore-not-found
     - make k8s-delete-namespace
-    - make delete-sdp-namespace
 
 remove-test-equipment:
   stage: test-equipment-setup
