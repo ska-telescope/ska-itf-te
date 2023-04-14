@@ -100,3 +100,7 @@ itf-check-te-hosts-online:
 		echo "###############################"; echo; \
 		fi;
 	@python resources/ping-itf-hosts.py
+
+spooky: itf-spookd-install
+
+ghostbusters: itf-spookd-uninstall

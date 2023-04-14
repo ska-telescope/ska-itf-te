@@ -1,0 +1,22 @@
+global:
+  minikube: true
+  tango_host: databaseds-tango-base-test:10000
+  facility: test-itf
+  exposeAllDS: true
+  sub-system:
+    ska-tango-base:
+      enabled: false
+
+# SPOOKD
+spookd:
+  deviceMapping:
+    - hosts:
+        - za-itf-k8s-worker01
+        - za-itf-cloud03
+        - za-itf-cloud04
+        - za-itf-cloud05
+      devices:
+        - resourceName: skao.int/signal-generator-01
+          instanceID: "0001"
+          env:
+            IP: 10.165.3.1
