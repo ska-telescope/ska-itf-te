@@ -15,11 +15,12 @@ dependencies:
     version: 0.4.4 # Check latest version
     repository: https://artefact.skao.int/repository/helm-internal
 
-  # SPOOKD
-  - name: ska-ser-k8s-spookd
-    version: 0.2.2 # check latest version
-    repository: https://artefact.skao.int/repository/helm-internal
-    condition: ska-ser-k8s-spookd.enabled
+  # # SPOOKD
+  # - name: ska-ser-k8s-spookd
+  #   version: 0.2.2 # check latest version
+  #   repository: https://artefact.skao.int/repository/helm-internal
+  #   alias: spookd
+  #   condition: spookd.enabled
 
   # SKA Test Equipment
   - name: ska-ser-test-equipment
