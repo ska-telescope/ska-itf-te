@@ -12,6 +12,7 @@ ska-tango-base:
     enabled: true
 
 test-equipment:
+  legacy_compatibility: true
   enabled: true
   simulators:
     enabled: false
