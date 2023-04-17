@@ -1,11 +1,18 @@
 itf-spookd-install:
-	@make k8s-install-chart K8S_CHART=ska-mid-itf-ghosts KUBE_APP=spookd KUBE_NAMESPACE=spookd HELM_RELEASE=whoyougonnacall
+	@make k8s-install-chart K8S_CHART=ska-mid-itf-ghosts KUBE_APP=spookd KUBE_NAMESPACE=$(SPOOKD_NAMESPACE) HELM_RELEASE=whoyougonnacall
+
+SPOOKD_VALUES=charts/ska-mid-itf-ghosts/values.yaml
+SPOOKD_VERSION=0.2.2
+SPOOKD_NAMESPACE=$(SPOOKD_NAMESPACE)
+
+itf-spookd-install-chart:
+	helm install --values $(SPOOKD_VALUES) spookd-device-plugin skao/ska-ser-k8s-spookd --version $(SPOOKD_VERSION) --namespace spookd
 
 itf-spookd-uninstall:
-	@make k8s-uninstall-chart K8S_CHART=ska-mid-itf-ghosts KUBE_APP=spookd KUBE_NAMESPACE=spookd HELM_RELEASE=whoyougonnacall
+	@make k8s-uninstall-chart K8S_CHART=ska-mid-itf-ghosts KUBE_APP=spookd KUBE_NAMESPACE=$(SPOOKD_NAMESPACE) HELM_RELEASE=whoyougonnacall
 
 itf-spookd-template-chart:
-	@make k8s-template-chart K8S_CHART=ska-mid-itf-ghosts KUBE_APP=spookd KUBE_NAMESPACE=spookd HELM_RELEASE=ghostbusters
+	@make k8s-template-chart K8S_CHART=ska-mid-itf-ghosts KUBE_APP=spookd KUBE_NAMESPACE=$(SPOOKD_NAMESPACE) HELM_RELEASE=whoyougonnacall
 
 # install taranta dashboards in separate namespace
 k8s-install-taranta-dashboards:
