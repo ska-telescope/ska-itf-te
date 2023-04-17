@@ -9,6 +9,7 @@ global:
 
 # SPOOKD
 spookd:
+  enabled: true
   deviceMapping:
     - hosts:
         - za-itf-k8s-worker01

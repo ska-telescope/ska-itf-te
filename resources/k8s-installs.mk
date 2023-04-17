@@ -3,7 +3,7 @@ itf-spookd-install:
 
 SPOOKD_VALUES=charts/ska-mid-itf-ghosts/values.yaml
 SPOOKD_VERSION=0.2.2
-SPOOKD_NAMESPACE=$(SPOOKD_NAMESPACE)
+SPOOKD_NAMESPACE=spookd
 
 itf-spookd-install-chart:
 	helm install --values $(SPOOKD_VALUES) spookd-device-plugin skao/ska-ser-k8s-spookd --version $(SPOOKD_VERSION) --namespace spookd
