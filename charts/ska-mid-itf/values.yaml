@@ -23,9 +23,9 @@ test-equipment:
           model: SMB100A
           host: 10.165.3.1
           port: 5025
-          resources:
-            limits:
-              skao.int/signal-generator-01: "1"
+          # resources:
+          #   limits:
+          #     skao.int/signal-generator-01: "1"
 # # SPOOKD
 # spookd:
 #   deviceMapping:
