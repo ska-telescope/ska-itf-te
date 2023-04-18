@@ -44,7 +44,8 @@ python-pre-test:
 
 k8s-pre-install-chart:
 
-
+TANGO_HOST ?= tango-databaseds:10000  ## TANGO_HOST needed for k8s-test
+K8S_CHART_PARAMS = --set global.tango_host=$(TANGO_HOST) --set global.minikube=$(MINIKUBE) $(VALUES)
 
 # # TODO: remove if no longer needed.
 -include resources/itf-connect.mk
