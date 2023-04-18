@@ -15,7 +15,7 @@ test-equipment:
     enabled: false
   deviceServers:
     spectrumanalyser:
-      devices: []
+      devices: [] # Now we need to put back the Tektronix
     signalgenerator:
       devices:
         - name: smb100a
@@ -25,16 +25,3 @@ test-equipment:
           resources:
             limits:
               skao.int/signal-generator-01: "1"
-# # SPOOKD
-# spookd:
-#   deviceMapping:
-#     - hosts:
-#         - za-itf-k8s-worker01
-#         - za-itf-cloud03
-#         - za-itf-cloud04
-#         - za-itf-cloud05
-#       devices:
-#         - resourceName: skao.int/signal-generator-01
-#           instanceID: "0001"
-#           env:
-#             IP: 10.165.3.1
