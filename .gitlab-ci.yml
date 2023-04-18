@@ -59,9 +59,7 @@ deploy-test-equipment:
   image: $CI_REGISTRY/ska-telescope/ska-skampi/ska-skampi-ci:1.0.4
   stage: test-equipment-setup
   variables:
-    # KUBE_NAMESPACE: ci-$CI_PROJECT_NAME-test-equipment
     K8S_CHART: ska-mid-itf
-    # SERVICE_ACCOUNT: ci-svc-$KUBE_NAMESPACE
     KUBE_NAMESPACE: ci-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
     KUBE_NAMESPACE_SDP: ci-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-sdp
     SERVICE_ACCOUNT: ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
@@ -70,7 +68,7 @@ deploy-test-equipment:
     - bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install --upgrade poetry
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
     - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
-    - bash .make/resources/gitlab_section.sh get_all "Check all k8s resources in $KUBE_NAMESPACE" kubectl get all,pv,pvc,ingress -n $KUBE_NAMESPACE
+    # - bash .make/resources/gitlab_section.sh get_all "Check all k8s resources in $KUBE_NAMESPACE" kubectl get all,pv,pvc,ingress -n $KUBE_NAMESPACE
     - bash .make/resources/gitlab_section.sh get_env "Check env" env
   script:
     - make k8s-install-chart
