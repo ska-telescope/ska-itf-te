@@ -95,7 +95,7 @@ ifneq ($(CI_JOB_ID),)
 OCI_TAG = $(VERSION)-dev.c$(CI_COMMIT_SHORT_SHA)
 CI_REGISTRY ?= registry.gitlab.com
 # For k8s-install-chart
-VALUES += --set test_equipment.image.registry=$(CI_REGISTRY)/ska-telescope/$(NAME) \
+# VALUES += --set test_equipment.image.registry=$(CI_REGISTRY)/ska-telescope/$(NAME) \
 	--set test_equipment.image.tag=$(OCI_TAG)
 # for k8s-test
 K8S_TEST_IMAGE_TO_TEST=$(CI_REGISTRY)/ska-telescope/$(NAME)/$(NAME):$(OCI_TAG)

@@ -26,3 +26,9 @@ itf-cluster-credentials:  ## PIPELINE USE ONLY - allocate credentials for deploy
 	make k8s-namespace
 	make k8s-namespace KUBE_NAMESPACE=$(KUBE_NAMESPACE_SDP)
 	curl -s https://gitlab.com/ska-telescope/templates-repository/-/raw/master/scripts/namespace_auth.sh | bash -s $(SERVICE_ACCOUNT) $(KUBE_NAMESPACE) $(KUBE_NAMESPACE_SDP) || true
+
+vars:
+	$(info KUBE_NAMESPACE: $(KUBE_NAMESPACE))
+	$(info TANGO_HOST: $(TANGO_HOST))
+	$(info K8S_CHART_PARAMS: $(K8S_CHART_PARAMS))
+	$(info VALUES: $(VALUES))
