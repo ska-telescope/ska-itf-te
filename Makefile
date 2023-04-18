@@ -53,7 +53,6 @@ TARANTA ?= false# Enable Taranta
 MINIKUBE ?= true ## Minikube or not
 EXPOSE_All_DS ?= true ## Expose All Tango Services to the external network (enable Loadbalancer service)
 SKA_TANGO_OPERATOR ?= true
-TANGO_HOST ?= tango-databaseds:10000  ## TANGO_HOST needed for k8s-test
 CI_JOB_ID ?= local##pipeline job id
 TANGO_HOST ?= tango-databaseds:10000## TANGO_HOST connection to the Tango DS
 TANGO_SERVER_PORT ?= 45450## TANGO_SERVER_PORT - fixed listening port for local server
@@ -129,6 +128,9 @@ itf-check-te-hosts-online:
 		fi;
 	@python resources/ping-itf-hosts.py
 
-spooky: itf-spookd-install
+theres-a-ghost: 
+	@kubectl get nodes -o=jsonpath="{.items[*]['metadata.name', 'status.capacity']}{'\n'}" | grep skao.int 
+
+spooky: itf-spookd-install theres-a-ghost
 
 ghostbusters: itf-spookd-uninstall
