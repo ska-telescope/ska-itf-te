@@ -71,6 +71,7 @@ deploy-test-equipment:
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
     - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
     - bash .make/resources/gitlab_section.sh get_all "Check all k8s resources in $KUBE_NAMESPACE" kubectl get all,pv,pvc,ingress -n $KUBE_NAMESPACE
+    - bash .make/resources/gitlab_section.sh get_env "Check env" env
   script:
     - make k8s-install-chart
     # The following are all needed to verify deployment and expose the issue
