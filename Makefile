@@ -95,9 +95,9 @@ DOCS_SPHINXOPTS=-n -W --keep-going
 # OCI_TAG = $(VERSION)-dev.c$(CI_COMMIT_SHORT_SHA)
 # CI_REGISTRY ?= registry.gitlab.com
 
-# for k8s-test
-K8S_TEST_IMAGE_TO_TEST=$(CI_REGISTRY)/ska-telescope/$(NAME)/$(NAME):$(OCI_TAG)
-endif
+# # for k8s-test
+# K8S_TEST_IMAGE_TO_TEST=$(CI_REGISTRY)/ska-telescope/$(NAME)/$(NAME):$(OCI_TAG)
+# endif
 
 # https://github.com/pytest-dev/pytest-bdd/issues/401
 PYTHON_VARS_BEFORE_PYTEST = PYTHONDONTWRITEBYTECODE=True

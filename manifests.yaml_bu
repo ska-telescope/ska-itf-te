@@ -1,0 +1,271 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  creationTimestamp: null
+  name: test-spookd
+spec: {}
+status: {}
+---
+# Source: ska-mid-itf/charts/ska-tango-base/templates/itango.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ska-tango-base-itango-console
+  namespace: test-spookd
+  labels:
+    app: ska-tango-images
+    component: itango-console
+    function: generic-tango-console
+    domain: interactive-testing
+    intent: enabling
+spec:
+  initContainers:
+  - name: check-dependencies-0
+    image: "artefact.skao.int/ska-tango-images-tango-dsconfig:1.5.10"
+    imagePullPolicy: IfNotPresent
+    command:
+      - retry
+      - --tries=10 
+      - --sleep=5
+      - --
+      - tango_admin
+      - --check-device
+      - sys/database/2
+    env:
+    - name: TANGO_HOST
+      value: tango-databaseds:10000
+  containers:
+  - name: itango
+    image: "artefact.skao.int/ska-tango-images-tango-itango:9.4.1"
+    imagePullPolicy: IfNotPresent
+    command:
+      - /usr/local/bin/wait-for-it.sh
+      - tango-databaseds:10000
+      - --timeout=30
+      - --strict
+      - --
+      - sleep
+      - infinity
+      # - /venv/bin/itango3
+    env:
+    - name: TANGO_HOST
+      value: "tango-databaseds:10000"
+    resources:
+      limits:
+        cpu: 100m
+        ephemeral-storage: 512Mi
+        memory: 128Mi
+      requests:
+        cpu: 100m
+        ephemeral-storage: 512Mi
+        memory: 128Mi
+  restartPolicy: Always
+---
+# Source: ska-mid-itf/charts/ska-tango-base/templates/deviceservers.yaml
+## else operator
+---
+# Source: ska-mid-itf/charts/test-equipment/templates/deviceservers.yaml
+## else operator
+---
+# Source: ska-mid-itf/charts/test-equipment/templates/deviceservers.yaml
+## else operator
+---
+# Source: ska-mid-itf/charts/test-equipment/templates/deviceservers.yaml
+# deviceservers
+---
+# Source: ska-mid-itf/charts/ska-tango-base/templates/databaseds.yaml
+apiVersion: tango.tango-controls.org/v1
+kind: DatabaseDS
+metadata:
+  name: tango-databaseds
+  namespace: test-spookd
+  labels:
+    component: databaseds
+    function: tangodb-interface
+    domain: tango-configuration
+    intent: production
+    app: ska-tango-images
+spec:
+  clusterDomain: cluster.local
+  usePV: false
+  enableLoadBalancer: true
+  imagePullPolicy: IfNotPresent
+  tangoDBStorageClass: standard
+---
+# Source: ska-mid-itf/charts/ska-tango-base/templates/deviceservers.yaml
+apiVersion: tango.tango-controls.org/v1
+kind: DeviceServer
+metadata:
+  name: tangotest-test
+  namespace: test-spookd
+  labels:
+    app: ska-tango-images
+    component: tangotest-test
+    function: tango-test
+    domain: tango-base
+    subsystem: ska-tango-base
+spec:
+  legacycompatibility: false
+  clusterDomain: cluster.local
+  enableLoadBalancer: true
+  databaseds: tango-databaseds
+  image: "artefact.skao.int/ska-tango-images-tango-java:9.3.9"
+  imagePullPolicy: IfNotPresent
+  args: "test"
+  dsname: "TangoTest"
+  config: |
+    {
+      "servers": {
+        "TangoTest" : {
+          "test": {
+            "TangoTest": {
+              "sys/tg_test/1": {
+              }
+            }
+          }
+        }
+      }
+    }
+  command: "/usr/local/bin/TangoTest"
+  resources:
+    limits:
+      cpu: 500m
+      ephemeral-storage: 1Gi
+      memory: 512Mi
+    requests:
+      cpu: 200m
+      ephemeral-storage: 1Gi
+      memory: 256Mi
+ ## if has # range instances
+
+
+
+
+ # deviceservers
+---
+# Source: ska-mid-itf/charts/test-equipment/templates/deviceservers.yaml
+apiVersion: tango.tango-controls.org/v1
+kind: DeviceServer
+metadata:
+  name: signalgenerator-smb100a
+  namespace: test-spookd
+  labels:
+    app: ska-ser-test-equipment
+    component: signalgenerator-smb100a
+    function: ska-ser-test-equipment-signal-generator
+    domain: ska-ser-test-equipment
+    subsystem: ska-ser-test-equipment
+spec:
+  legacycompatibility: true
+  clusterDomain: cluster.local
+  enableLoadBalancer: true
+  databaseds: tango-databaseds
+  image: "artefact.skao.int/ska-ser-test-equipment:0.6.2"
+  imagePullPolicy: IfNotPresent
+  args: "smb100a"
+  dsname: "SignalGeneratorDevice"
+  config: |
+    {
+      "servers": {
+        "SignalGeneratorDevice" : {
+          "smb100a": {
+            "SignalGeneratorDevice": {
+              "test-itf/siggen/1": {
+                "properties": {
+                  "Model": [
+                    "SMB100A"
+                    ],
+                  "Protocol": [
+                    "tcp"
+                    ],
+                  "Host": [
+                    "10.165.3.1"
+                    ],
+                  "Port": [
+                    "5025"
+                    ],
+                  "UpdateRate": [
+                    "1.0"
+                    ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  command: "SignalGeneratorDevice"
+  dependsOn:
+  - "sys/database/2"
+  resources:
+    limits:
+      cpu: 100m
+      memory: 100Mi
+      skao.int/signal-generator-01: "1"
+    requests:
+      cpu: 50m
+      memory: 50Mi
+ ## if has # range instances
+---
+# Source: ska-mid-itf/charts/test-equipment/templates/deviceservers.yaml
+apiVersion: tango.tango-controls.org/v1
+kind: DeviceServer
+metadata:
+  name: spectrumanalyser-specmon26b
+  namespace: test-spookd
+  labels:
+    app: ska-ser-test-equipment
+    component: spectrumanalyser-specmon26b
+    function: ska-ser-test-equipment-spectrum-analyser
+    domain: ska-ser-test-equipment
+    subsystem: ska-ser-test-equipment
+spec:
+  legacycompatibility: true
+  clusterDomain: cluster.local
+  enableLoadBalancer: true
+  databaseds: tango-databaseds
+  image: "artefact.skao.int/ska-ser-test-equipment:0.6.2"
+  imagePullPolicy: IfNotPresent
+  args: "specmon26b"
+  dsname: "SpectrumAnalyserDevice"
+  config: |
+    {
+      "servers": {
+        "SpectrumAnalyserDevice" : {
+          "specmon26b": {
+            "SpectrumAnalyserDevice": {
+              "test-itf/spectana/1": {
+                "properties": {
+                  "Model": [
+                    "SPECMON26B"
+                    ],
+                  "Protocol": [
+                    "tcp"
+                    ],
+                  "Host": [
+                    "simulator-specmon26b"
+                    ],
+                  "Port": [
+                    "5025"
+                    ],
+                  "UpdateRate": [
+                    "1.0"
+                    ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  command: "SpectrumAnalyserDevice"
+  dependsOn:
+  - "sys/database/2"
+  resources:
+    limits:
+      cpu: 100m
+      memory: 100Mi
+    requests:
+      cpu: 50m
+      memory: 50Mi
+ ## if has # range instances

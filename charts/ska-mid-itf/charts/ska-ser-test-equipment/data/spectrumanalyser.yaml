@@ -1,0 +1,54 @@
+name: "spectrum-analyser-{{ .Release.Name }}"
+function: ska-ser-test-equipment-spectrum-analyser
+domain: ska-ser-test-equipment
+instances:
+{{- range $device := .Values.deviceServers.spectrumanalyser.devices }}
+  - "{{ $device.name }}"
+{{- end }}
+command: "SpectrumAnalyserDevice"
+server:
+  name: "SpectrumAnalyserDevice"
+  instances:
+    {{- range $index, $device := .Values.deviceServers.spectrumanalyser.devices }}
+    - name: "{{ $device.name }}"
+      env:
+        - name: SIMULATOR_MODEL
+          value: {{ coalesce $device.model ( $device.name | upper ) }}
+        - name: SIMULATOR_PORT
+          value: {{ ( coalesce $device.port "5025" ) | quote }}
+      {{- with $device.resources }}
+      resources:
+        {{- merge . $.Values.resources | toYaml | nindent 8 }}
+      {{- end }}
+      classes:
+      - name: "SpectrumAnalyserDevice"
+        devices:
+        - name: "{{ $.Values.global.facility }}/spectana/{{ add 1 $index }}"
+          properties:
+          - name: "Model"
+            values:
+            - {{ coalesce $device.model ( $device.name | upper ) }}
+          - name: "Protocol"
+            values:
+            - {{ coalesce $device.protocol "tcp" }}
+          - name: "Host"
+            values:
+            - {{ coalesce $device.host ( printf "simulator-%s" $device.name ) }}
+          - name: "Port"
+            values:
+            - "{{ (coalesce $device.port 5025) | toString }}"
+          - name: "UpdateRate"
+            values:
+            - "1.0"
+    {{- end }} # devices
+depends_on:
+  - device: sys/database/2
+image:
+  registry: "{{ .Values.image.registry }}"
+  image: "{{ .Values.image.image }}"
+  tag: "{{ .Values.image.tag }}"
+  pullPolicy: "{{ .Values.image.pullPolicy }}"
+livenessProbe:
+{{ toYaml .Values.livenessProbe | indent 2 }}
+readinessProbe:
+{{ toYaml .Values.readinessProbe | indent 2 }}
