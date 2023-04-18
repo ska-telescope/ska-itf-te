@@ -59,7 +59,7 @@ deploy-test-equipment:
   image: $CI_REGISTRY/ska-telescope/ska-skampi/ska-skampi-ci:1.0.4
   stage: test-equipment-setup
   variables:
-    MINIKUBE: false
+    MINIKUBE: "false"
     K8S_CHART: ska-mid-itf
     KUBE_NAMESPACE: ci-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
     KUBE_NAMESPACE_SDP: ci-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-sdp
