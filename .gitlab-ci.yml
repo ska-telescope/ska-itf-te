@@ -93,6 +93,7 @@ deploy-test-equipment:
     - make k8s-wait SKA_TANGO_OPERATOR=true
     - kubectl logs -l job-name=signalgenerator-test-config -n $KUBE_NAMESPACE
     - kubectl get pods -n $KUBE_NAMESPACE
+    - kubectl logs tangotest-test-0 -n $KUBE_NAMESPACE
   # allow_failure: true
 
 #### FROM SKAMPI, COPIED FOR REFERENCE:
