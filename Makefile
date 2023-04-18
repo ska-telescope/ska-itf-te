@@ -91,8 +91,8 @@ python-post-lint:
 DOCS_SPHINXOPTS=-n -W --keep-going
 
 # Use the previously built image when running in the pipeline
-ifneq ($(CI_JOB_ID),)
-OCI_TAG = $(VERSION)-dev.c$(CI_COMMIT_SHORT_SHA)
+# ifneq ($(CI_JOB_ID),)
+# OCI_TAG = $(VERSION)-dev.c$(CI_COMMIT_SHORT_SHA)
 # CI_REGISTRY ?= registry.gitlab.com
 
 # for k8s-test
