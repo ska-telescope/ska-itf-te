@@ -73,7 +73,6 @@ deploy-test-equipment:
     - bash .make/resources/gitlab_section.sh get_all "Check all k8s resources in $KUBE_NAMESPACE" kubectl get all,pv,pvc,ingress -n $KUBE_NAMESPACE
   script:
     - make k8s-install-chart
-    - make k8s-wait SKA_TANGO_OPERATOR=true
   environment:
     name: test/ska-$CONFIG-$CI_COMMIT_REF_SLUG
     kubernetes:
@@ -90,7 +89,11 @@ deploy-test-equipment:
   # when: manual
   needs:
     - remove-test-equipment
-  allow_failure: true
+  after_script:
+    - make k8s-wait SKA_TANGO_OPERATOR=true
+    - kubectl logs -l job-name=signalgenerator-test-config -n $KUBE_NAMESPACE
+    - kubectl get pods -n $KUBE_NAMESPACE
+  # allow_failure: true
 
 #### FROM SKAMPI, COPIED FOR REFERENCE:
 .uninstall_chart:
