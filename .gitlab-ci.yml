@@ -73,6 +73,7 @@ deploy-test-equipment:
     - bash .make/resources/gitlab_section.sh get_all "Check all k8s resources in $KUBE_NAMESPACE" kubectl get all,pv,pvc,ingress -n $KUBE_NAMESPACE
   script:
     - make k8s-install-chart
+    - make k8s-wait SKA_TANGO_OPERATOR=true
   environment:
     name: test/ska-$CONFIG-$CI_COMMIT_REF_SLUG
     kubernetes:
