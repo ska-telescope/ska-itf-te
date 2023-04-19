@@ -185,4 +185,4 @@ PrivateRules.mak
 charts/test-parent/charts/*
 charts/ska-ser-test-equipment/charts/*
 Chart.lock
-manifests.yaml
+manifests.yaml*
