@@ -1,3 +1,4 @@
+charts/**/charts/*
 .DS_Store
 *.pyc
 UserProfile.mak
