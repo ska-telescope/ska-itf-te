@@ -12,3 +12,23 @@ dependencies:
     repository: https://artefact.skao.int/repository/helm-internal
     alias: spookd
     condition: spookd.enabled
+
+  # TARANTA THINGS
+  - name: ska-tango-taranta-auth
+    version: 0.1.6
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: global.taranta_auth_enabled
+    tags:
+      - taranta_auth
+  - name: ska-tango-taranta-dashboard
+    version: 1.4.0
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: global.taranta_dashboard_enabled
+    tags:
+      - taranta_dashboard
+  - name: ska-tango-taranta-dashboard-pvc
+    version: 1.4.0
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: global.taranta_dashboard_enabled
+    tags:
+      - taranta_dashboard-pvc

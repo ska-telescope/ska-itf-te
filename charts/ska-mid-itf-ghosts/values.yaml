@@ -1,8 +1,10 @@
 global:
   minikube: true
   tango_host: databaseds-tango-base-test:10000
-  facility: test-itf
+  facility: mid-itf
   exposeAllDS: true
+  taranta_auth_enabled: true
+  taranta_dashboard_enabled: true
   sub-system:
     ska-tango-base:
       enabled: false

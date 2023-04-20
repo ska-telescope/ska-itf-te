@@ -1,5 +1,5 @@
 global:
-  facility: test-itf
+  facility: mid-itf
   sub-system:
     ska-tango-base:
       enabled: false
@@ -15,7 +15,7 @@ test-equipment:
     enabled: false
   deviceServers:
     spectrumanalyser:
-      devices: [] # Now we need to put back the Tektronix
+      devices: [] # Now we need to put back the Anritsu
     signalgenerator:
       devices:
         - name: smb100a
