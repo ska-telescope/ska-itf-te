@@ -64,6 +64,7 @@ deploy-test-equipment:
     K8S_CHART: ska-$CONFIG-itf
     KUBE_NAMESPACE: test-equipment
     NEXUS_CACHE: NEXUS_CACHE
+    SERVICE_ACCOUNT: ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
   before_script:
     - bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install --upgrade poetry
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
@@ -111,6 +112,7 @@ remove-test-equipment:
     K8S_CHART: ska-mid-itf
     KUBE_NAMESPACE: test-equipment
     NEXUS_CACHE: NEXUS_CACHE
+    SERVICE_ACCOUNT: ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
   extends:
     - .uninstall_chart
   environment:
@@ -118,7 +120,7 @@ remove-test-equipment:
     kubernetes:
       # This repetition is needed for gitlab to parse the namespace correctly
       namespace: $KUBE_NAMESPACE
-    url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
+    url: "https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
     action: stop
   when: manual
   allow_failure: true # need to keep this to unlock the pipeline
