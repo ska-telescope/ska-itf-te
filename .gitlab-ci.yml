@@ -6,11 +6,11 @@ cache:
   paths:
     - build
 stages:
+  - test-equipment-setup
   - lint
   - build
   - integration # no idea what this is for
   # - staging
-  - test-equipment-setup
   - test
   - upload
   - publish
