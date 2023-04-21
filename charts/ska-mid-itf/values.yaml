@@ -15,14 +15,7 @@ test-equipment:
     enabled: false
   deviceServers:
     spectrumanalyser:
-      devices:
-        - name: ms2090a
-          model: MS2090A
-          host: 10.165.3.4
-          port: 9001
-          resources:
-            limits:
-              skao.int/spectrum-analyser-01: "1"
+      devices: []
     signalgenerator:
       devices:
         - name: smb100a
