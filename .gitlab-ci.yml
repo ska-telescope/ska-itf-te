@@ -91,8 +91,6 @@ deploy-test-equipment:
   when: manual
   # rules:
   #   - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
-  needs:
-    - remove-test-equipment
   allow_failure: true # need to keep this to unlock the pipeline
 
 #### FROM SKAMPI, COPIED FOR REFERENCE:
