@@ -61,7 +61,7 @@ deploy-test-equipment:
   stage: test-equipment-setup
   variables:
     MINIKUBE: "false"
-    K8S_CHART: ska-$CONFIG-itf
+    K8S_CHART: ska-mid-itf
     KUBE_NAMESPACE: test-equipment
     NEXUS_CACHE: NEXUS_CACHE
     SERVICE_ACCOUNT: ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
@@ -77,7 +77,7 @@ deploy-test-equipment:
     - make k8s-get-pods
     - make itf-te-links INGRESS_HOST=10.164.0.3
   environment:
-    name: ska-$CONFIG-itf/test-equipment
+    name: ska-mid-itf/test-equipment
     kubernetes:
       namespace: "$KUBE_NAMESPACE"
     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta
@@ -116,7 +116,7 @@ remove-test-equipment:
   extends:
     - .uninstall_chart
   environment:
-    name: ska-$CONFIG-itf/test-equipment
+    name: ska-mid-itf/test-equipment
     kubernetes:
       # This repetition is needed for gitlab to parse the namespace correctly
       namespace: $KUBE_NAMESPACE
