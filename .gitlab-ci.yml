@@ -63,10 +63,6 @@ deploy-test-equipment:
     MINIKUBE: "false"
     K8S_CHART: ska-$CONFIG-itf
     KUBE_NAMESPACE: test-equipment
-    INGRESS_HOST: 10.164.0.3
-    # KUBE_NAMESPACE: ci-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
-    # KUBE_NAMESPACE_SDP: ci-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-sdp
-    # SERVICE_ACCOUNT: ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
     NEXUS_CACHE: NEXUS_CACHE
   before_script:
     - bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install --upgrade poetry
@@ -78,12 +74,12 @@ deploy-test-equipment:
     - make k8s-wait SKA_TANGO_OPERATOR=true
     - kubectl logs -l job-name=signalgenerator-test-config -n $KUBE_NAMESPACE
     - make k8s-get-pods
-    - make itf-te-links
+    - make itf-te-links INGRESS_HOST=10.164.0.3
   environment:
     name: ska-$CONFIG-itf/test-equipment
     kubernetes:
       namespace: "$KUBE_NAMESPACE"
-    url: http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta
+    url: https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta
     on_stop: remove-test-equipment
   artifacts:
     name: "$CI_PROJECT_NAME-$CI_JOB_ID"
@@ -112,12 +108,8 @@ remove-test-equipment:
   tags:
     - ska-k8srunner-za-itf
   variables:
-    # KUBE_NAMESPACE: ci-$CI_PROJECT_NAME-test-equipment
     K8S_CHART: ska-mid-itf
     KUBE_NAMESPACE: test-equipment
-    # KUBE_NAMESPACE: ci-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
-    # KUBE_NAMESPACE_SDP: ci-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-sdp
-    # SERVICE_ACCOUNT: ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
     NEXUS_CACHE: NEXUS_CACHE
   extends:
     - .uninstall_chart
