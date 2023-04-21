@@ -63,6 +63,7 @@ deploy-test-equipment:
     K8S_CHART: ska-mid-itf
     # KUBE_NAMESPACE: test-equipment
     KUBE_NAMESPACE: ci-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
+    KUBE_NAMESPACE_SDP: ci-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-sdp
     SERVICE_ACCOUNT: ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
     NEXUS_CACHE: NEXUS_CACHE
   before_script:
@@ -113,6 +114,7 @@ remove-test-equipment:
     K8S_CHART: ska-mid-itf
     # KUBE_NAMESPACE: test-equipment
     KUBE_NAMESPACE: ci-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
+    KUBE_NAMESPACE_SDP: ci-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-sdp
     SERVICE_ACCOUNT: ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
     NEXUS_CACHE: NEXUS_CACHE
   extends:
