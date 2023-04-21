@@ -2,7 +2,6 @@ image: $SKA_K8S_TOOLS_DOCKER_BUILDER_IMAGE
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
-  CONFIG: mid
 cache:
   paths:
     - build
@@ -62,9 +61,10 @@ deploy-test-equipment:
   variables:
     MINIKUBE: "false"
     K8S_CHART: ska-mid-itf
-    KUBE_NAMESPACE: test-equipment
-    NEXUS_CACHE: NEXUS_CACHE
+    # KUBE_NAMESPACE: test-equipment
+    KUBE_NAMESPACE: ci-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
     SERVICE_ACCOUNT: ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
+    NEXUS_CACHE: NEXUS_CACHE
   before_script:
     - bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install --upgrade poetry
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
@@ -110,9 +110,10 @@ remove-test-equipment:
     - ska-k8srunner-za-itf
   variables:
     K8S_CHART: ska-mid-itf
-    KUBE_NAMESPACE: test-equipment
-    NEXUS_CACHE: NEXUS_CACHE
+    # KUBE_NAMESPACE: test-equipment
+    KUBE_NAMESPACE: ci-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
     SERVICE_ACCOUNT: ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
+    NEXUS_CACHE: NEXUS_CACHE
   extends:
     - .uninstall_chart
   environment:
