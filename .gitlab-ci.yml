@@ -79,7 +79,7 @@ deploy-test-equipment:
     name: test/ska-$CONFIG-$CI_COMMIT_REF_SLUG
     kubernetes:
       namespace: "$KUBE_NAMESPACE"
-    # url: http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta
+    url: http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta
     on_stop: remove-test-equipment
   artifacts:
     name: "$CI_PROJECT_NAME-$CI_JOB_ID"
@@ -88,10 +88,11 @@ deploy-test-equipment:
     reports:
       junit:
         - build/report.xml
-  # when: manual
+  when: manual
+  # rules:
+  #   - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
   needs:
     - remove-test-equipment
-  # allow_failure: true
 
 #### FROM SKAMPI, COPIED FOR REFERENCE:
 .uninstall_chart:
@@ -122,7 +123,7 @@ remove-test-equipment:
     kubernetes:
       # This repetition is needed for gitlab to parse the namespace correctly
       namespace: $KUBE_NAMESPACE
-    # url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
+    url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
     action: stop
-  # when: manual
+  when: manual
   allow_failure: true # need to keep this to unlock the pipeline

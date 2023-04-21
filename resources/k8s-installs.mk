@@ -27,8 +27,31 @@ itf-cluster-credentials:  ## PIPELINE USE ONLY - allocate credentials for deploy
 	make k8s-namespace KUBE_NAMESPACE=$(KUBE_NAMESPACE_SDP)
 	curl -s https://gitlab.com/ska-telescope/templates-repository/-/raw/master/scripts/namespace_auth.sh | bash -s $(SERVICE_ACCOUNT) $(KUBE_NAMESPACE) $(KUBE_NAMESPACE_SDP) || true
 
+## TARGET: itf-te-links
+## SYNOPSIS: make itf-te-links
+## HOOKS: none
+## VARS: none
+##  make target for generating the URLs for accessing the Test Equipment deployment
+
+itf-te-links: ## Create the URLs with which to access Skampi if it is available
+	@echo ${CI_JOB_NAME}
+	@echo "############################################################################"
+	@echo "#            Access the Test Equipment Taranta framework here:"
+	@echo "#            https://$(INGRESS_HOST)/$(KUBE_NAMESPACE)/taranta/devices"
+	@echo "############################################################################"
+	@if [[ -z "${LOADBALANCER_IP}" ]]; then exit 0; \
+	elif [[ $(shell curl -I -s -o /dev/null -I -w \'%{http_code}\' http$(S)://$(LOADBALANCER_IP)/$(KUBE_NAMESPACE)/taranta/devices) != '200' ]]; then \
+		echo "ERROR: http://$(LOADBALANCER_IP)/$(KUBE_NAMESPACE)/taranta/devices unreachable"; exit 10; \
+	fi
+
 vars:
 	$(info KUBE_NAMESPACE: $(KUBE_NAMESPACE))
+	$(info #####################################)
 	$(info TANGO_HOST: $(TANGO_HOST))
+	$(info #####################################)
 	$(info K8S_CHART_PARAMS: $(K8S_CHART_PARAMS))
+	$(info #####################################)
 	$(info VALUES: $(VALUES))
+	$(info #####################################)
+	$(info K8S_EXTRA_PARAMS: $(K8S_EXTRA_PARAMS))
+	$(info #####################################)
