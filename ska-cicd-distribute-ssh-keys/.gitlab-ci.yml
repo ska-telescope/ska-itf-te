@@ -3,6 +3,7 @@ image: python:3.11
 stages:
   - lint
 
+
 # disabled:
 # 1. Running ansible-lint fails on Gitlab with: ERROR: Ansible requires the locale encoding to be UTF-8; Detected None.
 # 2. Linting fails locally with 36 errors.
