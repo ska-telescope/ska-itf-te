@@ -9,11 +9,13 @@ ska-tango-base:
     enabled: true
 
 test-equipment:
-  # THIS IS PURELY FOR DEVELOPMENT PURPOSES
+  ###############################################################################
+  # THIS SECTION IS PURELY FOR DEVELOPMENT & TESTING OF NEW TEST EQUIPMENT CHARTS
   image:
-    registry: $CI_REGISTRY/ska-telescope/ska-ser-test-equipment
+    registry: gitlab.com/ska-telescope/ska-ser-test-equipment
     image: ska-ser-test-equipment
     tag: 0.6.2
+  ###############################################################################
   legacy_compatibility: true
   enabled: true
   simulators:
