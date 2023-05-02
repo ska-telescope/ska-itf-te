@@ -70,7 +70,7 @@ deploy-test-equipment:
     NEXUS_CACHE: NEXUS_CACHE
   before_script:
     - bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install --upgrade poetry
-    - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars && env
+    - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
     - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
   script:
     - make k8s-install-chart
@@ -106,6 +106,7 @@ deploy-test-equipment:
   script:
     - echo $CI_JOB_NAME - $CI_JOB_STAGE
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+    - bash .make/resources/gitlab_section.sh env "Environment dump" env
     - make k8s-uninstall-chart || true
     - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all --ignore-not-found
     - kubectl -n $KUBE_NAMESPACE_SDP delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all --ignore-not-found
