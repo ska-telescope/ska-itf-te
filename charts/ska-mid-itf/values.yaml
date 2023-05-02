@@ -9,6 +9,10 @@ ska-tango-base:
     enabled: true
 
 test-equipment:
+  # THIS IS PURELY FOR DEVELOPMENT PURPOSES
+  image:
+    registry: $CI_REGISTRY/ska-telescope/ska-ser-test-equipment/ska-ser-test-equipment:0.6.2
+    # image:
   legacy_compatibility: true
   enabled: true
   simulators:
