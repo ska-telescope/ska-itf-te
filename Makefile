@@ -118,8 +118,10 @@ K8S_TEST_TEST_COMMAND = unset PYTHONPATH; TANGO_HOST=$(TANGO_HOST) \
 						 | tee pytest.stdout ## k8s-test test command to run in container
 endif
 
+PING_HOST=itf-gateway# set this up in your /etc/hosts file from the Confluence page describing all the hosts.
+
 itf-check-te-hosts-online:
-	@ping -c 1 ITF-GATEWAY; RC=$$?; \
+	@ping -c 1 -t 2 $(PING_HOST); RC=$$?; \
 		if [[ $$RC != 0 ]]; then \
 		echo "Check VPN connection or setup your local DNS to reach the Gateway." && \
 		exit $$RC; \

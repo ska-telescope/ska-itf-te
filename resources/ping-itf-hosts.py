@@ -12,7 +12,7 @@ async def ping_host(host):
     stdout, stderr = await process.communicate()
     ping_result = process.returncode
     if ping_result == 0:
-        print(host[1])
+        print(f"    {host[0]}\t - {host[1]}")
     else:
         print(f"Ping result code: {ping_result}")
         print(f"IP address {host[0]} not reachable - check if {host[1]} is online")

@@ -1,6 +1,6 @@
 ME ?= bl ## Default user that wants to connect to the ITF machines
 SSH_CONFIG_PATH ?= resources/users/$(ME)/.ssh
-SSH_HOST ?= The-Beast
+SSH_HOST ?= Gaia
 # add this line 
 # ME = <your-three-letter-initials>
 # and uncomment, in the following file:
@@ -24,8 +24,8 @@ whoami:
 connect-jump-host: ## Connect to the Raspberry Pi
 	@make jump SSH_HOST="Pi"
 
-jump-the-beast: ## Jump to the ITF Minikube host
-	@make jump SSH_HOST="The-Beast"
+jump-Gaia: ## Jump to the ITF Minikube host
+	@make jump SSH_HOST="Gaia"
 
 ## TARGET: jump
 ## SYNOPSIS: make jump
