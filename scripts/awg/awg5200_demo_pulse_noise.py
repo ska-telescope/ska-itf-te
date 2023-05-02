@@ -16,7 +16,8 @@ import pyvisa as visa
 import numpy as np
 
 local_port = 10016
-device_ip = "192.168.1.16"
+device_ip = "za-itf-awg.ad.skatelescope.org"
+
 
 # Change this to connect to your AWG as needed
 """#################SEARCH/CONNECT#################"""
