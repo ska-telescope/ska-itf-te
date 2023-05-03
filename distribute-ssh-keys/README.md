@@ -4,23 +4,19 @@ Update keys on Systems Team inventory
 
 ## Summary
 
-This repo adds and removes ssh keys across the System Teams managed inventory.
+This tool adds and removes ssh keys across the MID ITF.
 
-Checkout distribute-ssh-keys (this repo):
-```
-git clone git@gitlab.com:ska-telescope/sdi/distribute-ssh-keys.git
-cd distribute-ssh-keys
-```
 Update `ssh_key_vars.yml` as the input for `add_ssh_keys` and `remove_ssh_keys`.
 
 In order for this tool to work for you, you must already have `ssh` access to the inventory described in `inventory_ssh_keys`.
 
 ## Add keys to all inventory
  
-To add the configured keys in `add_ssh_keys` to hosts, run:
+To add the configured keys in `add_ssh_keys` to all hosts, run:
 ```
 $ make add
 ```
+
 
 ## Remove keys from all inventory
  
@@ -29,14 +25,21 @@ To remove the configured keys in `remove_ssh_keys` from hosts, run:
 $ make remove
 ```
 
+
 ## Limiting
 
 To limit the scope of inventory updated, set `NODES` to the appropriate inventory group, eg:
 ```
-$ make add NODES=v1
+$ make add NODES=gaia
 ```
-This would add the list of keys to nodes in the `v1` Kubernetes cluster as described by the `inventory_ssh_keys` file.
+This would add the list of keys to nodes in the `gaia` group as described by the `inventory_ssh_keys` file.
+This can be used to test locally:
+```
+$ make add NODES=home
+```
+This command adds the keys to your local `~/.ssh/authorized_keys`
 
+## Additonal Info
 
 Run `make` to get the help:
 ```
