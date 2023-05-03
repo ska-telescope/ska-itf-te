@@ -15,6 +15,7 @@ test-equipment:
     registry: registry.gitlab.com/ska-telescope/ska-ser-test-equipment
     image: ska-ser-test-equipment
     tag: 0.6.2
+    pullPolicy: Always
   ###############################################################################
   legacy_compatibility: true
   enabled: true
