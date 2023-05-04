@@ -2,6 +2,9 @@
 
 Update SSH keys on the Atlas team's hosts.
 
+## Prerequisites
+To install and use the package, make sure you have no virtual environment active. Change Directory into this one (same as this `README`), run `poetry shell` and then `poetry install` - this should install Ansible in a new virtual environment.
+
 ## Summary
 
 This tool adds and removes ssh keys across the MID ITF.

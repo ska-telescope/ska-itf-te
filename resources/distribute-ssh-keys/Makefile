@@ -1,5 +1,6 @@
 INVENTORY_FILE ?= ./inventory_ssh_keys
 PRIVATE_VARS ?= ./ssh_key_vars.yml
+PLAYBOOK_PARAMETERS ?= ## any additional ansible tags can go here - see ansible-playbook --help
 NODES ?= nodes ## subset of hosts from inventory to run against
 V ?=
 
@@ -21,21 +22,25 @@ lint: ## Lint check playbook
 addusers:  ## Create user accounts
 	ansible-playbook -i $(INVENTORY_FILE) --limit $(NODES) \
 	  distribute_ssh_keys.yml \
+	  $(PLAYBOOK_PARAMETERS) \
 	  -e @$(PRIVATE_VARS) --tags addusers $(V)
 
 removeusers:  ## Remove user accounts
 	ansible-playbook -i $(INVENTORY_FILE) --limit $(NODES) \
 	  distribute_ssh_keys.yml \
+	  $(PLAYBOOK_PARAMETERS) \
 	  -e @$(PRIVATE_VARS) --tags removeusers $(V)
 
 add:  ## Add keys
 	ansible-playbook -i $(INVENTORY_FILE) --limit $(NODES) \
 	  distribute_ssh_keys.yml \
+	  $(PLAYBOOK_PARAMETERS) \
 	  -e @$(PRIVATE_VARS) --tags add $(V)
 
 remove:  ## Remove keys
 	ansible-playbook -i $(INVENTORY_FILE) --limit $(NODES) \
 	  distribute_ssh_keys.yml \
+	  $(PLAYBOOK_PARAMETERS) \
 	  -e @$(PRIVATE_VARS) --tags remove $(V)
 
 help:  ## show this help.
@@ -51,4 +56,5 @@ echo_vars:
 list_tasks:
 	ansible-playbook -i $(INVENTORY_FILE) --limit $(NODES) \
 		distribute_ssh_keys.yml \
+		$(PLAYBOOK_PARAMETERS) \
 		-e @$(PRIVATE_VARS) --tags add --list-tasks
