@@ -1,6 +1,6 @@
 # distribute-ssh-keys
 
-Update keys on Systems Team inventory
+Update SSH keys on the Atlas team's hosts.
 
 ## Summary
 
@@ -17,14 +17,12 @@ To add the configured keys in `add_ssh_keys` to all hosts, run:
 $ make add
 ```
 
-
 ## Remove keys from all inventory
- 
+
 To remove the configured keys in `remove_ssh_keys` from hosts, run:
 ```
 $ make remove
 ```
-
 
 ## Limiting
 
