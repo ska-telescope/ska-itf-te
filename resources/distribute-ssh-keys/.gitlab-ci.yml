@@ -3,15 +3,14 @@ image: python:3.11
 stages:
   - lint
 
-
-# disabled:
-# 1. Running ansible-lint fails on Gitlab with: ERROR: Ansible requires the locale encoding to be UTF-8; Detected None.
-# 2. Linting fails locally with 36 errors.
-.ansible-lint:
+ansible-lint:
   stage: lint
   tags:
   - docker-executor
   allow_failure: true
   script:
-  - pip3 install ansible ansible-lint
-  - cd ska-cicd-distribute-ssh-keys && make lint
+  - export LC_ALL="C.UTF-8"                # ansible requires locale to be set to UTF-8.
+  - export PATH=${PATH}:${HOME}/.local/bin # this is where python installs ansible.
+  - python3 -m pip install --user ansible
+  - python3 -m pip install --user ansible-lint
+  - cd resources/distribute-ssh-keys && make lint

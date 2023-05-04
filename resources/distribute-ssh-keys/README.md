@@ -4,9 +4,19 @@ Update SSH keys on the Atlas team's hosts.
 
 ## Prerequisites
 
-### Ansible
+### ansible
 
 To install and use the package, make sure you have no virtual environment active. Change Directory into this one (same as this `README`), run `poetry shell` and then `poetry install` - this should install Ansible in a new virtual environment.
+
+### ansible-lint
+
+`ansible-lint` is used to lint our Ansible playbooks. See [this page](https://ansible-lint.readthedocs.io) for more details. It can be installed as follows:
+
+```sh
+python -m pip install --user ansible-lint
+# or
+pip3 install ansible-lint
+```
 
 ## Summary
 
