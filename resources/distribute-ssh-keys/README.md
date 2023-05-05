@@ -26,22 +26,45 @@ Update `ssh_key_vars.yml` as the input for `add_ssh_keys` and `remove_ssh_keys`.
 
 In order for this tool to work for you, you must already have `ssh` access to the inventory described in `inventory_ssh_keys`.
 
-## Add keys to all inventory
+## Add a key to all inventory
 
-To add the configured keys in `add_ssh_keys` to all hosts, run:
+To add a configured key in `add_ssh_keys` to all hosts, run:
 
 ```sh
-make addkeys
+# $USER is the user who's key you want to add
+make addkey PLAYBOOK_PARAMETERS="-u=$USER"
 ```
 
-NOTE: the user accounts need to exist already. If you cannot use `make addusers`, speak to IT about this.
+NOTE: the user account needs to exist already. If you cannot use `make adduser`, speak to IT about this.
 
 ## Remove keys from all inventory
 
 To remove the configured keys in `remove_ssh_keys` from hosts, run:
 
 ```sh
-make removekeys
+# $USER is the user who's key you want to remove
+make removekeys PLAYBOOK_PARAMETERS="-u=$USER"
+```
+
+## Add a user
+
+In order to create a user and add it's key on a host, you will need `sudo` rights on the host.
+You can run the following command to create the user and add their key:
+```sh
+# $SUDO_USER is the user with sudo rights.
+# $NEW_USER is the user you want to create.
+make adduser PLAYBOOK_PARAMETERS="-u=$SUDO_USER -kK --extra-vars user_name=$NEW_USER"
+```
+
+## Remove a user
+
+In order to remove a user from a host, you will need `sudo` rights on the host.
+You can run the following command to remove the user (note this will remove their home directory as well):
+
+```sh
+# $SUDO_USER is the user with sudo rights.
+# $REMOVE_USER is the user you want to remove.
+make adduser PLAYBOOK_PARAMETERS="-u=$SUDO_USER -kK --extra-vars user_name=$REMOVE_USER"
 ```
 
 ## Limiting
@@ -49,14 +72,14 @@ make removekeys
 To limit the scope of inventory updated, set `NODES` to the appropriate inventory group, eg:
 
 ```sh
-make add NODES=gaia
+make addkey PLAYBOOK_PARAMETERS="-u=$USER" NODES=gaia
 ```
 
 This would add the list of keys to nodes in the `gaia` group as described by the `inventory_ssh_keys` file.
-This can be used to test locally:
+This can be used to test locally by using the `home` group:
 
 ```sh
-make add NODES=home
+make addkey PLAYBOOK_PARAMETERS="-u=$USER" NODES=home
 ```
 
 This command adds the keys to your local `~/.ssh/authorized_keys`

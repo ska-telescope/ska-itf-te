@@ -7,108 +7,126 @@
   vars:
     add_ssh_keys: []
     remove_ssh_keys: []
-    groups_to_add: "sudo"
-    user_group: "norights" # this is the group our users are in on gaia
+    groups_to_add: "" # groups you want to add your new users to.
+    user_groups: {'gaia-0': 'norights'} # existing groups that users are already in.
     ssh_key: ""
-    user: ""
 
   tasks:
 
-    - name: Add - Parse Variables
+    - name: Setup variables
       tags:
-        - addusers
-        - addkeys
+        - adduser
+        - addkey
+        - removeuser
+        - removekey
+      block:
+        - name: Set user_name
+          ansible.builtin.set_fact:
+            user_name: "{{ ansible_facts['user_id'] }}"
+          when: user_name is not defined # use the logged-in user if the user is not set.
+        - name: Set group # sets the user_name as the user's group, if the group is not set.
+          ansible.builtin.set_fact:
+            user_group: "{{ user_name if inventory_hostname not in user_groups else user_groups[inventory_hostname] }}"
+          when: user_group is not defined
+
+    - name: Add - find SSH key # finds the SSH key associated with the user_name
+      tags:
+        - adduser
+        - addkey
       ansible.builtin.set_fact:
-        user: "{{ item.split()[-1] }}"
         ssh_key: "{{ item }}"
       with_items: "{{ add_ssh_keys }}"
-      when: item.split()[-1] == ansible_facts['user_id']
+      when: item.split()[-1] == user_name
 
-    - name: Remove - Parse Variables
+    - name: Remove - find SSH key # finds the SSH key associated with the user_name
       tags:
-        - removeusers
-        - removekeys
+        - removeuser
+        - removekey
       ansible.builtin.set_fact:
-        user: "{{ item.split()[-1] }}"
+        user_name: "{{ item.split()[-1] }}"
         ssh_key: "{{ item }}"
       with_items: "{{ remove_ssh_keys }}"
-      when: "item.split()[-1] == ansible_facts['user_id']"
+      when: item.split()[-1] == user_name
 
     - name: Debug
       tags:
-        - addusers
-        - addkeys
-        - removeusers
-        - removekeys
+        - adduser
+        - addkey
+        - removeuser
+        - removekey
       ansible.builtin.debug:
-        msg: "Variables used: user = {{ user }}; ssh_key = {{ ssh_key }}"
+        msg: "Variables used: user_name = {{ user_name }}; ssh_key = {{ ssh_key }}"
         verbosity: 2
 
+     # Creates a new user and adds them to sudoers if so configured.
     - name: Create user
       become: true
       tags:
-        - addusers
+        - adduser
       block:
         - name: Create user account
           ansible.builtin.user:
-            name: "{{ user }}"
+            name: "{{ user_name }}"
             shell: /bin/bash
             groups: "{{ groups_to_add }}"
             append: true
 
         - name: Add to sudoers
           ansible.builtin.lineinfile:
-            line: "{{ user }} ALL=(ALL) NOPASSWD:ALL"
+            line: "{{ user_name }} ALL=(ALL) NOPASSWD:ALL"
             path: "/etc/sudoers.d/99-systems-team"
-            regex: "{{ user }}"
+            regex: "{{ user_name }}"
             create: true
             owner: "root"
             group: "root"
             mode: "0440"
+          when: add_to_sudoers is defined
 
     - name: Add key
+      become: "{{ 'no' if user_name == ansible_facts['user_id'] else 'yes' }}"
       tags:
-        - addusers
-        - addkeys
+        - adduser
+        - addkey
       block:
         - name: Create ~/.ssh/
           ansible.builtin.file:
-            path: "/home/{{ user }}/.ssh"
+            path: "/home/{{ user_name }}/.ssh"
             state: directory
-            owner: "{{ user }}"
+            owner: "{{ user_name }}"
             group: "{{ user_group }}"
             mode: "0700"
 
         - name: Add to authorized_keys
           ansible.builtin.lineinfile:
             line: "{{ ssh_key }}"
-            path: "/home/{{ user }}/.ssh/authorized_keys"
+            path: "/home/{{ user_name }}/.ssh/authorized_keys"
             regex: "{{  ssh_key.split()[1] | regex_escape() }}" # use the hash to match
             create: true
-            owner: "{{ user }}"
+            owner: "{{ user_name }}"
             group: "{{ user_group }}"
             mode: "0600"
 
     - name: Remove users
       become: true
       tags:
-        - removeusers
+        - removeuser
       block:
         - name: Remove user account
           ansible.builtin.user:
-            name: "{{ user }}"
+            name: "{{ user_name }}"
             state: absent
+            remove: true
 
         - name: Remove from sudoers
           ansible.builtin.lineinfile:
             path: "/etc/sudoers.d/99-systems-team"
-            regex: "{{ user }}"
+            regex: "{{ user_name }}"
             state: absent
 
     - name: Remove ssh key
       tags:
-        - removekeys
+        - removekey
       ansible.builtin.lineinfile:
         line: "{{ ssh_key }}"
-        dest: "/home/{{ user }}/.ssh/authorized_keys"
+        dest: "/home/{{ user_name }}/.ssh/authorized_keys"
         state: absent
