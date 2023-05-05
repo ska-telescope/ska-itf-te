@@ -3,17 +3,17 @@
 gaia-0 ansible_host=10.165.3.7
 
 # Raspberry Pi
-[raspberry-pi]
-raspberry-pi-0 ansible_host=10.165.3.11
+[raspberry_pi]
+raspberry_pi-0 ansible_host=10.165.3.11
 
 # for testing only
 [home]
-home ansible_host=localhost ansible_connection=local
+home-0 ansible_host=localhost ansible_connection=local
 
 # All nodes
 [nodes:children]
 gaia
-raspberry-pi
+raspberry_pi
 
 [all:vars]
 ansible_python_interpreter=python3

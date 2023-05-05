@@ -31,15 +31,17 @@ In order for this tool to work for you, you must already have `ssh` access to th
 To add the configured keys in `add_ssh_keys` to all hosts, run:
 
 ```sh
-make add
+make addkeys
 ```
+
+NOTE: the user accounts need to exist already. If you cannot use `make addusers`, speak to IT about this.
 
 ## Remove keys from all inventory
 
 To remove the configured keys in `remove_ssh_keys` from hosts, run:
 
 ```sh
-make remove
+make removekeys
 ```
 
 ## Limiting

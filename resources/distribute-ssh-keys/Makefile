@@ -14,7 +14,7 @@ vars:  ## Variables
 	@echo "PRIVATE_VARS=$(PRIVATE_VARS)"
 	@echo "INVENTORY_FILE=$(INVENTORY_FILE)"
 
-all: add remove
+all: addkeys removekeys
 
 lint: ## Lint check playbook
 	ansible-lint distribute_ssh_keys.yml
@@ -31,17 +31,17 @@ removeusers:  ## Remove user accounts
 	  $(PLAYBOOK_PARAMETERS) \
 	  -e @$(PRIVATE_VARS) --tags removeusers $(V)
 
-add:  ## Add keys
+addkeys:  ## Add keys
 	ansible-playbook -i $(INVENTORY_FILE) --limit $(NODES) \
 	  distribute_ssh_keys.yml \
 	  $(PLAYBOOK_PARAMETERS) \
-	  -e @$(PRIVATE_VARS) --tags add $(V)
+	  -e @$(PRIVATE_VARS) --tags addkeys $(V)
 
-remove:  ## Remove keys
+removekeys:  ## Remove keys
 	ansible-playbook -i $(INVENTORY_FILE) --limit $(NODES) \
 	  distribute_ssh_keys.yml \
 	  $(PLAYBOOK_PARAMETERS) \
-	  -e @$(PRIVATE_VARS) --tags remove $(V)
+	  -e @$(PRIVATE_VARS) --tags removekeys $(V)
 
 help:  ## show this help.
 	@echo "make targets:"

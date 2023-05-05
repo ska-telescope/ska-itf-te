@@ -8,120 +8,107 @@
     add_ssh_keys: []
     remove_ssh_keys: []
     groups_to_add: "sudo"
+    user_group: "norights" # this is the group our users are in on gaia
+    ssh_key: ""
+    user: ""
 
   tasks:
 
-    - name: Add users
+    - name: Add - Parse Variables
+      tags:
+        - addusers
+        - addkeys
+      ansible.builtin.set_fact:
+        user: "{{ item.split()[-1] }}"
+        ssh_key: "{{ item }}"
+      with_items: "{{ add_ssh_keys }}"
+      when: item.split()[-1] == ansible_facts['user_id']
+
+    - name: Remove - Parse Variables
+      tags:
+        - removeusers
+        - removekeys
+      ansible.builtin.set_fact:
+        user: "{{ item.split()[-1] }}"
+        ssh_key: "{{ item }}"
+      with_items: "{{ remove_ssh_keys }}"
+      when: "item.split()[-1] == ansible_facts['user_id']"
+
+    - name: Debug
+      tags:
+        - addusers
+        - addkeys
+        - removeusers
+        - removekeys
+      ansible.builtin.debug:
+        msg: "Variables used: user = {{ user }}; ssh_key = {{ ssh_key }}"
+        verbosity: 2
+
+    - name: Create user
       become: true
       tags:
         - addusers
-      when: ansible_facts['distribution'] == 'Ubuntu'
       block:
-
-        - name: User name
-          ansible.builtin.set_fact:
-            user_name: "{{ item.split()[-1] }}"
-          register: user_name_result
-          with_items: "{{ add_ssh_keys }}"
-
-        - name: Make user namelist
-          ansible.builtin.set_fact:
-            user_names: "{{ user_name_result.results | map(attribute='ansible_facts.user_name') | list | reject('equalto', 'Generated-by-Nova') | list }}"
-
-        - name: List of users to create
-          ansible.builtin.debug:
-            var: user_names
-            verbosity: 2
-
         - name: Create user account
           ansible.builtin.user:
-            name: "{{ item }}"
+            name: "{{ user }}"
             shell: /bin/bash
             groups: "{{ groups_to_add }}"
             append: true
-          with_items: "{{ user_names }}"
-
-        - name: Create ~/.ssh/
-          ansible.builtin.file:
-            path: "/home/{{ item }}/.ssh"
-            state: directory
-            owner: "{{ item }}"
-            group: "{{ item }}"
-            mode: "0700"
-          with_items: "{{ user_names }}"
-
-        - name: Add to authorized_keys
-          ansible.builtin.lineinfile:
-            line: "{{ item }}"
-            path: "/home/{{ item.split()[-1] }}/.ssh/authorized_keys"
-            regex: "{{  item.split()[1] | regex_escape() }}" # use the hash to match
-            create: true
-            owner: "{{ item.split()[-1] }}"
-            group: "{{ item.split()[-1] }}"
-            mode: "0600"
-          loop: "{{ add_ssh_keys }}"
-          when: "not item.split()[-1] == 'Generated-by-Nova'"
 
         - name: Add to sudoers
           ansible.builtin.lineinfile:
-            line: "{{ item }} ALL=(ALL) NOPASSWD:ALL"
+            line: "{{ user }} ALL=(ALL) NOPASSWD:ALL"
             path: "/etc/sudoers.d/99-systems-team"
-            regex: "{{ item }}"
+            regex: "{{ user }}"
             create: true
             owner: "root"
             group: "root"
             mode: "0440"
-          with_items: "{{ user_names }}"
+
+    - name: Add key
+      tags:
+        - addusers
+        - addkeys
+      block:
+        - name: Create ~/.ssh/
+          ansible.builtin.file:
+            path: "/home/{{ user }}/.ssh"
+            state: directory
+            owner: "{{ user }}"
+            group: "{{ user_group }}"
+            mode: "0700"
+
+        - name: Add to authorized_keys
+          ansible.builtin.lineinfile:
+            line: "{{ ssh_key }}"
+            path: "/home/{{ user }}/.ssh/authorized_keys"
+            regex: "{{  ssh_key.split()[1] | regex_escape() }}" # use the hash to match
+            create: true
+            owner: "{{ user }}"
+            group: "{{ user_group }}"
+            mode: "0600"
 
     - name: Remove users
       become: true
       tags:
         - removeusers
       block:
-
-        - name: User name
-          ansible.builtin.set_fact:
-            user_name: "{{ item.split()[-1] }}"
-          register: user_name_result
-          with_items: "{{ remove_ssh_keys }}"
-
-        - name: Make user namelist
-          ansible.builtin.set_fact:
-            user_names: "{{ user_name_result.results | map(attribute='ansible_facts.user_name') | list | reject('equalto', 'Generated-by-Nova') | list }}"
-
-        - name: List of user to create
-          ansible.builtin.debug:
-            var: user_names
-
         - name: Remove user account
           ansible.builtin.user:
-            name: "{{ item }}"
+            name: "{{ user }}"
             state: absent
-          with_items: "{{ user_names }}"
 
         - name: Remove from sudoers
           ansible.builtin.lineinfile:
             path: "/etc/sudoers.d/99-systems-team"
-            regex: "{{ item }}"
+            regex: "{{ user }}"
             state: absent
-          with_items: "{{ user_names }}"
-
-    - name: Add ssh key
-      ansible.builtin.lineinfile:
-        line: "{{ item }}"
-        dest: ~/.ssh/authorized_keys
-        regex: "{{ item.split()[1] | regex_escape() }}" # use the hash to match
-        create: false
-        mode: "0600"
-      with_items: "{{ add_ssh_keys }}"
-      tags:
-        - add
 
     - name: Remove ssh key
-      ansible.builtin.lineinfile:
-        line: "{{ item }}"
-        dest: ~/.ssh/authorized_keys
-        state: absent
-      with_items: "{{ remove_ssh_keys }}"
       tags:
-        - remove
+        - removekeys
+      ansible.builtin.lineinfile:
+        line: "{{ ssh_key }}"
+        dest: "/home/{{ user }}/.ssh/authorized_keys"
+        state: absent
