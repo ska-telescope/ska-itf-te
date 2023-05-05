@@ -2,7 +2,7 @@ ifeq ($(CI_JOB_NAME),deploy-test-equipment) # if CI_JOB_NAME is deploy-test-equi
 # Set K8S_EXTRA_PARAMS for deploying Test Equipment during development
 TE_REGISTRY ?= registry.gitlab.com/ska-telescope/ska-ser-test-equipment
 TE_IMAGE ?= ska-ser-test-equipment
-TE_VERSION ?= 0.7.0
+TE_VERSION ?= 0.7.0-at-471
 
 K8S_EXTRA_PARAMS = \
 			--set test-equipment.image.registry=$(TE_REGISTRY) \
