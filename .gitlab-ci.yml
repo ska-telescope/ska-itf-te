@@ -62,7 +62,7 @@ deploy-test-equipment:
     MINIKUBE: "false"
     K8S_CHART: ska-mid-itf
     # KUBE_NAMESPACE: test-equipment
-    KUBE_NAMESPACE: $CI_ENVIRONMENT_SLUG-test-eq
+    KUBE_NAMESPACE: ci-CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
     KUBE_NAMESPACE_SDP: $KUBE_NAMESPACE-sdp
     SERVICE_ACCOUNT: ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
     NEXUS_CACHE: NEXUS_CACHE
@@ -71,7 +71,7 @@ deploy-test-equipment:
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
     - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
   script:
-    - make k8s-install-chart
+    - make itf-te-install
     # The following are all needed to verify deployment and expose the issue
     - make k8s-wait SKA_TANGO_OPERATOR=true
     - kubectl logs -l job-name=signalgenerator-test-config -n $KUBE_NAMESPACE
@@ -117,7 +117,8 @@ remove-test-equipment:
   variables:
     K8S_CHART: ska-mid-itf
     # KUBE_NAMESPACE: test-equipment
-    KUBE_NAMESPACE: $CI_ENVIRONMENT_SLUG-test-eq
+    # KUBE_NAMESPACE: $CI_ENVIRONMENT_SLUG-test-eq
+    KUBE_NAMESPACE: ci-CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
     KUBE_NAMESPACE_SDP: $KUBE_NAMESPACE-sdp
     SERVICE_ACCOUNT: ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
     NEXUS_CACHE: NEXUS_CACHE
