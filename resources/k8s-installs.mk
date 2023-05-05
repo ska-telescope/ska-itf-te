@@ -18,7 +18,7 @@ endif
 ##  make target for generating the URLs for accessing the Test Equipment deployment
 
 itf-te-install:
-	@make k8s-install-chart K8S_CHART=
+	@make k8s-install-chart K8S_CHART=ska-mid-itf
 
 itf-spookd-install:
 	@make k8s-install-chart K8S_CHART=ska-mid-itf-ghosts KUBE_APP=spookd KUBE_NAMESPACE=$(SPOOKD_NAMESPACE) HELM_RELEASE=whoyougonnacall
