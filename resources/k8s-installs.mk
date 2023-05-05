@@ -1,3 +1,25 @@
+ifeq ($(CI_JOB_NAME),deploy-test-equipment) # if CI_JOB_NAME is deploy-test-equipment
+# Set K8S_EXTRA_PARAMS for deploying Test Equipment during development
+TE_REGISTRY ?= registry.gitlab.com/ska-telescope/ska-ser-test-equipment
+TE_IMAGE ?= ska-ser-test-equipment
+TE_VERSION ?= 0.7.0
+
+K8S_EXTRA_PARAMS = \
+			--set test-equipment.image.registry=$(TE_REGISTRY) \
+			--set test-equipment.image.image=$(TE_IMAGE) \
+			--set test-equipment.image.tag=$(TE_VERSION) \
+			--set test-equipment.image.pullPolicy=Always
+endif
+
+## TARGET: itf-te-install
+## SYNOPSIS: make itf-te-install
+## HOOKS: none
+## VARS: none
+##  make target for generating the URLs for accessing the Test Equipment deployment
+
+itf-te-install:
+	@make k8s-install-chart K8S_CHART=
+
 itf-spookd-install:
 	@make k8s-install-chart K8S_CHART=ska-mid-itf-ghosts KUBE_APP=spookd KUBE_NAMESPACE=$(SPOOKD_NAMESPACE) HELM_RELEASE=whoyougonnacall
 
