@@ -18,7 +18,7 @@ endif
 ##  make target for generating the URLs for accessing the Test Equipment deployment
 
 itf-te-install:
-	@make vars; \
+	@make vars;
 	@make k8s-install-chart K8S_CHART=ska-mid-itf
 
 itf-spookd-install:
