@@ -6,7 +6,7 @@ stages:
 ansible-lint:
   stage: lint
   tags:
-  - docker-executor
+  - k8srunner
   allow_failure: true
   script:
   - export LC_ALL="C.UTF-8"                # ansible requires locale to be set to UTF-8.
