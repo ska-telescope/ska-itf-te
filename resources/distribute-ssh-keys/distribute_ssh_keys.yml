@@ -4,12 +4,6 @@
 - name: "Update ssh keys"
   hosts:
     - all
-  vars:
-    add_ssh_keys: []
-    remove_ssh_keys: []
-    groups_to_add: "" # groups you want to add your new users to.
-    user_groups: {'gaia-0': 'norights'} # existing groups that users are already in.
-    ssh_key: ""
 
   tasks:
 
@@ -20,32 +14,55 @@
         - removeuser
         - removekey
       block:
+        # Sets the user name which we are working with.
+        # This can be passed in from the command line with:
+        # --extra-vars user_name=$USER_NAME
+        # Otherwise the ansible user ID is used (this can be set with -u).
         - name: Set user_name
           ansible.builtin.set_fact:
             user_name: "{{ ansible_facts['user_id'] }}"
           when: user_name is not defined # use the logged-in user if the user is not set.
-        - name: Set group # sets the user_name as the user's group, if the group is not set.
-          ansible.builtin.set_fact:
-            user_group: "{{ user_name if inventory_hostname not in user_groups else user_groups[inventory_hostname] }}"
-          when: user_group is not defined
 
-    - name: Add - find SSH key # finds the SSH key associated with the user_name
+        # Finds the primary host group of the current ansible host.
+        # This is the group defined in the inventory file.
+        # This logic expects the host to only be present in two groups:
+        # 1. The primary group (which we want to find).
+        # 2. The catch all 'nodes' group.
+        - name: Set host_group
+          ansible.builtin.set_fact:
+            host_group: "{{ item }}"
+          when: item != 'nodes'
+          loop: "{{ group_names }}"
+          until: host_group is defined
+
+        # Sets the groups which the user belongs to.
+        # It tries to lookup the groups in the user_groups_by_host_group dict.
+        # If nothing is found, it falls back to using the user_name as the group.
+        # If the groups are set on the command line with the following parameter:
+        # --extra-vars user_groups=$USER_NAME
+        # Then this task will not be executed.
+        - name: Set user groups
+          ansible.builtin.set_fact:
+            user_groups: "{{ [user_name] if host_group not in user_groups_by_host_group else user_groups_by_host_group[host_group] }}"
+          when: user_groups is not defined
+
+        # We expect that the first element in the user_groups list is the user's primary group.
+        - name: Set primary user group
+          ansible.builtin.set_fact:
+            user_primary_group: "{{ user_groups[0] }}"
+
+    # Finds the SSH key associated with the user_name
+    # by comparing it to the last word in each item in the all_ssh_keys list.
+    # This word should be a user_name.
+    - name: Find SSH key
       tags:
         - adduser
         - addkey
-      ansible.builtin.set_fact:
-        ssh_key: "{{ item }}"
-      with_items: "{{ add_ssh_keys }}"
-      when: item.split()[-1] == user_name
-
-    - name: Remove - find SSH key # finds the SSH key associated with the user_name
-      tags:
         - removeuser
         - removekey
       ansible.builtin.set_fact:
-        user_name: "{{ item.split()[-1] }}"
         ssh_key: "{{ item }}"
-      with_items: "{{ remove_ssh_keys }}"
+      loop: "{{ all_ssh_keys }}"
       when: item.split()[-1] == user_name
 
     - name: Debug
@@ -55,7 +72,7 @@
         - removeuser
         - removekey
       ansible.builtin.debug:
-        msg: "Variables used: user_name = {{ user_name }}; ssh_key = {{ ssh_key }}"
+        msg: "Variables used: user_name = {{ user_name }}; ssh_key = {{ ssh_key }}; user_groups = {{ user_groups }}; host_group = {{ host_group }}"
         verbosity: 2
 
      # Creates a new user and adds them to sudoers if so configured.
@@ -68,7 +85,8 @@
           ansible.builtin.user:
             name: "{{ user_name }}"
             shell: /bin/bash
-            groups: "{{ groups_to_add }}"
+            group: "{{ user_primary_group }}"
+            groups: "{{ user_groups }}"
             append: true
 
         - name: Add to sudoers
@@ -80,9 +98,9 @@
             owner: "root"
             group: "root"
             mode: "0440"
-          when: add_to_sudoers is defined
 
     - name: Add key
+      # we only need to be sudo if this is being executed as a different user.
       become: "{{ 'no' if user_name == ansible_facts['user_id'] else 'yes' }}"
       tags:
         - adduser
@@ -93,7 +111,7 @@
             path: "/home/{{ user_name }}/.ssh"
             state: directory
             owner: "{{ user_name }}"
-            group: "{{ user_group }}"
+            group: "{{ user_primary_group }}"
             mode: "0700"
 
         - name: Add to authorized_keys
@@ -103,7 +121,7 @@
             regex: "{{  ssh_key.split()[1] | regex_escape() }}" # use the hash to match
             create: true
             owner: "{{ user_name }}"
-            group: "{{ user_group }}"
+            group: "{{ user_primary_group }}"
             mode: "0600"
 
     - name: Remove users
@@ -126,6 +144,8 @@
     - name: Remove ssh key
       tags:
         - removekey
+      # we only need to be sudo if this is being executed as a different user.
+      become: "{{ 'no' if user_name == ansible_facts['user_id'] else 'yes' }}"
       ansible.builtin.lineinfile:
         line: "{{ ssh_key }}"
         dest: "/home/{{ user_name }}/.ssh/authorized_keys"

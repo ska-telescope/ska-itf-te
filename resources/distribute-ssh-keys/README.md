@@ -22,38 +22,63 @@ pip3 install ansible-lint
 
 This tool adds and removes ssh keys across the MID ITF.
 
-Update `ssh_key_vars.yml` as the input for `add_ssh_keys` and `remove_ssh_keys`.
+If you want to add new users and SSH keys, update `all_ssh_keys` in `ssh_key_vars.yml`.
 
 In order for this tool to work for you, you must already have `ssh` access to the inventory described in `inventory_ssh_keys`.
 
-## Add a key to all inventory
+## Add a key
 
-To add a configured key in `add_ssh_keys` to all hosts, run:
+To add a configured key in `all_ssh_keys`, run:
 
 ```sh
 # $USER is the user who's key you want to add
-make addkey PLAYBOOK_PARAMETERS="-u=$USER"
+# $HOST_GROUP is the host group you want to run the command for.
+make addkey PLAYBOOK_PARAMETERS="-u=$USER" NODES=$HOST_GROUP
+```
+
+Example:
+
+```sh
+# Add a key for the user 'jan.kowalski' on all gaia hosts.
+make addkey PLAYBOOK_PARAMETERS="-u=jan.kowalski" NODES=gaia
 ```
 
 NOTE: the user account needs to exist already. If you cannot use `make adduser`, speak to IT about this.
 
-## Remove keys from all inventory
+## Remove keys
 
-To remove the configured keys in `remove_ssh_keys` from hosts, run:
+To remove the user's configured key in `all_ssh_keys`, run:
 
 ```sh
 # $USER is the user who's key you want to remove
-make removekeys PLAYBOOK_PARAMETERS="-u=$USER"
+# $HOST_GROUP is the host group you want to run the command for.
+make removekey PLAYBOOK_PARAMETERS="-u=$USER" NODES=$HOST_GROUP
+```
+
+Example:
+
+```sh
+# Remove the user 'erika.mustermann''s key from all gaia hosts.
+make removekey PLAYBOOK_PARAMETERS="-u=erika.mustermann" NODES=gaia
 ```
 
 ## Add a user
 
 In order to create a user and add it's key on a host, you will need `sudo` rights on the host.
 You can run the following command to create the user and add their key:
+
 ```sh
 # $SUDO_USER is the user with sudo rights.
 # $NEW_USER is the user you want to create.
-make adduser PLAYBOOK_PARAMETERS="-u=$SUDO_USER -kK --extra-vars user_name=$NEW_USER"
+# $HOST_GROUP is the host group you want to run the command for.
+make adduser PLAYBOOK_PARAMETERS="-u=$SUDO_USER -kK --extra-vars user_name=$NEW_USER" NODES=$HOST_GROUP
+```
+
+Example:
+
+```sh
+# Creates a new user 'erika.mustermann' on all gaia hosts and pushes her SSH public key there as well. The user 'minta.kata' already exists on the hosts and has sudo rights.
+make adduser PLAYBOOK_PARAMETERS="-u=minta.kata -kK --extra-vars user_name=erika.mustermann" NODES=gaia
 ```
 
 ## Remove a user
@@ -64,19 +89,25 @@ You can run the following command to remove the user (note this will remove thei
 ```sh
 # $SUDO_USER is the user with sudo rights.
 # $REMOVE_USER is the user you want to remove.
-make adduser PLAYBOOK_PARAMETERS="-u=$SUDO_USER -kK --extra-vars user_name=$REMOVE_USER"
+# $HOST_GROUP is the host group you want to run the command for.
+make removeuser PLAYBOOK_PARAMETERS="-u=$SUDO_USER -kK --extra-vars user_name=$REMOVE_USER" NODES=$HOST_GROUP
+```
+
+Example:
+
+```sh
+# Removes the user 'marte.kirkerud' on all gaia hosts. The user 'kari.holm' exists on the hosts and has sudo rights.
+make removeuser PLAYBOOK_PARAMETERS="-u=kari.holm -kK --extra-vars user_name=marte.kirkerud" NODES=gaia
 ```
 
 ## Limiting
 
-To limit the scope of inventory updated, set `NODES` to the appropriate inventory group, eg:
+We use the `NODES` parameter to limit which hosts the command will run on. This can be set to any inventory group (see `inventory_ssh_keys`). It is possible, but not recommended to run the commands without this filter.
 
-```sh
-make addkey PLAYBOOK_PARAMETERS="-u=$USER" NODES=gaia
-```
+## Local Testing
 
-This would add the list of keys to nodes in the `gaia` group as described by the `inventory_ssh_keys` file.
-This can be used to test locally by using the `home` group:
+The `NODES` parameter can also be used to test the commands locally.
+You can achieve this by setting `NODES` to the `home` group:
 
 ```sh
 make addkey PLAYBOOK_PARAMETERS="-u=$USER" NODES=home
