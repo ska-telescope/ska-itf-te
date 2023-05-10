@@ -26,6 +26,28 @@ If you want to add new users and SSH keys, update `all_ssh_keys` in `ssh_key_var
 
 In order for this tool to work for you, you must already have `ssh` access to the inventory described in `inventory_ssh_keys`.
 
+## Project Layout
+
+### .gitlab-ci.yaml
+
+Runs `ansible-lint` on the playbook in our Gitlab pipeline.
+
+### distribute_ssh_keys.yml
+
+This is the Ansible playbook and contains all the tasks we execute in order to add/remove keys and create/delete users. Tasks are executed based on tags and tasks which match the current tag are executed in order.
+
+### inventory_ssh_keys
+
+This contains the hosts for which we execute our Ansible playbook. They are grouped according to their function and the group names can be used to specify which hosts to execute the playbook for.
+
+### Makefile
+
+The `Makefile` contains targets to add/remove keys and create/delete users.
+
+### ssh_key_vars.yml
+
+This contains pre-populated variables used in the execution of the playbook. In particular, `all_ssh_keys` contains the list of SSH public keys which we can push to hosts and `user_groups_by_host_group` specify which user groups are used on which host groups. The SSH keys have been directly copied from the `resources/users/*/.ssh` folders.
+
 ## Add a key
 
 To add a configured key in `all_ssh_keys`, run:
@@ -45,7 +67,7 @@ make addkey PLAYBOOK_PARAMETERS="-u=jan.kowalski -k" NODES=gaia
 
 NOTE: the user account needs to exist already. If you cannot use `make adduser`, speak to IT about this.
 
-## Remove keys
+## Remove a key
 
 To remove the user's configured key in `all_ssh_keys`, run:
 
@@ -100,7 +122,7 @@ Example:
 make removeuser PLAYBOOK_PARAMETERS="-u=kari.holm -kK --extra-vars user_name=marte.kirkerud" NODES=gaia
 ```
 
-## Limiting
+## Limiting Scope
 
 We use the `NODES` parameter to limit which hosts the command will run on. This can be set to any inventory group (see `inventory_ssh_keys`). It is possible, but not recommended to run the commands without this filter.
 
