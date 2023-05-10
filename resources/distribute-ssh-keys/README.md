@@ -33,14 +33,14 @@ To add a configured key in `all_ssh_keys`, run:
 ```sh
 # $USER is the user who's key you want to add
 # $HOST_GROUP is the host group you want to run the command for.
-make addkey PLAYBOOK_PARAMETERS="-u=$USER" NODES=$HOST_GROUP
+make addkey PLAYBOOK_PARAMETERS="-u=$USER -k" NODES=$HOST_GROUP
 ```
 
 Example:
 
 ```sh
 # Add a key for the user 'jan.kowalski' on all gaia hosts.
-make addkey PLAYBOOK_PARAMETERS="-u=jan.kowalski" NODES=gaia
+make addkey PLAYBOOK_PARAMETERS="-u=jan.kowalski -k" NODES=gaia
 ```
 
 NOTE: the user account needs to exist already. If you cannot use `make adduser`, speak to IT about this.
