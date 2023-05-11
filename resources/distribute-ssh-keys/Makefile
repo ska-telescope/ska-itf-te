@@ -1,0 +1,60 @@
+INVENTORY_FILE ?= ./inventory_ssh_keys
+PRIVATE_VARS ?= ./ssh_key_vars.yml
+PLAYBOOK_PARAMETERS ?= ## any additional ansible tags can go here - see ansible-playbook --help
+NODES ?= nodes ## subset of hosts from inventory to run against
+V ?=
+
+.DEFAULT_GOAL := help
+
+# define overides for above variables in here
+-include PrivateRules.mak
+
+vars:  ## Variables
+	@echo "Current variable settings:"
+	@echo "PRIVATE_VARS=$(PRIVATE_VARS)"
+	@echo "INVENTORY_FILE=$(INVENTORY_FILE)"
+
+all: addkey removekey
+
+lint: ## Lint check playbook
+	ansible-lint -vvv distribute_ssh_keys.yml
+
+adduser:  ## Create user accounts
+	ansible-playbook -i $(INVENTORY_FILE) --limit $(NODES) \
+	  distribute_ssh_keys.yml \
+	  $(PLAYBOOK_PARAMETERS) \
+	  -e @$(PRIVATE_VARS) --tags adduser $(V)
+
+removeuser:  ## Remove user accounts
+	ansible-playbook -i $(INVENTORY_FILE) --limit $(NODES) \
+	  distribute_ssh_keys.yml \
+	  $(PLAYBOOK_PARAMETERS) \
+	  -e @$(PRIVATE_VARS) --tags removeuser $(V)
+
+addkey:  ## Add keys
+	ansible-playbook -i $(INVENTORY_FILE) --limit $(NODES) \
+	  distribute_ssh_keys.yml \
+	  $(PLAYBOOK_PARAMETERS) \
+	  -e @$(PRIVATE_VARS) --tags addkey $(V)
+
+removekey:  ## Remove keys
+	ansible-playbook -i $(INVENTORY_FILE) --limit $(NODES) \
+	  distribute_ssh_keys.yml \
+	  $(PLAYBOOK_PARAMETERS) \
+	  -e @$(PRIVATE_VARS) --tags removekey $(V)
+
+help:  ## show this help.
+	@echo "make targets:"
+	@grep -E '^[0-9a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ": .*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+	@echo ""; echo "make vars (+defaults):"
+	@grep -E '^[0-9a-zA-Z_-]+ \?=.*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = " \\?= "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+
+echo_vars:
+	@echo "Variables:"
+	@echo $(PRIVATE_VARS)
+
+list_tasks:
+	ansible-playbook -i $(INVENTORY_FILE) --limit $(NODES) \
+		distribute_ssh_keys.yml \
+		$(PLAYBOOK_PARAMETERS) \
+		-e @$(PRIVATE_VARS) --tags add --list-tasks

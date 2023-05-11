@@ -117,3 +117,7 @@ parse_git_branch() {
 export PS1="\u@\h \W\[\033[32m\]\$(parse_git_branch)\[\033[00m\] $ "
 ```
 Other customisations such as `alias`es also make life simpler. Speak to your nearest SW Support Specialist for more information.
+
+## Distribute SSH keys
+
+A modified version of the [SDI Distribute SSH keys](https://gitlab.com/ska-telescope/sdi/ska-cicd-distribute-ssh-keys) repo can be found in `resources/distribute-ssh-keys`. This allows you to push the team's SSH keys to our hosts in the ITF. See the `resources/distribute-ssh-keys/README.md` for more details.
