@@ -30,7 +30,32 @@ all_ssh_keys:
 # This is a mapping of host groups to user groups:
 # users will be created with these user groups on the hosts within the host group.
 # The first group in the user group list is the user's primary group.
-user_groups_by_host_group: {
-  'gaia': ['norights'],
-  'raspberry_pi': ['sudo'],
-}
+user_groups_by_host_group: 
+  gaia:
+    - name: atlas
+      create: true
+    - name: norights
+      create: false
+    - name: sudo
+      create: false
+    - name: jira-users
+      create: false
+    - name: confluence-users
+      create: false
+    - name: ska_external
+      create: false
+    - name: za-itf-serv-access-external
+      create: false
+    - name: za-itf-serv-access
+      create: false
+    - name: vpn_za_itf_vlans
+      create: false
+  raspberry_pi:
+    - name: atlas
+      create: true
+    - name: sudo
+      create: false
+
+add_to_sudoers:
+  gaia: false
+  raspberry_pi: true

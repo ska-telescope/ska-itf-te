@@ -35,21 +35,27 @@
           loop: "{{ group_names }}"
           until: host_group is defined
 
-        # Sets the groups which the user belongs to.
-        # It tries to lookup the groups in the user_groups_by_host_group dict.
-        # If nothing is found, it falls back to using the user_name as the group.
-        # If the groups are set on the command line with the following parameter:
-        # --extra-vars user_groups=$USER_NAME
-        # Then this task will not be executed.
-        - name: Set user groups
+        - name: Initialise user groups
           ansible.builtin.set_fact:
-            user_groups: "{{ [user_name] if host_group not in user_groups_by_host_group else user_groups_by_host_group[host_group] }}"
-          when: user_groups is not defined
+            user_groups: "{{ [{'name': user_name, 'create': True}] }}"
+
+        # Lookup the groups in the user_groups_by_host_group dict and add them to the user_groups.
+        - name: Add user groups from user_groups_by_host_group
+          ansible.builtin.set_fact:
+            user_groups: "{{ user_groups + user_groups_by_host_group[host_group] }}"
+          when: host_group in user_groups_by_host_group
 
         # We expect that the first element in the user_groups list is the user's primary group.
         - name: Set primary user group
           ansible.builtin.set_fact:
-            user_primary_group: "{{ user_groups[0] }}"
+            user_primary_group: "{{ user_groups[0]['name'] }}"
+
+        - name: Set user groups list
+          vars:
+            user_groups_list: []
+          ansible.builtin.set_fact:
+            user_groups_list: "{{ user_groups_list + [item['name']] }}"
+          loop: "{{ user_groups }} "
 
     # Finds the SSH key associated with the user_name
     # by comparing it to the last word in each item in the all_ssh_keys list.
@@ -81,12 +87,19 @@
       tags:
         - adduser
       block:
+        - name: Create user groups
+          ansible.builtin.group:
+            name: "{{ item['name'] }}"
+            state: present
+          loop: "{{ user_groups }}"
+          when: item['create']
+
         - name: Create user account
           ansible.builtin.user:
             name: "{{ user_name }}"
             shell: /bin/bash
             group: "{{ user_primary_group }}"
-            groups: "{{ user_groups }}"
+            groups: "{{ user_groups_list }}"
             append: true
 
         - name: Add to sudoers
@@ -98,6 +111,7 @@
             owner: "root"
             group: "root"
             mode: "0440"
+          when: host_group in add_to_sudoers and add_to_sudoers[host_group]
 
     - name: Add key
       # we only need to be sudo if this is being executed as a different user.
