@@ -1,0 +1,12 @@
+---
+
+- name: Setup raspberry_pi
+  hosts:
+    - raspberry_pi
+  roles:
+    - role: user_setup
+      vars:
+        createuser: true
+        addkey: true
+    - role: ssh
+      become: "{{ 'no' if user_name == ansible_facts['user_id'] else 'yes' }}"

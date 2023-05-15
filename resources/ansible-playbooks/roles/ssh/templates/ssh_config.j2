@@ -1,0 +1,7 @@
+{% for item in all_hosts %}
+Host {{ item.name }}
+    HostName {{ item.ip }}   
+    User {{ user_name }}
+
+{% endfor %}
+
