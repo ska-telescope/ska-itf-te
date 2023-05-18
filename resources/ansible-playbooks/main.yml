@@ -4,9 +4,43 @@
   hosts:
     - raspberry_pi
   roles:
+    - role: system_setup
     - role: user_setup
       vars:
         createuser: true
+    - role: ssh_keys
+      vars:
         addkey: true
-    - role: ssh
+    - role: user_config
       become: "{{ 'no' if user_name == ansible_facts['user_id'] else 'yes' }}"
+      vars:
+        setup_kubeconfig: false
+
+- name: Setup gaia
+  hosts:
+    - gaia
+  roles:
+    - role: system_setup
+    - role: ssh_keys
+      vars:
+        addkey: true
+    - role: user_config
+      become: "{{ 'no' if user_name == ansible_facts['user_id'] else 'yes' }}"
+      vars:
+        setup_kubeconfig: true
+
+- name: Setup test
+  hosts:
+    - test
+  roles:
+    - role: system_setup
+    - role: user_setup
+      vars:
+        createuser: true
+    - role: ssh_keys
+      vars:
+        addkey: true
+    - role: user_config
+      become: "{{ 'no' if user_name == ansible_facts['user_id'] else 'yes' }}"
+      vars:
+        setup_kubeconfig: true

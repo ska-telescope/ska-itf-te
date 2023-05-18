@@ -1,0 +1,35 @@
+FROM public.ecr.aws/ubuntu/ubuntu:latest
+
+ARG USER=${USER}
+
+# Add sudo and openssh-server
+#ENV DEBIAN_FRONTEND=noninteractive
+RUN apt update && apt install openssh-server sudo -y
+
+# Setup running user on the container with sudo rights and
+# password-less ssh login
+#RUN useradd -m ${USER}
+#RUN adduser ${USER} sudo
+#RUN echo "${USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/sudoers
+
+# As the user setup the ssh identity using the key in the tmp folder
+#USER "${USER}"
+#RUN mkdir ~/.ssh
+#RUN chmod -R 700 ~/.ssh
+#COPY --chown=${USER}:sudo id_rsa.pub /home/${USER}/.ssh/id_rsa.pub
+#RUN cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+#RUN chmod 644 ~/.ssh/id_rsa.pub
+#RUN chmod 644 ~/.ssh/authorized_keys
+
+# start ssh with port exposed
+USER root
+RUN mkdir -p /var/run/sshd
+RUN echo "root:test" | chpasswd
+RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+
+EXPOSE 22
+
+RUN echo "user=${USER}"
+
+CMD ["/usr/sbin/sshd", "-D"]

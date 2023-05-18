@@ -33,7 +33,7 @@ connect_pi: ## Add SSH Forwarding to local machine and SSH into Gaia
 	@echo "Welcome back"; \
 
 lint: ## Lint check playbook
-	ansible-lint -vvv distribute_ssh_keys.yml
+	ansible-lint -vvv main.yml
 
 setup_pi:
 	ansible-playbook -i $(INVENTORY_FILE) --limit $(NODES) \
@@ -43,37 +43,22 @@ setup_pi:
 	  --extra-vars "user_name=$(ACTUAL_USER) createuser=true addkey=true" \
 	  $(V)
 
+setup_pi_dry_run:
+	ansible-playbook -i $(INVENTORY_FILE) --limit $(NODES) \
+	  main.yml \
+	  $(PLAYBOOK_PARAMETERS) \
+	  -u=$(SUDO_USER) \
+	  --check \
+	  --extra-vars "user_name=$(ACTUAL_USER)" \
+	  $(V)
+
 setup_gaia:
 	ansible-playbook -i $(INVENTORY_FILE) --limit $(NODES) \
 	  main.yml \
 	  $(PLAYBOOK_PARAMETERS) \
 	  -u=$(SUDO_USER) \
-	  --extra-vars "user_name=$(ACTUAL_USER) addkey=true" \
+	  --extra-vars "user_name=$(ACTUAL_USER)" \
 	  $(V)
-
-adduser:  ## Create user accounts
-	ansible-playbook -i $(INVENTORY_FILE) --limit $(NODES) \
-	  distribute_ssh_keys.yml \
-	  $(PLAYBOOK_PARAMETERS) \
-	  -e @$(PRIVATE_VARS) --tags adduser $(V)
-
-removeuser:  ## Remove user accounts
-	ansible-playbook -i $(INVENTORY_FILE) --limit $(NODES) \
-	  main.yml \
-	  $(PLAYBOOK_PARAMETERS) \
-	  --extra-vars "removeuser=true" $(V)
-
-addkey:  ## Add keys
-	ansible-playbook -i $(INVENTORY_FILE) --limit $(NODES) \
-	  distribute_ssh_keys.yml \
-	  $(PLAYBOOK_PARAMETERS) \
-	  -e @$(PRIVATE_VARS) --tags addkey $(V)
-
-removekey:  ## Remove keys
-	ansible-playbook -i $(INVENTORY_FILE) --limit $(NODES) \
-	  distribute_ssh_keys.yml \
-	  $(PLAYBOOK_PARAMETERS) \
-	  -e @$(PRIVATE_VARS) --tags removekey $(V)
 
 help:  ## show this help.
 	@echo "make targets:"
@@ -87,6 +72,6 @@ echo_vars:
 
 list_tasks:
 	ansible-playbook -i $(INVENTORY_FILE) --limit $(NODES) \
-		distribute_ssh_keys.yml \
+		main.yml \
 		$(PLAYBOOK_PARAMETERS) \
 		-e @$(PRIVATE_VARS) --tags add --list-tasks

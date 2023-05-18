@@ -1,0 +1,59 @@
+---
+# Make all the realms visible to Gaia
+
+- name: Add SSH Config
+  ansible.builtin.template:
+    src: ssh_config.j2
+    dest: /home/{{ user_name }}/.ssh/config
+    mode: "u=rw"
+
+- name: Add Bash Aliases
+  ansible.builtin.template:
+    src: bash_aliases.j2
+    dest: /home/{{ user_name }}/.bash_aliases
+    mode: "u=rwx,g=rx,o=rx"
+
+- name: Personalise Login
+  become: true
+  block:
+    - name: Install ASCII art generators
+      apt:
+        pkg: [figlet, toilet]
+
+    - name: Upload welcome message script
+      ansible.builtin.template:
+        src: welcome.sh.j2
+        dest: "{{ shared_common_dir }}/welcome.sh"
+        owner: "root"
+        group: "root"
+        mode: "u=rwx,g=rx,o=rx" # 0755
+
+    - name: Install generic welcome message
+      ansible.builtin.blockinfile:
+        path: /etc/profile
+        block: |
+          # Personalised welcome messages. Change at will :)
+          . {{ shared_common_dir }}/welcome.sh
+        marker: "# {mark} ANSIBLE MANAGED BLOCK"
+
+# Kubeconfig
+- name: Setup Kubeconfig
+  when: setup_kubeconfig
+  become: true
+  block:
+    - name: Upload kubeconfig script
+      ansible.builtin.template:
+        src: kubeconfig_setup.sh.j2
+        dest: "{{ shared_common_dir }}/kubeconfig_setup.sh"
+        owner: "root"
+        group: "root"
+        mode: "u=rwx,g=rx,o=rx"
+
+    - name: Install kubeconfig script
+      ansible.builtin.blockinfile:
+        path: /etc/profile
+        block: |
+          # Set kubeconfig to default shared config.
+          . {{ shared_common_dir }}/kubeconfig_setup.sh
+        marker: "# {mark} ANSIBLE MANAGED BLOCK"
+
