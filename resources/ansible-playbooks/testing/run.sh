@@ -68,7 +68,6 @@ function run_ansible_playbook_pi() {
     ansible-playbook -i ${TEMP_INVENTORY_FILE} --limit raspberry_pi \
 	  ${base_dir}/../main.yml \
 	  -u=${USER} \
-	  --extra-vars "user_name=p.jordaan" \
       -v
 }
 
@@ -76,14 +75,14 @@ function run_ansible_playbook_gaia() {
     ansible-playbook -i ${TEMP_INVENTORY_FILE} --limit gaia \
 	  ${base_dir}/../main.yml \
 	  -u=${USER} \
-	  --extra-vars "user_name=p.jordaan" 
+      -v
 }
 
 function run_ansible_playbook_test() {
     ansible-playbook -i ${TEMP_INVENTORY_FILE} --limit test \
 	  ${base_dir}/../main.yml \
 	  -u=${USER} \
-	  --extra-vars "user_name=p.jordaan" 
+      -v
 }
 
 setup_tempdir

@@ -1,4 +1,4 @@
-INVENTORY_FILE ?= ./variables/inventory
+INVENTORY_FILE ?= ./vars/inventory
 PLAYBOOK_PARAMETERS ?= ## any additional ansible tags can go here - see ansible-playbook --help
 NODES ?= nodes ## subset of hosts from inventory to run against
 V ?=
@@ -40,7 +40,6 @@ setup_pi:
 	  main.yml \
 	  $(PLAYBOOK_PARAMETERS) \
 	  -u=$(SUDO_USER) \
-	  --extra-vars "user_name=$(ACTUAL_USER)" \
 	  $(V)
 
 setup_pi_dry_run:
@@ -49,7 +48,6 @@ setup_pi_dry_run:
 	  $(PLAYBOOK_PARAMETERS) \
 	  -u=$(SUDO_USER) \
 	  --check \
-	  --extra-vars "user_name=$(ACTUAL_USER)" \
 	  $(V)
 
 setup_gaia:
@@ -57,7 +55,6 @@ setup_gaia:
 	  main.yml \
 	  $(PLAYBOOK_PARAMETERS) \
 	  -u=$(SUDO_USER) \
-	  --extra-vars "user_name=$(ACTUAL_USER)" \
 	  $(V)
 
 help:  ## show this help.

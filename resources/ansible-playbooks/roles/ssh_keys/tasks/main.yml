@@ -1,46 +1,5 @@
-- name: Setup variables
-  block:
-    # Sets the user name which we are working with.
-    # This can be passed in from the command line with:
-    # --extra-vars user_name=$USER_NAME
-    # Otherwise the ansible user ID is used (this can be set with -u).
-    - name: Set user_name
-      ansible.builtin.set_fact:
-        user_name: "{{ ansible_facts['user_id'] }}"
-      when: user_name is not defined # use the logged-in user if the user is not set.
-
-    - name: Load SSH key
-      ansible.builtin.set_fact:
-        ssh_key: "{{ lookup('file', ssh_key_paths[user_name]) }}"
-
-- name: Add key
-  # we only need to be sudo if this is being executed as a different user.
-  become: "{{ 'no' if user_name == ansible_facts['user_id'] else 'yes' }}"
-  when: addkey
-  block:
-    - name: Create ~/.ssh/
-      ansible.builtin.file:
-        path: "/home/{{ user_name }}/.ssh"
-        state: directory
-        owner: "{{ user_name }}"
-        group: "{{ user_primary_group }}"
-        mode: "0700"
-
-    - name: Add to authorized_keys
-      ansible.builtin.lineinfile:
-        line: "{{ ssh_key }}"
-        path: "/home/{{ user_name }}/.ssh/authorized_keys"
-        regex: "{{  ssh_key.split()[1] | regex_escape() }}" # use the hash to match
-        create: true
-        owner: "{{ user_name }}"
-        group: "{{ user_primary_group }}"
-        mode: "0600"
-
-- name: Remove ssh key
-  # we only need to be sudo if this is being executed as a different user.
-  become: "{{ 'no' if user_name == ansible_facts['user_id'] else 'yes' }}"
-  when: removekey
-  ansible.builtin.lineinfile:
-    line: "{{ ssh_key }}"
-    dest: "/home/{{ user_name }}/.ssh/authorized_keys"
-    state: absent
+- name: Configure SSH keys
+  include_tasks: "setup_ssh_keys.yml"
+  loop: "{{ ssh_key_configs }}"
+  loop_control:
+    loop_var: ssh_key_config

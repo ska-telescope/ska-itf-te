@@ -7,12 +7,12 @@
     - role: system_setup
     - role: user_setup
       vars:
-        createuser: true
+        createusers: true
     - role: ssh_keys
       vars:
         addkey: true
     - role: user_config
-      become: "{{ 'no' if user_name == ansible_facts['user_id'] else 'yes' }}"
+      become: true
       vars:
         setup_kubeconfig: false
 
@@ -27,7 +27,7 @@
       vars:
         addkey: true
     - role: user_config
-      become: "{{ 'no' if user_name == ansible_facts['user_id'] else 'yes' }}"
+      become: true
       vars:
         setup_kubeconfig: true
 
@@ -40,11 +40,11 @@
         install_kubectl: true
     - role: user_setup
       vars:
-        createuser: true
+        createusers: true
     - role: ssh_keys
       vars:
         addkey: true
     - role: user_config
-      become: "{{ 'no' if user_name == ansible_facts['user_id'] else 'yes' }}"
+      become: true
       vars:
         setup_kubeconfig: true

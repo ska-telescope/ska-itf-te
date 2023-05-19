@@ -1,20 +1,22 @@
 ---
 debug: false
 
-# This is a mapping of host groups to user groups:
-# users will be created with these user groups on the hosts within the host group.
-# The first group in the user group list is the user's primary group.
-user_groups_by_host_group:
-  raspberry_pi:
-    - atlas
-    - sudo
-  test:
-    - atlas
-    - sudo
+user_configs:
+  - name: atlas
+    groups:
+      - atlas
+      - sudo
+    users:
+      - a.debeer
+      - benjamin.lunsky
+      - d.gammon
+      - g.leroux
+      - j.coetzer
+      - monde.manzini
+      - n.nzotho
+      - p.jordaan
+      - t.tsotetsi
+      - vhulahani.manukha
 
-add_to_sudoers:
-  raspberry_pi: true
-  test: true
-
-createuser: false
-removeuser: false
+createusers: false
+removeusers: false

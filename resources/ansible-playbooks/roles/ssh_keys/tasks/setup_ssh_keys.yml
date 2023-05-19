@@ -1,0 +1,42 @@
+---
+
+- name: Setup variables
+  block:
+    - name: Set user_name
+      ansible.builtin.set_fact:
+        user_name: "{{ ssh_key_config['name'] }}"
+
+    - name: Load SSH key
+      ansible.builtin.set_fact:
+        ssh_key: "{{ lookup('file', ssh_key_config['path']) }}"
+
+- name: Add key
+  become: true
+  when: addkey
+  block:
+    - name: Create ~/.ssh/
+      ansible.builtin.file:
+        path: "/home/{{ user_name }}/.ssh"
+        state: directory
+        owner: "{{ user_name }}"
+        group: "{{ user_primary_group }}"
+        mode: "0700"
+
+    - name: Add to authorized_keys
+      ansible.builtin.lineinfile:
+        line: "{{ ssh_key }}"
+        path: "/home/{{ user_name }}/.ssh/authorized_keys"
+        regex: "{{  ssh_key.split()[1] | regex_escape() }}" # use the hash to match
+        create: true
+        owner: "{{ user_name }}"
+        group: "{{ user_primary_group }}"
+        mode: "0600"
+
+- name: Remove ssh key
+  # we only need to be sudo if this is being executed as a different user.
+  become: true
+  when: removekey
+  ansible.builtin.lineinfile:
+    line: "{{ ssh_key }}"
+    dest: "/home/{{ user_name }}/.ssh/authorized_keys"
+    state: absent

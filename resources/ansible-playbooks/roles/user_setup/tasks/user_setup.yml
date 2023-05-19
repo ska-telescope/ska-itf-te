@@ -1,0 +1,64 @@
+---
+
+- name: Setup variables
+  block:
+    - name: Set user groups
+      ansible.builtin.set_fact:
+        user_groups: "{{ user_config['groups'] }}"
+    - name: Set users
+      ansible.builtin.set_fact:
+        users: "{{ user_config['users'] }}"
+    - name: Set add_to_sudoers
+      ansible.builtin.set_fact:
+        add_to_sudoers: "yes"
+      when: "'sudo' in user_groups"
+
+  # Creates new users and adds them to sudoers if so configured.
+- name: Create users
+  when: createusers
+  become: true
+  block:
+    - name: Create user group
+      ansible.builtin.group:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ users }}"
+
+    - name: Create user accounts
+      ansible.builtin.user:
+        name: "{{ item }}"
+        shell: /bin/bash
+        group: "{{ item }}"
+        groups: "{{ [item] + user_groups }}"
+        append: true
+      loop: "{{ users }}"
+
+    - name: Add to sudoers
+      when: add_to_sudoers
+      ansible.builtin.lineinfile:
+        line: "{{ item }} ALL=(ALL) NOPASSWD:ALL"
+        path: "/etc/sudoers.d/99-systems-team"
+        regex: "{{ item }}"
+        create: true
+        owner: "root"
+        group: "root"
+        mode: "0440"
+      loop: "{{ users }}"
+
+- name: Remove users
+  become: true
+  when: removeusers
+  block:
+    - name: Remove user account
+      ansible.builtin.user:
+        name: "{{ item }}"
+        state: absent
+        remove: true
+      loop: "{{ users }}"
+
+    - name: Remove from sudoers
+      ansible.builtin.lineinfile:
+        path: "/etc/sudoers.d/99-systems-team"
+        regex: "{{ item }}"
+        state: absent
+      loop: "{{ users }}"
