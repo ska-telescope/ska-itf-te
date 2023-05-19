@@ -25,7 +25,7 @@
 
     - name: Initialise user groups
       ansible.builtin.set_fact:
-        user_groups: "{{ [{'name': user_name, 'create': True}] }}"
+        user_groups: "{{ [user_name] }}"
 
     # Lookup the groups in the user_groups_by_host_group dict and add them to the user_groups.
     - name: Add user groups from user_groups_by_host_group
@@ -36,14 +36,7 @@
     # We expect that the first element in the user_groups list is the user's primary group.
     - name: Set primary user group
       ansible.builtin.set_fact:
-        user_primary_group: "{{ user_groups[0]['name'] }}"
-
-    - name: Set user groups list
-      vars:
-        user_groups_list: []
-      ansible.builtin.set_fact:
-        user_groups_list: "{{ user_groups_list + [item['name']] }}"
-      loop: "{{ user_groups }} "
+        user_primary_group: "{{ user_groups[0] }}"
 
 - name: Debug
   ansible.builtin.debug:
@@ -55,19 +48,12 @@
   when: createuser
   become: true
   block:
-    - name: Create user groups
-      ansible.builtin.group:
-        name: "{{ item['name'] }}"
-        state: present
-      loop: "{{ user_groups }}"
-      when: item['create']
-
     - name: Create user account
       ansible.builtin.user:
         name: "{{ user_name }}"
         shell: /bin/bash
         group: "{{ user_primary_group }}"
-        groups: "{{ user_groups_list }}"
+        groups: "{{ user_groups }}"
         append: true
 
     - name: Add to sudoers

@@ -21,6 +21,8 @@
     - gaia
   roles:
     - role: system_setup
+      vars:
+        install_kubectl: true
     - role: ssh_keys
       vars:
         addkey: true
@@ -34,6 +36,8 @@
     - test
   roles:
     - role: system_setup
+      vars:
+        install_kubectl: true
     - role: user_setup
       vars:
         createuser: true

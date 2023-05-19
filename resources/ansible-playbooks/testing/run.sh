@@ -42,8 +42,7 @@ function start_container() {
 }
 
 function setup_test_inventory() {
-    TEMP_INVENTORY_FILE="${TEMP_DIR}/hosts"
-
+    export TEMP_INVENTORY_FILE="${TEMP_DIR}/hosts"
     cat > "${TEMP_INVENTORY_FILE}" << EOL
 [raspberry_pi]
 test_raspberry_pi ansible_host=localhost ansible_port=${CONTAINER_PORT} host_identifier="Test Raspberry Pi"
@@ -54,32 +53,37 @@ test_host ansible_host=localhost ansible_port=${CONTAINER_PORT} host_identifier=
 [all:vars]
 ansible_ssh_private_key_file=${TEMP_DIR}/id_rsa
 EOL
-    export TEMP_INVENTORY_FILE
-    echo "TEMP_INVENTORY_FILE=${TEMP_INVENTORY_FILE}"
+}
+
+function setup_ansible_cfg() {
+    export ANSIBLE_CONFIG="${TEMP_DIR}/ansible.cfg"
+    cat > "${ANSIBLE_CONFIG}" << EOL
+[defaults]
+# Avoid host key checking - to to run without interaction.
+host_key_checking = False
+EOL
 }
 
 function run_ansible_playbook_pi() {
-    export ANSIBLE_CONFIG="${base_dir}/ansible.cfg"
     ansible-playbook -i ${TEMP_INVENTORY_FILE} --limit raspberry_pi \
 	  ${base_dir}/../main.yml \
 	  -u=${USER} \
-	  --extra-vars "user_name=p.jordaan createuser=true addkey=true" 
+	  --extra-vars "user_name=p.jordaan" \
+      -v
 }
 
 function run_ansible_playbook_gaia() {
-    export ANSIBLE_CONFIG="${base_dir}/ansible.cfg"
     ansible-playbook -i ${TEMP_INVENTORY_FILE} --limit gaia \
 	  ${base_dir}/../main.yml \
 	  -u=${USER} \
-	  --extra-vars "user_name=p.jordaan createuser=false addkey=true" 
+	  --extra-vars "user_name=p.jordaan" 
 }
 
 function run_ansible_playbook_test() {
-    export ANSIBLE_CONFIG="${base_dir}/ansible.cfg"
     ansible-playbook -i ${TEMP_INVENTORY_FILE} --limit test \
 	  ${base_dir}/../main.yml \
 	  -u=${USER} \
-	  --extra-vars "user_name=p.jordaan createuser=true addkey=true " 
+	  --extra-vars "user_name=p.jordaan" 
 }
 
 setup_tempdir
@@ -88,6 +92,7 @@ trap cleanup ERR
 create_temporary_ssh_id
 start_container
 setup_test_inventory
+setup_ansible_cfg
 
 case ${MODE} in
 raspberry_pi)

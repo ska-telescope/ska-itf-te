@@ -36,15 +36,15 @@ lint: ## Lint check playbook
 	ansible-lint -vvv main.yml
 
 setup_pi:
-	ansible-playbook -i $(INVENTORY_FILE) --limit $(NODES) \
+	ansible-playbook -i $(INVENTORY_FILE) --limit raspberry_pi \
 	  main.yml \
 	  $(PLAYBOOK_PARAMETERS) \
 	  -u=$(SUDO_USER) \
-	  --extra-vars "user_name=$(ACTUAL_USER) createuser=true addkey=true" \
+	  --extra-vars "user_name=$(ACTUAL_USER)" \
 	  $(V)
 
 setup_pi_dry_run:
-	ansible-playbook -i $(INVENTORY_FILE) --limit $(NODES) \
+	ansible-playbook -i $(INVENTORY_FILE) --limit raspberry_pi \
 	  main.yml \
 	  $(PLAYBOOK_PARAMETERS) \
 	  -u=$(SUDO_USER) \
@@ -53,7 +53,7 @@ setup_pi_dry_run:
 	  $(V)
 
 setup_gaia:
-	ansible-playbook -i $(INVENTORY_FILE) --limit $(NODES) \
+	ansible-playbook -i $(INVENTORY_FILE) --limit gaia \
 	  main.yml \
 	  $(PLAYBOOK_PARAMETERS) \
 	  -u=$(SUDO_USER) \

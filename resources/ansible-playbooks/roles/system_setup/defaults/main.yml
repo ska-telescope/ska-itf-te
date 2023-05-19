@@ -3,9 +3,9 @@
 # directory structures
 shared_dir: /srv
 shared_common_dir: /srv/all
-shared_team_dir: /srv/atlas
-shared_team_config_dir: /srv/atlas/config
 
-team_group: atlas
+team_groups:
+  - atlas
 
+install_kubectl: false
 arch: amd64

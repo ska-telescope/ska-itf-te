@@ -6,15 +6,11 @@ debug: false
 # The first group in the user group list is the user's primary group.
 user_groups_by_host_group:
   raspberry_pi:
-    - name: atlas
-      create: true
-    - name: sudo
-      create: false
+    - atlas
+    - sudo
   test:
-    - name: atlas
-      create: true
-    - name: sudo
-      create: false
+    - atlas
+    - sudo
 
 add_to_sudoers:
   raspberry_pi: true

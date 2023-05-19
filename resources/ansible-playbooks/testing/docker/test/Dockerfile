@@ -10,7 +10,11 @@ RUN apt update && apt install openssh-server sudo -y
 # password-less ssh login
 RUN useradd -m ${USER}
 RUN adduser ${USER} sudo
-RUN echo "${USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/sudoers
+RUN echo "${USER} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/sudoers
+
+RUN useradd -m gitlab-runner
+RUN adduser gitlab-runner sudo
+RUN echo "gitlab-runner ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/sudoers
 
 # As the user setup the ssh identity using the key in the tmp folder
 USER "${USER}"
