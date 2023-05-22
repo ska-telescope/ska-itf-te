@@ -4,11 +4,11 @@
   block:
     - name: Set user_name
       ansible.builtin.set_fact:
-        user_name: "{{ ssh_key_config['name'] }}"
+        ssh_keys_user_name: "{{ ssh_key_config['name'] }}"
 
     - name: Load SSH key
       ansible.builtin.set_fact:
-        ssh_key: "{{ lookup('file', ssh_key_config['path']) }}"
+        ssh_keys_ssh_key: "{{ lookup('file', ssh_key_config['path']) }}"
 
 - name: Add key
   become: true
@@ -16,19 +16,19 @@
   block:
     - name: Create ~/.ssh/
       ansible.builtin.file:
-        path: "/home/{{ user_name }}/.ssh"
+        path: "/home/{{ ssh_keys_user_name }}/.ssh"
         state: directory
-        owner: "{{ user_name }}"
+        owner: "{{ ssh_keys_user_name }}"
         group: "{{ user_primary_group }}"
         mode: "0700"
 
     - name: Add to authorized_keys
       ansible.builtin.lineinfile:
-        line: "{{ ssh_key }}"
-        path: "/home/{{ user_name }}/.ssh/authorized_keys"
-        regex: "{{  ssh_key.split()[1] | regex_escape() }}" # use the hash to match
+        line: "{{ ssh_keys_ssh_key }}"
+        path: "/home/{{ ssh_keys_user_name }}/.ssh/authorized_keys"
+        regex: "{{  ssh_keys_ssh_key.split()[1] | regex_escape() }}" # use the hash to match
         create: true
-        owner: "{{ user_name }}"
+        owner: "{{ ssh_keys_user_name }}"
         group: "{{ user_primary_group }}"
         mode: "0600"
 
@@ -37,6 +37,6 @@
   become: true
   when: removekey
   ansible.builtin.lineinfile:
-    line: "{{ ssh_key }}"
-    dest: "/home/{{ user_name }}/.ssh/authorized_keys"
+    line: "{{ ssh_keys_ssh_key }}"
+    dest: "/home/{{ ssh_keys_user_name }}/.ssh/authorized_keys"
     state: absent
