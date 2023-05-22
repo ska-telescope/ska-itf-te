@@ -1,8 +1,3 @@
-
-stages:
-  - lint
-  - test
-
 .setup-ansible: &setup-ansible
   - export LC_ALL="C.UTF-8"                # ansible requires locale to be set to UTF-8.
   - export PATH=${PATH}:${HOME}/.local/bin # this is where python installs ansible.
