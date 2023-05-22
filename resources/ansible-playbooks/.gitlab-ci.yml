@@ -1,4 +1,3 @@
-image: python:3.11
 
 stages:
   - lint
@@ -11,6 +10,7 @@ stages:
   - python3 -m pip install --user ansible-lint
 
 ansible-lint:
+  image: python:3.11
   stage: lint
   tags:
   - k8srunner
@@ -21,6 +21,7 @@ ansible-lint:
   - cd resources/ansible-playbooks && make lint
 
 ansible-test:
+  image: python:3.11
   stage: test
   tags:
   - k8srunner
