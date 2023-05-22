@@ -40,7 +40,6 @@ include:
   # deploy steps
   # - project: "ska-telescope/templates-repository"
   #   file: "gitlab-ci/includes/deploy.gitlab-ci.yml"
-  - local: '/resources/distribute-ssh-keys/.gitlab-ci.yml'
 
 python-test:
   image: artefact.skao.int/ska-tango-images-pytango-builder:9.3.32
@@ -130,3 +129,37 @@ remove-test-equipment:
     action: stop
   when: manual
   allow_failure: true # need to keep this to unlock the pipeline
+
+.setup-ansible: &setup-ansible
+  - export LC_ALL="C.UTF-8"                # ansible requires locale to be set to UTF-8.
+  - export PATH=${PATH}:${HOME}/.local/bin # this is where python installs ansible.
+  - python3 -m pip install --user ansible
+  - python3 -m pip install --user ansible-lint
+
+ansible-lint:
+  image: python:3.11
+  stage: lint
+  tags:
+  - k8srunner
+  before_script:
+    - *setup-ansible
+  script:
+  - cd resources/ansible-playbooks && make lint
+
+ansible-test:
+  image: python:3.11
+  stage: test
+  tags:
+  - k8srunner
+  before_script:
+    - *setup-ansible
+  script:
+  - cd resources/ansible-playbooks && make test
+
+ansible-publish-test-images:
+  image: $SKA_K8S_TOOLS_DOCKER_BUILDER_IMAGE
+  stage: publish
+  tags:
+    - k8srunner
+  script:
+  - cd resources/ansible-playbooks && make publish-test-images
