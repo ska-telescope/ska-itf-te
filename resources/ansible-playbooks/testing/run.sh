@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
+set -eux
+set -o pipefail
 
-MODE="$1"
+IMAGE=${1}
+IMAGE_FQDN=${CAR_OCI_REGISTRY_HOST}/${IMAGE}
 base_dir="$(dirname "$(readlink -f "$0")")"
 
 source ${base_dir}/vars.sh

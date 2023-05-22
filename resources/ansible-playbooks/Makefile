@@ -7,6 +7,15 @@ PI_IP ?= 10.165.3.11
 
 .DEFAULT_GOAL := help
 
+# include makefile targets from the submodule
+include ../../.make/oci.mk
+
+# include core make support
+include ../../.make/base.mk
+
+# include core make support
+include ../../.make/release.mk
+
 # define overides for above variables in here
 -include PrivateRules.mak
 
@@ -68,11 +77,18 @@ test:
 	testing/run.sh gaia
 .PHONY: test
 
-publish-test-images:
-	testing/build.sh gaia
-	testing/build.sh raspberry_pi
-	testing/build.sh test
+publish-test-images: publish-test-images-full publish-test-images-gaia
 .PHONY: publish-test-images
+
+publish-test-images-full: OCI_IMAGE := ska-mid-itf-ansible-test-full
+publish-test-images-full: VERSION := 0.0.0
+publish-test-images-full: oci-image-build
+.PHONY: publish-test-images-full
+
+publish-test-images-gaia: OCI_IMAGE := ska-mid-itf-ansible-test-gaia
+publish-test-images-gaia: VERSION := 0.0.0
+publish-test-images-gaia: oci-image-build
+.PHONY: publish-test-images-gaia
 
 help:  ## show this help.
 	@echo "make targets:"

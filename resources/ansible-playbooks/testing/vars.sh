@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-CAR_OCI_REGISTRY_HOST="${CAR_OCI_REGISTRY_HOST:-https://artefact.skatelescope.org/}"
+CAR_OCI_REGISTRY_HOST="${CAR_OCI_REGISTRY_HOST:-artefact.skao.int}"
 IMAGE_PREFIX=ansible-testing-image
 IMAGE=${IMAGE_PREFIX}-${MODE}
 REPO=ska-mid-itf
