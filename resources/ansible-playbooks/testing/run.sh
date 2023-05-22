@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-USER=p.jordaan
+USER="p.jordaan"
 MODE="$1"
 identifier="$(< /dev/urandom tr -dc 'a-z0-9' | fold -w 5 | head -n 1)" ||:
 NAME="ansible-test-node-${identifier}"
@@ -47,7 +47,7 @@ function setup_test_inventory() {
 [raspberry_pi]
 test_raspberry_pi ansible_host=localhost ansible_port=${CONTAINER_PORT} host_identifier="Test Raspberry Pi"
 [gaia]
-test_gaia ansible_host=localhost ansible_port=${CONTAINER_PORT} host_identifier="Test Gaia" ansible_ssh_pass=p.jordaan ansible_become_pass=p.jordaan
+test_gaia ansible_host=localhost ansible_port=${CONTAINER_PORT} host_identifier="Test Gaia" ansible_ssh_pass=${USER} ansible_become_pass=${USER}
 [test]
 test_host ansible_host=localhost ansible_port=${CONTAINER_PORT} host_identifier="Test Host"
 [all:vars]

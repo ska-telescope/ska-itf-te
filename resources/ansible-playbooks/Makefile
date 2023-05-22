@@ -17,23 +17,21 @@ vars:  ## Variables
 	@echo "PLAYBOOK_PARAMETERS=$(PLAYBOOK_PARAMETERS)"
 	@echo "NODES=$(NODES)"
 	@echo "SSH_USER=$(SSH_USER)"
+.PHONY: vars
 
-all: addkey removekey
-
-connect: ## Add SSH Forwarding to local machine and SSH into Gaia
+connect_gaia: ## Add SSH Forwarding to local machine and SSH into Gaia
 	@echo "Connecting to the Gaia as $(SSH_USER)";
 	@echo "###########################################";
 	ssh -A $(SSH_USER)@$(GAIA_IP);
-	@echo "Welcome back"; \
+	@echo "Welcome back";
+.PHONY: connect_gaia
 
 connect_pi: ## Add SSH Forwarding to local machine and SSH into Gaia
 	@echo "Connecting to the Raspberry Pi as $(SSH_USER)";
 	@echo "###########################################";
 	ssh -A $(SSH_USER)@$(PI_IP);
-	@echo "Welcome back"; \
-
-lint: ## Lint check playbook
-	ansible-lint -vvv main.yml
+	@echo "Welcome back";
+.PHONY: connect_pi
 
 setup_pi:
 	ansible-playbook -i $(INVENTORY_FILE) --limit raspberry_pi \
@@ -41,6 +39,7 @@ setup_pi:
 	  $(PLAYBOOK_PARAMETERS) \
 	  -u=$(SUDO_USER) \
 	  $(V)
+.PHONY: setup_pi
 
 setup_pi_dry_run:
 	ansible-playbook -i $(INVENTORY_FILE) --limit raspberry_pi \
@@ -49,6 +48,7 @@ setup_pi_dry_run:
 	  -u=$(SUDO_USER) \
 	  --check \
 	  $(V)
+.PHONY: setup_pi_dry_run
 
 setup_gaia:
 	ansible-playbook -i $(INVENTORY_FILE) --limit gaia \
@@ -56,19 +56,34 @@ setup_gaia:
 	  $(PLAYBOOK_PARAMETERS) \
 	  -u=$(SUDO_USER) \
 	  $(V)
+.PHONY: setup_gaia
+
+lint: ## Lint check playbook
+	ansible-lint -vvv main.yml
+.PHONY: lint
+
+test:
+	testing/run.sh test
+	testing/run.sh raspberry_pi
+	testing/run.sh gaia
+.PHONY: test
 
 help:  ## show this help.
 	@echo "make targets:"
 	@grep -E '^[0-9a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ": .*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 	@echo ""; echo "make vars (+defaults):"
 	@grep -E '^[0-9a-zA-Z_-]+ \?=.*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = " \\?= "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+.PHONY: help
 
 echo_vars:
 	@echo "Variables:"
 	@echo $(PRIVATE_VARS)
+.PHONY: echo_vars
 
 list_tasks:
-	ansible-playbook -i $(INVENTORY_FILE) --limit $(NODES) \
+	ansible-playbook -i $(INVENTORY_FILE) \
 		main.yml \
 		$(PLAYBOOK_PARAMETERS) \
-		-e @$(PRIVATE_VARS) --tags add --list-tasks
+		--list-tasks
+.PHONY: list_tasks
+

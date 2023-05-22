@@ -1,9 +1,5 @@
 FROM public.ecr.aws/ubuntu/ubuntu:latest
 
-ARG USER=${USER}
-ARG USER=${USER}
-
-
 # Add sudo and openssh-server
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update && apt install openssh-server sudo sshpass -y
