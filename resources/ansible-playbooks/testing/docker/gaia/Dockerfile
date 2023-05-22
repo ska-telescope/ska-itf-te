@@ -1,6 +1,6 @@
 FROM public.ecr.aws/ubuntu/ubuntu:latest
 
-ARG USER=${USER}
+ENV USER=ansible
 
 # Add sudo and openssh-server
 ENV DEBIAN_FRONTEND=noninteractive

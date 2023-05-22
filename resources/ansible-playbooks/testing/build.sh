@@ -13,7 +13,6 @@ VERSION=1.0.0
 
 function build() {
     docker build --tag ${CAR_OCI_REGISTRY_HOST}/${REPO}/${IMAGE}:${VERSION} \
-    --build-arg USER \
     --file "${base_dir}/docker/${MODE}/Dockerfile" \
     "${base_dir}"
 }
