@@ -2,56 +2,32 @@
 # Installation
 - name: Install kubectl
   when: install_kubectl
+  become: true
   block:
-    - name: Get latest kubectl version
-      uri:
-        url: https://dl.k8s.io/release/stable.txt
-        return_content: yes
-      register: version
+    - name: Install dependencies
+      ansible.builtin.apt:
+        pkg:
+          - ca-certificates
+          - curl
 
-    - name: Download the latest kubectl release
-      uri:
-        url: https://dl.k8s.io/release/{{ version.content }}/bin/linux/{{ arch }}/kubectl
-        dest: /home/{{ ansible_user }}
-      register: kubectl
+    - name: Install signing key
+      block:
+        - name: Add kubectl apt key
+          ansible.builtin.get_url:
+            url: https://dl.k8s.io/apt/doc/apt-key.gpg
+            dest: /etc/apt/keyrings/kubernetes-archive-keyring.gpg
+            mode: "u=rw,g=r,o=r"
 
-    - name: Download the kubectl checksum file
-      uri:
-        url: https://dl.k8s.io/{{ version.content }}/bin/linux/{{ arch }}/kubectl.sha256
-        dest: /home/{{ ansible_user }}
 
-    - name: Download the kubectl checksum file
-      uri:
-        url: https://dl.k8s.io/{{ version.content }}/bin/linux/{{ arch }}/kubectl.sha256
-        dest: /home/{{ ansible_user }}
+        - name: Add kubectl apt source
+          ansible.builtin.apt_repository:
+            repo: "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main"
+            state: present
 
-    - name: Validate the kubectl binary against the checksum file
-      shell: echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
-      register: result
-
-    - name: Assert that the kubectl binary is OK
-      vars:
-        expected: "kubectl: OK"
-      assert:
-        that:
-          - result.stdout == expected
-        fail_msg: "{{ result.stdout }}"
-        success_msg: "{{ result.stdout }}"
-
-    - name: Move kubectl and change permissions
-      become: true
-      file:
-        src: "{{ kubectl.path }}"
-        dest: /usr/local/bin/kubectl
-        state: hard
-        owner: root
-        group: root
-        mode: "+x"
-
-    - name: Check if kubectl is installed
-      shell: kubectl version --client
-      register: client
-      failed_when: client.rc > 1
+    - name: Install kubectl
+      ansible.builtin.apt:
+        pkg:
+          - kubectl
 
 # Groups
 - name: Create team groups
@@ -100,13 +76,11 @@
     mode: "u=rwx,g=rwx"
   loop: "{{ team_groups }}"
 
-
-
 - name: Add gitlab-runner to team groups (if present)
   become: true
   block:
     - name: Get all users
-      getent:
+      ansible.builtin.getent:
         database: passwd
         split: ':'
     - name: Add gitlab-runner to groups
@@ -115,4 +89,3 @@
         groups: "{{ team_groups }}"
         append: true
       when: "'gitlab-runner' in getent_passwd.keys()"
-

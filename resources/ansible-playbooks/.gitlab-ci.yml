@@ -9,7 +9,6 @@ ansible-lint:
   stage: lint
   tags:
   - k8srunner
-  allow_failure: true
   before_script:
     - *setup-ansible
   script:
@@ -20,8 +19,15 @@ ansible-test:
   stage: test
   tags:
   - k8srunner
-  allow_failure: true
   before_script:
     - *setup-ansible
   script:
   - cd resources/ansible-playbooks && make test
+
+ansible-publish-test-images:
+  image: $SKA_K8S_TOOLS_DOCKER_BUILDER_IMAGE
+  stage: publish
+  tags:
+    - k8srunner
+  script:
+  - cd resources/ansible-playbooks && make publish-test-images

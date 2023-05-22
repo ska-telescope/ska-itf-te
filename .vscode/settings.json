@@ -7,5 +7,6 @@
     "python.testing.pytestEnabled": true,
     "git.enabled": true,
     "git.path": "/usr/bin/git",
-    "python.formatting.provider": "black"
+    "python.formatting.provider": "black",
+    "ansible.python.interpreterPath": "/bin/python3"
 }

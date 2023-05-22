@@ -68,6 +68,12 @@ test:
 	testing/run.sh gaia
 .PHONY: test
 
+publish-test-images:
+	testing/build.sh gaia
+	testing/build.sh raspberry_pi
+	testing/build.sh test
+.PHONY: publish-test-images
+
 help:  ## show this help.
 	@echo "make targets:"
 	@grep -E '^[0-9a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ": .*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'

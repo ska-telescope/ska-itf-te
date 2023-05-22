@@ -2,7 +2,7 @@
 # Make all the realms visible to Gaia
 
 - name: Setup user configuration
-  include_tasks: "user_config.yml"
+  ansible.builtin.include_tasks: "user_config.yml"
   loop: "{{ users }}"
   loop_control:
     loop_var: current_user
@@ -11,7 +11,7 @@
   become: true
   block:
     - name: Install ASCII art generators
-      apt:
+      ansible.builtin.apt:
         pkg: [figlet, toilet]
 
     - name: Upload welcome message script
@@ -50,4 +50,3 @@
           # Set kubeconfig to default shared config.
           . {{ shared_common_dir }}/kubeconfig_setup.sh
         marker: "# {mark} ANSIBLE MANAGED BLOCK"
-

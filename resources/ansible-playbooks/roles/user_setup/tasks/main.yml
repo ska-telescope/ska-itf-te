@@ -1,6 +1,6 @@
 ---
 - name: Setup users
-  include_tasks: "user_setup.yml"
+  ansible.builtin.include_tasks: "user_setup.yml"
   loop: "{{ user_configs }}"
   loop_control:
     loop_var: user_config

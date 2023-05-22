@@ -2,11 +2,13 @@
 
 set -euo pipefail
 
-USER="p.jordaan"
 MODE="$1"
-identifier="$(< /dev/urandom tr -dc 'a-z0-9' | fold -w 5 | head -n 1)" ||:
-NAME="ansible-test-node-${identifier}"
 base_dir="$(dirname "$(readlink -f "$0")")"
+
+source ${base_dir}/vars.sh
+
+identifier="$(< /dev/urandom tr -dc 'a-z0-9' | fold -w 5 | head -n 1)" ||:
+NAME=${IMAGE}-${identifier}
 
 function cleanup() {
     container_id=$(docker inspect --format="{{.Id}}" "${NAME}" ||:)
@@ -25,18 +27,8 @@ function setup_tempdir() {
     export TEMP_DIR
 }
 
-function create_temporary_ssh_id() {
-    ssh-keygen -b 2048 -t rsa -C "${USER}@test.com" -f "${TEMP_DIR}/id_rsa" -N ""
-    chmod 600 "${TEMP_DIR}/id_rsa"
-    chmod 644 "${TEMP_DIR}/id_rsa.pub"
-}
-
 function start_container() {
-    docker build --tag "ansible-test-node" \
-        --build-arg USER \
-        --file "${base_dir}/docker/${MODE}/Dockerfile" \
-        "${TEMP_DIR}"
-    docker run -d -P --name "${NAME}" "ansible-test-node"
+    docker run -d -P --name ${NAME} ${IMAGE_FQDN}
     CONTAINER_PORT=$(docker port ${NAME} 22/tcp | head -n1 | awk -F ':' '{print $2}')
     export CONTAINER_ADDR
 }
@@ -88,7 +80,6 @@ function run_ansible_playbook_test() {
 setup_tempdir
 trap cleanup EXIT
 trap cleanup ERR
-create_temporary_ssh_id
 start_container
 setup_test_inventory
 setup_ansible_cfg

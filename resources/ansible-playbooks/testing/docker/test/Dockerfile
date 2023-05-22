@@ -11,20 +11,25 @@ RUN apt update && apt install openssh-server sudo -y
 RUN useradd -m ${USER}
 RUN adduser ${USER} sudo
 RUN echo "${USER} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/sudoers
+RUN passwd -d ${USER}
+RUN sed -i'' -e's/^#PermitRootLogin prohibit-password$/PermitRootLogin yes/' /etc/ssh/sshd_config \
+        && sed -i'' -e's/^#PasswordAuthentication yes$/PasswordAuthentication yes/' /etc/ssh/sshd_config \
+        && sed -i'' -e's/^#PermitEmptyPasswords no$/PermitEmptyPasswords yes/' /etc/ssh/sshd_config \
+        && sed -i'' -e's/^UsePAM yes/UsePAM no/' /etc/ssh/sshd_config
 
 RUN useradd -m gitlab-runner
 RUN adduser gitlab-runner sudo
 RUN echo "gitlab-runner ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/sudoers
 
 # As the user setup the ssh identity using the key in the tmp folder
-USER "${USER}"
-RUN mkdir ~/.ssh
-RUN chmod -R 700 ~/.ssh
-COPY --chown=${USER}:sudo id_rsa.pub /home/${USER}/.ssh/id_rsa.pub
-RUN cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
-RUN chmod 644 ~/.ssh/id_rsa.pub
-RUN chmod 644 ~/.ssh/authorized_keys
-RUN echo "${USER}"
+#USER "${USER}"
+#RUN mkdir ~/.ssh
+#RUN chmod -R 700 ~/.ssh
+#COPY --chown=${USER}:sudo id_rsa.pub /home/${USER}/.ssh/id_rsa.pub
+#RUN cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+#RUN chmod 644 ~/.ssh/id_rsa.pub
+#RUN chmod 644 ~/.ssh/authorized_keys
+#RUN echo "${USER}"
 # start ssh with port exposed
 USER root
 RUN service ssh start
