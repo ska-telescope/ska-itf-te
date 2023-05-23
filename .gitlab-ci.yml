@@ -40,6 +40,7 @@ include:
   # deploy steps
   # - project: "ska-telescope/templates-repository"
   #   file: "gitlab-ci/includes/deploy.gitlab-ci.yml"
+  - local: '/resources/distribute-ssh-keys/.gitlab-ci.yml'
 
 python-test:
   image: artefact.skao.int/ska-tango-images-pytango-builder:9.3.32
