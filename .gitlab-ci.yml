@@ -42,6 +42,7 @@ include:
   # deploy steps
   # - project: "ska-telescope/templates-repository"
   #   file: "gitlab-ci/includes/deploy.gitlab-ci.yml"
+  - local: "/resources/distribute-ssh-keys/.gitlab-ci.yml"
 
 python-test:
   image: artefact.skao.int/ska-tango-images-pytango-builder:9.3.32
@@ -78,7 +79,7 @@ deploy-test-equipment:
     - make k8s-wait SKA_TANGO_OPERATOR=true
     - kubectl logs -l job-name=signalgenerator-test-config -n $KUBE_NAMESPACE
     - make k8s-get-pods
-    - make itf-te-links INGRESS_HOST=10.164.0.3
+    - make itf-te-links #INGRESS_HOST=10.164.0.3
   environment:
     # name: ska-mid-itf/test-equipment
     name: ci-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG
@@ -140,19 +141,19 @@ remove-test-equipment:
 
 .setup-ansible:
   tags:
-  - k8srunner
+    - k8srunner
   image: $SKA_K8S_TOOLS_BUILD_DEPLOY
   before_script:
-  - export LC_ALL="C.UTF-8"                # ansible requires locale to be set to UTF-8.
-  - export PATH=${PATH}:${HOME}/.local/bin # this is where python installs ansible.
-  - python3 -m pip install --user ansible
-  - python3 -m pip install --user ansible-lint
+    - export LC_ALL="C.UTF-8" # ansible requires locale to be set to UTF-8.
+    - export PATH=${PATH}:${HOME}/.local/bin # this is where python installs ansible.
+    - python3 -m pip install --user ansible
+    - python3 -m pip install --user ansible-lint
 
 ansible-lint:
   stage: lint
   extends: .setup-ansible
   script:
-  - cd resources/ansible-playbooks && make lint
+    - cd resources/ansible-playbooks && make lint
 
 ansible-test:
   stage: test
@@ -165,5 +166,5 @@ ansible-test:
       alias: ansible-test-gaia
   extends: .setup-ansible
   script:
-  - cd resources/ansible-playbooks
-  - make test-cicd
+    - cd resources/ansible-playbooks
+    - make test-cicd
