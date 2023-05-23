@@ -15,50 +15,32 @@
 
   # Creates new users and adds them to sudoers if so configured.
 - name: Create users
-  when: createusers
-  become: true
-  block:
-    - name: Create user group
-      ansible.builtin.group:
-        name: "{{ item }}"
-        state: present
-      loop: "{{ user_setup_users }}"
-
-    - name: Create user accounts
-      ansible.builtin.user:
-        name: "{{ item }}"
-        shell: /bin/bash
-        group: "{{ item }}"
-        groups: "{{ [item] + user_setup_user_groups }}"
-        append: true
-      loop: "{{ user_setup_users }}"
-
-    - name: Add to sudoers
-      when: user_setup_add_to_sudoers
-      ansible.builtin.lineinfile:
-        line: "{{ item }} ALL=(ALL) NOPASSWD:ALL"
-        path: "/etc/sudoers.d/99-systems-team"
-        regex: "{{ item }}"
-        create: true
-        owner: "root"
-        group: "root"
-        mode: "0440"
-      loop: "{{ user_setup_users }}"
+  ansible.builtin.include_tasks: "create_user.yml"
+  args:
+    apply:
+      become: true
+  loop: "{{ user_setup_users }}"
+  loop_control:
+    loop_var: current_user
+  when: createusers and current_user in users
 
 - name: Remove users
-  become: true
-  when: removeusers
-  block:
-    - name: Remove user account
-      ansible.builtin.user:
-        name: "{{ item }}"
-        state: absent
-        remove: true
-      loop: "{{ user_setup_users }}"
+  ansible.builtin.include_tasks: "remove_user.yml"
+  args:
+    apply:
+      become: true
+  loop: "{{ user_setup_users }}"
+  loop_control:
+    loop_var: current_user
+  when: removeusers and current_user in users
 
-    - name: Remove from sudoers
-      ansible.builtin.lineinfile:
-        path: "/etc/sudoers.d/99-systems-team"
-        regex: "{{ item }}"
-        state: absent
-      loop: "{{ user_setup_users }}"
+- name: Add to groups
+  become: true
+  ansible.builtin.user:
+    name: "{{ current_user }}"
+    groups: "{{ user_setup_user_groups }}"
+    append: true
+  loop: "{{ user_setup_users }}"
+  loop_control:
+    loop_var: current_user
+  when: add_to_groups and current_user in users

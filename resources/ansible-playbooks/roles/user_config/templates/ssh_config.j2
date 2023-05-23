@@ -1,7 +1,9 @@
 {% for item in all_hosts %}
+    {% if item.name not in group_names %}
 Host {{ item.name }}
     HostName {{ item.ip }}   
-    User {{ user_name }}
+    User {{ ssh_keys_user_name }}
+    {% endif %}
 
 {% endfor %}
 

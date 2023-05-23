@@ -2,6 +2,7 @@ image: $SKA_K8S_TOOLS_DOCKER_BUILDER_IMAGE
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
+  OCI_IMAGE_BUILD_CONTEXT: ${CI_PROJECT_DIR}
 cache:
   paths:
     - build
@@ -130,36 +131,32 @@ remove-test-equipment:
   when: manual
   allow_failure: true # need to keep this to unlock the pipeline
 
-.setup-ansible: &setup-ansible
+.setup-ansible:
+  tags:
+  - k8srunner
+  image: $SKA_K8S_TOOLS_BUILD_DEPLOY
+  before_script:
   - export LC_ALL="C.UTF-8"                # ansible requires locale to be set to UTF-8.
   - export PATH=${PATH}:${HOME}/.local/bin # this is where python installs ansible.
   - python3 -m pip install --user ansible
   - python3 -m pip install --user ansible-lint
 
 ansible-lint:
-  image: $SKA_K8S_TOOLS_BUILD_DEPLOY
   stage: lint
-  tags:
-  - k8srunner
-  before_script:
-    - *setup-ansible
+  extends: .setup-ansible
   script:
   - cd resources/ansible-playbooks && make lint
 
-.ansible-test:
-  image: $SKA_K8S_TOOLS_BUILD_DEPLOY
+ansible-test:
   stage: test
-  tags:
-  - k8srunner
-  before_script:
-    - *setup-ansible
+  services:
+    - name: registry.gitlab.com/ska-telescope/ska-mid-itf/ansible-test-default:0.0.0
+      alias: ansible-test-default
+    - name: registry.gitlab.com/ska-telescope/ska-mid-itf/ansible-test-default:0.0.0
+      alias: ansible-test-raspberry-pi
+    - name: registry.gitlab.com/ska-telescope/ska-mid-itf/ansible-test-gaia:0.0.0
+      alias: ansible-test-gaia
+  extends: .setup-ansible
   script:
-  - cd resources/ansible-playbooks && make test
-
-ansible-publish-test-images:
-  image: $SKA_K8S_TOOLS_BUILD_DEPLOY
-  stage: publish
-  tags:
-    - k8srunner
-  script:
-  - cd resources/ansible-playbooks && make publish-test-images
+  - cd resources/ansible-playbooks
+  - make test-cicd

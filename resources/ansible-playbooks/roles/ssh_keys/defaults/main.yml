@@ -22,7 +22,5 @@ ssh_key_configs:
   - name: vhulahani.manukha
     path: ../../../../users/vm/.ssh/id_rsa.pub
 
-user_primary_group: atlas
-
 addkey: false
 removekey: false

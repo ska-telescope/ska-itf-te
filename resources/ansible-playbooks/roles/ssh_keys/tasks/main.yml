@@ -3,3 +3,4 @@
   loop: "{{ ssh_key_configs }}"
   loop_control:
     loop_var: ssh_key_config
+  when: ssh_key_config['name'] in users

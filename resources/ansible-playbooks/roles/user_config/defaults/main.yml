@@ -16,16 +16,4 @@ all_hosts:
   - name: test
     ip: localhost
 
-users:
-  - a.debeer
-  - benjamin.lunsky
-  - d.gammon
-  - g.leroux
-  - j.coetzer
-  - monde.manzini
-  - n.nzotho
-  - p.jordaan
-  - t.tsotetsi
-  - vhulahani.manukha
-
 setup_kubeconfig: false

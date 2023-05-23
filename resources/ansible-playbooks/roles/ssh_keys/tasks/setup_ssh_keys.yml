@@ -19,7 +19,6 @@
         path: "/home/{{ ssh_keys_user_name }}/.ssh"
         state: directory
         owner: "{{ ssh_keys_user_name }}"
-        group: "{{ user_primary_group }}"
         mode: "0700"
 
     - name: Add to authorized_keys
@@ -29,7 +28,6 @@
         regex: "{{  ssh_keys_ssh_key.split()[1] | regex_escape() }}" # use the hash to match
         create: true
         owner: "{{ ssh_keys_user_name }}"
-        group: "{{ user_primary_group }}"
         mode: "0600"
 
 - name: Remove ssh key
