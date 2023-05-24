@@ -2,7 +2,7 @@
     {% if item.name not in group_names %}
 Host {{ item.name }}
     HostName {{ item.ip }}   
-    User {{ ssh_keys_user_name }}
+    User {{ current_user }}
     ForwardAgent yes
     {% endif %}
 

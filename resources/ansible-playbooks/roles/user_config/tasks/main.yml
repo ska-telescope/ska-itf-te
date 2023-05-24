@@ -8,7 +8,7 @@
     loop_var: current_user
   when: current_user in users
 
-- name: Personalise Login
+- name: Personalize Login
   become: true
   block:
     - name: Install ASCII art generators

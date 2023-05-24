@@ -1,5 +1,6 @@
 ---
 
+# Configure raspberry pi (Sky Simulator)
 - name: Setup raspberry_pi
   hosts:
     - raspberry_pi
@@ -16,6 +17,7 @@
       vars:
         setup_kubeconfig: false
 
+# Configure Gaia (za-itf-sw)
 - name: Setup gaia
   hosts:
     - gaia
@@ -23,6 +25,7 @@
     - role: system_setup
     - role: user_setup
       vars:
+        # We don't create users on Gaia, just make sure they are in the required groups
         add_to_groups: true
     - role: ssh_keys
       vars:

@@ -31,7 +31,6 @@
         mode: "u=rw"
 
 - name: Remove ssh key
-  # we only need to be sudo if this is being executed as a different user.
   become: true
   when: removekey
   ansible.builtin.lineinfile:

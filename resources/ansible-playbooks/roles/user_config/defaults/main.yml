@@ -13,7 +13,5 @@ all_hosts:
     ip: 10.165.3.7
   - name: raspberry_pi
     ip: 10.165.3.11
-  - name: test
-    ip: localhost
 
 setup_kubeconfig: false

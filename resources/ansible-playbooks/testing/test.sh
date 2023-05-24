@@ -3,11 +3,22 @@
 set -eux
 set -o pipefail
 
+# This script runs an ansible-playbook on a provided host.
+# It takes 1 unnamed parameter:
+# 1. MODE - this is the test mode to run: there are 3 options: 
+#    1. default: runs the playbook with all options enabled.
+#    2. gaia: runs the playbook as if it were executing on the gaia host.
+#    3. raspberry_pi: runs the playbook as if it were executing on the raspberry_pi host.
+#
+# There are also the following environment variables which can be set:
+# 1. TEST_HOST: the DNS or IP address of the host to test.
+# 2. TEST_PORT: the port on which SSH is listening on the host. 
+
+
 USER=ansible
-NAME=${1}
-MODE=${2}
-CONTAINER_PORT=${CONTAINER_PORT:-22}
-CONTAINER_HOST=${CONTAINER_HOST:-localhost}
+MODE=${1}
+TEST_PORT=${TEST_PORT:-22}
+TEST_HOST=${TEST_HOST:-localhost}
 base_dir="$(dirname "$(readlink -f "$0")")"
 
 function cleanup_dir() {
@@ -18,7 +29,7 @@ function cleanup_dir() {
 }
 
 function setup_tempdir() {
-    TEMP_DIR=$(mktemp --directory "./${NAME}".XXXXXXXX)
+    TEMP_DIR=$(mktemp --directory "./${MODE}".XXXXXXXX)
     export TEMP_DIR
 }
 
@@ -26,11 +37,11 @@ function setup_test_inventory() {
     export TEMP_INVENTORY_FILE="${TEMP_DIR}/hosts"
     cat > "${TEMP_INVENTORY_FILE}" << EOL
 [raspberry_pi]
-test_raspberry_pi ansible_host=${CONTAINER_HOST} ansible_port=${CONTAINER_PORT} host_identifier="Test Raspberry Pi"
+test_raspberry_pi ansible_host=${TEST_HOST} ansible_port=${TEST_PORT} host_identifier="Test Raspberry Pi"
 [gaia]
-test_gaia ansible_host=${CONTAINER_HOST} ansible_port=${CONTAINER_PORT} host_identifier="Test Gaia"
+test_gaia ansible_host=${TEST_HOST} ansible_port=${TEST_PORT} host_identifier="Test Gaia"
 [test]
-test_host ansible_host=${CONTAINER_HOST} ansible_port=${CONTAINER_PORT} host_identifier="Test Host"
+test_host ansible_host=${TEST_HOST} ansible_port=${TEST_PORT} host_identifier="Test Host"
 EOL
 }
 
@@ -45,21 +56,21 @@ EOL
 
 function run_ansible_playbook_pi() {
     ansible-playbook -i ${TEMP_INVENTORY_FILE} --limit raspberry_pi \
-	  ${base_dir}/../main.yml \
+	  ${base_dir}/../site.yml \
 	  -u=${USER} \
       -v
 }
 
 function run_ansible_playbook_gaia() {
     ansible-playbook -i ${TEMP_INVENTORY_FILE} --limit gaia \
-	  ${base_dir}/../main.yml \
+	  ${base_dir}/../site.yml \
 	  -u=${USER} \
       -v
 }
 
 function run_ansible_playbook_test() {
     ansible-playbook -i ${TEMP_INVENTORY_FILE} --limit test \
-	  ${base_dir}/../main.yml \
+	  ${base_dir}/../site.yml \
 	  -u=${USER} \
       -v
 }

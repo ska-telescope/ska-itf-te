@@ -36,23 +36,38 @@ This directory contains the hosts inventory on which playbooks are executed.
 
 ### roles
 
-#### ssh
+#### ssh_keys
 
-### distribute_ssh_keys.yml
+This role adds a user's SSH public key to their `authorized_keys` on the host. The keys are defined in `resources/users`.
+
+#### system_setup
+
+This role contains tasks related to system-level configuration. Some of the tasks which can be defined here are:
+
+1. Installation of packages
+2. Creation of groups
+3. Creation of files & directories
+
+#### user_config
+
+This role is used to add additional configuration for users. Currently it provides the following functionality:
+
+1. Adds an ssh config file which provides easy SSH access to other nodes in the ITF.
+2. Adds useful bash aliases.
+3. Adds a welcome message, displayed at login.
+4. Sets the KUBECONFIG environment variable to the kubeconfig stored in the team's shared config directory.
+
+#### user_setup
+
+This role is used to create & remove users, and also to add existing users to groups.
+
+### testing
+
+This directory contains scripts used to test the execution of the playbooks on containers.
+
+### site.yml
 
 This is the Ansible playbook and contains all the tasks we execute in order to add/remove keys and create/delete users. Tasks are executed based on tags and tasks which match the current tag are executed in order.
-
-### inventory_ssh_keys
-
-This contains the hosts for which we execute our Ansible playbook. They are grouped according to their function and the group names can be used to specify which hosts to execute the playbook for.
-
-### Makefile
-
-The `Makefile` contains targets to add/remove keys and create/delete users.
-
-### ssh_key_vars.yml
-
-This contains pre-populated variables used in the execution of the playbook. In particular, `all_ssh_keys` contains the list of SSH public keys which we can push to hosts and `user_groups_by_host_group` specify which user groups are used on which host groups. The SSH keys have been directly copied from the `resources/users/*/.ssh` folders.
 
 ## Environment Setup
 
@@ -61,109 +76,70 @@ This contains pre-populated variables used in the execution of the playbook. In 
 Populate your `PrivateRules.mak` file with something like
 
 ```bash
-EXTRA_VARS="mode=test" # This helps skipping some desctructive steps on the BIFROST
-
-# Usage parameters
-SSH_USER=<your-first-name>
+# This is the user used to SSH to hosts in the connect_* targets.
+SSH_USER=<your-jira-username>
+# This is the user used to execute Ansible playbooks.
+ANSIBLE_USER=<your-jira-username>
+# This allows you to filter the playbook to only execute for specific users (e.g. yourself).
+PLAYBOOK_PARAMETERS=--extra-vars='{"users": [<your-jira-username>]}'
+# Enable verbose logging in Ansible
+V=-v
 ```
 
-## Add a key
+## Execute a play
 
-To add a configured key in `all_ssh_keys`, run:
+We currently have 3 plays defined in our playbook: one each for Gaia & Raspberry Pi, and a test play which runs with all features enabled. Each play executes most of the following actions:
 
-```sh
-# $USER is the user who's key you want to add
-# $HOST_GROUP is the host group you want to run the command for.
-make addkey PLAYBOOK_PARAMETERS="-u=$USER -k" NODES=$HOST_GROUP
+1. Install any dependencies missing from the host (e.g. kubectl).
+2. Create any team groups if they do not exist.
+3. Create a shared directory `/srv` if it does not exist.
+4. Create a common shared directory `/srv/all` if it does not exist. This is writable by all.
+5. Create team shared directories at `/srv/<team>` if they do not exist. These are only readable/writable by the team members.
+6. Create any required subdirectories in the team shared directories.
+7. Create users if the do not exist (not executed on gaia).
+8. Add users to the team and sudo groups.
+9. Add configured SSH public keys to `authorized_keys` for users.
+10. Add SSH config for the users which enables them easily SSH to other nodes in the ITF.
+11. Add useful bash aliases for the users.
+12. Add a welcome script which prints a message for the users at login.
+13. Add a script which sets the KUBECONFIG environment variable to a default kubeconfig in the team's configuration directory.
+
+### Gaia
+
+The Gaia play can be executed as follows:
+
+```bash
+make setup_gaia
 ```
 
-Example:
+### Raspberry Pi
 
-```sh
-# Add a key for the user 'jan.kowalski' on all gaia hosts.
-make addkey PLAYBOOK_PARAMETERS="-u=jan.kowalski -k" NODES=gaia
+The Raspberry Pi play can be executed as follows:
+
+```bash
+make setup_raspberry_pi
 ```
 
-NOTE: the user account needs to exist already. If you cannot use `make adduser`, speak to IT about this.
+## Testing
 
-## Remove a key
+Tests can be executed as follows:
 
-To remove the user's configured key in `all_ssh_keys`, run:
-
-```sh
-# $USER is the user who's key you want to remove
-# $HOST_GROUP is the host group you want to run the command for.
-make removekey PLAYBOOK_PARAMETERS="-u=$USER" NODES=$HOST_GROUP
+```bash
+# run all the playbook tests
+make test
+# run a single playbook test (the one for gaia)
+make test_gaia
 ```
 
-Example:
+## Additional Info
 
-```sh
-# Remove the user 'erika.mustermann''s key from all gaia hosts.
-make removekey PLAYBOOK_PARAMETERS="-u=erika.mustermann" NODES=gaia
-```
-
-## Add a user
-
-In order to create a user and add it's key on a host, you will need `sudo` rights on the host.
-You can run the following command to create the user and add their key:
-
-```sh
-# $SUDO_USER is the user with sudo rights.
-# $NEW_USER is the user you want to create.
-# $HOST_GROUP is the host group you want to run the command for.
-make adduser PLAYBOOK_PARAMETERS="-u=$SUDO_USER -kK --extra-vars user_name=$NEW_USER" NODES=$HOST_GROUP
-```
-
-Example:
-
-```sh
-# Creates a new user 'erika.mustermann' on all gaia hosts and pushes her SSH public key there as well. The user 'minta.kata' already exists on the hosts and has sudo rights.
-make adduser PLAYBOOK_PARAMETERS="-u=minta.kata -kK --extra-vars user_name=erika.mustermann" NODES=gaia
-```
-
-## Remove a user
-
-In order to remove a user from a host, you will need `sudo` rights on the host.
-You can run the following command to remove the user (note this will remove their home directory as well):
-
-```sh
-# $SUDO_USER is the user with sudo rights.
-# $REMOVE_USER is the user you want to remove.
-# $HOST_GROUP is the host group you want to run the command for.
-make removeuser PLAYBOOK_PARAMETERS="-u=$SUDO_USER -kK --extra-vars user_name=$REMOVE_USER" NODES=$HOST_GROUP
-```
-
-Example:
-
-```sh
-# Removes the user 'marte.kirkerud' on all gaia hosts. The user 'kari.holm' exists on the hosts and has sudo rights.
-make removeuser PLAYBOOK_PARAMETERS="-u=kari.holm -kK --extra-vars user_name=marte.kirkerud" NODES=gaia
-```
-
-## Limiting Scope
-
-We use the `NODES` parameter to limit which hosts the command will run on. This can be set to any inventory group (see `inventory_ssh_keys`). It is possible, but not recommended to run the commands without this filter.
-
-## Local Testing
-
-The `NODES` parameter can also be used to test the commands locally.
-You can achieve this by setting `NODES` to the `home` group:
-
-```sh
-make addkey PLAYBOOK_PARAMETERS="-u=$USER" NODES=home
-```
-
-This command adds the keys to your local `~/.ssh/authorized_keys`
-
-## Additonal Info
+### Help
 
 Run `make` to get the help:
 
 ```sh
 $ make
 make targets:
-add                            Add keys
 help                           show this help.
 lint                           Lint check playbook
 remove                         Remove keys
@@ -174,3 +150,23 @@ INVENTORY_FILE                 ./inventory_ssh_keys
 NODES                          nodes ## subset of hosts from inventory to run against
 PRIVATE_VARS                   ./ssh_key_vars.yml
 ```
+
+### Dry run
+
+You can execute `setup_pi_dry_run` or `setup_gaia_dry_run` to run the playbooks in dry-run mode. This will result in Ansible predicting what changes will occur if the playbook were to be run and output these as a diff.
+
+### Connect
+
+You can connect to the ITF with `make connect_pi` or `make connect_gaia`. This SSH's to the host with agent forwarding enabled.
+
+### CI/CD
+
+The ansible jobs are defined in the top-level CI/CD file. This is because there was an issue with detecting some of the jobs when they were defined in this directory. Each job extends the `setup-ansible` job to install dependencies and set the locale.
+
+#### ansible-lint
+
+This job just executes the `ansible-lint` command on our playbook. It should be replaced with the `ansible-lint` job from the Ansible Gitlab template.
+
+### ansible-test
+
+This job runs the container test executions of the plays. It does this by starting up containers for each test using Gitlab services and then running `make test-cicd`.

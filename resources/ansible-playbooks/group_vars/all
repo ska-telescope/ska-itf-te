@@ -1,5 +1,7 @@
 ---
-
+# This is the default list of users to manage.
+# You can override this as follows from the command-line:
+# --extra-vars='{"users": [<user-name>]}'
 users:
   - a.debeer
   - benjamin.lunsky
@@ -11,3 +13,7 @@ users:
   - p.jordaan
   - t.tsotetsi
   - vhulahani.manukha
+
+setup_gaia: false
+setup_pi: false
+setup_test: false

@@ -13,7 +13,6 @@
         user_setup_add_to_sudoers: "yes"
       when: "'sudo' in user_setup_user_groups"
 
-  # Creates new users and adds them to sudoers if so configured.
 - name: Create users
   ansible.builtin.include_tasks: "create_user.yml"
   args:
