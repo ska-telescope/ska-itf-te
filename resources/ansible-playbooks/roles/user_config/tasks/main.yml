@@ -15,39 +15,20 @@
       ansible.builtin.apt:
         pkg: [figlet, toilet]
 
-    - name: Upload welcome message script
+    - name: Install generic welcome message
       ansible.builtin.template:
         src: welcome.sh.j2
-        dest: "{{ shared_common_dir }}/welcome.sh"
+        dest: /etc/profile.d/99-welcome.sh
+        mode: "u=rwx,g=rx,o=rx"
         owner: "root"
         group: "root"
-        mode: "u=rwx,g=rx,o=rx" # 0755
-
-    - name: Install generic welcome message
-      ansible.builtin.blockinfile:
-        path: /etc/profile
-        block: |
-          # Personalised welcome messages. Change at will :)
-          . {{ shared_common_dir }}/welcome.sh
-        marker: "# {mark} ANSIBLE MANAGED BLOCK"
 
 # Kubeconfig
-- name: Setup Kubeconfig
-  when: setup_kubeconfig
+- name: Upload & install kubeconfig script
   become: true
-  block:
-    - name: Upload kubeconfig script
-      ansible.builtin.template:
-        src: kubeconfig_setup.sh.j2
-        dest: "{{ shared_common_dir }}/kubeconfig_setup.sh"
-        owner: "root"
-        group: "root"
-        mode: "u=rwx,g=rx,o=rx"
-
-    - name: Install kubeconfig script
-      ansible.builtin.blockinfile:
-        path: /etc/profile
-        block: |
-          # Set kubeconfig to default shared config.
-          . {{ shared_common_dir }}/kubeconfig_setup.sh
-        marker: "# {mark} ANSIBLE MANAGED BLOCK"
+  ansible.builtin.template:
+    src: kubeconfig_setup.sh.j2
+    dest: /etc/profile.d/99-kubeconfig.sh
+    owner: "root"
+    group: "root"
+    mode: "u=rwx,g=rx,o=rx"

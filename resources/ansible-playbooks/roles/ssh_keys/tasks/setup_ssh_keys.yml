@@ -19,7 +19,7 @@
         path: "/home/{{ ssh_keys_user_name }}/.ssh"
         state: directory
         owner: "{{ ssh_keys_user_name }}"
-        mode: "0700"
+        mode: "u=rwx"
 
     - name: Add to authorized_keys
       ansible.builtin.lineinfile:
@@ -28,7 +28,7 @@
         regex: "{{  ssh_keys_ssh_key.split()[1] | regex_escape() }}" # use the hash to match
         create: true
         owner: "{{ ssh_keys_user_name }}"
-        mode: "0600"
+        mode: "u=rw"
 
 - name: Remove ssh key
   # we only need to be sudo if this is being executed as a different user.

@@ -70,7 +70,6 @@ setup_gaia:
 	  main.yml \
 	  $(PLAYBOOK_PARAMETERS) \
 	  -u=$(SUDO_USER) \
-	  -kK \
 	  $(V)
 .PHONY: setup_gaia
 
@@ -81,7 +80,6 @@ setup_gaia_dry_run:
 	  -u=$(SUDO_USER) \
 	  --check \
 	  --diff \
-	  -kK \
 	  $(V)
 .PHONY: setup_gaia
 

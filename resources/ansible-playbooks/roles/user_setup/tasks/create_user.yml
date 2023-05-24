@@ -22,4 +22,4 @@
     create: true
     owner: "root"
     group: "root"
-    mode: "0440"
+    mode: "u=r,g=r"

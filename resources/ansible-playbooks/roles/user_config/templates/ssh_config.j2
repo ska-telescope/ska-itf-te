@@ -3,6 +3,7 @@
 Host {{ item.name }}
     HostName {{ item.ip }}   
     User {{ ssh_keys_user_name }}
+    ForwardAgent yes
     {% endif %}
 
 {% endfor %}

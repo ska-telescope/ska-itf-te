@@ -20,17 +20,23 @@ pip3 install ansible-lint
 
 ## Summary
 
-This tool adds and removes ssh keys across the MID ITF.
+This sub-project contains Ansible playbooks used to manage server configuration in the MID ITF.
 
-If you want to add new users and SSH keys, update `all_ssh_keys` in `ssh_key_vars.yml`.
-
-In order for this tool to work for you, you must already have `ssh` access to the inventory described in `inventory_ssh_keys`.
+In order for this tooling to work for you, you must already have `ssh` access to the inventory described in `inventory/hosts`.
 
 ## Project Layout
 
-### .gitlab-ci.yaml
+### group_vars
 
-Runs `ansible-lint` on the playbook in our Gitlab pipeline.
+This directory contains the variables applicable to all roles.
+
+### inventory
+
+This directory contains the hosts inventory on which playbooks are executed.
+
+### roles
+
+#### ssh
 
 ### distribute_ssh_keys.yml
 
