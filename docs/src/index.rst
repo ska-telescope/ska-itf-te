@@ -8,9 +8,9 @@ Welcome to SKA CICD Deploy Mid ITF documentation!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Purpose
 
-
+   purpose
 .. README =============================================================
 
 .. This project most likely has it's own README. We include it here.
@@ -18,13 +18,13 @@ Welcome to SKA CICD Deploy Mid ITF documentation!
 .. toctree::
    :maxdepth: 2
    :caption: Readme
-
+   
    README
 
+..
+   Indices and tables
+   ==================
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   * :ref:`genindex`
+   * :ref:`modindex`
+   * :ref:`search`

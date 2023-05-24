@@ -1,0 +1,45 @@
+apiVersion: v2
+name: ska-mid-itf
+description: An umbrella Helm chart so that Helm Charts of Test Equipment (SigGen and SpectrAna), SkySimCtl can be deployed to a kubernetes cluster
+type: application
+version: 0.1.0
+appVersion: 0.1.0
+icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
+dependencies:
+  # Tango
+  - name: ska-tango-util
+    version: 0.4.3 # Check latest version
+    repository: https://artefact.skao.int/repository/helm-internal
+
+  - name: ska-tango-base
+    version: 0.4.4 # Check latest version
+    repository: https://artefact.skao.int/repository/helm-internal
+
+  # # SPOOKD
+  # - name: ska-ser-k8s-spookd
+  #   version: 0.2.2 # check latest version
+  #   repository: https://artefact.skao.int/repository/helm-internal
+  #   alias: spookd
+  #   condition: spookd.enabled
+
+  # SKA Test Equipment
+  - name: ska-ser-test-equipment
+    version: 0.6.2 # check latest version
+    repository: https://artefact.skao.int/repository/helm-internal
+    alias: test-equipment
+    condition: test-equipment.enabled
+
+  # - name: ska-te-skysimctl
+  #   version: 0.1.0 # check latest version
+  #   repository: https://artefact.skao.int/repository/helm-internal
+  #   condition: test-equipment.enabled
+
+  # TARANTA SUITE
+  - name: ska-tango-taranta
+    version: 2.2.0
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-taranta.enabled
+  - name: ska-tango-tangogql
+    version: 1.3.6
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-taranta.enabled

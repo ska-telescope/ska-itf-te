@@ -1,0 +1,16 @@
+image: python:3.11
+
+stages:
+  - lint
+
+ansible-lint:
+  stage: lint
+  tags:
+  - k8srunner
+  allow_failure: true
+  script:
+  - export LC_ALL="C.UTF-8"                # ansible requires locale to be set to UTF-8.
+  - export PATH=${PATH}:${HOME}/.local/bin # this is where python installs ansible.
+  - python3 -m pip install --user ansible
+  - python3 -m pip install --user ansible-lint
+  - cd resources/distribute-ssh-keys && make lint
