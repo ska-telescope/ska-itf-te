@@ -14,8 +14,6 @@
         addkey: true
     - role: user_config
       become: true
-      vars:
-        setup_kubeconfig: false
 
 # Configure Gaia (za-itf-sw)
 - name: Setup gaia
@@ -32,8 +30,6 @@
         addkey: true
     - role: user_config
       become: true
-      vars:
-        setup_kubeconfig: true
 
 - name: Setup test
   hosts:
@@ -51,5 +47,3 @@
         addkey: true
     - role: user_config
       become: true
-      vars:
-        setup_kubeconfig: true
