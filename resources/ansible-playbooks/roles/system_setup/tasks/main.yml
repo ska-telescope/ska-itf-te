@@ -1,0 +1,91 @@
+---
+# Installation
+- name: Install kubectl
+  when: install_kubectl
+  become: true
+  block:
+    - name: Install dependencies
+      ansible.builtin.apt:
+        pkg:
+          - ca-certificates
+          - curl
+
+    - name: Install signing key
+      block:
+        - name: Add kubectl apt key
+          ansible.builtin.get_url:
+            url: https://dl.k8s.io/apt/doc/apt-key.gpg
+            dest: /etc/apt/keyrings/kubernetes-archive-keyring.gpg
+            mode: "u=rw,g=r,o=r"
+
+
+        - name: Add kubectl apt source
+          ansible.builtin.apt_repository:
+            repo: "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main"
+            state: present
+
+    - name: Install kubectl
+      ansible.builtin.apt:
+        pkg:
+          - kubectl
+
+# Groups
+- name: Create team groups
+  become: true
+  ansible.builtin.group:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ team_groups }}"
+
+# Directories
+- name: Ensure shared directory exists
+  ansible.builtin.file:
+    path: "{{ shared_dir }}"
+    state: directory
+    owner: "root"
+    group: "root"
+    mode: "u=rwx,g=rx,o=rx"
+  become: true
+
+- name: Ensure shared common directory exists
+  become: true
+  ansible.builtin.file:
+    path: "{{ shared_common_dir }}"
+    state: directory
+    owner: "root"
+    group: "root"
+    mode: "u=rwx,g=rwx,o=rwx"
+
+- name: Ensure shared team directories exist
+  become: true
+  ansible.builtin.file:
+    path: "{{ shared_dir }}/{{ item }}"
+    state: directory
+    owner: "root"
+    group: "{{ item }}"
+    mode: "u=rwx,g=rwx"
+  loop: "{{ team_groups }}"
+
+- name: Ensure team config directories exist
+  become: true
+  ansible.builtin.file:
+    path: "{{ shared_dir }}/{{ item }}/config"
+    state: directory
+    owner: "root"
+    group: "{{ item }}"
+    mode: "u=rwx,g=rwx"
+  loop: "{{ team_groups }}"
+
+- name: Add gitlab-runner to team groups (if present)
+  become: true
+  block:
+    - name: Get all users
+      ansible.builtin.getent:
+        database: passwd
+        split: ':'
+    - name: Add gitlab-runner to groups
+      ansible.builtin.user:
+        name: "gitlab-runner"
+        groups: "{{ team_groups }}"
+        append: true
+      when: "'gitlab-runner' in getent_passwd.keys()"

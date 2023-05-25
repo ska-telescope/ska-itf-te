@@ -1,0 +1,25 @@
+---
+
+- name: Create user group
+  ansible.builtin.group:
+    name: "{{ current_user }}"
+    state: present
+
+- name: Create user accounts
+  ansible.builtin.user:
+    name: "{{ current_user }}"
+    shell: /bin/bash
+    group: "{{ current_user }}"
+    groups: "{{ [current_user] + user_setup_user_groups }}"
+    append: true
+
+- name: Add to sudoers
+  when: user_setup_add_to_sudoers
+  ansible.builtin.lineinfile:
+    line: "{{ current_user }} ALL=(ALL) NOPASSWD:ALL"
+    path: "/etc/sudoers.d/99-atlas-team"
+    regex: "{{ current_user }}"
+    create: true
+    owner: "root"
+    group: "root"
+    mode: "u=r,g=r"

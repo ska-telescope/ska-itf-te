@@ -1,0 +1,13 @@
+---
+
+- name: Remove user account
+  ansible.builtin.user:
+    name: "{{ current_user }}"
+    state: absent
+    remove: true
+
+- name: Remove from sudoers
+  ansible.builtin.lineinfile:
+    path: "/etc/sudoers.d/99-atlas-team"
+    regex: "{{ current_user }}"
+    state: absent
