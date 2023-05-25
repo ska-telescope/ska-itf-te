@@ -7,8 +7,6 @@
     "python.testing.pytestEnabled": true,
     "git.enabled": true,
     "git.path": "/usr/bin/git",
-    "python.formatting.provider": "none",
-    "[python]": {
-        "editor.defaultFormatter": "ms-python.black-formatter"
-    }
+    "python.formatting.provider": "black",
+    "ansible.python.interpreterPath": "/bin/python3"
 }

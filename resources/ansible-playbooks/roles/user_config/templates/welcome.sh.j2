@@ -1,0 +1,23 @@
+#!/bin/bash
+
+case ${USER} in
+p.jordaan | a.debeer | g.leroux | j.coetzer)
+    WELCOME_STR="Welkom by {{ host_identifier }},"
+    ;;
+gitlab-runner)
+    exit 0
+    ;;
+*)
+    WELCOME_STR="Welcome to {{ host_identifier }},"
+    ;;
+esac
+echo "##############################################################################"
+figlet -f slant $WELCOME_STR ${USER^}!
+echo ""
+echo "##############################################################################"
+echo ""
+if [ -z $SSH_AUTH_SOCK ]; then
+    echo "WARNING: SSH Agent forwarding unsuccessful - you may struggle connecting to the servers."
+fi
+echo "##############################################################################"
+
