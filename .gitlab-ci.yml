@@ -94,12 +94,9 @@ deploy-test-equipment:
     reports:
       junit:
         - build/report.xml
-  when: manual
-
+  # when: manual
   needs:
     - remove-test-equipment
-  # rules:
-  #   - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
   allow_failure: true # need to keep this to unlock the pipeline
 
 #### FROM SKAMPI, COPIED FOR REFERENCE:
@@ -136,7 +133,7 @@ remove-test-equipment:
       namespace: $KUBE_NAMESPACE
     url: "https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
     action: stop
-  when: manual
+  # when: manual
   allow_failure: true # need to keep this to unlock the pipeline
 
 .setup-ansible:
