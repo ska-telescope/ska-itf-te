@@ -64,7 +64,7 @@ deploy-test-equipment:
   variables:
     MINIKUBE: "false"
     CLUSTER_DOMAIN: miditf.internal.skao.int
-    INGRESS_HOST: k8s.$CLUSTER_DOMAIN
+    INGRESS_HOST: k8s.miditf.internal.skao.int
     K8S_CHART: ska-mid-itf
     KUBE_NAMESPACE: test-equipment
     # KUBE_NAMESPACE: ci-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
@@ -119,7 +119,7 @@ remove-test-equipment:
     K8S_CHART: ska-mid-itf
     KUBE_NAMESPACE: test-equipment
     CLUSTER_DOMAIN: miditf.internal.skao.int
-    INGRESS_HOST: k8s.$CLUSTER_DOMAIN
+    INGRESS_HOST: k8s.miditf.internal.skao.int
     KUBE_NAMESPACE_SDP: $KUBE_NAMESPACE-sdp
     SERVICE_ACCOUNT: ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
     NEXUS_CACHE: NEXUS_CACHE
