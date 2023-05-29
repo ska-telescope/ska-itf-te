@@ -1,5 +1,5 @@
 apiVersion: v2
-name: ska-te-mid-skysimctl
+name: ska-te-skysimctl
 description: A Helm chart for Tango controls of a sky simulator controller device
 type: application
 version: 0.1.0-dev
