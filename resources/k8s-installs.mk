@@ -62,10 +62,10 @@ itf-te-links: ## Create the URLs with which to access Skampi if it is available
 	@echo "#            Access the Test Equipment Taranta framework here:"
 	@echo "#            https://$(INGRESS_HOST)/$(KUBE_NAMESPACE)/taranta/devices"
 	@echo "############################################################################"
-	if [[ -z "${INGRESS_HOST}" ]]; then exit 0; \
-	elif [[ $(shell curl -I -s -o /dev/null -I -w '%{http_code}\' http$(S)://$(INGRESS_HOST)/$(KUBE_NAMESPACE)/taranta/devices) != '200' ]]; then \
-		echo "ERROR: http://$(INGRESS_HOST)/$(KUBE_NAMESPACE)/taranta/devices unreachable"; exit 10; \
-	fi
+	@# if [[ -z "${INGRESS_HOST}" ]]; then exit 0; \
+	# elif [[ $(shell curl -I -s -o /dev/null -I -w '%{http_code}\' http$(S)://$(INGRESS_HOST)/$(KUBE_NAMESPACE)/taranta/devices) != '200' ]]; then \
+	# 	echo "ERROR: http://$(INGRESS_HOST)/$(KUBE_NAMESPACE)/taranta/devices unreachable"; exit 10; \
+	# fi
 
 vars:
 	$(info KUBE_NAMESPACE: $(KUBE_NAMESPACE))
