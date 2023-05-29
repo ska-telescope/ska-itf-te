@@ -9,14 +9,14 @@ ska-tango-base:
     enabled: true
 
 test-equipment:
-  ###############################################################################
-  # THIS SECTION IS PURELY FOR DEVELOPMENT & TESTING OF NEW TEST EQUIPMENT CHARTS
-  image:
-    registry: registry.gitlab.com/ska-telescope/ska-ser-test-equipment
-    image: ska-ser-test-equipment
-    tag: 0.6.2
-    pullPolicy: Always
-  ###############################################################################
+  # ###############################################################################
+  # # THIS SECTION IS PURELY FOR DEVELOPMENT & TESTING OF NEW TEST EQUIPMENT CHARTS
+  # image:
+  #   registry: registry.gitlab.com/ska-telescope/ska-ser-test-equipment
+  #   image: ska-ser-test-equipment
+  #   tag: 0.6.2
+  #   pullPolicy: Always
+  # ###############################################################################
   legacy_compatibility: true
   enabled: true
   simulators:
@@ -41,8 +41,15 @@ test-equipment:
             limits:
               skao.int/signal-generator-01: "1"
 
-# TARANTA SUITE
+# SKYSIMCONTROLLER
+skysimctl:
+  image:
+    registry: registry.gitlab.com/ska-telescope/ska-te-mid-skysimctl
+    image: ska-te-mid-skysimctl
+    tag: 0.1.0
+    pullPolicy: Always
 
+# TARANTA SUITE
 ska-taranta:
   enabled: true
   ingress:

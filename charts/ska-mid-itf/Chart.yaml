@@ -22,10 +22,11 @@ dependencies:
     alias: test-equipment
     condition: test-equipment.enabled
 
-  # - name: ska-te-skysimctl
-  #   version: 0.1.0 # check latest version
-  #   repository: https://artefact.skao.int/repository/helm-internal
-  #   condition: test-equipment.enabled
+  - name: ska-te-skysimctl
+    version: 0.1.0 # check latest version
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: test-equipment.enabled
+    alias: skysimctl
 
   # TARANTA SUITE
   - name: ska-tango-taranta

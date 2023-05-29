@@ -8,9 +8,9 @@ cache:
   paths:
     - build
 stages:
+  - test-equipment-setup
   - lint
   - build
-  - test-equipment-setup
   - integration # no idea what this is for
   # - staging
   - test
