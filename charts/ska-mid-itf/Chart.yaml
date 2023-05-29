@@ -26,7 +26,8 @@ dependencies:
     # version: 0.1.0-dev.cff48ebfd # Latest Dev Version
     # version: 0.1.0-dev.cff48ebfd # check latest version
     version: 0.1.0-dev # local dev version
-    repository: file://../sky-sim-ctl
+    # repository: file://../sky-sim-ctl
+    repository: https://gitlab.com/api/v4/projects/42553017/packages/helm/api/dev/charts
     # repository: https://gitlab.com/api/v4/projects/42553017/packages/helm
     # repository: https://gitlab.com/api/v4/projects/42553017/packages/
     # repository: https://artefact.skao.int/repository/helm-internal
