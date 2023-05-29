@@ -1,3 +1,4 @@
+HELM_CHARTS_TO_PUBLISH=ska-mid-itf
 PYTHON_VARS_AFTER_PYTEST= --disable-pytest-warnings
 
 python-pre-lint:
