@@ -1,13 +1,5 @@
 ---
 
-# directory structures
-shared_dir: /srv
-shared_common_dir: /srv/all
-shared_team_dir: /srv/atlas
-shared_team_config_dir: /srv/atlas/config
-
-team_group: atlas
-
 all_hosts:
   - name: gaia
     ip: 10.165.3.7

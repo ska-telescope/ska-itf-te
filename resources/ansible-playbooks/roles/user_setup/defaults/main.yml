@@ -1,22 +1,4 @@
 ---
-debug: false
-
-user_configs:
-  - name: atlas
-    groups:
-      - atlas
-      - sudo
-    users:
-      - a.debeer
-      - benjamin.lunsky
-      - d.gammon
-      - g.leroux
-      - j.coetzer
-      - monde.manzini
-      - n.nzotho
-      - p.jordaan
-      - t.tsotetsi
-      - vhulahani.manukha
 
 createusers: false
 removeusers: false

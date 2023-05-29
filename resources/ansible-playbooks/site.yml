@@ -5,7 +5,9 @@
   hosts:
     - raspberry_pi
   roles:
+    - role: var_setup
     - role: system_setup
+    - role: team_setup
     - role: user_setup
       vars:
         createusers: true
@@ -13,14 +15,15 @@
       vars:
         addkey: true
     - role: user_config
-      become: true
 
 # Configure Gaia (za-itf-sw)
 - name: Setup gaia
   hosts:
     - gaia
   roles:
+    - role: var_setup
     - role: system_setup
+    - role: team_setup
     - role: user_setup
       vars:
         # We don't create users on Gaia, just make sure they are in the required groups
@@ -29,15 +32,17 @@
       vars:
         addkey: true
     - role: user_config
-      become: true
+    - role: kubectl_setup
 
 - name: Setup test
   hosts:
     - test
   roles:
+    - role: var_setup
     - role: system_setup
       vars:
         install_kubectl: true
+    - role: team_setup
     - role: user_setup
       vars:
         createusers: true
@@ -46,4 +51,4 @@
       vars:
         addkey: true
     - role: user_config
-      become: true
+    - role: kubectl_setup

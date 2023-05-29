@@ -1,6 +1,7 @@
-- name: Configure SSH keys
-  ansible.builtin.include_tasks: "setup_ssh_keys.yml"
-  loop: "{{ ssh_key_configs }}"
+---
+
+- name: Configure team SSH keys
+  ansible.builtin.include_tasks: "setup_ssh_key.yml"
+  loop: "{{ ssh_keys }}"
   loop_control:
     loop_var: ssh_key_config
-  when: ssh_key_config['name'] in users

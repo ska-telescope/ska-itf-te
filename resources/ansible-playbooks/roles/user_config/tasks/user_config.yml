@@ -1,13 +1,8 @@
 ---
 
 - name: Add SSH Config
+  become: true
   ansible.builtin.template:
     src: ssh_config.j2
     dest: /home/{{ current_user }}/.ssh/config
     mode: "u=rw"
-
-- name: Add Bash Aliases
-  ansible.builtin.template:
-    src: bash_aliases.j2
-    dest: /home/{{ current_user }}/.bash_aliases
-    mode: "u=rwx,g=rx,o=rx"

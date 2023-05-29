@@ -29,14 +29,6 @@
         pkg:
           - kubectl
 
-# Groups
-- name: Create team groups
-  become: true
-  ansible.builtin.group:
-    name: "{{ item }}"
-    state: present
-  loop: "{{ team_groups }}"
-
 # Directories
 - name: Ensure shared directory exists
   ansible.builtin.file:
@@ -55,37 +47,3 @@
     owner: "root"
     group: "root"
     mode: "u=rwx,g=rwx,o=rwx"
-
-- name: Ensure shared team directories exist
-  become: true
-  ansible.builtin.file:
-    path: "{{ shared_dir }}/{{ item }}"
-    state: directory
-    owner: "root"
-    group: "{{ item }}"
-    mode: "u=rwx,g=rwx"
-  loop: "{{ team_groups }}"
-
-- name: Ensure team config directories exist
-  become: true
-  ansible.builtin.file:
-    path: "{{ shared_dir }}/{{ item }}/config"
-    state: directory
-    owner: "root"
-    group: "{{ item }}"
-    mode: "u=rwx,g=rwx"
-  loop: "{{ team_groups }}"
-
-- name: Add gitlab-runner to team groups (if present)
-  become: true
-  block:
-    - name: Get all users
-      ansible.builtin.getent:
-        database: passwd
-        split: ':'
-    - name: Add gitlab-runner to groups
-      ansible.builtin.user:
-        name: "gitlab-runner"
-        groups: "{{ team_groups }}"
-        append: true
-      when: "'gitlab-runner' in getent_passwd.keys()"

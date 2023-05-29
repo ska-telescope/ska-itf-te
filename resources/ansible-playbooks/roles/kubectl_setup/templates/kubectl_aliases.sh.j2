@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# kubectl short-hand
+alias k="kubectl"
+alias kg="kubectl get"
+alias kgn="kubectl get -n"
+alias kga="kubectl get all"
+alias kcv="kubectl config view"
+alias kgp="kubectl get pod"
+alias kgd="kubectl get deployment"
+
+# enable auto completion for both kubectl & k alias
+source <(kubectl completion bash)
+complete -o default -F __start_kubectl k

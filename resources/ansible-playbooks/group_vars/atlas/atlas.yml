@@ -1,0 +1,27 @@
+---
+
+team_name: atlas
+team_groups:
+  - atlas
+  - sudo
+team_users:
+  - name: a.debeer
+    ssh_key_path: ../../../../users/adb/.ssh/id_rsa.pub
+  - name: benjamin.lunsky
+    ssh_key_path: ../../../../users/bl/.ssh/id_rsa.pub
+  - name: d.gammon
+    ssh_key_path: ../../../../users/dg/.ssh/id_rsa.pub
+  - name: g.leroux
+    ssh_key_path: ../../../../users/glr/id_rsa.pub
+  - name: j.coetzer
+    ssh_key_path: ../../../../users/jc/.ssh/id_rsa.pub
+  - name: monde.manzini
+    ssh_key_path: ../../../../users/mm/.ssh/id_rsa.pub
+  - name: n.nzotho
+    ssh_key_path: ../../../../users/nn/.ssh/id_ed25519.pub
+  - name: p.jordaan
+    ssh_key_path: ../../../../users/pj/.ssh/id_rsa.pub
+  - name: t.tsotetsi
+    ssh_key_path: ../../../../users/tt/.ssh/id_ed25519.pub
+  - name: vhulahani.manukha
+    ssh_key_path: ../../../../users/vm/.ssh/id_rsa.pub
