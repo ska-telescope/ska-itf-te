@@ -1,0 +1,73 @@
+enabled: true
+
+system: SW-infrastructure
+subsystem: ska-ser-test-equipment
+
+labels:
+  app: ska-te-mid-skysimctl
+
+global:
+  facility: mid-itf # cloud-test / psi-low / mid-itf / low-aa0.5 etc
+  minikube: true
+  tango_host: databaseds-tango-base-test:10000
+  retry:
+    - "--tries=10"
+    - "--sleep=5"
+
+livenessProbe:
+  initialDelaySeconds: 0
+  periodSeconds: 10
+  timeoutSeconds: 3
+  successThreshold: 1
+  failureThreshold: 3
+readinessProbe:
+  initialDelaySeconds: 0
+  periodSeconds: 10
+  timeoutSeconds: 3
+  successThreshold: 1
+  failureThreshold: 3
+
+dsconfig:
+  timeout: 300s
+  image:
+    registry: artefact.skao.int
+    image: ska-tango-images-tango-dsconfig
+    tag: 1.5.5
+    pullPolicy: IfNotPresent
+
+itango:
+  image:
+    registry: artefact.skao.int
+    image: ska-tango-images-tango-itango
+    tag: 9.3.9
+    pullPolicy: IfNotPresent
+
+image:
+  registry: artefact.skao.int
+  # registry: registry.gitlab.com/ska-telescope/ska-te-mid-skysimctl
+  image: ska-te-mid-skysimctl
+  tag: 0.1.0
+  pullPolicy: IfNotPresent
+
+resources:
+  limits:
+    cpu: 1
+    memory: 100Mi
+  requests:
+    cpu: 50m
+    memory: 50Mi
+
+deviceServers:
+  enabled: true
+  servers:
+    skysimulatorcontroller:
+      file: "data/skysimctl.yaml"
+
+# simulators:
+#   enabled: true
+
+nodeSelector: {}
+
+affinity: {}
+
+tolerations: []
