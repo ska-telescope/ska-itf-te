@@ -11,7 +11,7 @@ server:
       classes:
         - name: "MidItfPi0Device"
           devices:
-            - name: "skysim/ctl/2"
+            - name: "mid-itf/skysimctl/1"
 image:
   registry: "{{ .Values.image.registry }}"
   image: "{{ .Values.image.image }}"
