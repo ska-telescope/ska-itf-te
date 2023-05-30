@@ -18,7 +18,7 @@
     - name: Set team shared config dir
       ansible.builtin.set_fact:
         # noqa: var-naming[no-role-prefix]
-        shared_team_config_dir: "{{ shared_dir }}/{{ team_name }}/config"
+        shared_team_config_dir: "{{ shared_team_dir }}/config"
     - name: Filter users
       loop: "{{ team_users }}"
       loop_control:

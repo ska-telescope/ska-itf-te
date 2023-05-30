@@ -1,9 +1,0 @@
----
-
-team_name: test-team
-team_groups:
-  - test-group
-  - sudo
-team_users:
-  - name: test-user
-    ssh_key_path: ../../../../users/pj/.ssh/id_rsa.pub

@@ -3,14 +3,8 @@
 # --extra-vars='{"filter_users": [<user-name>]}'
 filter_users: []
 
-setup_gaia: false
-setup_pi: false
-setup_test: false
-
 install_kubectl: false
 
 # directory structures
 shared_dir: /srv
 shared_common_dir: /srv/all
-
-team_configuration: {}

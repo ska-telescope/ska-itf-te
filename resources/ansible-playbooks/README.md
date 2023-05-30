@@ -87,6 +87,9 @@ This is the Ansible playbook and contains all the tasks we execute in order to a
 Populate your `PrivateRules.mak` file with something like
 
 ```bash
+# Set this to the team for which you want to execute the plays.
+# There must be a directory matching this name in group_vars.
+TEAM=<your-team>
 # This is the user used to SSH to hosts in the connect_* targets.
 SSH_USER=<your-jira-username>
 # This is the user used to execute Ansible playbooks.

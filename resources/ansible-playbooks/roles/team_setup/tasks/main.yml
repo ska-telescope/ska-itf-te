@@ -1,6 +1,5 @@
 ---
 
-# Groups
 - name: Create team group
   become: true
   ansible.builtin.group:

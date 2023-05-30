@@ -1,5 +1,4 @@
 ---
-# Make all the realms visible to Gaia
 
 - name: Install ASCII art generators
   become: true
