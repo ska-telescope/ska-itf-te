@@ -1,5 +1,3 @@
----
-
 - name: Configure team SSH keys
   ansible.builtin.include_tasks: "setup_ssh_key.yml"
   loop: "{{ ssh_keys }}"

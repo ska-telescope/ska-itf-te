@@ -1,5 +1,3 @@
----
-
 # Configure raspberry pi (Sky Simulator)
 - name: Setup raspberry_pi
   hosts:

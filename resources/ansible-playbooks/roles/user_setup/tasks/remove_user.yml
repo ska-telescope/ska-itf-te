@@ -1,5 +1,3 @@
----
-
 - name: Remove user account
   ansible.builtin.user:
     name: "{{ current_user }}"

@@ -1,4 +1,3 @@
----
 # Installation
 - name: Install kubectl
   when: install_kubectl

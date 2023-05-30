@@ -1,5 +1,3 @@
----
-
 - name: Setup variables
   vars:
     # Disable this linting rule because it makes the variables quite awkward to work with.

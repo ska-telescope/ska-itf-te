@@ -1,4 +1,3 @@
----
 # You can use this variable as follows from the command-line to filter which users to manage:
 # --extra-vars='{"filter_users": [<user-name>]}'
 filter_users: []

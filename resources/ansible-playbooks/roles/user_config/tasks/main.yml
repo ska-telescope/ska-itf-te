@@ -1,5 +1,3 @@
----
-
 - name: Install ASCII art generators
   become: true
   ansible.builtin.apt:
