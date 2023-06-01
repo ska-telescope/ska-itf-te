@@ -13,7 +13,6 @@
       vars:
         addkey: true
     - role: user_config
-    - role: skysim
 
 # Configure Gaia (za-itf-sw)
 - name: Setup gaia
@@ -51,4 +50,3 @@
         addkey: true
     - role: user_config
     - role: kubectl_setup
-    - role: skysim
