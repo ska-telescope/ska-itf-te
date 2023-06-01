@@ -1,6 +1,30 @@
----
-- name: Setup users
-  ansible.builtin.include_tasks: "user_setup.yml"
-  loop: "{{ user_configs }}"
+- name: Create users
+  ansible.builtin.include_tasks: "create_user.yml"
+  args:
+    apply:
+      become: true
+  loop: "{{ users }}"
   loop_control:
-    loop_var: user_config
+    loop_var: current_user
+  when: createusers
+
+- name: Remove users
+  ansible.builtin.include_tasks: "remove_user.yml"
+  args:
+    apply:
+      become: true
+  loop: "{{ users }}"
+  loop_control:
+    loop_var: current_user
+  when: removeusers
+
+- name: Add to groups
+  become: true
+  ansible.builtin.user:
+    name: "{{ current_user }}"
+    groups: "{{ team_groups }}"
+    append: true
+  loop: "{{ users }}"
+  loop_control:
+    loop_var: current_user
+  when: add_to_groups

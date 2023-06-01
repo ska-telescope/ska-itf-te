@@ -1,0 +1,17 @@
+- name: Upload & install kubectl aliases
+  become: true
+  ansible.builtin.template:
+    src: kubectl_aliases.sh.j2
+    dest: /etc/profile.d/99-kubectl-aliases.sh
+    owner: "root"
+    group: "root"
+    mode: "u=rwx,g=rx,o=rx"
+
+- name: Upload & install kubeconfig script
+  become: true
+  ansible.builtin.template:
+    src: kubeconfig_setup.sh.j2
+    dest: /etc/profile.d/99-{{ team_name }}-kubeconfig.sh
+    owner: "root"
+    group: "root"
+    mode: "u=rwx,g=rx,o=rx"

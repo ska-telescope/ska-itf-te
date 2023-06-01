@@ -1,34 +1,26 @@
----
-# Make all the realms visible to Gaia
+- name: Install ASCII art generators
+  become: true
+  ansible.builtin.apt:
+    pkg: [figlet, toilet]
+
+- name: Add Bash Aliases
+  become: true
+  ansible.builtin.template:
+    src: bash_aliases.j2
+    dest: /etc/profile.d/99-bash-aliases.sh
+    mode: "u=rwx,g=rx,o=rx"
+
+- name: Install generic welcome message
+  become: true
+  ansible.builtin.template:
+    src: welcome.sh.j2
+    dest: /etc/profile.d/99-{{ team_name }}-welcome.sh
+    mode: "u=rwx,g=rx,o=rx"
+    owner: "root"
+    group: "root"
 
 - name: Setup user configuration
   ansible.builtin.include_tasks: "user_config.yml"
   loop: "{{ users }}"
   loop_control:
     loop_var: current_user
-  when: current_user in users
-
-- name: Personalize Login
-  become: true
-  block:
-    - name: Install ASCII art generators
-      ansible.builtin.apt:
-        pkg: [figlet, toilet]
-
-    - name: Install generic welcome message
-      ansible.builtin.template:
-        src: welcome.sh.j2
-        dest: /etc/profile.d/99-welcome.sh
-        mode: "u=rwx,g=rx,o=rx"
-        owner: "root"
-        group: "root"
-
-# Kubeconfig
-- name: Upload & install kubeconfig script
-  become: true
-  ansible.builtin.template:
-    src: kubeconfig_setup.sh.j2
-    dest: /etc/profile.d/99-kubeconfig.sh
-    owner: "root"
-    group: "root"
-    mode: "u=rwx,g=rx,o=rx"

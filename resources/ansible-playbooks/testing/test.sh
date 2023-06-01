@@ -54,25 +54,29 @@ host_key_checking = False
 EOL
 }
 
-function run_ansible_playbook_pi() {
-    ansible-playbook -i ${TEMP_INVENTORY_FILE} --limit raspberry_pi \
-	  ${base_dir}/../site.yml \
-	  -u=${USER} \
-      -v
-}
+function run_ansible_playbook() {
+    case ${MODE} in
+    raspberry_pi)
+        NODE=raspberry_pi
+        ;;
+    gaia)
+        NODE=gaia
+        ;;
+    default)
+        NODE=test
+        ;;
+    *)
+        echo "Invalid mode '${MODE}'."
+        exit 1 
+        ;;
+    esac
 
-function run_ansible_playbook_gaia() {
-    ansible-playbook -i ${TEMP_INVENTORY_FILE} --limit gaia \
-	  ${base_dir}/../site.yml \
-	  -u=${USER} \
-      -v
-}
-
-function run_ansible_playbook_test() {
-    ansible-playbook -i ${TEMP_INVENTORY_FILE} --limit test \
-	  ${base_dir}/../site.yml \
-	  -u=${USER} \
-      -v
+    ansible-playbook --limit ${NODE} \
+        -u=${USER} \
+        -e @${base_dir}/../group_vars/atlas/atlas.yml \
+        -v \
+        -i ${TEMP_INVENTORY_FILE} \
+        ${base_dir}/../site.yml
 }
 
 setup_tempdir
@@ -80,20 +84,4 @@ trap cleanup_dir EXIT
 trap cleanup_dir ERR
 setup_test_inventory
 setup_ansible_cfg
-
-case ${MODE} in
-raspberry_pi)
-    run_ansible_playbook_pi
-    ;;
-gaia)
-    run_ansible_playbook_gaia
-    ;;
-default)
-    run_ansible_playbook_test
-    ;;
-*)
-    echo "Invalid mode '${MODE}'."
-    exit 1 
-    ;;
-esac
-
+run_ansible_playbook

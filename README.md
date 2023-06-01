@@ -17,7 +17,7 @@ A subset of the makefile commands available in the [Deploy Mid ITF](https://gitl
 #### VPN
 You need to be on the SKAO ITF VPN (connect via AnyConnect client) - see instructions in https://confluence.skatelescope.org/display/SE/Connect+to+the+Mid+ITF+VPN 
 #### Make variables
-You need to set one `make` variable in order to use your own acces pattern. Do that with this command, substituting `<your-initials>` with your initials which are also the foldernames under `resources/users/`:
+You need to set one `make` variable in order to use your own access pattern. Do that with this command, substituting `<your-initials>` with your initials which are also the foldernames under `resources/users/`:
 ```
 $ echo ME=<your-initials> >> resources/users/UserProfile.mak
 ```

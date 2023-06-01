@@ -1,0 +1,23 @@
+- name: Create team group
+  become: true
+  ansible.builtin.group:
+    name: "{{ team_primary_group }}"
+    state: present
+
+- name: Ensure shared team directories exist
+  become: true
+  ansible.builtin.file:
+    path: "{{ shared_team_dir }}"
+    state: directory
+    owner: "root"
+    group: "{{ team_primary_group }}"
+    mode: "u=rwx,g=rwx"
+
+- name: Ensure team config directories exist
+  become: true
+  ansible.builtin.file:
+    path: "{{ shared_team_config_dir }}"
+    state: directory
+    owner: "root"
+    group: "{{ team_primary_group }}"
+    mode: "u=rwx,g=rwx"

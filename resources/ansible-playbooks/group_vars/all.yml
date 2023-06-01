@@ -1,0 +1,9 @@
+# You can use this variable as follows from the command-line to filter which users to manage:
+# --extra-vars='{"filter_users": [<user-name>]}'
+filter_users: []
+
+install_kubectl: false
+
+# directory structures
+shared_dir: /srv
+shared_common_dir: /srv/all

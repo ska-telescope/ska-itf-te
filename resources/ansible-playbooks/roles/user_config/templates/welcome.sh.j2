@@ -1,11 +1,13 @@
 #!/bin/bash
 
+# Only set welcome message for the {{ team_primary_group }} group.
+if id -nG "${USER}" | grep -vqw {{ team_primary_group }}; then
+    return 0
+fi
+
 case ${USER} in
 p.jordaan | a.debeer | g.leroux | j.coetzer)
     WELCOME_STR="Welkom by {{ host_identifier }},"
-    ;;
-gitlab-runner)
-    exit 0
     ;;
 *)
     WELCOME_STR="Welcome to {{ host_identifier }},"

@@ -28,13 +28,21 @@ In order for this tooling to work for you, you must already have `ssh` access to
 
 ### group_vars
 
-This directory contains the variables applicable to all roles.
+This directory contains the variables applicable to all roles. The `all.yml` file contains default values for these variables. The directories in this folder contain team-specific configuration.
 
 ### inventory
 
 This directory contains the hosts inventory on which playbooks are executed.
 
 ### roles
+
+#### kubectl_setup
+
+This role configures the host for access to a kubernetes cluster.
+Currently it does the following:
+
+1. Sets the KUBECONFIG environment variable to the kubeconfig stored in the team's shared config directory.
+1. Adds kubectl aliases and autocompletion.
 
 #### ssh_keys
 
@@ -55,11 +63,14 @@ This role is used to add additional configuration for users. Currently it provid
 1. Adds an ssh config file which provides easy SSH access to other nodes in the ITF.
 2. Adds useful bash aliases.
 3. Adds a welcome message, displayed at login.
-4. Sets the KUBECONFIG environment variable to the kubeconfig stored in the team's shared config directory.
 
 #### user_setup
 
 This role is used to create & remove users, and also to add existing users to groups.
+
+#### var_setup
+
+This role parses the team configuration into variables which are easier to use by the various other roles.
 
 ### testing
 
@@ -76,6 +87,9 @@ This is the Ansible playbook and contains all the tasks we execute in order to a
 Populate your `PrivateRules.mak` file with something like
 
 ```bash
+# Set this to the team for which you want to execute the plays.
+# There must be a directory matching this name in group_vars.
+TEAM=<your-team>
 # This is the user used to SSH to hosts in the connect_* targets.
 SSH_USER=<your-jira-username>
 # This is the user used to execute Ansible playbooks.

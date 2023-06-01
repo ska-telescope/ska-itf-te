@@ -15,11 +15,15 @@ include ../../.make/release.mk
 INVENTORY_FILE ?= ./inventory/hosts
 PLAYBOOK_PARAMETERS ?= ## any additional ansible tags can go here - see ansible-playbook --help
 NODES ?= nodes ## subset of hosts from inventory to run against
-V ?=
-GAIA_IP ?= 10.165.3.7
-PI_IP ?= 10.165.3.11
 ANSIBLE_USER ?= $(USER)
 SSH_USER ?= $(USER)
+TEAM ?= atlas
+TEAM_VARS_FILE ?= ./group_vars/$(TEAM)/$(TEAM).yml
+ANSIBLE_COMMAND := ansible-playbook -i $(INVENTORY_FILE) -e @$(TEAM_VARS_FILE) $(PLAYBOOK_PARAMETERS) -u=$(ANSIBLE_USER) $(V)
+ANSIBLE_COMMAND_DRY_RUN := $(ANSIBLE_COMMAND) --check --diff
+GAIA_IP ?= 10.165.3.7
+PI_IP ?= 10.165.3.11
+V ?=
 
 vars:  ## Variables
 	@echo "Current variable settings:"
@@ -28,6 +32,10 @@ vars:  ## Variables
 	@echo "NODES=$(NODES)"
 	@echo "ANSIBLE_USER=$(ANSIBLE_USER)"
 	@echo "SSH_USER=$(SSH_USER)"
+	@echo "TEAM=$(TEAM)"
+	@echo "TEAM_VARS_FILE=$(TEAM_VARS_FILE)"
+	@echo "ANSIBLE_COMMAND=$(ANSIBLE_COMMAND)"
+	@echo "ANSIBLE_COMMAND_DRY_RUN=$(ANSIBLE_COMMAND_DRY_RUN)"
 	@echo "GAIA_IP=$(GAIA_IP)"
 	@echo "PI_IP=$(PI_IP)"
 	@echo "V=$(V)"
@@ -48,39 +56,19 @@ connect_pi: ## Add SSH Forwarding to local machine and SSH into Gaia
 .PHONY: connect_pi
 
 setup_pi: ## Runs the full playbook on the Raspberry Pi.
-	ansible-playbook -i $(INVENTORY_FILE) --limit raspberry_pi \
-	  site.yml \
-	  $(PLAYBOOK_PARAMETERS) \
-	  -u=$(ANSIBLE_USER) \
-	  $(V)
+	$(ANSIBLE_COMMAND) --limit raspberry_pi site.yml
 .PHONY: setup_pi
 
 setup_pi_dry_run: ## Runs the full playbook on the Raspberry Pi in dry-run mode.
-	ansible-playbook -i $(INVENTORY_FILE) --limit raspberry_pi \
-	  site.yml \
-	  $(PLAYBOOK_PARAMETERS) \
-	  -u=$(ANSIBLE_USER) \
-	  --check \
-	  --diff \
-	  $(V)
+	$(ANSIBLE_COMMAND_DRY_RUN) --limit raspberry_pi site.yml
 .PHONY: setup_pi_dry_run
 
 setup_gaia: ## Runs the full playbook on Gaia.
-	ansible-playbook -i $(INVENTORY_FILE) --limit gaia \
-	  site.yml \
-	  $(PLAYBOOK_PARAMETERS) \
-	  -u=$(ANSIBLE_USER) \
-	  $(V)
+	$(ANSIBLE_COMMAND) --limit gaia site.yml
 .PHONY: setup_gaia
 
 setup_gaia_dry_run: ## Runs the full playbook on Gaia in dry-run mode.
-	ansible-playbook -i $(INVENTORY_FILE) --limit gaia \
-	  site.yml \
-	  $(PLAYBOOK_PARAMETERS) \
-	  -u=$(ANSIBLE_USER) \
-	  --check \
-	  --diff \
-	  $(V)
+	$(ANSIBLE_COMMAND_DRY_RUN) --limit gaia site.yml
 .PHONY: setup_gaia
 
 lint: ## Lint check playbook
