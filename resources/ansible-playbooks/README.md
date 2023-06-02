@@ -56,6 +56,11 @@ This role contains tasks related to system-level configuration. Some of the task
 2. Creation of groups
 3. Creation of files & directories
 
+#### status
+
+This role is used to setup a status page for services running in the ITF.
+It runs on Gaia.
+
 #### user_config
 
 This role is used to add additional configuration for users. Currently it provides the following functionality:

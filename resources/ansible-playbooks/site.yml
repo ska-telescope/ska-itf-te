@@ -31,6 +31,9 @@
         addkey: true
     - role: user_config
     - role: kubectl_setup
+    - role: status
+      tags:
+        - status
 
 - name: Setup test
   hosts:
@@ -50,3 +53,6 @@
         addkey: true
     - role: user_config
     - role: kubectl_setup
+    - role: status
+      tags:
+        - status

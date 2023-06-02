@@ -1,0 +1,77 @@
+
+#page_title = "SKAO Mid ITF Status"
+#page_url = "https://www.skao.int/"
+#company_name = "SKA Observatory"
+#icon_color = "#1972F5"
+#icon_url = "https://www.skao.int/themes/custom/ska/favicon.svg"
+#logo_color = "#1972F5"
+#logo_url = "https://developer.skao.int/en/latest/_static/logo.png"
+#website_url = "https://www.skao.int/"
+#support_url = "https://www.skao.int/"
+
+endpoints:
+  - name: R&S Signal Generator SMB100A
+    url: "http://za-itf-signal-generator.ad.skatelescope.org"
+    interval: 2m
+    conditions:
+      - "[STATUS] == 200"
+  - name: Tektronix Oscilloscope MSO64
+    url: "http://za-itf-oscilloscope.ad.skatelescope.org"
+    interval: 2m
+    conditions:
+      - "[STATUS] == 200"
+  - name: Tektronix AWG
+    url: "http://za-itf-awg.ad.skatelescope.org"
+    interval: 2m
+    conditions:
+      - "[STATUS] == 200"
+  - name: Anritsu Spectrum Analyser
+    url: "http://za-itf-spectrum-analyser.ad.skatelescope.org"
+    interval: 2m
+    conditions:
+      - "[STATUS] == 200"
+  - name: GwInstek PSU
+    url: "http://za-itf-psu.ad.skatelescope.org"
+    interval: 2m
+    conditions:
+      - "[STATUS] == 200"
+  - name: RCDAT-8000-30 Programmable Attenuator
+    url: "http://za-itf-attenuator.ad.skatelescope.org"
+    interval: 2m
+    conditions:
+      - "[STATUS] == 200"
+  - name: Gaia (za-itf-sw)
+    url: "http://za-itf-sw.ad.skatelescope.org"
+    interval: 2m
+    conditions:
+      - "[STATUS] == 200"
+  - name: za-itf-dev1 (Ubuntu)
+    url: "icmp://za-itf-dev1.ad.skatelescope.org"
+    interval: 2m
+    conditions:
+      - "[CONNECTED] == true"
+  - name: za-itf-dev2 (Windows)
+    url: "icmp://za-itf-dev2.ad.skatelescope.org"
+    interval: 2m
+    conditions:
+      - "[CONNECTED] == true"
+  - name: Keysight Time Interval Counter
+    url: "http://za-itf-tic.ad.skatelescope.org"
+    interval: 2m
+    conditions:
+      - "[STATUS] == 200"
+  - name: Sky Simulator Controller
+    url: "http://za-itf-pi.ad.skatelescope.org"
+    interval: 2m
+    conditions:
+      - "[STATUS] == 200"
+  - name: GPS
+    url: "http://za-itf-gps.ad.skatelescope.org"
+    interval: 2m
+    conditions:
+      - "[STATUS] == 200"
+  - name: NTP
+    url: "http://za-itf-ntp.ad.skatelescope.org"
+    interval: 2m
+    conditions:
+      - "[STATUS] == 200"

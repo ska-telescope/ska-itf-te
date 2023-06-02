@@ -141,6 +141,7 @@ remove-test-equipment:
   - export PATH=${PATH}:${HOME}/.local/bin # this is where python installs ansible.
   - python3 -m pip install --user ansible
   - python3 -m pip install --user ansible-lint
+  - ansible-galaxy collection install community.docker
 
 ansible-lint:
   stage: lint

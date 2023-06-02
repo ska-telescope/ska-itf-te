@@ -1,0 +1,63 @@
+- name: Install docker
+  become: true
+  block:
+    - name: Add Docker GPG apt Key
+      ansible.builtin.apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      ansible.builtin.apt_repository:
+        repo: deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu   jammy stable
+        state: present
+
+    - name: Update apt and install docker-ce
+      ansible.builtin.apt:
+        name: docker-ce=5:24.0.2-1~ubuntu.22.04~jammy
+        state: present
+        update_cache: true
+
+    - name: Install Docker Module for Python
+      ansible.builtin.pip:
+        name: docker
+
+- name: Setup gatus
+  become: true
+  block:
+    - name: Create gatus group
+      ansible.builtin.group:
+        name: "gatus"
+        state: present
+    - name: Add gatus user
+      ansible.builtin.user:
+        name: "gatus"
+        shell: /bin/bash
+        group: "gatus"
+        groups: [gatus]
+        append: true
+        home: /opt/gatus
+    - name: Add gatus configuration file
+      ansible.builtin.copy:
+        src: config.yaml
+        dest: /opt/gatus/config.yaml
+        owner: gatus
+        group: gatus
+        mode: '0644'
+    - name: Pull gatus image
+      community.docker.docker_image:
+        name: "{{ gatus_image }}"
+        source: pull
+        pull:
+          platform: amd64
+
+- name: Start gatus
+  become: true
+  community.docker.docker_container:
+    recreate: true
+    debug: true
+    name: gatus
+    image: "{{ gatus_image }}"
+    ports:
+      - "8080:8080"
+    volumes:
+      - /opt/gatus/config.yaml:/config/config.yaml
