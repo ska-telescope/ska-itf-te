@@ -1,0 +1,25 @@
+- name: Ensure docker is running
+  become: true
+  ansible.builtin.service:
+    name: docker
+    state: started
+
+- name: Pull gatus image
+  become: true
+  community.docker.docker_image:
+    name: "{{ gatus_image }}"
+    source: pull
+    pull:
+      platform: amd64
+
+- name: Start gatus
+  become: true
+  community.docker.docker_container:
+    recreate: true
+    debug: true
+    name: gatus
+    image: "{{ gatus_image }}"
+    ports:
+      - "8080:8080"
+    volumes:
+      - /opt/gatus/config.yaml:/config/config.yaml

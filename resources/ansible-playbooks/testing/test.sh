@@ -73,8 +73,9 @@ function run_ansible_playbook() {
 
     ansible-playbook --limit ${NODE} \
         -u=${USER} \
-        -e @${base_dir}/../group_vars/atlas/atlas.yml \
-        -v \
+        --extra-vars=@${base_dir}/../group_vars/atlas/atlas.yml \
+        --extra-vars='{deploy_gatus: false}' \
+        -vvv \
         -i ${TEMP_INVENTORY_FILE} \
         ${base_dir}/../site.yml
 }

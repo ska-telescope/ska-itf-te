@@ -1,6 +1,14 @@
 - name: Install docker
   become: true
   block:
+    - name: Install prerequisites for Docker repository
+      ansible.builtin.apt:
+        name:
+          - ca-certificates
+          - curl
+          - gnupg
+        update_cache: true
+
     - name: Add Docker GPG apt Key
       ansible.builtin.apt_key:
         url: https://download.docker.com/linux/ubuntu/gpg
@@ -8,7 +16,7 @@
 
     - name: Add Docker Repository
       ansible.builtin.apt_repository:
-        repo: deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu   jammy stable
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu   jammy stable
         state: present
 
     - name: Update apt and install docker-ce
@@ -17,9 +25,14 @@
         state: present
         update_cache: true
 
-    - name: Install Docker Module for Python
-      ansible.builtin.pip:
-        name: docker
+    - name: Install requirements for docker in ansible
+      ansible.builtin.apt:
+        name:
+          - 'python3-pip'
+          - 'python3-setuptools'
+          - 'virtualenv'
+          - 'python3-docker'
+          - 'python3-requests'
 
 - name: Setup gatus
   become: true
@@ -43,21 +56,7 @@
         owner: gatus
         group: gatus
         mode: '0644'
-    - name: Pull gatus image
-      community.docker.docker_image:
-        name: "{{ gatus_image }}"
-        source: pull
-        pull:
-          platform: amd64
 
-- name: Start gatus
-  become: true
-  community.docker.docker_container:
-    recreate: true
-    debug: true
-    name: gatus
-    image: "{{ gatus_image }}"
-    ports:
-      - "8080:8080"
-    volumes:
-      - /opt/gatus/config.yaml:/config/config.yaml
+- name: Deploy gatus
+  when: deploy_gatus
+  ansible.builtin.include_tasks: run_gatus.yml

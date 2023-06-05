@@ -32,7 +32,7 @@ function cleanup_docker() {
 }
 
 function start_container() {
-    docker run -d -P --name ${NAME} ${IMAGE_FQDN}
+    docker run -v /var/run/docker.sock:/var/run/docker.sock -d -P --name ${NAME} ${IMAGE_FQDN}
     export TEST_PORT=$(docker port ${NAME} 22/tcp | head -n1 | awk -F ':' '{print $2}')
 }
 

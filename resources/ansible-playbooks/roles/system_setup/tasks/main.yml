@@ -8,7 +8,6 @@
         pkg:
           - ca-certificates
           - curl
-
     - name: Install signing key
       block:
         - name: Add kubectl apt key

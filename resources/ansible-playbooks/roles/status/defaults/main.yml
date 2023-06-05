@@ -1,1 +1,2 @@
-gatus_image: twinproduction/gatus
+gatus_image: twinproduction/gatus:latest
+deploy_gatus: true
