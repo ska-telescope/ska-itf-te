@@ -4,22 +4,22 @@
     name: docker
     state: started
 
-- name: Pull gatus image
+- name: Pull vigil image
   become: true
   community.docker.docker_image:
-    name: "{{ gatus_image }}"
+    name: "{{ vigil_image }}"
     source: pull
     pull:
       platform: amd64
 
-- name: Start gatus
+- name: Start vigil
   become: true
   community.docker.docker_container:
     recreate: true
     debug: true
-    name: gatus
-    image: "{{ gatus_image }}"
+    name: vigil
+    image: "{{ vigil_image }}"
     ports:
-      - "{{ gatus_port }}:{{ gatus_port }}"
+      - "{{ vigil_port }}:{{ vigil_port }}"
     volumes:
-      - /opt/gatus/config.yaml:/config/config.yaml
+      - /opt/vigil/vigil.cfg:/etc/vigil.cfg

@@ -1,2 +1,11 @@
 gatus_image: twinproduction/gatus:latest
+gatus_port: 8080
 deploy_gatus: true
+
+vigil_image: valeriansaliou/vigil:v1.25.1
+vigil_port: 8090
+deploy_vigil: true
+
+blackbox_image: quay.io/prometheus/blackbox-exporter:latest
+blackbox_port: 8088
+deploy_blackbox: true

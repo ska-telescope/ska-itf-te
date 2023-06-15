@@ -1,39 +1,39 @@
-- name: Install docker
-  become: true
-  block:
-    - name: Install prerequisites for Docker repository
-      ansible.builtin.apt:
-        name:
-          - ca-certificates
-          - curl
-          - gnupg
-        update_cache: true
-
-    - name: Add Docker GPG apt Key
-      ansible.builtin.apt_key:
-        url: https://download.docker.com/linux/ubuntu/gpg
-        state: present
-
-    - name: Add Docker Repository
-      ansible.builtin.apt_repository:
-        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu   jammy stable
-        state: present
-
-    - name: Update apt and install docker-ce
-      ansible.builtin.apt:
-        name: docker-ce=5:24.0.2-1~ubuntu.22.04~jammy
-        state: present
-        update_cache: true
-
-    - name: Install requirements for docker in ansible
-      ansible.builtin.apt:
-        name:
-          - 'python3-pip'
-          - 'python3-setuptools'
-          - 'virtualenv'
-          - 'python3-docker'
-          - 'python3-requests'
-
+#- name: Install docker
+#  become: true
+#  block:
+#    - name: Install prerequisites for Docker repository
+#      ansible.builtin.apt:
+#        name:
+#          - ca-certificates
+#          - curl
+#          - gnupg
+#        update_cache: true
+#
+#    - name: Add Docker GPG apt Key
+#      ansible.builtin.apt_key:
+#        url: https://download.docker.com/linux/ubuntu/gpg
+#        state: present
+#
+#    - name: Add Docker Repository
+#      ansible.builtin.apt_repository:
+#        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu   jammy stable
+#        state: present
+#
+#    - name: Update apt and install docker-ce
+#      ansible.builtin.apt:
+#        name: docker-ce=5:24.0.2-1~ubuntu.22.04~jammy
+#        state: present
+#        update_cache: true
+#
+#    - name: Install requirements for docker in ansible
+#      ansible.builtin.apt:
+#        name:
+#          - 'python3-pip'
+#          - 'python3-setuptools'
+#          - 'virtualenv'
+#          - 'python3-docker'
+#          - 'python3-requests'
+#
 - name: Setup gatus
   become: true
   block:
@@ -51,12 +51,66 @@
         home: /opt/gatus
     - name: Add gatus configuration file
       ansible.builtin.copy:
-        src: config.yaml
+        src: config_gatus.yaml
         dest: /opt/gatus/config.yaml
         owner: gatus
         group: gatus
         mode: '0644'
 
+- name: Setup vigil
+  become: true
+  block:
+    - name: Create vigil group
+      ansible.builtin.group:
+        name: "vigil"
+        state: present
+    - name: Add vigil user
+      ansible.builtin.user:
+        name: "vigil"
+        shell: /bin/bash
+        group: "vigil"
+        groups: [vigil]
+        append: true
+        home: /opt/vigil
+    - name: Add vigil configuration file
+      ansible.builtin.copy:
+        src: vigil.cfg
+        dest: /opt/vigil/vigil.cfg
+        owner: vigil
+        group: vigil
+        mode: '0644'
+
+- name: Setup blackbox
+  become: true
+  block:
+    - name: Create blackbox group
+      ansible.builtin.group:
+        name: "blackbox"
+        state: present
+    - name: Add blackbox user
+      ansible.builtin.user:
+        name: "blackbox"
+        shell: /bin/bash
+        group: "blackbox"
+        groups: [blackbox]
+        append: true
+        home: /opt/blackbox
+    - name: Add blackbox configuration file
+      ansible.builtin.copy:
+        src: config_blackbox.yaml
+        dest: /opt/blackbox/blackbox.yaml
+        owner: blackbox
+        group: blackbox
+        mode: '0644'
+
 - name: Deploy gatus
   when: deploy_gatus
   ansible.builtin.include_tasks: run_gatus.yml
+
+- name: Deploy vigil
+  when: deploy_vigil
+  ansible.builtin.include_tasks: run_vigil.yml
+
+- name: Deploy blackbox
+  when: deploy_blackbox
+  ansible.builtin.include_tasks: run_blackbox.yml

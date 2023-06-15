@@ -1,0 +1,101 @@
+default-endpoint: &defaults
+  interval: 2m
+  client:
+    insecure: true
+    timeout: 30s
+  alerts:
+    - type: slack
+      failure-threshold: 3
+      description: "healthcheck failed 3 times in a row"
+      send-on-resolved: true
+
+test-equipment-hw-endpoint: &test-equipment-hw
+  <<: *defaults
+  group: test-equipment-hw
+  conditions:
+    - "[STATUS] == 200"
+
+sut-hw-endpoint: &sut-hw
+  <<: *defaults
+  group: sut-hw
+  conditions:
+    - "[CONNECTED] == true"
+
+endpoints:
+  # Test Equipment Hardware
+  - name: R&S Signal Generator SMB100A
+    <<: *test-equipment-hw
+    url: "http://za-itf-signal-generator.ad.skatelescope.org"
+  - name: Tektronix Oscilloscope MSO64
+    <<: *test-equipment-hw
+    url: "http://za-itf-oscilloscope.ad.skatelescope.org"
+  - name: Tektronix AWG
+    <<: *test-equipment-hw
+    url: "http://za-itf-awg.ad.skatelescope.org"
+  - name: Anritsu Spectrum Analyser
+    <<: *test-equipment-hw
+    url: "http://10.165.3.4"
+  - name: GwInstek PSU
+    <<: *test-equipment-hw
+    url: "http://za-itf-psu.ad.skatelescope.org"
+  - name: RCDAT-8000-30 Programmable Attenuator
+    <<: *test-equipment-hw
+    url: "http://za-itf-attenuator.ad.skatelescope.org"
+  - name: Gaia (za-itf-sw)
+    <<: *test-equipment-hw
+    url: "http://za-itf-sw.ad.skatelescope.org"
+  - name: za-itf-dev1 (Ubuntu)
+    <<: *test-equipment-hw
+    url: "icmp://za-itf-dev1.ad.skatelescope.org"
+    conditions:
+      - "[CONNECTED] == true"
+  - name: za-itf-dev2 (Windows)
+    <<: *test-equipment-hw
+    url: "icmp://za-itf-dev2.ad.skatelescope.org"
+    conditions:
+      - "[CONNECTED] == true"
+  - name: Keysight Time Interval Counter
+    <<: *test-equipment-hw
+    url: "http://za-itf-tic.ad.skatelescope.org"
+    conditions:
+      - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 6600"
+  - name: Raspberry Pi
+    <<: *test-equipment-hw
+    url: "http://za-itf-pi.ad.skatelescope.org"
+  - name: GPS
+    <<: *test-equipment-hw
+    url: "http://za-itf-gps.ad.skatelescope.org"
+  - name: NTP
+    <<: *test-equipment-hw
+    url: "http://za-itf-ntp.ad.skatelescope.org"
+  # System-Under-Test Hardware
+  - name: RXPU 1
+    <<: *sut-hw
+    url: icmp://10.165.3.20
+  - name: RXPU 2
+    <<: *sut-hw
+    url: icmp://10.165.3.21
+  - name: CSP Surrogate
+    <<: *sut-hw
+    url: icmp://10.165.3.22
+  - name: SAT UTC Master Switch
+    <<: *sut-hw
+    url: icmp://10.165.3.25
+  - name: SAT UTC WR ZEN1
+    <<: *sut-hw
+    url: icmp://10.165.3.26
+  - name: SAT UTC WR ZEN2
+    <<: *sut-hw
+    url: icmp://10.165.3.27
+
+ui:
+  title: SKAO Mid ITF Health Status
+  description: Health monitoring page for services running in the SKAO Mid ITF.
+  header: SKAO Mid ITF Health Status
+  logo: https://developer.skao.int/en/latest/_static/logo.png
+  link: https://www.skao.int
+
+alerting:
+  slack:
+    webhook-url: "https://hooks.slack.com/services/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"
