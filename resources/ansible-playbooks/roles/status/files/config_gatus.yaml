@@ -98,4 +98,4 @@ ui:
 
 alerting:
   slack:
-    webhook-url: "https://hooks.slack.com/services/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"
+    webhook-url: ""
