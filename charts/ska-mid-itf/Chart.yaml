@@ -7,20 +7,26 @@ appVersion: 0.1.0-dev.c
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
   # Tango
+  - name: ska-tango-util
+    version: 0.4.3 # Check latest version
+    repository: https://artefact.skao.int/repository/helm-internal
+
   - name: ska-tango-base
     version: 0.4.4 # Check latest version
     repository: https://artefact.skao.int/repository/helm-internal
 
-  - name: ska-tango-util
-    version: 0.4.5 # Check latest version
-    repository: https://artefact.skao.int/repository/helm-internal
-
   # SKA Test Equipment
   - name: ska-ser-test-equipment
-    version: 0.7.0 # check latest version
+    version: 0.6.2 # check latest version
     repository: https://artefact.skao.int/repository/helm-internal
     alias: test-equipment
     condition: test-equipment.enabled
+
+  - name: ska-te-skysimctl
+    version: 0.1.0-dev # local dev version
+    repository: file://../sky-sim-ctl
+    condition: test-equipment.enabled
+    alias: skysimctl
 
   # TARANTA SUITE
   - name: ska-tango-taranta
