@@ -33,8 +33,15 @@ test-equipment:
             limits:
               skao.int/signal-generator-01: "1"
 
-# TARANTA SUITE
+# SKYSIMCONTROLLER
+skysimctl:
+  image:
+    registry: registry.gitlab.com/ska-telescope/ska-te-mid-skysimctl
+    image: ska-te-mid-skysimctl
+    tag: 0.1.0
+    pullPolicy: Always
 
+# TARANTA SUITE
 ska-taranta:
   enabled: true
   ingress:

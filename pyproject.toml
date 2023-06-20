@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ska-mid-itf"
-version = "0.0.0"
+version = "0.1.0"
 description = "SCPI and Tango enabled Sky Simulator Controller for a RaspberryPi and container runtime testing."
 authors = ["ATLAS"]
 license = "BSD 3-Clause"

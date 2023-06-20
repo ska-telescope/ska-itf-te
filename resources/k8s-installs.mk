@@ -1,3 +1,26 @@
+ifeq ($(CI_JOB_NAME),deploy-test-equipment) # if CI_JOB_NAME is deploy-test-equipment
+# Set K8S_EXTRA_PARAMS for deploying Test Equipment during development of the Test Equipment charts
+TE_REGISTRY ?= registry.gitlab.com/ska-telescope/ska-ser-test-equipment
+TE_IMAGE ?= ska-ser-test-equipment
+TE_VERSION ?= 0.7.0# This should be dynamically inherited and used only when the upstream changes
+
+K8S_EXTRA_PARAMS = \
+			--set test-equipment.image.registry=$(TE_REGISTRY) \
+			--set test-equipment.image.image=$(TE_IMAGE) \
+			--set test-equipment.image.tag=$(TE_VERSION) \
+			--set test-equipment.image.pullPolicy=Always
+endif
+
+## TARGET: itf-te-install
+## SYNOPSIS: make itf-te-install
+## HOOKS: none
+## VARS: none
+##  make target for generating the URLs for accessing the Test Equipment deployment
+
+itf-te-install:
+	@make vars;
+	@make k8s-install-chart K8S_CHART=ska-mid-itf
+
 itf-spookd-install:
 	@make k8s-install-chart K8S_CHART=ska-mid-itf-ghosts KUBE_APP=spookd KUBE_NAMESPACE=$(SPOOKD_NAMESPACE) HELM_RELEASE=whoyougonnacall
 
@@ -39,10 +62,7 @@ itf-te-links: ## Create the URLs with which to access Skampi if it is available
 	@echo "#            Access the Test Equipment Taranta framework here:"
 	@echo "#            https://$(INGRESS_HOST)/$(KUBE_NAMESPACE)/taranta/devices"
 	@echo "############################################################################"
-	@if [[ -z "${LOADBALANCER_IP}" ]]; then exit 0; \
-	elif [[ $(shell curl -I -s -o /dev/null -I -w \'%{http_code}\' http$(S)://$(LOADBALANCER_IP)/$(KUBE_NAMESPACE)/taranta/devices) != '200' ]]; then \
-		echo "ERROR: http://$(LOADBALANCER_IP)/$(KUBE_NAMESPACE)/taranta/devices unreachable"; exit 10; \
-	fi
+	@kubectl get -n test-equipment svc tango-databaseds -o jsonpath={'.status.loadBalancer.ingress[0].ip'}
 
 vars:
 	$(info KUBE_NAMESPACE: $(KUBE_NAMESPACE))
@@ -55,3 +75,22 @@ vars:
 	$(info #####################################)
 	$(info K8S_EXTRA_PARAMS: $(K8S_EXTRA_PARAMS))
 	$(info #####################################)
+	$(info TE_VERSION: $(TE_VERSION))
+	$(info #####################################)
+	$(info CLUSTER_DOMAIN: $(CLUSTER_DOMAIN))
+	$(info #####################################)
+	$(info MINIKUBE: $(MINIKUBE))
+	$(info global.exposeAllDS=$(EXPOSE_All_DS))
+	$(info global.tango_host=$(TANGO_HOST))
+	$(info global.cluster_domain=$(CLUSTER_DOMAIN))
+	$(info global.device_server_port=$(TANGO_SERVER_PORT))
+	$(info global.operator=$(SKA_TANGO_OPERATOR))
+	$(info ska-tango-base.display=$(DISPLAY))
+	$(info ska-tango-base.xauthority=$(XAUTHORITY))
+	$(info ska-tango-base.jive.enabled=$(JIVE))
+	$(info ska-tango-base.itango.enabled=$(ITANGO_ENABLED))
+	$(info TARANTA_PARAMS: $(TARANTA_PARAMS))
+	$(info K8S_TEST_TANGO_IMAGE_PARAMS: ${K8S_TEST_TANGO_IMAGE_PARAMS})
+	$(info SKIP_TANGO_EXAMPLES_PARAMS: ${SKIP_TANGO_EXAMPLES_PARAMS})
+	$(info K8S_EXTRA_PARAMS: $(K8S_EXTRA_PARAMS))
+	$(info K8S_CHARTS: $(K8S_CHARTS))
