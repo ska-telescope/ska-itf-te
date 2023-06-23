@@ -101,16 +101,25 @@ deploy-test-equipment:
     - remove-test-equipment
   allow_failure: true # need to keep this to unlock the pipeline
 
-#### FROM SKAMPI, COPIED FOR REFERENCE:
-.uninstall_chart:
-  script:
-    - echo $CI_JOB_NAME - $CI_JOB_STAGE
-    - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
-    - bash .make/resources/gitlab_section.sh env "Environment dump" env
-    - make k8s-uninstall-chart || true
-    - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all --ignore-not-found
-    - kubectl -n $KUBE_NAMESPACE_SDP delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all --ignore-not-found
-    - make k8s-delete-namespace
+generate-skysimctl-config:
+  stage: test-equipment-setup
+  script: make itf-te-pass-env
+  artifacts:
+    untracked: false
+    when: on_success
+    expire_in: "1 hour"
+    paths:
+      - build/
+  needs:
+    - deploy-test-equipment
+
+deploy-skysimctl-install:
+  stage: test-equipment-setup
+  trigger: ska-telescope/ska-te-mid-skysimctl
+  inherit:
+    variables: false
+  needs:
+    - generate-skysimctl-config
 
 remove-test-equipment:
   stage: test-equipment-setup
@@ -165,3 +174,14 @@ ansible-test:
   script:
     - cd resources/ansible-playbooks
     - make test-cicd
+
+#### FROM SKAMPI, COPIED FOR REFERENCE:
+.uninstall_chart:
+  script:
+    - echo $CI_JOB_NAME - $CI_JOB_STAGE
+    - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+    - bash .make/resources/gitlab_section.sh env "Environment dump" env
+    - make k8s-uninstall-chart || true
+    - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all --ignore-not-found
+    - kubectl -n $KUBE_NAMESPACE_SDP delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all --ignore-not-found
+    - make k8s-delete-namespace
