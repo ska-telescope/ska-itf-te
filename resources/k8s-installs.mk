@@ -21,6 +21,12 @@ itf-te-install:
 	@make vars;
 	@make k8s-install-chart K8S_CHART=ska-mid-itf
 
+itf-te-template:
+	@make vars;
+	@make k8s-template-chart K8S_CHART=ska-mid-itf
+	@mkdir -p build
+	@mv manifests.yaml build/
+
 itf-spookd-install:
 	@make k8s-install-chart K8S_CHART=ska-mid-itf-ghosts KUBE_APP=spookd KUBE_NAMESPACE=$(SPOOKD_NAMESPACE) HELM_RELEASE=whoyougonnacall
 
@@ -62,7 +68,17 @@ itf-te-links: ## Create the URLs with which to access Skampi if it is available
 	@echo "#            Access the Test Equipment Taranta framework here:"
 	@echo "#            https://$(INGRESS_HOST)/$(KUBE_NAMESPACE)/taranta/devices"
 	@echo "############################################################################"
-	@kubectl get -n test-equipment svc tango-databaseds -o jsonpath={'.status.loadBalancer.ingress[0].ip'}
+
+## TARGET: itf-te-pass-env
+## SYNOPSIS: make itf-te-pass-env
+## HOOKS: none
+## VARS: none
+##  make target for generating Gitlab CI configuration for SkySimCtl device server deployment
+
+itf-te-pass-env: ## Generate Gitlab CI configuration for SkySimCtl device server deployment
+	@mkdir -p build
+	@cp resources/skysimctl_tangohost_env.sh build/env.sh
+	@echo "export TANGO_HOST=$(shell kubectl get -n test-equipment svc tango-databaseds -o jsonpath={'.status.loadBalancer.ingress[0].ip'})" >> build/env.sh
 
 vars:
 	$(info KUBE_NAMESPACE: $(KUBE_NAMESPACE))

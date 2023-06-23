@@ -1,0 +1,10 @@
+deploy-integration:
+  variables:
+    TANGO_HOST: tango://tango-database.10.164.10.6:10000
+  tags:
+    - mid-itf-skysimctl
+  before_script:
+    - bash .make/resources/gitlab_section.sh setup_skysimctl_env "Prepare environment to deploy skysimctl" make skysimctl-setup-env
+  script:
+    - bash .make/resources/gitlab_section.sh install_skysimctl "Deploy skysimctl" make skysimctl-install
+  when: manual
