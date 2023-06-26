@@ -102,6 +102,8 @@ deploy-test-equipment:
 
 generate-skysimctl-config:
   stage: test-equipment-setup
+  tags:
+    - ska-k8srunner-za-itf
   script: make itf-te-pass-env
   artifacts:
     untracked: false
