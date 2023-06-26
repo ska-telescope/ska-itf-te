@@ -13,15 +13,16 @@ RUN install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
 RUN poetry config virtualenvs.create false
 
+FROM $buildenv as devenv
+
 WORKDIR /app
 COPY --chown=tango:tango . /app
 
-RUN pip install --upgrade poetry
-RUN poetry install
+RUN pip install --upgrade poetry==1.3.2
 
 USER tango
 
 RUN poetry config virtualenvs.create false
-RUN poetry shell && poetry install
+# RUN poetry shell && poetry install
 
 ENTRYPOINT [ "/bin/bash" ]

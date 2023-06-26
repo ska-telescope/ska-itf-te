@@ -106,7 +106,6 @@ generate-skysimctl-config:
   artifacts:
     untracked: false
     when: on_success
-    expire_in: "1 hour"
     paths:
       - build/
   needs:
