@@ -18,7 +18,7 @@ dependencies:
   # SKA Test Equipment
   - name: ska-ser-test-equipment
     version: 0.7.0-at614 # check latest version
-    repository: https://artefact.skao.int/repository/helm-internal
+    repository: https://registry.gitlab.com/ska-telescope
     alias: test-equipment
     condition: test-equipment.enabled
 
