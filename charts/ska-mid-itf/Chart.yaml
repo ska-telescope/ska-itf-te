@@ -18,7 +18,7 @@ dependencies:
   # SKA Test Equipment
   - name: ska-ser-test-equipment
     version: 0.7.0-at614 # check latest version
-    repository: https://registry.gitlab.com/ska-telescope
+    repository: https://registry.gitlab.com/ska-telescope/ska-ser-test-equipment
     alias: test-equipment
     condition: test-equipment.enabled
 
