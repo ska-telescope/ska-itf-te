@@ -72,13 +72,23 @@ itf-te-links: ## Create the URLs with which to access Skampi if it is available
 ## TARGET: itf-te-pass-env
 ## SYNOPSIS: make itf-te-pass-env
 ## HOOKS: none
-## VARS: none
+## VARS: 
+##	CI_COMMIT_REF_NAME=[branch-name] (default value: none)
 ##  make target for generating Gitlab CI configuration for SkySimCtl device server deployment
+
+CI_COMMIT_REF_NAME?=
 
 itf-te-pass-env: ## Generate Gitlab CI configuration for SkySimCtl device server deployment
 	@mkdir -p build
 	@echo "TANGO_HOST=$(shell kubectl get -n test-equipment svc tango-databaseds -o jsonpath={'.status.loadBalancer.ingress[0].ip'}):10000" > build/deploy.env
-	@echo "CI_COMMIT_REF_NAME=$$UPSTREAM_CI_COMMIT_REF_NAME" >> build/deploy.env # This is a workaround - see https://gitlab.com/gitlab-org/gitlab/-/issues/331596
+	@echo "######################################################################"
+	@echo "# THIS PIPELINE IS RUNNING FOR THE $(CI_COMMIT_REF_NAME) BRANCH"
+	@echo "######################################################################"
+	@if [[ -z "$(CI_COMMIT_REF_NAME)" ]]; then exit 1; fi
+	@echo
+	@echo "Exporting CI variables"
+	@echo "UPSTREAM_CI_COMMIT_REF_NAME=$(CI_COMMIT_REF_NAME)" >> build/deploy.env # This is a workaround - see https://gitlab.com/gitlab-org/gitlab/-/issues/331596
+	@echo "UPSTREAM_CI_JOB_ID=$(CI_JOB_ID)" >> build/deploy.env
 	@cat build/deploy.env
 
 vars:
