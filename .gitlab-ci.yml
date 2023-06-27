@@ -75,12 +75,13 @@ deploy-test-equipment:
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
     - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
   script:
+    - make itf-te-template
     - make itf-te-install
     # The following are all needed to verify deployment and expose the issue
     - make k8s-wait SKA_TANGO_OPERATOR=true
     - kubectl logs -l job-name=signalgenerator-test-config -n $KUBE_NAMESPACE
     - make k8s-get-pods
-    - make itf-te-links #INGRESS_HOST=10.164.0.3
+    - make itf-te-links
   environment:
     name: ska-mid-itf/test-equipment
     kubernetes:
@@ -99,16 +100,26 @@ deploy-test-equipment:
     - remove-test-equipment
   allow_failure: true # need to keep this to unlock the pipeline
 
-#### FROM SKAMPI, COPIED FOR REFERENCE:
-.uninstall_chart:
-  script:
-    - echo $CI_JOB_NAME - $CI_JOB_STAGE
-    - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
-    - bash .make/resources/gitlab_section.sh env "Environment dump" env
-    - make k8s-uninstall-chart || true
-    - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all --ignore-not-found
-    - kubectl -n $KUBE_NAMESPACE_SDP delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all --ignore-not-found
-    - make k8s-delete-namespace
+generate-skysimctl-config:
+  stage: test-equipment-setup
+  tags:
+    - ska-k8srunner-za-itf
+  script: make itf-te-pass-env
+  artifacts:
+    untracked: false
+    when: on_success
+    paths:
+      - build/
+  needs:
+    - deploy-test-equipment
+
+deploy-skysimctl-install:
+  stage: test-equipment-setup
+  trigger: ska-telescope/ska-te-mid-skysimctl
+  inherit:
+    variables: false
+  needs:
+    - generate-skysimctl-config
 
 remove-test-equipment:
   stage: test-equipment-setup
@@ -163,3 +174,14 @@ ansible-test:
   script:
     - cd resources/ansible-playbooks
     - make test-cicd
+
+#### FROM SKAMPI, COPIED FOR REFERENCE:
+.uninstall_chart:
+  script:
+    - echo $CI_JOB_NAME - $CI_JOB_STAGE
+    - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+    - bash .make/resources/gitlab_section.sh env "Environment dump" env
+    - make k8s-uninstall-chart || true
+    - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all --ignore-not-found
+    - kubectl -n $KUBE_NAMESPACE_SDP delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all --ignore-not-found
+    - make k8s-delete-namespace
