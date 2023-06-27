@@ -88,6 +88,7 @@ itf-te-pass-env: ## Generate Gitlab CI configuration for SkySimCtl device server
 	@echo
 	@echo "Exporting CI variables"
 	@echo "UPSTREAM_CI_COMMIT_REF_NAME=$(CI_COMMIT_REF_NAME)" >> build/deploy.env # This is a workaround - see https://gitlab.com/gitlab-org/gitlab/-/issues/331596
+	@echo "UPSTREAM_CI_JOB_ID=$(CI_JOB_ID)" >> build/deploy.env
 	@cat build/deploy.env
 
 vars:
