@@ -10,10 +10,10 @@ cache:
 stages:
   - lint
   - build
-  - test-equipment-setup
   - integration # no idea what this is for
   # - staging
   - test
+  - test-equipment-setup
   - upload
   - publish
   - pages
@@ -142,7 +142,7 @@ remove-test-equipment:
       namespace: $KUBE_NAMESPACE
     url: "https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
     action: stop
-  # when: manual
+  when: manual
   allow_failure: true # need to keep this to unlock the pipeline
 
 .setup-ansible:
