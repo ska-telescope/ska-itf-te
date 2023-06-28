@@ -5,12 +5,11 @@ description = "Distribution package for Mid ITF"
 authors = ["Adriaan de Beer <adebeer42@gmail.com>"]
 license = "BSD"
 readme = "README.md"
-packages = [{include = "distribute_ssh_keys"}]
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.11"
 ansible = "^7.5.0"
-
+ansible-lint = {version = "^6.17.2", markers = "platform_system != 'Windows'"}
 
 [build-system]
 requires = ["poetry-core"]
