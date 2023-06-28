@@ -46,3 +46,21 @@
     owner: "root"
     group: "root"
     mode: "u=rwx,g=rwx,o=rwx"
+
+- name: Add gitlab-runner to sudoers
+  when: inventory_hostname in groups['raspberry_pi']
+  block:
+    - name: Gather available local users
+      ansible.builtin.getent:
+        database: passwd
+    - name: Add gitlab-runner to sudoers if they exist
+      become: true
+      ansible.builtin.lineinfile:
+        line: "gitlab-runner ALL=(ALL) NOPASSWD:ALL"
+        path: "/etc/sudoers.d/99-atlas-team"
+        regex: "gitlab-runner"
+        create: true
+        owner: "root"
+        group: "root"
+        mode: "u=r,g=r"
+      when: '"gitlab-runner" in getent_passwd.keys()'
