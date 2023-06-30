@@ -8,12 +8,12 @@ cache:
   paths:
     - build
 stages:
+  - test-equipment-setup
   - lint
   - build
   - integration # no idea what this is for
   # - staging
   - test
-  - test-equipment-setup
   - upload
   - publish
   - pages
@@ -106,6 +106,8 @@ generate-skysimctl-config:
     - ska-k8srunner-za-itf
   script: make itf-te-pass-env
   artifacts:
+    reports:
+      dotenv: build/deploy.env
     untracked: false
     when: on_success
     paths:
@@ -142,7 +144,7 @@ remove-test-equipment:
       namespace: $KUBE_NAMESPACE
     url: "https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
     action: stop
-  when: manual
+#  when: manual
   allow_failure: true # need to keep this to unlock the pipeline
 
 .setup-ansible:
