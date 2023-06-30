@@ -8,12 +8,12 @@ cache:
   paths:
     - build
 stages:
+  - test-equipment-setup
   - lint
   - build
   - integration # no idea what this is for
   # - staging
   - test
-  - test-equipment-setup
   - upload
   - publish
   - pages
@@ -29,8 +29,8 @@ include:
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/finaliser.gitlab-ci.yml"
   # Helm Charts
-  - project: "ska-telescope/templates-repository"
-    file: "gitlab-ci/includes/helm-chart.gitlab-ci.yml"
+  #- project: "ska-telescope/templates-repository"
+  #  file: "gitlab-ci/includes/helm-chart.gitlab-ci.yml"
   # k8s steps
   # - project: "ska-telescope/templates-repository"
   #   file: "gitlab-ci/includes/k8s.gitlab-ci.yml"
@@ -147,7 +147,6 @@ remove-test-equipment:
       namespace: $KUBE_NAMESPACE
     url: "https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
     action: stop
-  when: manual
   allow_failure: true # need to keep this to unlock the pipeline
 
 .setup-ansible:
