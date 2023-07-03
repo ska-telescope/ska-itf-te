@@ -100,12 +100,15 @@ deploy-test-equipment:
     - remove-test-equipment
   allow_failure: true # need to keep this to unlock the pipeline
 
+
 generate-skysimctl-config:
   stage: test-equipment-setup
   tags:
     - ska-k8srunner-za-itf
   script: make itf-te-pass-env
   artifacts:
+    reports:
+      dotenv: build/deploy.env
     untracked: false
     when: on_success
     paths:
@@ -115,7 +118,9 @@ generate-skysimctl-config:
 
 deploy-skysimctl-install:
   stage: test-equipment-setup
-  trigger: ska-telescope/ska-te-mid-skysimctl
+  trigger:
+    project: ska-telescope/ska-te-mid-skysimctl
+    branch: main
   inherit:
     variables: false
   needs:
