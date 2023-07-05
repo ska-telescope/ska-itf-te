@@ -33,5 +33,5 @@ dependencies:
     condition: ska-taranta.enabled
 
   - name: ds-sim
-    version: 0.1.4
+    version: 0.1.5
     repository: https://artefact.skao.int/repository/helm-internal
