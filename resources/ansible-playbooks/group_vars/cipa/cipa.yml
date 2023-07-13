@@ -1,8 +1,7 @@
 team_name: cipa
 team_groups:
   - cipa
-vars:
-  dir_name: ../../../../users/cipa
+dir_name: ../../../../users/{{team_name}}
 team_users:
   - name: a.ghodoussi
     ssh_key_path: '{{dir_name}}/a.ghodoussi/.ssh/id_rsa.pub'
