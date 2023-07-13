@@ -1,0 +1,18 @@
+team_name: karoo
+team_groups:
+  - karoo
+team_users:
+  - name: a.lethole
+    ssh_key_path: ../../../../users/karoo/a.lethole/.ssh/id_rsa.pub
+  - name: b.ojur
+    ssh_key_path: ../../../../users/karoo/b.ojur/.ssh/id_rsa.pub
+  - name: d.petrie
+    ssh_key_path: ../../../../users/karoo/d.petrie/.ssh/id_rsa.pub
+  - name: J.Venter
+    ssh_key_path: ../../../../users/karoo/J.Venter/.ssh/id_rsa.pub
+  - name: p.dube
+    ssh_key_path: ../../../../users/karoo/p.dube/.ssh/id_rsa.pub
+  - name: s.twum
+    ssh_key_path: ../../../../users/karoo/s.twum/.ssh/id_rsa.pub
+  - name: u.silere
+    ssh_key_path: ../../../../users/karoo/u.silere/.ssh/id_rsa.pub
