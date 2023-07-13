@@ -1,0 +1,18 @@
+team_name: cipa
+team_groups:
+  - cipa
+vars:
+  dir_name: ../../../../users/cipa
+team_users:
+  - name: a.ghodoussi
+    ssh_key_path: '{{dir_name}}/a.ghodoussi/.ssh/id_rsa.pub'
+  - name: a.joshi
+    ssh_key_path: '{{dir_name}}/a.joshi/.ssh/id_rsa.pub'
+  - name: j.so
+    ssh_key_path: '{{dir_name}}/j.so/.ssh/id_rsa.pub'
+  - name: m.yee
+    ssh_key_path: '{{dir_name}}/m.yee/.ssh/id_rsa.pub'
+  - name: n.loubser
+    ssh_key_path: '{{dir_name}}/n.loubser/.ssh/id_rsa.pub'
+  - name: r.hein
+    ssh_key_path: '{{dir_name}}/r.hein/.ssh/id_rsa.pub'
