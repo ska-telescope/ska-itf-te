@@ -1,0 +1,16 @@
+- name: Init current user groups variable
+  ansible.builtin.set_fact:
+    current_user_groups: []
+
+- name: Add user groups to var
+  ansible.builtin.set_fact:
+    current_user_groups: "{{ current_user_groups + [current_group.name] }}"
+    state: present
+  loop: "{{ team_groups }}"
+  loop_control:
+    loop_var: current_group
+  when: current_group.all or current_user in current_group.members
+
+- name: Add user groups to global dict
+  ansible.builtin.set_fact:
+    filtered_user_groups: "{{ filtered_user_groups | combine({current_user: current_user_groups}) }}"
