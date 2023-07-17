@@ -14,7 +14,7 @@
   become: true
   ansible.builtin.template:
     src: welcome.sh.j2
-    dest: /etc/profile.d/99-{{ team_name }}-welcome.sh
+    dest: /etc/profile.d/99-{{ team_name }}-0-welcome.sh
     mode: "u=rwx,g=rx,o=rx"
     owner: "root"
     group: "root"
