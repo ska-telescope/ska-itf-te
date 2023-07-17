@@ -1,8 +1,10 @@
-- name: Create team group
+- name: Create team groups
   become: true
   ansible.builtin.group:
-    name: "{{ team_primary_group }}"
+    name: "{{ item.name }}"
     state: present
+  loop: "{{ team_groups }}"
+  when: item.create
 
 - name: Ensure shared team directories exist
   become: true

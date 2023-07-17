@@ -22,7 +22,7 @@
   become: true
   ansible.builtin.user:
     name: "{{ current_user }}"
-    groups: "{{ team_groups }}"
+    groups: "{{ filtered_user_groups[current_user] }}"
     append: true
   loop: "{{ users }}"
   loop_control:

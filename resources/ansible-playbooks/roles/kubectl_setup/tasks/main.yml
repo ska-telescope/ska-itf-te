@@ -7,6 +7,16 @@
     group: "root"
     mode: "u=rwx,g=rx,o=rx"
 
+- name: Upload & install kubeconfig admin script
+  become: true
+  ansible.builtin.template:
+    src: kubeconfig_setup_admin.sh.j2
+    dest: /etc/profile.d/99-{{ team_name }}-kubeconfig.sh
+    owner: "root"
+    group: "root"
+    mode: "u=rwx,g=rx,o=rx"
+  when: has_team_admin_group
+
 - name: Upload & install kubeconfig script
   become: true
   ansible.builtin.template:
@@ -15,3 +25,4 @@
     owner: "root"
     group: "root"
     mode: "u=rwx,g=rx,o=rx"
+  when: not has_team_admin_group

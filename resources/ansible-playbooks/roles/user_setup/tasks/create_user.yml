@@ -8,7 +8,7 @@
     name: "{{ current_user }}"
     shell: /bin/bash
     group: "{{ current_user }}"
-    groups: "{{ team_groups }}"
+    groups: "{{ filtered_user_groups[current_user] }}"
     append: true
 
 - name: Add to sudoers
