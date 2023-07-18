@@ -386,14 +386,14 @@ main() {
   echo "This script will generate credentials for the pipeline namespace."
 
 #   check_arguments
-  check_namespaces
+#   check_namespaces
 #   delete_existing_resources
-#   create_target_folder
-#   create_service_account
-#   get_secret_name_from_service_account
-#   extract_ca_crt_from_secret
-#   get_user_token_from_secret
-#   set_kube_config_values
+  create_target_folder
+  create_service_account
+  get_secret_name_from_service_account
+  extract_ca_crt_from_secret
+  get_user_token_from_secret
+  set_kube_config_values
 #   push_kubeconfig_to_nexus
 
   echo -e "\\n\n${GREEN}${BAR}All done!${BAR}${NC}"
