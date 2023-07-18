@@ -1,0 +1,7 @@
+global:
+  facility: mid-itf
+
+ds-sim:
+  instances:
+    - dish-id: SKA001
+      novnc-enabled: true
