@@ -209,8 +209,9 @@ deploy-dish-structure-simulator:
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
     - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
   script:
-    - make itf-ds-template
-    - make itf-ds-install
+    - make k8s-template-chart
+    - make k8s-install-chart
+    - mv manifests.yaml build/ds_sim_manifests.yaml
     # - make k8s-get-pods
     - make itf-ds-links
   environment:

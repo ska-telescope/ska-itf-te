@@ -27,21 +27,7 @@ itf-te-template:
 	@mkdir -p build
 	@mv manifests.yaml build/
 
-## TARGET: itf-ds-install
-## SYNOPSIS: make itf-ds-install
-## HOOKS: none
-## VARS: DISH_STRUCTURE_SIMULATORS_NAMESPACE
-##  make target for generating the URLs for accessing the Test Equipment deployment
-
-itf-ds-install:
-	@make vars;
-	@make k8s-install-chart K8S_CHART=dish-structure-simulators KUBE_NAMESPACE=$(DISH_STRUCTURE_SIMULATORS_NAMESPACE)
-
-itf-ds-template:
-	@make vars;
-	@make k8s-template-chart K8S_CHART=dish-structure-simulators KUBE_NAMESPACE=$(DISH_STRUCTURE_SIMULATORS_NAMESPACE)
-	@mkdir -p build
-	@mv manifests.yaml build/ds_sim_manifests.yaml
+	
 
 ## TARGET: itf-ds-links
 ## SYNOPSIS: make itf-ds-links
