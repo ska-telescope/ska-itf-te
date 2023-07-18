@@ -8,10 +8,10 @@ cache:
 stages:
   - lint
   - build
-  - integration # no idea what this is for
   # - staging
   - test
   - test-equipment-setup
+  - integration
   - upload
   - publish
   - pages
@@ -97,7 +97,6 @@ deploy-test-equipment:
   needs:
     - remove-test-equipment
   allow_failure: true # need to keep this to unlock the pipeline
-
 
 generate-skysimctl-config:
   stage: test-equipment-setup
@@ -198,3 +197,68 @@ ansible-test-image-build:
   script:
     - cd resources/ansible-playbooks && make oci-build-all CAR_OCI_REGISTRY_HOST=${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}
   when: manual
+
+deploy-dish-structure-simulator:
+  tags:
+    - ska-k8srunner-za-itf
+  image: $CI_REGISTRY/ska-telescope/ska-skampi/ska-skampi-ci:1.0.4
+  stage: integration
+  variables:
+    MINIKUBE: "false"
+    CLUSTER_DOMAIN: miditf.internal.skao.int
+    INGRESS_HOST: k8s.miditf.internal.skao.int
+    K8S_CHART: dish-structure-simulators
+    KUBE_NAMESPACE: dish-structure-simulators
+    # KUBE_NAMESPACE_SDP: $KUBE_NAMESPACE-sdp
+    SERVICE_ACCOUNT: ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
+    NEXUS_CACHE: NEXUS_CACHE
+  before_script:
+    - bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install --upgrade poetry
+    - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+    - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
+  script:
+    - make itf-ds-template
+    - make itf-ds-install
+    # - make k8s-get-pods
+    - make itf-ds-links
+  environment:
+    name: dish-structure-simulators/dish-sim-1
+    kubernetes:
+      namespace: "$KUBE_NAMESPACE"
+    url: https://$INGRESS_HOST/$KUBE_NAMESPACE/novnc/
+    on_stop: remove-dish-structure-simulator
+  artifacts:
+    name: "$CI_PROJECT_NAME-$CI_JOB_ID"
+    paths:
+      - build/
+    reports:
+      junit:
+        - build/report.xml
+  # when: manual
+  needs:
+    - remove-dish-structure-simulator
+  allow_failure: true # need to keep this to unlock the pipeline
+
+remove-dish-structure-simulator:
+  stage: integration
+  tags:
+    - ska-k8srunner-za-itf
+  variables:
+    MINIKUBE: "false"
+    CLUSTER_DOMAIN: miditf.internal.skao.int
+    INGRESS_HOST: k8s.miditf.internal.skao.int
+    K8S_CHART: dish-structure-simulators
+    KUBE_NAMESPACE: dish-structure-simulators
+    # KUBE_NAMESPACE_SDP: $KUBE_NAMESPACE-sdp
+    SERVICE_ACCOUNT: ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
+    NEXUS_CACHE: NEXUS_CACHE
+  extends:
+    - .uninstall_chart
+  environment:
+    name: dish-structure-simulators/dish-sim-1
+    kubernetes:
+      namespace: "$KUBE_NAMESPACE"
+    url: https://$INGRESS_HOST/$KUBE_NAMESPACE/novnc/
+    action: stop
+  when: manual
+  allow_failure: true # need to keep this to unlock the pipeline
