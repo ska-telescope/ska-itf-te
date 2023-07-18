@@ -1,6 +1,10 @@
 team_name: cipa
 team_groups:
-  - cipa
+  - name: cipa
+    primary: true
+    all: true
+    admin: false
+
 dir_name: ../../../../users/{{team_name}}
 team_users:
   - name: a.ghodoussi
