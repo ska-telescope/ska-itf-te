@@ -40,6 +40,8 @@ itf-ds-links: ## Create the URLs with which to access Skampi if it is available
 	@echo "############################################################################"
 	@echo "#            Access the Dish Structure Simulator Server here:"
 	@echo "#            https://$(INGRESS_HOST)/$(KUBE_NAMESPACE)/novnc/"
+	@echo "#			File uploads are easier here:"
+	@echo "#            https://$(INGRESS_HOST)/$(KUBE_NAMESPACE)/fileserver/"
 	@echo "############################################################################"
 
 itf-spookd-install:
