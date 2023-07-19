@@ -64,7 +64,7 @@ deploy-test-equipment:
     INGRESS_HOST: k8s.miditf.internal.skao.int
     K8S_CHART: ska-mid-itf
     KUBE_NAMESPACE: test-equipment
-    K8S_EXTRA_PARAMS: --set ds-sim.maxuploadfilesize="131072m"
+    K8S_EXTRA_PARAMS: --set ds-sim.maxuploadfilesize="128Mi"
     KUBE_NAMESPACE_SDP: $KUBE_NAMESPACE-sdp
     SERVICE_ACCOUNT: ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
     NEXUS_CACHE: NEXUS_CACHE
