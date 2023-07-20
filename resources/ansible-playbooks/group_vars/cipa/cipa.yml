@@ -4,6 +4,7 @@ team_groups:
     primary: true
     all: true
     admin: false
+    create: true
 
 dir_name: ../../../../users/{{team_name}}
 team_users:
@@ -21,3 +22,6 @@ team_users:
     ssh_key_path: '{{dir_name}}/r.hein/.ssh/id_rsa.pub'
   - name: a.deriabine
     ssh_key_path: '{{dir_name}}/a.deriabine/.ssh/id_rsa.pub'
+
+# Placeholder until we setup KUBECONFIG for CIPA.
+kube_context: cipa-kubernetes
