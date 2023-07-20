@@ -17,7 +17,7 @@
         path: "/home/{{ ssh_keys_user_name }}/.ssh"
         state: directory
         owner: "{{ ssh_keys_user_name }}"
-        mode: "u=rwx"
+        mode: "700"
 
     - name: Add to authorized_keys
       ansible.builtin.lineinfile:
@@ -26,7 +26,7 @@
         regex: "{{  ssh_keys_ssh_key.split()[1] | regex_escape() }}" # use the hash to match
         create: true
         owner: "{{ ssh_keys_user_name }}"
-        mode: "u=rw"
+        mode: "600"
 
 - name: Remove ssh key
   become: true

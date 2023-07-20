@@ -20,4 +20,4 @@
     create: true
     owner: "root"
     group: "root"
-    mode: "u=r,g=r"
+    mode: "440"

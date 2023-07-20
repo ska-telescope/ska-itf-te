@@ -15,7 +15,7 @@
           ansible.builtin.get_url:
             url: https://dl.k8s.io/apt/doc/apt-key.gpg
             dest: /etc/apt/keyrings/kubernetes-archive-keyring.gpg
-            mode: "u=rw,g=r,o=r"
+            mode: "644"
 
 
         - name: Add kubectl apt source
@@ -35,7 +35,7 @@
     state: directory
     owner: "root"
     group: "root"
-    mode: "u=rwx,g=rx,o=rx"
+    mode: "755"
   become: true
 
 - name: Ensure shared common directory exists
@@ -45,7 +45,7 @@
     state: directory
     owner: "root"
     group: "root"
-    mode: "u=rwx,g=rwx,o=rwx"
+    mode: "777"
 
 - name: Add gitlab-runner to sudoers
   when: inventory_hostname in groups['raspberry_pi']
@@ -62,5 +62,5 @@
         create: true
         owner: "root"
         group: "root"
-        mode: "u=r,g=r"
+        mode: "440"
       when: '"gitlab-runner" in getent_passwd.keys()'
