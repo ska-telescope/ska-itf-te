@@ -111,3 +111,13 @@ features:
   filestash: enabled
 
 persisted: True
+
+conf:
+  configMaps:
+    tmpConfig:
+      configMapMount: /tmp/configMapFolder
+      configMapSpacer: ' '
+    actualConfig:
+      configMapMount: /app/data/state/config
+      configMapName: filestash-config
+      filename: config.json

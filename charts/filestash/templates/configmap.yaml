@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: json-configmap
+  name: config-props
 data:
   config.json: |
     {

@@ -130,3 +130,14 @@ hostpath
 nfss1
 {{- end }}
 {{- end }}
+
+{{- define "filestash.tmpConfigMount" }}
+'{{ .Values.conf.configMaps.tmpConfig.configMapMount }}'
+{{- end }}
+{{- define "filestash.tmpConfigSpacer" }}
+'{{ .Values.conf.configMaps.tmpConfig.configMapSpacer }}'
+{{- end }}
+
+{{- define "filestash.actualConfigMount" }}
+'{{ .Values.conf.configMaps.actualConfig.configMapMount }}'
+{{- end }}

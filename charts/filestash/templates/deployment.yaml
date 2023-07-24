@@ -20,23 +20,35 @@ spec:
         {{- include "filestash.selectorLabels" . | nindent 8 }}
     spec:
       hostname: {{ .Values.hostName }}
+      initContainers:
+        - name: setup-configs
+          image: busybox:latest
+          command:
+            - sh
+            - "-c"
+          args:
+            - "echo 'Setting configmaps' && cp /tmp/configMapFolder/config.json /app/data/state/config/config.json && chmod 777 /app/data/state/config/config.json"
+          volumeMounts:
+            - name: config-props
+              mountPath: /tmp/configMapFolder
+            - name: config-emptydir
+              mountPath: /app/data/state/config
       containers:
         - name: file-browser
           image: machines/filestash:latest
-          env:
-            - name: FB_BASEURL
-              value: /{{ .Release.Namespace }}/fileserver/
           volumeMounts:
-            - name: json-configmap-volume
+            - name: config-emptydir
               mountPath: /app/data/state/config
+
           ports:
             - containerPort: 8334
               name: http
       volumes:
-        - name: json-configmap-volume
+        - name: config-props
           configMap:
-            name: json-configmap
-            defaultMode: 0777
+            name: config-props
+        - name: config-emptydir
+          emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
