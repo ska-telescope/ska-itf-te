@@ -1,0 +1,21 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{include "filestash.fullname" .}}
+  labels:
+    {{- include "filestash.labels" . | nindent 4 }}
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - path: /{{ .Release.Namespace }}/filestash/(.*)
+        backend:
+          service:
+            name: {{ .Values.serviceSettings.name }}
+            port:
+              name: filestash
+        pathType: ImplementationSpecific

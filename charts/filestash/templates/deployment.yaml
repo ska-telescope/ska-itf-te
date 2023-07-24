@@ -23,70 +23,41 @@ spec:
       initContainers:
         - name: setup-configs
           image: busybox:latest
+          env:
+            - name: SETUP_SCRIPT
+              value: {{ .Values.conf.setupScript.mount }}/{{ .Values.conf.setupScript.dest }}
+            - name: SOURCE_CONFIG
+              value: {{ .Values.conf.initConfig.mount }}/{{ .Values.conf.initConfig.dest }}
+            - name: DESTINATION_CONFIG
+              value: {{ .Values.conf.appConfig.mount }}/{{ .Values.conf.appConfig.dest }}
+            {{- include "filestash.env-vars" . | indent 12 }}
           command:
             - sh
             - "-c"
-          args:
-            - "echo 'Setting configmaps' && cp /tmp/configMapFolder/config.json /app/data/state/config/config.json && chmod 777 /app/data/state/config/config.json"
+            - "${SETUP_SCRIPT}"
           volumeMounts:
-            - name: config-props
-              mountPath: /tmp/configMapFolder
-            - name: config-emptydir
-              mountPath: /app/data/state/config
+            - name: {{ .Values.conf.setupScript.name }}
+              mountPath: {{ .Values.conf.setupScript.mount }}
+            - name: {{ .Values.conf.initConfig.name }}
+              mountPath: {{ .Values.conf.initConfig.mount }}
+            - name: {{ .Values.conf.appConfig.name }}
+              mountPath: {{ .Values.conf.appConfig.mount }}
       containers:
         - name: file-browser
           image: machines/filestash:latest
           volumeMounts:
-            - name: config-emptydir
-              mountPath: /app/data/state/config
-
+            - name: {{ .Values.conf.appConfig.name }}
+              mountPath: {{ .Values.conf.appConfig.mount }}
           ports:
             - containerPort: 8334
               name: http
       volumes:
-        - name: config-props
+        - name: {{ .Values.conf.setupScript.name }}
           configMap:
-            name: config-props
-        - name: config-emptydir
+            name: {{ .Values.conf.setupScript.name }}
+            defaultMode: 0744
+        - name: {{ .Values.conf.initConfig.name }}
+          configMap:
+            name: {{ .Values.conf.initConfig.name }}
+        - name: {{ .Values.conf.appConfig.name }}
           emptyDir: {}
----
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    {{- include "filestash.labels" . | nindent 4 }}
-  name: {{ .Values.serviceSettings.name }}
-spec:
-  externalName: {{ .Values.serviceSettings.name }}
-  ports:
-  - name: filestash
-    protocol: TCP
-    port: 8334
-    targetPort: 8334
-    {{- if eq .Values.env.type "dev"  }}
-    nodePort: 32003
-    {{- end }}
-  selector:
-    {{- include "filestash.selectorLabels" . | nindent 4 }}
-  type: {{ include "filestash.serviceType" . }}
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: {{include "filestash.fullname" .}}
-  labels:
-    {{- include "filestash.labels" . | nindent 4 }}
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
-spec:
-  ingressClassName: nginx
-  rules:
-  - http:
-      paths:
-      - path: /{{ .Release.Namespace }}/filestash/(.*)
-        backend:
-          service:
-            name: {{ .Values.serviceSettings.name }}
-            port:
-              name: filestash
-        pathType: ImplementationSpecific

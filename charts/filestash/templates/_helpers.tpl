@@ -97,47 +97,17 @@ NodePort
 LoadBalancer
 {{- end }}
 {{- end }}
-{{/*
-set the filestash image
-*/}}
-{{- define "filestash.image" -}}
-{{- if .Values.imageoverride -}}
-{{ .Values.imageoverride }}
-{{- else if .Values.image.repository  -}}
-'{{ .Values.image.repository }}/{{ .Values.image.name }}:{{ .Values.image.tag }}'
-{{- else -}}
-'{{ .Values.image.name }}:{{ .Values.image.tag }}'
-{{- end }}
-{{- end }}
-{{/*
-set the filestash init image
-*/}}
-{{- define "filestash.initImage" -}}
-{{- if .Values.image.repository  -}}
-'{{ .Values.image.repository }}/{{ .Values.image.init }}:{{ .Values.image.tag }}'
-{{- else -}}
-'{{ .Values.image.init }}:{{ .Values.image.tag }}'
-{{- end }}
-{{- end }}
-{{/*
-Storage class
-*/}}
-*/}}
-{{- define "filestash.storageClass" }}
-{{- if eq .Values.env.type "dev" -}}
-hostpath
-{{- else -}}
-nfss1
-{{- end }}
-{{- end }}
 
-{{- define "filestash.tmpConfigMount" }}
-'{{ .Values.conf.configMaps.tmpConfig.configMapMount }}'
-{{- end }}
-{{- define "filestash.tmpConfigSpacer" }}
-'{{ .Values.conf.configMaps.tmpConfig.configMapSpacer }}'
-{{- end }}
-
-{{- define "filestash.actualConfigMount" }}
-'{{ .Values.conf.configMaps.actualConfig.configMapMount }}'
+{{- define "filestash.env-vars"}}
+{{- range $key, $val := .Values.env.secret }}
+- name: {{ $key }}
+  valueFrom:
+    secretKeyRef:
+      name: app-env-secret
+      key: {{ $key }}
+{{- end}}
+{{- range $key, $val := .Values.env.normal }}
+- name: {{ $key }}
+  value: {{ $val | quote }}
+{{- end}}
 {{- end }}

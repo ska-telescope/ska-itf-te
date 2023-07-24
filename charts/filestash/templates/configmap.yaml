@@ -2,24 +2,15 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: config-props
+  name: {{ .Values.conf.initConfig.name }}
 data:
-  config.json: |
-    {
-      "general": {
-      },
-      "features": {
-      },
-      "log": {
-      },
-      "email": {
-      },
-      "oauth": {
-      },
-      "connections": [
-        {
-          "type": "ftp",
-          "label": "FTP"
-        }
-      ]
-    }
+  {{ .Values.conf.initConfig.dest }}: |-
+{{ .Files.Get .Values.conf.initConfig.source | indent 4 }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.conf.setupScript.name }}
+data:
+  {{ .Values.conf.setupScript.dest }}: |-
+{{ .Files.Get .Values.conf.setupScript.source | indent 4 }}

@@ -39,6 +39,12 @@ INGRESS_HOST = k8s.$(CLUSTER_DOMAIN)## Tango host, cluster domain, what are all 
 # K8S_TEST_RUNNER = test-runner-$(CI_JOB_ID)##name of the pod running the k8s-test
 ITANGO_ENABLED ?= true## ITango enabled in ska-tango-base
 
+include ./charts/filestash/secrets.env
+FILESTASH_PARAMS ?= --set env.secret.FILESTASH_SECRET_KEY=$(FILESTASH_SECRET_KEY) \
+	--set env.secret.FILESTASH_ADMIN_AUTH=$(FILESTASH_ADMIN_AUTH) \
+	--set env.secret.FILESTASH_PASSTHROUGH_AUTH=$(FILESTASH_PASSTHROUGH_AUTH) \
+	--set env.secret.FILESTASH_FTP_AUTH=$(FILESTASH_FTP_AUTH)
+
 K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	--set global.exposeAllDS=$(EXPOSE_All_DS) \
 	 --set global.exposeDatabaseDS=$(EXPOSE_DATABASE_DS) \
@@ -53,7 +59,8 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	$(TARANTA_PARAMS) \
 	${K8S_TEST_TANGO_IMAGE_PARAMS} \
 	${SKIP_TANGO_EXAMPLES_PARAMS} \
-	$(K8S_EXTRA_PARAMS)
+	$(K8S_EXTRA_PARAMS) \
+	$(FILESTASH_PARAMS)
 
 # # TODO: remove if no longer needed.
 # -include resources/itf-connect.mk

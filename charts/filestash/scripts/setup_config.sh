@@ -1,0 +1,23 @@
+set -eux
+set -o pipefail
+
+echo "Setting configmaps: "
+echo "source: ${SOURCE_CONFIG}"
+echo "destination: ${DESTINATION_CONFIG}"
+
+cp ${SOURCE_CONFIG} ${DESTINATION_CONFIG}
+chmod 777 ${DESTINATION_CONFIG}
+
+echo "${FILESTASH_SECRET_KEY}"
+echo "${FILESTASH_ADMIN_AUTH}"
+echo "${FILESTASH_PASSTHROUGH_AUTH}"
+echo "${FILESTASH_FTP_AUTH}"
+
+sed -i "s/SECRET_KEY/${FILESTASH_SECRET_KEY}/" ${DESTINATION_CONFIG}
+sed -i "s|ADMIN_AUTH|${FILESTASH_ADMIN_AUTH}|" ${DESTINATION_CONFIG}
+sed -i "s/PASSTHROUGH_AUTH/${FILESTASH_PASSTHROUGH_AUTH}/" ${DESTINATION_CONFIG}
+sed -i "s/FTP_AUTH/${FILESTASH_FTP_AUTH}/" ${DESTINATION_CONFIG}
+
+cat ${DESTINATION_CONFIG}
+
+echo "Successfully set up configmaps."
