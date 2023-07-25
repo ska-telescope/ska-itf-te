@@ -3,4 +3,4 @@
   ansible.builtin.template:
     src: ssh_config.j2
     dest: /home/{{ current_user }}/.ssh/config
-    mode: "u=rw"
+    mode: "600"

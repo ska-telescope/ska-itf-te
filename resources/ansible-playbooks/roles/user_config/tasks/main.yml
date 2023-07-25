@@ -8,14 +8,14 @@
   ansible.builtin.template:
     src: bash_aliases.j2
     dest: /etc/profile.d/99-bash-aliases.sh
-    mode: "u=rwx,g=rx,o=rx"
+    mode: "755"
 
 - name: Install generic welcome message
   become: true
   ansible.builtin.template:
     src: welcome.sh.j2
     dest: /etc/profile.d/99-{{ team_name }}-0-welcome.sh
-    mode: "u=rwx,g=rx,o=rx"
+    mode: "755"
     owner: "root"
     group: "root"
 

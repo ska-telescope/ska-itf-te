@@ -23,4 +23,5 @@ team_users:
   - name: a.deriabine
     ssh_key_path: '{{dir_name}}/a.deriabine/.ssh/id_rsa.pub'
 
+# Placeholder until we setup KUBECONFIG for CIPA.
 kube_context: cipa-kubernetes

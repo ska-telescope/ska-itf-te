@@ -13,7 +13,7 @@
     state: directory
     owner: "root"
     group: "{{ team_primary_group }}"
-    mode: "u=rwx,g=rwx"
+    mode: "770"
 
 - name: Ensure team config directories exist
   become: true
@@ -22,4 +22,4 @@
     state: directory
     owner: "root"
     group: "{{ team_primary_group }}"
-    mode: "u=rwx,g=rwx"
+    mode: "770"

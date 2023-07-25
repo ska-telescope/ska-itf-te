@@ -5,7 +5,7 @@
     dest: /etc/profile.d/99-kubectl-aliases.sh
     owner: "root"
     group: "root"
-    mode: "u=rwx,g=rx,o=rx"
+    mode: "755"
 
 - name: Upload & install kubeconfig admin script
   become: true
@@ -14,7 +14,7 @@
     dest: /etc/profile.d/99-{{ team_name }}-1-kubeconfig.sh
     owner: "root"
     group: "root"
-    mode: "u=rwx,g=rx,o=rx"
+    mode: "755"
   when: has_team_admin_group
 
 - name: Upload & install kubeconfig script
@@ -24,5 +24,5 @@
     dest: /etc/profile.d/99-{{ team_name }}-1-kubeconfig.sh
     owner: "root"
     group: "root"
-    mode: "u=rwx,g=rx,o=rx"
+    mode: "755"
   when: not has_team_admin_group
