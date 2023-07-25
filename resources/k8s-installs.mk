@@ -108,6 +108,17 @@ itf-te-pass-env: ## Generate Gitlab CI configuration for SkySimCtl device server
 	@echo "UPSTREAM_CI_JOB_ID=$(CI_JOB_ID)" >> build/deploy.env
 	@cat build/deploy.env
 
+filestash-install: K8S_CHART_PARAMS := $(K8S_CHART_PARAMS) --set conf.configSecret.name=$(FILESTASH_CONFIG_SECRET_NAME) \
+	--set conf.configSecret.dest=$(FILESTASH_CONFIG_SECRET_FILE)
+filestash-install: K8S_CHART := filestash
+filestash-install: KUBE_NAMESPACE ?= ska-mid-itf
+filestash-install: k8s-uninstall-chart filestash-secrets k8s-install-chart
+
+filestash-secrets: k8s-namespace
+	kubectl delete secret -n $(KUBE_NAMESPACE) --ignore-not-found=true filestash-config-secret
+	kubectl create secret -n $(KUBE_NAMESPACE) generic $(FILESTASH_CONFIG_SECRET_NAME) --from-file=$(FILESTASH_CONFIG_SECRET_FILE)=$(FILESTASH_CONFIG_PATH)
+
+
 vars:
 	$(info KUBE_NAMESPACE: $(KUBE_NAMESPACE))
 	$(info #####################################)

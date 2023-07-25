@@ -9,11 +9,6 @@ imageoverride:
 
 env:
   type: dev
-  secret:
-    FILESTASH_SECRET_KEY: "NOT_SET"
-    FILESTASH_ADMIN_AUTH: "NOT_SET"
-    FILESTASH_PASSTHROUGH_AUTH: "NOT_SET"
-    FILESTASH_FTP_AUTH: "NOT_SET"
 
 #image:
 #  repository: artefact.skao.int
@@ -116,10 +111,9 @@ features:
 persisted: True
 
 conf:
-  initConfig:
-    name: init-config
-    mount: /initConfig
-    source: config/config.json
+  configSecret:
+    name: config-secret
+    mount: /configSecret
     dest: config.json
   appConfig:
     name: app-config

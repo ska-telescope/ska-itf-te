@@ -27,10 +27,9 @@ spec:
             - name: SETUP_SCRIPT
               value: {{ .Values.conf.setupScript.mount }}/{{ .Values.conf.setupScript.dest }}
             - name: SOURCE_CONFIG
-              value: {{ .Values.conf.initConfig.mount }}/{{ .Values.conf.initConfig.dest }}
+              value: {{ .Values.conf.configSecret.mount }}/{{ .Values.conf.configSecret.dest }}
             - name: DESTINATION_CONFIG
               value: {{ .Values.conf.appConfig.mount }}/{{ .Values.conf.appConfig.dest }}
-            {{- include "filestash.env-vars" . | indent 12 }}
           command:
             - sh
             - "-c"
@@ -38,8 +37,8 @@ spec:
           volumeMounts:
             - name: {{ .Values.conf.setupScript.name }}
               mountPath: {{ .Values.conf.setupScript.mount }}
-            - name: {{ .Values.conf.initConfig.name }}
-              mountPath: {{ .Values.conf.initConfig.mount }}
+            - name: {{ .Values.conf.configSecret.name }}
+              mountPath: {{ .Values.conf.configSecret.mount }}
             - name: {{ .Values.conf.appConfig.name }}
               mountPath: {{ .Values.conf.appConfig.mount }}
       containers:
@@ -56,8 +55,8 @@ spec:
           configMap:
             name: {{ .Values.conf.setupScript.name }}
             defaultMode: 0744
-        - name: {{ .Values.conf.initConfig.name }}
-          configMap:
-            name: {{ .Values.conf.initConfig.name }}
+        - name: {{ .Values.conf.configSecret.name }}
+          secret:
+            secretName: {{ .Values.conf.configSecret.name }}
         - name: {{ .Values.conf.appConfig.name }}
           emptyDir: {}

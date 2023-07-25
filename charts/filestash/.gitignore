@@ -1,1 +1,3 @@
-secrets.env
+# Filestash config file, contains secrets
+# Download from Gitlab if needed.
+config.json

@@ -13,7 +13,7 @@ spec:
     port: 8334
     targetPort: 8334
     {{- if eq .Values.env.type "dev"  }}
-    nodePort: 32003
+    nodePort: 32009
     {{- end }}
   selector:
     {{- include "filestash.selectorLabels" . | nindent 4 }}
