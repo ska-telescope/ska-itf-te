@@ -8,6 +8,4 @@ echo "destination: ${DESTINATION_CONFIG}"
 cp ${SOURCE_CONFIG} ${DESTINATION_CONFIG}
 chmod 777 ${DESTINATION_CONFIG}
 
-cat ${DESTINATION_CONFIG}
-
 echo "Successfully set up config."

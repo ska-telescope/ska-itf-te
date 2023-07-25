@@ -40,13 +40,14 @@ INGRESS_HOST = k8s.$(CLUSTER_DOMAIN)## Tango host, cluster domain, what are all 
 ITANGO_ENABLED ?= true## ITango enabled in ska-tango-base
 
 # Filestash vars
+FILESTASH_ENV ?= production
 FILESTASH_CONFIG_SECRET_FILE := config.json
 # This is overwritten in CI/CD 
 FILESTASH_CONFIG_PATH ?= ./charts/filestash/$(FILESTASH_CONFIG_SECRET_FILE)
 FILESTASH_CONFIG_SECRET_NAME := filestash-config-secret
 FILESTASH_CHART_PARAMS := --set filestash.conf.configSecret.name=$(FILESTASH_CONFIG_SECRET_NAME) \
 	--set filestash.conf.configSecret.dest=$(FILESTASH_CONFIG_SECRET_FILE) \
-	--set filestash.env.type=production
+	--set filestash.env.type=$(FILESTASH_ENV)
 
 K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	--set global.exposeAllDS=$(EXPOSE_All_DS) \

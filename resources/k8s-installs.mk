@@ -110,7 +110,7 @@ itf-te-pass-env: ## Generate Gitlab CI configuration for SkySimCtl device server
 
 filestash-install: K8S_CHART_PARAMS := $(K8S_CHART_PARAMS) --set conf.configSecret.name=$(FILESTASH_CONFIG_SECRET_NAME) \
 	--set conf.configSecret.dest=$(FILESTASH_CONFIG_SECRET_FILE) \
-	--set filestash.env.type=dev
+	--set filestash.env.type=$(FILESTASH_ENV)
 filestash-install: K8S_CHART := filestash
 filestash-install: KUBE_NAMESPACE ?= ska-mid-itf
 filestash-install: k8s-uninstall-chart filestash-secrets k8s-install-chart
