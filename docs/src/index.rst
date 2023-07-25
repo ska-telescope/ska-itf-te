@@ -8,7 +8,7 @@ Welcome to SKA CICD Deploy Mid ITF documentation!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Purpose
+   :caption: Documentation
 
    purpose
 .. README =============================================================

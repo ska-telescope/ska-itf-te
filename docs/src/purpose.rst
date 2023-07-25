@@ -1,6 +1,6 @@
-=======
-Purpose
-=======
+=================================
+Purpose and general documentation
+=================================
 
 Purpose of the Mid ITF Tests repository
 =======================================
@@ -15,6 +15,10 @@ DishLMC Integration at the Mid ITF
 ==================================
 We use an OPC UA server in the K8s Cluster in the Mid ITF to simulate the Dish Structure (DS)for DishLMC integration. Details for connecting to the DS Simulator are available in `Confluence <https://confluence.skatelescope.org/x/Jz6KDQ>`_. For assistance, please reach out in `#team-itf-support <https://skao.slack.com/archives/C03PC2M2VGA>`.
 
+==========
+Deployment
+==========
+
 Deployment of Test Equipment
 ============================
 Deployment of Test Equipment Tango Device Servers are mainly done using the `test-equipment` namespace.
@@ -22,7 +26,7 @@ We have two special makefile targets, `make itf-te-template` and `make itf-te-in
 We also have a make target that gives URLs to the deployed software: `make itf-te-links`.
 
 Sky Simulator
-`````````````
+=============
 Deployment of the Sky Simulator Control Tango Device (the RPi-hosted device that switches on and off noise sources, filters and U and V signals) follows directly (but manually) from this deployment, as the SkySimCtl Tango Device needs to be registered on the same Test Equipment namespace. This is achieved by using a triggered pipeline - see `this Confluence page <https://confluence.skatelescope.org/x/0RWKDQ>`_ for details.
 
 Deployment of the SUT
