@@ -45,7 +45,8 @@ FILESTASH_CONFIG_SECRET_FILE := config.json
 FILESTASH_CONFIG_PATH ?= ./charts/filestash/$(FILESTASH_CONFIG_SECRET_FILE)
 FILESTASH_CONFIG_SECRET_NAME := filestash-config-secret
 FILESTASH_CHART_PARAMS := --set filestash.conf.configSecret.name=$(FILESTASH_CONFIG_SECRET_NAME) \
-	--set filestash.conf.configSecret.dest=$(FILESTASH_CONFIG_SECRET_FILE)
+	--set filestash.conf.configSecret.dest=$(FILESTASH_CONFIG_SECRET_FILE) \
+	--set filestash.env.type=production
 
 K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	--set global.exposeAllDS=$(EXPOSE_All_DS) \
