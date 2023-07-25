@@ -11,7 +11,7 @@
   become: true
   ansible.builtin.template:
     src: kubeconfig_setup_admin.sh.j2
-    dest: /etc/profile.d/99-{{ team_name }}-kubeconfig.sh
+    dest: /etc/profile.d/99-{{ team_name }}-1-kubeconfig.sh
     owner: "root"
     group: "root"
     mode: "755"
