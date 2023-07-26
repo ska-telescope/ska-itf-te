@@ -6,6 +6,7 @@ cache:
   paths:
     - build
 stages:
+  - progatt
   - lint
   - build
   # - staging
@@ -256,4 +257,26 @@ remove-dish-structure-simulator:
     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/novnc/
     action: stop
   when: manual
+  allow_failure: true # need to keep this to unlock the pipeline
+
+deploy-progatt:
+  tags:
+    - ska-k8srunner-za-itf
+  image: $CI_REGISTRY/ska-telescope/ska-skampi/ska-skampi-ci:1.0.4
+  stage: progatt
+  variables:
+    MINIKUBE: "false"
+    CLUSTER_DOMAIN: miditf.internal.skao.int
+    INGRESS_HOST: k8s.miditf.internal.skao.int
+    K8S_CHART: progatt
+    KUBE_NAMESPACE: progatt
+    SERVICE_ACCOUNT: ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
+    NEXUS_CACHE: NEXUS_CACHE
+  script:
+    - make k8s-uninstall-chart
+    - make k8s-install-chart
+  environment:
+    name: ska-mid-itf/progatt
+    kubernetes:
+      namespace: "$KUBE_NAMESPACE"
   allow_failure: true # need to keep this to unlock the pipeline
