@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Values.conf.setupScript.name }}
+  name: {{ .Values.mounts.setupScript.name }}
 data:
-  {{ .Values.conf.setupScript.dest }}: |-
-{{ .Files.Get .Values.conf.setupScript.source | indent 4 }}
+  {{ .Values.mounts.setupScript.dest }}: |-
+{{ .Files.Get .Values.mounts.setupScript.source | indent 4 }}

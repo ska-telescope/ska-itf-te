@@ -63,23 +63,11 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
-Create the name of the service account to use
-*/}}
-{{- define "filestash.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create }}
-{{- default (include "filestash.fullname" .) .Values.serviceAccount.name }}
-{{- else }}
-{{- default "default" .Values.serviceAccount.name }}
-{{- end }}
-{{- end }}
-{{/*
 set the image pull policy based on the current environment
 in dev environment image pull policy will always be never
 */}}
 {{- define "filestash.pullPolicy" }}
-{{- if .Values.imageoverride -}}
-IfNotPresent
-{{- else if eq .Values.env.type "production" -}}
+{{- if eq .Values.env.type "production" -}}
 {{ .Values.imagePullPolicy }}
 {{- else if eq .Values.env.type "ci" -}}
 Always
