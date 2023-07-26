@@ -108,12 +108,37 @@ itf-te-pass-env: ## Generate Gitlab CI configuration for SkySimCtl device server
 	@echo "UPSTREAM_CI_JOB_ID=$(CI_JOB_ID)" >> build/deploy.env
 	@cat build/deploy.env
 
-filestash-install: K8S_CHART_PARAMS := $(K8S_CHART_PARAMS) --set conf.configSecret.name=$(FILESTASH_CONFIG_SECRET_NAME) \
-	--set conf.configSecret.dest=$(FILESTASH_CONFIG_SECRET_FILE) \
+# Filestash vars
+FILESTASH_ENV ?= production
+FILESTASH_CONFIG_SECRET_FILE := config.json
+# This is overwritten in CI/CD
+FILESTASH_CONFIG_PATH ?= ../charts/filestash/secrets/$(FILESTASH_CONFIG_SECRET_FILE)
+FILESTASH_CONFIG_SECRET_NAME := filestash-config-secret
+
+## TARGET: filestash-install
+## SYNOPSIS: make filestash-install
+## HOOKS: none
+## VARS:
+##	FILESTASH_ENV=[environment-name] (default value: production)
+##	FILESTASH_CONFIG_SECRET_FILE=[name of file containing secrets (not path)] (default value: config.json)
+##	FILESTASH_CONFIG_SECRET_NAME=[name of k8s secret created by filestash-secrets] (default value: filestash-config-secret)
+##  make target for deploying filestash.
+
+filestash-install: K8S_CHART_PARAMS := $(K8S_CHART_PARAMS) --set mounts.configSecret.name=$(FILESTASH_CONFIG_SECRET_NAME) \
+	--set mounts.configSecret.dest=$(FILESTASH_CONFIG_SECRET_FILE) \
 	--set env.type=$(FILESTASH_ENV)
 filestash-install: K8S_CHART := filestash
 filestash-install: KUBE_NAMESPACE := filestash
 filestash-install: k8s-uninstall-chart filestash-secrets k8s-install-chart
+
+## TARGET: filestash-secrets
+## SYNOPSIS: make filestash-secrets
+## HOOKS: none
+## VARS:
+##	FILESTASH_CONFIG_PATH=[path to json config file with secrets. Overriden in CI/CD.] (default value: ../charts/filestash/secrets/config.json)
+##	FILESTASH_CONFIG_SECRET_FILE=[name of file containing secrets (not path).] (default value: config.json)
+##	FILESTASH_CONFIG_SECRET_NAME=[name of k8s secret created by filestash-secrets] (default value: filestash-config-secret)
+##  make target for creating k8s secret from JSON file located at $(FILESTASH_CONFIG_PATH)
 
 filestash-secrets: k8s-namespace
 	kubectl delete secret -n $(KUBE_NAMESPACE) --ignore-not-found=true filestash-config-secret

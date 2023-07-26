@@ -19,7 +19,7 @@ serviceSettings:
 
 mounts:
   configSecret:
-    name: config-secret
+    name: filestash-config-secret
     mount: /configSecret
     dest: config.json
   appConfig:

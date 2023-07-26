@@ -15,6 +15,10 @@ DishLMC Integration at the Mid ITF
 ==================================
 We use an OPC UA server in the K8s Cluster in the Mid ITF to simulate the Dish Structure (DS)for DishLMC integration. Details for connecting to the DS Simulator are available in `Confluence <https://confluence.skatelescope.org/x/Jz6KDQ>`_. For assistance, please reach out in `#team-itf-support <https://skao.slack.com/archives/C03PC2M2VGA>`.
 
+Spectrum Analyser File Access
+=============================
+The Ansritsu MS2090A Spectrum Analyser in the ITF hosts an FTP server. This allows users to access recordings made on the device remotely. In order to make this access more user friendly, we run `filestash <https://www.filestash.app/>`. This provides a file browser web frontend to various backends, among them FTP.
+
 ==========
 Deployment
 ==========
@@ -33,3 +37,7 @@ Deployment of the SUT
 =====================
 The deployment repository for the SKA Mid Software used to be Skampi. There is currently uncertainty about the continued usage of Skampi for deploying software at the Mid ITF or on site.
 
+
+Deployment of Filestash
+=======================
+Filestash is deployed with the `filestash-install` Makefile target. It is deployed to the `filestash` namespace in the ITF.
