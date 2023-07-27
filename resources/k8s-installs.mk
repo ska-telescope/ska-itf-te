@@ -112,7 +112,7 @@ itf-te-pass-env: ## Generate Gitlab CI configuration for SkySimCtl device server
 FILESTASH_ENV ?= production
 FILESTASH_CONFIG_SECRET_FILE := config.json
 # This is overwritten in CI/CD
-FILESTASH_CONFIG_PATH ?= ../charts/filestash/secrets/$(FILESTASH_CONFIG_SECRET_FILE)
+FILESTASH_CONFIG_PATH ?= ./charts/filestash/secrets/example.json
 FILESTASH_CONFIG_SECRET_NAME := filestash-config-secret
 
 ## TARGET: filestash-install

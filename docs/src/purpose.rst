@@ -13,7 +13,7 @@ Documentation on accessing the ITF Control Interface is maintained in Confluence
 
 DishLMC Integration at the Mid ITF
 ==================================
-We use an OPC UA server in the K8s Cluster in the Mid ITF to simulate the Dish Structure (DS)for DishLMC integration. Details for connecting to the DS Simulator are available in `Confluence <https://confluence.skatelescope.org/x/Jz6KDQ>`_. For assistance, please reach out in `#team-itf-support <https://skao.slack.com/archives/C03PC2M2VGA>`.
+We use an OPC UA server in the K8s Cluster in the Mid ITF to simulate the Dish Structure (DS)for DishLMC integration. Details for connecting to the DS Simulator are available in `Confluence <https://confluence.skatelescope.org/x/Jz6KDQ>`_. For assistance, please reach out in `team-itf-support <https://skao.slack.com/archives/C03PC2M2VGA>`.
 
 Spectrum Analyser File Access
 =============================
@@ -40,4 +40,4 @@ The deployment repository for the SKA Mid Software used to be Skampi. There is c
 
 Deployment of Filestash
 =======================
-Filestash is deployed with the `filestash-install` Makefile target. It is deployed to the `filestash` namespace in the ITF.
+Filestash is deployed with the `filestash-install` Makefile target. It is deployed to the `filestash` namespace in the ITF. The configuration file lives in the `$FILESTASH_CONFIG_PATH` environment variable on Gitlab. For local deployments, an example file is provided at `charts/filestash/secrets/example.json`. This doesn't provide access to the Spectrum Analyser FTP server, but does allow you to verify that the deployment is working as expected.
