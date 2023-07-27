@@ -24,8 +24,6 @@ users_dir: ../../../../users/atlas
 team_users:
   - name: a.debeer
     ssh_key_path: "{{ users_dir }}/adb/.ssh/id_rsa.pub"
-  - name: benjamin.lunsky
-    ssh_key_path: "{{ users_dir }}/bl/.ssh/id_rsa.pub"
   - name: d.gammon
     ssh_key_path: "{{ users_dir }}/dg/.ssh/id_rsa.pub"
   - name: g.leroux
