@@ -9,9 +9,6 @@ env:
 nameOverride: ""
 fullnameOverride: ""
 
-
-hostName: spectana
-
 imagePullPolicy: IfNotPresent
 
 mounts:
@@ -45,8 +42,9 @@ containers:
     port: *fileBrowserPort
     portName: fp-http
 
+# this file browser service is for the spectrum analyser.
 service:
-  name: file-browser
+  name: spectrum-analyser
   port: 80
   targetPort: *fileBrowserPort
   nodePort: 32003

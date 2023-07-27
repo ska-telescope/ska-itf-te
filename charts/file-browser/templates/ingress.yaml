@@ -12,7 +12,7 @@ spec:
   rules:
   - http:
       paths:
-      - path: /{{ .Release.Namespace }}/{{ .Values.hostName }}/(.*)
+      - path: /{{ .Release.Namespace }}/{{ .Values.service.name }}/(.*)
         backend:
           service:
             name: {{ .Values.service.name }}

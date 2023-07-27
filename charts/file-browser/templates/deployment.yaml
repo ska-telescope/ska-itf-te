@@ -19,7 +19,6 @@ spec:
       labels:
         {{- include "fileBrowser.selectorLabels" . | nindent 8 }}
     spec:
-      hostname: {{ .Values.hostName }}
       initContainers:
         - name: {{ .Values.containers.setupConfigs.name }}
           image: {{ .Values.containers.setupConfigs.image.name }}:{{ .Values.containers.setupConfigs.image.version }}
