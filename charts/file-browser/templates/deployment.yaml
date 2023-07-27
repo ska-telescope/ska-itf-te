@@ -2,14 +2,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{include "filestash.fullname" .}}
+  name: {{include "fileBrowser.fullname" .}}
   labels:
-    {{- include "filestash.labels" . | nindent 4 }}
+    {{- include "fileBrowser.labels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      {{- include "filestash.selectorLabels" . | nindent 6 }}
+      {{- include "fileBrowser.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -17,7 +17,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "filestash.selectorLabels" . | nindent 8 }}
+        {{- include "fileBrowser.selectorLabels" . | nindent 8 }}
     spec:
       hostname: {{ .Values.hostName }}
       initContainers:
@@ -49,7 +49,7 @@ spec:
               mountPath: {{ .Values.mounts.appConfig.mount }}
           ports:
             - containerPort: {{ .Values.containers.fileBrowser.port }}
-              name: http
+              name: {{ .Values.containers.fileBrowser.portName }}
       volumes:
         - name: {{ .Values.mounts.setupScript.name }}
           configMap:

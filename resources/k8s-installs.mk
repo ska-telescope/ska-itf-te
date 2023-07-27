@@ -108,41 +108,47 @@ itf-te-pass-env: ## Generate Gitlab CI configuration for SkySimCtl device server
 	@echo "UPSTREAM_CI_JOB_ID=$(CI_JOB_ID)" >> build/deploy.env
 	@cat build/deploy.env
 
-# Filestash vars
-FILESTASH_ENV ?= production
-FILESTASH_CONFIG_SECRET_FILE := config.json
+# File browser vars
+ifeq ($(CI_COMMIT_BRANCH),)
+FILEBROWSER_ENV ?= dev
+else ifeq ($(CI_COMMIT_BRANCH),$(CI_DEFAULT_BRANCH))
+FILEBROWSER_ENV ?= production
+else
+FILEBROWSER_ENV ?= ci
+endif
+FILEBROWSER_CONFIG_SECRET_FILE := config.json
 # This is overwritten in CI/CD
-FILESTASH_CONFIG_PATH ?= ./charts/filestash/secrets/example.json
-FILESTASH_CONFIG_SECRET_NAME := filestash-config-secret
+FILEBROWSER_CONFIG_PATH ?= ./charts/file-browser/secrets/example.json
+FILEBROWSER_CONFIG_SECRET_NAME := file-browser-config-secret
 
-## TARGET: filestash-install
-## SYNOPSIS: make filestash-install
+## TARGET: file-browser-install
+## SYNOPSIS: make file-browser-install
 ## HOOKS: none
 ## VARS:
-##	FILESTASH_ENV=[environment-name] (default value: production)
-##	FILESTASH_CONFIG_SECRET_FILE=[name of file containing secrets (not path)] (default value: config.json)
-##	FILESTASH_CONFIG_SECRET_NAME=[name of k8s secret created by filestash-secrets] (default value: filestash-config-secret)
-##  make target for deploying filestash.
+##	FILEBROWSER_ENV=[environment-name] (default value: production)
+##	FILEBROWSER_CONFIG_SECRET_FILE=[name of file containing secrets (not path)] (default value: config.json)
+##	FILEBROWSER_CONFIG_SECRET_NAME=[name of k8s secret created by file-browser-secrets] (default value: file-browser-config-secret)
+##  make target for deploying the spectrum analyser file browser.
 
-filestash-install: K8S_CHART_PARAMS := $(K8S_CHART_PARAMS) --set mounts.configSecret.name=$(FILESTASH_CONFIG_SECRET_NAME) \
-	--set mounts.configSecret.dest=$(FILESTASH_CONFIG_SECRET_FILE) \
-	--set env.type=$(FILESTASH_ENV)
-filestash-install: K8S_CHART := filestash
-filestash-install: KUBE_NAMESPACE := filestash
-filestash-install: k8s-uninstall-chart filestash-secrets k8s-install-chart
+file-browser-install: K8S_CHART_PARAMS := $(K8S_CHART_PARAMS) --set mounts.configSecret.name=$(FILEBROWSER_CONFIG_SECRET_NAME) \
+	--set mounts.configSecret.dest=$(FILEBROWSER_CONFIG_SECRET_FILE) \
+	--set env.type=$(FILEBROWSER_ENV)
+file-browser-install: K8S_CHART := file-browser
+file-browser-install: KUBE_NAMESPACE := file-browser
+file-browser-install: k8s-uninstall-chart file-browser-secrets k8s-install-chart
 
-## TARGET: filestash-secrets
-## SYNOPSIS: make filestash-secrets
+## TARGET: file-browser-secrets
+## SYNOPSIS: make file-browser-secrets
 ## HOOKS: none
 ## VARS:
-##	FILESTASH_CONFIG_PATH=[path to json config file with secrets. Overriden in CI/CD.] (default value: ../charts/filestash/secrets/config.json)
-##	FILESTASH_CONFIG_SECRET_FILE=[name of file containing secrets (not path).] (default value: config.json)
-##	FILESTASH_CONFIG_SECRET_NAME=[name of k8s secret created by filestash-secrets] (default value: filestash-config-secret)
-##  make target for creating k8s secret from JSON file located at $(FILESTASH_CONFIG_PATH)
+##	FILEBROWSER_CONFIG_PATH=[path to json config file with secrets. Overriden in CI/CD.] (default value: ../charts/file-browser/secrets/config.json)
+##	FILEBROWSER_CONFIG_SECRET_FILE=[name of file containing secrets (not path).] (default value: config.json)
+##	FILEBROWSER_CONFIG_SECRET_NAME=[name of k8s secret created by file-browser-secrets] (default value: file-browser-config-secret)
+##  make target for creating k8s secret from JSON file located at $(FILEBROWSER_CONFIG_PATH)
 
-filestash-secrets: k8s-namespace
-	kubectl delete secret -n $(KUBE_NAMESPACE) --ignore-not-found=true filestash-config-secret
-	kubectl create secret -n $(KUBE_NAMESPACE) generic $(FILESTASH_CONFIG_SECRET_NAME) --from-file=$(FILESTASH_CONFIG_SECRET_FILE)=$(FILESTASH_CONFIG_PATH)
+file-browser-secrets: k8s-namespace
+	kubectl delete secret -n $(KUBE_NAMESPACE) --ignore-not-found=true file-browser-config-secret
+	kubectl create secret -n $(KUBE_NAMESPACE) generic $(FILEBROWSER_CONFIG_SECRET_NAME) --from-file=$(FILEBROWSER_CONFIG_SECRET_FILE)=$(FILEBROWSER_CONFIG_PATH)
 
 
 vars:

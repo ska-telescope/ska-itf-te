@@ -17,7 +17,7 @@ We use an OPC UA server in the K8s Cluster in the Mid ITF to simulate the Dish S
 
 Spectrum Analyser File Access
 =============================
-The Ansritsu MS2090A Spectrum Analyser in the ITF hosts an FTP server. This allows users to access recordings made on the device remotely. In order to make this access more user friendly, we run `filestash <https://www.filestash.app/>`. This provides a file browser web frontend to various backends, among them FTP.
+The Ansritsu MS2090A Spectrum Analyser in the ITF hosts an FTP server. This allows users to access recordings made on the device remotely. In order to make this access more user friendly, we run `filestash <https://www.filestash.app/>`. This provides a file browser web frontend to various backends, among them FTP. This is deployed with the `file-browser` helm chart.
 
 ==========
 Deployment
@@ -38,6 +38,6 @@ Deployment of the SUT
 The deployment repository for the SKA Mid Software used to be Skampi. There is currently uncertainty about the continued usage of Skampi for deploying software at the Mid ITF or on site.
 
 
-Deployment of Filestash
-=======================
-Filestash is deployed with the `filestash-install` Makefile target. It is deployed to the `filestash` namespace in the ITF. The configuration file lives in the `$FILESTASH_CONFIG_PATH` environment variable on Gitlab. For local deployments, an example file is provided at `charts/filestash/secrets/example.json`. This doesn't provide access to the Spectrum Analyser FTP server, but does allow you to verify that the deployment is working as expected.
+Deployment of File Browser
+==========================
+The spectrum analyser file browser is deployed with the `file-browser-install` Makefile target. It is deployed to the `file-browser` namespace in the ITF. The configuration file lives in the `$FILEBROWSER_CONFIG_PATH` environment variable on Gitlab. For local deployments, an example file is provided at `charts/file-browser/secrets/example.json`. This doesn't provide access to the Spectrum Analyser FTP server, but does allow you to verify that the deployment is working as expected.

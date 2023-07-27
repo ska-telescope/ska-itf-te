@@ -1,5 +1,5 @@
 ---
-# Default values for filestash.
+# Default values for filestash file browser.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -10,16 +10,13 @@ nameOverride: ""
 fullnameOverride: ""
 
 
-hostName: filestash
+hostName: spectana
 
 imagePullPolicy: IfNotPresent
 
-serviceSettings:
-  name: filestash
-
 mounts:
   configSecret:
-    name: filestash-config-secret
+    name: file-browser-config-secret
     mount: /configSecret
     dest: config.json
   appConfig:
@@ -32,6 +29,8 @@ mounts:
     source: scripts/setup_config.sh
     dest: setup_config.sh
 
+fileBrowserPort: &fileBrowserPort 8334
+
 containers:
   setupConfigs:
     name: setup-configs
@@ -43,4 +42,11 @@ containers:
     image:
       name: machines/filestash
       version: latest
-    port: 8334
+    port: *fileBrowserPort
+    portName: fp-http
+
+service:
+  name: file-browser
+  port: 80
+  targetPort: *fileBrowserPort
+  nodePort: 32003

@@ -53,7 +53,7 @@ python-lint:
   rules:
     - allow_failure: true
 
-deploy-filestash:
+deploy-file-browser:
   tags:
     - ska-k8srunner-za-itf
   stage: test-equipment-setup
@@ -61,17 +61,17 @@ deploy-filestash:
     MINIKUBE: "false"
     CLUSTER_DOMAIN: miditf.internal.skao.int
     INGRESS_HOST: k8s.miditf.internal.skao.int
-    K8S_CHART: filestash
-    KUBE_NAMESPACE: filestash
+    K8S_CHART: file-browser
+    KUBE_NAMESPACE: file-browser
     NEXUS_CACHE: NEXUS_CACHE
   script:
     - make k8s-namespace
-    - make filestash-install
+    - make file-browser-install
     # The following are all needed to verify deployment and expose the issue
     - make k8s-wait SKA_TANGO_OPERATOR=true
     - make k8s-get-pods
   environment:
-    name: ska-mid-itf/filestash
+    name: ska-mid-itf/file-browser
     kubernetes:
       namespace: "$KUBE_NAMESPACE"
   allow_failure: true # need to keep this to unlock the pipeline
@@ -100,7 +100,7 @@ deploy-test-equipment:
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
     - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
   script:
-    - make filestash-secrets
+    - make file-browser-secrets
     - make itf-te-template
     - make itf-te-install
     # The following are all needed to verify deployment and expose the issue
