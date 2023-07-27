@@ -51,8 +51,7 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	$(TARANTA_PARAMS) \
 	${K8S_TEST_TANGO_IMAGE_PARAMS} \
 	${SKIP_TANGO_EXAMPLES_PARAMS} \
-	$(K8S_EXTRA_PARAMS) \
-	$(FILESTASH_CHART_PARAMS)
+	$(K8S_EXTRA_PARAMS)
 
 # # TODO: remove if no longer needed.
 # -include resources/itf-connect.mk
