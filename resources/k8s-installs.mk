@@ -109,13 +109,7 @@ itf-te-pass-env: ## Generate Gitlab CI configuration for SkySimCtl device server
 	@cat build/deploy.env
 
 # File browser vars
-ifeq ($(CI_COMMIT_BRANCH),)
 FILEBROWSER_ENV ?= dev
-else ifeq ($(CI_COMMIT_BRANCH),$(CI_DEFAULT_BRANCH))
-FILEBROWSER_ENV ?= production
-else
-FILEBROWSER_ENV ?= ci
-endif
 FILEBROWSER_CONFIG_SECRET_FILE := config.json
 # This is overwritten in CI/CD
 FILEBROWSER_CONFIG_PATH ?= ./charts/file-browser/secrets/example.json
@@ -125,7 +119,7 @@ FILEBROWSER_CONFIG_SECRET_NAME := file-browser-config-secret
 ## SYNOPSIS: make file-browser-install
 ## HOOKS: none
 ## VARS:
-##	FILEBROWSER_ENV=[environment-name] (default value: production)
+##	FILEBROWSER_ENV=[environment-name] (default value: dev)
 ##	FILEBROWSER_CONFIG_SECRET_FILE=[name of file containing secrets (not path)] (default value: config.json)
 ##	FILEBROWSER_CONFIG_SECRET_NAME=[name of k8s secret created by file-browser-secrets] (default value: file-browser-config-secret)
 ##  make target for deploying the spectrum analyser file browser.

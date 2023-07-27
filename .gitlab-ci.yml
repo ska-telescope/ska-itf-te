@@ -64,6 +64,7 @@ deploy-file-browser:
     K8S_CHART: file-browser
     KUBE_NAMESPACE: file-browser
     NEXUS_CACHE: NEXUS_CACHE
+    FILEBROWSER_ENV: production
   script:
     - make k8s-namespace
     - make file-browser-install
