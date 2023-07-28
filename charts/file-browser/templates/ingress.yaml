@@ -1,0 +1,21 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{include "fileBrowser.fullname" .}}
+  labels:
+    {{- include "fileBrowser.labels" . | nindent 4 }}
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - path: /{{ .Release.Namespace }}/{{ .Values.service.name }}/(.*)
+        backend:
+          service:
+            name: {{ .Values.service.name }}
+            port:
+              name: {{ .Values.containers.fileBrowser.portName }}
+        pathType: ImplementationSpecific

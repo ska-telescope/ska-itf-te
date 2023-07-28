@@ -1,0 +1,8 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.mounts.setupScript.name }}
+data:
+  {{ .Values.mounts.setupScript.dest }}: |-
+{{ .Files.Get .Values.mounts.setupScript.source | indent 4 }}

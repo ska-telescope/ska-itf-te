@@ -20,7 +20,15 @@ Welcome to SKA CICD Deploy Mid ITF documentation!
    :caption: Readme
    
    README
+.. Ansible Playbook README =============================================================
 
+.. README for Ansible Playbooks.
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Ansible Playbook Readme
+
+   README.ansible-playbooks.md
 ..
    Indices and tables
    ==================
