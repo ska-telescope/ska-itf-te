@@ -4,7 +4,7 @@ Manage server configuration and user access in the Mid ITF.
 
 ## Setup
 
-To install and use the playbooks, make sure you have no virtual environment active. Change Directory into this one (same as this `README`), run `poetry shell` and then `poetry install` - this should install Ansible in a new virtual environment.
+To install and use the playbooks, make sure you have no virtual environment active. Change Directory into this one (same as this `README`), run `poetry shell` and then `poetry install` - this should install Ansible in a new virtual environment. You can find more details on managing environments with poetry [here](https://python-poetry.org/docs/managing-environments/).
 
 ## Summary
 
