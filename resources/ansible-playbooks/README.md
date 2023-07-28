@@ -2,7 +2,7 @@
 
 Manage server configuration and user access in the Mid ITF.
 
-## Prerequisites
+## Setup
 
 To install and use the playbooks, make sure you have no virtual environment active. Change Directory into this one (same as this `README`), run `poetry shell` and then `poetry install` - this should install Ansible in a new virtual environment.
 
@@ -122,7 +122,7 @@ The Raspberry Pi play can be executed as follows:
 make setup_raspberry_pi
 ```
 
-## Testing
+## Running Tests
 
 Tests can be executed as follows:
 
