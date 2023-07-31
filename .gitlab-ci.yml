@@ -290,3 +290,6 @@ deploy-test-equipment-for-verification:
     name: "$CI_PROJECT_NAME-$CI_JOB_ID"
     paths:
       - build/
+  rules:
+    - changes:
+        - charts/test-equipment-verification
