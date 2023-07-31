@@ -19,7 +19,7 @@ test-equipment:
         - name: rc1dat800030
           model: RC1DAT800030
           host: 10.165.3.6
-          port: 23
+          port: 23 # Yes, this is Telnet
           protocol: telnet
     awg:
       devices: []
