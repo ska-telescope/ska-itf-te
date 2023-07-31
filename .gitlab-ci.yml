@@ -6,10 +6,9 @@ cache:
   paths:
     - build
 stages:
-  - progatt
+  - verify-test-equipment
   - lint
   - build
-  # - staging
   - test
   - test-equipment-setup
   - integration
