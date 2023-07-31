@@ -310,6 +310,7 @@ deploy-test-equipment-for-verification:
   script:
     - make k8s-install-chart
     - make itf-te-links
+    - make k8s-wait || true
   environment:
     name: ska-mid-itf/te-verification
     kubernetes:
