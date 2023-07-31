@@ -289,24 +289,33 @@ remove-dish-structure-simulator:
   when: manual
   allow_failure: true # need to keep this to unlock the pipeline
 
-deploy-progatt:
+deploy-test-equipment-for-verification:
   tags:
     - ska-k8srunner-za-itf
   image: $CI_REGISTRY/ska-telescope/ska-skampi/ska-skampi-ci:1.0.4
-  stage: progatt
+  stage: verify-test-equipment
   variables:
     MINIKUBE: "false"
     CLUSTER_DOMAIN: miditf.internal.skao.int
     INGRESS_HOST: k8s.miditf.internal.skao.int
-    K8S_CHART: progatt
-    KUBE_NAMESPACE: progatt
+    K8S_CHART: test-equipment-verification
+    KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-$CONFIG"
     SERVICE_ACCOUNT: ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
     NEXUS_CACHE: NEXUS_CACHE
+  before_script:
+    - bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install --upgrade poetry
+    - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+    - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
   script:
     - make k8s-uninstall-chart
     - make k8s-install-chart
   environment:
-    name: ska-mid-itf/progatt
+    name: ska-mid-itf/te-verification
     kubernetes:
       namespace: "$KUBE_NAMESPACE"
+    url: https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta
   allow_failure: true # need to keep this to unlock the pipeline
+  artifacts:
+    name: "$CI_PROJECT_NAME-$CI_JOB_ID"
+    paths:
+      - build/

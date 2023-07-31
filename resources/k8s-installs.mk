@@ -1,15 +1,15 @@
-# ifeq ($(CI_JOB_NAME),deploy-test-equipment) # if CI_JOB_NAME is deploy-test-equipment
+ifeq ($(CI_JOB_NAME),deploy-test-equipment-for-verification) # if CI_JOB_NAME is deploy-test-equipment
 # # Set K8S_EXTRA_PARAMS for deploying Test Equipment during development of the Test Equipment charts
 TE_REGISTRY ?= registry.gitlab.com/ska-telescope/ska-ser-test-equipment
 TE_IMAGE ?= ska-ser-test-equipment
-TE_VERSION ?= 0.7.4-dev.c065da20c # This should be dynamically inherited and used only when the upstream changes
+TE_VERSION ?= 0.7.4-dev.c92d86ef7 # This should be dynamically inherited and used only when the upstream changes
 
-# K8S_EXTRA_PARAMS = \
-# 			--set test-equipment.image.registry=$(TE_REGISTRY) \
-# 			--set test-equipment.image.image=$(TE_IMAGE) \
-# 			--set test-equipment.image.tag=$(TE_VERSION) \
-# 			--set test-equipment.image.pullPolicy=Always
-# endif
+K8S_EXTRA_PARAMS = \
+			--set test-equipment.image.registry=$(TE_REGISTRY) \
+			--set test-equipment.image.image=$(TE_IMAGE) \
+			--set test-equipment.image.tag=$(TE_VERSION) \
+			--set test-equipment.image.pullPolicy=Always
+endif
 
 ## TARGET: itf-te-install
 ## SYNOPSIS: make itf-te-install
@@ -19,11 +19,11 @@ TE_VERSION ?= 0.7.4-dev.c065da20c # This should be dynamically inherited and use
 
 itf-te-install:
 	@make vars;
-	@make k8s-install-chart K8S_CHART=ska-mid-itf
+	@make k8s-install-chart
 
 itf-te-template:
 	@make vars;
-	@make k8s-template-chart K8S_CHART=ska-mid-itf
+	@make k8s-template-chart
 	@mkdir -p build
 	@mv manifests.yaml build/
 
