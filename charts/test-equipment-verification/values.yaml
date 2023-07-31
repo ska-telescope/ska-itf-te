@@ -21,6 +21,16 @@ test-equipment:
           host: 10.165.3.6
           port: 23
           protocol: telnet
+    awg:
+      devices: []
+    signalgenerator:
+      devices: []
+    sp6t:
+      devices: []
+    spdt:
+      devices: []
+    spectrumanalyser:
+      devices: []
 
 # TARANTA SUITE
 ska-taranta:
