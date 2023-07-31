@@ -14,15 +14,6 @@ test-equipment:
   simulators:
     enabled: false
   deviceServers:
-    # spectrumanalyser: # DO NOT DELETE THIS AS WE NEED TO GET THIS WORKING AGAIN LATER!!!
-    #   devices:
-    #     - name: ms2090a
-    #       model: MS2090A
-    #       host: 10.165.3.4
-    #       port: 9001
-    #       resources:
-    #         limits:
-    #           skao.int/spectrum-analyser-01: "1"
     signalgenerator:
       devices:
         - name: smb100a
@@ -39,14 +30,24 @@ test-equipment:
           host: 10.165.3.6
           port: 23
           protocol: telnet
+    spectrumanalyser:
+      devices: []
+    # spectrumanalyser: # DO NOT DELETE THIS AS WE NEED TO GET THIS WORKING AGAIN LATER!!!
+    #   devices:
+    #     - name: ms2090a
+    #       model: MS2090A
+    #       host: 10.165.3.4
+    #       port: 9001
+    #       resources:
+    #         limits:
+    #           skao.int/spectrum-analyser-01: "1"
     awg:
       devices: []
     sp6t:
       devices: []
     spdt:
       devices: []
-    spectrumanalyser:
-      devices: []
+
 # SKYSIMCONTROLLER
 skysimctl:
   image:
