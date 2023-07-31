@@ -298,7 +298,7 @@ deploy-test-equipment-for-verification:
     CLUSTER_DOMAIN: miditf.internal.skao.int
     INGRESS_HOST: k8s.miditf.internal.skao.int
     K8S_CHART: test-equipment-verification
-    KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-$CONFIG"
+    KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG"
     SERVICE_ACCOUNT: ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
     NEXUS_CACHE: NEXUS_CACHE
   before_script:
