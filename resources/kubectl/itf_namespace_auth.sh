@@ -358,7 +358,7 @@ cleanup() {
       delete_existing_resources
       delete_target_folder
     fi
-    exit $exitcode
+    echo "Exit code was: $exitcode"
 }
 
 main() {
@@ -385,7 +385,7 @@ main() {
   echo -e "\\n${BAR}  Credential Generation  ${BAR}"
   echo "This script will generate credentials for the pipeline namespace."
 
-#   check_arguments
+  check_arguments
 #   check_namespaces
 #   delete_existing_resources
   create_target_folder
@@ -406,7 +406,7 @@ main() {
   echo -e "${CYAN}\tkubectl --kubeconfig=KUBECONFIG get pods${NC}"
   echo -e "${CYAN}Note: The current context is set to first namespace passed, you need to provide other namespaces explicitly (with \"-n namespace\" option)${NC}"
 
-  delete_target_folder
+  # delete_target_folder
 }
 
 main $@

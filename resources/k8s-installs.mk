@@ -1,3 +1,6 @@
+itf-namespace-auth:
+	source resources/kubectl/itf_namespace_auth.sh $(GROUP) $(NAMESPACES)
+
 # ifeq ($(CI_JOB_NAME),deploy-test-equipment) # if CI_JOB_NAME is deploy-test-equipment
 # # Set K8S_EXTRA_PARAMS for deploying Test Equipment during development of the Test Equipment charts
 # TE_REGISTRY ?= registry.gitlab.com/ska-telescope/ska-ser-test-equipment
