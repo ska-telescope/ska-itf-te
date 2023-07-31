@@ -29,6 +29,11 @@ Deployment of Test Equipment Tango Device Servers are mainly done using the ``te
 We have two special makefile targets, ``make itf-te-template`` and ``make itf-te-install``, one for checking what will be deployed, and one for deploying the Helm charts under the ``ska-mid-itf`` umbrella.
 We also have a make target that gives URLs to the deployed software: ``make itf-te-links``.
 
+Deploying Test Equipment charts for verification
+------------------------------------------------
+Use the umbrella chart under `charts/test-equipment-verification` to deploy charts that were publihsed to the `Test Equipment Helm Package Registry <https://gitlab.com/ska-telescope/ska-ser-test-equipment/-/packages>`_. Note that these packages are deployed in the Helm Build job and the version number is outputted in the Job logs - example of this can be seen `here <https://gitlab.com/ska-telescope/ska-ser-test-equipment/-/jobs/4768261311>`_.
+If you want to change the container image version, you can do so by editing the ``$TE_VERSION`` variable in ``/resources/test-equipment-dev.mk``.
+
 Sky Simulator
 =============
 Deployment of the Sky Simulator Control Tango Device (the RPi-hosted device that switches on and off noise sources, filters and U and V signals) follows directly (but manually) from this deployment, as the SkySimCtl Tango Device needs to be registered on the same Test Equipment namespace. This is achieved by using a triggered pipeline - see `this Confluence page <https://confluence.skatelescope.org/x/0RWKDQ>`_ for details.
