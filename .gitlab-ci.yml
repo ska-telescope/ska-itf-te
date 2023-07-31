@@ -278,6 +278,7 @@ deploy-test-equipment-for-verification:
   script:
     - make k8s-uninstall-chart
     - make k8s-install-chart
+    - make itf-te-links
   environment:
     name: ska-mid-itf/te-verification
     kubernetes:
