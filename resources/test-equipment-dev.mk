@@ -6,7 +6,7 @@ ifeq ($(CI_JOB_NAME),deploy-test-equipment-for-verification) # if CI_JOB_NAME is
 # # Set K8S_EXTRA_PARAMS for deploying Test Equipment during development of the Test Equipment charts
 TE_REGISTRY ?= registry.gitlab.com/ska-telescope/ska-ser-test-equipment
 TE_IMAGE ?= ska-ser-test-equipment
-TE_VERSION ?= 0.7.4-dev.cc164381c # This should be dynamically inherited and used only when the upstream changes
+TE_VERSION ?= 0.7.4-dev.cec33bfc0 # This is the version of the image that we want to pull from https://gitlab.com/ska-telescope/ska-ser-test-equipment/container_registry/3213235
 
 K8S_EXTRA_PARAMS = \
 			--set test-equipment.image.registry=$(TE_REGISTRY) \
