@@ -326,4 +326,4 @@ deploy-test-equipment-for-verification:
   rules:
     - changes:
         - charts/test-equipment-verification/*
-        # - resources/test-equipment-dev.mk
+        - resources/test-equipment-dev.mk

@@ -21,6 +21,7 @@ dependencies:
     repository: https://artefact.skao.int/repository/helm-internal
     alias: test-equipment
     condition: test-equipment.enabled
+
   # TARANTA SUITE
   - name: ska-tango-taranta
     version: 2.2.0
