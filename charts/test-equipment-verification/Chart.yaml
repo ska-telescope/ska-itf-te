@@ -1,6 +1,6 @@
 apiVersion: v2
-name: ska-mid-itf
-description: An umbrella Helm chart so that Helm Charts of Test Equipment (SigGen and SpectrAna), SkySimCtl can be deployed to a kubernetes cluster
+name: test-parent
+description: An umbrella Helm chart for verifying Helm Charts of Test Equipment Tango Device Servers at the Mid ITF
 type: application
 version: 0.1.0-dev.c
 appVersion: 0.1.0-dev.c
@@ -17,10 +17,11 @@ dependencies:
 
   # SKA Test Equipment
   - name: ska-ser-test-equipment
-    version: 0.7.1 # check latest version
-    repository: https://artefact.skao.int/repository/helm-internal
+    version: 0.7.4-dev.c92d86ef7 # check latest version
+    repository: https://gitlab.com/api/v4/projects/31506252/packages/helm/dev
     alias: test-equipment
     condition: test-equipment.enabled
+
   # TARANTA SUITE
   - name: ska-tango-taranta
     version: 2.2.0

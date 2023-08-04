@@ -14,47 +14,23 @@ test-equipment:
   simulators:
     enabled: false
   deviceServers:
-    signalgenerator:
-      devices:
-        - name: smb100a
-          model: SMB100A
-          host: 10.165.3.1
-          port: 5025
-          resources:
-            limits:
-              skao.int/signal-generator-01: "1"
     progattenuator:
       devices:
         - name: rc1dat800030
           model: RC1DAT800030
           host: 10.165.3.6
-          port: 23
+          port: 23 # Yes, this is Telnet!
           protocol: telnet
-    spectrumanalyser:
-      devices: []
-    # spectrumanalyser: # DO NOT DELETE THIS AS WE NEED TO GET THIS WORKING AGAIN LATER!!!
-    #   devices:
-    #     - name: ms2090a
-    #       model: MS2090A
-    #       host: 10.165.3.4
-    #       port: 9001
-    #       resources:
-    #         limits:
-    #           skao.int/spectrum-analyser-01: "1"
     awg:
+      devices: []
+    signalgenerator:
       devices: []
     sp6t:
       devices: []
     spdt:
       devices: []
-
-# SKYSIMCONTROLLER
-skysimctl:
-  image:
-    registry: registry.gitlab.com/ska-telescope/ska-te-mid-skysimctl
-    image: ska-te-mid-skysimctl
-    tag: 0.1.0
-    pullPolicy: Always
+    spectrumanalyser:
+      devices: []
 
 # TARANTA SUITE
 ska-taranta:

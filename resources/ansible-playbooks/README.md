@@ -1,26 +1,14 @@
-# distribute-ssh-keys
+# ansible-playbooks
 
-Update SSH keys on the Atlas team's hosts.
+Manage server configuration and user access in the Mid ITF.
 
-## Prerequisites
+## Setup
 
-### ansible
-
-To install and use the package, make sure you have no virtual environment active. Change Directory into this one (same as this `README`), run `poetry shell` and then `poetry install` - this should install Ansible in a new virtual environment.
-
-### ansible-lint
-
-`ansible-lint` is used to lint our Ansible playbooks. See [this page](https://ansible-lint.readthedocs.io) for more details. It can be installed as follows:
-
-```sh
-python -m pip install --user ansible-lint
-# or
-pip3 install ansible-lint
-```
+To install and use the playbooks, make sure you have no virtual environment active. Change Directory into this one (same as this `README`), run `poetry shell` and then `poetry install` - this should install Ansible in a new virtual environment. You can find more details on managing environments with poetry [here](https://python-poetry.org/docs/managing-environments/).
 
 ## Summary
 
-This sub-project contains Ansible playbooks used to manage server configuration in the MID ITF.
+This sub-project contains Ansible playbooks used to manage user access and server configuration in the MID ITF.
 
 In order for this tooling to work for you, you must already have `ssh` access to the inventory described in `inventory/hosts`.
 
@@ -46,7 +34,7 @@ Currently it does the following:
 
 #### ssh_keys
 
-This role adds a user's SSH public key to their `authorized_keys` on the host. The keys are defined in `resources/users`.
+This role adds a user's SSH public key to their `authorized_keys` on the host. The keys are defined in `resources/users/<team>/<user>/.ssh`.
 
 #### system_setup
 
@@ -134,7 +122,7 @@ The Raspberry Pi play can be executed as follows:
 make setup_raspberry_pi
 ```
 
-## Testing
+## Running Tests
 
 Tests can be executed as follows:
 

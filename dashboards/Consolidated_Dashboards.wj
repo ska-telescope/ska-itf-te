@@ -1,10 +1,10 @@
 {
-  "id": "649021215b75330019cccabb",
+  "id": "649999f02b3b330019a039c8",
   "name": "Consolidated_Dashboards",
   "version": "2.2.0",
   "user": "ATLAS",
-  "insertTime": "2023-06-19T09:34:25.315Z",
-  "updateTime": "2023-06-25T21:33:44.802Z",
+  "insertTime": "2023-06-26T14:00:16.751Z",
+  "updateTime": "2023-07-31T12:14:42.578Z",
   "group": null,
   "groupWriteAccess": false,
   "lastUpdatedBy": "ATLAS",
@@ -15,7 +15,7 @@
       "y": 21,
       "canvas": "0",
       "width": 169,
-      "height": 129,
+      "height": 81,
       "type": "LABEL",
       "inputs": {
         "text": ".",
@@ -75,7 +75,7 @@
     {
       "id": "43",
       "x": 134,
-      "y": 34,
+      "y": 33,
       "canvas": "0",
       "width": 49,
       "height": 6,
@@ -110,7 +110,7 @@
         "borderColor": "#000000",
         "font": "Helvetica",
         "linkTo": "",
-        "customCss": "border: 1px solid black;\nfont-weight: bold;"
+        "customCss": "border: 1px solid black;\nfontWeight: bold;"
       },
       "order": 4
     },
@@ -125,8 +125,8 @@
       "inputs": {
         "attribute": {
           "device": "mid-itf/siggen/1",
-          "attribute": "status",
-          "label": "Status"
+          "attribute": "state",
+          "label": "State"
         },
         "precision": 2,
         "showDevice": false,
@@ -138,7 +138,7 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": "border: 1px solid black;\nfont-weight: bold;"
+        "widgetCss": "border: 1px solid black;\nfontWeight: bold;"
       },
       "order": 5
     },
@@ -166,7 +166,7 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": "border: 1px solid black;\nfont-weight: bold;"
+        "widgetCss": "border: 1px solid black;\nfontWeight: bold;"
       },
       "order": 6
     },
@@ -191,7 +191,7 @@
         "textColor": "#000000",
         "backgroundColor": "#ffffff",
         "textSize": 1,
-        "widgetCss": "border: 1px solid black;\nfont-weight: bold;\ntext-align:center;"
+        "widgetCss": "border: 1px solid black;\nfontWeight: bold;\ntext-align:center;"
       },
       "order": 7
     },
@@ -218,7 +218,7 @@
         "showAttributeValue": false,
         "showDeviceName": false,
         "showAttribute": "Label",
-        "customCss": "border: 1px solid black;\nfont-weight: bold;\ntext-align:center;\nheight: 100%\npadding-top: px"
+        "customCss": "border: 1px solid black;\nfontWeight: bold;\ntext-align:center;\nheight: 100%\npadding-top: px"
       },
       "order": 8
     },
@@ -246,7 +246,7 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": "border: 1px solid black;\nfont-weight: bold;\ntext-align:center;\nheight: 100%\npadding-top: px"
+        "widgetCss": "border: 1px solid black;\nfontWeight: bold;\ntext-align:center;\nheight: 100%\npadding-top: px"
       },
       "order": 9
     },
@@ -287,274 +287,6 @@
       "order": 10
     },
     {
-      "id": "51",
-      "x": 21,
-      "y": 91,
-      "canvas": "0",
-      "width": 61,
-      "height": 58,
-      "type": "LABEL",
-      "inputs": {
-        "text": "",
-        "textColor": "#000000",
-        "backgroundColor": "#ffffff",
-        "size": 1,
-        "borderWidth": 0,
-        "borderColor": "#000000",
-        "font": "Helvetica",
-        "linkTo": "",
-        "customCss": "border: 3px solid #070068;"
-      },
-      "order": 11
-    },
-    {
-      "id": "52",
-      "x": 22,
-      "y": 92,
-      "canvas": "0",
-      "width": 59,
-      "height": 6,
-      "type": "LABEL",
-      "inputs": {
-        "text": "Spectrum Analyser",
-        "textColor": "#000000",
-        "backgroundColor": "#ffffff",
-        "size": 1,
-        "borderWidth": 0,
-        "borderColor": "#000000",
-        "font": "Helvetica",
-        "linkTo": "",
-        "customCss": "border: 1px solid #070068;\ncolor: #FFFFFF;\nbackground:  #070068;\nfont-weight: bold;\nfont-size: 26px;\ntext-align: center;\n"
-      },
-      "order": 12
-    },
-    {
-      "id": "53",
-      "x": 23,
-      "y": 100,
-      "canvas": "0",
-      "width": 58,
-      "height": 4,
-      "type": "DEVICE_STATUS",
-      "inputs": {
-        "device": "mid-itf/spectana/1",
-        "state": {
-          "device": null,
-          "attribute": null
-        },
-        "showDeviceName": true,
-        "showStateString": true,
-        "showStateLED": true,
-        "LEDSize": 1.25,
-        "textColor": "#000000",
-        "backgroundColor": "#ffffff",
-        "textSize": 1,
-        "widgetCss": "text-align: center;\nborder: 1px solid black;\nfont-weight: bold;"
-      },
-      "order": 13
-    },
-    {
-      "id": "54",
-      "x": 23,
-      "y": 107,
-      "canvas": "0",
-      "width": 58,
-      "height": 4,
-      "type": "ATTRIBUTE_DISPLAY",
-      "inputs": {
-        "attribute": {
-          "device": "mid-itf/spectana/1",
-          "attribute": "status",
-          "label": "Status"
-        },
-        "precision": 2,
-        "showDevice": false,
-        "showAttribute": "Label",
-        "scientificNotation": false,
-        "showEnumLabels": false,
-        "showAttrQuality": false,
-        "textColor": "#000000",
-        "backgroundColor": "#ffffff",
-        "size": 1,
-        "font": "Helvetica",
-        "widgetCss": "border: 1px solid black;\nfont-weight: bold;"
-      },
-      "order": 14
-    },
-    {
-      "id": "55",
-      "x": 23,
-      "y": 114,
-      "canvas": "0",
-      "width": 58,
-      "height": 4,
-      "type": "ATTRIBUTE_DISPLAY",
-      "inputs": {
-        "attribute": {
-          "device": "mid-itf/spectana/1",
-          "attribute": "adminmode",
-          "label": "adminMode"
-        },
-        "precision": 2,
-        "showDevice": false,
-        "showAttribute": "Label",
-        "scientificNotation": false,
-        "showEnumLabels": false,
-        "showAttrQuality": false,
-        "textColor": "#000000",
-        "backgroundColor": "#ffffff",
-        "size": 1,
-        "font": "Helvetica",
-        "widgetCss": "border: 1px solid black;\nfont-weight: bold;"
-      },
-      "order": 15
-    },
-    {
-      "id": "56",
-      "x": 23,
-      "y": 121,
-      "canvas": "0",
-      "width": 58,
-      "height": 4,
-      "type": "LABEL",
-      "inputs": {
-        "text": "frequency range",
-        "textColor": "#000000",
-        "backgroundColor": "#ffffff",
-        "size": 1,
-        "borderWidth": 0,
-        "borderColor": "#000000",
-        "font": "Helvetica",
-        "linkTo": "",
-        "customCss": "border: 1px solid black;\nfont-weight: bold;\n"
-      },
-      "order": 16
-    },
-    {
-      "id": "57",
-      "x": 23,
-      "y": 129,
-      "canvas": "0",
-      "width": 28,
-      "height": 4,
-      "type": "ATTRIBUTE_WRITER",
-      "inputs": {
-        "title": "Stop",
-        "attribute": {
-          "device": "mid-itf/spectana/1",
-          "attribute": "healthstate",
-          "label": "healthState"
-        },
-        "showDevice": false,
-        "showAttribute": "None",
-        "textColor": "#000000",
-        "backgroundColor": "#ffffff",
-        "size": 1,
-        "font": "Helvetica",
-        "widgetCss": "border: 1px solid black;\nfont-weight: bold;"
-      },
-      "order": 17
-    },
-    {
-      "id": "58",
-      "x": 56,
-      "y": 129,
-      "canvas": "0",
-      "width": 25,
-      "height": 4,
-      "type": "ATTRIBUTE_WRITER",
-      "inputs": {
-        "title": "Start",
-        "attribute": {
-          "device": "mid-itf/spectana/1",
-          "attribute": "controlmode",
-          "label": "controlMode"
-        },
-        "showDevice": false,
-        "showAttribute": "None",
-        "textColor": "#000000",
-        "backgroundColor": "#ffffff",
-        "size": 1,
-        "font": "Helvetica",
-        "widgetCss": "border: 1px solid black;\nfont-weight: bold;;"
-      },
-      "order": 18
-    },
-    {
-      "id": "59",
-      "x": 23,
-      "y": 136,
-      "canvas": "0",
-      "width": 58,
-      "height": 4,
-      "type": "BOOLEAN_DISPLAY",
-      "inputs": {
-        "attribute": {
-          "device": "mid-itf/spectana/1",
-          "attribute": "simulationmode",
-          "label": "simulationMode"
-        },
-        "showAttribute": "Label",
-        "showDevice": false,
-        "widgetCss": "border: 1px solid black;\nfont-weight: bold;"
-      },
-      "order": 19
-    },
-    {
-      "id": "60",
-      "x": 23,
-      "y": 142,
-      "canvas": "0",
-      "width": 58,
-      "height": 5,
-      "type": "COMMAND_ARRAY",
-      "inputs": {
-        "buttonText": "Reset",
-        "command": {
-          "device": "mid-itf/spectana/1",
-          "command": "GetVersionInfo",
-          "acceptedType": "DevVoid",
-          "intypedesc": "Uninitialised",
-          "outtypedesc": "Uninitialised",
-          "outtype": "DevVarStringArray",
-          "tag": "0"
-        },
-        "commandArgs": [],
-        "showDevice": false,
-        "showCommand": false,
-        "requireConfirmation": false,
-        "displayOutput": false,
-        "placeholder": "intype",
-        "OutputMaxSize": 20,
-        "timeDisplayOutput": 3000,
-        "textColor": "#000000",
-        "backgroundColor": "#ffffff",
-        "size": 1,
-        "font": "Helvetica",
-        "btnCss": "",
-        "widgetCss": "border: 1px solid black;\nfont-weight: bold;\nfloat: right;"
-      },
-      "order": 20
-    },
-    {
-      "id": "61",
-      "x": 84,
-      "y": 91,
-      "canvas": "0",
-      "width": 74,
-      "height": 58,
-      "type": "ATTRIBUTE_PLOT",
-      "inputs": {
-        "timeWindow": 60,
-        "showZeroLine": true,
-        "logarithmic": false,
-        "attributes": [],
-        "textColor": "#000000",
-        "backgroundColor": "#ffffff"
-      },
-      "order": 21
-    },
-    {
       "id": "62",
       "x": 21,
       "y": 22,
@@ -573,7 +305,7 @@
         "linkTo": "",
         "customCss": "border: 1px solid #070068;\ncolor: #FFFFFF;\nbackground:  #070068;\nfont-weight: bold;\nfont-size: 30px;\ntext-align: center;\nborder-radius: 25px 25px 0 0;"
       },
-      "order": 22
+      "order": 11
     },
     {
       "id": "63",
@@ -601,12 +333,12 @@
         "font": "Helvetica",
         "widgetCss": "border: 3px solid #070068;\nfont-weight: bold;\nfont-size: 20px"
       },
-      "order": 23
+      "order": 12
     },
     {
       "id": "64",
-      "x": 160,
-      "y": 108,
+      "x": 133,
+      "y": 91,
       "canvas": "0",
       "width": 24,
       "height": 10,
@@ -629,7 +361,7 @@
         "font": "Helvetica",
         "widgetCss": "border: 3px solid #070068;\nfont-weight: bold;\nfont-size: 20px"
       },
-      "order": 24
+      "order": 13
     },
     {
       "id": "67",
@@ -650,12 +382,12 @@
         "linkTo": "",
         "customCss": "border: 3px solid #070068;"
       },
-      "order": 25
+      "order": 14
     },
     {
       "id": "68",
       "x": 85,
-      "y": 34,
+      "y": 33,
       "canvas": "0",
       "width": 45,
       "height": 6,
@@ -671,7 +403,7 @@
         "linkTo": "",
         "customCss": "border: 1px solid #070068;\ncolor: #FFFFFF;\nbackground:  #070068;\nfont-weight: bold;\nfont-size: 26px;\ntext-align: center;"
       },
-      "order": 26
+      "order": 15
     },
     {
       "id": "69",
@@ -692,7 +424,7 @@
         "linkTo": "",
         "customCss": "border: 2px solid #070068;\nborder-radius: 10px;"
       },
-      "order": 27
+      "order": 16
     },
     {
       "id": "70",
@@ -713,19 +445,19 @@
         "linkTo": "",
         "customCss": "border: 1px solid #070068;\ncolor: #FFFFFF;\nbackground:  #070068;\nfont-weight: bold;\nfont-size: 26px;\ntext-align: center;"
       },
-      "order": 28
+      "order": 17
     },
     {
       "id": "71",
       "x": 23,
-      "y": 42,
+      "y": 41,
       "canvas": "0",
       "width": 57,
-      "height": 15,
+      "height": 12,
       "type": "ATTRIBUTE WRITER DROPDOWN",
       "inputs": {
         "attribute": {
-          "device": "mid-itf/skysimctl/2",
+          "device": "mid-itf/skysimctl/1",
           "attribute": "band",
           "label": "Band"
         },
@@ -757,7 +489,7 @@
         "font": "Helvetica",
         "customCss": "height: 30px;\nfont-weight: bold;"
       },
-      "order": 29
+      "order": 18
     },
     {
       "id": "72",
@@ -778,7 +510,7 @@
         "linkTo": "",
         "customCss": "font-weight: bold;\nborder: 1px solid black"
       },
-      "order": 30
+      "order": 19
     },
     {
       "id": "73",
@@ -790,7 +522,7 @@
       "type": "LED_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "mid-itf/skysimctl/2",
+          "device": "mid-itf/skysimctl/1",
           "attribute": "band",
           "label": "Band"
         },
@@ -805,7 +537,7 @@
         "showAttribute": "None",
         "customCss": "padding-top: 5px;\nborder: 1px solid black;\nheight: 40px;"
       },
-      "order": 31
+      "order": 20
     },
     {
       "id": "74",
@@ -826,7 +558,7 @@
         "linkTo": "",
         "customCss": "font-weight: bold;\nborder: 1px solid black"
       },
-      "order": 32
+      "order": 21
     },
     {
       "id": "75",
@@ -838,7 +570,7 @@
       "type": "LED_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "mid-itf/skysimctl/2",
+          "device": "mid-itf/skysimctl/1",
           "attribute": "band",
           "label": "Band"
         },
@@ -853,7 +585,7 @@
         "showAttribute": "None",
         "customCss": "padding-top: 5px;\nborder: 1px solid black;\nheight: 40px;"
       },
-      "order": 33
+      "order": 22
     },
     {
       "id": "76",
@@ -874,7 +606,7 @@
         "linkTo": "",
         "customCss": "font-weight: bold;\nborder: 1px solid black;"
       },
-      "order": 34
+      "order": 23
     },
     {
       "id": "77",
@@ -886,7 +618,7 @@
       "type": "LED_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "mid-itf/skysimctl/2",
+          "device": "mid-itf/skysimctl/1",
           "attribute": "band",
           "label": "Band"
         },
@@ -901,7 +633,7 @@
         "showAttribute": "None",
         "customCss": "padding-top: 5px;\nborder: 1px solid black;\nheight: 40px;"
       },
-      "order": 35
+      "order": 24
     },
     {
       "id": "78",
@@ -922,7 +654,7 @@
         "linkTo": "",
         "customCss": "border: 2px solid #070068;\nborder-radius: 10px;"
       },
-      "order": 36
+      "order": 25
     },
     {
       "id": "79",
@@ -943,7 +675,7 @@
         "linkTo": "",
         "customCss": "border: 1px solid #070068;\ncolor: #FFFFFF;\nbackground:  #070068;\nfont-weight: bold;\nfont-size: 26px;\ntext-align: center;"
       },
-      "order": 37
+      "order": 26
     },
     {
       "id": "80",
@@ -955,7 +687,7 @@
       "type": "BOOLEAN_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "mid-itf/skysimctl/2",
+          "device": "mid-itf/skysimctl/1",
           "attribute": "h_channel",
           "label": "H_Channel"
         },
@@ -963,7 +695,7 @@
         "showDevice": false,
         "widgetCss": "float: right;\nfont-weight: bold;"
       },
-      "order": 38
+      "order": 27
     },
     {
       "id": "81",
@@ -975,7 +707,7 @@
       "type": "BOOLEAN_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "mid-itf/skysimctl/2",
+          "device": "mid-itf/skysimctl/1",
           "attribute": "v_channel",
           "label": "V_Channel"
         },
@@ -983,7 +715,7 @@
         "showDevice": false,
         "widgetCss": "float: right;\nfont-weight: bold;"
       },
-      "order": 39
+      "order": 28
     },
     {
       "id": "83",
@@ -1004,7 +736,7 @@
         "linkTo": "",
         "customCss": "border: 2px solid #070068;\nborder-radius: 10px;"
       },
-      "order": 40
+      "order": 29
     },
     {
       "id": "84",
@@ -1025,7 +757,7 @@
         "linkTo": "",
         "customCss": "border: 1px solid #070068;\ncolor: #FFFFFF;\nbackground:  #070068;\nfont-weight: bold;\nfont-size: 26px;\ntext-align: center;"
       },
-      "order": 41
+      "order": 30
     },
     {
       "id": "85",
@@ -1037,7 +769,7 @@
       "type": "BOOLEAN_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "mid-itf/skysimctl/2",
+          "device": "mid-itf/skysimctl/1",
           "attribute": "correlated_noise_source",
           "label": "Correlated_Noise_Source"
         },
@@ -1045,7 +777,7 @@
         "showDevice": false,
         "widgetCss": "float: right;\nfont-weight: bold;\n"
       },
-      "order": 42
+      "order": 31
     },
     {
       "id": "86",
@@ -1057,7 +789,7 @@
       "type": "BOOLEAN_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "mid-itf/skysimctl/2",
+          "device": "mid-itf/skysimctl/1",
           "attribute": "uncorrelated_noise_sources",
           "label": "Uncorrelated_Noise_Sources"
         },
@@ -1065,7 +797,7 @@
         "showDevice": false,
         "widgetCss": "float: right;\nfont-weight: bold;"
       },
-      "order": 43
+      "order": 32
     }
   ],
   "variables": []

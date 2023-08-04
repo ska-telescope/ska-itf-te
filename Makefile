@@ -30,13 +30,11 @@ TARANTA ?= false# Enable Taranta
 MINIKUBE ?= true ## Minikube or not
 EXPOSE_All_DS ?= true ## Expose All Tango Services to the external network (enable Loadbalancer service)
 SKA_TANGO_OPERATOR ?= true
-CI_JOB_ID ?= local##pipeline job id
 EXPOSE_DATABASE_DS ?= true## 
 TANGO_HOST ?= tango-databaseds:10000## TANGO_HOST connection to the Tango DS
 TANGO_SERVER_PORT ?= 45450## TANGO_SERVER_PORT - fixed listening port for local server
 CLUSTER_DOMAIN = miditf.internal.skao.int## Domain used for naming Tango Device Servers
 INGRESS_HOST = k8s.$(CLUSTER_DOMAIN)## Tango host, cluster domain, what are all these things???
-# K8S_TEST_RUNNER = test-runner-$(CI_JOB_ID)##name of the pod running the k8s-test
 ITANGO_ENABLED ?= true## ITango enabled in ska-tango-base
 
 K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \

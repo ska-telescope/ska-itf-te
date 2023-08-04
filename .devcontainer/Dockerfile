@@ -13,7 +13,7 @@ RUN install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
 RUN poetry config virtualenvs.create false
 
-FROM $buildenv as devenv
+FROM buildenv as devenv
 
 WORKDIR /app
 COPY --chown=tango:tango . /app
