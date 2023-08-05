@@ -21,7 +21,7 @@ test-equipment:
           host: 10.165.3.6
           port: 23 # Yes, this is Telnet!
           protocol: telnet
-          logging_level_default: 4
+          logging_level_default: 5
     awg:
       devices: []
     signalgenerator:
