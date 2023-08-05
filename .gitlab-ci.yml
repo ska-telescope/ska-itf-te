@@ -293,7 +293,7 @@ deploy-test-equipment-for-verification:
   tags:
     - ska-k8srunner-za-itf
   # image: $CI_REGISTRY/ska-telescope/ska-skampi/ska-skampi-ci:1.0.4
-  image: $CI_REGISTRY/ska-telescope/ska-skampi/ska-cicd-k8s-tools-build-deploy:0.8.9
+  image: $CI_REGISTRY/ska-telescope/ska-cicd-k8s-tools-build-deploy:0.8.9
   stage: verify-test-equipment
   variables:
     MINIKUBE: "false"
