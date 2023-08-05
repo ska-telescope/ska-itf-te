@@ -311,6 +311,7 @@ deploy-test-equipment-for-verification:
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
     - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
   script:
+    - make k8s-template-chart > build/manifests.yaml || true
     - make k8s-install-chart
     - make itf-te-links
     - make k8s-wait || true
