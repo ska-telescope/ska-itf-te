@@ -305,7 +305,7 @@ deploy-test-equipment-for-verification:
     NEXUS_CACHE: NEXUS_CACHE
   before_script:
     - make k8s-uninstall-chart
-    - make k8s-delete-namespace
+    # - make k8s-delete-namespace
     - bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install --upgrade poetry
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
     - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
