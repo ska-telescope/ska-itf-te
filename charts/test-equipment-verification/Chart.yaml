@@ -17,7 +17,7 @@ dependencies:
 
   # SKA Test Equipment
   - name: ska-ser-test-equipment
-    version: 0.7.4-dev.c9eb242d # check latest version
+    version: 0.8.0-dev.c8bb6ae37 # check latest version
     repository: https://gitlab.com/api/v4/projects/31506252/packages/helm/dev
     alias: test-equipment
     condition: test-equipment.enabled
