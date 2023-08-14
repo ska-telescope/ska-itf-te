@@ -59,7 +59,7 @@ skysimctl:
 
 # TARANTA SUITE
 ska-taranta:
-  enabled: true
+  enabled: false
   ingress:
     enabled: true
     nginx: true
