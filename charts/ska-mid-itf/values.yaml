@@ -30,7 +30,7 @@ test-equipment:
           host: 10.165.3.6
           port: 45451
           protocol: telnet
-          logging_level_default: 4
+          # logging_level_default: 4
     spectrumanalyser:
       devices: []
     # spectrumanalyser: # DO NOT DELETE THIS AS WE NEED TO GET THIS WORKING AGAIN LATER!!!
