@@ -30,12 +30,16 @@ include:
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/helm-chart.gitlab-ci.yml"
   # k8s steps
-  # - project: "ska-telescope/templates-repository"
-  #   file: "gitlab-ci/includes/k8s.gitlab-ci.yml"
+  - project: "ska-telescope/templates-repository"
+    file: "gitlab-ci/includes/k8s.gitlab-ci.yml"
 
   # changelog release page
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/changelog.gitlab-ci.yml"
+
+  # config capture
+  - project: 'ska-telescope/templates-repository'
+    file: 'gitlab-ci/includes/config-capture.gitlab-ci.yml'
 
   # deploy steps
   # - project: "ska-telescope/templates-repository"
@@ -335,3 +339,9 @@ deploy-test-equipment-for-verification:
       when: always
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       when: never
+        # - resources/test-equipment-dev.mk
+ 
+k8s-test:
+  script:
+    - make config-capture # capture k8s and tango config
+    - make k8s-test
