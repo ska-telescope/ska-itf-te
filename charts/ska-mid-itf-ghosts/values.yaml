@@ -28,3 +28,8 @@ spookd:
           env:
             IP: 10.165.3.4
             HOSTNAME: "za-itf-spectrum-analyser.ad.skatelescope.org"
+        - resourceName: skao.int/attenuator-01
+          instanceID: "0001"
+          env:
+            IP: 10.165.3.6
+            HOSTNAME: "za-itf-attenuator.ad.skatelescope.org"
