@@ -1,18 +1,18 @@
 {
-  "id": "649999f02b3b330019a039c8",
-  "name": "Consolidated_Dashboards",
-  "version": "2.2.0",
+  "id": "64db5344b9d76b0019fca4fb",
+  "name": "Consolidated_Dashboards - progatt",
+  "version": "2.3.1",
   "user": "ATLAS",
-  "insertTime": "2023-06-26T14:00:16.751Z",
-  "updateTime": "2023-07-31T12:14:42.578Z",
+  "insertTime": "2023-08-15T10:28:20.034Z",
+  "updateTime": "2023-08-15T10:28:34.859Z",
   "group": null,
   "groupWriteAccess": false,
   "lastUpdatedBy": "ATLAS",
   "widget": [
     {
       "id": "22",
-      "x": 18,
-      "y": 21,
+      "x": 4,
+      "y": 4,
       "canvas": "0",
       "width": 169,
       "height": 81,
@@ -32,8 +32,8 @@
     },
     {
       "id": "23",
-      "x": 21,
-      "y": 32,
+      "x": 7,
+      "y": 15,
       "canvas": "0",
       "width": 61,
       "height": 54,
@@ -53,8 +53,8 @@
     },
     {
       "id": "42",
-      "x": 133,
-      "y": 32,
+      "x": 119,
+      "y": 15,
       "canvas": "0",
       "width": 51,
       "height": 54,
@@ -74,8 +74,8 @@
     },
     {
       "id": "43",
-      "x": 134,
-      "y": 33,
+      "x": 120,
+      "y": 16,
       "canvas": "0",
       "width": 49,
       "height": 6,
@@ -95,8 +95,8 @@
     },
     {
       "id": "44",
-      "x": 135,
-      "y": 42,
+      "x": 121,
+      "y": 25,
       "canvas": "0",
       "width": 47,
       "height": 4,
@@ -116,8 +116,8 @@
     },
     {
       "id": "45",
-      "x": 135,
-      "y": 48,
+      "x": 121,
+      "y": 31,
       "canvas": "0",
       "width": 47,
       "height": 4,
@@ -144,8 +144,8 @@
     },
     {
       "id": "46",
-      "x": 135,
-      "y": 54,
+      "x": 121,
+      "y": 37,
       "canvas": "0",
       "width": 47,
       "height": 4,
@@ -172,8 +172,8 @@
     },
     {
       "id": "47",
-      "x": 135,
-      "y": 60,
+      "x": 121,
+      "y": 43,
       "canvas": "0",
       "width": 47,
       "height": 4,
@@ -197,8 +197,8 @@
     },
     {
       "id": "48",
-      "x": 135,
-      "y": 67,
+      "x": 121,
+      "y": 50,
       "canvas": "0",
       "width": 47,
       "height": 4,
@@ -224,8 +224,8 @@
     },
     {
       "id": "49",
-      "x": 135,
-      "y": 74,
+      "x": 121,
+      "y": 57,
       "canvas": "0",
       "width": 47,
       "height": 4,
@@ -252,8 +252,8 @@
     },
     {
       "id": "50",
-      "x": 135,
-      "y": 79,
+      "x": 121,
+      "y": 62,
       "canvas": "0",
       "width": 47,
       "height": 6,
@@ -288,8 +288,8 @@
     },
     {
       "id": "62",
-      "x": 21,
-      "y": 22,
+      "x": 7,
+      "y": 5,
       "canvas": "0",
       "width": 163,
       "height": 8,
@@ -308,68 +308,12 @@
       "order": 11
     },
     {
-      "id": "63",
-      "x": 160,
-      "y": 91,
-      "canvas": "0",
-      "width": 24,
-      "height": 10,
-      "type": "ATTRIBUTE_DISPLAY",
-      "inputs": {
-        "attribute": {
-          "device": "mid-itf/skysimctl/2",
-          "attribute": "temperature",
-          "label": "temperature"
-        },
-        "precision": 2,
-        "showDevice": false,
-        "showAttribute": "Label",
-        "scientificNotation": false,
-        "showEnumLabels": false,
-        "showAttrQuality": false,
-        "textColor": "#000000",
-        "backgroundColor": "#ffffff",
-        "size": 1,
-        "font": "Helvetica",
-        "widgetCss": "border: 3px solid #070068;\nfont-weight: bold;\nfont-size: 20px"
-      },
-      "order": 12
-    },
-    {
-      "id": "64",
-      "x": 133,
-      "y": 91,
-      "canvas": "0",
-      "width": 24,
-      "height": 10,
-      "type": "ATTRIBUTE_DISPLAY",
-      "inputs": {
-        "attribute": {
-          "device": "mid-itf/skysimctl/2",
-          "attribute": "humidity",
-          "label": "humidity"
-        },
-        "precision": 2,
-        "showDevice": false,
-        "showAttribute": "Label",
-        "scientificNotation": false,
-        "showEnumLabels": false,
-        "showAttrQuality": false,
-        "textColor": "#000000",
-        "backgroundColor": "#ffffff",
-        "size": 1,
-        "font": "Helvetica",
-        "widgetCss": "border: 3px solid #070068;\nfont-weight: bold;\nfont-size: 20px"
-      },
-      "order": 13
-    },
-    {
       "id": "67",
-      "x": 84,
-      "y": 32,
+      "x": 70,
+      "y": 15,
       "canvas": "0",
       "width": 47,
-      "height": 54,
+      "height": 28,
       "type": "LABEL",
       "inputs": {
         "text": "",
@@ -382,12 +326,12 @@
         "linkTo": "",
         "customCss": "border: 3px solid #070068;"
       },
-      "order": 14
+      "order": 12
     },
     {
       "id": "68",
-      "x": 85,
-      "y": 33,
+      "x": 71,
+      "y": 16,
       "canvas": "0",
       "width": 45,
       "height": 6,
@@ -403,12 +347,12 @@
         "linkTo": "",
         "customCss": "border: 1px solid #070068;\ncolor: #FFFFFF;\nbackground:  #070068;\nfont-weight: bold;\nfont-size: 26px;\ntext-align: center;"
       },
-      "order": 15
+      "order": 13
     },
     {
       "id": "69",
-      "x": 22,
-      "y": 33,
+      "x": 8,
+      "y": 16,
       "canvas": "0",
       "width": 59,
       "height": 20,
@@ -424,12 +368,12 @@
         "linkTo": "",
         "customCss": "border: 2px solid #070068;\nborder-radius: 10px;"
       },
-      "order": 16
+      "order": 14
     },
     {
       "id": "70",
-      "x": 23,
-      "y": 34,
+      "x": 9,
+      "y": 17,
       "canvas": "0",
       "width": 57,
       "height": 6,
@@ -445,12 +389,12 @@
         "linkTo": "",
         "customCss": "border: 1px solid #070068;\ncolor: #FFFFFF;\nbackground:  #070068;\nfont-weight: bold;\nfont-size: 26px;\ntext-align: center;"
       },
-      "order": 17
+      "order": 15
     },
     {
       "id": "71",
-      "x": 23,
-      "y": 41,
+      "x": 9,
+      "y": 24,
       "canvas": "0",
       "width": 57,
       "height": 12,
@@ -489,12 +433,12 @@
         "font": "Helvetica",
         "customCss": "height: 30px;\nfont-weight: bold;"
       },
-      "order": 18
+      "order": 16
     },
     {
       "id": "72",
-      "x": 26,
-      "y": 47,
+      "x": 12,
+      "y": 30,
       "canvas": "0",
       "width": 8,
       "height": 4,
@@ -510,12 +454,12 @@
         "linkTo": "",
         "customCss": "font-weight: bold;\nborder: 1px solid black"
       },
-      "order": 19
+      "order": 17
     },
     {
       "id": "73",
-      "x": 34,
-      "y": 47,
+      "x": 20,
+      "y": 30,
       "canvas": "0",
       "width": 4,
       "height": 4,
@@ -537,12 +481,12 @@
         "showAttribute": "None",
         "customCss": "padding-top: 5px;\nborder: 1px solid black;\nheight: 40px;"
       },
-      "order": 20
+      "order": 18
     },
     {
       "id": "74",
-      "x": 45,
-      "y": 47,
+      "x": 31,
+      "y": 30,
       "canvas": "0",
       "width": 8,
       "height": 4,
@@ -558,12 +502,12 @@
         "linkTo": "",
         "customCss": "font-weight: bold;\nborder: 1px solid black"
       },
-      "order": 21
+      "order": 19
     },
     {
       "id": "75",
-      "x": 53,
-      "y": 47,
+      "x": 39,
+      "y": 30,
       "canvas": "0",
       "width": 4,
       "height": 4,
@@ -585,12 +529,12 @@
         "showAttribute": "None",
         "customCss": "padding-top: 5px;\nborder: 1px solid black;\nheight: 40px;"
       },
-      "order": 22
+      "order": 20
     },
     {
       "id": "76",
-      "x": 63,
-      "y": 47,
+      "x": 49,
+      "y": 30,
       "canvas": "0",
       "width": 8,
       "height": 4,
@@ -606,12 +550,12 @@
         "linkTo": "",
         "customCss": "font-weight: bold;\nborder: 1px solid black;"
       },
-      "order": 23
+      "order": 21
     },
     {
       "id": "77",
-      "x": 71,
-      "y": 47,
+      "x": 57,
+      "y": 30,
       "canvas": "0",
       "width": 4,
       "height": 4,
@@ -633,12 +577,12 @@
         "showAttribute": "None",
         "customCss": "padding-top: 5px;\nborder: 1px solid black;\nheight: 40px;"
       },
-      "order": 24
+      "order": 22
     },
     {
       "id": "78",
-      "x": 22,
-      "y": 56,
+      "x": 8,
+      "y": 39,
       "canvas": "0",
       "width": 59,
       "height": 14,
@@ -654,12 +598,12 @@
         "linkTo": "",
         "customCss": "border: 2px solid #070068;\nborder-radius: 10px;"
       },
-      "order": 25
+      "order": 23
     },
     {
       "id": "79",
-      "x": 23,
-      "y": 57,
+      "x": 9,
+      "y": 40,
       "canvas": "0",
       "width": 57,
       "height": 6,
@@ -675,12 +619,12 @@
         "linkTo": "",
         "customCss": "border: 1px solid #070068;\ncolor: #FFFFFF;\nbackground:  #070068;\nfont-weight: bold;\nfont-size: 26px;\ntext-align: center;"
       },
-      "order": 26
+      "order": 24
     },
     {
       "id": "80",
-      "x": 23,
-      "y": 64,
+      "x": 9,
+      "y": 47,
       "canvas": "0",
       "width": 26,
       "height": 4,
@@ -695,12 +639,12 @@
         "showDevice": false,
         "widgetCss": "float: right;\nfont-weight: bold;"
       },
-      "order": 27
+      "order": 25
     },
     {
       "id": "81",
-      "x": 56,
-      "y": 64,
+      "x": 42,
+      "y": 47,
       "canvas": "0",
       "width": 24,
       "height": 4,
@@ -715,12 +659,12 @@
         "showDevice": false,
         "widgetCss": "float: right;\nfont-weight: bold;"
       },
-      "order": 28
+      "order": 26
     },
     {
       "id": "83",
-      "x": 22,
-      "y": 72,
+      "x": 8,
+      "y": 55,
       "canvas": "0",
       "width": 59,
       "height": 13,
@@ -736,12 +680,12 @@
         "linkTo": "",
         "customCss": "border: 2px solid #070068;\nborder-radius: 10px;"
       },
-      "order": 29
+      "order": 27
     },
     {
       "id": "84",
-      "x": 23,
-      "y": 73,
+      "x": 9,
+      "y": 56,
       "canvas": "0",
       "width": 57,
       "height": 6,
@@ -757,12 +701,12 @@
         "linkTo": "",
         "customCss": "border: 1px solid #070068;\ncolor: #FFFFFF;\nbackground:  #070068;\nfont-weight: bold;\nfont-size: 26px;\ntext-align: center;"
       },
-      "order": 30
+      "order": 28
     },
     {
       "id": "85",
-      "x": 23,
-      "y": 80,
+      "x": 9,
+      "y": 63,
       "canvas": "0",
       "width": 27,
       "height": 4,
@@ -777,14 +721,14 @@
         "showDevice": false,
         "widgetCss": "float: right;\nfont-weight: bold;\n"
       },
-      "order": 31
+      "order": 29
     },
     {
       "id": "86",
-      "x": 51,
-      "y": 80,
+      "x": 37,
+      "y": 63,
       "canvas": "0",
-      "width": 30,
+      "width": 29,
       "height": 4,
       "type": "BOOLEAN_DISPLAY",
       "inputs": {
@@ -797,7 +741,183 @@
         "showDevice": false,
         "widgetCss": "float: right;\nfont-weight: bold;"
       },
+      "order": 30
+    },
+    {
+      "id": "88",
+      "x": 94,
+      "y": 24,
+      "canvas": "0",
+      "width": 21,
+      "height": 4,
+      "type": "ATTRIBUTE_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "mid-itf/progattenuator/1",
+          "attribute": "channel_1",
+          "label": "channel_1"
+        },
+        "precision": 2,
+        "showDevice": false,
+        "showAttribute": "Label",
+        "scientificNotation": false,
+        "showEnumLabels": false,
+        "showAttrQuality": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "widgetCss": "border: 1px solid black;\nfontWeight: bold;"
+      },
+      "order": 31
+    },
+    {
+      "id": "89",
+      "x": 74,
+      "y": 30,
+      "canvas": "0",
+      "width": 41,
+      "height": 6,
+      "type": "ATTRIBUTE_WRITER",
+      "inputs": {
+        "title": "Change Attenuation:",
+        "attribute": {
+          "device": "mid-itf/progattenuator/1",
+          "attribute": "channel_1",
+          "label": "channel_1"
+        },
+        "showDevice": false,
+        "showAttribute": "None",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "widgetCss": "border: 1px solid black;\nfontWeight: bold;"
+      },
       "order": 32
+    },
+    {
+      "id": "90",
+      "x": 74,
+      "y": 24,
+      "canvas": "0",
+      "width": 20,
+      "height": 4,
+      "type": "DEVICE_STATUS",
+      "inputs": {
+        "device": "mid-itf/progattenuator/1",
+        "state": {
+          "device": null,
+          "attribute": null
+        },
+        "showDeviceName": false,
+        "showStateString": true,
+        "showStateLED": true,
+        "LEDSize": 1,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "textSize": 1,
+        "widgetCss": "border: 1px solid black;\nfontWeight: bold;"
+      },
+      "order": 33
+    },
+    {
+      "id": "91",
+      "x": 70,
+      "y": 44,
+      "canvas": "0",
+      "width": 47,
+      "height": 25,
+      "type": "LABEL",
+      "inputs": {
+        "text": "",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "border: 3px solid #070068;"
+      },
+      "order": 34
+    },
+    {
+      "id": "92",
+      "x": 71,
+      "y": 45,
+      "canvas": "0",
+      "width": 45,
+      "height": 6,
+      "type": "LABEL",
+      "inputs": {
+        "text": "Sky Simulator Environment",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "border: 1px solid #070068;\ncolor: #FFFFFF;\nbackground:  #070068;\nfont-weight: bold;\nfont-size: 26px;\ntext-align: center;"
+      },
+      "order": 35
+    },
+    {
+      "id": "93",
+      "x": 71,
+      "y": 58,
+      "canvas": "0",
+      "width": 21,
+      "height": 10,
+      "type": "ATTRIBUTE_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "mid-itf/skysimctl/2",
+          "attribute": "temperature",
+          "label": "temperature"
+        },
+        "precision": 2,
+        "showDevice": false,
+        "showAttribute": "Label",
+        "scientificNotation": false,
+        "showEnumLabels": false,
+        "showAttrQuality": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "widgetCss": "border: 3px solid #070068;\nfont-weight: bold;\nfont-size: 20px"
+      },
+      "order": 36
+    },
+    {
+      "id": "94",
+      "x": 93,
+      "y": 58,
+      "canvas": "0",
+      "width": 21,
+      "height": 10,
+      "type": "ATTRIBUTE_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "mid-itf/skysimctl/2",
+          "attribute": "humidity",
+          "label": "humidity"
+        },
+        "precision": 2,
+        "showDevice": false,
+        "showAttribute": "Label",
+        "scientificNotation": false,
+        "showEnumLabels": false,
+        "showAttrQuality": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "widgetCss": "border: 3px solid #070068;\nfont-weight: bold;\nfont-size: 20px"
+      },
+      "order": 37
     }
   ],
   "variables": []

@@ -82,11 +82,16 @@ deploy-file-browser:
     - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
       when: manual
 
-deploy-test-equipment:
+.test-equipment-base:
+  image: $SKA_K8S_TOOLS_BUILD_DEPLOY
+  stage: test-equipment-setup
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "merge_request_event"
   tags:
     - ska-k8srunner-za-itf
-  image: $CI_REGISTRY/ska-telescope/ska-skampi/ska-skampi-ci:1.0.4
-  stage: test-equipment-setup
+
+deploy-test-equipment:
+  extends: .test-equipment-base
   variables:
     MINIKUBE: "false"
     CLUSTER_DOMAIN: miditf.internal.skao.int
@@ -123,15 +128,12 @@ deploy-test-equipment:
     reports:
       junit:
         - build/report.xml
-  # when: manual
   needs:
     - remove-test-equipment
   allow_failure: true # need to keep this to unlock the pipeline
 
 generate-skysimctl-config:
-  stage: test-equipment-setup
-  tags:
-    - ska-k8srunner-za-itf
+  extends: .test-equipment-base
   script: make itf-te-pass-env
   artifacts:
     reports:
@@ -152,11 +154,10 @@ deploy-skysimctl-install:
     variables: false
   needs:
     - generate-skysimctl-config
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "merge_request_event"
 
 remove-test-equipment:
-  stage: test-equipment-setup
-  tags:
-    - ska-k8srunner-za-itf
   variables:
     K8S_CHART: ska-mid-itf
     KUBE_NAMESPACE: test-equipment
@@ -165,6 +166,7 @@ remove-test-equipment:
     SERVICE_ACCOUNT: ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
     NEXUS_CACHE: NEXUS_CACHE
   extends:
+    - .test-equipment-base
     - .uninstall_chart
   environment:
     name: ska-mid-itf/test-equipment
@@ -173,7 +175,9 @@ remove-test-equipment:
       namespace: $KUBE_NAMESPACE
     url: "https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
     action: stop
-  when: manual
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: manual
   allow_failure: true # need to keep this to unlock the pipeline
 
 .setup-ansible:
@@ -292,7 +296,6 @@ remove-dish-structure-simulator:
 deploy-test-equipment-for-verification:
   tags:
     - ska-k8srunner-za-itf
-  # image: $CI_REGISTRY/ska-telescope/ska-skampi/ska-skampi-ci:1.0.4
   image: $SKA_K8S_TOOLS_BUILD_DEPLOY
   stage: verify-test-equipment
   variables:
@@ -307,7 +310,6 @@ deploy-test-equipment-for-verification:
   before_script:
     - make k8s-uninstall-chart
     - make k8s-delete-namespace
-    # - bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install --upgrade poetry
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
     - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
   script:
@@ -329,3 +331,5 @@ deploy-test-equipment-for-verification:
     - changes:
         - charts/test-equipment-verification/*
         - resources/test-equipment-dev.mk
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: never
