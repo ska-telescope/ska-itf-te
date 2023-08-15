@@ -331,7 +331,7 @@ deploy-test-equipment-for-verification:
     - changes:
         - charts/test-equipment-verification/*
         - resources/test-equipment-dev.mk
+      if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: always
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       when: never
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-      when: always
