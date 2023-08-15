@@ -173,7 +173,9 @@ remove-test-equipment:
       namespace: $KUBE_NAMESPACE
     url: "https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
     action: stop
-  when: manual
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: manual
   allow_failure: true # need to keep this to unlock the pipeline
 
 .setup-ansible:
@@ -329,3 +331,5 @@ deploy-test-equipment-for-verification:
     - changes:
         - charts/test-equipment-verification/*
         - resources/test-equipment-dev.mk
+      if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
+      when: never

@@ -17,7 +17,7 @@ dependencies:
 
   # SKA Test Equipment
   - name: ska-ser-test-equipment
-    version: 0.8.2 # check latest version
+    version: 0.8.3 # check latest version
     repository: https://artefact.skao.int/repository/helm-internal
     # repository: https://gitlab.com/api/v4/projects/31506252/packages/helm/dev
     alias: test-equipment
@@ -25,10 +25,10 @@ dependencies:
 
   # TARANTA SUITE
   - name: ska-tango-taranta
-    version: 2.2.0
+    version: 2.3.1
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-taranta.enabled
   - name: ska-tango-tangogql
-    version: 1.3.6
+    version: 1.3.8
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-taranta.enabled
