@@ -82,11 +82,17 @@ deploy-file-browser:
     - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
       when: manual
 
-deploy-test-equipment:
+.test-equipment-base:
+  # image: $CI_REGISTRY/ska-telescope/ska-skampi/ska-skampi-ci:1.0.4
+  image: $SKA_K8S_TOOLS_BUILD_DEPLOY
+  stage: test-equipment-setup
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   tags:
     - ska-k8srunner-za-itf
-  image: $CI_REGISTRY/ska-telescope/ska-skampi/ska-skampi-ci:1.0.4
-  stage: test-equipment-setup
+
+deploy-test-equipment:
+  extends: .test-equipment-base
   variables:
     MINIKUBE: "false"
     CLUSTER_DOMAIN: miditf.internal.skao.int
@@ -123,15 +129,12 @@ deploy-test-equipment:
     reports:
       junit:
         - build/report.xml
-  # when: manual
   needs:
     - remove-test-equipment
   allow_failure: true # need to keep this to unlock the pipeline
 
 generate-skysimctl-config:
-  stage: test-equipment-setup
-  tags:
-    - ska-k8srunner-za-itf
+  extends: .test-equipment-base
   script: make itf-te-pass-env
   artifacts:
     reports:
@@ -144,7 +147,7 @@ generate-skysimctl-config:
     - deploy-test-equipment
 
 deploy-skysimctl-install:
-  stage: test-equipment-setup
+  extends: .test-equipment-base
   trigger:
     project: ska-telescope/ska-te-mid-skysimctl
     branch: main
@@ -154,9 +157,6 @@ deploy-skysimctl-install:
     - generate-skysimctl-config
 
 remove-test-equipment:
-  stage: test-equipment-setup
-  tags:
-    - ska-k8srunner-za-itf
   variables:
     K8S_CHART: ska-mid-itf
     KUBE_NAMESPACE: test-equipment
@@ -165,6 +165,7 @@ remove-test-equipment:
     SERVICE_ACCOUNT: ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
     NEXUS_CACHE: NEXUS_CACHE
   extends:
+    - .test-equipment-base
     - .uninstall_chart
   environment:
     name: ska-mid-itf/test-equipment
