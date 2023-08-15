@@ -296,7 +296,6 @@ remove-dish-structure-simulator:
 deploy-test-equipment-for-verification:
   tags:
     - ska-k8srunner-za-itf
-  # image: $CI_REGISTRY/ska-telescope/ska-skampi/ska-skampi-ci:1.0.4
   image: $SKA_K8S_TOOLS_BUILD_DEPLOY
   stage: verify-test-equipment
   variables:
@@ -311,7 +310,6 @@ deploy-test-equipment-for-verification:
   before_script:
     - make k8s-uninstall-chart
     - make k8s-delete-namespace
-    # - bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install --upgrade poetry
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
     - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
   script:
@@ -333,5 +331,5 @@ deploy-test-equipment-for-verification:
     - changes:
         - charts/test-equipment-verification/*
         - resources/test-equipment-dev.mk
-      if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       when: never
