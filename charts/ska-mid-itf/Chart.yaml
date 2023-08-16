@@ -33,6 +33,6 @@ dependencies:
     condition: ska-taranta.enabled
   # Config snapshotting
   - name: ska-k8s-config-exporter
-    version: 0.0.3
+    version: 0.0.4
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-k8s-config-exporter.enabled
