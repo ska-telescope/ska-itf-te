@@ -1,0 +1,140 @@
+# ##############################################################
+# # Common deployment templates (Copied from Skampi Deployments)
+# ##############################################################
+.mid:
+  variables:
+    CONFIG: mid
+
+.on_demand_rules:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "pipeline"
+      when: never
+    - if: $CI_COMMIT_REF_NAME != $CI_DEFAULT_BRANCH
+      when: manual
+      allow_failure: true
+    - when: never
+
+.integration_rules:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "pipeline"
+      when: never
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+      when: manual
+      allow_failure: true
+    - when: never
+
+.staging_rules:
+  variables:
+    K8S_INSTALL_FROM_CAR: "true"
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "pipeline"
+      when: never
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+      when: manual
+      allow_failure: true
+    - when: never
+
+.deploy:
+  stage: deploy
+  variables:
+    K8S_CHART: "ska-$CONFIG"
+    HELM_RELEASE: "test-$CONFIG-$CI_PIPELINE_ID"
+    KUBE_NAMESPACE: "ci-ska-miditf-$CI_PIPELINE_ID-$CONFIG"
+    KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+    K8S_AUTH_NAMESPACES: "$KUBE_NAMESPACE $KUBE_NAMESPACE_SDP"
+    K8S_AUTH_SERVICE_ACCOUNT: "ci-svc-ska-miditf-$CI_PIPELINE_ID"
+    ARCHIVER_DBNAME: "${CONFIG}_archiver_db_${CI_COMMIT_REF_SLUG}"
+    # VALUES: pipeline.yaml
+  script:
+    - echo $CI_JOB_NAME - $CI_JOB_STAGE
+    - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+    - |
+      if [ "$K8S_INSTALL_FROM_CAR" != "true" ]; then
+        bash .make/resources/gitlab_section.sh install "Install MidITF Charts" make k8s-install-chart
+      else
+        bash .make/resources/gitlab_section.sh install "Install MidITF Charts" make k8s-install-chart-car
+      fi
+    - |
+      if [[ $KUBE_NAMESPACE != ci-ska-miditf-* ]]; then
+        echo "Skipping generating Kubernetes access credentials ..."
+      else
+        K8S_NAMESPACES="${KUBE_NAMESPACE} ${KUBE_NAMESPACE}-sdp" CI_PROJECT_NAME=ska-skampi bash .make/resources/gitlab_section.sh creds "Generate Kubernetes credentials" make k8s-namespace-credentials
+      fi
+    - bash .make/resources/gitlab_section.sh get-ns "Get namespace resources" make k8s-get
+    - bash .make/resources/gitlab_section.sh wait-ns "Wait namespace resources" make k8s-wait
+    - bash .make/resources/gitlab_section.sh links "Skampi landing page" make links
+
+# .test:
+#   stage: test
+#   variables:
+#     SKA_SKAMPI_TESTS_REF: st-1662-setup-ska-skampi-deployment # TODO: Change to master when SKAMPI MR is merged
+#     LOADBALANCER_IP: "$LOADBALANCER_IP"
+#     INGRESS_HOST: "$INGRESS_HOST"
+#     ARCHIVER_DBNAME: "${CONFIG}_archiver_db_${CI_COMMIT_REF_SLUG}"
+#   trigger:
+#     project: ska-telescope/ska-skampi
+#     branch: $SKA_SKAMPI_TESTS_REF
+#     strategy: depend
+#     forward:
+#       yaml_variables: true
+#       pipeline_variables: true
+
+.info:
+  stage: deploy
+  variables:
+    K8S_CHART: "ska-$CONFIG"
+    HELM_RELEASE: "test-$CONFIG-$CI_PIPELINE_ID"
+    KUBE_NAMESPACE: "ci-ska-miditf-$CI_PIPELINE_ID-$CONFIG"
+    KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+  script:
+    - bash .make/resources/gitlab_section.sh get-ns "Get namespace resources" make k8s-get
+    - bash .make/resources/gitlab_section.sh get-ns-dp "Get SDP namespace resources" make k8s-get KUBE_NAMESPACE=${KUBE_NAMESPACE}-sdp
+    - make k8s-info
+    - make k8s-info KUBE_NAMESPACE=${KUBE_NAMESPACE}-sdp
+
+.cleanup:
+  stage: cleanup
+  variables:
+    K8S_CHART: "ska-$CONFIG"
+    HELM_RELEASE: "test-$CONFIG-$CI_PIPELINE_ID"
+    KUBE_NAMESPACE: "ci-ska-miditf-$CI_PIPELINE_ID-$CONFIG"
+    KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+  script: &cleanup_script
+    - echo $CI_JOB_NAME - $CI_JOB_STAGE
+    - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+    - make k8s-uninstall-chart || true
+    - |
+      if [ "$KEEP_NAMESPACE" != "true" ]; then
+        make k8s-delete-namespace
+      fi
+
+.redeploy:
+  extends:
+    - .deploy
+  before_script: *cleanup_script
+
+# If the pipeline is being exectued as a downstream, do not lint
+# or build
+
+helm-chart-lint:
+  after_script:
+    - make helm-check-deps
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "pipeline"
+      when: never
+    - exists:
+        - charts/**/*
+
+helm-chart-build:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "pipeline"
+      when: never
+    - exists:
+        - charts/**/*
+
+docs-build:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "pipeline"
+      when: never
+    - exists:
+        - charts/**/*

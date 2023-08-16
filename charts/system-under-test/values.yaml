@@ -27,3 +27,11 @@ ska-taranta:
 # CIA
 cia:
   enabled: false
+
+cbf-mcs:
+  legacy_compatibility: true
+  enabled: true
+
+cbf-tmleafnode:
+  legacy_compatibility: true
+  enabled: true
