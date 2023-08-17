@@ -22,16 +22,16 @@
     - .on_demand_rules
   variables:
     HELM_RELEASE: "test-$CONFIG-$CI_PIPELINE_ID"
-    KUBE_NAMESPACE: "ci-ska-mid-itf-$CI_PIPELINE_ID-$CONFIG"
+    KUBE_NAMESPACE: "ci-ska-mid-itf-$CI_COMMIT_REF_NAME"
     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
-    SERVICE_ACCOUNT: "ci-svc-ska-miditf-$CI_PIPELINE_ID"
+    SERVICE_ACCOUNT: "ci-svc-ska-miditf-$CI_COMMIT_REF_NAME"
 
 deploy-sut-on-demand:
   extends:
     - .deploy
     - .sut_on_demand
   environment:
-    name: mid-itf/ska-$CONFIG-$CI_PIPELINE_ID
+    name: mid-itf/ska-$CONFIG-$CI_COMMIT_REF_SLUG
     kubernetes:
       # This repetition is needed for gitlab to parse the namespace correctly
       namespace: $KUBE_NAMESPACE
@@ -43,7 +43,7 @@ redeploy-sut-on-demand:
     - .redeploy
     - .sut_on_demand
   environment:
-    name: mid-itf/ska-$CONFIG-$CI_PIPELINE_ID
+    name: mid-itf/ska-$CONFIG-$CI_COMMIT_REF_SLUG
     kubernetes:
       # This repetition is needed for gitlab to parse the namespace correctly
       namespace: $KUBE_NAMESPACE
@@ -60,7 +60,7 @@ destroy-sut-on-demand:
     - .cleanup
     - .sut_on_demand
   environment:
-    name: mid-itf/ska-$CONFIG-$CI_PIPELINE_ID
+    name: mid-itf/ska-$CONFIG-$CI_COMMIT_REF_SLUG
     kubernetes:
       # This repetition is needed for gitlab to parse the namespace correctly
       namespace: $KUBE_NAMESPACE
