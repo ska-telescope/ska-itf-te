@@ -22,7 +22,7 @@
     - .on_demand_rules
   variables:
     HELM_RELEASE: "test-$CONFIG-$CI_PIPELINE_ID"
-    KUBE_NAMESPACE: "ci-ska-miditf-$CI_PIPELINE_ID-$CONFIG"
+    KUBE_NAMESPACE: "ci-ska-mid-itf-$CI_PIPELINE_ID-$CONFIG"
     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
     SERVICE_ACCOUNT: "ci-svc-ska-miditf-$CI_PIPELINE_ID"
 

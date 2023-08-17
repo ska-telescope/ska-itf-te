@@ -39,7 +39,7 @@
   variables:
     K8S_CHART: "ska-$CONFIG"
     HELM_RELEASE: "test-$CONFIG-$CI_PIPELINE_ID"
-    KUBE_NAMESPACE: "ci-ska-miditf-$CI_PIPELINE_ID-$CONFIG"
+    KUBE_NAMESPACE: "ci-ska-mid-itf-$CI_PIPELINE_ID-$CONFIG"
     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
     K8S_AUTH_NAMESPACES: "$KUBE_NAMESPACE $KUBE_NAMESPACE_SDP"
     K8S_AUTH_SERVICE_ACCOUNT: "ci-svc-ska-miditf-$CI_PIPELINE_ID"
@@ -85,7 +85,7 @@
   variables:
     K8S_CHART: "ska-$CONFIG"
     HELM_RELEASE: "test-$CONFIG-$CI_PIPELINE_ID"
-    KUBE_NAMESPACE: "ci-ska-miditf-$CI_PIPELINE_ID-$CONFIG"
+    KUBE_NAMESPACE: "ci-ska-mid-itf-$CI_PIPELINE_ID-$CONFIG"
     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
   script:
     - bash .make/resources/gitlab_section.sh get-ns "Get namespace resources" make k8s-get
@@ -98,7 +98,7 @@
   variables:
     K8S_CHART: "ska-$CONFIG"
     HELM_RELEASE: "test-$CONFIG-$CI_PIPELINE_ID"
-    KUBE_NAMESPACE: "ci-ska-miditf-$CI_PIPELINE_ID-$CONFIG"
+    KUBE_NAMESPACE: "ci-ska-mid-itf-$CI_PIPELINE_ID-$CONFIG"
     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
   script: &cleanup_script
     - echo $CI_JOB_NAME - $CI_JOB_STAGE
