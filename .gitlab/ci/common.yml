@@ -54,12 +54,13 @@
       else
         bash .make/resources/gitlab_section.sh install "Install MidITF Charts" make k8s-install-chart-car
       fi
-    - |
-      if [[ $KUBE_NAMESPACE != ci-ska-miditf-* ]]; then
-        echo "Skipping generating Kubernetes access credentials ..."
-      else
-        K8S_NAMESPACES="${KUBE_NAMESPACE} ${KUBE_NAMESPACE}-sdp" CI_PROJECT_NAME=ska-skampi bash .make/resources/gitlab_section.sh creds "Generate Kubernetes credentials" make k8s-namespace-credentials
-      fi
+    # - |
+    #   if [[ $KUBE_NAMESPACE != ci-ska-miditf-* ]]; then
+    #     echo "Skipping generating Kubernetes access credentials ..."
+    #   else
+    #     K8S_NAMESPACES="${KUBE_NAMESPACE} ${KUBE_NAMESPACE}-sdp" CI_PROJECT_NAME=ska-skampi bash .make/resources/gitlab_section.sh creds "Generate Kubernetes credentials" make k8s-namespace-credentials
+    #   fi
+    - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
     - bash .make/resources/gitlab_section.sh get-ns "Get namespace resources" make k8s-get
     - bash .make/resources/gitlab_section.sh wait-ns "Wait namespace resources" make k8s-wait
     - bash .make/resources/gitlab_section.sh links "Skampi landing page" make links
