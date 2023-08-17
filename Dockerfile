@@ -27,3 +27,5 @@ USER tango
 
 RUN poetry config virtualenvs.create false
 RUN poetry shell && poetry install
+
+ENTRYPOINT [ "/bin/bash" ]

@@ -138,13 +138,3 @@ include .make/base.mk
 
 # include namespace-specific targets
 -include resources/k8s-installs.mk
-
-########################################################################
-# Config capture
-########################################################################
-
-# The project to store the configuration in
-# needs token set up for this project as variable SKA_CONFIG_ACCESS_TOKEN
-CONFIG_CAPTURE_PROJECT = ska-mid-itf-config
-
-include .make/configcapture.mk

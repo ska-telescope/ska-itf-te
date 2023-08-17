@@ -7,7 +7,6 @@ cache:
     - build
 stages:
   - verify-test-equipment
-  - config-capture
   - lint
   - build
   - test
@@ -30,14 +29,13 @@ include:
   # Helm Charts
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/helm-chart.gitlab-ci.yml"
+  # k8s steps
+  # - project: "ska-telescope/templates-repository"
+  #   file: "gitlab-ci/includes/k8s.gitlab-ci.yml"
 
   # changelog release page
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/changelog.gitlab-ci.yml"
-
-  # config capture
-  - project: 'ska-telescope/templates-repository'
-    file: 'gitlab-ci/includes/config-capture.gitlab-ci.yml'
 
   # deploy steps
   # - project: "ska-telescope/templates-repository"
@@ -337,17 +335,3 @@ deploy-test-equipment-for-verification:
       when: always
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       when: never
-
-config-capture-verify-test-equipment:
-  variables:
-    KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG"
-  tags:
-    - ska-k8srunner-za-itf
-  stage: config-capture
-  image: $SKA_K8S_TOOLS_BUILD_DEPLOY
-  script:
-    - make config-capture
-  artifacts:
-    name: "$CI_PROJECT_NAME-$CI_JOB_ID"
-    paths:
-      - build/
