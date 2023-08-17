@@ -139,3 +139,15 @@ docs-build:
       when: never
     - exists:
         - charts/**/*
+
+### TARANTA DEPLOYMENT
+deploy-taranta:
+  stage: integration
+  variables:
+    KUBE_NAMESPACE: taranta
+    KUBE_APP: ska-taranta-backend
+    HELM_RELEASE: taranta
+    K8S_CHART: taranta-itf
+  script:
+    - make k8s-install-chart-car
+  when: manual
