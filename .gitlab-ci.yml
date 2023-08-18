@@ -12,8 +12,8 @@ cache:
   paths:
     - build
 stages:
-  - verify-test-equipment
   - on_demand_itf_sut
+  - verify-test-equipment
   - lint
   - build
   - test

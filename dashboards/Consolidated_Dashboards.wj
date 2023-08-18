@@ -1,6 +1,6 @@
 {
   "id": "64db5344b9d76b0019fca4fb",
-  "name": "Consolidated_Dashboards - progatt",
+  "name": "Consolidated_Dashboards - Pi0",
   "version": "2.3.1",
   "user": "ATLAS",
   "insertTime": "2023-08-15T10:28:20.034Z",
@@ -401,7 +401,7 @@
       "type": "ATTRIBUTE WRITER DROPDOWN",
       "inputs": {
         "attribute": {
-          "device": "mid-itf/skysimctl/1",
+          "device": "mid-itf/skysimctl/0",
           "attribute": "band",
           "label": "Band"
         },
@@ -466,7 +466,7 @@
       "type": "LED_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "mid-itf/skysimctl/1",
+          "device": "mid-itf/skysimctl/0",
           "attribute": "band",
           "label": "Band"
         },
@@ -514,7 +514,7 @@
       "type": "LED_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "mid-itf/skysimctl/1",
+          "device": "mid-itf/skysimctl/0",
           "attribute": "band",
           "label": "Band"
         },
@@ -562,7 +562,7 @@
       "type": "LED_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "mid-itf/skysimctl/1",
+          "device": "mid-itf/skysimctl/0",
           "attribute": "band",
           "label": "Band"
         },
@@ -631,7 +631,7 @@
       "type": "BOOLEAN_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "mid-itf/skysimctl/1",
+          "device": "mid-itf/skysimctl/0",
           "attribute": "h_channel",
           "label": "H_Channel"
         },
@@ -651,7 +651,7 @@
       "type": "BOOLEAN_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "mid-itf/skysimctl/1",
+          "device": "mid-itf/skysimctl/0",
           "attribute": "v_channel",
           "label": "V_Channel"
         },
@@ -713,7 +713,7 @@
       "type": "BOOLEAN_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "mid-itf/skysimctl/1",
+          "device": "mid-itf/skysimctl/0",
           "attribute": "correlated_noise_source",
           "label": "Correlated_Noise_Source"
         },
@@ -733,7 +733,7 @@
       "type": "BOOLEAN_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "mid-itf/skysimctl/1",
+          "device": "mid-itf/skysimctl/0",
           "attribute": "uncorrelated_noise_sources",
           "label": "Uncorrelated_Noise_Sources"
         },
