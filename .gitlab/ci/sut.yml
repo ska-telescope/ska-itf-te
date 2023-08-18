@@ -1,0 +1,226 @@
+# ############################################
+# # System Under Test Deployment and Test jobs
+# ############################################
+.sut_base:
+  tags:
+    - ska-k8srunner-za-itf
+  extends:
+    - .mid
+  variables:
+    K8S_CHART: system-under-test
+    KUBE_APP: ska-mid-sut
+    # VALUES: "pipeline.yaml resources/itf/$CONFIG.yml" # DEFINE FOR EACH JOB
+    INGRESS_HOST: "k8s.miditf.internal.skao.int"
+    CLUSTER_DOMAIN: "miditf.internal.skao.int"
+    K8S_EXTRA_CHART_PARMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
+    # LOADBALANCER_IP: 10.164.10.1
+
+.sut_on_demand:
+  stage: on_demand_itf_sut
+  extends:
+    - .sut_base
+    - .on_demand_rules
+  variables:
+    HELM_RELEASE: "test-$CONFIG-$CI_PIPELINE_ID"
+    KUBE_NAMESPACE: "ci-ska-mid-itf-$CI_COMMIT_REF_NAME"
+    KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+    SERVICE_ACCOUNT: "ci-svc-ska-miditf-$CI_COMMIT_REF_NAME"
+
+deploy-sut-on-demand:
+  extends:
+    - .deploy
+    - .sut_on_demand
+  environment:
+    name: mid-itf/ska-$CONFIG-$CI_COMMIT_REF_SLUG
+    kubernetes:
+      # This repetition is needed for gitlab to parse the namespace correctly
+      namespace: $KUBE_NAMESPACE
+    url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
+    on_stop: destroy-sut-on-demand
+
+redeploy-sut-on-demand:
+  extends:
+    - .redeploy
+    - .sut_on_demand
+  environment:
+    name: mid-itf/ska-$CONFIG-$CI_COMMIT_REF_SLUG
+    kubernetes:
+      # This repetition is needed for gitlab to parse the namespace correctly
+      namespace: $KUBE_NAMESPACE
+    url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
+    on_stop: destroy-sut-on-demand
+
+info-sut-on-demand:
+  extends:
+    - .info
+    - .sut_on_demand
+
+destroy-sut-on-demand:
+  extends:
+    - .cleanup
+    - .sut_on_demand
+  environment:
+    name: mid-itf/ska-$CONFIG-$CI_COMMIT_REF_SLUG
+    kubernetes:
+      # This repetition is needed for gitlab to parse the namespace correctly
+      namespace: $KUBE_NAMESPACE
+    url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
+    action: stop
+
+.sut_integration:
+  stage: integration
+  extends:
+    - .sut_base
+    - .integration_rules
+  variables:
+    HELM_RELEASE: "integration-$CONFIG-$CI_COMMIT_REF_SLUG"
+    KUBE_NAMESPACE: "integration-$CONFIG"
+    KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+    SERVICE_ACCOUNT: "ci-svc-integration-$CONFIG"
+    ARCHIVER_DBNAME: "integration_${CONFIG}_archiver_db"
+    KEEP_NAMESPACE: "true"
+
+deploy-sut-integration:
+  extends:
+    - .deploy
+    - .sut_integration
+  # needs:
+  #   - test-mid
+  environment:
+    name: mid-itf/ska-$CONFIG-integration
+    kubernetes:
+      # This repetition is needed for gitlab to parse the namespace correctly
+      namespace: $KUBE_NAMESPACE
+    url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
+    on_stop: destroy-sut-integration
+
+redeploy-sut-integration:
+  extends:
+    - .redeploy
+    - .sut_integration
+  environment:
+    name: mid-itf/ska-$CONFIG-integration
+    kubernetes:
+      # This repetition is needed for gitlab to parse the namespace correctly
+      namespace: $KUBE_NAMESPACE
+    url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
+    on_stop: destroy-sut-integration
+
+info-sut-integration:
+  extends:
+    - .info
+    - .sut_integration
+
+destroy-sut-integration:
+  extends:
+    - .cleanup
+    - .sut_integration
+  environment:
+    name: mid-itf/ska-$CONFIG-integration
+    kubernetes:
+      # This repetition is needed for gitlab to parse the namespace correctly
+      namespace: $KUBE_NAMESPACE
+    url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
+    action: stop
+
+.sut_staging:
+  stage: staging
+  extends:
+    - .sut_base
+    - .staging_rules
+  variables:
+    HELM_RELEASE: "staging-$CONFIG-$CI_COMMIT_REF_SLUG"
+    KUBE_NAMESPACE: "staging-$CONFIG"
+    KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+    SERVICE_ACCOUNT: "ci-svc-staging-$CONFIG"
+    ARCHIVER_DBNAME: "staging_${CONFIG}_archiver_db"
+    KEEP_NAMESPACE: "true"
+
+deploy-sut-staging:
+  extends:
+    - .deploy
+    - .sut_staging
+  needs:
+    - deploy-sut-integration
+  environment:
+    name: mid-itf/ska-$CONFIG-staging
+    kubernetes:
+      # This repetition is needed for gitlab to parse the namespace correctly
+      namespace: $KUBE_NAMESPACE
+    url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
+    on_stop: destroy-sut-staging
+
+redeploy-sut-staging:
+  extends:
+    - .redeploy
+    - .sut_staging
+  environment:
+    name: mid-itf/ska-$CONFIG-staging
+    kubernetes:
+      # This repetition is needed for gitlab to parse the namespace correctly
+      namespace: $KUBE_NAMESPACE
+    url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
+    on_stop: destroy-sut-staging
+
+info-sut-staging:
+  extends:
+    - .info
+    - .sut_staging
+
+destroy-sut-staging:
+  extends:
+    - .cleanup
+    - .sut_staging
+  environment:
+    name: mid-itf/ska-$CONFIG-staging
+    kubernetes:
+      # This repetition is needed for gitlab to parse the namespace correctly
+      namespace: $KUBE_NAMESPACE
+    url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
+    action: stop
+# .sut-base:
+#   image: $SKA_K8S_TOOLS_BUILD_DEPLOY
+#   stage: integration
+#   # rules:
+#   #   - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+#   tags:
+#     - ska-k8srunner-za-itf
+# deploy-sut:
+#   extends: .sut-base
+#   variables:
+#     MINIKUBE: "false"
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     K8S_CHART: system-under-test
+#     KUBE_APP: ska-mid-sut
+#     KUBE_NAMESPACE: integration-mid
+#     # K8S_EXTRA_PARAMS: --set ds-sim.maxuploadfilesize="128Mi"
+#     SERVICE_ACCOUNT: ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-integration
+#     NEXUS_CACHE: NEXUS_CACHE
+#   before_script:
+#     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#     - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
+#   script:
+#     - bash .make/resources/gitlab_section.sh template-chart "Output Helm Template" make k8s-template-chart
+#     - bash .make/resources/gitlab_section.sh install-chart "Install Helm Template of SUT" make k8s-install-chart
+#     # The following are all needed to verify deployment and expose the issue
+#     - bash .make/resources/gitlab_section.sh k8s-wait-operator "K8s Wait - Tango Operator" make k8s-wait SKA_TANGO_OPERATOR=true
+#     - bash .make/resources/gitlab_section.sh k8s-wait-no-op "K8s Wait - No Tango Operator" make k8s-wait SKA_TANGO_OPERATOR=false
+#     - bash .make/resources/gitlab_section.sh k8s-get-pods "List Running Pods" make k8s-get-pods
+#     - make itf-te-links
+#   environment:
+#     name: ska-mid-itf/test-equipment
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta
+#     on_stop: remove-test-equipment
+#   artifacts:
+#     name: "$CI_PROJECT_NAME-$CI_JOB_ID"
+#     paths:
+#       - build/
+#     reports:
+#       junit:
+#         - build/report.xml
+#   needs:
+#     - remove-test-equipment
+#   allow_failure: true # need to keep this to unlock the pipeline

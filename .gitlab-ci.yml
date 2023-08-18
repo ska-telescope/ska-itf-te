@@ -1,17 +1,26 @@
-image: $SKA_K8S_TOOLS_DOCKER_BUILDER_IMAGE
+image: $SKA_K8S_TOOLS_BUILD_DEPLOY
 
 variables:
+  MINIKUBE: "false"
   GIT_SUBMODULE_STRATEGY: recursive
+  EXPOSE_All_DS: "true"
+  CLEAN_UP_TEST_ENVIRONMENT: "true"
+  DEPLOYMENT_CONFIGURATION: "ska-$CONFIG"
+  # PYTEST_SUBSYS_MARK: (csp_startup or sdp or eda)
+  # K8S_INSTALL_FROM_CAR: "false"
 cache:
   paths:
     - build
 stages:
   - verify-test-equipment
+  - on_demand_itf_sut
   - lint
   - build
   - test
   - test-equipment-setup
+  - dish-aiv
   - integration
+  - staging
   - upload
   - publish
   - pages
@@ -41,6 +50,11 @@ include:
   # - project: "ska-telescope/templates-repository"
   #   file: "gitlab-ci/includes/deploy.gitlab-ci.yml"
 
+  - local: .gitlab/ci/common.yml
+  - local: .gitlab/ci/sut.yml
+  - local: .gitlab/ci/test-equipment.yml
+  - local: .gitlab/ci/dish-aiv.yml
+
 python-test:
   image: artefact.skao.int/ska-tango-images-pytango-builder:9.3.32
   before_script:
@@ -52,133 +66,6 @@ python-lint:
     - bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install --upgrade poetry
   rules:
     - allow_failure: true
-
-deploy-file-browser:
-  tags:
-    - ska-k8srunner-za-itf
-  stage: test-equipment-setup
-  variables:
-    MINIKUBE: "false"
-    CLUSTER_DOMAIN: miditf.internal.skao.int
-    INGRESS_HOST: k8s.miditf.internal.skao.int
-    K8S_CHART: file-browser
-    KUBE_NAMESPACE: file-browser
-    NEXUS_CACHE: NEXUS_CACHE
-    FILEBROWSER_ENV: production
-  script:
-    - make k8s-namespace
-    - make file-browser-install
-    # The following are all needed to verify deployment and expose the issue
-    - make k8s-wait SKA_TANGO_OPERATOR=true
-    - make k8s-get-pods
-  environment:
-    name: ska-mid-itf/file-browser
-    kubernetes:
-      namespace: "$KUBE_NAMESPACE"
-  allow_failure: true # need to keep this to unlock the pipeline
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      when: always
-    - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
-      when: manual
-
-.test-equipment-base:
-  image: $SKA_K8S_TOOLS_BUILD_DEPLOY
-  stage: test-equipment-setup
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-  tags:
-    - ska-k8srunner-za-itf
-
-deploy-test-equipment:
-  extends: .test-equipment-base
-  variables:
-    MINIKUBE: "false"
-    CLUSTER_DOMAIN: miditf.internal.skao.int
-    INGRESS_HOST: k8s.miditf.internal.skao.int
-    K8S_CHART: ska-mid-itf
-    KUBE_APP: ska-ser-test-equipment
-    KUBE_NAMESPACE: test-equipment
-    K8S_EXTRA_PARAMS: --set ds-sim.maxuploadfilesize="128Mi"
-    SERVICE_ACCOUNT: ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
-    NEXUS_CACHE: NEXUS_CACHE
-  before_script:
-    - bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install --upgrade poetry
-    - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
-    - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
-  script:
-    - make file-browser-secrets
-    - make itf-te-template
-    - make itf-te-install
-    # The following are all needed to verify deployment and expose the issue
-    - make k8s-wait SKA_TANGO_OPERATOR=true
-    - kubectl logs -l job-name=signalgenerator-test-config -n $KUBE_NAMESPACE
-    - make k8s-get-pods
-    - make itf-te-links
-  environment:
-    name: ska-mid-itf/test-equipment
-    kubernetes:
-      namespace: "$KUBE_NAMESPACE"
-    url: https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta
-    on_stop: remove-test-equipment
-  artifacts:
-    name: "$CI_PROJECT_NAME-$CI_JOB_ID"
-    paths:
-      - build/
-    reports:
-      junit:
-        - build/report.xml
-  needs:
-    - remove-test-equipment
-  allow_failure: true # need to keep this to unlock the pipeline
-
-generate-skysimctl-config:
-  extends: .test-equipment-base
-  script: make itf-te-pass-env
-  artifacts:
-    reports:
-      dotenv: build/deploy.env
-    untracked: false
-    when: on_success
-    paths:
-      - build/
-  needs:
-    - deploy-test-equipment
-
-deploy-skysimctl-install:
-  stage: test-equipment-setup
-  trigger:
-    project: ska-telescope/ska-te-mid-skysimctl
-    branch: main
-  inherit:
-    variables: false
-  needs:
-    - generate-skysimctl-config
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-
-remove-test-equipment:
-  variables:
-    K8S_CHART: ska-mid-itf
-    KUBE_NAMESPACE: test-equipment
-    CLUSTER_DOMAIN: miditf.internal.skao.int
-    INGRESS_HOST: k8s.miditf.internal.skao.int
-    SERVICE_ACCOUNT: ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
-    NEXUS_CACHE: NEXUS_CACHE
-  extends:
-    - .test-equipment-base
-    - .uninstall_chart
-  environment:
-    name: ska-mid-itf/test-equipment
-    kubernetes:
-      # This repetition is needed for gitlab to parse the namespace correctly
-      namespace: $KUBE_NAMESPACE
-    url: "https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
-    action: stop
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      when: manual
-  allow_failure: true # need to keep this to unlock the pipeline
 
 .setup-ansible:
   tags:
@@ -229,69 +116,6 @@ ansible-test-image-build:
   script:
     - cd resources/ansible-playbooks && make oci-build-all CAR_OCI_REGISTRY_HOST=${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}
   when: manual
-
-deploy-dish-structure-simulator:
-  tags:
-    - ska-k8srunner-za-itf
-  image: $CI_REGISTRY/ska-telescope/ska-skampi/ska-skampi-ci:1.0.4
-  stage: integration
-  variables:
-    MINIKUBE: "false"
-    CLUSTER_DOMAIN: miditf.internal.skao.int
-    INGRESS_HOST: k8s.miditf.internal.skao.int
-    K8S_CHART: dish-structure-simulators
-    KUBE_NAMESPACE: dish-structure-simulators
-    K8S_EXTRA_PARAMS: --set ds-sim.maxuploadfilesize="131072m"
-    SERVICE_ACCOUNT: ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
-    NEXUS_CACHE: NEXUS_CACHE
-  before_script:
-    - bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install --upgrade poetry
-    - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
-    - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
-  script:
-    - make k8s-template-chart
-    - make k8s-install-chart
-    - mkdir -p build
-    - mv manifests.yaml build/ds_sim_manifests.yaml || true
-    # - make k8s-get-pods
-    - make itf-ds-links
-  environment:
-    name: dish-structure-simulators/dish-sim-1
-    kubernetes:
-      namespace: "$KUBE_NAMESPACE"
-    url: https://$INGRESS_HOST/$KUBE_NAMESPACE/novnc/
-    on_stop: remove-dish-structure-simulator
-  artifacts:
-    name: "$CI_PROJECT_NAME-$CI_JOB_ID"
-    paths:
-      - build/
-  # when: manual
-  needs:
-    - remove-dish-structure-simulator
-  allow_failure: true # need to keep this to unlock the pipeline
-
-remove-dish-structure-simulator:
-  stage: integration
-  tags:
-    - ska-k8srunner-za-itf
-  variables:
-    MINIKUBE: "false"
-    CLUSTER_DOMAIN: miditf.internal.skao.int
-    INGRESS_HOST: k8s.miditf.internal.skao.int
-    K8S_CHART: dish-structure-simulators
-    KUBE_NAMESPACE: dish-structure-simulators
-    SERVICE_ACCOUNT: ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
-    NEXUS_CACHE: NEXUS_CACHE
-  extends:
-    - .uninstall_chart
-  environment:
-    name: dish-structure-simulators/dish-sim-1
-    kubernetes:
-      namespace: "$KUBE_NAMESPACE"
-    url: https://$INGRESS_HOST/$KUBE_NAMESPACE/novnc/
-    action: stop
-  when: manual
-  allow_failure: true # need to keep this to unlock the pipeline
 
 deploy-test-equipment-for-verification:
   tags:
