@@ -12,8 +12,8 @@ cache:
   paths:
     - build
 stages:
-  - on_demand_itf_sut
   - verify-test-equipment
+  - on_demand_itf_sut
   - lint
   - build
   - test
@@ -151,11 +151,11 @@ deploy-test-equipment-for-verification:
     name: "$CI_PROJECT_NAME-$CI_JOB_ID"
     paths:
       - build/
-#  rules:
-#    - changes:
-#        - charts/test-equipment-verification/*
-#        - resources/test-equipment-dev.mk
-#      if: $CI_PIPELINE_SOURCE == "merge_request_event"
-#      when: always
-#    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-#      when: never
+  rules:
+    - changes:
+        - charts/test-equipment-verification/*
+        - resources/test-equipment-dev.mk
+      if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: always
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: never
