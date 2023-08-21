@@ -73,11 +73,11 @@ destroy-sut-on-demand:
     - .sut_base
     - .integration_rules
   variables:
-    HELM_RELEASE: "integration-$CONFIG-$CI_COMMIT_REF_SLUG"
-    KUBE_NAMESPACE: "integration-$CONFIG"
+    HELM_RELEASE: "integration-$CI_COMMIT_REF_SLUG"
+    KUBE_NAMESPACE: "integration"
     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
-    SERVICE_ACCOUNT: "ci-svc-integration-$CONFIG"
-    ARCHIVER_DBNAME: "integration_${CONFIG}_archiver_db"
+    SERVICE_ACCOUNT: "ci-svc-integration"
+    ARCHIVER_DBNAME: "integration_archiver_db"
     KEEP_NAMESPACE: "true"
 
 deploy-sut-integration:
@@ -129,11 +129,11 @@ destroy-sut-integration:
     - .sut_base
     - .staging_rules
   variables:
-    HELM_RELEASE: "staging-$CONFIG-$CI_COMMIT_REF_SLUG"
-    KUBE_NAMESPACE: "staging-$CONFIG"
+    HELM_RELEASE: "staging-$CI_COMMIT_REF_SLUG"
+    KUBE_NAMESPACE: "staging"
     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
-    SERVICE_ACCOUNT: "ci-svc-staging-$CONFIG"
-    ARCHIVER_DBNAME: "staging_${CONFIG}_archiver_db"
+    SERVICE_ACCOUNT: "ci-svc-staging"
+    ARCHIVER_DBNAME: "staging_archiver_db"
     KEEP_NAMESPACE: "true"
 
 deploy-sut-staging:
