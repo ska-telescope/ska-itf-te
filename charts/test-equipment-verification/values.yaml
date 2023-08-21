@@ -32,7 +32,7 @@ test-equipment:
       devices: []
     spectrumanalyser:
       devices: 
-        - name: rc1dat800030
+        - name: ms2090a
           model: MS2090A
           host: 10.165.3.4
           port: 9001
