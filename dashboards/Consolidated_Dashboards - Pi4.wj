@@ -1,6 +1,6 @@
 {
   "id": "64df1cf26f41c40019658a49",
-  "name": "Consolidated_Dashboards - Pi0",
+  "name": "Consolidated_Dashboards - Pi4",
   "version": "2.2.0",
   "user": "ATLAS",
   "insertTime": "2023-08-18T07:25:38.422Z",
@@ -373,7 +373,7 @@
       "type": "ATTRIBUTE WRITER DROPDOWN",
       "inputs": {
         "attribute": {
-          "device": "mid-itf/skysimctl/0",
+          "device": "mid-itf/skysimctl/4",
           "attribute": "band",
           "label": "Band"
         },
@@ -438,7 +438,7 @@
       "type": "LED_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "mid-itf/skysimctl/0",
+          "device": "mid-itf/skysimctl/4",
           "attribute": "band",
           "label": "Band"
         },
@@ -486,7 +486,7 @@
       "type": "LED_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "mid-itf/skysimctl/0",
+          "device": "mid-itf/skysimctl/4",
           "attribute": "band",
           "label": "Band"
         },
@@ -534,7 +534,7 @@
       "type": "LED_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "mid-itf/skysimctl/0",
+          "device": "mid-itf/skysimctl/4",
           "attribute": "band",
           "label": "Band"
         },
@@ -603,7 +603,7 @@
       "type": "BOOLEAN_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "mid-itf/skysimctl/0",
+          "device": "mid-itf/skysimctl/4",
           "attribute": "h_channel",
           "label": "H_Channel"
         },
@@ -623,7 +623,7 @@
       "type": "BOOLEAN_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "mid-itf/skysimctl/0",
+          "device": "mid-itf/skysimctl/4",
           "attribute": "v_channel",
           "label": "V_Channel"
         },
@@ -685,7 +685,7 @@
       "type": "BOOLEAN_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "mid-itf/skysimctl/0",
+          "device": "mid-itf/skysimctl/4",
           "attribute": "correlated_noise_source",
           "label": "Correlated_Noise_Source"
         },
@@ -705,7 +705,7 @@
       "type": "BOOLEAN_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "mid-itf/skysimctl/0",
+          "device": "mid-itf/skysimctl/4",
           "attribute": "uncorrelated_noise_sources",
           "label": "Uncorrelated_Noise_Sources"
         },
@@ -932,6 +932,104 @@
         "widgetCss": ""
       },
       "order": 1
+    },
+    {
+      "id": "95",
+      "x": 70,
+      "y": 44,
+      "canvas": "0",
+      "width": 47,
+      "height": 25,
+      "type": "LABEL",
+      "inputs": {
+        "text": "",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "border: 3px solid #070068;"
+      },
+      "order": 37
+    },
+    {
+      "id": "96",
+      "x": 71,
+      "y": 45,
+      "canvas": "0",
+      "width": 45,
+      "height": 6,
+      "type": "LABEL",
+      "inputs": {
+        "text": "Sky Simulator Environment",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "border: 1px solid #070068;\ncolor: #FFFFFF;\nbackground:  #070068;\nfont-weight: bold;\nfont-size: 26px;\ntext-align: center;"
+      },
+      "order": 38
+    },
+    {
+      "id": "97",
+      "x": 71,
+      "y": 58,
+      "canvas": "0",
+      "width": 21,
+      "height": 10,
+      "type": "ATTRIBUTE_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "mid-itf/skysimctl/4",
+          "attribute": "temperature",
+          "label": "temperature"
+        },
+        "precision": 2,
+        "showDevice": false,
+        "showAttribute": "Label",
+        "scientificNotation": false,
+        "showEnumLabels": false,
+        "showAttrQuality": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "widgetCss": "border: 3px solid #070068;\nfont-weight: bold;\nfont-size: 20px"
+      },
+      "order": 39
+    },
+    {
+      "id": "98",
+      "x": 93,
+      "y": 58,
+      "canvas": "0",
+      "width": 21,
+      "height": 10,
+      "type": "ATTRIBUTE_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "mid-itf/skysimctl/4",
+          "attribute": "humidity",
+          "label": "humidity"
+        },
+        "precision": 2,
+        "showDevice": false,
+        "showAttribute": "Label",
+        "scientificNotation": false,
+        "showEnumLabels": false,
+        "showAttrQuality": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "widgetCss": "border: 3px solid #070068;\nfont-weight: bold;\nfont-size: 20px"
+      },
+      "order": 40
     }
   ],
   "variables": []
