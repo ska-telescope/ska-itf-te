@@ -87,9 +87,9 @@ itf-te-links: ## Create the URLs with which to access Skampi if it is available
 CI_COMMIT_REF_NAME?=
 
 itf-te-pass-env: KUBE_NAMESPACE := test-equipment
-itf-te-pass-env: itf-links## Generate Gitlab CI configuration for SkySimCtl device server deployment
+itf-te-pass-env: itf-skysimctl-links## Generate Gitlab CI configuration for SkySimCtl device server deployment
 
-itf-links:
+itf-skysimctl-links:
 	@echo "KUBE_NAMESPACE=$(KUBE_NAMESPACE)"
 	@mkdir -p build
 	echo "TANGO_HOST=$(shell kubectl get -n $(KUBE_NAMESPACE) svc tango-databaseds -o jsonpath={'.status.loadBalancer.ingress[0].ip'}):10000" > build/deploy.env
