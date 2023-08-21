@@ -50,9 +50,9 @@
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
     - |
       if [ "$K8S_INSTALL_FROM_CAR" != "true" ]; then
-        bash .make/resources/gitlab_section.sh install "Installing $K8S_CART Charts - not from CAR" make k8s-install-chart
+        bash .make/resources/gitlab_section.sh install "Installing $K8S_CHART Charts - not from CAR" make k8s-install-chart
       else
-        bash .make/resources/gitlab_section.sh install "Installing $K8S_CART Charts from CAR" make k8s-install-chart-car
+        bash .make/resources/gitlab_section.sh install "Installing $K8S_CHART Charts from CAR" make k8s-install-chart-car
       fi
     # - |
     #   if [[ $KUBE_NAMESPACE != ci-ska-miditf-* ]]; then
