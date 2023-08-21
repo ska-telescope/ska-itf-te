@@ -11,30 +11,68 @@
                         "path": "/bin/bash"
                     }
                 },
+                "vs-kubernetes.kubeconfig": "/home/tango/.kube/config",
                 "terminal.integration.defaultProfile.linux": "bash",
-                "python.pythonPath": "/usr/bin/python3",
-                "python.linting.enabled": true,
-                "python.linting.pylintEnabled": true,
-                "python.linting.pylintPath": "/usr/local/bin/pylint",
-                "git.enabled": true,
-                "git.path": "/usr/bin/git"
-                // "python.testing.unittestEnabled": false,
-                // "python.testing.pytestEnabled": true
+                "python.pythonPath": ".venv/bin/python",
+                "autoDocstring.docstringFormat": "sphinx",
+                "gitPrefix.pattern": "(\\w+-\\d+).*",
+                "gitPrefix.replacement": "p1.replace(/(\\w+)/, function(v) { return v.toUpperCase();})+\": \"",
+                "gitPrefix.replacementIsFunction": true,
+                "[python]": {
+                    "editor.defaultFormatter": "ms-python.black-formatter",
+                    "editor.formatOnSave": true
+                },
+                "python.testing.pytestArgs": [
+                    "tests"
+                ],
+                "python.testing.unittestEnabled": false,
+                "python.testing.pytestEnabled": true,
+                "python.formatting.provider": "none"
             },
             // Add the IDs of extensions you want installed when the container is created.
             "extensions": [
                 "ms-python.python",
                 "trond-snekvik.simple-rst",
                 "davidanson.vscode-markdownlint",
-                "ryanluker.vscode-coverage-gutters"
+                "ryanluker.vscode-coverage-gutters",
+                "srmeyers.git-prefix",
+                "ms-python.vscode-pylance",
+                "ms-kubernetes-tools.vscode-kubernetes-tools",
+                "donjayamanne.githistory",
+                "njpwerner.autodocstring",
+                "streetsidesoftware.code-spell-checker",
+                "bungcip.better-toml",
+                "freakypie.code-python-isort",
+                "srmeyers.git-prefix",
+                "ms-python.black-formatter",
+                "ms-python.flake8",
+                "ms-python.isort"
             ]
         }
     },
+    //this may break if you are attempting to do this from a non debian host
+    // therefore manualy uncomment it in your branch if you want to use K8s
+    /*
+    "mounts": [
+        "source=${localEnv:HOME}${localEnv:USERPROFILE},target=/home/tango/host,type=bind,consistency=cached",
+        "source=${localEnv:HOME}${localEnv:USERPROFILE}/.kube,target=/home/tango/.kube,type=bind,consistency=cached"
+    ],*/
     // Use 'forwardPorts' to make a list of ports inside the container available locally.
     // "forwardPorts": [],
     // Use 'postCreateCommand' to run commands after the container is created.
-    "postCreateCommand": "git config --global --add safe.directory $(pwd)",
-    // Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
+    "postCreateCommand": "poetry config virtualenvs.in-project true",
+    // if you want to work with k8 and helm directly from this container:
+    /*
+    "features": {
+        "ghcr.io/devcontainers/features/sshd:1": "1.0.9",
+        "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {},
+        "ghcr.io/mpriscella/features/helm-chart-testing:1": {},
+        "ghcr.io/eitsupi/devcontainer-features/jq-likes:1": {},
+        "ghcr.io/devcontainers/features/docker-in-docker:2.3.0": {
+            "version": "latest",
+            "moby": true
+        }
+    },*/
     "remoteUser": "tango"
     // "remoteEnv": {
     //     "PATH": "/home/tango/.local/bin:${containerEnv:PATH}",
