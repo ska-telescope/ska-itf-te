@@ -55,21 +55,29 @@ connect_pi: ## Add SSH Forwarding to local machine and SSH into Gaia
 	@echo "Welcome back";
 .PHONY: connect_pi
 
-setup_pi: ## Runs the full playbook on the Raspberry Pi.
+setup_pi: ## Runs the full playbook against the Raspberry Pi.
 	$(ANSIBLE_COMMAND) --limit raspberry_pi site.yml
 .PHONY: setup_pi
 
-setup_pi_dry_run: ## Runs the full playbook on the Raspberry Pi in dry-run mode.
+setup_pi_dry_run: ## Runs the full playbook against the Raspberry Pi in dry-run mode.
 	$(ANSIBLE_COMMAND_DRY_RUN) --limit raspberry_pi site.yml
 .PHONY: setup_pi_dry_run
 
-setup_gaia: ## Runs the full playbook on Gaia.
+setup_gaia: ## Runs the full playbook against Gaia.
 	$(ANSIBLE_COMMAND) --limit gaia site.yml
 .PHONY: setup_gaia
 
-setup_gaia_dry_run: ## Runs the full playbook on Gaia in dry-run mode.
+setup_gaia_dry_run: ## Runs the full playbook against Gaia in dry-run mode.
 	$(ANSIBLE_COMMAND_DRY_RUN) --limit gaia site.yml
 .PHONY: setup_gaia
+
+setup_talon_boards: ## Runs the full playbook against the Talon boards.
+	$(ANSIBLE_COMMAND) --limit talon site.yml
+.PHONY: setup_talon
+
+setup_talon_boards_dry_run: ## Runs the full playbook against the Talon boards in dry-run mode.
+	$(ANSIBLE_COMMAND_DRY_RUN) --limit talon site.yml
+.PHONY: setup_talon
 
 lint: ## Lint check playbook
 	ansible-lint -vvv site.yml
@@ -82,11 +90,11 @@ test-default: ## Runs a playbook test with all flags enabled.
 	testing/run.sh ansible-test-default default
 .PHONY: test-default
 
-test-gaia: ## Runs a playbook test as if it were on Gaia.
+test-gaia: ## Runs a playbook test as if it were against Gaia.
 	testing/run.sh ansible-test-gaia gaia
 .PHONY: test-gaia
 
-test-raspberry_pi: ## Runs a playbook test as if it were on the Raspberry Pi.
+test-raspberry_pi: ## Runs a playbook test as if it were against the Raspberry Pi.
 	testing/run.sh ansible-test-default raspberry_pi
 .PHONY: test-raspberry_pi
 
@@ -100,12 +108,12 @@ test-cicd-default:
 	testing/test.sh default
 .PHONY: test-cicd-default
 
-test-cicd-gaia: TEST_HOST := ansible-test-gaia ## Runs a playbook test as if it were on Gaia (intended for Gitlab pipelines).
+test-cicd-gaia: TEST_HOST := ansible-test-gaia ## Runs a playbook test as if it were against Gaia (intended for Gitlab pipelines).
 test-cicd-gaia:
 	testing/test.sh gaia
 .PHONY: test-cicd-gaia
 
-test-cicd-raspberry_pi: TEST_HOST := ansible-test-raspberry-pi ## Runs a playbook test as if it were on the Raspberry Pi (intended for Gitlab pipelines).
+test-cicd-raspberry_pi: TEST_HOST := ansible-test-raspberry-pi ## Runs a playbook test as if it were against the Raspberry Pi (intended for Gitlab pipelines).
 test-cicd-raspberry_pi:
 	testing/test.sh raspberry_pi
 .PHONY: test-cicd-raspberry_pi

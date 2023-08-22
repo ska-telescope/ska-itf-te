@@ -32,6 +32,14 @@
     - role: user_config
     - role: kubectl_setup
 
+# Configure Talon boards
+- name: Setup Talon Dx boards
+  hosts:
+    - talon
+  roles:
+    - role: cluster_dns
+    - role: update_talon
+
 - name: Setup test
   hosts:
     - test
