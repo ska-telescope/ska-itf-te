@@ -52,10 +52,11 @@
     },
     //this may break if you are attempting to do this from a non debian host
     // therefore manualy uncomment it in your branch if you want to use K8s
+    /*
     "mounts": [
-        "source=${localEnv:HOME}${localEnv:USERPROFILE}/code/skampi-code/ska-skampi/,target=/workspaces/ska-mid-itf/build/,type=bind,consistency=cached",
+        "source=${localEnv:HOME}${localEnv:USERPROFILE},target=/home/tango/host,type=bind,consistency=cached",
         "source=${localEnv:HOME}${localEnv:USERPROFILE}/.kube,target=/home/tango/.kube,type=bind,consistency=cached"
-    ],
+    ],*/
     // Use 'forwardPorts' to make a list of ports inside the container available locally.
     // "forwardPorts": [],
     // Use 'postCreateCommand' to run commands after the container is created.
