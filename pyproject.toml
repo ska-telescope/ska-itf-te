@@ -1,11 +1,10 @@
 [tool.poetry]
 name = "ska-mid-itf"
 version = "0.1.0"
-description = "SCPI and Tango enabled Sky Simulator Controller for a RaspberryPi and container runtime testing."
+description = "Integration testing and deployment project for the Mid ITF"
 authors = ["ATLAS"]
 license = "BSD 3-Clause"
 readme = "README.md"
-packages = [{include = "ska_sky_simulator_controller", from = "src"}]
 
 [[tool.poetry.source]]
 name = 'skao'
@@ -13,10 +12,6 @@ url = 'https://artefact.skao.int/repository/pypi-internal/simple'
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.11"
-ska-tango-testing = "^0.5.3"
-pytest-bdd = ">=5.0.0,<6.0.0"
-ska-ser-test-equipment = "^0.6.2"
-pytest = ">=6.2.5,<7.0.0"
 ska-ser-skallop = "2.29.1"
 ska-tmc-cdm = "7.3.1"
 
