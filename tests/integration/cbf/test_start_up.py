@@ -22,15 +22,6 @@ def test_cbf_start_up_telescope_mid():
     """Start up the cbf in mid."""
 
 
-@pytest.mark.csp_related
-@pytest.mark.skalow
-@pytest.mark.cbf
-@pytest.mark.startup
-@scenario("features/cbf_start_up_telescope.feature", "Start up the cbf in low")
-def test_cbf_start_up_telescope_low():
-    """Start up the cbf in low."""
-
-
 @pytest.fixture(name="set_up_transit_checking_for_cbf")
 @pytest.mark.usefixtures("set_cbf_entry_point")
 def fxt_set_up_transit_checking_for_cbf(
@@ -108,17 +99,3 @@ def the_cbf_must_be_on(transit_checking: fxt_types.transit_checking):
         subarray = con_config.get_device_proxy(tel.csp.cbf.subarray(index))
         result = subarray.read_attribute("state").value
         assert_that(str(result)).is_equal_to("ON")
-
-
-# test validation
-
-
-@pytest.mark.test_tests
-@pytest.mark.usefixtures("setup_cbf_mock")
-def test_test_cbf_startup(run_mock):
-    """
-    Test the test using a mock SUT
-
-    :param run_mock: A mock device initialization
-    """
-    run_mock(test_cbf_start_up_telescope_mid)

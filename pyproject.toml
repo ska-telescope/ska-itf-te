@@ -52,7 +52,7 @@ log_cli_level = "INFO"
 log_cli = "False"
 junit_family = "xunit2"
 python_classes = "!Test"
-bdd_features_base_dir = "tests"
+#bdd_features_base_dir = "tests"
 
 [tool.build_sphinx]
 source-dir = "docs/src"
