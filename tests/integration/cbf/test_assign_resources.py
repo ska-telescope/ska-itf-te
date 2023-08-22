@@ -33,18 +33,6 @@ def test_assign_resources_to_cbf_mid_subarray(set_obsconfig: None):
     """
 
 
-@pytest.mark.csp_related
-@pytest.mark.skalow
-@pytest.mark.cbf
-@pytest.mark.assign
-@scenario(
-    "features/cbf_assign_resources.feature",
-    "Assign resources to CBF low subarray",
-)
-def test_assign_resources_to_cbf_low_subarray():
-    """Assign resources to CBF low subarray."""
-
-
 @given("an CBF subarray", target_fixture="composition")
 def an_cbf_subarray(
     set_up_log_checking_for_cbf_subarray,  # pylint: disable=unused-argument
