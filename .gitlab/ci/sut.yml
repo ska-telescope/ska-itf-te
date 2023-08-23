@@ -15,7 +15,6 @@
     K8S_EXTRA_CHART_PARMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
     TANGO_DATABASE_DS: databaseds-tango-base
     KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
-    TANGO_HOST: "$TANGO_DATABASE_DS.$KUBE_NAMESPACE.svc.$CLUSTER_DOMAIN:10000"
     # LOADBALANCER_IP: 10.164.10.1
 
 .sut_on_demand:
@@ -182,11 +181,8 @@ destroy-sut-staging:
     url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
     action: stop
 
-
 k8s-test-runner:
   extends:
-  - .sut_base:
-
-
-
-
+    - .sut_base:
+  variables:
+    TANGO_HOST: "$TANGO_DATABASE_DS.$KUBE_NAMESPACE.svc.$CLUSTER_DOMAIN:10000"
