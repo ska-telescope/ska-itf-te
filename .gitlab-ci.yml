@@ -92,7 +92,7 @@ build-base-image:
   tags:
     - k8srunner
   script:
-    - export TAG=$(cat release)
+    - export TAG=$(cat .release)
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build -t $CI_REGISTRY/ska-telescope/ska-mid-itf/base:$TAG 
     - docker push $CI_REGISTRY/ska-telescope/ska-mid-itf/base:$TAG
