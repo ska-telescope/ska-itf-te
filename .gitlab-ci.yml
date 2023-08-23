@@ -58,7 +58,7 @@ include:
 python-test:
   image: artefact.skao.int/ska-tango-images-pytango-builder:9.3.32
   variables:
-    PYTHON_TEST_FILE: "tests/unit/ tests/functional"
+    PYTHON_TEST_FILE: "tests/unit/ tests/functional/"
   before_script:
     - bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install --upgrade poetry
 
