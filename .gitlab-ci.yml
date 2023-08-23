@@ -30,9 +30,6 @@ include:
     file: "gitlab-ci/includes/python.gitlab-ci.yml"
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/docs.gitlab-ci.yml"
-  # integration testing ( make k8s-test-runner )
-  - project: "ska-telescope/templates-repository"
-    file: "k8s-test-runner.gitlab-ci.yml"
   # OCI Images
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/oci-image.gitlab-ci.yml"
