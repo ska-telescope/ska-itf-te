@@ -1,0 +1,2 @@
+network_dir: /etc/systemd/network
+backup_dir: /home/root/network_backups

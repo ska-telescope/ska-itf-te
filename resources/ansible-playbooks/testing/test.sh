@@ -76,7 +76,7 @@ function run_ansible_playbook() {
         -e @${base_dir}/../group_vars/atlas/atlas.yml \
         -v \
         -i ${TEMP_INVENTORY_FILE} \
-        ${base_dir}/../site.yml
+        ${base_dir}/../playbooks/test.yml
 }
 
 setup_tempdir

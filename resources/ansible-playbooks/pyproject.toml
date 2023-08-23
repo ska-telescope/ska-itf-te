@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "distribute-ssh-keys"
+name = "ansible-playbooks"
 version = "0.1.0"
-description = "Distribution package for Mid ITF"
+description = "Ansible playbooks for Mid ITF"
 authors = ["Adriaan de Beer <adebeer42@gmail.com>"]
 license = "BSD"
 readme = "README.md"

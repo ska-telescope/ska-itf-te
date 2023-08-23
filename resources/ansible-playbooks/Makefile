@@ -15,11 +15,13 @@ include ../../.make/release.mk
 INVENTORY_FILE ?= ./inventory/hosts
 PLAYBOOK_PARAMETERS ?= ## any additional ansible tags can go here - see ansible-playbook --help
 NODES ?= nodes ## subset of hosts from inventory to run against
-ANSIBLE_USER ?= $(USER)
 SSH_USER ?= $(USER)
 TEAM ?= atlas
 TEAM_VARS_FILE ?= ./group_vars/$(TEAM)/$(TEAM).yml
-ANSIBLE_COMMAND := ansible-playbook -i $(INVENTORY_FILE) -e @$(TEAM_VARS_FILE) $(PLAYBOOK_PARAMETERS) -u=$(ANSIBLE_USER) $(V)
+ANSIBLE_COMMAND := ansible-playbook -i $(INVENTORY_FILE) -e @$(TEAM_VARS_FILE) $(PLAYBOOK_PARAMETERS) $(V)
+ifneq ($(ANSIBLE_USER),)
+ANSIBLE_COMMAND := $(ANSIBLE_COMMAND) -u=$(ANSIBLE_USER)
+endif
 ANSIBLE_COMMAND_DRY_RUN := $(ANSIBLE_COMMAND) --check --diff
 GAIA_IP ?= 10.165.3.7
 PI_IP ?= 10.165.3.11
@@ -77,7 +79,15 @@ setup_talon_boards: ## Runs the full playbook against the Talon boards.
 
 setup_talon_boards_dry_run: ## Runs the full playbook against the Talon boards in dry-run mode.
 	$(ANSIBLE_COMMAND_DRY_RUN) --limit talon site.yml
-.PHONY: setup_talon
+.PHONY: setup_talon_boards_dry_run
+
+setup_localhost: ## Sets up your localhost for using the ansible playbooks.
+	$(ANSIBLE_COMMAND) --limit localhost site.yml --extra-vars='{"jira_user": "$(JIRA_USER)"}'
+.PHONY: setup_localhost
+
+setup_localhost_dry_run: ## Sets up your localhost for using the ansible playbooks (dry-run mode).
+	$(ANSIBLE_COMMAND_DRY_RUN) --limit localhost site.yml --extra-vars='{"jira_user": "$(JIRA_USER)"}'
+.PHONY: setup_localhost_dry_run
 
 lint: ## Lint check playbook
 	ansible-lint -vvv site.yml
@@ -117,13 +127,6 @@ test-cicd-raspberry_pi: TEST_HOST := ansible-test-raspberry-pi ## Runs a playboo
 test-cicd-raspberry_pi:
 	testing/test.sh raspberry_pi
 .PHONY: test-cicd-raspberry_pi
-
-list_tasks: ## Prints the tasks to be executed during a playbook run.
-	ansible-playbook -i $(INVENTORY_FILE) \
-		site.yml \
-		$(PLAYBOOK_PARAMETERS) \
-		--list-tasks
-.PHONY: list_tasks
 
 # Note: in order for a target to show up in the help message,
 # it needs to have a comment starting with '##' on the same line.

@@ -1,0 +1,12 @@
+- name: Retrieve cluster DNS IP
+  vars:
+    kubectl_result: {}
+  delegate_to: gaia
+  ansible.builtin.shell: |
+    . /etc/profile.d/99-atlas-1-kubeconfig.sh
+    kubectl get --namespace extdns service extdns-coredns -o jsonpath={'.status.loadBalancer.ingress[0].ip'}
+  register: kubectl_result
+
+- name: Set cluster DNS IP 
+  ansible.builtin.set_fact:
+    cluster_dns_ip: '{{ kubectl_result.stdout_lines[-1] }}'
