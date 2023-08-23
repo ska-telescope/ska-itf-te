@@ -2,7 +2,8 @@ image: $SKA_K8S_TOOLS_BUILD_DEPLOY
 
 variables:
   MINIKUBE: "false"
-  TEST_IMAGE: $CI_REGISTRY/ska-telescope/ska-mid-itf/base:0.1.0
+  CI_REGISTRY_IMAGE: $CI_REGISTRY/ska-telescope/ska-mid-itf/base
+  TEST_IMAGE: $CI_REGISTRY_IMAGE:latest
   GIT_SUBMODULE_STRATEGY: recursive
   EXPOSE_All_DS: "true"
   CLEAN_UP_TEST_ENVIRONMENT: "true"
@@ -57,14 +58,12 @@ include:
   - local: .gitlab/ci/dish-aiv.yml
 
 python-test:
-  image: artefact.skao.int/ska-tango-images-pytango-builder:9.3.32
+  image: $TEST_IMAGE
   variables:
     PYTHON_TEST_FILE: "tests/unit/ tests/functional/"
 
 python-lint:
-  image: artefact.skao.int/ska-tango-images-pytango-builder:9.3.32
-  before_script:
-    - bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install --upgrade poetry
+  image: $TEST_IMAGE
   rules:
     - allow_failure: true
 
@@ -83,19 +82,27 @@ build-base-image:
   stage: .pre
   image: docker:19.03.12
   rules:
-    - changes:
-        - release
-        - Dockerfile
     - if: $REBUILD_IMAGES
+    - changes:
+        - Dockerfile
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
       when: never
-  tags:
-    - k8srunner
+  services:
+    - docker:dind
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
-    - export TAG=$(cat .release)
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker build -t $CI_REGISTRY/ska-telescope/ska-mid-itf/base:$TAG 
-    - docker push $CI_REGISTRY/ska-telescope/ska-mid-itf/base:$TAG
+    - |
+      if [[ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]]; then
+        tag=""
+        echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = 'latest'"
+      else
+        tag=":$CI_COMMIT_SHORT_SHA"
+        echo "Running on branch '$CI_COMMIT_BRANCH': tag = $tag"
+      fi
+    - docker build --pull -t "$CI_REGISTRY_IMAGE${tag}" .images/base/
+    - docker push "$CI_REGISTRY_IMAGE${tag}"
+
 
 ansible-lint:
   stage: lint

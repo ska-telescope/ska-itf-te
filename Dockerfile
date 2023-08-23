@@ -1,5 +1,7 @@
 FROM artefact.skao.int/ska-tango-images-pytango-builder:9.3.32
 
+ARG POETRY_VERSION=1.3.2
+
 RUN apt-get update && apt-get install openssh-client gnupg2 gawk yamllint curl git vim graphviz telnet -y
 RUN curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
@@ -10,7 +12,7 @@ ENV PATH=/root/.local/bin:$PATH
 
 RUN python3 -m pip install --user pipx && python3 -m pipx ensurepath
 
-RUN pipx install poetry==1.3.2
+RUN pipx install poetry==$POETRY_VERSION
 
 RUN poetry config virtualenvs.in-project true
 
@@ -24,7 +26,7 @@ ENV PATH=/home/tango/.local/bin:$PATH
 
 RUN python3 -m pip install --user pipx && python3 -m pipx ensurepath
 
-RUN pipx install poetry==1.3.2
+RUN pipx install poetry==$POETRY_VERSION
 
 RUN poetry config virtualenvs.in-project true
 
