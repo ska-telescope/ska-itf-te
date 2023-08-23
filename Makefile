@@ -1,24 +1,6 @@
 HELM_CHARTS_TO_PUBLISH=ska-mid-itf
 PYTHON_VARS_AFTER_PYTEST= --disable-pytest-warnings
 
-python-pre-lint:
-	@echo "python-pre-lint: upgrade poetry for the time being."\
-	python -V;\
-	poetry --version;\
-	poetry config virtualenvs.create false;\
-	bash .make/resources/gitlab_section.sh poetryinstall "Install dependencies" poetry shell && poetry install --with dev;\
-	poetry show;
-
-python-pre-test:
-	@echo "python-pre-test: running with: $(PYTHON_VARS_BEFORE_PYTEST) with $(PYTHON_RUNNER) pytest $(PYTHON_VARS_AFTER_PYTEST); \
-    $(PYTHON_TEST_FILE)";\
-	python -V;\
-	bash .make/resources/gitlab_section.sh environment "Environment"  printenv;\
-    echo "-----------------------";\
-	poetry config virtualenvs.create false;\
-	bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install --upgrade poetry;\
-	bash .make/resources/gitlab_section.sh install_dependencies "Install dependencies" poetry install --with dev;\
-
 k8s-pre-install-chart:
 
 VALUES ?= $(K8S_UMBRELLA_CHART_PATH)values.yaml
