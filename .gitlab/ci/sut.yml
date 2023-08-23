@@ -13,7 +13,7 @@
     INGRESS_HOST: "k8s.miditf.internal.skao.int"
     CLUSTER_DOMAIN: "miditf.internal.skao.int"
     K8S_EXTRA_CHART_PARMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
-    TANGO_DATABASE_DS: databaseds-tango-base
+    TANGO_DATABASE_DS: tango-databaseds
     KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
     # LOADBALANCER_IP: 10.164.10.1
 
