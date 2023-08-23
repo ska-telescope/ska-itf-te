@@ -12,7 +12,7 @@ url = 'https://artefact.skao.int/repository/pypi-internal/simple'
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.11"
-ska-ser-skallop = "2.29.1"
+ska-ser-skallop = {version = "2.29.2", extras = ["bit"]}
 ska-tmc-cdm = "7.3.1"
 
 [tool.poetry.group.docs.dependencies]
