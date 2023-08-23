@@ -39,8 +39,8 @@ include:
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/helm-chart.gitlab-ci.yml"
   # k8s steps
-  # - project: "ska-telescope/templates-repository"
-  #   file: "gitlab-ci/includes/k8s.gitlab-ci.yml"
+  - project: "ska-telescope/templates-repository"
+    file: "gitlab-ci/includes/k8s-test-runner.yml"
 
   # changelog release page
   - project: "ska-telescope/templates-repository"
@@ -57,6 +57,8 @@ include:
 
 python-test:
   image: artefact.skao.int/ska-tango-images-pytango-builder:9.3.32
+  variables:
+    PYTHON_TEST_FILE: "tests/unit/ tests/functional"
   before_script:
     - bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install --upgrade poetry
 
