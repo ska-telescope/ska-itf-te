@@ -56,6 +56,8 @@ include:
   - local: .gitlab/ci/dish-aiv.yml
 
 python-test:
+  variables:
+    TANGO_HOST: tango-databaseds:10000 
   image: artefact.skao.int/ska-tango-images-pytango-builder:9.3.32
   before_script:
     - bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install --upgrade poetry
