@@ -40,7 +40,7 @@ include:
     file: "gitlab-ci/includes/helm-chart.gitlab-ci.yml"
   # k8s steps
   - project: "ska-telescope/templates-repository"
-    file: "gitlab-ci/includes/k8s-test-runner-ci.yml"
+    file: "gitlab-ci/includes/k8s-test-runner.yml"
 
   # changelog release page
   - project: "ska-telescope/templates-repository"
