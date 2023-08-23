@@ -65,7 +65,7 @@ local-tests:
   extends: python-test
   image: artefact.skao.int/ska-tango-images-pytango-builder:9.3.32
   before_script:
-   - !reference [with-poetry, before_script]
+   - !reference [.with-poetry, before_script]
    - !reference [python-test, before_script]
   variables:
     PYTHON_TEST_FILE: "tests/unit/ tests/functional/"
@@ -78,7 +78,7 @@ lint:
   rules:
     - allow_failure: true
   before_script:
-   - !reference [with-poetry, before_script]
+   - !reference [.with-poetry, before_script]
    - !reference [python-lint, before_script]
 
 .setup-ansible:
