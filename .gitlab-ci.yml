@@ -30,6 +30,9 @@ include:
     file: "gitlab-ci/includes/python.gitlab-ci.yml"
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/docs.gitlab-ci.yml"
+  # integration testing ( make k8s-test-runner )
+  - project: "ska-telescope/templates-repository"
+    file: "k8s-test-runner.gitlab-ci.yml"
   # OCI Images
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/oci-image.gitlab-ci.yml"
@@ -57,7 +60,10 @@ include:
 
 python-test:
   variables:
-    TANGO_HOST: tango-databaseds:10000 
+    TANGO_DATABASE_DS: databaseds-tango-base
+    CLUSTER_DOMAIN: miditf.internal.skao.int
+    KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG"
+    TANGO_HOST: "$TANGO_DATABASE_DS.$KUBE_NAMESPACE.svc.$CLUSTER_DOMAIN:10000"
   image: artefact.skao.int/ska-tango-images-pytango-builder:9.3.32
   before_script:
     - bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install --upgrade poetry
