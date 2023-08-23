@@ -12,6 +12,7 @@
                     }
                 },
                 "vs-kubernetes.kubeconfig": "/home/tango/.kube/config",
+                "python.envFile": "${workspaceFolder}/.vscode/.env",
                 "terminal.integration.defaultProfile.linux": "bash",
                 "python.pythonPath": ".venv/bin/python",
                 "autoDocstring.docstringFormat": "sphinx",
