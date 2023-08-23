@@ -16,4 +16,17 @@ RUN poetry config virtualenvs.in-project true
 
 RUN pip install virtualenv
 
-ENTRYPOINT [ "/bin/bash" ]
+# re-install poetry for user tango also
+
+USER tango
+
+ENV PATH=/home/tango/.local/bin:$PATH
+
+RUN python3 -m pip install --user pipx && python3 -m pipx ensurepath
+
+RUN pipx install poetry==1.3.2
+
+RUN poetry config virtualenvs.in-project true
+
+RUN pip install virtualenv
+
