@@ -31,3 +31,7 @@ RUN pipx install poetry==$POETRY_VERSION
 RUN poetry config virtualenvs.in-project true
 
 RUN pip install virtualenv
+
+USER root
+
+CMD ["bash"]
