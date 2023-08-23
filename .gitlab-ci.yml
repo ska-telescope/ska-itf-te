@@ -8,6 +8,7 @@ variables:
   EXPOSE_All_DS: "true"
   CLEAN_UP_TEST_ENVIRONMENT: "true"
   DEPLOYMENT_CONFIGURATION: "ska-$CONFIG"
+  POETRY_CONFIG_VIRTUALENVS_CREATE: true
   # PYTEST_SUBSYS_MARK: (csp_startup or sdp or eda)
   # K8S_INSTALL_FROM_CAR: "false"
 cache:
