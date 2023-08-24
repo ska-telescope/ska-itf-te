@@ -10,11 +10,7 @@ variables:
   DEPLOYMENT_CONFIGURATION: "ska-$CONFIG"
   POETRY_CONFIG_VIRTUALENVS_CREATE: "true"
   # PYTEST_SUBSYS_MARK: (csp_startup or sdp or eda)
-  # K8S_INSTALL_FROM_CAR: "false"
-cache:
-  paths:
-    - build
-    - .venv/
+  # K8S_INSTALL_FROM_CAR: "false"remove redundant cache
 stages:
   - verify-test-equipment
   - on_demand_itf_sut
