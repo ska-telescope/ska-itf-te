@@ -110,6 +110,8 @@ build-base-image:
 ansible-lint:
   stage: lint
   extends: .setup-ansible
+  before_script:
+    - ls -ll
   script:
     - cd resources/ansible-playbooks && make lint
 
