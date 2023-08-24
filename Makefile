@@ -48,7 +48,7 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 PYTHON_VARS_AFTER_PYTEST ?= -v
 
 python-post-lint:
-	mypy --config-file mypy.ini src/ tests/
+	.venv/bin/mypy --config-file mypy.ini src/ tests/
 
 .PHONY: python-post-lint
 
