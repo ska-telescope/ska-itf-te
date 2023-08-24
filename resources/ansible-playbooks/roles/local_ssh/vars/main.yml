@@ -1,1 +1,1 @@
-ad_user: "{{ ansible_env.AD_USER }}" 
+ad_user: "{{ ansible_env.AD_USER }}"
