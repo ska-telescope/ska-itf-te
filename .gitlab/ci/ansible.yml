@@ -28,6 +28,8 @@ ansible-test:
     - name: registry.gitlab.com/ska-telescope/ska-mid-itf/ansible-test-gaia:0.0.0
       alias: ansible-test-gaia
   extends: .setup-ansible
+  variables:
+    AD_USER: test
   script:
     - cd resources/ansible-playbooks
     - make test-cicd

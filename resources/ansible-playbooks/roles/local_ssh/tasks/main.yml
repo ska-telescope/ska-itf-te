@@ -1,7 +1,3 @@
-- name: Check that JIRA_USER is set
-  fail: msg="The environment variable 'JIRA_USER' was not set"
-  when: (jira_user is defined) and (jira_user|length == 0)
-
 - name: Create ssh config dir
   ansible.builtin.file:
     path: "{{ ansible_env.HOME }}/.ssh/config.d"

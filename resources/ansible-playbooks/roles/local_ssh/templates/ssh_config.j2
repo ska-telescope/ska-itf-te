@@ -1,18 +1,18 @@
 Host gaia
     HostName 10.165.3.7   
-    User {{ jira_user }}
+    User {{ ad_user }}
+    ForwardAgent yes
+
+Host pi0
+    HostName 10.165.3.11
+    User {{ ad_user }}
     ForwardAgent yes
 
 Host pi4
     HostName 10.165.3.15
-    User {{ jira_user }}
+    User {{ ad_user }}
     ForwardAgent yes
  
-Host pi0
-    HostName 10.165.3.11
-    User {{ jira_user }}
-    ForwardAgent yes
-
 Host talon1
     HostName 10.165.3.29
     User root

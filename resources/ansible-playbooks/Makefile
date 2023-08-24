@@ -12,20 +12,23 @@ include ../../.make/release.mk
 # define overides for above variables in here
 -include PrivateRules.mak
 
-INVENTORY_FILE ?= ./inventory/hosts
+INVENTORY_TEMPLATE ?= inventory/hosts-template
+INVENTORY_FILE ?= inventory/hosts
 PLAYBOOK_PARAMETERS ?= ## any additional ansible tags can go here - see ansible-playbook --help
 NODES ?= nodes ## subset of hosts from inventory to run against
 SSH_USER ?= $(USER)
 TEAM ?= atlas
 TEAM_VARS_FILE ?= ./group_vars/$(TEAM)/$(TEAM).yml
 ANSIBLE_COMMAND := ansible-playbook -i $(INVENTORY_FILE) -e @$(TEAM_VARS_FILE) $(PLAYBOOK_PARAMETERS) $(V)
-ifneq ($(ANSIBLE_USER),)
-ANSIBLE_COMMAND := $(ANSIBLE_COMMAND) -u=$(ANSIBLE_USER)
-endif
 ANSIBLE_COMMAND_DRY_RUN := $(ANSIBLE_COMMAND) --check --diff
 GAIA_IP ?= 10.165.3.7
-PI_IP ?= 10.165.3.11
+PI_IP ?= 10.165.3.15
 V ?=
+
+ifndef AD_USER
+$(error AD_USER is not set: set this to your active directory user (i.e. Jira username.))
+endif
+export AD_USER
 
 vars:  ## Variables
 	@echo "Current variable settings:"
@@ -57,37 +60,44 @@ connect_pi: ## Add SSH Forwarding to local machine and SSH into Gaia
 	@echo "Welcome back";
 .PHONY: connect_pi
 
-setup_pi: ## Runs the full playbook against the Raspberry Pi.
+setup: $(INVENTORY_FILE)
+
+setup_pi: setup ## Runs the full playbook against the Raspberry Pi.
 	$(ANSIBLE_COMMAND) --limit raspberry_pi site.yml
 .PHONY: setup_pi
 
-setup_pi_dry_run: ## Runs the full playbook against the Raspberry Pi in dry-run mode.
+setup_pi_dry_run: setup ## Runs the full playbook against the Raspberry Pi in dry-run mode.
 	$(ANSIBLE_COMMAND_DRY_RUN) --limit raspberry_pi site.yml
 .PHONY: setup_pi_dry_run
 
-setup_gaia: ## Runs the full playbook against Gaia.
+setup_gaia: setup ## Runs the full playbook against Gaia.
 	$(ANSIBLE_COMMAND) --limit gaia site.yml
 .PHONY: setup_gaia
 
-setup_gaia_dry_run: ## Runs the full playbook against Gaia in dry-run mode.
+setup_gaia_dry_run: setup ## Runs the full playbook against Gaia in dry-run mode.
 	$(ANSIBLE_COMMAND_DRY_RUN) --limit gaia site.yml
 .PHONY: setup_gaia
 
-setup_talon_boards: ## Runs the full playbook against the Talon boards.
+setup_talon_boards: setup ## Runs the full playbook against the Talon boards.
 	$(ANSIBLE_COMMAND) --limit talon site.yml
 .PHONY: setup_talon
 
-setup_talon_boards_dry_run: ## Runs the full playbook against the Talon boards in dry-run mode.
+setup_talon_boards_dry_run: setup ## Runs the full playbook against the Talon boards in dry-run mode.
 	$(ANSIBLE_COMMAND_DRY_RUN) --limit talon site.yml
 .PHONY: setup_talon_boards_dry_run
 
-setup_localhost: ## Sets up your localhost for using the ansible playbooks.
-	$(ANSIBLE_COMMAND) --limit localhost site.yml --extra-vars='{"jira_user": "$(JIRA_USER)"}'
+setup_localhost: setup ## Sets up your localhost for using the ansible playbooks.
+	$(ANSIBLE_COMMAND) --limit localhost site.yml
 .PHONY: setup_localhost
 
-setup_localhost_dry_run: ## Sets up your localhost for using the ansible playbooks (dry-run mode).
-	$(ANSIBLE_COMMAND_DRY_RUN) --limit localhost site.yml --extra-vars='{"jira_user": "$(JIRA_USER)"}'
+setup_localhost_dry_run: setup ## Sets up your localhost for using the ansible playbooks (dry-run mode).
+	$(ANSIBLE_COMMAND_DRY_RUN) --limit localhost site.yml
 .PHONY: setup_localhost_dry_run
+
+$(INVENTORY_FILE):
+	cp $(INVENTORY_TEMPLATE) $(INVENTORY_FILE)
+	sed -i 's/<AD_USER>/$(AD_USER)/g' $(INVENTORY_FILE)
+	sed -i 's/<USER>/$(USER)/g' $(INVENTORY_FILE)
 
 lint: ## Lint check playbook
 	ansible-lint -vvv site.yml

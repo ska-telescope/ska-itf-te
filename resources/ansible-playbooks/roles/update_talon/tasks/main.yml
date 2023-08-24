@@ -1,7 +1,3 @@
-- name: Retrieve cluster DNS IP
-  ansible.builtin.debug:
-    msg: "Cluster DNS IP {{ cluster_dns_ip }}"
-
 - name: Find network files
   ansible.builtin.find:
     paths: "{{ network_dir }}"

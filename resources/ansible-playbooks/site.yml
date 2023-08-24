@@ -36,9 +36,6 @@
   hosts:
     - talon
   roles:
-    - role: cluster_dns
-      vars:
-        cluster_dns_ip: 'unknown'
     - role: update_talon
 
 - name: Setup test

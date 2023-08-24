@@ -72,7 +72,7 @@ This is the Ansible playbook and contains all the tasks we execute in order to a
 
 ### Setup SSH access
 
-Run the `make setup_localhost` target in order to setup your environment to run the playbooks. Make sure that the environment variable `JIRA_USER` is set to your Jira username. This runs a playbook locally which installs a SSH config which ensures that Ansible can access all the required hosts.
+Run the `make setup_localhost` target in order to setup your environment to run the playbooks. Make sure that the environment variable `AD_USER` is set to your active directory (i.e. Jira). This runs a playbook locally which installs a SSH config which ensures that Ansible can access all the required hosts.
 
 ### Local (Private) Variables
 
@@ -89,7 +89,7 @@ PLAYBOOK_PARAMETERS=--extra-vars='{"users": [<your-jira-username>]}'
 # Enable verbose logging in Ansible
 V=-v
 # Jira username - used to setup local environment
-JIRA_USER=<your-jira-username>
+AD_USER=<your-active-directory-username>
 ```
 
 ## Execute a play

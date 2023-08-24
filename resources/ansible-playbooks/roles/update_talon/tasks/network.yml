@@ -2,7 +2,7 @@
   ansible.builtin.copy:
     remote_src: true
     src: "{{ network_path }}"
-    dest: "{{backup_dir}}/{{ network_path | basename }}.backup"
+    dest: "{{ backup_dir }}/{{ network_path | basename }}.backup"
     owner: root
     group: root
     force: false
@@ -19,5 +19,5 @@
     path: "{{ network_path }}"
     marker: "# {mark} ANSIBLE MANAGED BLOCK: DO NOT EDIT by Team Atlas"
     block: |
-      DNS={{ cluster_dns_ip }}
+      DNS={{ dns_ip }}
     insertafter: "[Network]"
