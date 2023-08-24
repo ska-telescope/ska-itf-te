@@ -66,8 +66,6 @@ python-test:
 
 python-lint:
   image: $TEST_IMAGE
-  before_script:
-    - ls -ll
   rules:
     - allow_failure: true
 
@@ -110,8 +108,6 @@ build-base-image:
 ansible-lint:
   stage: lint
   extends: .setup-ansible
-  before_script:
-    - ls -ll
   script:
     - cd resources/ansible-playbooks && make lint
 
