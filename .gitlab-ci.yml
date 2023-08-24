@@ -206,5 +206,6 @@ python-build-for-development-legacy:
     - !referece [build-poetry, before_script]
 
 python-build-for-development:
+  image: $TEST_IMAGE
   before_script:
     - !referece [build-poetry, before_script]
