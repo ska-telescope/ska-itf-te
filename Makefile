@@ -22,6 +22,7 @@ ITANGO_ENABLED ?= true## ITango enabled in ska-tango-base
 PYTHON_RUNNER = .venv/bin/python -m
 PYTHON_LINE_LENGTH = 99
 DOCS_SPHINXBUILD = .venv/bin/python -msphinx
+PYTHON_TEST_FILE = tests/unit/ tests/functional/
 
 K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	--set global.exposeAllDS=$(EXPOSE_All_DS) \
