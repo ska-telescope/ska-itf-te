@@ -14,7 +14,7 @@ variables:
 cache:
   paths:
     - build
-    - .venv
+    - .venv/
 stages:
   - verify-test-equipment
   - on_demand_itf_sut
@@ -61,10 +61,14 @@ include:
 
 python-test:
   image: $TEST_IMAGE
+  tags:
+    - venv
   variables:
     PYTHON_TEST_FILE: "tests/unit/ tests/functional/"
 
 python-lint:
+  tags:
+    - venv
   image: $TEST_IMAGE
   rules:
     - allow_failure: true
