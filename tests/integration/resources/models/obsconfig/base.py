@@ -37,9 +37,9 @@ def _load_next_sb():
         f"{date.year}{date.month:02}{date.day:02}" "-" f"{str(int(date.timestamp()*100))[-5:]}"
     )
     sbi = f"sbi-mvp01-{unique}"
-    pb = f"pb-mvp01-{unique}"
-    eb = f"eb-mvp01-{unique}"
-    return SB(sbi, eb, pb)
+    pb_ = f"pb-mvp01-{unique}"
+    eb_ = f"eb-mvp01-{unique}"
+    return SB(sbi, eb_, pb_)
 
 
 class SchedulingBlock:

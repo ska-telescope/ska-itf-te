@@ -211,6 +211,7 @@ class TargetSpecs(SchedulingBlock, Scan):
             self._array = array
         if base_target_specs:
             self._base_target_specs = base_target_specs
+        self._target_specs = {}
 
     @property
     def target_specs(self) -> dict[str, TargetSpec]:

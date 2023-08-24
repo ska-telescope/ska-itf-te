@@ -114,7 +114,9 @@ class SutTestSettings(SimpleNamespace):
         :type value: int
         """
         self._nr_of_receptors = value
-        self._receptors = [i for i in range(1, value + 1)]
+        self._receptors = [  # pylint: disable=unnecessary-comprehension
+            i for i in range(1, value + 1)
+        ]
 
     @property
     def receptors(self):
@@ -161,6 +163,7 @@ class _OnlineFlag:
         return self.value
 
     def set_true(self):
+        """_summary_."""
         self.value = True
 
 

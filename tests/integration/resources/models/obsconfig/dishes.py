@@ -71,7 +71,7 @@ class Dishes(TargetSpecs):
         :return: _description_
         :rtype: _type_
         """
-        adapted_dishes = [dish for dish in self.dishes]
+        adapted_dishes = cast(list[str], self.dishes)
         return DishAllocation(adapted_dishes)
 
     @property

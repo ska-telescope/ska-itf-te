@@ -4,6 +4,11 @@ disable=
     fixme,
     # try-except-raise is a great way to write self-documenting code!
     try-except-raise,
+    logging-fstring-interpolation,
+    too-many-arguments,
+    unused-argument,
+    too-few-public-methods
+    
 
 enable=
     useless-suppression,
