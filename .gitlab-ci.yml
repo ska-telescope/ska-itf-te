@@ -191,14 +191,17 @@ deploy-test-equipment-for-verification:
     - time poetry install
 
 python-build-for-publication-legacy:
+  image: $TEST_IMAGE
   before_script:
     - !referece [build-poetry, before_script]
 
 python-build-for-publication:
+  image: $TEST_IMAGE
   before_script:
     - !referece [build-poetry, before_script]
 
 python-build-for-development-legacy:
+  image: $TEST_IMAGE
   before_script:
     - !referece [build-poetry, before_script]
 
