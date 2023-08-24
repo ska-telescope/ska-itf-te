@@ -61,13 +61,9 @@ include:
 
 python-test:
   image: $TEST_IMAGE
-  tags:
-    - ska-k8srunner-za-itf
 
 python-lint:
   image: $TEST_IMAGE
-  tags:
-    - ska-k8srunner-za-itf
   rules:
     - allow_failure: true
 
