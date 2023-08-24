@@ -63,8 +63,6 @@ python-test:
   image: $TEST_IMAGE
   tags:
     - ska-k8srunner-za-itf
-  variables:
-    PYTHON_TEST_FILE: "tests/unit/ tests/functional/"
 
 python-lint:
   image: $TEST_IMAGE
