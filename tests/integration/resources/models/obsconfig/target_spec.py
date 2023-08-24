@@ -3,7 +3,7 @@ from collections import OrderedDict
 
 from ska_tmc_cdm.messages.subarray_node.configure.core import ReceiverBand, Target
 
-from .base import SchedulingBlock, DishName
+from .base import DishName, SchedulingBlock
 
 
 class BaseTargetSpec:

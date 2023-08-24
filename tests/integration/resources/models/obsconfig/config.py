@@ -1,6 +1,7 @@
 """."""
-from .dishes import Dishes
 from tests.integration.resources.models.obsconfig.target_spec import ArraySpec, BaseTargetSpec
+
+from .dishes import Dishes
 
 
 class Observation(Dishes):

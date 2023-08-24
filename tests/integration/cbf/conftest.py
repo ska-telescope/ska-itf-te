@@ -4,14 +4,14 @@ import os
 from typing import Callable
 
 import pytest
-from ..resources.models.cbf_model.entry_point import CBFEntryPoint
-from ..resources.models.cbf_model.mocking import setup_cbf_mock
 from ska_ser_skallop.mvp_control.describing import mvp_names as names
 from ska_ser_skallop.mvp_control.entry_points import types as conf_types
 from ska_ser_skallop.mvp_control.entry_points.base import EntryPoint
 from ska_ser_skallop.mvp_fixtures.fixtures import fxt_types
 
 from .. import conftest
+from ..resources.models.cbf_model.entry_point import CBFEntryPoint
+from ..resources.models.cbf_model.mocking import setup_cbf_mock
 
 
 @pytest.fixture(name="nr_of_subarrays", autouse=True, scope="session")

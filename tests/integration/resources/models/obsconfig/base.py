@@ -6,7 +6,6 @@ from typing import Any, Callable, Generic, Literal, NamedTuple, ParamSpec, TypeV
 
 from ska_tmc_cdm.schemas import CODEC
 
-
 ReceptorName = Literal[
     "SKA001",
     "SKA002",
