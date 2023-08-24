@@ -19,10 +19,11 @@ TANGO_SERVER_PORT ?= 45450## TANGO_SERVER_PORT - fixed listening port for local 
 CLUSTER_DOMAIN = miditf.internal.skao.int## Domain used for naming Tango Device Servers
 INGRESS_HOST = k8s.$(CLUSTER_DOMAIN)## Tango host, cluster domain, what are all these things???
 ITANGO_ENABLED ?= true## ITango enabled in ska-tango-base
-PYTHON_RUNNER = .venv/bin/python -m
+PYTHON_RUNNER = .venv/bin/python3 -m
 PYTHON_LINE_LENGTH = 99
-DOCS_SPHINXBUILD = .venv/bin/python -msphinx
+DOCS_SPHINXBUILD = .venv/bin/python3 -msphinx
 PYTHON_TEST_FILE = tests/unit/ tests/functional/
+PYTHON_SRC = ska_mid_itf
 
 K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	--set global.exposeAllDS=$(EXPOSE_All_DS) \
@@ -48,7 +49,7 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 PYTHON_VARS_AFTER_PYTEST ?= -v
 
 python-post-lint:
-	.venv/bin/mypy --config-file mypy.ini src/ tests/
+	.venv/bin/mypy --config-file mypy.ini ska_mid_itf/ tests/
 
 .PHONY: python-post-lint
 

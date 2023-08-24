@@ -14,6 +14,8 @@ RUN python3 -m pip install --user pipx && python3 -m pipx ensurepath
 
 RUN pipx install poetry==$POETRY_VERSION
 
+RUN  pipx install build
+
 RUN poetry config virtualenvs.in-project true
 
 RUN pip install virtualenv
@@ -27,6 +29,8 @@ ENV PATH=/home/tango/.local/bin:$PATH
 RUN python3 -m pip install --user pipx && python3 -m pipx ensurepath
 
 RUN pipx install poetry==$POETRY_VERSION
+
+RUN  pipx install build
 
 RUN poetry config virtualenvs.in-project true
 
