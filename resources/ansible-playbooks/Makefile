@@ -16,7 +16,6 @@ INVENTORY_TEMPLATE ?= inventory/hosts-template
 INVENTORY_FILE ?= inventory/hosts
 PLAYBOOK_PARAMETERS ?= ## any additional ansible tags can go here - see ansible-playbook --help
 NODES ?= nodes ## subset of hosts from inventory to run against
-SSH_USER ?= $(USER)
 TEAM ?= atlas
 TEAM_VARS_FILE ?= ./group_vars/$(TEAM)/$(TEAM).yml
 ANSIBLE_COMMAND := ansible-playbook -i $(INVENTORY_FILE) -e @$(TEAM_VARS_FILE) $(PLAYBOOK_PARAMETERS) $(V)
@@ -35,7 +34,7 @@ vars:  ## Variables
 	@echo "INVENTORY_FILE=$(INVENTORY_FILE)"
 	@echo "PLAYBOOK_PARAMETERS=$(PLAYBOOK_PARAMETERS)"
 	@echo "NODES=$(NODES)"
-	@echo "ANSIBLE_USER=$(ANSIBLE_USER)"
+	@echo "AD_USER=$(ANSIBLE_USER)"
 	@echo "SSH_USER=$(SSH_USER)"
 	@echo "TEAM=$(TEAM)"
 	@echo "TEAM_VARS_FILE=$(TEAM_VARS_FILE)"
@@ -45,20 +44,6 @@ vars:  ## Variables
 	@echo "PI_IP=$(PI_IP)"
 	@echo "V=$(V)"
 .PHONY: vars
-
-connect_gaia: ## Add SSH Forwarding to local machine and SSH into Gaia
-	@echo "Connecting to the Gaia as $(SSH_USER)";
-	@echo "###########################################";
-	ssh -A $(SSH_USER)@$(GAIA_IP);
-	@echo "Welcome back";
-.PHONY: connect_gaia
-
-connect_pi: ## Add SSH Forwarding to local machine and SSH into Gaia
-	@echo "Connecting to the Raspberry Pi as $(SSH_USER)";
-	@echo "###########################################";
-	ssh -A $(SSH_USER)@$(PI_IP);
-	@echo "Welcome back";
-.PHONY: connect_pi
 
 setup: $(INVENTORY_FILE)
 
@@ -86,13 +71,13 @@ setup_talon_boards_dry_run: setup ## Runs the full playbook against the Talon bo
 	$(ANSIBLE_COMMAND_DRY_RUN) --limit talon site.yml
 .PHONY: setup_talon_boards_dry_run
 
-setup_localhost: setup ## Sets up your localhost for using the ansible playbooks.
+setup_local_ssh_config: setup ## Sets up your localhost for using the ansible playbooks.
 	$(ANSIBLE_COMMAND) --limit localhost site.yml
-.PHONY: setup_localhost
+.PHONY: setup_local_ssh_config
 
-setup_localhost_dry_run: setup ## Sets up your localhost for using the ansible playbooks (dry-run mode).
+setup_local_ssh_config_dry_run: setup ## Sets up your localhost for using the ansible playbooks (dry-run mode).
 	$(ANSIBLE_COMMAND_DRY_RUN) --limit localhost site.yml
-.PHONY: setup_localhost_dry_run
+.PHONY: setup_local_ssh_config_dry_run
 
 $(INVENTORY_FILE):
 	cp $(INVENTORY_TEMPLATE) $(INVENTORY_FILE)
@@ -137,6 +122,13 @@ test-cicd-raspberry_pi: TEST_HOST := ansible-test-raspberry-pi ## Runs a playboo
 test-cicd-raspberry_pi:
 	testing/test.sh raspberry_pi
 .PHONY: test-cicd-raspberry_pi
+
+list_tasks: ## Prints the tasks to be executed during a playbook run.
+	ansible-playbook -i $(INVENTORY_FILE) \
+		site.yml \
+		$(PLAYBOOK_PARAMETERS) \
+		--list-tasks
+.PHONY: list_tasks
 
 # Note: in order for a target to show up in the help message,
 # it needs to have a comment starting with '##' on the same line.
