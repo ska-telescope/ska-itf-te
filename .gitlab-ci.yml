@@ -209,6 +209,6 @@ python-build-for-development-legacy:
 python-build-for-development:
   image: $TEST_IMAGE
   before_script:
-    - !referece [build-poetry, before_script]
+    - pipx list
   script:
     - pipx list
