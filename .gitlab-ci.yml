@@ -181,3 +181,27 @@ deploy-test-equipment-for-verification:
       when: always
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       when: never
+
+.build-poetry:
+  before_script:
+    - '[ -f .make/python.mk ] || (echo "File python.mk not included in Makefile"; exit 1;)'
+    - "make help | grep python-lint"
+    - poetry config virtualenvs.in-project true
+    - poetry config virtualenvs.create $POETRY_CONFIG_VIRTUALENVS_CREATE
+    - time poetry install
+
+python-build-for-publication-legacy:
+  before_script:
+    - !referece [build-poetry, before_script]
+
+python-build-for-publication:
+  before_script:
+    - !referece [build-poetry, before_script]
+
+python-build-for-development-legacy:
+  before_script:
+    - !referece [build-poetry, before_script]
+
+python-build-for-development:
+  before_script:
+    - !referece [build-poetry, before_script]
