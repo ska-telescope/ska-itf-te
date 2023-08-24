@@ -1,5 +1,6 @@
 HELM_CHARTS_TO_PUBLISH=ska-mid-itf
 PYTHON_VARS_AFTER_PYTEST= --disable-pytest-warnings
+POETRY_CONFIG_VIRTUALENVS_CREATE = true
 
 k8s-pre-install-chart:
 
@@ -20,6 +21,7 @@ INGRESS_HOST = k8s.$(CLUSTER_DOMAIN)## Tango host, cluster domain, what are all 
 ITANGO_ENABLED ?= true## ITango enabled in ska-tango-base
 PYTHON_RUNNER = .venv/bin/python -m
 PYTHON_LINE_LENGTH = 99
+DOCS_SPHINXBUILD = .venv/bin/python -msphinx
 
 K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	--set global.exposeAllDS=$(EXPOSE_All_DS) \
