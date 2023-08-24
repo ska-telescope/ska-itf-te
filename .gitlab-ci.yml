@@ -1,6 +1,5 @@
 image: $SKA_K8S_TOOLS_BUILD_DEPLOY
 
-
 variables:
   MINIKUBE: "false"
   CI_REGISTRY_IMAGE: $CI_REGISTRY/ska-telescope/ska-mid-itf/base
@@ -67,6 +66,8 @@ python-test:
 
 python-lint:
   image: $TEST_IMAGE
+  before_script:
+    - ls -ll
   rules:
     - allow_failure: true
 
@@ -105,7 +106,6 @@ build-base-image:
       fi
     - docker build --pull -t "$CI_REGISTRY_IMAGE${tag}" .
     - docker push "$CI_REGISTRY_IMAGE${tag}"
-
 
 ansible-lint:
   stage: lint
