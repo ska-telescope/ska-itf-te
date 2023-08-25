@@ -15,13 +15,10 @@ include ../../.make/release.mk
 INVENTORY_TEMPLATE ?= inventory/hosts-template
 INVENTORY_FILE ?= inventory/hosts
 PLAYBOOK_PARAMETERS ?= ## any additional ansible tags can go here - see ansible-playbook --help
-NODES ?= nodes ## subset of hosts from inventory to run against
 TEAM ?= atlas
 TEAM_VARS_FILE ?= ./group_vars/$(TEAM)/$(TEAM).yml
 ANSIBLE_COMMAND := ansible-playbook -i $(INVENTORY_FILE) -e @$(TEAM_VARS_FILE) $(PLAYBOOK_PARAMETERS) $(V)
 ANSIBLE_COMMAND_DRY_RUN := $(ANSIBLE_COMMAND) --check --diff
-GAIA_IP ?= 10.165.3.7
-PI_IP ?= 10.165.3.15
 V ?=
 
 ifndef AD_USER
@@ -31,17 +28,14 @@ export AD_USER
 
 vars:  ## Variables
 	@echo "Current variable settings:"
+	@echo "INVENTORY_TEMPLATE=$(INVENTORY_TEMPLATE)"
 	@echo "INVENTORY_FILE=$(INVENTORY_FILE)"
 	@echo "PLAYBOOK_PARAMETERS=$(PLAYBOOK_PARAMETERS)"
-	@echo "NODES=$(NODES)"
-	@echo "AD_USER=$(ANSIBLE_USER)"
-	@echo "SSH_USER=$(SSH_USER)"
 	@echo "TEAM=$(TEAM)"
 	@echo "TEAM_VARS_FILE=$(TEAM_VARS_FILE)"
+	@echo "AD_USER=$(AD_USER)"
 	@echo "ANSIBLE_COMMAND=$(ANSIBLE_COMMAND)"
 	@echo "ANSIBLE_COMMAND_DRY_RUN=$(ANSIBLE_COMMAND_DRY_RUN)"
-	@echo "GAIA_IP=$(GAIA_IP)"
-	@echo "PI_IP=$(PI_IP)"
 	@echo "V=$(V)"
 .PHONY: vars
 
@@ -79,7 +73,7 @@ setup_local_ssh_config_dry_run: setup ## Sets up your localhost for using the an
 	$(ANSIBLE_COMMAND_DRY_RUN) --limit localhost site.yml
 .PHONY: setup_local_ssh_config_dry_run
 
-$(INVENTORY_FILE):
+$(INVENTORY_FILE): # Sets up the inventory file with the correct user variables. Make sure you have AD_USER set.
 	cp $(INVENTORY_TEMPLATE) $(INVENTORY_FILE)
 	sed -i 's/<AD_USER>/$(AD_USER)/g' $(INVENTORY_FILE)
 	sed -i 's/<USER>/$(USER)/g' $(INVENTORY_FILE)

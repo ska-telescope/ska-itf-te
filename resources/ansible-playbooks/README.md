@@ -190,15 +190,41 @@ Run `make` to get the help:
 ```sh
 $ make
 make targets:
-help                           show this help.
-lint                           Lint check playbook
-remove                         Remove keys
-vars                           Variables
+Makefile:help                  Show this help.
+Makefile:lint                  Lint check playbook
+Makefile:list_tasks            Prints the tasks to be executed during a playbook run.
+Makefile:setup_gaia_dry_run    Runs the full playbook against Gaia in dry-run mode.
+Makefile:setup_gaia            Runs the full playbook against Gaia.
+Makefile:setup_local_ssh_config_dry_run Sets up your localhost for using the ansible playbooks (dry-run mode).
+Makefile:setup_local_ssh_config Sets up your localhost for using the ansible playbooks.
+Makefile:setup_pi_dry_run      Runs the full playbook against the Raspberry Pi in dry-run mode.
+Makefile:setup_pi              Runs the full playbook against the Raspberry Pi.
+Makefile:setup_talon_boards_dry_run Runs the full playbook against the Talon boards in dry-run mode.
+Makefile:setup_talon_boards    Runs the full playbook against the Talon boards.
+Makefile:test-cicd-default     Runs a playbook test with all flags enabled (intended for Gitlab pipelines).
+Makefile:test-cicd-gaia        Runs a playbook test as if it were against Gaia (intended for Gitlab pipelines).
+Makefile:test-cicd-raspberry_pi Runs a playbook test as if it were against the Raspberry Pi (intended for Gitlab pipelines).
+Makefile:test-cicd             Runs all playbook tests (intended for Gitlab pipelines).
+Makefile:test-default          Runs a playbook test with all flags enabled.
+Makefile:test-gaia             Runs a playbook test as if it were against Gaia.
+Makefile:test-raspberry_pi     Runs a playbook test as if it were against the Raspberry Pi.
+Makefile:test                  Runs all playbook tests.
+Makefile:vars                  Variables
+```
 
-make vars (+defaults):
-INVENTORY_FILE                 ./inventory_ssh_keys
-NODES                          nodes ## subset of hosts from inventory to run against
-PRIVATE_VARS                   ./ssh_key_vars.yml
+Run `make vars` to get your current environment variables:
+
+```bash
+Current variable settings:
+INVENTORY_TEMPLATE=inventory/hosts-template
+INVENTORY_FILE=inventory/hosts
+PLAYBOOK_PARAMETERS=--extra-vars='{filter_users: [p.jordaan]}'
+TEAM=atlas
+TEAM_VARS_FILE=./group_vars/atlas/atlas.yml
+AD_USER=p.jordaan
+ANSIBLE_COMMAND=ansible-playbook -i inventory/hosts -e @./group_vars/atlas/atlas.yml --extra-vars='{filter_users: [p.jordaan]}' -vvv
+ANSIBLE_COMMAND_DRY_RUN=ansible-playbook -i inventory/hosts -e @./group_vars/atlas/atlas.yml --extra-vars='{filter_users: [p.jordaan]}' -vvv --check --diff
+V=-vvv
 ```
 
 ### Dry run

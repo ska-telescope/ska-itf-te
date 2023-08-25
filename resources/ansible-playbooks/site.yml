@@ -1,3 +1,19 @@
+# Configure raspberry pi (Sky Simulator)
+- name: Setup raspberry_pi
+  hosts:
+    - raspberry_pi
+  roles:
+    - role: var_setup
+    - role: system_setup
+    - role: team_setup
+    - role: user_setup
+      vars:
+        createusers: true
+    - role: ssh_keys
+      vars:
+        addkey: true
+    - role: user_config
+
 # Configure Gaia (za-itf-sw)
 - name: Setup gaia
   hosts:
@@ -15,22 +31,6 @@
         addkey: true
     - role: user_config
     - role: kubectl_setup
-
-# Configure raspberry pi (Sky Simulator)
-- name: Setup raspberry_pi
-  hosts:
-    - raspberry_pi
-  roles:
-    - role: var_setup
-    - role: system_setup
-    - role: team_setup
-    - role: user_setup
-      vars:
-        createusers: true
-    - role: ssh_keys
-      vars:
-        addkey: true
-    - role: user_config
 
 - name: Setup test
   hosts:
