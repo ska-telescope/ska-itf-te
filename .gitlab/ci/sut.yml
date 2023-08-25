@@ -182,7 +182,22 @@ destroy-sut-staging:
     action: stop
 
 k8s-test-runner:
+  allow_failure: false
   extends:
     - .sut_base
+  script:
+    - make integration-test || true
+    # ST-1258: Cleanup and exit if the test return code is present
+    - make k8s-uninstall-chart || true
+    - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all || true
+    - make k8s-delete-namespace || true
+    - '[ -f build/status ] || (echo "Something went wrong with the test (no build/status file); exit 1")'
+    - exit $(cat build/status)
   variables:
     TANGO_HOST: "$TANGO_DATABASE_DS.$KUBE_NAMESPACE.svc.$CLUSTER_DOMAIN:10000"
+    DEBUG_ENTRYPOINT: "True"
+    DEBUG_ENTRYPOINT_EXTENDED: "True"
+    LIVE_LOGGING_EXTENDED: "True"
+    SHOW_STEP_FUNCTIONS: "True"
+    CAPTURE_LOGS: "True"
+    EXIT_AT_FAIL: "True"

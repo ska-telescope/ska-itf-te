@@ -24,6 +24,33 @@ PYTHON_LINE_LENGTH = 99
 DOCS_SPHINXBUILD = .venv/bin/python3 -msphinx
 PYTHON_TEST_FILE = tests/unit/ tests/functional/
 PYTHON_SRC = ska_mid_itf
+ifneq ($(COUNT),)
+# Dashcount is a synthesis of testcount as input user variable and is used to
+# run a paricular test/s multiple times. If no testcount is set then the entire
+# --count option is removed
+_COUNT ?= --count=$(COUNT)
+else
+_COUNT ?= 
+endif
+
+MARKS ?=## Additional Marks to add to pytests
+# Dishmark is a synthesis of marks to add to test, it will always start with the tests for the appropriate
+# telescope (e.g. TEL=mid or TEL=low) thereafter followed by additional filters
+ifneq ($(ADDMARKS),)
+_MARKS ?= -, $(MARKS)
+else
+_MARKS ?= 
+endif
+EXIT_AT_FAIL ?=True## whether the pytest should exit immediately upon failure
+ifneq ($(EXIT_AT_FAIL),false)
+EXIT = -x
+else
+EXIT = 
+endif
+
+
+INTEGRATION_TEST_SOURCE = tests/integration
+INTEGRATION_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(_MARKS) $(_COUNTS) $(EXIT) | tee pytest.stdout
 
 K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	--set global.exposeAllDS=$(EXPOSE_All_DS) \
@@ -126,3 +153,6 @@ include .make/base.mk
 
 # include namespace-specific targets
 -include resources/k8s-installs.mk
+
+integration-test:
+	pytest $(INTEGRATION_TEST_SOURCE) $(INTEGRATION_TEST_ARGS)
