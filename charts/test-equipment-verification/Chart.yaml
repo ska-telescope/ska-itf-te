@@ -35,7 +35,7 @@ dependencies:
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-taranta.enabled
 
-  # EDA
-  - name: ska-tango-archiver
-    version: 2.4.4
-    repository: https://artefact.skao.int/repository/helm-internal
+# EDA
+#  - name: ska-tango-archiver
+#    version: 2.4.4
+#    repository: https://artefact.skao.int/repository/helm-internal
