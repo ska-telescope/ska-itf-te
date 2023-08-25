@@ -399,6 +399,8 @@ def i_assign_dishes_to_it(
     :param integration_test_exec_settings: Object containing
         the execution settings for the integration test
     :param sut_settings: Object containing the system under test settings
+    :param observation_config: the singleton Observation object used by the entrypoints
+    :param dish_ids: the list of dish ids to assign to the subarray
     """
     observation_config.update_target_specs(dishes=cast(list[DishName], dish_ids))
     subarray_id = sut_settings.subarray_id
