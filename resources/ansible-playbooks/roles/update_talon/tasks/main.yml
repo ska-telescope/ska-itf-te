@@ -20,3 +20,10 @@
   loop: "{{ network_paths }}"
   loop_control:
     loop_var: network_path
+
+- name: Restart networking
+  ansible.builtin.systemd:
+    state: restarted
+    daemon_reload: true
+    name: systemd-networkd.service
+  become: true
