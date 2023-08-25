@@ -89,7 +89,7 @@ build-base-image:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
     - |
-      if [[ "$CI_PIPELINE_SOURCE == 'merge_request_event'"" ]]; then
+      if [[ "$CI_PIPELINE_SOURCE == 'merge_request_event'" ]]; then
         echo "skipping docker build for MR pipelines"
       elif [[ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]]; then
         tag=""
