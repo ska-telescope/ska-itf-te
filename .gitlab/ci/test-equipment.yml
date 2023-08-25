@@ -124,7 +124,7 @@ deploy-file-browser:
       namespace: "$KUBE_NAMESPACE"
   allow_failure: true # need to keep this to unlock the pipeline
   rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - changes:
+        - charts/file-browser/*
+      if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       when: always
-    - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
-      when: manual

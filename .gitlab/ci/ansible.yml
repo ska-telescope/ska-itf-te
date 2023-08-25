@@ -1,0 +1,50 @@
+.setup-ansible:
+  variables:
+    AD_USER: test
+  tags:
+    - k8srunner
+  image: $SKA_K8S_TOOLS_BUILD_DEPLOY
+  before_script:
+    - export LC_ALL="C.UTF-8" # ansible requires locale to be set to UTF-8.
+    - export PATH=${PATH}:${HOME}/.local/bin # this is where python installs ansible.
+    - python3 -m pip install --user ansible
+    - python3 -m pip install --user ansible-lint
+  rules:
+    - changes:
+        - .gitlab/ci/ansible.yml
+        - resources/ansible-playbooks/*
+
+ansible-lint:
+  stage: lint
+  extends: .setup-ansible
+  script:
+    - cd resources/ansible-playbooks && make lint
+
+ansible-test:
+  stage: test
+  services:
+    - name: registry.gitlab.com/ska-telescope/ska-mid-itf/ansible-test-default:0.0.0
+      alias: ansible-test-default
+    - name: registry.gitlab.com/ska-telescope/ska-mid-itf/ansible-test-default:0.0.0
+      alias: ansible-test-raspberry-pi
+    - name: registry.gitlab.com/ska-telescope/ska-mid-itf/ansible-test-gaia:0.0.0
+      alias: ansible-test-gaia
+  extends: .setup-ansible
+  script:
+    - cd resources/ansible-playbooks
+    - make test-cicd
+
+# Build the ansible test images as needed because they do not change often & use ECR which can rate limit us.
+# Taken from: https://gitlab.com/ska-telescope/templates-repository/-/blob/master/gitlab-ci/includes/oci-image-build.gitlab-ci.yml
+ansible-test-image-build:
+  variables:
+    AD_USER: test
+  extends:
+    - .image_builder_template
+  stage: build
+  script:
+    - cd resources/ansible-playbooks && make oci-build-all CAR_OCI_REGISTRY_HOST=${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}
+  rules:
+    - changes:
+        - .gitlab/ci/ansible.yml
+        - resources/ansible-playbooks/images/*
