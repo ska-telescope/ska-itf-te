@@ -155,4 +155,8 @@ include .make/base.mk
 -include resources/k8s-installs.mk
 
 integration-test:
-	pytest $(INTEGRATION_TEST_SOURCE) $(INTEGRATION_TEST_ARGS)
+	$(PYTHON_RUNNER) pytest $(INTEGRATION_TEST_SOURCE) $(INTEGRATION_TEST_ARGS)
+
+
+upload-to-confluence:
+	.venv/bin/upload-to-confluence sut_config.yaml build/cucumber.json
