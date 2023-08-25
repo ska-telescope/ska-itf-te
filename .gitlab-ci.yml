@@ -12,6 +12,7 @@ variables:
   # PYTEST_SUBSYS_MARK: (csp_startup or sdp or eda)
   # K8S_INSTALL_FROM_CAR: "false"remove redundant cache
 stages:
+  - pre-build
   - verify-test-equipment
   - on_demand_itf_sut
   - lint
@@ -75,7 +76,7 @@ python-lint:
 
 # base stage
 build-base-image:
-  stage: .pre
+  stage: pre-build
   image: docker:19.03.12
   rules:
     - if: $REBUILD_IMAGES
