@@ -4,7 +4,7 @@
   "version": "2.2.0",
   "user": "ATLAS",
   "insertTime": "2023-08-18T07:25:38.422Z",
-  "updateTime": "2023-08-23T13:52:25.075Z",
+  "updateTime": "2023-08-25T12:58:34.846Z",
   "group": null,
   "groupWriteAccess": false,
   "lastUpdatedBy": "ATLAS",
@@ -99,7 +99,7 @@
       "y": 30,
       "canvas": "0",
       "width": 20,
-      "height": 4,
+      "height": 5,
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
@@ -117,7 +117,7 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": "border: 1px solid black;\nfontWeight: bold;"
+        "widgetCss": "border: 1px solid black;\nfontWeight: bold;\npadding-bottom: 10px;\ntext-align:center;"
       },
       "order": 7
     },
@@ -179,7 +179,7 @@
       "y": 36,
       "canvas": "0",
       "width": 21,
-      "height": 4,
+      "height": 5,
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
@@ -197,7 +197,7 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": "border: 1px solid black;\nfontWeight: bold;\ntext-align:center;\nheight: 100%\npadding-top: px"
+        "widgetCss": "border: 1px solid black;\nfontWeight: bold;\npadding-bottom: 12px;\ntext-align:center;"
       },
       "order": 10
     },
@@ -680,7 +680,7 @@
       "y": 30,
       "canvas": "0",
       "width": 13,
-      "height": 4,
+      "height": 5,
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
@@ -698,7 +698,7 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": "border: 1px solid black;\nfontWeight: bold;\nfloat: left"
+        "widgetCss": "border: 1px solid black;\nfontWeight: bold;\npadding-bottom: 12px;\ntext-align:center;"
       },
       "order": 33
     },
@@ -708,7 +708,7 @@
       "y": 30,
       "canvas": "0",
       "width": 28,
-      "height": 4,
+      "height": 5,
       "type": "ATTRIBUTE_WRITER",
       "inputs": {
         "title": "Attenuation",
@@ -723,7 +723,7 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": "border: 1px solid black;\nfontWeight: bold;\nfloat:left"
+        "widgetCss": "border: 1px solid black;\nfontWeight: bold;\ntext-align:center;\npadding-top: 10px;"
       },
       "order": 34
     },
@@ -898,7 +898,7 @@
       "y": 36,
       "canvas": "0",
       "width": 26,
-      "height": 4,
+      "height": 5,
       "type": "ATTRIBUTE_WRITER",
       "inputs": {
         "title": "Frequency",
@@ -913,7 +913,7 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": "border: 1px solid black;\nfontWeight: bold;\ntext-align:center;\nheight: 100%\npadding-top: px"
+        "widgetCss": "border: 1px solid black;\nfontWeight: bold;\ntext-align:center;\npadding-top: 10px;"
       },
       "order": 36
     },
@@ -923,7 +923,7 @@
       "y": 30,
       "canvas": "0",
       "width": 27,
-      "height": 4,
+      "height": 5,
       "type": "ATTRIBUTE_WRITER",
       "inputs": {
         "title": "Power",
@@ -938,7 +938,7 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": "border: 1px solid black;\nfontWeight: bold;\ntext-align:center;\nheight: 100%\npadding-top: px"
+        "widgetCss": "border: 1px solid black;\nfontWeight: bold;\ntext-align:center;\npadding-top: 10px;"
       },
       "order": 37
     },
