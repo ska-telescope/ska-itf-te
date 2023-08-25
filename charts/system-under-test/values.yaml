@@ -37,4 +37,4 @@ cbf-tmleafnode:
 
 # helpers
 ska-log-consumer:
-  enabled: true
+  enabled: false
