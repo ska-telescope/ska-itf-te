@@ -7,7 +7,7 @@ from typing import Any, Callable, Concatenate, ParamSpec, TypeVar, cast
 import pytest
 from assertpy import assert_that
 from mock import Mock
-from pytest_bdd import given, then, when, parsers
+from pytest_bdd import given, parsers, then, when
 from pytest_bdd.parser import Feature, Scenario, Step
 from ska_ser_skallop.connectors import configuration as con_config
 from ska_ser_skallop.mvp_control.describing import mvp_names as names
