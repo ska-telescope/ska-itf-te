@@ -90,15 +90,19 @@ build-base-image:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
     - |
-      if [[ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]]; then
+      if [[ "$CI_PIPELINE_SOURCE == 'merge_request_event'" ]]; then
+        echo "skipping docker build for MR pipelines"
+      elif [[ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]]; then
         tag=""
         echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = 'latest'"
+        docker build --pull -t "$CI_REGISTRY_IMAGE${tag}" .
+        docker push "$CI_REGISTRY_IMAGE${tag}"
       else
         tag=":$CI_COMMIT_SHORT_SHA"
         echo "Running on branch '$CI_COMMIT_BRANCH': tag = $tag"
+        docker build --pull -t "$CI_REGISTRY_IMAGE${tag}" .
+        docker push "$CI_REGISTRY_IMAGE${tag}"
       fi
-    - docker build --pull -t "$CI_REGISTRY_IMAGE${tag}" .
-    - docker push "$CI_REGISTRY_IMAGE${tag}"
 
 ansible-lint:
   stage: lint
