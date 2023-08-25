@@ -4,14 +4,13 @@ import os
 from typing import Callable
 
 import pytest
-from ..resources.models.cbf_model.entry_point import CBFEntryPoint
-from ..resources.models.cbf_model.mocking import setup_cbf_mock
 from ska_ser_skallop.mvp_control.describing import mvp_names as names
 from ska_ser_skallop.mvp_control.entry_points import types as conf_types
 from ska_ser_skallop.mvp_control.entry_points.base import EntryPoint
 from ska_ser_skallop.mvp_fixtures.fixtures import fxt_types
 
 from .. import conftest
+from ..resources.models.cbf_model.entry_point import CBFEntryPoint
 
 
 @pytest.fixture(name="nr_of_subarrays", autouse=True, scope="session")
@@ -47,7 +46,8 @@ def fxt_set_cbf_entry_point(
     exec_settings: fxt_types.exec_settings,
     sut_settings: conftest.SutTestSettings,
 ):
-    """_summary_
+    """_summary_.
+
     :param set_nr_of_subarray: The number of subarrays to set in the SUT settings.
     :type set_nr_of_subarray: int
     :param set_session_exec_env: _description_
@@ -77,7 +77,7 @@ def fxt_set_cbf_online_from_cbf(
     set_subsystem_online: Callable[[EntryPoint], None],
     nr_of_subarrays,
 ):
-    """_summary_
+    """_summary_.
 
     :param nr_of_subarrays: _description_
     :type nr_of_subarrays: int
@@ -116,23 +116,10 @@ def fxt_set_up_log_checking_for_cbf(
 
 @pytest.fixture(name="cbf_base_composition")
 def fxt_cbf_base_composition(tmp_path) -> conf_types.Composition:
-    """Setup a base composition configuration to use for csp/cbf.
+    """Initialise a base composition configuration to use for csp/cbf.
 
     :param tmp_path: a temporary path for sending configuration as a file.
     :return: the configuration settings.
     """
     composition = conf_types.CompositionByFile(tmp_path, conf_types.CompositionType.STANDARD)
     return composition
-
-
-# mocking
-
-
-@pytest.fixture(name="setup_cbf_mock")
-def fxt_setup_cbf_mock(mock_entry_point: fxt_types.mock_entry_point):
-    """_summary_
-
-    :param mock_entry_point: _description_
-    :type mock_entry_point: fxt_types.mock_entry_point
-    """
-    setup_cbf_mock(mock_entry_point)

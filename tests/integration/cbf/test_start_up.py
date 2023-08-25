@@ -27,7 +27,7 @@ def test_cbf_start_up_telescope_mid():
 def fxt_set_up_transit_checking_for_cbf(
     transit_checking: fxt_types.transit_checking,
 ):
-    """set up transit checking for cbf startup (if DEVENV enabled)
+    """Set up transit checking for cbf startup (if DEVENV enabled).
 
     :param transit_checking: fixture used by skallop
     """
@@ -69,8 +69,7 @@ def a_cbf(
     set_up_transit_checking_for_cbf,  # pylint: disable=unused-argument
     set_up_log_checking_for_cbf,  # pylint: disable=unused-argument
 ):
-    """
-    a CBF.
+    """Given a CBF.
 
     :param set_cbf_entry_point: Object to set cbf entry point
     :param set_up_transit_checking_for_cbf: Object to set up transit checking for cbf
@@ -84,8 +83,7 @@ def a_cbf(
 
 @then("the cbf must be on")
 def the_cbf_must_be_on(transit_checking: fxt_types.transit_checking):
-    """
-    the cbf must be on.
+    """Then the cbf must be on.
 
     :param transit_checking: a fixture for transit checking
     """

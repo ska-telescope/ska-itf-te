@@ -2,17 +2,22 @@
 import pytest
 from assertpy import assert_that
 from pytest_bdd import given, scenario, then
-from ..resources.models.base.states import ObsState
-from ..resources.models.obsconfig.config import Observation
 from ska_ser_skallop.connectors import configuration as con_config
 from ska_ser_skallop.mvp_control.describing import mvp_names as names
 from ska_ser_skallop.mvp_control.entry_points import types as conf_types
 
 from ..conftest import SutTestSettings
+from ..resources.models.base.states import ObsState
+from ..resources.models.obsconfig.config import Observation
 
 
 @pytest.fixture(name="set_obsconfig")
 def fxt_set_obsconfig(observation_config: Observation):
+    """_summary_.
+
+    :param observation_config: _description_
+    :type observation_config: Observation
+    """
     if names.TEL().skamid:
         observation_config.update_target_specs(dishes="mkt-default")
 
@@ -35,15 +40,17 @@ def test_assign_resources_to_cbf_mid_subarray(set_obsconfig: None):
 
 @given("an CBF subarray", target_fixture="composition")
 def an_cbf_subarray(
-    set_up_log_checking_for_cbf_subarray,  # pylint: disable=unused-argument
+    set_up_log_checking_for_cbf_subarray,  # type: ignore
     cbf_base_composition: conf_types.Composition,
 ) -> conf_types.Composition:
-    """
-    an SDP subarray.
-    :param set_up_log_checking_for_cbf_subarray: An object to set up
-        log checking for cbf subarray
-    :param cbf_base_composition : An object for cbf base composition
-    :return: cbf base composition
+    """Given an CBF subarray.
+
+    :param set_up_log_checking_for_cbf_subarray: _description_
+    :type set_up_log_checking_for_cbf_subarray: _type_
+    :param cbf_base_composition: _description_
+    :type cbf_base_composition: conf_types.Composition
+    :return: _description_
+    :rtype: conf_types.Composition
     """
     return cbf_base_composition
 
@@ -54,8 +61,8 @@ def an_cbf_subarray(
 
 @then("the CBF subarray must be in IDLE state")
 def the_cbf_subarray_must_be_in_idle_state(sut_settings: SutTestSettings):
-    """
-    the subarray must be in IDLE state.
+    """Then the subarray must be in IDLE state.
+
     :param sut_settings: An object for system under test settings
     """
     tel = names.TEL()

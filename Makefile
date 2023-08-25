@@ -1,23 +1,6 @@
 HELM_CHARTS_TO_PUBLISH=ska-mid-itf
 PYTHON_VARS_AFTER_PYTEST= --disable-pytest-warnings
-
-python-pre-lint:
-	@echo "python-pre-lint: upgrade poetry for the time being."\
-	python -V;\
-	poetry --version;\
-	poetry config virtualenvs.create false;\
-	bash .make/resources/gitlab_section.sh poetryinstall "Install dependencies" poetry shell && poetry install --with dev;\
-	poetry show;
-
-python-pre-test:
-	@echo "python-pre-test: running with: $(PYTHON_VARS_BEFORE_PYTEST) with $(PYTHON_RUNNER) pytest $(PYTHON_VARS_AFTER_PYTEST); \
-    $(PYTHON_TEST_FILE)";\
-	python -V;\
-	bash .make/resources/gitlab_section.sh environment "Environment"  printenv;\
-    echo "-----------------------";\
-	poetry config virtualenvs.create false;\
-	bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install --upgrade poetry;\
-	bash .make/resources/gitlab_section.sh install_dependencies "Install dependencies" poetry install --with dev;\
+POETRY_CONFIG_VIRTUALENVS_CREATE = true
 
 k8s-pre-install-chart:
 
@@ -36,6 +19,11 @@ TANGO_SERVER_PORT ?= 45450## TANGO_SERVER_PORT - fixed listening port for local 
 CLUSTER_DOMAIN = miditf.internal.skao.int## Domain used for naming Tango Device Servers
 INGRESS_HOST = k8s.$(CLUSTER_DOMAIN)## Tango host, cluster domain, what are all these things???
 ITANGO_ENABLED ?= true## ITango enabled in ska-tango-base
+PYTHON_RUNNER = .venv/bin/python3 -m
+PYTHON_LINE_LENGTH = 99
+DOCS_SPHINXBUILD = .venv/bin/python3 -msphinx
+PYTHON_TEST_FILE = tests/unit/ tests/functional/
+PYTHON_SRC = ska_mid_itf
 
 K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	--set global.exposeAllDS=$(EXPOSE_All_DS) \
@@ -61,7 +49,7 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 PYTHON_VARS_AFTER_PYTEST ?= -v
 
 python-post-lint:
-	mypy --config-file mypy.ini src/ tests/
+	.venv/bin/mypy --config-file mypy.ini ska_mid_itf/ tests/
 
 .PHONY: python-post-lint
 

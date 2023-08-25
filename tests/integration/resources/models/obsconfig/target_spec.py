@@ -3,7 +3,7 @@ from collections import OrderedDict
 
 from ska_tmc_cdm.messages.subarray_node.configure.core import ReceiverBand, Target
 
-from .base import SchedulingBlock, DishName
+from .base import DishName, SchedulingBlock
 
 
 class BaseTargetSpec:
@@ -211,6 +211,7 @@ class TargetSpecs(SchedulingBlock, Scan):
             self._array = array
         if base_target_specs:
             self._base_target_specs = base_target_specs
+        self._target_specs = {}
 
     @property
     def target_specs(self) -> dict[str, TargetSpec]:

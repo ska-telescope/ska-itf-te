@@ -9,14 +9,15 @@ from assertpy import assert_that
 from mock import Mock
 from pytest_bdd import given, then, when
 from pytest_bdd.parser import Feature, Scenario, Step
-from .resources.models.base.env import Observation, init_observation_config
-from .resources.models.base.states import ObsState
 from ska_ser_skallop.connectors import configuration as con_config
 from ska_ser_skallop.mvp_control.describing import mvp_names as names
 from ska_ser_skallop.mvp_control.describing.mvp_names import DeviceName
 from ska_ser_skallop.mvp_control.entry_points import types as conf_types
 from ska_ser_skallop.mvp_control.infra_mon.configuration import get_mvp_release
 from ska_ser_skallop.mvp_fixtures.fixtures import fxt_types
+
+from .resources.models.base.env import Observation, init_observation_config
+from .resources.models.base.states import ObsState
 
 logger = logging.getLogger(__name__)
 
@@ -113,7 +114,9 @@ class SutTestSettings(SimpleNamespace):
         :type value: int
         """
         self._nr_of_receptors = value
-        self._receptors = [i for i in range(1, value + 1)]
+        self._receptors = [  # pylint: disable=unnecessary-comprehension
+            i for i in range(1, value + 1)
+        ]
 
     @property
     def receptors(self):
@@ -160,6 +163,7 @@ class _OnlineFlag:
         return self.value
 
     def set_true(self):
+        """_summary_."""
         self.value = True
 
 

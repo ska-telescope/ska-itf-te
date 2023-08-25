@@ -1,6 +1,6 @@
 FROM artefact.skao.int/ska-tango-images-pytango-builder:9.3.32
 
-RUN apt-get update && apt-get install openssh-client gnupg2 gawk yamllint curl git vim graphviz -y
+RUN apt-get update && apt-get install openssh-client gnupg2 gawk yamllint curl git vim graphviz telnet -y
 RUN curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
 RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"

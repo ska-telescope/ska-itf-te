@@ -7,8 +7,8 @@ from ska_tmc_cdm.messages.subarray_node.configure.core import (
     PointingConfiguration,
 )
 
+from .base import DishName, MeerkatDishHame, ReceptorName
 from .target_spec import ArraySpec, BaseTargetSpec, TargetSpecs
-from .base import ReceptorName, MeerkatDishHame, DishName
 
 
 class _ResourceConfiguration(TypedDict):
@@ -71,7 +71,7 @@ class Dishes(TargetSpecs):
         :return: _description_
         :rtype: _type_
         """
-        adapted_dishes = [dish for dish in self.dishes]
+        adapted_dishes = cast(list[str], self.dishes)
         return DishAllocation(adapted_dishes)
 
     @property
