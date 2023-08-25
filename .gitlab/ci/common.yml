@@ -93,7 +93,7 @@
   stage: cleanup
   variables:
     K8S_CHART: "ska-$CONFIG"
-    HELM_RELEASE: "test-$CONFIG-$CI_PIPELINE_ID"
+    HELM_RELEASE: "test-mid-979291426"
     KUBE_NAMESPACE: "ci-ska-mid-itf-$CI_PIPELINE_ID-$CONFIG"
     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
   script: &cleanup_script
