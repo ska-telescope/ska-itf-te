@@ -17,6 +17,7 @@ stages:
   - lint
   - build
   - test
+  - platform
   - test-equipment-setup
   - dish-aiv
   - integration

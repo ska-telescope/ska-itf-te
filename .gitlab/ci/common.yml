@@ -136,7 +136,7 @@ docs-build:
 
 ### TARANTA DEPLOYMENT
 deploy-taranta:
-  stage: integration
+  stage: platform
   variables:
     KUBE_NAMESPACE: taranta
     KUBE_APP: ska-taranta-backend
