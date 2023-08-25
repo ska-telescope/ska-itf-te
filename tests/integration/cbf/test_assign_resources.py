@@ -2,6 +2,7 @@
 import pytest
 from assertpy import assert_that
 from pytest_bdd import given, scenario, then
+import os
 from ska_ser_skallop.connectors import configuration as con_config
 from ska_ser_skallop.mvp_control.describing import mvp_names as names
 from ska_ser_skallop.mvp_control.entry_points import types as conf_types
@@ -19,7 +20,10 @@ def fxt_set_obsconfig(observation_config: Observation):
     :type observation_config: Observation
     """
     if names.TEL().skamid:
-        observation_config.update_target_specs(dishes="mkt-default")
+        if os.getenv("USE_LEGACY_DISH_IDS"):
+            observation_config.update_target_specs(dishes="mkt-default")
+        else:
+            observation_config.update_target_specs(dishes=["SKA001"])
 
 
 # @pytest.mark.skip("need to update cbf with new api")

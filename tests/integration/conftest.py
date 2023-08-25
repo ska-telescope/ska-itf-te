@@ -2,12 +2,12 @@
 import logging
 import os
 from types import SimpleNamespace
-from typing import Any, Callable, Concatenate, ParamSpec, TypeVar
+from typing import Any, Callable, Concatenate, ParamSpec, TypeVar, cast
 
 import pytest
 from assertpy import assert_that
 from mock import Mock
-from pytest_bdd import given, then, when
+from pytest_bdd import given, then, when, parsers
 from pytest_bdd.parser import Feature, Scenario, Step
 from ska_ser_skallop.connectors import configuration as con_config
 from ska_ser_skallop.mvp_control.describing import mvp_names as names
@@ -18,6 +18,7 @@ from ska_ser_skallop.mvp_fixtures.fixtures import fxt_types
 
 from .resources.models.base.env import Observation, init_observation_config
 from .resources.models.base.states import ObsState
+from .resources.models.obsconfig.base import DishName
 
 logger = logging.getLogger(__name__)
 
@@ -369,6 +370,46 @@ def i_switch_off_the_telescope(
     with context_monitoring.context_monitoring():
         with running_telescope.wait_for_shutting_down(integration_test_exec_settings):
             entry_point.set_telescope_to_standby()
+
+
+@when(
+    parsers.cfparse(
+        "I assign dishes: {dish_ids:DishName+} to the subarray", extra_types={"DishName": str}
+    )
+)
+def i_assign_dishes_to_it(
+    running_telescope: fxt_types.running_telescope,
+    context_monitoring: fxt_types.context_monitoring,
+    entry_point: fxt_types.entry_point,
+    sb_config: fxt_types.sb_config,
+    composition: conf_types.Composition,
+    integration_test_exec_settings: fxt_types.exec_settings,
+    sut_settings: SutTestSettings,
+    observation_config: Observation,
+    dish_ids: list[str],
+):
+    """I assign resources to it.
+
+    :param running_telescope: Dictionary containing the running telescope's devices
+    :param context_monitoring: Object containing information about
+        the context in which the test is being executed
+    :param entry_point: Information about the entry point used for the test
+    :param sb_config: Object containing the Subarray Configuration
+    :param composition: Object containing information about the composition of the subarray
+    :param integration_test_exec_settings: Object containing
+        the execution settings for the integration test
+    :param sut_settings: Object containing the system under test settings
+    """
+    observation_config.update_target_specs(dishes=cast(list[DishName], dish_ids))
+    subarray_id = sut_settings.subarray_id
+    receptors = sut_settings.receptors
+    with context_monitoring.context_monitoring():
+        with running_telescope.wait_for_allocating_a_subarray(
+            subarray_id, receptors, integration_test_exec_settings
+        ):
+            entry_point.compose_subarray(
+                subarray_id, receptors, composition, sb_config.sbid  # type: ignore
+            )
 
 
 @when("I assign resources to the subarray")
