@@ -1,0 +1,15 @@
+# FROM artefact.skao.int/ska-cicd-k8s-tools-build-deploy:0.8.9
+ARG BUILD_IMAGE="artefact.skao.int/ska-tango-images-pytango-builder:9.3.32"
+FROM $BUILD_IMAGE AS buildenv
+
+USER root
+
+WORKDIR /app
+COPY --chown=tango:tango . /app
+
+USER tango
+
+# RUN poetry config virtualenvs.create true
+# RUN poetry shell && poetry install
+
+ENTRYPOINT [ "/bin/bash" ]
