@@ -1,4 +1,6 @@
 """."""
+import os
+
 import pytest
 from assertpy import assert_that
 from pytest_bdd import given, scenario, then
@@ -19,7 +21,10 @@ def fxt_set_obsconfig(observation_config: Observation):
     :type observation_config: Observation
     """
     if names.TEL().skamid:
-        observation_config.update_target_specs(dishes="mkt-default")
+        if os.getenv("USE_LEGACY_DISH_IDS"):
+            observation_config.update_target_specs(dishes="mkt-default")
+        else:
+            observation_config.update_target_specs(dishes=["SKA001"])
 
 
 # @pytest.mark.skip("need to update cbf with new api")
