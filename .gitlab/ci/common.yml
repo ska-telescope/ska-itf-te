@@ -137,6 +137,8 @@ docs-build:
 ### TARANTA DEPLOYMENT
 deploy-taranta:
   stage: platform
+  tags:
+    - ska-k8srunner-za-itf
   variables:
     KUBE_NAMESPACE: taranta
     KUBE_APP: ska-taranta-backend
