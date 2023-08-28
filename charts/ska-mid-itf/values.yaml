@@ -34,8 +34,8 @@ test-equipment:
     spectrumanalyser:
       devices: []
     # TODO for future use
-    # spectrumanalyseranritsu:
-      # devices:
+    spectrumanalyseranritsu:
+      devices: []
       #   - name: ms2090a
       #     model: MS2090A
       #     host: 10.165.3.4
