@@ -15,8 +15,8 @@ stages:
   # - pre-build
   # - verify-test-equipment
   - on_demand_itf_sut
-  # - build
   - test
+  - build # TEMPORARY MOVE - BRING FORWARD LATER
   - lint # TEMPORARY MOVE - BRING FORWARD LATER
   - test-equipment-setup
   - dish-aiv
