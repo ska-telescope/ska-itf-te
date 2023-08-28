@@ -198,7 +198,7 @@ k8s-test-runner:
     - make k8s-wait
   script:
     - make integration-test TANGO_HOST=$TANGO_DATABASE_DS.$KUBE_NAMESPACE.svc.$CLUSTER_DOMAIN:10000 || true
-    # Temporarily move deletion into separate manual job for debugging purposes
+    # Temporarily move cleanup into separate manual job for debugging purposes
     - '[ -f build/status ] || (echo "Something went wrong with the test (no build/status file); exit 1")'
     - exit $(cat build/status)
   after_script:
@@ -211,7 +211,7 @@ k8s-test-runner:
     CAPTURE_LOGS: "True"
     EXIT_AT_FAIL: "True"
 
-k8s-test-runner-cleanup:
+stop-k8s-test-runner:
   script:
     # ST-1258: Cleanup and exit if the test return code is present
     - make k8s-uninstall-chart || true
@@ -219,5 +219,4 @@ k8s-test-runner-cleanup:
     - make k8s-delete-namespace || true
   extends:
     - .sut_base
-  image: $TEST_IMAGE
   when: manual
