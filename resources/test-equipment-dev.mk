@@ -6,7 +6,7 @@ ifeq ($(CI_JOB_NAME),deploy-test-equipment-for-verification) # if CI_JOB_NAME is
 # # Set K8S_EXTRA_PARAMS for deploying Test Equipment during development of the Test Equipment charts
 TE_REGISTRY ?= registry.gitlab.com/ska-telescope/ska-ser-test-equipment
 TE_IMAGE ?= ska-ser-test-equipment
-COMMIT_HASH ?= b94fcc2b
+COMMIT_HASH ?= 4892b7e5
 #TE_VERSION ?= 0.8.3 # this line can be commented out or overwritten by the following line
 TE_VERSION ?= 0.8.3-dev.c$(COMMIT_HASH) # This is the version of the image that we want to pull from https://gitlab.com/ska-telescope/ska-ser-test-equipment/container_registry/3213235
 
