@@ -38,6 +38,8 @@ test-equipment:
     spdt:
       devices: []
     spectrumanalyser:
+      devices: []
+    spectrumanalyseranritsu:
       devices: 
         - name: ms2090a
           model: MS2090A

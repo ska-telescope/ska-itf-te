@@ -32,16 +32,16 @@ test-equipment:
           protocol: telnet
           # logging_level_default: 4
     spectrumanalyser:
-      devices: []
+    #  devices: []
     # spectrumanalyser: # DO NOT DELETE THIS AS WE NEED TO GET THIS WORKING AGAIN LATER!!!
-    #   devices:
-    #     - name: ms2090a
-    #       model: MS2090A
-    #       host: 10.165.3.4
-    #       port: 9001
-    #       resources:
-    #         limits:
-    #           skao.int/spectrum-analyser-01: "1"
+      devices:
+        - name: ms2090a
+          model: MS2090A
+          host: 10.165.3.4
+          port: 9001
+          resources:
+            limits:
+              skao.int/spectrum-analyser-01: "1"
     awg:
       devices: []
     sp6t:
