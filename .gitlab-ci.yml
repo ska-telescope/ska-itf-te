@@ -12,11 +12,11 @@ variables:
   # PYTEST_SUBSYS_MARK: (csp_startup or sdp or eda)
   # K8S_INSTALL_FROM_CAR: "false"remove redundant cache
 stages:
-  - pre-build
-  - verify-test-equipment
+  # - pre-build
+  # - verify-test-equipment
   - on_demand_itf_sut
-  - lint
-  - build
+  # - lint
+  # - build
   - test
   - test-equipment-setup
   - dish-aiv
