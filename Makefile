@@ -49,7 +49,7 @@ EXIT =
 endif
 
 
-INTEGRATION_TEST_SOURCE = tests/integration
+INTEGRATION_TEST_SOURCE ?= tests/integration
 INTEGRATION_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(_MARKS) $(_COUNTS) $(EXIT) | tee pytest.stdout
 
 K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
