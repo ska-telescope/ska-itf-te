@@ -161,9 +161,8 @@ integration-test:
 upload-to-confluence:
 	.venv/bin/upload-to-confluence sut_config.yaml build/cucumber.json
 
-template-chart:
+template-chart: k8s-dep-update
 	mkdir -p build
-	helm dependency build
 	helm template $(HELM_RELEASE) \
 	$(K8S_CHART_PARAMS) \
 	--debug \
