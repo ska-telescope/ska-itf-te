@@ -50,3 +50,14 @@
         addkey: true
     - role: user_config
     - role: kubectl_setup
+
+- name: Setup Talon Dx boards
+  hosts:
+    - talon
+  roles:
+    - role: update_talon
+
+- name: Install Mid ITF SSH config on localhost
+  hosts: localhost
+  roles:
+    - local_ssh

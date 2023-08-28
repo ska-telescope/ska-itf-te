@@ -1,0 +1,3 @@
+dns_ip: 10.164.0.11
+network_dir: /etc/systemd/network
+backup_dir: /home/root/network_backups

@@ -1,0 +1,23 @@
+- name: Backup existing file
+  ansible.builtin.copy:
+    remote_src: true
+    src: "{{ network_path }}"
+    dest: "{{ backup_dir }}/{{ network_path | basename }}.backup"
+    owner: root
+    group: root
+    force: false
+    mode: preserve
+
+- name: Remove other DNS IPs
+  ansible.builtin.lineinfile:
+    path: "{{ network_path }}"
+    regexp: '^DNS='
+    state: absent
+
+- name: Set DNS IP to k8s cluster DNS IP
+  ansible.builtin.blockinfile:
+    path: "{{ network_path }}"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK: DO NOT EDIT by Team Atlas"
+    block: |
+      DNS={{ dns_ip }}
+    insertafter: "[Network]"

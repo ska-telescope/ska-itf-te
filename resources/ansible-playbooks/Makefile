@@ -12,64 +12,71 @@ include ../../.make/release.mk
 # define overides for above variables in here
 -include PrivateRules.mak
 
-INVENTORY_FILE ?= ./inventory/hosts
+INVENTORY_TEMPLATE ?= inventory/hosts-template
+INVENTORY_FILE ?= inventory/hosts
 PLAYBOOK_PARAMETERS ?= ## any additional ansible tags can go here - see ansible-playbook --help
-NODES ?= nodes ## subset of hosts from inventory to run against
-ANSIBLE_USER ?= $(USER)
-SSH_USER ?= $(USER)
 TEAM ?= atlas
 TEAM_VARS_FILE ?= ./group_vars/$(TEAM)/$(TEAM).yml
-ANSIBLE_COMMAND := ansible-playbook -i $(INVENTORY_FILE) -e @$(TEAM_VARS_FILE) $(PLAYBOOK_PARAMETERS) -u=$(ANSIBLE_USER) $(V)
+ANSIBLE_COMMAND := ansible-playbook -i $(INVENTORY_FILE) -e @$(TEAM_VARS_FILE) $(PLAYBOOK_PARAMETERS) $(V)
 ANSIBLE_COMMAND_DRY_RUN := $(ANSIBLE_COMMAND) --check --diff
-GAIA_IP ?= 10.165.3.7
-PI_IP ?= 10.165.3.11
 V ?=
+
+ifndef AD_USER
+$(error AD_USER is not set: set this to your active directory user (i.e. Jira username.))
+endif
+export AD_USER
 
 vars:  ## Variables
 	@echo "Current variable settings:"
+	@echo "INVENTORY_TEMPLATE=$(INVENTORY_TEMPLATE)"
 	@echo "INVENTORY_FILE=$(INVENTORY_FILE)"
 	@echo "PLAYBOOK_PARAMETERS=$(PLAYBOOK_PARAMETERS)"
-	@echo "NODES=$(NODES)"
-	@echo "ANSIBLE_USER=$(ANSIBLE_USER)"
-	@echo "SSH_USER=$(SSH_USER)"
 	@echo "TEAM=$(TEAM)"
 	@echo "TEAM_VARS_FILE=$(TEAM_VARS_FILE)"
+	@echo "AD_USER=$(AD_USER)"
 	@echo "ANSIBLE_COMMAND=$(ANSIBLE_COMMAND)"
 	@echo "ANSIBLE_COMMAND_DRY_RUN=$(ANSIBLE_COMMAND_DRY_RUN)"
-	@echo "GAIA_IP=$(GAIA_IP)"
-	@echo "PI_IP=$(PI_IP)"
 	@echo "V=$(V)"
 .PHONY: vars
 
-connect_gaia: ## Add SSH Forwarding to local machine and SSH into Gaia
-	@echo "Connecting to the Gaia as $(SSH_USER)";
-	@echo "###########################################";
-	ssh -A $(SSH_USER)@$(GAIA_IP);
-	@echo "Welcome back";
-.PHONY: connect_gaia
+setup: $(INVENTORY_FILE)
 
-connect_pi: ## Add SSH Forwarding to local machine and SSH into Gaia
-	@echo "Connecting to the Raspberry Pi as $(SSH_USER)";
-	@echo "###########################################";
-	ssh -A $(SSH_USER)@$(PI_IP);
-	@echo "Welcome back";
-.PHONY: connect_pi
-
-setup_pi: ## Runs the full playbook on the Raspberry Pi.
+setup_pi: setup ## Runs the full playbook against the Raspberry Pi.
 	$(ANSIBLE_COMMAND) --limit raspberry_pi site.yml
 .PHONY: setup_pi
 
-setup_pi_dry_run: ## Runs the full playbook on the Raspberry Pi in dry-run mode.
+setup_pi_dry_run: setup ## Runs the full playbook against the Raspberry Pi in dry-run mode.
 	$(ANSIBLE_COMMAND_DRY_RUN) --limit raspberry_pi site.yml
 .PHONY: setup_pi_dry_run
 
-setup_gaia: ## Runs the full playbook on Gaia.
+setup_gaia: setup ## Runs the full playbook against Gaia.
 	$(ANSIBLE_COMMAND) --limit gaia site.yml
 .PHONY: setup_gaia
 
-setup_gaia_dry_run: ## Runs the full playbook on Gaia in dry-run mode.
+setup_gaia_dry_run: setup ## Runs the full playbook against Gaia in dry-run mode.
 	$(ANSIBLE_COMMAND_DRY_RUN) --limit gaia site.yml
 .PHONY: setup_gaia
+
+setup_talon_boards: setup ## Runs the full playbook against the Talon boards.
+	$(ANSIBLE_COMMAND) --limit talon site.yml
+.PHONY: setup_talon
+
+setup_talon_boards_dry_run: setup ## Runs the full playbook against the Talon boards in dry-run mode.
+	$(ANSIBLE_COMMAND_DRY_RUN) --limit talon site.yml
+.PHONY: setup_talon_boards_dry_run
+
+setup_local_ssh_config: setup ## Sets up your localhost for using the ansible playbooks.
+	$(ANSIBLE_COMMAND) --limit localhost site.yml
+.PHONY: setup_local_ssh_config
+
+setup_local_ssh_config_dry_run: setup ## Sets up your localhost for using the ansible playbooks (dry-run mode).
+	$(ANSIBLE_COMMAND_DRY_RUN) --limit localhost site.yml
+.PHONY: setup_local_ssh_config_dry_run
+
+$(INVENTORY_FILE): # Sets up the inventory file with the correct user variables. Make sure you have AD_USER set.
+	cp $(INVENTORY_TEMPLATE) $(INVENTORY_FILE)
+	sed -i 's/<AD_USER>/$(AD_USER)/g' $(INVENTORY_FILE)
+	sed -i 's/<USER>/$(USER)/g' $(INVENTORY_FILE)
 
 lint: ## Lint check playbook
 	ansible-lint -vvv site.yml
@@ -82,11 +89,11 @@ test-default: ## Runs a playbook test with all flags enabled.
 	testing/run.sh ansible-test-default default
 .PHONY: test-default
 
-test-gaia: ## Runs a playbook test as if it were on Gaia.
+test-gaia: ## Runs a playbook test as if it were against Gaia.
 	testing/run.sh ansible-test-gaia gaia
 .PHONY: test-gaia
 
-test-raspberry_pi: ## Runs a playbook test as if it were on the Raspberry Pi.
+test-raspberry_pi: ## Runs a playbook test as if it were against the Raspberry Pi.
 	testing/run.sh ansible-test-default raspberry_pi
 .PHONY: test-raspberry_pi
 
@@ -100,12 +107,12 @@ test-cicd-default:
 	testing/test.sh default
 .PHONY: test-cicd-default
 
-test-cicd-gaia: TEST_HOST := ansible-test-gaia ## Runs a playbook test as if it were on Gaia (intended for Gitlab pipelines).
+test-cicd-gaia: TEST_HOST := ansible-test-gaia ## Runs a playbook test as if it were against Gaia (intended for Gitlab pipelines).
 test-cicd-gaia:
 	testing/test.sh gaia
 .PHONY: test-cicd-gaia
 
-test-cicd-raspberry_pi: TEST_HOST := ansible-test-raspberry-pi ## Runs a playbook test as if it were on the Raspberry Pi (intended for Gitlab pipelines).
+test-cicd-raspberry_pi: TEST_HOST := ansible-test-raspberry-pi ## Runs a playbook test as if it were against the Raspberry Pi (intended for Gitlab pipelines).
 test-cicd-raspberry_pi:
 	testing/test.sh raspberry_pi
 .PHONY: test-cicd-raspberry_pi
