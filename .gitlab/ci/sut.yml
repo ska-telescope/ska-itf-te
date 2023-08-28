@@ -182,6 +182,8 @@ destroy-sut-staging:
     action: stop
 
 k8s-test-runner:
+  tags:
+    - ska-k8srunner-za-itf
   allow_failure: false
   image: $TEST_IMAGE
   artifacts:
@@ -212,6 +214,8 @@ k8s-test-runner:
     EXIT_AT_FAIL: "True"
 
 stop-k8s-test-runner:
+  tags:
+    - ska-k8srunner-za-itf
   script:
     # ST-1258: Cleanup and exit if the test return code is present
     - make k8s-uninstall-chart || true
