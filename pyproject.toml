@@ -14,6 +14,8 @@ url = 'https://artefact.skao.int/repository/pypi-internal/simple'
 python = ">=3.10,<3.11"
 ska-ser-skallop = {version = "2.29.4", extras = ["bit"]}
 ska-tmc-cdm = "7.3.1"
+pytest-json-report = "^1.5.0"
+pytest-repeat = "^0.9.1"
 
 [tool.poetry.group.docs.dependencies]
 Sphinx = "^5.1.1"

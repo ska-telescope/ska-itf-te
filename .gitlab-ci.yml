@@ -15,8 +15,8 @@ stages:
   - pre-build
   - verify-test-equipment
   - on_demand_itf_sut
-  - lint
   - build
+  - lint
   - test
   - platform
   - test-equipment-setup

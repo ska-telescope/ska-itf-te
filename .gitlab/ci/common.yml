@@ -59,7 +59,7 @@
     - bash .make/resources/gitlab_section.sh wait-ns "Wait namespace resources" make k8s-wait
     - bash .make/resources/gitlab_section.sh links "Skampi landing page" make links
   after_script:
-    - bash .make/resources/gitlab_section.sh template "This was the template used" make k8s-template-chart || true
+    - make template-chart
 
 # .test:
 #   stage: test

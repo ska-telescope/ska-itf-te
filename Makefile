@@ -14,6 +14,7 @@ MINIKUBE ?= true ## Minikube or not
 EXPOSE_All_DS ?= true ## Expose All Tango Services to the external network (enable Loadbalancer service)
 SKA_TANGO_OPERATOR ?= true
 EXPOSE_DATABASE_DS ?= true## 
+TANGO_DATABASE_DS ?= tango-databaseds## TANGO_DATABASE_DS name
 TANGO_HOST ?= tango-databaseds:10000## TANGO_HOST connection to the Tango DS
 TANGO_SERVER_PORT ?= 45450## TANGO_SERVER_PORT - fixed listening port for local server
 CLUSTER_DOMAIN = miditf.internal.skao.int## Domain used for naming Tango Device Servers
@@ -58,6 +59,7 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	--set global.tango_host=$(TANGO_HOST) \
 	--set global.device_server_port=$(TANGO_SERVER_PORT) \
 	--set global.cluster_domain=$(CLUSTER_DOMAIN) \
+	--set global.labels.app=$(KUBE_APP) \
 	--set global.operator=$(SKA_TANGO_OPERATOR) \
 	--set ska-tango-base.display=$(DISPLAY) \
 	--set ska-tango-base.xauthority=$(XAUTHORITY) \
@@ -155,8 +157,22 @@ include .make/base.mk
 -include resources/k8s-installs.mk
 
 integration-test:
-	$(PYTHON_RUNNER) pytest $(INTEGRATION_TEST_SOURCE) $(INTEGRATION_TEST_ARGS)
+	@mkdir -p build
+	$(PYTHON_RUNNER) pytest $(INTEGRATION_TEST_SOURCE) $(INTEGRATION_TEST_ARGS); \
+	echo $$? > build/status
 
 
 upload-to-confluence:
 	.venv/bin/upload-to-confluence sut_config.yaml build/cucumber.json
+
+template-chart: k8s-dep-update
+	mkdir -p build
+	helm template $(HELM_RELEASE) \
+	$(K8S_CHART_PARAMS) \
+	--debug \
+	 $(K8S_UMBRELLA_CHART_PATH) --namespace $(KUBE_NAMESPACE) > build/manifests.yaml
+
+fail:
+	@echo hello
+	false; \
+	echo $$?
