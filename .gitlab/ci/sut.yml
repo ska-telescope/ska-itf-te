@@ -184,6 +184,10 @@ destroy-sut-staging:
 k8s-test-runner:
   allow_failure: false
   image: $TEST_IMAGE
+  artifacts:
+    name: "$CI_PROJECT_NAME-$CI_JOB_ID"
+    paths:
+      - "build/"
   extends:
     - .sut_base
   before_script:
