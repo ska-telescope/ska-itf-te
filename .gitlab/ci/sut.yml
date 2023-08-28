@@ -194,7 +194,6 @@ k8s-test-runner:
     - time poetry install
     - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
     - 'make help | grep k8s-test'
-    - make template-chart
     - make k8s-install-chart
     - make k8s-wait
   script:
@@ -205,6 +204,8 @@ k8s-test-runner:
     - make k8s-delete-namespace || true
     - '[ -f build/status ] || (echo "Something went wrong with the test (no build/status file); exit 1")'
     - exit $(cat build/status)
+  after_script:
+    - make template-chart
   variables:
     DEBUG_ENTRYPOINT: "True"
     DEBUG_ENTRYPOINT_EXTENDED: "True"
