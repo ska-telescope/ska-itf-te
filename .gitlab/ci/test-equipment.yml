@@ -29,6 +29,7 @@ deploy-test-equipment:
   script:
     - make file-browser-secrets
     - make itf-te-template
+    - make spooky
     - make itf-te-install
     # The following are all needed to verify deployment and expose the issue
     - make k8s-wait SKA_TANGO_OPERATOR=true
@@ -88,6 +89,7 @@ remove-test-equipment:
   extends:
     - .test-equipment-base
     - .uninstall_chart
+  after_script: make itf-spookd-uninstall
   environment:
     name: ska-mid-itf/test-equipment
     kubernetes:
@@ -124,7 +126,7 @@ deploy-file-browser:
       namespace: "$KUBE_NAMESPACE"
   allow_failure: true # need to keep this to unlock the pipeline
   rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - changes:
+        - charts/file-browser/*
+      if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       when: always
-    - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
-      when: manual

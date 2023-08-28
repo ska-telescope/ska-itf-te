@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "distribute-ssh-keys"
+name = "ansible-playbooks"
 version = "0.1.0"
-description = "Distribution package for Mid ITF"
+description = "Ansible playbooks for Mid ITF"
 authors = ["Adriaan de Beer <adebeer42@gmail.com>"]
 license = "BSD"
 readme = "README.md"
@@ -9,7 +9,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = ">=3.10"
 ansible = "^7.5.0"
-ansible-lint = {version = "^6.17.2", markers = "platform_system != 'Windows'"}
+ansible-lint = {version = "^6.18.0", markers = "platform_system != 'Windows'"}
 
 [build-system]
 requires = ["poetry-core"]

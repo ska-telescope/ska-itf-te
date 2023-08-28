@@ -1,0 +1,1 @@
+ad_user: "{{ ansible_env.AD_USER }}"

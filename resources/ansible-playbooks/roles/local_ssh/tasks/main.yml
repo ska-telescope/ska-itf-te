@@ -1,0 +1,26 @@
+- name: Create ssh config dir
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.ssh/config.d"
+    state: directory
+    owner: "{{ ansible_env.USER }}"
+    group: "{{ ansible_env.USER }}"
+    mode: '0700'
+
+- name: Set variable
+  ansible.builtin.set_fact:
+    mid_itf_ssh_config: "{{ ansible_env.HOME }}/.ssh/config.d/ska-mid-itf-config"
+
+- name: Copy SSH Config
+  become: true
+  ansible.builtin.template:
+    src: ssh_config.j2
+    dest: "{{ mid_itf_ssh_config }}"
+    owner: "{{ ansible_env.USER }}"
+    group: "{{ ansible_env.USER }}"
+    mode: "600"
+
+- name: Set ssh config include
+  ansible.builtin.lineinfile:
+    path: "{{ ansible_env.HOME }}/.ssh/config"
+    search_string: 'Include "{{ mid_itf_ssh_config }}"'
+    line: 'Include {{ mid_itf_ssh_config }}'
