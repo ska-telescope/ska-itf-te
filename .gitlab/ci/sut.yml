@@ -183,8 +183,15 @@ destroy-sut-staging:
 
 k8s-test-runner:
   allow_failure: false
+  image: $TEST_IMAGE
   extends:
     - .sut_base
+  before_script:
+    - time poetry install
+    - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
+    - 'make help | grep k8s-test'
+    - make k8s-install-chart
+    - make k8s-wait
   script:
     - make integration-test TANGO_HOST=$TANGO_DATABASE_DS.$KUBE_NAMESPACE.svc.$CLUSTER_DOMAIN:10000 || true
     # ST-1258: Cleanup and exit if the test return code is present
