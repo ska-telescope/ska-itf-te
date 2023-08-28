@@ -68,14 +68,13 @@ ska-taranta:
         memory: 1024Mi # 1024Mi = 1 GB mem
 
 # EDA
-#ska-tango-archiver:
-#  hostname: eda.ska-tango-archiver
-#  dbname: itf_eda
-#  dbuser: admin
-#  port: 5432
-#  telescope: SKA-mid
-#  telescope-environment: MID-STFC
-#  configuration_manager: mid-eda/cm/01
-#  event_subscriber: mid-eda/es/01
-#  archwizard_config: MyHDB=tango://tango-databaseds.ci-ska-mid-itf-at-1286-eda.svc.miditf.internal.skao.int:10000/mid-eda/cm/01
-#
+ska-tango-archiver:
+  hostname: eda.ska-tango-archiver
+  dbname: itf_eda
+  dbuser: admin
+  port: 5432
+  telescope: SKA-mid
+  telescope-environment: MID-ITF
+  configuration_manager: mid-eda/cm/01
+  event_subscriber: mid-eda/es/01
+  archwizard_config: MyHDB=tango://tango-databaseds.ci-ska-mid-itf-at-1286-eda.svc.miditf.internal.skao.int:10000/mid-eda/cm/01
