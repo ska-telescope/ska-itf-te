@@ -163,6 +163,7 @@ upload-to-confluence:
 
 template-chart:
 	mkdir -p build
+	helm dependency build
 	helm template $(HELM_RELEASE) \
 	$(K8S_CHART_PARAMS) \
 	--debug \
