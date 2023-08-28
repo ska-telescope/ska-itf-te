@@ -186,7 +186,7 @@ k8s-test-runner:
   extends:
     - .sut_base
   script:
-    - make integration-test || true
+    - make integration-test TANGO_HOST=$TANGO_DATABASE_DS.$KUBE_NAMESPACE.svc.$CLUSTER_DOMAIN:10000 || true
     # ST-1258: Cleanup and exit if the test return code is present
     - make k8s-uninstall-chart || true
     - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all || true
@@ -194,7 +194,6 @@ k8s-test-runner:
     - '[ -f build/status ] || (echo "Something went wrong with the test (no build/status file); exit 1")'
     - exit $(cat build/status)
   variables:
-    TANGO_HOST: "$TANGO_DATABASE_DS.$KUBE_NAMESPACE.svc.$CLUSTER_DOMAIN:10000"
     DEBUG_ENTRYPOINT: "True"
     DEBUG_ENTRYPOINT_EXTENDED: "True"
     LIVE_LOGGING_EXTENDED: "True"
