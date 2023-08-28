@@ -160,3 +160,10 @@ integration-test:
 
 upload-to-confluence:
 	.venv/bin/upload-to-confluence sut_config.yaml build/cucumber.json
+
+template-chart:
+	mkdir -p build
+	helm template $(HELM_RELEASE) \
+	$(K8S_CHART_PARAMS) \
+	--debug \
+	 $(K8S_UMBRELLA_CHART_PATH) --namespace $(KUBE_NAMESPACE) > build/manifests.yaml
