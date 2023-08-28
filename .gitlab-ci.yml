@@ -13,7 +13,7 @@ variables:
   # K8S_INSTALL_FROM_CAR: "false"remove redundant cache
 stages:
   - pre-build
-  # - verify-test-equipment
+  - verify-test-equipment
   - on_demand_itf_sut
   - test
   - build # TEMPORARY MOVE - BRING FORWARD LATER
