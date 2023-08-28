@@ -200,11 +200,20 @@ k8s-test-runner:
     - make k8s-wait
   script:
     - make integration-test TANGO_HOST=$TANGO_DATABASE_DS.$KUBE_NAMESPACE.svc.$CLUSTER_DOMAIN:10000 || true
-    # Temporarily move cleanup into separate manual job for debugging purposes
+    - |
+      if [[ 0 == "$(cat build/status)" ]]; then
+        make k8s-uninstall-chart || true
+        kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all || true
+        make k8s-delete-namespace || true
+      else
+        echo "#####################################################################################"
+        echo "# NOTE: this deployment will persist for about 2 hours, for investigation purposes. #"
+        echo "#####################################################################################"
+      fi
     - '[ -f build/status ] || (echo "Something went wrong with the test (no build/status file); exit 1")'
     - exit $(cat build/status)
-  after_script:
-    - make template-chart
+  # after_script:
+  #   - make template-chart
   variables:
     DEBUG_ENTRYPOINT: "True"
     DEBUG_ENTRYPOINT_EXTENDED: "True"
@@ -217,7 +226,6 @@ stop-k8s-test-runner:
   tags:
     - ska-k8srunner-za-itf
   script:
-    # ST-1258: Cleanup and exit if the test return code is present
     - make k8s-uninstall-chart || true
     - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all || true
     - make k8s-delete-namespace || true
