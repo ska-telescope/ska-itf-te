@@ -156,7 +156,9 @@ include .make/base.mk
 -include resources/k8s-installs.mk
 
 integration-test:
-	$(PYTHON_RUNNER) pytest $(INTEGRATION_TEST_SOURCE) $(INTEGRATION_TEST_ARGS)
+	@mkdir -p build
+	$(PYTHON_RUNNER) pytest $(INTEGRATION_TEST_SOURCE) $(INTEGRATION_TEST_ARGS); \
+	echo $$? > build/status
 
 
 upload-to-confluence:
@@ -168,3 +170,8 @@ template-chart: k8s-dep-update
 	$(K8S_CHART_PARAMS) \
 	--debug \
 	 $(K8S_UMBRELLA_CHART_PATH) --namespace $(KUBE_NAMESPACE) > build/manifests.yaml
+
+fail:
+	@echo hello
+	false; \
+	echo $$?
