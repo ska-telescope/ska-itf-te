@@ -627,19 +627,6 @@ files = [
 ]
 
 [[package]]
-name = "enum34"
-version = "1.1.10"
-description = "Python 3.4 Enum backported to 3.3, 3.2, 3.1, 2.7, 2.6, 2.5, and 2.4"
-category = "main"
-optional = false
-python-versions = "*"
-files = [
-    {file = "enum34-1.1.10-py2-none-any.whl", hash = "sha256:a98a201d6de3f2ab3db284e70a33b0f896fbf35f8086594e8c9e74b909058d53"},
-    {file = "enum34-1.1.10-py3-none-any.whl", hash = "sha256:c3858660960c984d6ab0ebad691265180da2b43f07e061c0f8dca9ef3cffd328"},
-    {file = "enum34-1.1.10.tar.gz", hash = "sha256:cce6a7477ed816bd2542d03d53db9f0db935dd013b70f336a95c73979289f248"},
-]
-
-[[package]]
 name = "flake8"
 version = "6.1.0"
 description = "the modular source code checker: pep8 pyflakes and co"
@@ -1759,29 +1746,6 @@ junit-xml-2 = "*"
 pylint = "*"
 
 [[package]]
-name = "pytango"
-version = "9.3.3"
-description = "A python binding for the Tango control system"
-category = "main"
-optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
-files = [
-    {file = "pytango-9.3.3-cp27-cp27m-win32.whl", hash = "sha256:c481628c0b7b0cda737adbf6194d0d143f66352e04e310912c9bae236ed2e482"},
-    {file = "pytango-9.3.3-cp27-cp27m-win_amd64.whl", hash = "sha256:beeab13f0ce32c5d226da2c9b33dc07eb92b4c7a320164c34ff2666b2ea583a3"},
-    {file = "pytango-9.3.3-cp36-cp36m-win32.whl", hash = "sha256:3d566fe6f091b12032d5ad90465f3770f02ccc7e8bd7345543074936676eb3d9"},
-    {file = "pytango-9.3.3-cp36-cp36m-win_amd64.whl", hash = "sha256:b0627968afbc3bfc6d5f81c8d2094a823f57e489853704493b85b1628423c7e0"},
-    {file = "pytango-9.3.3-cp37-cp37m-win32.whl", hash = "sha256:4c70dd4c634b8514b6022641d02512f7d275f80e226d39765954d0f91b003c5e"},
-    {file = "pytango-9.3.3-cp37-cp37m-win_amd64.whl", hash = "sha256:eef2db112050c04ade0b3d2fc1540b8f8ff2f9029034ddc8806afc0053b404da"},
-    {file = "pytango-9.3.3-cp38-cp38-win32.whl", hash = "sha256:2e166d1e887488f368144caabb1afd4b0026a1a5a190ea76c52e92d7420429d9"},
-    {file = "pytango-9.3.3-cp38-cp38-win_amd64.whl", hash = "sha256:133efb1b70c95a24ae129941c76c9485e8ebdc5cd3edac803257f30091f2bb61"},
-    {file = "pytango-9.3.3.tar.gz", hash = "sha256:c09fc7a44cac8c2d95d3ad39ba644998e8f468c730dc495443a74de05a07e9f9"},
-]
-
-[package.dependencies]
-enum34 = "*"
-six = ">=1.10"
-
-[[package]]
 name = "pytest"
 version = "6.2.5"
 description = "pytest: simple powerful testing with Python"
@@ -2113,14 +2077,14 @@ files = [
 
 [[package]]
 name = "ska-ser-skallop"
-version = "2.29.2"
+version = "2.29.4"
 description = "Testing helpers and modules for running end to end tests for SKA MVP, deployed using SKAMPI"
 category = "main"
 optional = false
 python-versions = ">=3.10,<4.0"
 files = [
-    {file = "ska-ser-skallop-2.29.2.tar.gz", hash = "sha256:d9a04d7a1b7094a42931df060d73221b107630f71760112f14f2fe6e3ef1108d"},
-    {file = "ska_ser_skallop-2.29.2-py3-none-any.whl", hash = "sha256:72351196340a2a8ca146b7e1c5407aaf045638ed27d778a594b3ab60f5795c0c"},
+    {file = "ska-ser-skallop-2.29.4.tar.gz", hash = "sha256:d4b71f5bced63314078acb0245f56fca2d4633c70ce4bb362dab7c1e2da79906"},
+    {file = "ska_ser_skallop-2.29.4-py3-none-any.whl", hash = "sha256:83d5c5c874efb0d21052fec3dcdf5106b3546356844bf15c512a346579c6369e"},
 ]
 
 [package.dependencies]
@@ -2133,7 +2097,6 @@ lxml = ">=4.9.3,<5.0.0"
 mock = ">=4.0.3,<5.0.0"
 pipe = ">=1.6.0,<2.0.0"
 pylint-junit = ">=0.3.2,<0.4.0"
-pytango = {version = "9.3.3", optional = true, markers = "extra == \"bit\""}
 pytest = ">=6.2.5,<7.0.0"
 pytest-bdd = ">=5.0.0,<6.0.0"
 python-dotenv = ">=1.0.0,<2.0.0"
@@ -2143,7 +2106,7 @@ requests = ">=2.26.0,<3.0.0"
 schema = ">=0.7.5,<0.8.0"
 
 [package.extras]
-bit = ["pytango (==9.3.3)"]
+bit = ["pytango (==9.4.2)"]
 
 [package.source]
 type = "legacy"
@@ -2794,4 +2757,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.11"
-content-hash = "298df798aaeb1ab98add808bbb400a04affc52d7ff91e95dcea069006a5ce0d8"
+content-hash = "ab711cac15e9d6518f4b8a0f1a69fd2d8b8231fd94555afc3f4bf163eddccbaf"
