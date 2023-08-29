@@ -114,7 +114,7 @@ build-base-image:
     - |
       if [[ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]]; then
         tag="latest"
-        echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = 'latest'"
+        echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = ':latest'"
       else
         tag=":$CI_COMMIT_SHORT_SHA"
         echo "Running on branch '$CI_COMMIT_BRANCH': tag = $tag"
