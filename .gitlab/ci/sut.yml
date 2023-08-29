@@ -247,3 +247,4 @@ publish-k8s-test-results:
     - .sut_base
   script:
     - echo "Test result code from k8s-test-runner job was $(cat build/status)"
+    - make upload-to-confluence
