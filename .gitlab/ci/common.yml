@@ -139,11 +139,13 @@ docs-build:
 ### TARANTA DEPLOYMENT
 deploy-taranta:
   stage: platform
+  tags:
+    - ska-k8srunner-za-itf
   variables:
     KUBE_NAMESPACE: taranta
     KUBE_APP: ska-taranta-backend
     HELM_RELEASE: taranta
     K8S_CHART: taranta-itf
   script:
-    - make k8s-install-chart-car
+    - make k8s-install-chart
   when: manual
