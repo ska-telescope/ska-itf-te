@@ -157,10 +157,9 @@ build-base-image:
     - |
       if [[ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]]; then
         tag="latest"
-        echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = ':latest'"
       else
-        tag=":$CI_COMMIT_SHORT_SHA"
-        echo "Running on branch '$CI_COMMIT_BRANCH': tag = $tag"
+        tag="$CI_COMMIT_SHORT_SHA"
       fi
-    - docker build --pull -t "$CI_REGISTRY_IMAGE${tag}" .
-    - docker push "$CI_REGISTRY_IMAGE${tag}"
+      echo "Running on '$CI_COMMIT_BRANCH' branch; tag = $tag"
+    - docker build --pull -t "$CI_REGISTRY_IMAGE:${tag}" .
+    - docker push "$CI_REGISTRY_IMAGE:${tag}"
