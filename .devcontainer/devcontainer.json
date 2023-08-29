@@ -8,9 +8,20 @@
             "settings": {
                 "terminal.integrated.profiles.linux": {
                     "bash": {
-                        "path": "/bin/bash"
+                        "path": "/usr/bin/bash",
+                        "env": {
+                            "DEBUG_ENTRYPOINT": "True",
+                            "DEBUG_ENTRYPOINT_EXTENDED": "True",
+                            "LIVE_LOGGING_EXTENDED": "True",
+                            "SHOW_STEP_FUNCTIONS": "True",
+                            "CAPTURE_LOGS": "True",
+                            "PYTEST_ADDOPTS": "-o log_cli=True --count=1 -x  --log-file='test_logs.log'",
+                            "USE_ONLY_POLLING": "True",
+                            "TEST_ENV": "BUILD_IN"
+                        }
                     }
                 },
+                "terminal.integrated.defaultProfile.linux": "bash",
                 "vs-kubernetes.kubeconfig": "/home/tango/.kube/config",
                 "python.envFile": "${workspaceFolder}/.vscode/.env",
                 "terminal.integration.defaultProfile.linux": "bash",
@@ -53,10 +64,10 @@
         }
     },
     "runArgs": [
+        // "--dns",
+        //"10.164.0.11",
         "--dns",
-        "10.164.0.11",
-        //"--dns",
-        //"1.1.1.1",
+        "1.1.1.1",
     ],
     //this may break if you are attempting to do this from a non debian host
     // therefore manualy uncomment it in your branch if you want to use K8s

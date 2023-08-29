@@ -51,7 +51,7 @@ endif
 
 
 INTEGRATION_TEST_SOURCE ?= tests/integration
-INTEGRATION_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(_MARKS) $(_COUNTS) $(EXIT) | tee pytest.stdout
+INTEGRATION_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(_MARKS) $(_COUNTS) $(EXIT) $(PYTEST_ADDOPTS) | tee pytest.stdout
 
 K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	--set global.exposeAllDS=$(EXPOSE_All_DS) \
@@ -172,7 +172,3 @@ template-chart: k8s-dep-update
 	--debug \
 	 $(K8S_UMBRELLA_CHART_PATH) --namespace $(KUBE_NAMESPACE) > build/manifests.yaml
 
-fail:
-	@echo hello
-	false; \
-	echo $$?
