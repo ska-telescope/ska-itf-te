@@ -61,21 +61,6 @@
   after_script:
     - make template-chart
 
-# .test:
-#   stage: test
-#   variables:
-#     SKA_SKAMPI_TESTS_REF: st-1662-setup-ska-skampi-deployment # TODO: Change to master when SKAMPI MR is merged
-#     LOADBALANCER_IP: "$LOADBALANCER_IP"
-#     INGRESS_HOST: "$INGRESS_HOST"
-#     ARCHIVER_DBNAME: "${CONFIG}_archiver_db_${CI_COMMIT_REF_SLUG}"
-#   trigger:
-#     project: ska-telescope/ska-skampi
-#     branch: $SKA_SKAMPI_TESTS_REF
-#     strategy: depend
-#     forward:
-#       yaml_variables: true
-#       pipeline_variables: true
-
 .info:
   stage: deploy
   variables:
