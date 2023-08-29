@@ -1,11 +1,10 @@
 [tool.poetry]
 name = "ska-mid-itf"
 version = "0.1.0"
-description = "SCPI and Tango enabled Sky Simulator Controller for a RaspberryPi and container runtime testing."
+description = "Integration testing and deployment project for the Mid ITF"
 authors = ["ATLAS"]
 license = "BSD 3-Clause"
 readme = "README.md"
-packages = [{include = "ska_sky_simulator_controller", from = "src"}]
 
 [[tool.poetry.source]]
 name = 'skao'
@@ -13,11 +12,10 @@ url = 'https://artefact.skao.int/repository/pypi-internal/simple'
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.11"
-ska-tango-testing = "^0.5.3"
-pytest-bdd = ">=5.0.0,<6.0.0"
-ska-ser-test-equipment = "^0.6.2"
-pytest = ">=6.2.5,<7.0.0"
-ska-ser-skallop = "2.29.1"
+ska-ser-skallop = {version = "2.29.5", extras = ["bit"]}
+ska-tmc-cdm = "7.3.1"
+pytest-json-report = "^1.5.0"
+pytest-repeat = "^0.9.1"
 
 [tool.poetry.group.docs.dependencies]
 Sphinx = "^5.1.1"
@@ -43,3 +41,30 @@ mypy = "^0.991"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+addopts = "-p no:warnings"
+testpaths = ["tests/integration"]
+log_cli_level = "INFO"
+log_cli = "False"
+junit_family = "xunit2"
+python_classes = "!Test"
+#bdd_features_base_dir = "tests"
+
+[tool.build_sphinx]
+source-dir = "docs/src"
+build-dir = "docs/_build"
+all_files = 1
+builder = "html"
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 99
+
+[tool.flake8]
+max-line-length = 99
+
+[tool.black]
+line_length = 99
+

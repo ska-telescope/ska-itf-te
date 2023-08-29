@@ -1,23 +1,6 @@
 HELM_CHARTS_TO_PUBLISH=ska-mid-itf
 PYTHON_VARS_AFTER_PYTEST= --disable-pytest-warnings
-
-python-pre-lint:
-	@echo "python-pre-lint: upgrade poetry for the time being."\
-	python -V;\
-	poetry --version;\
-	poetry config virtualenvs.create false;\
-	bash .make/resources/gitlab_section.sh poetryinstall "Install dependencies" poetry shell && poetry install --with dev;\
-	poetry show;
-
-python-pre-test:
-	@echo "python-pre-test: running with: $(PYTHON_VARS_BEFORE_PYTEST) with $(PYTHON_RUNNER) pytest $(PYTHON_VARS_AFTER_PYTEST); \
-    $(PYTHON_TEST_FILE)";\
-	python -V;\
-	bash .make/resources/gitlab_section.sh environment "Environment"  printenv;\
-    echo "-----------------------";\
-	poetry config virtualenvs.create false;\
-	bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install --upgrade poetry;\
-	bash .make/resources/gitlab_section.sh install_dependencies "Install dependencies" poetry install --with dev;\
+POETRY_CONFIG_VIRTUALENVS_CREATE = true
 
 k8s-pre-install-chart:
 
@@ -31,11 +14,44 @@ MINIKUBE ?= true ## Minikube or not
 EXPOSE_All_DS ?= true ## Expose All Tango Services to the external network (enable Loadbalancer service)
 SKA_TANGO_OPERATOR ?= true
 EXPOSE_DATABASE_DS ?= true## 
+TANGO_DATABASE_DS ?= tango-databaseds## TANGO_DATABASE_DS name
 TANGO_HOST ?= tango-databaseds:10000## TANGO_HOST connection to the Tango DS
 TANGO_SERVER_PORT ?= 45450## TANGO_SERVER_PORT - fixed listening port for local server
 CLUSTER_DOMAIN = miditf.internal.skao.int## Domain used for naming Tango Device Servers
 INGRESS_HOST = k8s.$(CLUSTER_DOMAIN)## Tango host, cluster domain, what are all these things???
 ITANGO_ENABLED ?= true## ITango enabled in ska-tango-base
+PYTHON_RUNNER = .venv/bin/python3 -m
+PYTHON_LINE_LENGTH = 99
+DOCS_SPHINXBUILD = .venv/bin/python3 -msphinx
+PYTHON_TEST_FILE = tests/unit/ tests/functional/
+PYTHON_SRC = ska_mid_itf
+ifneq ($(COUNT),)
+# Dashcount is a synthesis of testcount as input user variable and is used to
+# run a paricular test/s multiple times. If no testcount is set then the entire
+# --count option is removed
+_COUNT ?= --count=$(COUNT)
+else
+_COUNT ?= 
+endif
+
+MARKS ?=## Additional Marks to add to pytests
+# Dishmark is a synthesis of marks to add to test, it will always start with the tests for the appropriate
+# telescope (e.g. TEL=mid or TEL=low) thereafter followed by additional filters
+ifneq ($(ADDMARKS),)
+_MARKS ?= -, $(MARKS)
+else
+_MARKS ?= 
+endif
+EXIT_AT_FAIL ?=True## whether the pytest should exit immediately upon failure
+ifneq ($(EXIT_AT_FAIL),false)
+EXIT = -x
+else
+EXIT = 
+endif
+
+
+INTEGRATION_TEST_SOURCE ?= tests/integration
+INTEGRATION_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(_MARKS) $(_COUNTS) $(EXIT) $(PYTEST_ADDOPTS) | tee pytest.stdout
 
 K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	--set global.exposeAllDS=$(EXPOSE_All_DS) \
@@ -43,6 +59,7 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	--set global.tango_host=$(TANGO_HOST) \
 	--set global.device_server_port=$(TANGO_SERVER_PORT) \
 	--set global.cluster_domain=$(CLUSTER_DOMAIN) \
+	--set global.labels.app=$(KUBE_APP) \
 	--set global.operator=$(SKA_TANGO_OPERATOR) \
 	--set ska-tango-base.display=$(DISPLAY) \
 	--set ska-tango-base.xauthority=$(XAUTHORITY) \
@@ -61,7 +78,7 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 PYTHON_VARS_AFTER_PYTEST ?= -v
 
 python-post-lint:
-	mypy --config-file mypy.ini src/ tests/
+	.venv/bin/mypy --config-file mypy.ini ska_mid_itf/ tests/
 
 .PHONY: python-post-lint
 
@@ -138,3 +155,20 @@ include .make/base.mk
 
 # include namespace-specific targets
 -include resources/k8s-installs.mk
+
+integration-test:
+	@mkdir -p build
+	$(PYTHON_RUNNER) pytest $(INTEGRATION_TEST_SOURCE) $(INTEGRATION_TEST_ARGS); \
+	echo $$? > build/status
+
+
+upload-to-confluence:
+	.venv/bin/upload-to-confluence sut_config.yaml build/cucumber.json
+
+template-chart: k8s-dep-update
+	mkdir -p build
+	helm template $(HELM_RELEASE) \
+	$(K8S_CHART_PARAMS) \
+	--debug \
+	 $(K8S_UMBRELLA_CHART_PATH) --namespace $(KUBE_NAMESPACE) > build/manifests.yaml
+

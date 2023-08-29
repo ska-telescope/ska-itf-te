@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=resources/schemas/config-schema.json
+name: ska-mid-itf
+version: 1.0.0
+parts:
+  ska-tango-base:
+    version: "file://charts/system-under-test/Chart.yaml"
+    platformDependents:
+      - ska-mid-cbf
+  ska-tango-util:
+    version: "file://charts/system-under-test/Chart.yaml"
+    platformDependents:
+      - ska-mid-cbf
+  ska-mid-cbf-mcs:
+    version: "file://charts/system-under-test/Chart.yaml"
+    dependencies: ["ska-mid-cbf-tmleafnode"]
+    root:
+  ska-mid-cbf-tmleafnode:
+    version: "file://charts/system-under-test/Chart.yaml"
+    platformDependents: []
+  ska-tango-taranta:
+    version: "file://charts/system-under-test/Chart.yaml"
+    dependencies: ["ska-tango-tangogql"]
+  ska-tango-tangogql:
+    version: "file://charts/system-under-test/Chart.yaml"
+    dependencies: []
+    platformDependents: []
+  ska-log-consumer:
+    version: "file://charts/system-under-test/Chart.yaml"
+    dependencies: []
+    platformDependents: []

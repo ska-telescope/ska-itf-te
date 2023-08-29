@@ -13,6 +13,8 @@
     INGRESS_HOST: "k8s.miditf.internal.skao.int"
     CLUSTER_DOMAIN: "miditf.internal.skao.int"
     K8S_EXTRA_CHART_PARMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
+    TANGO_DATABASE_DS: tango-databaseds
+    KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
     # LOADBALANCER_IP: 10.164.10.1
 
 .sut_on_demand:
@@ -21,7 +23,7 @@
     - .sut_base
     - .on_demand_rules
   variables:
-    HELM_RELEASE: "test-$CONFIG-$CI_COMMIT_REF_NAME"
+    HELM_RELEASE: sut
     KUBE_NAMESPACE: "ci-ska-mid-itf-$CI_COMMIT_REF_NAME"
     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
     SERVICE_ACCOUNT: "ci-svc-ska-miditf-$CI_COMMIT_REF_NAME"
@@ -178,3 +180,55 @@ destroy-sut-staging:
       namespace: $KUBE_NAMESPACE
     url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
     action: stop
+
+k8s-test-runner:
+  tags:
+    - ska-k8srunner-za-itf
+  allow_failure: false
+  image: $TEST_IMAGE
+  artifacts:
+    name: "$CI_PROJECT_NAME-$CI_JOB_ID"
+    paths:
+      - "build/"
+  extends:
+    - .sut_base
+  before_script:
+    - time poetry install
+    - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
+    - "make help | grep k8s-test"
+    - make k8s-install-chart
+    - make k8s-wait
+  script:
+    - make integration-test TANGO_HOST=$TANGO_DATABASE_DS.$KUBE_NAMESPACE.svc.$CLUSTER_DOMAIN:10000 || true
+    - |
+      if [[ 0 == "$(cat build/status)" ]]; then
+        make k8s-uninstall-chart || true
+        kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all || true
+        make k8s-delete-namespace || true
+      else
+        echo "#####################################################################################"
+        echo "# NOTE: this deployment will persist for about 2 hours, for investigation purposes. #"
+        echo "#####################################################################################"
+      fi
+    - '[ -f build/status ] || (echo "Something went wrong with the test (no build/status file); exit 1")'
+    - exit $(cat build/status)
+  # after_script:
+  #   - make template-chart
+  variables:
+    DEBUG_ENTRYPOINT: "True"
+    DEBUG_ENTRYPOINT_EXTENDED: "True"
+    LIVE_LOGGING_EXTENDED: "True"
+    SHOW_STEP_FUNCTIONS: "True"
+    CAPTURE_LOGS: "True"
+    EXIT_AT_FAIL: "True"
+
+stop-k8s-test-runner:
+  tags:
+    - ska-k8srunner-za-itf
+  script:
+    - make k8s-uninstall-chart || true
+    - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all || true
+    - make k8s-delete-namespace || true
+  extends:
+    - .sut_base
+  when: manual

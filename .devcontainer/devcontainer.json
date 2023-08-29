@@ -1,6 +1,6 @@
 {
     "name": "ska-mid-itf devcontainer",
-    "dockerFile": "Dockerfile",
+    "dockerFile": "../Dockerfile",
     "context": "..",
     // Set *default* container specific settings.json values on container create.
     "customizations": {
@@ -8,10 +8,22 @@
             "settings": {
                 "terminal.integrated.profiles.linux": {
                     "bash": {
-                        "path": "/bin/bash"
+                        "path": "/usr/bin/bash",
+                        "env": {
+                            "DEBUG_ENTRYPOINT": "True",
+                            "DEBUG_ENTRYPOINT_EXTENDED": "True",
+                            "LIVE_LOGGING_EXTENDED": "True",
+                            "SHOW_STEP_FUNCTIONS": "True",
+                            "CAPTURE_LOGS": "True",
+                            "PYTEST_ADDOPTS": "-o log_cli=True --count=1 -x  --log-file='test_logs.log'",
+                            "USE_ONLY_POLLING": "True",
+                            "TEST_ENV": "BUILD_IN"
+                        }
                     }
                 },
+                "terminal.integrated.defaultProfile.linux": "bash",
                 "vs-kubernetes.kubeconfig": "/home/tango/.kube/config",
+                "python.envFile": "${workspaceFolder}/.vscode/.env",
                 "terminal.integration.defaultProfile.linux": "bash",
                 "python.pythonPath": ".venv/bin/python",
                 "autoDocstring.docstringFormat": "sphinx",
@@ -46,14 +58,22 @@
                 "srmeyers.git-prefix",
                 "ms-python.black-formatter",
                 "ms-python.flake8",
-                "ms-python.isort"
+                "ms-python.isort",
+                "tamasfe.even-better-toml"
             ]
         }
     },
+    "runArgs": [
+        // "--dns",
+        //"10.164.0.11",
+        "--dns",
+        "1.1.1.1",
+    ],
     //this may break if you are attempting to do this from a non debian host
     // therefore manualy uncomment it in your branch if you want to use K8s
     /*
     "mounts": [
+        "source=${localEnv:HOME}${localEnv:USERPROFILE}code/skampi-code2/ska-skampi,target=/workspaces/ska-mid-itf/build2/,type=bind,consistency=cached",
         "source=${localEnv:HOME}${localEnv:USERPROFILE},target=/home/tango/host,type=bind,consistency=cached",
         "source=${localEnv:HOME}${localEnv:USERPROFILE}/.kube,target=/home/tango/.kube,type=bind,consistency=cached"
     ],*/

@@ -186,3 +186,7 @@ charts/test-parent/charts/*
 charts/ska-ser-test-equipment/charts/*
 Chart.lock
 manifests.yaml*
+MANIFEST.skao.int
+pytest-logs.txt
+pytest.stdout
+results.json
