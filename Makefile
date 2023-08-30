@@ -160,7 +160,7 @@ include .make/base.mk
 include .make/xray.mk
 
 XRAY_TEST_RESULT_FILE ?= build/reports/cucumber.json
-XRAY_EXECUTION_CONFIG_FILE ?= tests/xray-config-sut.json
+XRAY_EXECUTION_CONFIG_FILE ?= tests/xray-config.json
 
 integration-test:
 	@mkdir -p build
