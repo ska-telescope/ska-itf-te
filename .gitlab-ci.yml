@@ -52,6 +52,10 @@ include:
   # - project: "ska-telescope/templates-repository"
   #   file: "gitlab-ci/includes/deploy.gitlab-ci.yml"
 
+  # Upload Xray report
+  - project: "ska-telescope/templates-repository"
+    file: "gitlab-ci/includes/xray-publish.gitlab-ci.yml"
+
   - local: .gitlab/ci/common.yml
   - local: .gitlab/ci/sut.yml
   - local: .gitlab/ci/test-equipment.yml
