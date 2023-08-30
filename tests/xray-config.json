@@ -20,7 +20,7 @@
       "default": "charts/system-under-test/Chart.yaml"
     }
   },
-  "test_report": "build/report.json",
+  "test_report": "build/reports/report.json",
   "jira_url": "https://jira.skatelescope.org",
   "project": {
     "id": "AT",
