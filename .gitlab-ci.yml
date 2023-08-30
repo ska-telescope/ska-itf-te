@@ -62,7 +62,8 @@ include:
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/xray-publish.gitlab-ci.yml"
 xray-publish:
-  when: manual
+  # when: manual
+  when: always #### TODO: Remove this and uncomment line just above this one!
   rules: # this is just to override the rules that are apparently blocking execution at the moment
 
 python-test:
