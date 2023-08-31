@@ -15,13 +15,13 @@ test-equipment:
     enabled: false
   deviceServers:
     progattenuator:
-      devices: []
-        # - name: rc1dat800030
-        #   model: RC1DAT800030
-        #   host: 10.165.3.6
-        #   port: 45451
-        #   protocol: telnet
-        #   logging_level_default: 5
+      devices:
+        - name: rc1dat800030
+          model: RC1DAT800030
+          host: 10.165.3.6
+          port: 45451
+          protocol: telnet
+          logging_level_default: 5
     awg:
       devices: []
     signalgenerator:
@@ -40,7 +40,7 @@ test-equipment:
     spectrumanalyser:
       devices: []
     spectrumanalyseranritsu:
-      devices: 
+      devices:
         - name: ms2090a
           model: MS2090A
           host: 10.165.3.4
