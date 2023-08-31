@@ -25,13 +25,30 @@ test-equipment:
     awg:
       devices: []
     signalgenerator:
-      devices: []
+      devices:
+        []
+        # - name: smb100a
+        #   model: SMB100A
+        #   host: 10.165.3.1
+        #   port: 5025
+        #   resources:
+        #     limits:
+        #       skao.int/signal-generator-01: "1"
     sp6t:
       devices: []
     spdt:
       devices: []
     spectrumanalyser:
       devices: []
+    spectrumanalyseranritsu:
+      devices:
+        []
+        # - name: ms2090a
+        #   model: MS2090A
+        #   host: 10.165.3.4
+        #   port: 9001
+        #   protocol: tcp
+        #   logging_level_default: 5
 
 # TARANTA SUITE
 ska-taranta:

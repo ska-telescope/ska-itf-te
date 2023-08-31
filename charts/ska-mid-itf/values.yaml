@@ -30,18 +30,22 @@ test-equipment:
           host: 10.165.3.6
           port: 45451
           protocol: telnet
+          resources:
+            limits:
+              skao.int/attenuator-01: "1"
           # logging_level_default: 4
     spectrumanalyser:
       devices: []
-    # spectrumanalyser: # DO NOT DELETE THIS AS WE NEED TO GET THIS WORKING AGAIN LATER!!!
-    #   devices:
-    #     - name: ms2090a
-    #       model: MS2090A
-    #       host: 10.165.3.4
-    #       port: 9001
-    #       resources:
-    #         limits:
-    #           skao.int/spectrum-analyser-01: "1"
+    spectrumanalyseranritsu:
+      devices:
+        - name: ms2090a
+          model: MS2090A
+          host: 10.165.3.4
+          port: 9001
+          protocol: tcp
+          resources:
+            limits:
+              skao.int/spectrum-analyser-01: "1"
     awg:
       devices: []
     sp6t:
