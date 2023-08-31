@@ -156,6 +156,13 @@ include .make/base.mk
 # include namespace-specific targets
 -include resources/k8s-installs.mk
 
+# include Xray uploads
+include .make/xray.mk
+
+XRAY_TEST_RESULT_FILE ?= build/reports/cucumber.json
+XRAY_EXECUTION_CONFIG_FILE ?= tests/xray-config.json
+XRAY_EXTRA_OPTS=-v
+
 integration-test:
 	@mkdir -p build
 	$(PYTHON_RUNNER) pytest $(INTEGRATION_TEST_SOURCE) $(INTEGRATION_TEST_ARGS); \
@@ -163,7 +170,8 @@ integration-test:
 
 
 upload-to-confluence:
-	.venv/bin/upload-to-confluence sut_config.yaml build/cucumber.json
+	@.venv/bin/upload-to-confluence sut_config.yaml build/reports/cucumber.json
+	@echo "##### Results uploaded to https://confluence.skatelescope.org/x/arzVDQ #####"
 
 template-chart: k8s-dep-update
 	mkdir -p build

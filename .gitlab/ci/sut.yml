@@ -187,7 +187,7 @@ k8s-test-runner:
   allow_failure: false
   image: $TEST_IMAGE
   artifacts:
-    name: "$CI_PROJECT_NAME-$CI_JOB_ID"
+    name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID"
     paths:
       - "build/"
   extends:
@@ -232,3 +232,19 @@ stop-k8s-test-runner:
   extends:
     - .sut_base
   when: manual
+
+publish-k8s-test-results:
+  stage: publish
+  needs:
+    - k8s-test-runner
+  tags:
+    - ska-k8srunner-za-itf
+  artifacts:
+    name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID"
+    paths:
+      - "build/"
+  extends:
+    - .sut_base
+  script:
+    - echo "Test result code from k8s-test-runner job was $(cat build/status)"
+    - make upload-to-confluence

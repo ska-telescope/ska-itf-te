@@ -3,7 +3,7 @@ image: $SKA_K8S_TOOLS_BUILD_DEPLOY
 variables:
   MINIKUBE: "false"
   CI_REGISTRY_IMAGE: $CI_REGISTRY/ska-telescope/ska-mid-itf/base
-  TEST_IMAGE: $CI_REGISTRY_IMAGE:3ad90d1c
+  TEST_IMAGE: $CI_REGISTRY_IMAGE:latest
   GIT_SUBMODULE_STRATEGY: recursive
   EXPOSE_All_DS: "true"
   CLEAN_UP_TEST_ENVIRONMENT: "true"
@@ -58,6 +58,14 @@ include:
   - local: .gitlab/ci/dish-aiv.yml
   - local: .gitlab/ci/ansible.yml
 
+  # Upload Xray report
+  - project: "ska-telescope/templates-repository"
+    file: "gitlab-ci/includes/xray-publish.gitlab-ci.yml"
+xray-publish:
+  # when: manual
+  when: always #### TODO: Remove this and uncomment line just above this one!
+  rules: # this is just to override the rules that are apparently blocking execution at the moment
+
 python-test:
   image: $TEST_IMAGE
 
@@ -75,49 +83,6 @@ python-lint:
     - make k8s-uninstall-chart || true
     - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all --ignore-not-found
     - make k8s-delete-namespace
-
-deploy-test-equipment-for-verification:
-  tags:
-    - ska-k8srunner-za-itf
-  image: $SKA_K8S_TOOLS_BUILD_DEPLOY
-  stage: verify-test-equipment
-  variables:
-    MINIKUBE: "false"
-    CLUSTER_DOMAIN: miditf.internal.skao.int
-    INGRESS_HOST: k8s.miditf.internal.skao.int
-    KUBE_APP: ska-ser-test-equipment
-    K8S_CHART: test-equipment-verification
-    KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG"
-    SERVICE_ACCOUNT: ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
-    NEXUS_CACHE: NEXUS_CACHE
-  before_script:
-    - make k8s-uninstall-chart
-    - make k8s-delete-namespace
-    - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
-    - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
-  script:
-    - make k8s-install-chart
-    - make itf-te-links
-    - make k8s-wait || true
-    - bash .make/resources/gitlab_section.sh template "Show used Helm Chart Template" make k8s-template-chart
-  environment:
-    name: ska-mid-itf/te-verification
-    kubernetes:
-      namespace: "$KUBE_NAMESPACE"
-    url: https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta
-  allow_failure: true # need to keep this to unlock the pipeline
-  artifacts:
-    name: "$CI_PROJECT_NAME-$CI_JOB_ID"
-    paths:
-      - build/
-  rules:
-    - changes:
-        - charts/test-equipment-verification/*
-        - resources/test-equipment-dev.mk
-      if: $CI_PIPELINE_SOURCE == "merge_request_event"
-      when: always
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      when: never
 
 python-build-for-publication-legacy:
   image: $TEST_IMAGE
