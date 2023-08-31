@@ -12,7 +12,7 @@ url = 'https://artefact.skao.int/repository/pypi-internal/simple'
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.11"
-ska-ser-skallop = {version = "2.29.6", extras = ["bit"]}
+ska-ser-skallop = { version = "2.29.6", extras = ["bit"] }
 ska-tmc-cdm = "7.3.1"
 pytest-json-report = "^1.5.0"
 pytest-repeat = "^0.9.1"
@@ -24,7 +24,7 @@ recommonmark = "^0.7.1"
 markupsafe = "^2.1.0"
 
 [tool.poetry.dev-dependencies]
-black = {version = "^22.6.0", allow-prereleases = true}
+black = { version = "^22.6.0", allow-prereleases = true }
 
 [tool.poetry.group.dev.dependencies]
 black = "^22.12.0"
@@ -67,4 +67,3 @@ max-line-length = 99
 
 [tool.black]
 line_length = 99
-

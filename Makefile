@@ -170,7 +170,8 @@ integration-test:
 
 
 upload-to-confluence:
-	.venv/bin/upload-to-confluence sut_config.yaml build/reports/cucumber.json
+	@.venv/bin/upload-to-confluence sut_config.yaml build/reports/cucumber.json
+	@echo "##### Results uploaded to https://confluence.skatelescope.org/x/arzVDQ #####"
 
 template-chart: k8s-dep-update
 	mkdir -p build
