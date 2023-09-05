@@ -145,6 +145,7 @@ deploy-file-browser:
     KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG"
     SERVICE_ACCOUNT: ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
     NEXUS_CACHE: NEXUS_CACHE
+    K8S_CHART_PARAMS: --set ska-tango-archiver.dbpassword=${EDA_DB_PASSWORD}
   before_script:
     - make k8s-uninstall-chart
     - make k8s-delete-namespace

@@ -74,7 +74,7 @@ ska-tango-archiver:
   dbuser: admin
   port: 5432
   telescope: SKA-mid
-  telescope-environment: MID-ITF
+  telescope_environment: MID-ITF
   configuration_manager: mid-eda/cm/01
   event_subscriber: mid-eda/es/01
   archwizard_config: MyHDB=tango://tango-databaseds.ci-ska-mid-itf-at-1286-eda.svc.miditf.internal.skao.int:10000/mid-eda/cm/01
