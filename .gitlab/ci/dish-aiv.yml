@@ -75,13 +75,49 @@ remove-dish-structure-simulator:
     K8S_CHART: dish-lmc
     KUBE_NAMESPACE: dish-lmc-$DISH_ID
     KUBE_APP: dish-lmc
+  before_script:
+    - make vars
+  script:
+    - make k8s-install-chart
+  when: manual
+  allow_failure: true # need to keep this to unlock the pipeline
+  environment:
+    name: mid-itf/integration/dish-lmc-$DISH_ID
+    kubernetes:
+      namespace: "$KUBE_NAMESPACE"
+    url: https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta/
+
+.destroy-dish-lmc:
+  stage: dish-aiv
+  tags:
+    - ska-k8srunner-za-itf
+  variables:
+    K8S_EXTRA_PARAMS: -f charts/dish-lmc/values.yaml
+    CLUSTER_DOMAIN: miditf.internal.skao.int
+    INGRESS_HOST: k8s.miditf.internal.skao.int
+    K8S_CHART: dish-lmc
+    KUBE_NAMESPACE: dish-lmc-$DISH_ID
+    KUBE_APP: dish-lmc
+  extends:
+    - .uninstall_chart
+  environment:
+    name: mid-itf/integration/dish-lmc-$DISH_ID
+    kubernetes:
+      namespace: "$KUBE_NAMESPACE"
+    url: https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta/
+    action: stop
+  when: manual
+  allow_failure: true # need to keep this to unlock the pipeline
 
 deploy-dishlmc-ska001:
   extends:
     - .deploy-dish-lmc
   variables:
     DISH_ID: ska001
-  script:
-    - make k8s-install-chart
-  when: manual
-  allow_failure: true # need to keep this to unlock the pipeline
+    on_stop: uninstall-dishlmc-ska001
+
+uninstall-dishlmc-ska001:
+  extends:
+    - .destroy-dish-lmc
+  variables:
+    DISH_ID: ska001
