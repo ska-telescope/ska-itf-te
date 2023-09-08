@@ -55,7 +55,7 @@ INTEGRATION_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(_MARKS) $(_COUNTS)
 
 K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	--set global.exposeAllDS=$(EXPOSE_All_DS) \
-	 --set global.exposeDatabaseDS=$(EXPOSE_DATABASE_DS) \
+	--set global.exposeDatabaseDS=$(EXPOSE_DATABASE_DS) \
 	--set global.tango_host=$(TANGO_HOST) \
 	--set global.device_server_port=$(TANGO_SERVER_PORT) \
 	--set global.cluster_domain=$(CLUSTER_DOMAIN) \

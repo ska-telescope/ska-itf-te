@@ -63,3 +63,25 @@ remove-dish-structure-simulator:
     action: stop
   when: manual
   allow_failure: true # need to keep this to unlock the pipeline
+
+.deploy-dish-lmc:
+  stage: dish-aiv
+  tags:
+    - ska-k8srunner-za-itf
+  variables:
+    K8S_EXTRA_PARAMS: -f charts/dish-lmc/values.yaml
+    CLUSTER_DOMAIN: miditf.internal.skao.int
+    INGRESS_HOST: k8s.miditf.internal.skao.int
+    K8S_CHART: dish-lmc
+    KUBE_NAMESPACE: dish-lmc-$DISH_ID
+    KUBE_APP: dish-lmc
+
+deploy-dishlmc-ska001:
+  extends:
+    - .deploy-dish-lmc
+  variables:
+    DISH_ID: ska001
+  script:
+    - make k8s-install-chart
+  when: manual
+  allow_failure: true # need to keep this to unlock the pipeline
