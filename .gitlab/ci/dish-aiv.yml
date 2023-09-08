@@ -80,6 +80,7 @@ remove-dish-structure-simulator:
   script:
     - make k8s-install-chart
   when: manual
+  needs: helm-chart-build
   allow_failure: true # need to keep this to unlock the pipeline
   environment:
     name: mid-itf/integration/dish-lmc-$DISH_ID
@@ -100,6 +101,7 @@ remove-dish-structure-simulator:
     KUBE_APP: dish-lmc
   extends:
     - .uninstall_chart
+  needs: helm-chart-build
   environment:
     name: mid-itf/integration/dish-lmc-$DISH_ID
     kubernetes:
