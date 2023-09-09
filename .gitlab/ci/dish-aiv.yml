@@ -65,6 +65,7 @@ remove-dish-structure-simulator:
   allow_failure: true # need to keep this to unlock the pipeline
 
 .deploy-dish-lmc:
+  cache: []
   stage: dish-aiv
   tags:
     - ska-k8srunner-za-itf
@@ -90,6 +91,7 @@ remove-dish-structure-simulator:
     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta/
 
 .destroy-dish-lmc:
+  cache: []
   stage: dish-aiv
   tags:
     - ska-k8srunner-za-itf
