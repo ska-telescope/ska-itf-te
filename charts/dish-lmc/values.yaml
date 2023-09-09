@@ -1,6 +1,9 @@
 global:
   facility: mid-itf
   minikube: false
+  sub-system:
+    ska-tango-base:
+      enabled: false
 
 # DISH LMC
 ska-dish-lmc:
