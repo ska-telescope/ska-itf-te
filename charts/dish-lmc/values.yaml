@@ -1,5 +1,6 @@
 global:
   facility: mid-itf
+  dishes: { 001 }
   minikube: false
   sub-system:
     ska-tango-base:
@@ -15,8 +16,10 @@ ska-dish-lmc:
       ska-tango-base:
         enabled: false
       deviceServers:
-        spfdevice: enabled
-        spfrxdevice: enabled
+        spfdevice:
+          enabled: true
+        spfrxdevice:
+          enabled: true
 
 # TARANTA SUITE
 ska-taranta:
