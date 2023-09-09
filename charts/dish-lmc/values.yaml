@@ -11,7 +11,7 @@ ska-dish-lmc:
   taranta:
     enabled: false
   ska-mid-dish-manager:
-    ska-mid-itf-dish-structure-simulators:
+    ska-mid-dish-simulators:
       enabled: true
       ska-tango-base:
         enabled: false
