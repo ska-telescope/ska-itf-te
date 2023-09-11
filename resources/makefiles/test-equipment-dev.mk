@@ -16,3 +16,14 @@ K8S_EXTRA_PARAMS = \
 			--set test-equipment.image.tag=$(TE_VERSION) \
 			--set test-equipment.image.pullPolicy=Always
 endif
+
+itf-lmc-stage:
+	helm upgrade --install dev charts/ska-dish-lmc -n $(KUBE_NAMESPACE) \
+		--set "global.dishes={001}" \
+		--set "global.minikube=true" \
+		--set "ska-mid-dish-manager.ska-mid-dish-simulators.enabled=true" \
+		--set "ska-mid-dish-manager.ska-mid-dish-simulators.deviceServers.spfrxdevice.enabled=true" \
+		--set "ska-mid-dish-manager.ska-mid-dish-simulators.deviceServers.spfdevice.enabled=true" \
+		--set "ska-mid-dish-manager.ska-mid-dish-simulators.ska-tango-base.enabled=false" \
+		--set "ska-mid-dish-ds-manager.ska-mid-dish-simulators.enabled=false" \
+		--set "ska-mid-dish-ds-manager.ska-tango-base.enabled=false"

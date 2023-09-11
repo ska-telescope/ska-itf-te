@@ -79,7 +79,8 @@ remove-dish-structure-simulator:
   before_script:
     - make vars
   script:
-    - make k8s-install-chart
+    # - make k8s-install-chart
+    - make itf-lmc-stage #copied from https://gitlab.com/ska-telescope/ska-dish-lmc/-/blob/master/Makefile?ref_type=heads#L145
   when: manual
   needs:
     - helm-chart-build
