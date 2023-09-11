@@ -28,3 +28,4 @@ dependencies:
   - name: ska-dish-lmc
     version: 2.5.0
     repository: https://artefact.skao.int/repository/helm-internal
+    alias: dishlmc
