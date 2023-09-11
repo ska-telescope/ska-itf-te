@@ -1,4 +1,4 @@
-include ./resources/test-equipment-dev.mk
+include ./resources/makefiles/test-equipment-dev.mk
 
 ## TARGET: itf-te-install
 ## SYNOPSIS: make itf-te-install

@@ -71,7 +71,7 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	$(K8S_EXTRA_PARAMS)
 
 # # TODO: remove if no longer needed.
-# -include resources/itf-connect.mk
+# -include resources/makefiles/itf-connect.mk
 
 ### USEFUL BITS FROM LOW
 # better be verbose for debugging
@@ -154,7 +154,7 @@ include .make/base.mk
 -include PrivateRules.mak
 
 # include namespace-specific targets
--include resources/k8s-installs.mk
+-include resources/makefiles/k8s-installs.mk
 
 # include Xray uploads
 include .make/xray.mk

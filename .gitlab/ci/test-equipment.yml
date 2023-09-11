@@ -168,7 +168,7 @@ deploy-test-equipment-for-verification:
   rules:
     - changes:
         - charts/test-equipment-verification/*
-        - resources/test-equipment-dev.mk
+        - resources/makefiles/test-equipment-dev.mk
       if: $CI_PIPELINE_SOURCE == "merge_request_event"
       when: always
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
