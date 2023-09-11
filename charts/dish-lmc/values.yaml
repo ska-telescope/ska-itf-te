@@ -2,7 +2,6 @@ global:
   exposeDatabaseDS: true
   exposeAllDS: true
   facility: mid-itf
-  dishes: { 001 }
   minikube: false
   sub-system:
     ska-tango-base:

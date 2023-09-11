@@ -70,7 +70,7 @@ remove-dish-structure-simulator:
   tags:
     - ska-k8srunner-za-itf
   variables:
-    K8S_EXTRA_PARAMS: -f charts/dish-lmc/values.yaml
+    K8S_EXTRA_PARAMS: -f charts/dish-lmc/values.yaml --set "global.dishes={001}"
     CLUSTER_DOMAIN: miditf.internal.skao.int
     INGRESS_HOST: k8s.miditf.internal.skao.int
     K8S_CHART: dish-lmc
@@ -79,8 +79,7 @@ remove-dish-structure-simulator:
   before_script:
     - make vars
   script:
-    # - make k8s-install-chart
-    - make itf-lmc-stage #copied from https://gitlab.com/ska-telescope/ska-dish-lmc/-/blob/master/Makefile?ref_type=heads#L145
+    - make k8s-install-chart
   when: manual
   needs:
     - helm-chart-build
