@@ -6,7 +6,6 @@ include ./resources/makefiles/test-equipment-dev.mk
 ## VARS: none
 ##  make target for installing DishLMC as they do it in ska-dish-lmc repository
 
-
 itf-lmc-stage:
 	helm upgrade --install dev charts/dish-lmc -n $(KUBE_NAMESPACE) \
 		--set "global.dishes={001}" \
