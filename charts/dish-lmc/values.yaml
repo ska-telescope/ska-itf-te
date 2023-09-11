@@ -1,4 +1,6 @@
 global:
+  exposeDatabaseDS: true
+  exposeAllDS: true
   facility: mid-itf
   dishes: { 001 }
   minikube: false
@@ -11,8 +13,10 @@ ska-dish-lmc:
   taranta:
     enabled: false
   ska-mid-dish-manager:
+    legacy_compatibility: true
     ska-mid-dish-simulators:
       enabled: true
+      legacy_compatibility: true
       ska-tango-base:
         enabled: false
       deviceServers:
