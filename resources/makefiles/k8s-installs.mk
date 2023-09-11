@@ -7,7 +7,8 @@ include ./resources/makefiles/test-equipment-dev.mk
 ##  make target for installing DishLMC as they do it in ska-dish-lmc repository
 
 itf-lmc-stage:
-	helm upgrade --install dev charts/dish-lmc -n $(KUBE_NAMESPACE) \
+	helm repo add ska-helm-internal https://artefact.skao.int/repository/helm-internal
+	helm upgrade --install dev ska-helm-internal/dish-lmc -n $(KUBE_NAMESPACE) \
 		--set "global.dishes={001}" \
 		--set "global.minikube=true" \
 		--set "dishlmc.ska-mid-dish-manager.ska-mid-dish-simulators.enabled=true" \
