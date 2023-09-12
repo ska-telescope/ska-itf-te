@@ -121,3 +121,31 @@ Other customisations such as `alias`es also make life simpler. Speak to your nea
 ## ITF User Access
 
 The ansible playbooks in `resources/ansible-playbooks` are used to manage access to hosts in the Mid ITF. See `resources/ansible-playbooks/README.md` for more details.
+
+## Test instruments:
+
+### Arbitrary Waveform Generator    
+
+za-itf-awg.ad.skatelescope.org                 
+10.165.3.3   
+4000    
+http://za-itf-awg.ad.skatelescope.org/Default.aspx
+
+### Oscilloscope                    
+
+za-itf-oscilloscope.ad.skatelescope.org        
+10.165.3.2   
+4000    
+http://za-itf-oscilloscope.ad.skatelescope.org/
+
+### Spectrum analyser               
+
+za-itf-spectrum-analyser.ad.skatelescope.org   
+10.165.3.4   
+9001
+
+### Programmable attenuator         
+
+za-itf-attenuator.ad.skatelescope.org          
+10.165.3.6
+
