@@ -34,7 +34,7 @@ cbf-mcs:
   engineeringConsoleVersion: 0.8.3
   signalVerificationVersion: 0.1.11
   hostInfo:
-    environment: "mid-psi"
+    environment: "mid-itf"
     clusterDomain: "miditf.internal.skao.int"
 
 
