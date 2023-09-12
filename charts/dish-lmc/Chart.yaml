@@ -14,7 +14,7 @@ dependencies:
     version: 0.4.6
     repository: https://artefact.skao.int/repository/helm-internal
 
-  # TARANTA SUITE
+  # TARANTA APPLICATION
   - name: ska-tango-taranta
     version: 2.2.0
     repository: https://artefact.skao.int/repository/helm-internal
