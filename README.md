@@ -126,26 +126,26 @@ The ansible playbooks in `resources/ansible-playbooks` are used to manage access
 
 ### Arbitrary Waveform Generator    
 
-za-itf-awg.ad.skatelescope.org                 
-10.165.3.3   
-4000    
-http://za-itf-awg.ad.skatelescope.org/Default.aspx
+FQDN: za-itf-awg.ad.skatelescope.org                 
+IP  : 10.165.3.3   
+Port: 4000    
+Web : http://za-itf-awg.ad.skatelescope.org/Default.aspx
 
 ### Oscilloscope                    
 
-za-itf-oscilloscope.ad.skatelescope.org        
-10.165.3.2   
-4000    
-http://za-itf-oscilloscope.ad.skatelescope.org/
+FQDN: za-itf-oscilloscope.ad.skatelescope.org        
+IP  : 10.165.3.2   
+Port: 4000    
+Web : http://za-itf-oscilloscope.ad.skatelescope.org/
 
 ### Spectrum analyser               
 
-za-itf-spectrum-analyser.ad.skatelescope.org   
-10.165.3.4   
-9001
+FQDN: za-itf-spectrum-analyser.ad.skatelescope.org   
+IP  : 10.165.3.4   
+Port: 9001
 
 ### Programmable attenuator         
 
-za-itf-attenuator.ad.skatelescope.org          
-10.165.3.6
+FQDN: za-itf-attenuator.ad.skatelescope.org          
+IP  : 10.165.3.6
 
