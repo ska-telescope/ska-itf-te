@@ -8,5 +8,5 @@ icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_201
 dependencies:
   # DISH STRUCTURE SIMULATOR
   - name: ds-sim
-    version: 0.1.9
+    version: 0.2.0
     repository: https://artefact.skao.int/repository/helm-internal
