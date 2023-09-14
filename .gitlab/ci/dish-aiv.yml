@@ -136,7 +136,7 @@ deploy-aa05-dishes:
 deploy-dishlmc-ska036:
   extends:
     - .deploy-dish-lmc
-  when: always
+  when: on_success
   needs:
     - deploy-dishlmc-ska001
     - deploy-aa05-dishes
