@@ -9,8 +9,9 @@ global:
 
 # DISH LMC
 dishlmc:
-  taranta:
-    enabled: false
+  # ska-dish-lmc:
+  #   taranta:
+  #     enabled: false
   ska-mid-dish-manager:
     legacy_compatibility: true
     ska-mid-dish-simulators:

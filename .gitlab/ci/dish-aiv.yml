@@ -81,6 +81,7 @@ remove-dish-structure-simulator:
     - make vars
   script:
     - make k8s-install-chart
+    - make itf-dish-links
   when: manual
   needs:
     - helm-chart-build
@@ -123,8 +124,66 @@ deploy-dishlmc-ska001:
     DISH_INDEX: "001"
     on_stop: uninstall-dishlmc-ska001
 
+deploy-aa05-dishes:
+  stage: on_demand_itf_sut
+  extends:
+    - .sut_base
+    - .on_demand_rules
+  script:
+    - echo "Deploying multiple dishes in downstream dish-aiv stage - first deploy ska001 manually"
+    - echo "Deploying 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
+
+deploy-dishlmc-ska036:
+  extends:
+    - .deploy-dish-lmc
+  when: always
+  needs:
+    - deploy-aa05-dishes
+    - deploy-dishlmc-ska001
+  variables:
+    DISH_INDEX: "036"
+    on_stop: uninstall-dishlmc-ska036
+
+deploy-dishlmc-ska063:
+  extends:
+    - .deploy-dish-lmc
+  when: always
+  needs:
+    - deploy-dishlmc-ska063
+  variables:
+    DISH_INDEX: "063"
+    on_stop: uninstall-dishlmc-ska063
+
+deploy-dishlmc-ska100:
+  extends:
+    - .deploy-dish-lmc
+  when: always
+  needs:
+    - deploy-dishlmc-ska100
+  variables:
+    DISH_INDEX: "100"
+    on_stop: uninstall-dishlmc-ska100
+
 uninstall-dishlmc-ska001:
   extends:
     - .destroy-dish-lmc
   variables:
     DISH_ID: ska001
+
+uninstall-dishlmc-ska036:
+  extends:
+    - .destroy-dish-lmc
+  variables:
+    DISH_ID: ska036
+
+uninstall-dishlmc-ska063:
+  extends:
+    - .destroy-dish-lmc
+  variables:
+    DISH_ID: ska063
+
+uninstall-dishlmc-ska100:
+  extends:
+    - .destroy-dish-lmc
+  variables:
+    DISH_ID: ska100

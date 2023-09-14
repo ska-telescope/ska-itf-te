@@ -82,6 +82,14 @@ itf-cluster-credentials:  ## PIPELINE USE ONLY - allocate credentials for deploy
 
 links: itf-te-links
 
+## TARGET: itf-dish-links
+## SYNOPSIS: make itf-dish-links
+## HOOKS: none
+## VARS: none
+##  make target for generating the URLs for accessing the DishLMC deployments in the Mid ITF cluster
+
+itf-dish-links: links ## Create the URLs with which to access Taranta Dashboards
+
 ## TARGET: itf-te-links
 ## SYNOPSIS: make itf-te-links
 ## HOOKS: none
