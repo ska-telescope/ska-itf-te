@@ -91,7 +91,6 @@ remove-dish-structure-simulator:
     kubernetes:
       namespace: "$KUBE_NAMESPACE"
     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta/
-    on_stop: uninstall-dishlmc-ska$DISH_ID
 
 .destroy-dish-lmc:
   cache: []
@@ -123,6 +122,8 @@ deploy-dishlmc-ska001:
     - .deploy-dish-lmc
   variables:
     DISH_INDEX: "001"
+  environment:
+    on_stop: uninstall-dishlmc-ska001
 
 deploy-aa05-dishes:
   stage: on_demand_itf_sut
@@ -157,6 +158,8 @@ deploy-dishlmc-ska036:
     - deploy-aa05-dishes
   variables:
     DISH_INDEX: "036"
+  environment:
+    on_stop: uninstall-dishlmc-ska036
 
 deploy-dishlmc-ska063:
   extends:
@@ -166,6 +169,8 @@ deploy-dishlmc-ska063:
     - deploy-dishlmc-ska036
   variables:
     DISH_INDEX: "063"
+  environment:
+    on_stop: uninstall-dishlmc-ska036
 
 deploy-dishlmc-ska100:
   extends:
@@ -175,6 +180,8 @@ deploy-dishlmc-ska100:
     - deploy-dishlmc-ska063
   variables:
     DISH_INDEX: "100"
+  environment:
+    on_stop: uninstall-dishlmc-ska063
 
 .destroy-aa05-dishes:
   extends:
