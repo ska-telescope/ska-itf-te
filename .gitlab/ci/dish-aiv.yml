@@ -128,7 +128,7 @@ deploy-dishlmc-ska001:
 deploy-aa05-dishes:
   stage: on_demand_itf_sut
   extends:
-    - .sut_base
+    - .sut_base_no_cache
     - .on_demand_rules
   script:
     - echo "Deploying multiple dishes in downstream dish-aiv stage - first deploy ska001 manually"
@@ -140,7 +140,7 @@ deploy-aa05-dishes:
 uninstall-aa05-dishes:
   stage: on_demand_itf_sut
   extends:
-    - .sut_base
+    - .sut_base_no_cache
     - .on_demand_rules
   script:
     - echo "Uninstalling all dishes in downstream dish-aiv stage"
