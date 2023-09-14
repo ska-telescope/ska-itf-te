@@ -104,6 +104,8 @@ itf-te-links: ## Create the URLs with which to access Skampi if it is available
 
 CI_COMMIT_REF_NAME?=
 
+DISH_ID?=
+
 itf-te-pass-env: KUBE_NAMESPACE := test-equipment
 itf-te-pass-env: itf-skysimctl-links## Generate Gitlab CI configuration for SkySimCtl device server deployment
 
@@ -189,3 +191,4 @@ vars:
 	$(info K8S_EXTRA_PARAMS: $(K8S_EXTRA_PARAMS))
 	$(info K8S_CHARTS: $(K8S_CHARTS))
 	$(info SKA_TANGO_OPERATOR_DEPLOYED: $(SKA_TANGO_OPERATOR_DEPLOYED))
+	$(info DISH_ID: $(DISH_ID))

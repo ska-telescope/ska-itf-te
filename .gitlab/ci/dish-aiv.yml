@@ -71,7 +71,6 @@ remove-dish-structure-simulator:
     - ska-k8srunner-za-itf
   variables:
     K8S_EXTRA_PARAMS: -f charts/dish-lmc/values.yaml --set "global.dishes={$DISH_INDEX}"
-
     CLUSTER_DOMAIN: miditf.internal.skao.int
     INGRESS_HOST: k8s.miditf.internal.skao.int
     K8S_CHART: dish-lmc
@@ -121,7 +120,7 @@ deploy-dishlmc-ska001:
   extends:
     - .deploy-dish-lmc
   variables:
-    DISH_INDEX: 001
+    DISH_INDEX: "001"
     on_stop: uninstall-dishlmc-ska001
 
 uninstall-dishlmc-ska001:
