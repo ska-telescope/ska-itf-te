@@ -138,8 +138,8 @@ deploy-dishlmc-ska036:
     - .deploy-dish-lmc
   when: always
   needs:
-    - deploy-aa05-dishes
     - deploy-dishlmc-ska001
+    - deploy-aa05-dishes
   variables:
     DISH_INDEX: "036"
     on_stop: uninstall-dishlmc-ska036
