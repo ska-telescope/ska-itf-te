@@ -91,6 +91,7 @@ remove-dish-structure-simulator:
     kubernetes:
       namespace: "$KUBE_NAMESPACE"
     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta/
+    on_stop: uninstall-dishlmc-ska$DISH_ID
 
 .destroy-dish-lmc:
   cache: []
@@ -122,7 +123,6 @@ deploy-dishlmc-ska001:
     - .deploy-dish-lmc
   variables:
     DISH_INDEX: "001"
-    on_stop: uninstall-dishlmc-ska001
 
 deploy-aa05-dishes:
   stage: on_demand_itf_sut
@@ -132,6 +132,9 @@ deploy-aa05-dishes:
   script:
     - echo "Deploying multiple dishes in downstream dish-aiv stage - first deploy ska001 manually"
     - echo "Deploying 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
+  environment:
+    name: mid-itf/integration/dish-lmc-aa05
+    on_stop: uninstall-aa05-dishes
 
 uninstall-aa05-dishes:
   stage: on_demand_itf_sut
@@ -141,6 +144,9 @@ uninstall-aa05-dishes:
   script:
     - echo "Uninstalling all dishes in downstream dish-aiv stage"
     - echo "Uninstalling 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
+  environment:
+    name: mid-itf/integration/dish-lmc-aa05
+    action: stop
 
 deploy-dishlmc-ska036:
   extends:
@@ -151,7 +157,6 @@ deploy-dishlmc-ska036:
     - deploy-aa05-dishes
   variables:
     DISH_INDEX: "036"
-    on_stop: uninstall-dishlmc-ska036
 
 deploy-dishlmc-ska063:
   extends:
@@ -161,7 +166,6 @@ deploy-dishlmc-ska063:
     - deploy-dishlmc-ska036
   variables:
     DISH_INDEX: "063"
-    on_stop: uninstall-dishlmc-ska063
 
 deploy-dishlmc-ska100:
   extends:
@@ -171,7 +175,6 @@ deploy-dishlmc-ska100:
     - deploy-dishlmc-ska063
   variables:
     DISH_INDEX: "100"
-    on_stop: uninstall-dishlmc-ska100
 
 .destroy-aa05-dishes:
   extends:
