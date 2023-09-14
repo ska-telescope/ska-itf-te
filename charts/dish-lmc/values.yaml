@@ -8,7 +8,7 @@ global:
       enabled: false
 
 # DISH LMC
-ska-dish-lmc:
+dishlmc:
   taranta:
     enabled: false
   ska-mid-dish-manager:
