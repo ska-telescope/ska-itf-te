@@ -1,5 +1,5 @@
 apiVersion: v2
-name: ska-mid-itf-dish-structure-simulators
+name: ska-mid-itf-dish-lmc
 description: An umbrella Helm chart for deploying the Dish LMC and necessary peripherals
 type: application
 version: 0.1.0
