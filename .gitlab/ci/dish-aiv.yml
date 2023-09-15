@@ -63,3 +63,153 @@ remove-dish-structure-simulator:
     action: stop
   when: manual
   allow_failure: true # need to keep this to unlock the pipeline
+
+.deploy-dish-lmc:
+  cache: []
+  stage: dish-aiv
+  tags:
+    - ska-k8srunner-za-itf
+  variables:
+    K8S_EXTRA_PARAMS: -f charts/dish-lmc/values.yaml --set "global.dishes={$DISH_INDEX}"
+    CLUSTER_DOMAIN: miditf.internal.skao.int
+    INGRESS_HOST: k8s.miditf.internal.skao.int
+    K8S_CHART: dish-lmc
+    KUBE_NAMESPACE: dish-lmc-$DISH_ID
+    KUBE_APP: dish-lmc
+    DISH_ID: ska$DISH_INDEX
+  before_script:
+    - make vars
+  script:
+    - make k8s-install-chart
+    - make itf-dish-links
+  when: manual
+  needs:
+    - helm-chart-build
+  allow_failure: true # need to keep this to unlock the pipeline
+  environment:
+    name: mid-itf/integration/dish-lmc-$DISH_ID
+    kubernetes:
+      namespace: "$KUBE_NAMESPACE"
+    url: https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta/
+
+.destroy-dish-lmc:
+  cache: []
+  stage: dish-aiv
+  tags:
+    - ska-k8srunner-za-itf
+  variables:
+    K8S_EXTRA_PARAMS: -f charts/dish-lmc/values.yaml
+    CLUSTER_DOMAIN: miditf.internal.skao.int
+    INGRESS_HOST: k8s.miditf.internal.skao.int
+    K8S_CHART: dish-lmc
+    KUBE_NAMESPACE: dish-lmc-$DISH_ID
+    KUBE_APP: dish-lmc
+  extends:
+    - .uninstall_chart
+  needs:
+    - helm-chart-build
+  environment:
+    name: mid-itf/integration/dish-lmc-$DISH_ID
+    kubernetes:
+      namespace: "$KUBE_NAMESPACE"
+    url: https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta/
+    action: stop
+  when: manual
+  allow_failure: true # need to keep this to unlock the pipeline
+
+deploy-dishlmc-ska001:
+  extends:
+    - .deploy-dish-lmc
+  variables:
+    DISH_INDEX: "001"
+  environment:
+    on_stop: uninstall-dishlmc-ska001
+
+deploy-aa05-dishes:
+  stage: on_demand_itf_sut
+  extends:
+    - .sut_base_no_cache
+    - .on_demand_rules
+  script:
+    - echo "Deploying multiple dishes in downstream dish-aiv stage - first deploy ska001 manually"
+    - echo "Deploying 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
+  environment:
+    name: mid-itf/integration/dish-lmc-aa05
+    on_stop: uninstall-aa05-dishes
+
+uninstall-aa05-dishes:
+  stage: on_demand_itf_sut
+  extends:
+    - .sut_base_no_cache
+    - .on_demand_rules
+  script:
+    - echo "Uninstalling all dishes in downstream dish-aiv stage"
+    - echo "Uninstalling 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
+  environment:
+    name: mid-itf/integration/dish-lmc-aa05
+    action: stop
+
+deploy-dishlmc-ska036:
+  extends:
+    - .deploy-dish-lmc
+  when: on_success
+  needs:
+    - deploy-dishlmc-ska001
+    - deploy-aa05-dishes
+  variables:
+    DISH_INDEX: "036"
+  environment:
+    on_stop: uninstall-dishlmc-ska036
+
+deploy-dishlmc-ska063:
+  extends:
+    - .deploy-dish-lmc
+  when: on_success
+  needs:
+    - deploy-dishlmc-ska036
+  variables:
+    DISH_INDEX: "063"
+  environment:
+    on_stop: uninstall-dishlmc-ska036
+
+deploy-dishlmc-ska100:
+  extends:
+    - .deploy-dish-lmc
+  when: on_success
+  needs:
+    - deploy-dishlmc-ska063
+  variables:
+    DISH_INDEX: "100"
+  environment:
+    on_stop: uninstall-dishlmc-ska063
+
+.destroy-aa05-dishes:
+  extends:
+    - .destroy-dish-lmc
+  when: on_success
+  needs:
+    - uninstall-aa05-dishes
+
+uninstall-dishlmc-ska001:
+  extends:
+    - .destroy-aa05-dishes
+  variables:
+    DISH_ID: ska001
+
+uninstall-dishlmc-ska036:
+  extends:
+    - .destroy-aa05-dishes
+  variables:
+    DISH_ID: ska036
+
+uninstall-dishlmc-ska063:
+  extends:
+    - .destroy-aa05-dishes
+  variables:
+    DISH_ID: ska063
+
+uninstall-dishlmc-ska100:
+  extends:
+    - .destroy-aa05-dishes
+  variables:
+    DISH_ID: ska100

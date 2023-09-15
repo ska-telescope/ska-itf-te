@@ -55,7 +55,7 @@ INTEGRATION_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(_MARKS) $(_COUNTS)
 
 K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	--set global.exposeAllDS=$(EXPOSE_All_DS) \
-	 --set global.exposeDatabaseDS=$(EXPOSE_DATABASE_DS) \
+	--set global.exposeDatabaseDS=$(EXPOSE_DATABASE_DS) \
 	--set global.tango_host=$(TANGO_HOST) \
 	--set global.device_server_port=$(TANGO_SERVER_PORT) \
 	--set global.cluster_domain=$(CLUSTER_DOMAIN) \
@@ -71,7 +71,7 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	$(K8S_EXTRA_PARAMS)
 
 # # TODO: remove if no longer needed.
-# -include resources/itf-connect.mk
+# -include resources/makefiles/itf-connect.mk
 
 ### USEFUL BITS FROM LOW
 # better be verbose for debugging
@@ -154,7 +154,7 @@ include .make/base.mk
 -include PrivateRules.mak
 
 # include namespace-specific targets
--include resources/k8s-installs.mk
+-include resources/makefiles/k8s-installs.mk
 
 # include Xray uploads
 include .make/xray.mk

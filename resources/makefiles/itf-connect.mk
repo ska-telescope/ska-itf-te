@@ -6,7 +6,7 @@ SSH_HOST ?= Gaia
 # and uncomment, in the following file:
 -include ./resources/users/UserProfile.mak
 -include PrivateRules.mak
--include ./resources/OpenSSHPorts.mak
+-include ./resources/makefiles/OpenSSHPorts.mak
 
 USER=$(shell ssh -G $(SSH_HOST) | grep "^user " | head -1 | cut -d " " -f2-)
 USER_AT=$(USER)@ # Temporarily left in - redundant

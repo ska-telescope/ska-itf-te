@@ -1,4 +1,5 @@
-include ./resources/test-equipment-dev.mk
+include ./resources/makefiles/test-equipment-dev.mk
+
 
 ## TARGET: itf-te-install
 ## SYNOPSIS: make itf-te-install
@@ -64,6 +65,14 @@ itf-cluster-credentials:  ## PIPELINE USE ONLY - allocate credentials for deploy
 
 links: itf-te-links
 
+## TARGET: itf-dish-links
+## SYNOPSIS: make itf-dish-links
+## HOOKS: none
+## VARS: none
+##  make target for generating the URLs for accessing the DishLMC deployments in the Mid ITF cluster
+
+itf-dish-links: links ## Create the URLs with which to access Taranta Dashboards
+
 ## TARGET: itf-te-links
 ## SYNOPSIS: make itf-te-links
 ## HOOKS: none
@@ -85,6 +94,8 @@ itf-te-links: ## Create the URLs with which to access Skampi if it is available
 ##  make target for generating Gitlab CI configuration for SkySimCtl device server deployment
 
 CI_COMMIT_REF_NAME?=
+
+DISH_ID?=
 
 itf-te-pass-env: KUBE_NAMESPACE := test-equipment
 itf-te-pass-env: itf-skysimctl-links## Generate Gitlab CI configuration for SkySimCtl device server deployment
@@ -171,3 +182,4 @@ vars:
 	$(info K8S_EXTRA_PARAMS: $(K8S_EXTRA_PARAMS))
 	$(info K8S_CHARTS: $(K8S_CHARTS))
 	$(info SKA_TANGO_OPERATOR_DEPLOYED: $(SKA_TANGO_OPERATOR_DEPLOYED))
+	$(info DISH_ID: $(DISH_ID))

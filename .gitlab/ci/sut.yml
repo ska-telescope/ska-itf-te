@@ -17,6 +17,11 @@
     KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
     # LOADBALANCER_IP: 10.164.10.1
 
+.sut_base_no_cache:
+  extends:
+    - .sut_base
+  cache: []
+
 .sut_on_demand:
   stage: on_demand_itf_sut
   extends:

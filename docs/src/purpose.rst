@@ -33,7 +33,7 @@ Deploying Test Equipment charts for verification
 ------------------------------------------------
 Use the umbrella chart under `charts/test-equipment-verification` to deploy charts that were publihsed to the `Test Equipment Helm Package Registry <https://gitlab.com/ska-telescope/ska-ser-test-equipment/-/packages>`_. Note that these packages are deployed in the Helm Build job and the version number is outputted in the Job logs - example of this can be seen `here <https://gitlab.com/ska-telescope/ska-ser-test-equipment/-/jobs/4768261311>`_.
 
-If you want to change the container image version, you can do so by editing the ``$TE_VERSION`` variable in ``/resources/test-equipment-dev.mk``.
+If you want to change the container image version, you can do so by editing the ``$TE_VERSION`` variable in ``/resources/makefiles/test-equipment-dev.mk``.
 
 Sky Simulator
 =============

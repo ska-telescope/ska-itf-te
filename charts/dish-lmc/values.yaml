@@ -1,0 +1,42 @@
+global:
+  exposeDatabaseDS: true
+  exposeAllDS: true
+  facility: mid-itf
+  minikube: false
+  sub-system:
+    ska-tango-base:
+      enabled: false
+
+# DISH LMC
+dishlmc:
+  # ska-dish-lmc:
+  #   taranta:
+  #     enabled: false
+  ska-mid-dish-manager:
+    legacy_compatibility: true
+    ska-mid-dish-simulators:
+      enabled: true
+      legacy_compatibility: true
+      ska-tango-base:
+        enabled: false
+      deviceServers:
+        spfdevice:
+          enabled: true
+        spfrxdevice:
+          enabled: true
+
+# TARANTA SUITE
+ska-taranta:
+  enabled: true
+  ingress:
+    enabled: true
+    nginx: true
+  tangogql:
+    replicas: 1
+    resources:
+      requests:
+        cpu: 600m # 600m = 0.6 CPU
+        memory: 512Mi # 512Mi = 0.5 GB mem
+      limits:
+        cpu: 1000m # 1000m = 1 CPU
+        memory: 1024Mi # 1024Mi = 1 GB mem
