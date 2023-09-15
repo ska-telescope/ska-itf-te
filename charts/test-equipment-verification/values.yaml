@@ -15,13 +15,7 @@ test-equipment:
     enabled: false
   deviceServers:
     progattenuator:
-      devices:
-        - name: rc1dat800030
-          model: RC1DAT800030
-          host: 10.165.3.6
-          port: 45451
-          protocol: telnet
-          logging_level_default: 5
+      devices: []
     awg:
       devices: []
     signalgenerator:
@@ -42,13 +36,12 @@ test-equipment:
       devices: []
     spectrumanalyseranritsu:
       devices:
-        []
-        # - name: ms2090a
-        #   model: MS2090A
-        #   host: 10.165.3.4
-        #   port: 9001
-        #   protocol: tcp
-        #   logging_level_default: 5
+        - name: ms2090a
+          model: MS2090A
+          host: 10.165.3.4
+          port: 9001
+          protocol: tcp
+          logging_level_default: 5
 
 # TARANTA SUITE
 ska-taranta:
