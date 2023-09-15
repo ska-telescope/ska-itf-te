@@ -13,7 +13,23 @@ Documentation on accessing the ITF Control Interface is maintained in Confluence
 
 DishLMC Integration at the Mid ITF
 ==================================
-We use an OPC UA server in the K8s Cluster in the Mid ITF to simulate the Dish Structure (DS)for DishLMC integration. Details for connecting to the DS Simulator are available in `Confluence <https://confluence.skatelescope.org/x/Jz6KDQ>`_. For assistance, please reach out in `#team-itf-support <https://skao.slack.com/archives/C03PC2M2VGA>`_.
+There are various integration points for the DishLMC integration activities in the Mid ITF.
+
+DishLMC <> Dish Structure integration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+An OPC UA server is deployed in the K8s Cluster in the Mid ITF. Any instance of the DishLMC can be connected to an instance of the DishStructure Simulator. Details for connecting to the DS Simulator(s) are available in `Confluence <https://confluence.skatelescope.org/x/Jz6KDQ>`_. For assistance, please reach out in `#team-itf-support <https://skao.slack.com/archives/C03PC2M2VGA>`_. A dedicated channel also exists for discussing issues around the Dish Structure Simulator: `#temp-dish-structure-simulator-itf <https://skao.slack.com/archives/C05CJMS3W20>`_.
+
+DishLMC <> SPFRx integration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+For integration with the SPFRx, there are two SPFRx hardware devices available at the Mid ITF. Integration activities with the hardware is under control and management of the Dish AIV group and led by the KAROO and CIPA teams.
+A dedicated Slack channel exists for discussing issues around integration with the SPFRx: `#mid-itf-dishlmc-spfrx-integration <https://skao.slack.com/archives/C05QYPKLJNS>`_. There is also a channel that was established for discussing the installation of the SPFRx in the Mid ITF: `#temp-spfrx-installation-at-itf <https://skao.slack.com/archives/C054R2Q1UGH>`_.
+
+DishLMC <> TMC Software integration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+For testing integration of the TMC with the DishLMC, our initial setup includes a choice of a single- or multiple-instance deployment of DishLMC. The multiple-instance deployment contains four dishes, being the four intended DishIDs for AA0.5. All instances are deployed with Simulators activated for the subservient devices. For more information, consult the `README of the DishLMC project <https://gitlab.com/ska-telescope/ska-dish-lmc>`_, and also the documentation for the subservient devices.
+In order to deploy all four instances of DishLMC, one needs to trigger the CI pipeline job in the SUT stage `as well as` the first dish (SKA001) in the Dish AIV stage. Refer to the list of `pipeline jobs running from the main branch <https://gitlab.com/ska-telescope/ska-mid-itf/-/pipelines?page=1&scope=all&ref=main>`_ - try to use the latest pipeline to deploy from main.
+ If you need only one dish, only deploy it from the DishAIV stage.
+
 
 Spectrum Analyser File Access
 =============================
