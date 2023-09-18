@@ -193,6 +193,8 @@ deploy-dishlmc-ska100:
   when: on_success
   needs:
     - uninstall-aa05-dishes
+  environment:
+    name: mid-itf/integration/dish-lmc-$DISH_ID
 
 uninstall-dishlmc-ska001:
   extends:
@@ -205,21 +207,15 @@ uninstall-dishlmc-ska036:
     - .destroy-aa05-dishes
   variables:
     DISH_ID: ska036
-  environment:
-    name: mid-itf/integration/dish-lmc-$DISH_ID
 
 uninstall-dishlmc-ska063:
   extends:
     - .destroy-aa05-dishes
   variables:
     DISH_ID: ska063
-  environment:
-    name: mid-itf/integration/dish-lmc-$DISH_ID
 
 uninstall-dishlmc-ska100:
   extends:
     - .destroy-aa05-dishes
   variables:
     DISH_ID: ska100
-  environment:
-    name: mid-itf/integration/dish-lmc-$DISH_ID
