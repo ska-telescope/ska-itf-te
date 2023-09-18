@@ -117,6 +117,12 @@ remove-dish-structure-simulator:
   when: manual
   allow_failure: true # need to keep this to unlock the pipeline
 
+.deploy-additional-lmc:
+  extends:
+    - .deploy-dish-lmc
+    - .integration_rules
+  when: on_success
+
 deploy-dishlmc-ska001:
   extends:
     - .deploy-dish-lmc
@@ -151,9 +157,7 @@ uninstall-aa05-dishes:
 
 deploy-dishlmc-ska036:
   extends:
-    - .deploy-dish-lmc
-    - .integration_rules
-  when: on_success
+    - .deploy-additional-lmc
   needs:
     - deploy-dishlmc-ska001
     - deploy-aa05-dishes
@@ -164,9 +168,7 @@ deploy-dishlmc-ska036:
 
 deploy-dishlmc-ska063:
   extends:
-    - .deploy-dish-lmc
-    - .integration_rules
-  when: on_success
+    - .deploy-additional-lmc
   needs:
     - deploy-dishlmc-ska036
   variables:
@@ -176,9 +178,7 @@ deploy-dishlmc-ska063:
 
 deploy-dishlmc-ska100:
   extends:
-    - .deploy-dish-lmc
-    - .integration_rules
-  when: on_success
+    - .deploy-additional-lmc
   needs:
     - deploy-dishlmc-ska063
   variables:
