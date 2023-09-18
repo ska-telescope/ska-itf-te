@@ -134,3 +134,24 @@ deploy-taranta:
   script:
     - make k8s-install-chart
   when: manual
+
+  ### SPFC Deployment
+deploy-spfc:
+  stage: platform
+  tags:
+    - ska-k8srunner-za-itf
+  variables:
+    KUBE_NAMESPACE: ci-test-busybox
+  script:
+    - make itf-install-spfc
+  when: manual
+
+destroy-spfc:
+  stage: platform
+  tags:
+    - ska-k8srunner-za-itf
+  variables:
+    KUBE_NAMESPACE: ci-test-busybox
+  script:
+    - make itf-uninstall-spfc
+  when: manual
