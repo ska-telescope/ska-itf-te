@@ -1,6 +1,5 @@
 include ./resources/makefiles/test-equipment-dev.mk
 
-
 ## TARGET: itf-te-install
 ## SYNOPSIS: make itf-te-install
 ## HOOKS: none
@@ -50,6 +49,13 @@ itf-spookd-uninstall:
 itf-spookd-template-chart:
 	@make k8s-template-chart K8S_CHART=ska-mid-itf-ghosts KUBE_APP=spookd KUBE_NAMESPACE=$(SPOOKD_NAMESPACE) HELM_RELEASE=whoyougonnacall
 
+#install SPFC busybox
+SPFC_NAMESPACE=ci-test-busybox
+itf-install-spfc:
+	@make k8s-install-chart K8S_CHART=ska-mid-itf-spfc KUBE_APP=spfc KUBE_NAMESPACE=$(SPFC_NAMESPACE)  HELM_RELEASE=ska-mid-itf-spfc
+itf-uninstall-spfc:
+	@make k8s-uninstall-chart K8S_CHART=ska-mid-itf-spfc KUBE_APP=spfc KUBE_NAMESPACE=$(SPFC_NAMESPACE) HELM_RELEASE=ska-mid-itf-spfc
+
 # install taranta dashboards in separate namespace
 k8s-install-taranta-dashboards:
 #TODO: add target
@@ -64,14 +70,6 @@ itf-cluster-credentials:  ## PIPELINE USE ONLY - allocate credentials for deploy
 	curl -s https://gitlab.com/ska-telescope/templates-repository/-/raw/master/scripts/namespace_auth.sh | bash -s $(SERVICE_ACCOUNT) $(KUBE_NAMESPACE) $(KUBE_NAMESPACE_SDP) || true
 
 links: itf-te-links
-
-## TARGET: itf-dish-links
-## SYNOPSIS: make itf-dish-links
-## HOOKS: none
-## VARS: none
-##  make target for generating the URLs for accessing the DishLMC deployments in the Mid ITF cluster
-
-itf-dish-links: links ## Create the URLs with which to access Taranta Dashboards
 
 ## TARGET: itf-te-links
 ## SYNOPSIS: make itf-te-links
@@ -95,12 +93,10 @@ itf-te-links: ## Create the URLs with which to access Skampi if it is available
 
 CI_COMMIT_REF_NAME?=
 
-DISH_ID?=
-
 itf-te-pass-env: KUBE_NAMESPACE := test-equipment
-itf-te-pass-env: itf-skysimctl-links## Generate Gitlab CI configuration for SkySimCtl device server deployment
+itf-te-pass-env: itf-links## Generate Gitlab CI configuration for SkySimCtl device server deployment
 
-itf-skysimctl-links:
+itf-links:
 	@echo "KUBE_NAMESPACE=$(KUBE_NAMESPACE)"
 	@mkdir -p build
 	echo "TANGO_HOST=$(shell kubectl get -n $(KUBE_NAMESPACE) svc tango-databaseds -o jsonpath={'.status.loadBalancer.ingress[0].ip'}):10000" > build/deploy.env
@@ -181,5 +177,3 @@ vars:
 	$(info SKIP_TANGO_EXAMPLES_PARAMS: ${SKIP_TANGO_EXAMPLES_PARAMS})
 	$(info K8S_EXTRA_PARAMS: $(K8S_EXTRA_PARAMS))
 	$(info K8S_CHARTS: $(K8S_CHARTS))
-	$(info SKA_TANGO_OPERATOR_DEPLOYED: $(SKA_TANGO_OPERATOR_DEPLOYED))
-	$(info DISH_ID: $(DISH_ID))

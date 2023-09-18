@@ -1,0 +1,15 @@
+global:
+  minikube: true
+  sub-system:
+    spfc-busybox:
+      enabled: true
+
+nameOverride: ""
+fullnameOverride: ""
+
+imagePullPolicy: IfNotPresent
+containers:
+  setupConfigs:
+    name: spfc-busybox
+    image: 
+      name: busybox
