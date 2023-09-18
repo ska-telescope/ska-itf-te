@@ -189,6 +189,7 @@ deploy-dishlmc-ska100:
 .destroy-aa05-dishes:
   extends:
     - .destroy-dish-lmc
+    - .integration_rules
   when: on_success
   needs:
     - uninstall-aa05-dishes
