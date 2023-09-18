@@ -19,6 +19,7 @@ stages:
   - lint
   - test
   - platform
+  - on_demand_spfc
   - test-equipment-setup
   - dish-aiv
   - integration

@@ -137,7 +137,7 @@ deploy-taranta:
 
   ### SPFC Deployment
 deploy-spfc:
-  stage: platform
+  stage: on_demand_spfc
   tags:
     - ska-k8srunner-za-itf
   variables:
@@ -147,7 +147,7 @@ deploy-spfc:
   when: manual
 
 destroy-spfc:
-  stage: platform
+  stage: on_demand_spfc
   tags:
     - ska-k8srunner-za-itf
   variables:
