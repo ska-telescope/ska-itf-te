@@ -141,7 +141,7 @@ uninstall-aa05-dishes:
   stage: on_demand_itf_sut
   extends:
     - .sut_base_no_cache
-    - .on_demand_rules
+    - .integration_rules
   script:
     - echo "Uninstalling all dishes in downstream dish-aiv stage"
     - echo "Uninstalling 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
@@ -152,6 +152,7 @@ uninstall-aa05-dishes:
 deploy-dishlmc-ska036:
   extends:
     - .deploy-dish-lmc
+    - .integration_rules
   when: on_success
   needs:
     - deploy-dishlmc-ska001
@@ -164,6 +165,7 @@ deploy-dishlmc-ska036:
 deploy-dishlmc-ska063:
   extends:
     - .deploy-dish-lmc
+    - .integration_rules
   when: on_success
   needs:
     - deploy-dishlmc-ska036
@@ -175,6 +177,7 @@ deploy-dishlmc-ska063:
 deploy-dishlmc-ska100:
   extends:
     - .deploy-dish-lmc
+    - .integration_rules
   when: on_success
   needs:
     - deploy-dishlmc-ska063
