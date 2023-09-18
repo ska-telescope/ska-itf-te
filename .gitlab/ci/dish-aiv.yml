@@ -206,7 +206,7 @@ uninstall-dishlmc-ska036:
   variables:
     DISH_ID: ska036
   environment:
-    name: mid-itf/integration/dish-lmc-ska036
+    name: mid-itf/integration/dish-lmc-$DISH_ID
 
 uninstall-dishlmc-ska063:
   extends:
@@ -214,7 +214,7 @@ uninstall-dishlmc-ska063:
   variables:
     DISH_ID: ska063
   environment:
-    name: mid-itf/integration/dish-lmc-ska063
+    name: mid-itf/integration/dish-lmc-$DISH_ID
 
 uninstall-dishlmc-ska100:
   extends:
@@ -222,4 +222,4 @@ uninstall-dishlmc-ska100:
   variables:
     DISH_ID: ska100
   environment:
-    name: mid-itf/integration/dish-lmc-ska100
+    name: mid-itf/integration/dish-lmc-$DISH_ID
