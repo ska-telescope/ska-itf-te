@@ -53,6 +53,9 @@ endif
 INTEGRATION_TEST_SOURCE ?= tests/integration
 INTEGRATION_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(_MARKS) $(_COUNTS) $(EXIT) $(PYTEST_ADDOPTS) | tee pytest.stdout
 
+ACCEPTANCE_TEST_SOURCE ?= submodules/.ska-sdp-integration/tests
+ACCEPTANCE_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(_MARKS) $(_COUNTS) $(EXIT) $(PYTEST_ADDOPTS) | tee pytest.stdout
+
 K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	--set global.exposeAllDS=$(EXPOSE_All_DS) \
 	--set global.exposeDatabaseDS=$(EXPOSE_DATABASE_DS) \
@@ -168,6 +171,11 @@ integration-test:
 	$(PYTHON_RUNNER) pytest $(INTEGRATION_TEST_SOURCE) $(INTEGRATION_TEST_ARGS); \
 	echo $$? > build/status
 
+
+acceptance-test:
+	@mkdir -p build
+	$(PYTHON_RUNNER) pytest $(ACCEPTANCE_TEST_SOURCE) $(ACCEPTANCE_TEST_ARGS); \
+	echo $$? > build/status
 
 upload-to-confluence:
 	@.venv/bin/upload-to-confluence sut_config.yaml build/reports/cucumber.json

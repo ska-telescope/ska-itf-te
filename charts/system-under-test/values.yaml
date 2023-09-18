@@ -41,6 +41,9 @@ cbf-mcs:
 cbf-tmleafnode:
   enabled: true
 
+sdp:
+  enabled: true
+
 # helpers
 ska-log-consumer:
   enabled: false
