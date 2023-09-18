@@ -88,7 +88,6 @@ remove-dish-structure-simulator:
   allow_failure: true # need to keep this to unlock the pipeline
   environment:
     name: mid-itf/integration/dish-lmc-$DISH_ID
-    on_stop: uninstall-dishlmc-ska$DISH_ID
     kubernetes:
       namespace: "$KUBE_NAMESPACE"
     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta/
@@ -110,7 +109,7 @@ remove-dish-structure-simulator:
   needs:
     - helm-chart-build
   environment:
-    name: mid-itf/integration/dish-lmc-$DISH_ID
+    name: mid-itf/integration/dish-lmc-ska001
     kubernetes:
       namespace: "$KUBE_NAMESPACE"
     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta/
@@ -206,15 +205,21 @@ uninstall-dishlmc-ska036:
     - .destroy-aa05-dishes
   variables:
     DISH_ID: ska036
+  environment:
+    name: mid-itf/integration/dish-lmc-ska036
 
 uninstall-dishlmc-ska063:
   extends:
     - .destroy-aa05-dishes
   variables:
     DISH_ID: ska063
+  environment:
+    name: mid-itf/integration/dish-lmc-ska063
 
 uninstall-dishlmc-ska100:
   extends:
     - .destroy-aa05-dishes
   variables:
     DISH_ID: ska100
+  environment:
+    name: mid-itf/integration/dish-lmc-ska100
