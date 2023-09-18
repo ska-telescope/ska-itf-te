@@ -87,7 +87,7 @@ remove-dish-structure-simulator:
     - helm-chart-build
   allow_failure: true # need to keep this to unlock the pipeline
   environment:
-    name: mid-itf/integration/dish-lmc-ska001
+    name: mid-itf/integration/dish-lmc-$DISH_ID
     kubernetes:
       namespace: "$KUBE_NAMESPACE"
     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta/
@@ -109,7 +109,7 @@ remove-dish-structure-simulator:
   needs:
     - helm-chart-build
   environment:
-    name: mid-itf/integration/dish-lmc-ska001
+    name: mid-itf/integration/dish-lmc-$DISH_ID
     kubernetes:
       namespace: "$KUBE_NAMESPACE"
     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta/
