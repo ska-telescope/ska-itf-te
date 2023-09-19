@@ -25,6 +25,8 @@ PYTHON_LINE_LENGTH = 99
 DOCS_SPHINXBUILD = .venv/bin/python3 -msphinx
 PYTHON_TEST_FILE = tests/unit/ tests/functional/
 PYTHON_SRC = ska_mid_itf
+KUBE_NAMESPACE_SDP ?= $(KUBE_NAMESPACE)-sdp
+
 ifneq ($(COUNT),)
 # Dashcount is a synthesis of testcount as input user variable and is used to
 # run a paricular test/s multiple times. If no testcount is set then the entire
@@ -56,6 +58,11 @@ INTEGRATION_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(_MARKS) $(_COUNTS)
 ACCEPTANCE_TEST_SOURCE ?= submodules/.ska-sdp-integration/tests
 ACCEPTANCE_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(_MARKS) $(_COUNTS) $(EXIT) $(PYTEST_ADDOPTS) | tee pytest.stdout
 
+SDP_PARAMS ?= --set ska-sdp.helmdeploy.namespace=$(KUBE_NAMESPACE_SDP) \
+	--set ska-sdp.ska-sdp-qa.zookeeper.clusterDomain=$(CLUSTER_DOMAIN) \
+	--set ska-sdp.ska-sdp-qa.kafka.clusterDomain=$(CLUSTER_DOMAIN) \
+	--set ska-sdp.ska-sdp-qa.redis.clusterDomain=$(CLUSTER_DOMAIN)
+
 K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	--set global.exposeAllDS=$(EXPOSE_All_DS) \
 	--set global.exposeDatabaseDS=$(EXPOSE_DATABASE_DS) \
@@ -68,6 +75,7 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	--set ska-tango-base.xauthority=$(XAUTHORITY) \
 	--set ska-tango-base.jive.enabled=$(JIVE) \
 	--set ska-tango-base.itango.enabled=$(ITANGO_ENABLED) \
+	$(SDP_PARAMS) \
 	$(TARANTA_PARAMS) \
 	${K8S_TEST_TANGO_IMAGE_PARAMS} \
 	${SKIP_TANGO_EXAMPLES_PARAMS} \
@@ -188,3 +196,20 @@ template-chart: k8s-dep-update
 	--debug \
 	 $(K8S_UMBRELLA_CHART_PATH) --namespace $(KUBE_NAMESPACE) > build/manifests.yaml
 
+# use hook to create SDP namespace
+k8s-pre-install-chart:
+	@echo "k8s-pre-install-chart: creating the SDP namespace $(KUBE_NAMESPACE_SDP)"
+	@make namespace-sdp KUBE_NAMESPACE=$(KUBE_NAMESPACE_SDP)
+
+# use hook to create SDP namespace
+k8s-pre-install-chart-car:
+	@echo "k8s-pre-install-chart-car: creating the SDP namespace $(KUBE_NAMESPACE_SDP)"
+	@make namespace-sdp KUBE_NAMESPACE=$(KUBE_NAMESPACE_SDP)
+
+# use hook to delete SDP namespace
+k8s-post-uninstall-chart:
+	@echo "k8s-post-uninstall-chart: deleting the SDP namespace $(KUBE_NAMESPACE_SDP)"
+	@make delete-sdp-namespace KUBE_NAMESPACE=$(KUBE_NAMESPACE_SDP)
+
+namespace-sdp: KUBE_NAMESPACE := $(KUBE_NAMESPACE_SDP)
+namespace-sdp: k8s-namespace

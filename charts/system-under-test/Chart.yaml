@@ -26,8 +26,7 @@ dependencies:
   - name: ska-sdp
     version: 0.17.0
     repository: https://artefact.skao.int/repository/helm-internal
-    alias: sdp
-    condition: sdp.enabled
+    condition: ska-sdp.enabled
 
   # SKA Configuration Inspector API
   # Gitlab Location: https://gitlab.com/ska-telescope/ska-ser-config-inspector

@@ -151,6 +151,80 @@ file-browser-secrets: k8s-namespace
 	kubectl create secret -n $(KUBE_NAMESPACE) generic $(FILEBROWSER_CONFIG_SECRET_NAME) --from-file=$(FILEBROWSER_CONFIG_SECRET_FILE)=$(FILEBROWSER_CONFIG_PATH)
 
 
+local-sut-install: DEBUG_ENTRYPOINT := "True"
+local-sut-install: DEBUG_ENTRYPOINT_EXTENDED := "True"
+local-sut-install: LIVE_LOGGING_EXTENDED := "True"
+local-sut-install: SHOW_STEP_FUNCTIONS := "True"
+local-sut-install: CAPTURE_LOGS := "True"
+local-sut-install: EXIT_AT_FAIL := "True"
+local-sut-install: TEST_INGRESS := ""
+local-sut-install: DATA_PRODUCT_PVC_NAME := test-pvc
+local-sut-install: KUBE_NAMESPACE_SDP := test-sdp
+local-sut-install: KUBE_NAMESPACE := test
+local-sut-install: K8S_CHART := system-under-test
+local-sut-install: KUBE_APP := ska-mid-sut
+#local-sut-install: INGRESS_HOST := k8s.miditf.internal.skao.int
+#local-sut-install: CLUSTER_DOMAIN := miditf.internal.skao.int
+local-sut-install: K8S_EXTRA_CHART_PARMS := "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
+local-sut-install: TANGO_DATABASE_DS := tango-databaseds
+local-sut-install: K8S_CHART_PARAMS := --set global.minikube=true \
+	--set global.exposeAllDS=true \
+	--set global.exposeDatabaseDS=true \
+	--set global.tango_host=tango-databaseds:10000 \
+	--set global.device_server_port=45450 \
+	--set global.labels.app=$(KUBE_APP) \
+	--set ska-tango-base.jive.enabled=false \
+	--set ska-tango-base.itango.enabled=true \
+	--set ska-sdp.helmdeploy.namespace=$(KUBE_NAMESPACE_SDP) \
+	$(K8S_EXTRA_PARAMS)
+local-sut-install: create-namespaces k8s-install-chart k8s-wait
+
+local-sut-template: DEBUG_ENTRYPOINT := "True"
+local-sut-template: DEBUG_ENTRYPOINT_EXTENDED := "True"
+local-sut-template: LIVE_LOGGING_EXTENDED := "True"
+local-sut-template: SHOW_STEP_FUNCTIONS := "True"
+local-sut-template: CAPTURE_LOGS := "True"
+local-sut-template: EXIT_AT_FAIL := "True"
+local-sut-template: TEST_INGRESS := ""
+local-sut-template: DATA_PRODUCT_PVC_NAME := test-pvc
+local-sut-template: KUBE_NAMESPACE_SDP := test-sdp
+local-sut-template: KUBE_NAMESPACE := test
+local-sut-template: K8S_CHART := system-under-test
+local-sut-template: KUBE_APP := ska-mid-sut
+#local-sut-template: INGRESS_HOST := k8s.miditf.internal.skao.int
+#local-sut-template: CLUSTER_DOMAIN := miditf.internal.skao.int
+local-sut-template: K8S_EXTRA_CHART_PARMS := "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
+local-sut-template: TANGO_DATABASE_DS := tango-databaseds
+local-sut-template: K8S_CHART_PARAMS := --set global.minikube=true \
+	--set global.exposeAllDS=true \
+	--set global.exposeDatabaseDS=true \
+	--set global.tango_host=tango-databaseds:10000 \
+	--set global.device_server_port=45450 \
+	--set global.labels.app=$(KUBE_APP) \
+	--set ska-tango-base.jive.enabled=false \
+	--set ska-tango-base.itango.enabled=true \
+	--set ska-sdp.helmdeploy.namespace=$(KUBE_NAMESPACE_SDP) \
+	$(K8S_EXTRA_PARAMS)
+local-sut-template: k8s-template-chart
+
+helm-update:
+	helm dependency update charts/system-under-test
+
+local-sut-uninstall: KUBE_NAMESPACE_SDP := test-sdp
+local-sut-uninstall: KUBE_NAMESPACE := test
+local-sut-uninstall: K8S_CHART := system-under-test
+local-sut-uninstall: KUBE_APP := ska-mid-sut
+local-sut-uninstall: k8s-uninstall-chart delete-namespaces
+
+create-namespaces: ## Create namespaces for SDP deployment
+	kubectl create namespace $(KUBE_NAMESPACE)
+	kubectl create namespace $(KUBE_NAMESPACE_SDP)
+
+
+delete-namespaces: ## Delete namespaces for SDP deployment
+	kubectl delete namespace $(KUBE_NAMESPACE) --ignore-not-found
+	kubectl delete namespace $(KUBE_NAMESPACE_SDP) --ignore-not-found
+
 vars:
 	$(info KUBE_NAMESPACE: $(KUBE_NAMESPACE))
 	$(info #####################################)
