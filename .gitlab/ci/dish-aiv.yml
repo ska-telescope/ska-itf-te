@@ -117,11 +117,16 @@ remove-dish-structure-simulator:
   when: manual
   allow_failure: true # need to keep this to unlock the pipeline
 
-.deploy-additional-lmc:
+.deploy-more-lmc:
   extends:
     - .deploy-dish-lmc
-    - .integration_rules
-  when: on_success
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "pipeline"
+      when: never
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+      when: on_success
+      allow_failure: true
+    - when: never
 
 deploy-dishlmc-ska001:
   extends:
@@ -157,7 +162,7 @@ uninstall-aa05-dishes:
 
 deploy-dishlmc-ska036:
   extends:
-    - .deploy-additional-lmc
+    - .deploy-more-lmc
   needs:
     - deploy-dishlmc-ska001
     - deploy-aa05-dishes
@@ -168,7 +173,7 @@ deploy-dishlmc-ska036:
 
 deploy-dishlmc-ska063:
   extends:
-    - .deploy-additional-lmc
+    - .deploy-more-lmc
   needs:
     - deploy-dishlmc-ska036
   variables:
@@ -178,7 +183,7 @@ deploy-dishlmc-ska063:
 
 deploy-dishlmc-ska100:
   extends:
-    - .deploy-additional-lmc
+    - .deploy-more-lmc
   needs:
     - deploy-dishlmc-ska063
   variables:
@@ -189,8 +194,13 @@ deploy-dishlmc-ska100:
 .destroy-aa05-dishes:
   extends:
     - .destroy-dish-lmc
-    - .integration_rules
-  when: on_success
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "pipeline"
+      when: never
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+      when: on_success
+      allow_failure: true
+    - when: never
   needs:
     - uninstall-aa05-dishes
   environment:
