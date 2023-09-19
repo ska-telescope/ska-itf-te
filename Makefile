@@ -20,7 +20,7 @@ TANGO_SERVER_PORT ?= 45450## TANGO_SERVER_PORT - fixed listening port for local 
 CLUSTER_DOMAIN = miditf.internal.skao.int## Domain used for naming Tango Device Servers
 INGRESS_HOST = k8s.$(CLUSTER_DOMAIN)## Tango host, cluster domain, what are all these things???
 ITANGO_ENABLED ?= true## ITango enabled in ska-tango-base
-PYTHON_RUNNER = .venv/bin/python3 -m
+PYTHON_RUNNER = poetry run
 PYTHON_LINE_LENGTH = 99
 DOCS_SPHINXBUILD = .venv/bin/python3 -msphinx
 PYTHON_TEST_FILE = tests/unit/ tests/functional/
@@ -55,8 +55,8 @@ endif
 INTEGRATION_TEST_SOURCE ?= tests/integration
 INTEGRATION_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(_MARKS) $(_COUNTS) $(EXIT) $(PYTEST_ADDOPTS) | tee pytest.stdout
 
-ACCEPTANCE_TEST_SOURCE ?= submodules/.ska-sdp-integration/tests/integration/test_component_status.py
-ACCEPTANCE_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(_MARKS) $(_COUNTS) $(EXIT) $(PYTEST_ADDOPTS) | tee pytest.stdout
+ACCEPTANCE_TEST_SOURCE ?= tests
+ACCEPTANCE_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(_MARKS) $(_COUNTS) $(EXIT) $(PYTEST_ADDOPTS)
 
 SDP_PARAMS ?= --set ska-sdp.helmdeploy.namespace=$(KUBE_NAMESPACE_SDP) \
 	--set ska-sdp.ska-sdp-qa.zookeeper.clusterDomain=$(CLUSTER_DOMAIN) \
@@ -182,8 +182,11 @@ integration-test:
 
 acceptance-test:
 	@mkdir -p build
+	cd submodules/.ska-sdp-integration && \
+	git submodule update --init --recursive && \
+	poetry install && \
 	$(PYTHON_RUNNER) pytest $(ACCEPTANCE_TEST_SOURCE) $(ACCEPTANCE_TEST_ARGS); \
-	echo $$? > build/status
+	echo $$? > ../../build/status
 
 upload-to-confluence:
 	@.venv/bin/upload-to-confluence sut_config.yaml build/reports/cucumber.json
