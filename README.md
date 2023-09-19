@@ -121,3 +121,22 @@ Other customisations such as `alias`es also make life simpler. Speak to your nea
 ## ITF User Access
 
 The ansible playbooks in `resources/ansible-playbooks` are used to manage access to hosts in the Mid ITF. See `resources/ansible-playbooks/README.md` for more details.
+
+## Talon Board
+
+Scripts used to control the Talon boards can be found in `resources/talon`.
+
+### talon_power_lru.sh
+
+This script is used to turn the LRU ON/OFF or to check its current status. When running the `talon_power_lru.sh` script, make sure that the `apc_pdu.expect` is in the same directory. This script also requires the following packages to be installed: `sshpass`, `expect`.
+
+```bash
+# Retrieve the LRU1 status
+./talon_power_lru.sh lru1
+
+# Turn the LRU1 ON
+./talon_power_lru.sh lru1 on
+
+# Switch the LRU1 OFF
+./talon_power_lru.sh lru1 off
+```
