@@ -18,6 +18,7 @@ itf-te-template:
 	@mv manifests.yaml build/
 
 	
+DS_SIM_HOST:=$(shell kubectl -n dish-structure-simulators get svc ds-sim-web -o jsonpath={.status.loadBalancer.ingress[0].ip})
 
 ## TARGET: itf-ds-links
 ## SYNOPSIS: make itf-ds-links
@@ -28,11 +29,17 @@ itf-te-template:
 itf-ds-links: ## Create the URLs with which to access Skampi if it is available
 	@echo ${CI_JOB_NAME}
 	@echo "############################################################################"
-	@echo "#            Access the Dish Structure Simulator Server here:"
-	@echo "#            https://$(INGRESS_HOST)/$(KUBE_NAMESPACE)/novnc/"
-	@echo "#			File uploads are easier here:"
-	@echo "#            https://$(INGRESS_HOST)/$(KUBE_NAMESPACE)/fileserver/"
+	@echo "#            Access the Dish Structure Simulator web server here:"
+	@echo "#            http://$(DS_SIM_HOST):8090"
+	@echo "#            These are the available services and ports on $(DS_SIM_HOST):"
+	@echo "#            $(shell kubectl -n dish-structure-simulators get svc ds-sim-web -o jsonpath='{range @.spec.ports[*]}{@.name}{": "}{@.port}{";   "}{end}')"
 	@echo "############################################################################"
+
+# DEPRECATED, BUT STILL ACTIVE:
+# @echo "#            Access the Dish Structure Simulator Server here:"
+# @echo "#            https://$(INGRESS_HOST)/$(KUBE_NAMESPACE)/novnc/"
+# @echo "#			File uploads are easier here:"
+# @echo "#            https://$(INGRESS_HOST)/$(KUBE_NAMESPACE)/fileserver/"
 
 itf-spookd-install:
 	@make k8s-install-chart K8S_CHART=ska-mid-itf-ghosts KUBE_APP=spookd KUBE_NAMESPACE=$(SPOOKD_NAMESPACE) HELM_RELEASE=whoyougonnacall
