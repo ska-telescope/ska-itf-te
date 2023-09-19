@@ -124,7 +124,7 @@ The ansible playbooks in `resources/ansible-playbooks` are used to manage access
 
 ## Talon Board
 
-Scripts used to control the Talon boards can be found in `resources/talon`.
+Scripts used to control the Talon boards can be found in `resources/talon`. According to the CIPA Team, switching off the Talon before tests are executed is required to perform all the BITE tests. This is because booting up the boards is the first step of the BITE test sequence.
 
 ### talon_power_lru.sh
 
