@@ -7,9 +7,9 @@ global:
 nameOverride: ""
 fullnameOverride: ""
 
-imagePullPolicy: IfNotPresent
-containers:
-  setupConfigs:
-    name: spfc-busybox
-    image: 
-      name: busybox
+spfc-busybox:
+  image:
+    registry: registry.gitlab.com/ska-telescope/spfc-busybox
+    image: spfc-busybox
+    tag: 1.36.1
+    pullPolicy: Always

@@ -6,8 +6,6 @@ version: 0.0.0
 appVersion: 0.0.0
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
-  - name: spfc-busybox
-    version: 1.36.1 # check latest version
-    repository: https://registry.gitlab.com/ska-telescope/ska-mid-itf
-    alias: test-spfc-busybox
-    condition: spfc-busybox.enabled
+  - name: ska-tango-base
+    version: 0.4.6 # Check latest version
+    repository: https://artefact.skao.int/repository/helm-internal
