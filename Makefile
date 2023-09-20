@@ -187,7 +187,7 @@ acceptance-test:
 	cd submodules/.ska-sdp-integration && \
 	git submodule update --init --recursive && \
 	poetry install && \
-	$(PYTHON_RUNNER) pytest $(ACCEPTANCE_TEST_SOURCE) $(ACCEPTANCE_TEST_ARGS); \
+	TEST_TANGO_CLIENT=$(TEST_TANGO_CLIENT) $(PYTHON_RUNNER) pytest $(ACCEPTANCE_TEST_SOURCE) $(ACCEPTANCE_TEST_ARGS); \
 	echo $$? > ../../build/status
 
 upload-to-confluence:
