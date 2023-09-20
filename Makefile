@@ -51,12 +51,15 @@ else
 EXIT = 
 endif
 
+# SDP test variables
+TEST_TANGO_CLIENT ?= gql
+TEST_MARKER ?= not alternating_scans
 
 INTEGRATION_TEST_SOURCE ?= tests/integration
 INTEGRATION_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(_MARKS) $(_COUNTS) $(EXIT) $(PYTEST_ADDOPTS) | tee pytest.stdout
 
 ACCEPTANCE_TEST_SOURCE ?= tests
-ACCEPTANCE_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(_MARKS) $(_COUNTS) $(EXIT) $(PYTEST_ADDOPTS)
+ACCEPTANCE_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(if $(TEST_MARKER),-m "$(TEST_MARKER)") $(_MARKS) $(_COUNTS) $(EXIT) $(PYTEST_ADDOPTS)
 
 SDP_PARAMS ?= --set ska-sdp.helmdeploy.namespace=$(KUBE_NAMESPACE_SDP) \
 	--set ska-sdp.ska-sdp-qa.zookeeper.clusterDomain=$(CLUSTER_DOMAIN) \
@@ -178,7 +181,6 @@ integration-test:
 	@mkdir -p build
 	$(PYTHON_RUNNER) pytest $(INTEGRATION_TEST_SOURCE) $(INTEGRATION_TEST_ARGS); \
 	echo $$? > build/status
-
 
 acceptance-test:
 	@mkdir -p build
