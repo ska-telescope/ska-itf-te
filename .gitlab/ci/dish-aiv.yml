@@ -80,7 +80,10 @@ remove-dish-structure-simulator:
   before_script:
     - make vars
   script:
-    - make k8s-install-chart
+    - bash .make/resources/gitlab_section.sh install "Installing $K8S_CHART Charts - not from CAR" make k8s-install-chart
+    - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
+    - bash .make/resources/gitlab_section.sh get-ns "Get namespace resources" make k8s-get
+    - bash .make/resources/gitlab_section.sh wait-ns "Wait namespace resources" make k8s-wait
     - make itf-dish-links
   when: manual
   needs:
@@ -163,9 +166,6 @@ uninstall-aa05-dishes:
 deploy-dishlmc-ska036:
   extends:
     - .deploy-more-lmc
-  needs:
-    - deploy-dishlmc-ska001
-    - deploy-aa05-dishes
   variables:
     DISH_INDEX: "036"
   environment:
@@ -174,8 +174,6 @@ deploy-dishlmc-ska036:
 deploy-dishlmc-ska063:
   extends:
     - .deploy-more-lmc
-  needs:
-    - deploy-dishlmc-ska036
   variables:
     DISH_INDEX: "063"
   environment:
@@ -184,8 +182,6 @@ deploy-dishlmc-ska063:
 deploy-dishlmc-ska100:
   extends:
     - .deploy-more-lmc
-  needs:
-    - deploy-dishlmc-ska063
   variables:
     DISH_INDEX: "100"
   environment:
