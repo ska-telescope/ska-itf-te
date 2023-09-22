@@ -1,0 +1,30 @@
+#!/bin/expect
+
+# Usage: apc_pdu.expect <on|off|status> <outlet1> [outlet2] ... 
+#   where outlets can be 1 to 24, or "all"
+
+set USER apc
+set PASS apc
+set PDU_ADDR 10.20.2.14
+
+set IN_CMD [lindex $argv 0]
+
+set NARG [llength $argv]
+
+set timeout 10
+
+if { $IN_CMD == "on" || $IN_CMD == "ON" } {
+    set APC_CMD "olOn"
+} elseif { $IN_CMD == "off" || $IN_CMD == "OFF" } {
+    set APC_CMD "olOff"
+} else {
+    set APC_CMD "olStatus"
+}
+
+spawn sshpass -p $PASS ssh -o HostKeyAlgorithms=+ssh-rsa -o PubkeyAcceptedAlgorithms=+ssh-rsa -o StrictHostKeyChecking=no $USER@$PDU_ADDR
+for {set i 1} {$i < $NARG} {incr i} {
+    set OUTLET [lindex $argv $i]
+    expect "apc>" { send "$APC_CMD $OUTLET\r" }
+}
+expect "apc>" { send "quit\r" }
+interact
