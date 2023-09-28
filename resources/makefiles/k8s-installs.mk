@@ -18,14 +18,13 @@ itf-te-template:
 	@mv manifests.yaml build/
 
 	
-DS_SIM_HOST:=$(shell kubectl -n dish-structure-simulators get svc ds-sim-web -o jsonpath={.status.loadBalancer.ingress[0].ip})
 
 ## TARGET: itf-ds-links
 ## SYNOPSIS: make itf-ds-links
 ## HOOKS: none
 ## VARS: none
 ##  make target for generating the URLs for accessing the Dish Structure Simulator front-end
-
+itf-ds-links: DS_SIM_HOST := $(shell kubectl -n dish-structure-simulators get svc ds-sim-web -o jsonpath={.status.loadBalancer.ingress[0].ip})
 itf-ds-links: ## Create the URLs with which to access Skampi if it is available
 	@echo ${CI_JOB_NAME}
 	@echo "############################################################################"
