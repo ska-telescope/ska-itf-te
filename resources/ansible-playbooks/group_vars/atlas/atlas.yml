@@ -26,8 +26,6 @@ team_users:
     ssh_key_path: "{{ users_dir }}/adb/.ssh/id_rsa.pub"
   - name: d.gammon
     ssh_key_path: "{{ users_dir }}/dg/.ssh/id_rsa.pub"
-  - name: g.leroux
-    ssh_key_path: "{{ users_dir }}/glr/id_rsa.pub"
   - name: j.coetzer
     ssh_key_path: "{{ users_dir }}/jc/.ssh/id_rsa.pub"
   - name: monde.manzini
@@ -40,6 +38,10 @@ team_users:
     ssh_key_path: "{{ users_dir }}/tt/.ssh/id_ed25519.pub"
   - name: vhulahani.manukha
     ssh_key_path: "{{ users_dir }}/vm/.ssh/id_rsa.pub"
+remove_users:
+  - g.leroux
+  - b.lunsky
+
 
 kube_admin_context: kubernetes-admin@kubernetes
 kube_context: atlas-integration-mid-kubernetes

@@ -1,8 +1,5 @@
 - name: Setup variables
   vars:
-    # Disable this linting rule because it makes the variables quite awkward to work with.
-    # For example, this variable would have to be var_setup_filtered_users.
-    # noqa: var-naming[no-role-prefix]
     filtered_users: []
     filtered_user_groups: {}
     team_primary_group: ""
@@ -11,14 +8,12 @@
 
     - name: Set team primary group
       ansible.builtin.set_fact:
-        # noqa: var-naming[no-role-prefix]
         team_primary_group: "{{ item.name }}"
       when: item.primary
       loop: "{{ team_groups }}"
 
     - name: Set team admin group
       ansible.builtin.set_fact:
-        # noqa: var-naming[no-role-prefix]
         team_admin_group: "{{ item.name }}"
       when: item.admin
       loop: "{{ team_groups }}"
@@ -29,12 +24,10 @@
 
     - name: Set team shared dir
       ansible.builtin.set_fact:
-        # noqa: var-naming[no-role-prefix]
         shared_team_dir: "{{ shared_dir }}/{{ team_name }}"
 
     - name: Set team shared config dir
       ansible.builtin.set_fact:
-        # noqa: var-naming[no-role-prefix]
         shared_team_config_dir: "{{ shared_team_dir }}/config"
 
     - name: Filter users
@@ -42,13 +35,11 @@
       loop_control:
         loop_var: current_user
       ansible.builtin.set_fact:
-        # noqa: var-naming[no-role-prefix]
         filtered_users: "{{ filtered_users + [current_user] }}"
       when: (filter_users|length==0) or current_user['name'] in filter_users
 
     - name: Set users
       ansible.builtin.set_fact:
-        # noqa: var-naming[no-role-prefix]
         users: "{{ filtered_users | map(attribute='name') }}"
 
     - name: Set user groups
@@ -59,5 +50,4 @@
 
     - name: Set user ssh keys
       ansible.builtin.set_fact:
-        # noqa: var-naming[no-role-prefix]
         ssh_keys: "{{ filtered_users }}"

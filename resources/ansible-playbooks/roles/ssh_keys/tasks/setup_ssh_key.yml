@@ -27,11 +27,3 @@
         create: true
         owner: "{{ ssh_keys_user_name }}"
         mode: "600"
-
-- name: Remove ssh key
-  become: true
-  when: removekey
-  ansible.builtin.lineinfile:
-    line: "{{ ssh_keys_ssh_key }}"
-    dest: "/home/{{ ssh_keys_user_name }}/.ssh/authorized_keys"
-    state: absent
