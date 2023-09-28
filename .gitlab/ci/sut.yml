@@ -226,6 +226,11 @@ k8s-test-runner:
     SHOW_STEP_FUNCTIONS: "True"
     CAPTURE_LOGS: "True"
     EXIT_AT_FAIL: "True"
+  rules:
+    - changes:
+        - charts/system-under-test/*
+        - .gitlab/ci/sut.yml
+        - tests/*
 
 stop-k8s-test-runner:
   tags:
