@@ -10,7 +10,7 @@
   when: "'sudo' in filtered_user_groups[current_user]"
   ansible.builtin.lineinfile:
     line: "{{ current_user }} ALL=(ALL) NOPASSWD:ALL"
-    path: "/etc/sudoers.d/99-atlas-team"
+    path: "{{ sudoers_file }}"
     regex: "{{ current_user }}"
     create: true
     owner: "root"

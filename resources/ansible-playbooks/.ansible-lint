@@ -1,0 +1,29 @@
+---
+# .ansible-lint
+
+profile: production # min, basic, moderate,safety, shared, production
+
+# Ansible-lint is able to recognize and load skip rules stored inside
+# `.ansible-lint-ignore` (or `.config/ansible-lint-ignore.txt`) files.
+# To skip a rule just enter filename and tag, like "playbook.yml package-latest"
+# on a new line.
+# Optionally you can add comments after the tag, prefixed by "#". We discourage
+# the use of skip_list below because that will hide violations from the output.
+# When putting ignores inside the ignore file, they are marked as ignored, but
+# still visible, making it easier to address later.
+skip_list:
+  # Disable these linting rules because they makes the variables and tasks quite awkward to work with.
+  # For example, a `users` variable in the var_setup role would have to be called var_setup_users.
+  - var-naming[no-role-prefix]
+  - name[prefix]
+
+# Ansible-lint does not automatically load rules that have the 'opt-in' tag.
+# You must enable opt-in rules by listing each rule 'id' below.
+enable_list:
+  - args
+  - empty-string-compare # opt-in
+  - no-log-password # opt-in
+  - no-same-owner # opt-in
+  # add yaml here if you want to avoid ignoring yaml checks when yamllint
+  # library is missing. Normally its absence just skips using that rule.
+  - yaml

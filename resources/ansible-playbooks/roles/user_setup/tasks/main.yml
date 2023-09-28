@@ -13,7 +13,7 @@
   args:
     apply:
       become: true
-  loop: "{{ users }}"
+  loop: "{{ remove_users }}"
   loop_control:
     loop_var: current_user
   when: removeusers

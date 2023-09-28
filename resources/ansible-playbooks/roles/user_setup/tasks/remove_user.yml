@@ -6,6 +6,6 @@
 
 - name: Remove from sudoers
   ansible.builtin.lineinfile:
-    path: "/etc/sudoers.d/99-atlas-team"
+    path: "{{ sudoers_file }}"
     regex: "{{ current_user }}"
     state: absent
