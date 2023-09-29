@@ -182,4 +182,4 @@ template-chart: k8s-dep-update
 
 register-spfc:
 	DNS_IP=$(kubectl get --namespace dish-lmc-ska001 service ${TANGO_DATABASE_DS} -o jsonpath={'.status.loadBalancer.ingress[0].ip'})
-	@echo $(DNS_IP)?
+	@echo $(DNS_IP)
