@@ -68,11 +68,9 @@ xray-publish:
 
 register-spfc:
   image: $TEST_IMAGE
-  before_script:
-    - ""
   script:
     - make register-spfc
-  when: manual
+  when: never
 
 python-test:
   image: $TEST_IMAGE
