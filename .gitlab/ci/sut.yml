@@ -258,3 +258,10 @@ publish-k8s-test-results:
   script:
     - echo "Test result code from k8s-test-runner job was $(cat build/status)"
     - make upload-to-confluence
+
+register-spfc:
+  tags:
+    - ska-k8srunner-za-itf
+  script:
+    - make register-spfc
+  when: manual
