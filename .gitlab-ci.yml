@@ -72,6 +72,7 @@ register-spfc:
     - ""
   script:
     - make register-spfc
+  when: manual
 
 python-test:
   image: $TEST_IMAGE
