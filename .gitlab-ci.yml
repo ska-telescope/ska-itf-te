@@ -66,12 +66,6 @@ xray-publish:
   when: always #### TODO: Remove this and uncomment line just above this one!
   rules: # this is just to override the rules that are apparently blocking execution at the moment
 
-register-spfc:
-  image: $TEST_IMAGE
-  script:
-    - make register-spfc
-  when: never
-
 python-test:
   image: $TEST_IMAGE
 
@@ -134,3 +128,9 @@ build-base-image:
       echo "Running on '$CI_COMMIT_BRANCH' branch; tag = $tag"
     - docker build --pull -t "$CI_REGISTRY_IMAGE:${tag}" .
     - docker push "$CI_REGISTRY_IMAGE:${tag}"
+
+register-spfc:
+  image: $TEST_IMAGE
+  script:
+    - make register-spfc
+  when: manual
