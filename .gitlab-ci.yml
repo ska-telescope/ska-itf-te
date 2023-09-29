@@ -66,6 +66,13 @@ xray-publish:
   when: always #### TODO: Remove this and uncomment line just above this one!
   rules: # this is just to override the rules that are apparently blocking execution at the moment
 
+register-spfc:
+  image: $TEST_IMAGE
+  before_script:
+    - ""
+  script:
+    - make register-spfc
+
 python-test:
   image: $TEST_IMAGE
 
