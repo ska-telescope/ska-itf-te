@@ -128,9 +128,3 @@ build-base-image:
       echo "Running on '$CI_COMMIT_BRANCH' branch; tag = $tag"
     - docker build --pull -t "$CI_REGISTRY_IMAGE:${tag}" .
     - docker push "$CI_REGISTRY_IMAGE:${tag}"
-
-register-spfc:
-  image: $TEST_IMAGE
-  script:
-    - make register-spfc
-  when: manual
