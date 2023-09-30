@@ -181,5 +181,4 @@ template-chart: k8s-dep-update
 	 $(K8S_UMBRELLA_CHART_PATH) --namespace $(KUBE_NAMESPACE) > build/manifests.yaml
 
 register-spfc:
-	DNS_IP=$(kubectl get --namespace dish-lmc-ska001 service ${TANGO_DATABASE_DS} -o jsonpath={'.status.loadBalancer.ingress[0].ip'})
-	@echo $(DNS_IP)
+	@tango_admin --version
