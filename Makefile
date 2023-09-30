@@ -181,9 +181,7 @@ template-chart: k8s-dep-update
 	 $(K8S_UMBRELLA_CHART_PATH) --namespace $(KUBE_NAMESPACE) > build/manifests.yaml
 
 register-spfc:
-	DEVICE_SERVER_NAME_FULL=spfc/test/1
-	CLASS_NAME=SPFC
-	DEVICE_NAME=SPFC/TEST
-	@tango_admin --add-server ${DEVICE_SERVER_NAME_FULL} ${CLASS_NAME} ${DEVICE_NAME}
-	@tango_admin --check-device spfc/test/1
+	DEVICE_SERVER_NAME_FULL=spfc/host SpfcDevice mid-itf/spfc/host
+	@tango_admin --add-server $(DEVICE_SERVER_NAME_FULL)
+	@tango_admin --check-device $(DEVICE_SERVER_NAME_FULL)
 	@echo $?
