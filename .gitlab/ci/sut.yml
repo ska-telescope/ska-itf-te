@@ -262,6 +262,7 @@ publish-k8s-test-results:
 register-spfc:
   tags:
     - ska-k8srunner-za-itf
+  image: $TEST_IMAGE
   script:
     - make register-spfc
   when: manual
