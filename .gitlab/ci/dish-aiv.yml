@@ -226,6 +226,6 @@ register-spfc:
     - ska-k8srunner-za-itf
   image: $CI_REGISTRY/ska-telescope/ska-skampi/ska-skampi-ci:1.0.4
   script:
-    - apt-get install libtango-tools -y
+    - DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get install libtango-tools -y
     - make register-spfc
   when: manual
