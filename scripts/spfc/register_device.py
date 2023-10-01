@@ -10,12 +10,12 @@ def main():
     dev_info1.server = 'SpfcLocation/test'
 
     ip_address = subprocess.run(["kubectl", "get", "--namespace", "dish-lmc-ska001", "service", "tango-databaseds", "-o",
-                             "jsonpath={'.status.loadBalancer.ingress[0].ip'}"], check=False, shell=True, capture_output=True, text=True)
+                             "jsonpath={\".status.loadBalancer.ingress[0].ip\"}"], check=True, capture_output=True, text=True)
     
-    print("Reolved IP address:{}".format(str(ip_address.stdout)))
-    db = Database("10.164.10.22", 10000)
-    db.add_server(dev_info1.server, dev_info1, with_dserver=True)
-    dev_info = db.get_device_info(dev_info1.name)
+    print("Resolved IP address:" + str(ip_address.stdout))
+    data_base = Database("10.164.10.22", 10000)
+    data_base.add_server(dev_info1.server, dev_info1, with_dserver=True)
+    dev_info = data_base.get_device_info(dev_info1.name)
     print("Registered device=" + str(dev_info))
 
 if __name__ == "__main__":
