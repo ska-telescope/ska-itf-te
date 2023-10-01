@@ -11,7 +11,7 @@ def main():
 
     ip_address = subprocess.check_output(["kubectl", "get", "--namespace", "dish-lmc-ska001", "service", "tango-databaseds", "-o",
                              "jsonpath={'.status.loadBalancer.ingress[0].ip'}"])
-    print("Reolved IP address:{}".format(ip_address.stdout))
+    print("Reolved IP address:{}".format(str(ip_address)))
     db = Database("10.164.10.22", 10000)
     db.add_server(dev_info1.server, dev_info1, with_dserver=True)
     dev_info = db.get_device_info(dev_info1.name)
