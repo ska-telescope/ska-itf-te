@@ -186,8 +186,8 @@ DNS_IP := $(kubectl get --namespace dish-lmc-ska001 service ${TANGO_DATABASE_DS}
 register-spfc:
 	@echo DNS_IP is $(DNS_IP)
 	@echo TANGO_HOST is $(TANGO_HOST)
-	echo "000"
-	@tango_admin --add-server SPFC/test SPFC $(DEVICE_NAME)
+	tango_admin --help
+	tango_admin --add-server SPFC/test SPFC $(DEVICE_NAME)
 	echo "111"
 	tango_admin --check-device $(DEVICE_NAME)
 	echo "222"
