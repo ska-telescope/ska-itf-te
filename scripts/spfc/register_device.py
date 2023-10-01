@@ -1,20 +1,9 @@
-dev_info1 = DbDevInfo()
-from tango import (
-    StdStringVector,
-    Database,
-    DbDatum,
-    DbData,
-    DbDevInfo,
-    DbDevInfos,
-    DbDevImportInfo,
-    DbDevExportInfo,
-    DbDevExportInfos,
-    DbHistory,
-    DbServerInfo,
-    DbServerData,
-)
+import tango
+from tango import Database, DbDevInfo
 
 def main():
+    dev_info1 = DbDevInfo()
+    print(tango.ApiUtil.get_env_var("TANGO_HOST"))
     dev_info1.name = 'mid-itf/SPFC/1'
     dev_info1._class = 'SPFC'
     dev_info1.server = 'SPFC/test'
