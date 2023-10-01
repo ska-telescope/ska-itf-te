@@ -225,12 +225,13 @@ register-spfc:
   tags:
     - ska-k8srunner-za-itf
   image: $CI_REGISTRY/ska-telescope/ska-skampi/ska-skampi-ci:1.0.4
+  variables:
+    device_name: mid-itf/SPFC/1
   script:
-    - export DEVICE_NAME=mid-itf/SPFC/1
     - export DNS_IP=$(kubectl get --namespace dish-lmc-ska001 service ${TANGO_DATABASE_DS} -o jsonpath={'.status.loadBalancer.ingress[0].ip'})
     - echo $DNS_IP
     - echo $TANGO_HOST
-    - tango_admin --add-server SPFC/test SPFC $(DEVICE_NAME)
-    - tango_admin --check-device $(DEVICE_NAME)
+    - tango_admin --add-server SPFC/test SPFC $(device_name)
+    - tango_admin --check-device $(device_name)
 
   when: manual
