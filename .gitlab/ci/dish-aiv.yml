@@ -233,6 +233,6 @@ register-spfc:
     - echo $TANGO_HOST
     - echo $DEVICE_NAME
     - pwd
-    - python3 /scripts/spfc/register_device.py
+    - python3 scripts/spfc/register_device.py
 
   when: manual
