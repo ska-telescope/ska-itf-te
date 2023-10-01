@@ -182,6 +182,6 @@ template-chart: k8s-dep-update
 
 register-spfc:
 	DEVICE_SERVER_NAME_FULL=spfc/host SpfcDevice mid-itf/spfc/host
-	@tango_admin --add-server $(DEVICE_SERVER_NAME_FULL)
-	@tango_admin --check-device $(DEVICE_SERVER_NAME_FULL)
+	@tango_admin --add-server ${DEVICE_SERVER_NAME_FULL}
+	@tango_admin --check-device SpfcDevice
 	@echo $?
