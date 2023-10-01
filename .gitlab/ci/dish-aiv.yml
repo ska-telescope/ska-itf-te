@@ -223,7 +223,6 @@ uninstall-dishlmc-ska100:
 register-spfc:
   tags:
     - ska-k8srunner-za-itf
-  image: $CI_REGISTRY/ska-telescope/ska-skampi/ska-skampi-ci:1.0.4
   script:
     - make register-spfc
   when: manual
