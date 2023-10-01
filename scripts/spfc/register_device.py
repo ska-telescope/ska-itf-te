@@ -9,9 +9,10 @@ def main():
     dev_info1._class = 'SpfcLocation'
     dev_info1.server = 'SpfcLocation/test'
 
-    ip_address = subprocess.check_output(["kubectl", "get", "--namespace", "dish-lmc-ska001", "service", "tango-databaseds", "-o",
-                             "jsonpath={'.status.loadBalancer.ingress[0].ip'}"])
-    print("Reolved IP address:{}".format(str(ip_address)))
+    ip_address = subprocess.run(["kubectl", "get", "--namespace", "dish-lmc-ska001", "service", "tango-databaseds", "-o",
+                             "jsonpath={'.status.loadBalancer.ingress[0].ip'}"], check=False, shell=True, capture_output=True, text=True)
+    
+    print("Reolved IP address:{}".format(str(ip_address.stdout)))
     db = Database("10.164.10.22", 10000)
     db.add_server(dev_info1.server, dev_info1, with_dserver=True)
     dev_info = db.get_device_info(dev_info1.name)
