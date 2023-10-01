@@ -221,6 +221,7 @@ uninstall-dishlmc-ska100:
     DISH_ID: ska100
 
 register-spfc:
+  stage: build
   tags:
     - ska-k8srunner-za-itf
   script:
