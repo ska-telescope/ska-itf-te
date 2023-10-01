@@ -183,7 +183,9 @@ template-chart: k8s-dep-update
 DEVICE_NAME=mid-itf/spfc/1
 register-spfc:
 	@dns_ip=$$(kubectl get --namespace dish-lmc-ska001 service ${TANGO_DATABASE_DS} -o jsonpath={'.status.loadBalancer.ingress[0].ip'})
-	echo "tango ip is ($$dns_ip)"
-	tango_admin --help
-	tango_admin --add-server SPFC/1 SpfcDevice $(DEVICE_NAME)
+	$(info $$dns_ip is [${dns_ip}])
+	echo "000"
+	tango_admin --add-server SPFC/test SPFC $(DEVICE_NAME)
+	echo "111"
 	tango_admin --check-device $(DEVICE_NAME)
+	echo "222"
