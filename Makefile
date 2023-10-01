@@ -25,6 +25,7 @@ PYTHON_LINE_LENGTH = 99
 DOCS_SPHINXBUILD = .venv/bin/python3 -msphinx
 PYTHON_TEST_FILE = tests/unit/ tests/functional/
 PYTHON_SRC = ska_mid_itf
+SPFC_DEVICE = SpfcDevice/test SpfcDevice mid-itf/spfc/0
 ifneq ($(COUNT),)
 # Dashcount is a synthesis of testcount as input user variable and is used to
 # run a paricular test/s multiple times. If no testcount is set then the entire
@@ -181,7 +182,6 @@ template-chart: k8s-dep-update
 	 $(K8S_UMBRELLA_CHART_PATH) --namespace $(KUBE_NAMESPACE) > build/manifests.yaml
 
 register-spfc:
-	DEVICE_SERVER_NAME_FULL=spfc/host SpfcDevice mid-itf/spfc/host
-	@tango_admin --add-server ${DEVICE_SERVER_NAME_FULL}
+	@tango_admin --add-server $(SPFC_DEVICE)
 	@tango_admin --check-device SpfcDevice
 	@echo $?
