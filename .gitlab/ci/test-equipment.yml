@@ -173,10 +173,3 @@ deploy-file-browser:
       when: always
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       when: never
-
-register-spfc:
-  tags:
-    - ska-k8srunner-za-itf
-  script:
-    - make register-spfc
-  when: manual
