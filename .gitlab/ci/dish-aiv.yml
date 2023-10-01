@@ -231,7 +231,7 @@ register-spfc:
     - export DNS_IP=$(kubectl get --namespace dish-lmc-ska001 service ${TANGO_DATABASE_DS} -o jsonpath={'.status.loadBalancer.ingress[0].ip'})
     - echo $DNS_IP
     - echo $TANGO_HOST
-    - tango_admin --add-server SPFC/test SPFC $(device_name)
-    - tango_admin --check-device $(device_name)
+    - tango_admin --add-server SPFC/test SPFC $device_name
+    - tango_admin --check-device $device_name
 
   when: manual
