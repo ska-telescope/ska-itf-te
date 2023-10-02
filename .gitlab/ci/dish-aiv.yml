@@ -221,19 +221,13 @@ uninstall-dishlmc-ska100:
     DISH_ID: ska100
 
 register-spfc:
-  stage: build
   tags:
     - ska-k8srunner-za-itf
   image: $CI_REGISTRY/ska-telescope/ska-skampi/ska-skampi-ci:1.0.4
   variables:
-    DEVICE_NAME: mid-itf/SPFC/1
     TANGO_DATABASE_DS: tango-databaseds
   script:
-    - export DNS_IP=$(kubectl get --namespace dish-lmc-ska001 service ${TANGO_DATABASE_DS} -o jsonpath={'.status.loadBalancer.ingress[0].ip'})
-    - echo $DNS_IP
-    - echo $TANGO_HOST
-    - echo $DEVICE_NAME
-    - pwd
-    - python3 scripts/spfc/register_device.py $DNS_IP
+    - export DISH_LMC_IP=$(kubectl get --namespace dish-lmc-ska001 service ${TANGO_DATABASE_DS} -o jsonpath={'.status.loadBalancer.ingress[0].ip'})
+    - python3 scripts/spfc/register_device.py $DISH_LMC_IP
 
   when: manual
