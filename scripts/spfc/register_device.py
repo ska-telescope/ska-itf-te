@@ -6,9 +6,9 @@ from tango import Database, DbDevInfo
 def main():
     dev_info1 = DbDevInfo()
     print(tango.ApiUtil.get_env_var("TANGO_HOST"))
-    dev_info1.name = 'mid-itf/SpfcLocation/1'
-    dev_info1._class = 'SpfcLocation'
-    dev_info1.server = 'SpfcLocation/test'
+    dev_info1.name = 'SPFRx/rxpu/controller'
+    dev_info1._class = 'SPFRx'
+    dev_info1.server = 'SPFRx/test'
     try:
         dish_lmc_ip_address = sys.argv[1]
         database = Database(str(dish_lmc_ip_address), 10000)

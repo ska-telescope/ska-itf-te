@@ -4,7 +4,7 @@ from tango.server import (
     run
 )
 
-class SpfcLocation(Device):
+class SPFRx(Device):
 # Mandatory properties work only when a TANGO_HOST with a TangoDB is available
 # for this device.
     My_mandatory_device_property = device_property(
@@ -13,7 +13,7 @@ class SpfcLocation(Device):
     )
 
 def main(args = None, **kwargs):
-    return run((SpfcLocation,), **kwargs)
+    return run((SPFRx,), **kwargs)
 
 if __name__ == '__main__':
     main()
