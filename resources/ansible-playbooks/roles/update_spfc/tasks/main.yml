@@ -4,7 +4,7 @@
     state: directory
     mode: '0755'
     
-- name: Configure the TANGO_HOST in the config file.
+- name: Configure the TANGO_HOST in the config file
   ansible.builtin.copy:
     src: ../files/tango_host_conf.ini
     dest: "{{ config_dir }}/tango_host_conf.ini"
