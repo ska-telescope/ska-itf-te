@@ -227,12 +227,13 @@ register-spfc:
   image: $CI_REGISTRY/ska-telescope/ska-skampi/ska-skampi-ci:1.0.4
   variables:
     DEVICE_NAME: mid-itf/SPFC/1
+    TANGO_DATABASE_DS: tango-databaseds
   script:
     - export DNS_IP=$(kubectl get --namespace dish-lmc-ska001 service ${TANGO_DATABASE_DS} -o jsonpath={'.status.loadBalancer.ingress[0].ip'})
     - echo $DNS_IP
     - echo $TANGO_HOST
     - echo $DEVICE_NAME
     - pwd
-    - python3 scripts/spfc/register_device.py
+    - python3 scripts/spfc/register_device.py $DNS_IP
 
   when: manual

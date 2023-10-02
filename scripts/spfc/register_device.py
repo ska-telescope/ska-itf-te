@@ -1,4 +1,5 @@
 import subprocess
+import sys
 import tango
 from tango import Database, DbDevInfo
 
@@ -9,10 +10,8 @@ def main():
     dev_info1._class = 'SpfcLocation'
     dev_info1.server = 'SpfcLocation/test'
 
-    ip_address = subprocess.run(["kubectl", "get", "--namespace", "dish-lmc-ska001", "service", "tango-databaseds", "-o",
-                             "jsonpath={\".status.loadBalancer.ingress[0].ip\"}"], check=True, capture_output=True, text=True)
-    
-    print("Resolved IP address:" + str(ip_address.stdout))
+    dish_lmc_ip_address = sys.argv[1]    
+    print("Resolved IP address:" + str(dish_lmc_ip_address))
     data_base = Database("10.164.10.22", 10000)
     data_base.add_server(dev_info1.server, dev_info1, with_dserver=True)
     dev_info = data_base.get_device_info(dev_info1.name)
