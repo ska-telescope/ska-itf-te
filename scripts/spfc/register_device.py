@@ -11,14 +11,12 @@ def main():
     dev_info1.server = 'SpfcLocation/test'
     try:
         dish_lmc_ip_address = sys.argv[1]
-        data_base = Database(str(dish_lmc_ip_address), 10000)
-        data_base.add_server(dev_info1.server, dev_info1, with_dserver=True)
-        dev_info = data_base.get_device_info(dev_info1.name)
-        print("Registered device=" + str(dev_info))
+        database = Database(str(dish_lmc_ip_address), 10000)
+        database.add_server(dev_info1.server, dev_info1, with_dserver=True)
+        dev_info = database.get_device_info(dev_info1.name)
+        print(f"Registered device is {str(dev_info)} ")
     except IndexError:
-        print("Error: Please call \'" + str(sys.argv) + "\' with ip address argument.")
+        print(f"Error: Please call  \' {str(sys.argv) } \' with ip address argument.")
 
 if __name__ == "__main__":
     main()
-
-#tango_admin --add-server DeviceWithProperty/test DeviceWithProperty foo/bar/1
