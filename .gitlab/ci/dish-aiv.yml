@@ -229,5 +229,4 @@ register-spfc:
   script:
     - export DISH_LMC_IP=$(kubectl get --namespace dish-lmc-ska001 service ${TANGO_DATABASE_DS} -o jsonpath={'.status.loadBalancer.ingress[0].ip'})
     - python3 scripts/spfc/register_device.py $DISH_LMC_IP
-
   when: manual
