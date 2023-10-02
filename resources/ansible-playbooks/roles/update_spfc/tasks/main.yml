@@ -1,0 +1,19 @@
+- name: Create config dir
+  ansible.builtin.file:
+    path: "{{ config_dir }}"
+    state: directory
+    mode: '0755'
+    
+- name: Configure the TANGO_HOST in the config file.
+  ansible.builtin.copy:
+    src: ../files/tango_host_conf.ini
+    dest: "{{ config_dir }}/tango_host_conf.ini"
+    owner: "{{ sky_sim_usr }}"
+    mode: "u=rwx,g=r,o=r"
+
+- name: Restart systemd service
+  ansible.builtin.systemd:
+    state: restarted
+    daemon_reload: true
+    name: systemd-sysctl.service
+  become: true

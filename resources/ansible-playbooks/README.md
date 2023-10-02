@@ -39,6 +39,7 @@ This role adds an SSH config file at `~/.ssh/config.d/ska-mid-itf-config` which 
 * Gaia (10.165.4.7): `ssh gaia`
 * Raspberry Pi 0 (10.165.4.11): `ssh pi0`
 * Raspberry Pi 4 (10.165.4.15): `ssh pi4`
+* Raspberry Pi 4 (10.165.3.35): `ssh pi4-spfc`
 * Talon Board 1 (10.165.4.29): `ssh talon1`
 * Talon Board 2 (10.165.4.30): `ssh talon2`
 
@@ -115,6 +116,7 @@ We currently have 5 plays defined in our playbook:
 3. Setup test
 4. Setup Talon Dx boards
 5. Install Mid ITF SSH config on localhost
+6. Update SPFC configuration
 
 *Setup gaia* and *Setup rasperry_pi* each execute most of the following actions:
 
@@ -138,6 +140,7 @@ We currently have 5 plays defined in our playbook:
 
 *Install Mid ITF SSH config on localhost* sets up your local machine to easily SSH onto hosts in the Mid ITF.
 
+*Update SPFC configuration* Updates SPFC configuration files and reloads the systemd service.
 ### Gaia
 
 The Gaia play can be executed as follows:
@@ -181,6 +184,14 @@ make test
 make test_gaia
 ```
 
+### Raspberry Pi SPFC
+
+The Raspberry Pi SPFC play can be executed as follows:
+
+```bash
+make setup_pi_spfc
+```
+
 ## Additional Info
 
 ### Help
@@ -201,12 +212,15 @@ Makefile:setup_pi_dry_run      Runs the full playbook against the Raspberry Pi i
 Makefile:setup_pi              Runs the full playbook against the Raspberry Pi.
 Makefile:setup_talon_boards_dry_run Runs the full playbook against the Talon boards in dry-run mode.
 Makefile:setup_talon_boards    Runs the full playbook against the Talon boards.
+Makefile:setup_pi_spfc_dry_run Runs the full playbook against the Raspberry Pi SPFC in dry-run mode.
+Makefile:setup_pi_spfc         Runs the full playbook against the Raspberry Pi SPFC.
 Makefile:test-cicd-default     Runs a playbook test with all flags enabled (intended for Gitlab pipelines).
 Makefile:test-cicd-gaia        Runs a playbook test as if it were against Gaia (intended for Gitlab pipelines).
 Makefile:test-cicd-raspberry_pi Runs a playbook test as if it were against the Raspberry Pi (intended for Gitlab pipelines).
 Makefile:test-cicd             Runs all playbook tests (intended for Gitlab pipelines).
 Makefile:test-default          Runs a playbook test with all flags enabled.
 Makefile:test-gaia             Runs a playbook test as if it were against Gaia.
+Makefile:test-raspberry_pi     Runs a playbook test as if it were against the Raspberry Pi.
 Makefile:test-raspberry_pi     Runs a playbook test as if it were against the Raspberry Pi.
 Makefile:test                  Runs all playbook tests.
 Makefile:vars                  Variables

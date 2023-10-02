@@ -226,7 +226,11 @@ register-spfc:
   image: artefact.skao.int/ska-tango-images-tango-admin:1.15.9
   variables:
     TANGO_DATABASE_DS: tango-databaseds
+    HOSTNAME: tango-databaseds
+    NAMESPACE: dish-lmc-ska001
+    CLUSTER_DOMAIN: miditf.internal.skao.int
   script:
-    - export DISH_LMC_IP=$(kubectl get --namespace dish-lmc-ska001 service ${TANGO_DATABASE_DS} -o jsonpath={'.status.loadBalancer.ingress[0].ip'})
+    - export DNS_IP=$(kubectl get --namespace ${NAMESPACE} service ${TANGO_DATABASE_DS} -o jsonpath={'.status.loadBalancer.ingress[0].ip'})
+    - export $DISH_LMC_IP=$(dig ${HOSTNAME}.${NAMESPACE}.svc.${CLUSTER_DOMAIN} @${DNS_IP} +short)
     - python3 scripts/spfc/register_device.py $DISH_LMC_IP
   when: manual
