@@ -233,7 +233,7 @@ register-spfc:
     - sudo apt-get install -y dnsutils
     - export DNS_IP=$(kubectl get --namespace extdns service extdns-coredns -o jsonpath={'.status.loadBalancer.ingress[0].ip'})
     - echo $DNS_IP
-    - export $DISH_LMC_IP=$(dig ${HOSTNAME}.${NAMESPACE}.svc.${CLUSTER_DOMAIN} @${DNS_IP} +short)
+    - export DISH_LMC_IP=$(dig ${HOSTNAME}.${NAMESPACE}.svc.${CLUSTER_DOMAIN} @${DNS_IP} +short)
     - echo $DISH_LMC_IP
     - python3 scripts/spfc/register_device.py $DISH_LMC_IP
   when: manual
