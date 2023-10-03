@@ -1,50 +1,67 @@
 # ska-mid-itf Readme
+
 Welcome to the Mid ITF Tests project. Here you can find methods to connect to hosts in the Mid Integration Test Facility (ITF) network, System Under Test (SUT) and Test Equipment (TE), as well as tests (BDD and python tests) and scripts for interacting with the SUT and TE.
 
 Control can be done using Taranta Dashboards and Jupyter Notebooks.
 Spectrum Analyser.
 
 ## Run Binderhub
+
 Use this icon to launch a Jupyter Notebook (using Binderhub) in the ITF: [![Binder](https://10.164.0.3/binderhub/badge_logo.svg)](https://10.164.0.3/binderhub/v2/gh/ska-telescope/ska-mid-itf/HEAD)
 
 ## Makefile for SW server access
+
 A subset of the makefile commands available in the [Deploy Mid ITF](https://gitlab.com/ska-telescope/sdi/ska-cicd-deploy-mid-itf) have been added to the resources folder.
 
-#### PRO TIP: ALWAYS ADD ` --dry` TO THE END OF A MAKE COMMAND IF YOU WANT TO SEE WHAT IT IS GOING TO TRY TO DO.
+***PRO TIP: ALWAYS ADD `--dry` TO THE END OF A MAKE COMMAND IF YOU WANT TO SEE WHAT IT IS GOING TO TRY TO DO.***
 
 ### Prerequisites
 
 #### VPN
-You need to be on the SKAO ITF VPN (connect via AnyConnect client) - see instructions in https://confluence.skatelescope.org/display/SE/Connect+to+the+Mid+ITF+VPN 
+
+You need to be on the SKAO ITF VPN (connect via AnyConnect client) - see instructions in <https://confluence.skatelescope.org/display/SE/Connect+to+the+Mid+ITF+VPN>.
+
 #### Make variables
+
 You need to set one `make` variable in order to use your own access pattern. Do that with this command, substituting `<your-initials>` with your initials which are also the foldernames under `resources/users/`:
+
 ```
-$ echo ME=<your-initials> >> resources/users/UserProfile.mak
+echo ME=<your-initials> >> resources/users/UserProfile.mak
 ```
+
 Test if this worked, by verifying your name shows up when you ask that existential question:
+
 ```
 $ make whoami
     b.lunsky
 ```
+
 ## Copy the KUBECONFIG file
-The KUBECONFIG file enables access to the cluster resources. You'll need it to inspect deployments, or to *start an iTango session* (see below). You can get the KUBECONFIG from the CI pipeline of your deployment - follow the instructions on https://confluence.skatelescope.org/display/SE/%5BAT-474%5D+-+Demo+how+to+continue+developing+ITF+Test+Equipment+charts. You could also try `make copy-kubeconfig` if you feel brave.
+
+The KUBECONFIG file enables access to the cluster resources. You'll need it to inspect deployments, or to *start an iTango session* (see below). You can get the KUBECONFIG from the CI pipeline of your deployment - follow the instructions on <https://confluence.skatelescope.org/display/SE/%5BAT-474%5D+-+Demo+how+to+continue+developing+ITF+Test+Equipment+charts>. You could also try `make copy-kubeconfig` if you feel brave.
 
 ## Run iTango
+
 Use a Make target to run iTango:
+
 ```
-$ make k8s-interactive
+make k8s-interactive
 ```
+
 This normally takes a while. You can alternatively use the following instructions (slightly more advanced):
 
 ## Inspect the cluster resources
+
 Ensure you have [k9s](https://k9scli.io/topics/install/) installed, and that remote access to the SW host is established.
 
-
 You can run the `k9s` app with the correct KUBECONFIG loaded and pointing at your desired namespace, all in one go, with the `make` command:
+
 ```
-$ make k9s
+make k9s
 ```
+
 If the above target succeeded, you should be looking at something like this:
+
 ```
 Context: minikube                                 <?> Help                                                                                               ____  __.________        
  Cluster: minikube                                                                                                                                       |    |/ _/   __   \______ 
@@ -70,10 +87,12 @@ Context: minikube                                 <?> Help                      
 │                                                                                                                                                                                 │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
   <contexts>                                                                                                                                                                    
-  ```
-  Or, you could be looking at this:
-  ```
-  Context: minikube                                 <0> all               <a>      Attach     <l>       Logs               <y> YAML                        ____  __.________        
+```
+
+Or, you could be looking at this:
+
+```
+Context: minikube                                 <0> all               <a>      Attach     <l>       Logs               <y> YAML                        ____  __.________        
  Cluster: minikube                                 <1> integration-itf   <ctrl-d> Delete     <p>       Logs Previous                                     |    |/ _/   __   \______ 
  User:    minikube                                 <2> default           <d>      Describe   <shift-f> Port-Forward                                      |      < \____    /  ___/ 
  K9s Rev: v0.26.3 ⚡️v0.26.6                                              <e>      Edit       <s>       Shell                                             |    |  \   /    /\___ \  
@@ -96,19 +115,23 @@ Context: minikube                                 <?> Help                      
 │ tangotest-test-config-276hx                     ●    0/1              0 Completed        0     0      n/a      n/a       n/a       n/a 172.17.0.13      minikube     45m        │
 │ taranta-auth-ska-tango-taranta-auth-test-0      ●    2/2              0 Running          2    18        1        1         7         7 172.17.0.15      minikube     6h30m      │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
-  <namespace>   <pod>                                                                                                                                                              
-  ```
-  Learn the `k9s` commands, and open a shell (select the correct pod and use `s`) in the `ska-tango-base-itango-console` pod.
-  `k9s` will choose the container to open a shell in. You'll now see this:
-  ```
-  <<K9s-Shell>> Pod: integration-itf/ska-tango-base-itango-console | Container: itango 
+  <namespace>   <pod>
+```
+
+Learn the `k9s` commands, and open a shell (select the correct pod and use `s`) in the `ska-tango-base-itango-console` pod.
+`k9s` will choose the container to open a shell in. You'll now see this:
+
+```
+<<K9s-Shell>> Pod: integration-itf/ska-tango-base-itango-console | Container: itango 
 tango@ska-tango-base-itango-console:/app$ 
 ```
+
 Run the `itango3` command and enjoy.
 
 ## Bash customisation
 
 To get that nice output at the beginning of the command line, add the following to your .bashrc:
+
 ```
 parse_git_branch() {
     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
@@ -116,6 +139,7 @@ parse_git_branch() {
 
 export PS1="\u@\h \W\[\033[32m\]\$(parse_git_branch)\[\033[00m\] $ "
 ```
+
 Other customisations such as `alias`es also make life simpler. Speak to your nearest SW Support Specialist for more information.
 
 ## ITF User Access
