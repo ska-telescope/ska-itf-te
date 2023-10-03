@@ -25,14 +25,14 @@ test-equipment:
     awg:
       devices: []
     signalgenerator:
-      devices:
-        - name: smb100a
-          model: SMB100A
-          host: 10.165.3.1
-          port: 5025
-          resources:
-            limits:
-              skao.int/signal-generator-01: "1"
+      devices: []
+        # - name: smb100a
+        #  model: SMB100A
+        #  host: 10.165.3.1
+        #  port: 5025
+        #  resources:
+        #    limits:
+        #      skao.int/signal-generator-01: "1"
     sp6t:
       devices: []
     spdt:
