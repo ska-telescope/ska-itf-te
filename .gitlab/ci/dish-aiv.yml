@@ -223,7 +223,7 @@ uninstall-dishlmc-ska100:
 register-spfc:
   tags:
     - ska-k8srunner-za-itf
-  image: artefact.skao.int/ska-tango-images-tango-admin:1.15.9
+  image: $CI_REGISTRY/ska-telescope/ska-skampi/ska-skampi-ci:1.0.4
   variables:
     TANGO_DATABASE_DS: tango-databaseds
     HOSTNAME: tango-databaseds
