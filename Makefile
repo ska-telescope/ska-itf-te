@@ -81,6 +81,9 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 # better be verbose for debugging
 PYTHON_VARS_AFTER_PYTEST ?= -v
 
+# Assume the project root is the directory of the top-level Makefile
+PROJECT_ROOT := $(dir $(abspath $(firstword $(MAKEFILE_LIST))))
+
 python-post-lint:
 	.venv/bin/mypy --config-file mypy.ini ska_mid_itf/ tests/
 

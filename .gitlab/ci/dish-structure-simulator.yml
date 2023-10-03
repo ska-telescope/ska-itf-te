@@ -1,0 +1,114 @@
+# ############################################
+# # Dish Strcuture Simulator related CICD jobs
+# ############################################
+.dish-structure-simulator:
+  tags:
+    - ska-k8srunner-za-itf
+  image: $SKA_K8S_TOOLS_BUILD_DEPLOY
+  stage: dish-aiv
+  variables:
+    DISH_ID: ska$DISH_INDEX
+    MINIKUBE: "false"
+    CLUSTER_DOMAIN: miditf.internal.skao.int
+    INGRESS_HOST: k8s.miditf.internal.skao.int
+    K8S_CHART: dish-structure-simulators
+    KUBE_NAMESPACE: ds-sim-$DISH_ID
+    NEXUS_CACHE: NEXUS_CACHE
+  environment:
+    name: mid-itf/integration/dish-structure-simulators-$DISH_ID
+    kubernetes:
+      namespace: "$KUBE_NAMESPACE"
+    url: https://$INGRESS_HOST/$KUBE_NAMESPACE/webds/
+
+.deploy-dish-structure-simulator:
+  extends: .dish-structure-simulator
+  before_script:
+    - bash resources/gitlab_section.sh vars "Make config dump" make vars
+    - bash resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
+  script:
+    - bash resources/gitlab_section.sh template "Template chart" make k8s-template-chart
+    - bash resources/gitlab_section.sh install "Install chart" make k8s-install-chart
+    - mkdir -p build
+    - mv manifests.yaml build/ds_sim_manifests.yaml || true
+    - bash resources/gitlab_section.sh ds-sim-env "Export DS Sim service configuration" make itf-ds-sim-env
+    - bash resources/gitlab_section.sh links "DS Sim links" make itf-ds-sim-links
+  artifacts:
+    reports:
+      dotenv: build/itf-ds-sim.env
+    name: "$CI_PROJECT_NAME-$CI_JOB_ID"
+    paths:
+      - build/
+  allow_failure: true # need to keep this to unlock the pipeline
+  when: manual
+  rules:
+    - changes:
+        - .gitlab/ci/dish-aiv.yml
+        - charts/dish-structure-simulators/*
+
+.deploy-additional-dish-structure-simulator:
+  extends:
+    - .deploy-dish-structure-simulator
+    - .integration_rules
+  when: on_success
+  needs:
+    - deploy-aa05-dishes
+
+.uninstall-dish-structure-simulator:
+  extends:
+    - .uninstall_chart
+    - .dish-structure-simulator
+    - .integration_rules
+  environment:
+    action: stop
+  when: manual
+  allow_failure: true # need to keep this to unlock the pipeline
+  needs:
+    - uninstall-aa05-dishes
+
+deploy-dish-structure-simulator-ska001:
+  extends: .deploy-dish-structure-simulator
+  variables:
+    DISH_INDEX: "001"
+  environment:
+    on_stop: uninstall-dish-structure-simulator-ska001
+
+uninstall-dish-structure-simulator-ska001:
+  extends: .uninstall-dish-structure-simulator
+  variables:
+    DISH_INDEX: "001"
+
+deploy-dish-structure-simulator-ska036:
+  extends: .deploy-additional-dish-structure-simulator
+  variables:
+    DISH_INDEX: "036"
+  environment:
+    on_stop: uninstall-dish-structure-simulator-ska001
+
+uninstall-dish-structure-simulator-ska036:
+  extends: .uninstall-dish-structure-simulator
+  variables:
+    DISH_INDEX: "036"
+
+deploy-dish-structure-simulator-ska063:
+  extends: .deploy-additional-dish-structure-simulator
+  variables:
+    DISH_INDEX: "063"
+  environment:
+    on_stop: uninstall-dish-structure-simulator-ska001
+
+uninstall-dish-structure-simulator-ska063:
+  extends: .uninstall-dish-structure-simulator
+  variables:
+    DISH_INDEX: "063"
+
+deploy-dish-structure-simulator-ska100:
+  extends: .deploy-additional-dish-structure-simulator
+  variables:
+    DISH_INDEX: "100"
+  environment:
+    on_stop: uninstall-dish-structure-simulator-ska100
+
+uninstall-dish-structure-simulator-ska100:
+  extends: .uninstall-dish-structure-simulator
+  variables:
+    DISH_INDEX: "100"

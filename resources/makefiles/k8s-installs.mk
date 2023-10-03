@@ -1,5 +1,6 @@
 include ./resources/makefiles/test-equipment-dev.mk
 
+PROJECT_ROOT ?= ../../
 
 ## TARGET: itf-te-install
 ## SYNOPSIS: make itf-te-install
@@ -19,26 +20,36 @@ itf-te-template:
 
 	
 
-## TARGET: itf-ds-links
-## SYNOPSIS: make itf-ds-links
+## TARGET: itf-ds-sim-links
+## SYNOPSIS: make itf-ds-sim-links
 ## HOOKS: none
 ## VARS: none
 ##  make target for generating the URLs for accessing the Dish Structure Simulator front-end
-itf-ds-links: DS_SIM_HOST := $(shell kubectl -n dish-structure-simulators get svc ds-sim-web -o jsonpath={.status.loadBalancer.ingress[0].ip})
-itf-ds-links: ## Create the URLs with which to access Skampi if it is available
-	@echo ${CI_JOB_NAME}
-	@echo "############################################################################"
-	@echo "#            Access the Dish Structure Simulator web server here:"
-	@echo "#            http://$(DS_SIM_HOST):8090"
-	@echo "#            These are the available services and ports on $(DS_SIM_HOST):"
-	@echo "#            $(shell kubectl -n dish-structure-simulators get svc ds-sim-web -o jsonpath='{range @.spec.ports[*]}{@.name}{": "}{@.port}{";   "}{end}')"
-	@echo "############################################################################"
+itf-ds-sim-links: export DS_SIM_NAMESPACE ?= $(KUBE_NAMESPACE)
+itf-ds-sim-links: ## Create the URLs with which to access ds sim if it is available
+	$(PROJECT_ROOT)/scripts/ds-sim/service-info.sh
+.PHONY: itf-ds-sim-links
 
-# DEPRECATED, BUT STILL ACTIVE:
-# @echo "#            Access the Dish Structure Simulator Server here:"
-# @echo "#            https://$(INGRESS_HOST)/$(KUBE_NAMESPACE)/novnc/"
-# @echo "#			File uploads are easier here:"
-# @echo "#            https://$(INGRESS_HOST)/$(KUBE_NAMESPACE)/fileserver/"
+## TARGET: itf-ds-sim-env
+## SYNOPSIS: make itf-ds-sim-env
+## HOOKS: none
+## VARS:
+## 		BUILD_DIR=<directory in which to save the env vars>
+## 		DS_SIM_NAMESPACE=<dish structure simulator namespace>
+##
+## make target for exporting dish structure simulator info as
+## environment variables. Currently exports the following:
+##   DS_SIM_HOST=<dish structure simulator IP address>
+##	 DS_SIM_HTTP_PORT=<dish structure simulator web server port>
+##   DS_SIM_DISCOVER_PORT=<dish structure simulator discover port>
+##   DS_SIM_OPCUA_PORT=<<dish structure simulator OPCUA server port>
+itf-ds-sim-env: BUILD_DIR ?= $(PROJECT_ROOT)/build/
+itf-ds-sim-env: export DS_SIM_NAMESPACE ?= $(KUBE_NAMESPACE)
+itf-ds-sim-env: ## Export ds sim connection details in .env file
+	@echo $(DS_SIM_NAMESPACE)
+	mkdir -p $(BUILD_DIR)
+	$(PROJECT_ROOT)/scripts/ds-sim/service-env.sh | tee $(BUILD_DIR)/itf-ds-sim.env
+.PHONY: itf-ds-sim-env
 
 itf-spookd-install:
 	@make k8s-install-chart K8S_CHART=ska-mid-itf-ghosts KUBE_APP=spookd KUBE_NAMESPACE=$(SPOOKD_NAMESPACE) HELM_RELEASE=whoyougonnacall
