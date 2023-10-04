@@ -224,13 +224,13 @@ register-spfc:
   stage: on_demand_itf_sut
   tags:
     - ska-k8srunner-za-itf
-  image: artefact.skao.int/ska-tango-images-tango-db:11.0.2
+  image: artefact.skao.int/ska-tango-images-tango-admin:1.15.9
   variables:
     SERVICE_NAME: tango-databaseds
     NAMESPACE: dish-lmc-ska001
     CLUSTER_DOMAIN: miditf.internal.skao.int
   script:
-    - sudo apt-get install -y dnsutils
+    - sudo apt-get update && apt-get install -y dnsutils
     - export DNS_IP=$(kubectl get --namespace extdns service extdns-coredns -o jsonpath={'.status.loadBalancer.ingress[0].ip'})
     - echo $DNS_IP
     - export DISH_LMC_IP=$(dig ${SERVICE_NAME}.${NAMESPACE}.svc.${CLUSTER_DOMAIN} @${DNS_IP} +short)
