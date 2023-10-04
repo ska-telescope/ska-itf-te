@@ -221,7 +221,6 @@ uninstall-dishlmc-ska100:
     DISH_ID: ska100
 
 register-spfc:
-  stage: on_demand_itf_sut
   tags:
     - ska-k8srunner-za-itf
   image: $CI_REGISTRY/ska-telescope/ska-skampi/ska-skampi-ci:1.0.4
