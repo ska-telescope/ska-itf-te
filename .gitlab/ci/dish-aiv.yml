@@ -231,6 +231,9 @@ register-spfc:
   script:
     - sudo apt-get update
     - sudo apt-get install -y snapd
+    - sudo systemctl unmask snapd.service
+    - sudo systemctl enable snapd.service
+    - sudo systemctl start snapd.service
     - sudo snap install kubectl --classic
     - export DISH_LMC_IP=$(kubectl -n ${NAMESPACE} get svc ${SERVICE_NAME} -o jsonpath={.status.loadBalancer.ingress[0].ip})
     - python3 scripts/spfc/register_device.py $DISH_LMC_IP
