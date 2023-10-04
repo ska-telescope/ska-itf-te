@@ -231,7 +231,7 @@ register-spfc:
   script:
     - python3 -m pip install --user ansible-core
     #Install kubectl as this image does not contain it
-    - sudo apt-get install -y kubectl
+    - sudo apt-get update && sudo apt-get install -y kubectl
     - export DISH_LMC_IP=$(kubectl -n ${NAMESPACE} get svc ${SERVICE_NAME} -o jsonpath={.status.loadBalancer.ingress[0].ip})
     - python scripts/spfc/register_device.py $DISH_LMC_IP
     - ansible-playbook resources/ansible-playbooks/roles/update_spfc/vars/main.yml --tango_host=$DISH_LMC_IP
