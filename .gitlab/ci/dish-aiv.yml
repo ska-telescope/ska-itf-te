@@ -221,7 +221,7 @@ uninstall-dishlmc-ska100:
     DISH_ID: ska100
 
 register-spfc:
-  stage: 
+  stage: on_demand_itf_sut
   tags:
     - ska-k8srunner-za-itf
   image: artefact.skao.int/ska-tango-images-pytango-builder:9.4.3
