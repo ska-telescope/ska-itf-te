@@ -231,7 +231,7 @@ register-spfc:
   script:
     - sudo apt-get update
     - sudo apt-get install -y snapd
-    - sudo snap install -y kubectl --classic
+    - sudo snap install kubectl --classic
     - export DISH_LMC_IP=$(kubectl -n ${NAMESPACE} get svc ${SERVICE_NAME} -o jsonpath={.status.loadBalancer.ingress[0].ip})
     - python3 scripts/spfc/register_device.py $DISH_LMC_IP
     - ansible-playbook resources/ansible-playbooks/roles/update_spfc/vars/main.yml --tango_host=$DISH_LMC_IP
