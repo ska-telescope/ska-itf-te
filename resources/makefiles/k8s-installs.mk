@@ -1,4 +1,5 @@
 include ./resources/makefiles/test-equipment-dev.mk
+include ./resources/makefiles/deploy-dishes.mk
 
 
 ## TARGET: itf-te-install
