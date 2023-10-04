@@ -221,13 +221,16 @@ uninstall-dishlmc-ska100:
     DISH_ID: ska100
 
 register-spfc:
+  stage: 
   tags:
     - ska-k8srunner-za-itf
-  image: artefact.skao.int/ska-tango-images-pytango-builder:9.3.32
+  image: artefact.skao.int/ska-tango-images-pytango-builder:9.4.3
   variables:
     SERVICE_NAME: tango-databaseds
     NAMESPACE: dish-lmc-ska001
   script:
+    - sudo snap install kubectl --classic
     - export DISH_LMC_IP=$(kubectl -n ${NAMESPACE} get svc ${SERVICE_NAME} -o jsonpath={.status.loadBalancer.ingress[0].ip})
     - python3 scripts/spfc/register_device.py $DISH_LMC_IP
+    - ansible-playbook resources/ansible-playbooks/roles/update_spfc/vars/main.yml --tango_host=$DISH_LMC_IP
   when: manual
