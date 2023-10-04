@@ -223,7 +223,7 @@ uninstall-dishlmc-ska100:
 register-spfc:
   tags:
     - ska-k8srunner-za-itf
-  image: artefact.skao.int/ska-tango-images-tango-admin:1.15.9
+  image: artefact.skao.int/ska-tango-images-pytango-runtime:9.4.2
   variables:
     SERVICE_NAME: tango-databaseds
     NAMESPACE: dish-lmc-ska001
