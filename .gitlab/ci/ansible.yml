@@ -44,7 +44,6 @@ ansible-test-image-build:
   stage: build
   script:
     - cd resources/ansible-playbooks && make oci-build-all CAR_OCI_REGISTRY_HOST=${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}
-  rules:
-    - changes:
-        - .gitlab/ci/ansible.yml
-        - resources/ansible-playbooks/images/*
+  only:
+    changes:
+      - resources/ansible-playbooks/images/*
