@@ -224,7 +224,7 @@ register-spfc:
   stage: on_demand_itf_sut
   tags:
     - ska-k8srunner-za-itf
-  image: artefact.skao.int/ska-tango-images-pytango-runtime:9.4.2
+  image: artefact.skao.int/ska-tango-util:0.4.7
   variables:
     SERVICE_NAME: tango-databaseds
     NAMESPACE: dish-lmc-ska001
