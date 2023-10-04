@@ -242,6 +242,11 @@ stop-k8s-test-runner:
   extends:
     - .sut_base
   when: manual
+  rules:
+    - changes:
+        - charts/system-under-test/*
+        - .gitlab/ci/sut.yml
+        - tests/*
 
 publish-k8s-test-results:
   stage: publish
@@ -258,3 +263,8 @@ publish-k8s-test-results:
   script:
     - echo "Test result code from k8s-test-runner job was $(cat build/status)"
     - make upload-to-confluence
+  rules:
+    - changes:
+        - charts/system-under-test/*
+        - .gitlab/ci/sut.yml
+        - tests/*
