@@ -224,11 +224,11 @@ register-spfc:
   stage: on_demand_itf_sut
   tags:
     - ska-k8srunner-za-itf
+  image: ska-tango-images-tango-admin:1.15.19
   variables:
     SERVICE_NAME: tango-databaseds
     NAMESPACE: dish-lmc-ska001
-    CLUSTER_DOMAIN: miditf.internal.skao.int
   script:
-    - export DISH_LMC_IP=$(kubectl -n dish-lmc-ska001 get svc tango-databaseds -o jsonpath={.status.loadBalancer.ingress[0].ip})
+    - export DISH_LMC_IP=$(kubectl -n $(NAMESPACE) get svc $(SERVICE_NAME) -o jsonpath={.status.loadBalancer.ingress[0].ip})
     - python3 scripts/spfc/register_device.py $DISH_LMC_IP
   when: manual
