@@ -228,6 +228,6 @@ register-spfc:
     SERVICE_NAME: tango-databaseds
     NAMESPACE: dish-lmc-ska001
   script:
-    - export DISH_LMC_IP=$(kubectl -n $(NAMESPACE) get svc $(SERVICE_NAME) -o jsonpath={.status.loadBalancer.ingress[0].ip})
+    - export DISH_LMC_IP=$(kubectl -n ${NAMESPACE} get svc ${SERVICE_NAME} -o jsonpath={.status.loadBalancer.ingress[0].ip})
     - python3 scripts/spfc/register_device.py $DISH_LMC_IP
   when: manual
