@@ -1,3 +1,6 @@
 [submodule ".make"]
 	path = .make
 	url = https://gitlab.com/ska-telescope/sdi/ska-cicd-makefile.git
+[submodule ".cbf-system-tests"]
+	path = .cbf-system-tests
+	url = https://gitlab.com/ska-telescope/ska-mid-cbf-system-tests.git
