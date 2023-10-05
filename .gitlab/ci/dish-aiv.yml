@@ -237,6 +237,6 @@ register-spfc:
     - export TANGO_HOST=$(kubectl -n ${NAMESPACE} get svc ${SERVICE_NAME} -o jsonpath={.status.loadBalancer.ingress[0].ip})
     - python scripts/spfc/register_device.py $TANGO_HOST
     - export TANGO_HOST=$TANGO_HOST:10000
-    - python scripts/spfc/tango_device.py test
+    - python scripts/spfc/SPFRx.py test
     - python scripts/spfc/test_device.py
   when: manual
