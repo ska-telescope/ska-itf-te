@@ -8,8 +8,7 @@ class SPFRx(Device):
 # Mandatory properties work only when a TANGO_HOST with a TangoDB is available
 # for this device.
     spfc_property = device_property(
-        dtype = 'double',
-        mandatory = True
+        dtype = 'double'
     )
 
 def main(args = None, **kwargs):
