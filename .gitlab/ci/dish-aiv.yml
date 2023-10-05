@@ -236,5 +236,4 @@ register-spfc:
       && sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
     - export TANGO_HOST=$(kubectl -n ${NAMESPACE} get svc ${SERVICE_NAME} -o jsonpath={.status.loadBalancer.ingress[0].ip})
     - python scripts/spfc/register_device.py $TANGO_HOST
-    - ansible-playbook resources/ansible-playbooks/roles/update_spfc/vars/main.yml --extra-vars='{"tango_host":${TANGO_HOST}}'
   when: manual
