@@ -7,7 +7,7 @@ from tango.server import (
 class SPFRx(Device):
 # Mandatory properties work only when a TANGO_HOST with a TangoDB is available
 # for this device.
-    My_mandatory_device_property = device_property(
+    spfc_property = device_property(
         dtype = 'double',
         mandatory = True
     )
