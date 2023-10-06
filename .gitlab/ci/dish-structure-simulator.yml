@@ -10,10 +10,10 @@ deploy-aa05-ds-sim:
     - echo "Deploying 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
   environment:
     name: mid-itf/integration/dish-structure-simulator-aa05
-    on_stop: uninstall-aa05-ds-sim
+    on_stop: remove-aa05-ds-sim
   when: manual
 
-uninstall-aa05-ds-sim:
+remove-aa05-ds-sim:
   stage: on_demand_itf_sut
   extends:
     - .sut_base_no_cache
@@ -29,7 +29,6 @@ uninstall-aa05-ds-sim:
   tags:
     - ska-k8srunner-za-itf
   image: $SKA_K8S_TOOLS_BUILD_DEPLOY
-  stage: dish-aiv
   variables:
     DISH_ID: ska$DISH_INDEX
     MINIKUBE: "false"
@@ -46,6 +45,7 @@ uninstall-aa05-ds-sim:
 
 .deploy-dish-structure-simulator:
   extends: .dish-structure-simulator
+  stage: deploy-dish-aiv
   before_script:
     - bash resources/gitlab_section.sh vars "Make config dump" make vars
     - bash resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
@@ -78,28 +78,29 @@ uninstall-aa05-ds-sim:
 #   - deploy-aa05-dishes
     - deploy-aa05-ds-sim
 
-.uninstall-dish-structure-simulator:
+.remove-dish-structure-simulator:
   extends:
     - .uninstall_chart
     - .dish-structure-simulator
 #    - .integration_rules
+  stage: remove-dish-aiv
   environment:
     action: stop
   when: manual
   allow_failure: true # need to keep this to unlock the pipeline
   needs:
 #    - uninstall-aa05-dishes
-    - uninstall-aa05-ds-sim
+    - remove-aa05-ds-sim
 
 deploy-dish-structure-simulator-ska001:
   extends: .deploy-dish-structure-simulator
   variables:
     DISH_INDEX: "001"
   environment:
-    on_stop: uninstall-dish-structure-simulator-ska001
+    on_stop: remove-dish-structure-simulator-ska001
 
-uninstall-dish-structure-simulator-ska001:
-  extends: .uninstall-dish-structure-simulator
+remove-dish-structure-simulator-ska001:
+  extends: .remove-dish-structure-simulator
   variables:
     DISH_INDEX: "001"
 
@@ -108,10 +109,10 @@ deploy-dish-structure-simulator-ska036:
   variables:
     DISH_INDEX: "036"
   environment:
-    on_stop: uninstall-dish-structure-simulator-ska001
+    on_stop: remove-dish-structure-simulator-ska001
 
-uninstall-dish-structure-simulator-ska036:
-  extends: .uninstall-dish-structure-simulator
+remove-dish-structure-simulator-ska036:
+  extends: .remove-dish-structure-simulator
   variables:
     DISH_INDEX: "036"
 
@@ -120,10 +121,10 @@ deploy-dish-structure-simulator-ska063:
   variables:
     DISH_INDEX: "063"
   environment:
-    on_stop: uninstall-dish-structure-simulator-ska001
+    on_stop: remove-dish-structure-simulator-ska001
 
-uninstall-dish-structure-simulator-ska063:
-  extends: .uninstall-dish-structure-simulator
+remove-dish-structure-simulator-ska063:
+  extends: .remove-dish-structure-simulator
   variables:
     DISH_INDEX: "063"
 
@@ -132,9 +133,27 @@ deploy-dish-structure-simulator-ska100:
   variables:
     DISH_INDEX: "100"
   environment:
-    on_stop: uninstall-dish-structure-simulator-ska100
+    on_stop: remove-dish-structure-simulator-ska100
 
-uninstall-dish-structure-simulator-ska100:
-  extends: .uninstall-dish-structure-simulator
+remove-dish-structure-simulator-ska100:
+  extends: .remove-dish-structure-simulator
   variables:
     DISH_INDEX: "100"
+
+
+# This dish structure simulator deployment is intended for use by the dish LMC deployed in the dish LMC clusers
+deploy-dish-structure-simulator:
+  extends: .deploy-dish-structure-simulator
+  variables:
+    KUBE_NAMESPACE: dish-structure-simulators
+  environment:
+    name: dish-structure-simulators/dish-sim-1
+    on_stop: remove-dish-structure-simulator
+
+remove-dish-structure-simulator:
+  extends: .remove-dish-structure-simulator
+  variables:
+    KUBE_NAMESPACE: dish-structure-simulators
+  environment:
+    name: dish-structure-simulators/dish-sim-1
+    action: stop
