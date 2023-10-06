@@ -1,0 +1,136 @@
+---
+suite: ska-db-oda-environment
+templates:
+  - environment.yaml
+tests:
+  - it: should contain only one document.
+    asserts:
+      - hasDocuments:
+          count: 1
+
+  - it: should be of type ConfigMap and have the correct apiVersion, v1.
+    documentIndex: 0
+    asserts:
+      - isKind:
+          of: ConfigMap
+      - isAPIVersion:
+          of: v1
+
+  - it: should set ODA_BACKEND_TYPE from values.yaml
+    documentIndex: 0
+    set:
+      rest:
+        backend:
+          type: rest
+    asserts:
+      - equal:
+          path: data.ODA_BACKEND_TYPE
+          value:
+            rest
+
+  - it: should have a default value for POSTGRES_HOST if not defined in values.yaml
+    documentIndex: 0
+    asserts:
+      - equal:
+          path: data.POSTGRES_HOST
+          value:
+            RELEASE-NAME-postgresql
+
+  - it: should configure POSTGRES_HOST from values.yaml if present
+    documentIndex: 0
+    set:
+      rest:
+        backend:
+          postgres:
+            host: fake-postgres-host
+    asserts:
+      - equal:
+          path: data.POSTGRES_HOST
+          value:
+            fake-postgres-host
+
+  - it: should set ODA_DATA_DIR from values.yaml
+    documentIndex: 0
+    set:
+      rest:
+        backend:
+          filesystem:
+            pv_mountpoint: /fake/path
+    asserts:
+      - equal:
+          path: data.ODA_DATA_DIR
+          value:
+            /fake/path
+
+  - it: should set POSTGRES_PORT from values.yaml
+    documentIndex: 0
+    set:
+      rest:
+        backend:
+          postgres:
+            port: 12345
+    asserts:
+      - equal:
+          path: data.POSTGRES_PORT
+          value:
+            "12345"
+
+  - it: should set POSTGRES_DB_NAME from values.yaml
+    documentIndex: 0
+    set:
+      rest:
+        backend:
+          postgres:
+            db:
+              name: fake-db-name
+    asserts:
+      - equal:
+          path: data.POSTGRES_DB_NAME
+          value:
+            fake-db-name
+
+  - it: should set ADMIN_POSTGRES_PASSWORD from values.yaml
+    documentIndex: 0
+    set:
+      rest:
+        backend:
+          postgres:
+            password: fake-pw
+    asserts:
+      - equal:
+          path: data.ADMIN_POSTGRES_PASSWORD
+          value:
+            fake-pw
+
+  - it: should set ADMIN_POSTGRES_USER from values.yaml
+    documentIndex: 0
+    set:
+      rest:
+        backend:
+          postgres:
+            user: fake-user
+    asserts:
+      - equal:
+          path: data.ADMIN_POSTGRES_USER
+          value:
+            fake-user
+
+  - it: should have a default value for SKUID_URL if not defined in values.yaml
+    documentIndex: 0
+    asserts:
+      - equal:
+          path: data.SKUID_URL
+          value:
+            ska-ser-skuid-RELEASE-NAME-svc.NAMESPACE.svc.cluster.local:9870
+
+  - it: should configure SKUID_URL from values.yaml if present
+    documentIndex: 0
+    set:
+      rest:
+        skuid:
+          url: fake-skuid-url
+    asserts:
+      - equal:
+          path: data.SKUID_URL
+          value:
+            fake-skuid-url
