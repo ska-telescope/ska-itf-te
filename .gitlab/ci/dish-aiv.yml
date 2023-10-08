@@ -236,7 +236,8 @@ register-spfc:
     - curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" 
       && sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
     - export TANGO_HOST=$(kubectl -n ${NAMESPACE} get svc ${SERVICE_NAME} -o jsonpath={.status.loadBalancer.ingress[0].ip})
-    - export PLAYBOOK_PARAMETERS=--extra-vars='{tango_host: $TANGO_HOST:10000}'
+    - export PLAYBOOK_PARAMETERS=--extra-vars='{"tango_host":01.002.03.04:88888}'
+    - make vars
     - make setup_pi_spfc
     - python scripts/spfc/register_device.py $TANGO_HOST
   when: manual
