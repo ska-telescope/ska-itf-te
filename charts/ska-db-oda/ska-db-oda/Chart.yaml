@@ -1,8 +1,0 @@
-apiVersion: v2
-name: ska-db-oda
-description: A Helm chart for deploying the OSO Data Archive on Kubernetes
-type: application
-version: 1.7.3
-appVersion: 1.7.3
-icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
-dependencies:
