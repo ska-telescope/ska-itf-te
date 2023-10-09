@@ -15,5 +15,5 @@
   ansible.builtin.systemd:
     state: restarted
     daemon_reload: true
-    name: systemd-sysctl.service
+    name: spfc.service
   become: true
