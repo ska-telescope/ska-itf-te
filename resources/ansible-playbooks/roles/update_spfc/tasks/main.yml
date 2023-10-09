@@ -10,6 +10,7 @@
     dest: "{{ config_dir }}/tango_host_conf.ini"
     owner: "{{ sky_sim_usr }}"
     mode: "u=rw,g=r,o=r"
+  become: true
 
 - name: Restart systemd service
   ansible.builtin.systemd:
