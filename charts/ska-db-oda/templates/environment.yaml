@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "ska-db-oda.name" . }}-environment-{{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "ska-db-oda.labels" . | indent 4 }}
+    component:  {{ template "ska-db-oda.name" . }}
+    domain: environment
+    function: oda-environment
+    intent: production
+data:
+  KUBE_NAMESPACE: {{ .Release.Namespace }}
+  ODA_BACKEND_TYPE: {{ .Values.rest.backend.type }}
+  ODA_DATA_DIR:  {{ .Values.rest.backend.filesystem.pv_mountpoint }}
+  POSTGRES_HOST: {{ if .Values.rest.backend.postgres.host }} {{ .Values.rest.backend.postgres.host }} {{ else }} {{ .Release.Name }}-postgresql {{ end }}
+  POSTGRES_PORT: {{ .Values.rest.backend.postgres.port | quote }}
+  POSTGRES_DB_NAME: {{ .Values.rest.backend.postgres.db.name }}
+  ADMIN_POSTGRES_PASSWORD: {{ .Values.rest.backend.postgres.password }}
+  ADMIN_POSTGRES_USER: {{ .Values.rest.backend.postgres.user }}
+  {{ if .Values.rest.skuid.url }}
+  SKUID_URL: {{ .Values.rest.skuid.url }}
+  {{ else }}
+  SKUID_URL: ska-ser-skuid-{{ .Release.Name }}-svc.{{ .Release.Namespace }}.svc.cluster.local:9870
+  {{ end }}
