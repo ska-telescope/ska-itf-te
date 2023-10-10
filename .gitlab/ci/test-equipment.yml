@@ -138,6 +138,7 @@ deploy-oda-install:
     CLUSTER_DOMAIN: k8s.miditf.internal.skao.int
     INGRESS_HOST: k8s.miditf.internal.skao.int
     K8S_CHART: oda
+    KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG"
   script:
     - make k8s-namespace
     - make k8s-install-chart
