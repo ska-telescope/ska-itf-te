@@ -131,6 +131,23 @@ deploy-file-browser:
       if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       when: always
 
+deploy-oda-install:
+  stage: test-equipment-setup
+  trigger:
+    project: ska-telescope/ska-db-oda
+    branch: main
+  variables:
+    MINIKUBE: "false"
+    CLUSTER_DOMAIN: k8s.miditf.internal.skao.int
+    INGRESS_HOST: k8s.miditf.internal.skao.int
+    K8S_CHART: oda
+  script:
+    - make k8s-namespace
+    - make k8s-install-chart
+    # Verify if deployment was succesful.
+    - make k8s-wait SKA_TANGO_OPERATOR=true
+    - make k8s-get-pods
+
 .deploy-test-equipment-for-verification:
   tags:
     - ska-k8srunner-za-itf
