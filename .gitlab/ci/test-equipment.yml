@@ -149,12 +149,12 @@ deploy-oda-install:
     name: ska-mid-itf/oda
     kubernetes:
       namespace: $KUBE_NAMESPACE
-    allow_failure: true
-    rules:
-      - changes:
-          - charts/ska-db-oda/*
-        if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-        when: always
+  allow_failure: true
+  rules:
+    - changes:
+        - charts/ska-db-oda/*
+      if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: always
 
 .deploy-test-equipment-for-verification:
   tags:
