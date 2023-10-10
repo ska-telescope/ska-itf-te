@@ -219,3 +219,22 @@ uninstall-dishlmc-ska100:
     - .destroy-aa05-dishes
   variables:
     DISH_ID: ska100
+
+register-spfc:
+  tags:
+    - ska-k8srunner-za-itf
+  image: artefact.skao.int/ska-tango-images-pytango-runtime:9.4.3
+  variables:
+    SERVICE_NAME: tango-databaseds
+    NAMESPACE: dish-lmc-ska001
+    TANGO_HOST: "0.0.0.0"
+    PLAYBOOK_PARAMETERS: ""
+  script:
+    - python3 -m pip install --user ansible-core
+    #Install kubectl as this image does not contain it
+    - curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" 
+      && sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+    - export TANGO_HOST=$(kubectl -n ${NAMESPACE} get svc ${SERVICE_NAME} -o jsonpath={.status.loadBalancer.ingress[0].ip})
+    - export PLAYBOOK_PARAMETERS=$PLAYBOOK_PARAMETERS:--extra-vars='{tango_host:$TANGO_HOST:10000}'
+    - python scripts/spfc/register_device.py $TANGO_HOST
+  when: manual

@@ -20,3 +20,7 @@ localhost-0 ansible_host=localhost ansible_connection=local host_identifier=Loca
 [all:vars]
 ansible_python_interpreter=python3
 ansible_user="<AD_USER>"
+
+# Raspberry Pi SPFC
+[raspberry_pi_spfc]
+raspberry_pi-4-spfc ansible_host=10.165.3.35 host_identifier="Raspberry Pi SPFC"

@@ -1,0 +1,3 @@
+tango_host: 10.164.10.22:10000
+config_dir: /home/skao
+sky_sim_usr: pi
