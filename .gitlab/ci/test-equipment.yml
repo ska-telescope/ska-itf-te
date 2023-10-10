@@ -145,6 +145,16 @@ deploy-oda-install:
     # Verify if deployment was succesful.
     - make k8s-wait SKA_TANGO_OPERATOR=true
     - make k8s-get-pods
+  environment:
+    name: ska-mid-itf/oda
+    kubernetes:
+      namespace: $KUBE_NAMESPACE
+    allow_failure: true
+    rules:
+      - changes:
+          - charts/ska-db-oda/*
+        if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+        when: always
 
 .deploy-test-equipment-for-verification:
   tags:
