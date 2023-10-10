@@ -133,9 +133,6 @@ deploy-file-browser:
 
 deploy-oda-install:
   stage: test-equipment-setup
-  trigger:
-    project: ska-telescope/ska-db-oda
-    branch: main
   variables:
     MINIKUBE: "false"
     CLUSTER_DOMAIN: k8s.miditf.internal.skao.int
