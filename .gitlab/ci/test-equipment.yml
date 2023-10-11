@@ -132,7 +132,7 @@ deploy-file-browser:
       when: always
 
 deploy-oda-install:
-  stage: .pre
+  stage: on_demand_itf_sut
   tags:
     - ska-k8srunner-za-itf
   variables:
@@ -145,7 +145,7 @@ deploy-oda-install:
   when: manual
 
 uninstall-oda:
-  stage: .pre
+  stage: on_demand_itf_sut
   tags:
     - ska-k8srunner-za-itf
   variables:
