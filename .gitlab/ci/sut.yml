@@ -258,3 +258,25 @@ publish-k8s-test-results:
         - charts/system-under-test/*
         - .gitlab/ci/sut.yml
         - tests/*
+
+deploy-test-integration:
+  stage: on_demand_itf_sut
+  tags:
+    - ska-k8srunner-za-itf
+  variables:
+    CLUSTER_DOMAIN: k8s.miditf.internal.skao.int
+  script:
+    - echo "Deploy Notebook Test Integration"
+    - make itf-install-notebook-test
+  when: manual
+
+destroy-test-integration:
+  stage: on_demand_itf_sut
+  tags:
+    - ska-k8srunner-za-itf
+  variables:
+    CLUSTER_DOMAIN: k8s.miditf.internal.skao.int
+  script:
+    - echo "Destroy Notebook Test Integration"
+    - make itf-uninstall-notebook-test
+  when: manual
