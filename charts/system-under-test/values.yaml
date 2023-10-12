@@ -39,7 +39,17 @@ cbf-mcs:
 
 
 cbf-tmleafnode:
+  enabled: false
+
+ska-csp-lmc-mid:
+  legacy_compatibility: true
   enabled: true
+
+### tmc
+tmc-mid:
+  legacy_compatibility: true
+  enabled: true
+  telescope: SKA-mid
 
 # helpers
 ska-log-consumer:
