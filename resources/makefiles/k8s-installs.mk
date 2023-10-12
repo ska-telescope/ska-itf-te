@@ -58,7 +58,7 @@ itf-spookd-template-chart:
 
 ODA_NAMESPACE=ska-db-oda
 itf-install-oda:
-	make k8s-install-chart K8S_CHART=ska-db-oda KUBE_APP=ska-db-oda KUBE_NAMESPACE=$(ODA_NAMESPACE) HELM_RELEASE-test-oda
+	make k8s-install-chart K8S_CHART=ska-db-oda KUBE_APP=ska-db-oda KUBE_NAMESPACE=$(ODA_NAMESPACE) HELM_RELEASE=test-oda
 
 itf-uninstall-oda:
 	@make k8s-uninstall-chart K8S_CHART=ska-db-oda KUBE_APP=ska-db-oda KUBE_NAMESPACE=$(ODA_NAMEPACE) HELM_RELEASE=test-oda
