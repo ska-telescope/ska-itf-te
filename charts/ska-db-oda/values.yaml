@@ -1,45 +1,117 @@
 # Default values for oda.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-minikube: true
-
 system: db
 subsystem: oda
-
-labels:
-  app: ska-db-oda
 
 global:
   minikube: true
   tango_host: databaseds-tango-base-test:10000
+  sub-system:
+    tango-base:
+      enabled: false
 
-rest:
+ska-db-oda:
+  rest:
+    enabled: true
+    backend:
+      postgres:
+        user: "postgres"
+        password: "secretpassword"
+
+# The following values overwrite the default values in the postgresql dependency.
+# See https://artifacthub.io/packages/helm/bitnami/postgresql
+postgresql:
+  commonLabels:
+    app: ska-db-oda
+
   enabled: true
-  component: rest
-  function: database
-  domain: operations
-  logLevel: info
+
+  image:
+    debug: true
+
+  auth:
+    postgresPassword: "secretpassword"
+
+  primary:
+    service:
+      type: LoadBalancer
+
+    initdb:
+      scriptsConfigMap: ska-db-oda-initdb
+      user: "postgres"
+
+    persistence:
+      enabled: false
+      ## @param primary.persistence.mountPath The path the volume will be mounted at
+      ## Note: useful when using custom PostgreSQL images
+      ##
+      mountPath: /bitnami/postgresql
+      ## @param primary.persistence.storageClass PVC Storage Class for PostgreSQL Primary data volume
+      ## If defined, storageClassName: <storageClass>
+      ## If set to "-", storageClassName: "", which disables dynamic provisioning
+      ## If undefined (the default) or set to null, no storageClassName spec is
+      ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+      ##   GKE, AWS & OpenStack)
+      ##
+      storageClass: "nfss1"
+      ## @param primary.persistence.accessModes PVC Access Mode for PostgreSQL volume
+      ##
+      accessModes:
+        - ReadWriteMany
+      ## @param primary.persistence.size PVC Storage Request for PostgreSQL volume
+      ##
+      size: 12Gi
+
+# The following values are used by the templates in this chart for create pgAdmin and initialising the database
+pgadmin4:
+  enabled: true
+
+  replicaCount: 1
+
+  service:
+    type: LoadBalancer
+    port: 80
+
+  image:
+    registry: docker.io
+    repository: dpage/pgadmin4
+    tag: "6.10"
+    pullPolicy: IfNotPresent
+
+  env:
+    # can be email or nickname
+    email: buttons@skao.int
+    password: secretpassword
+
+  serverDefinitions:
+    ## If true, server definitions will be created
+    ##
+    enabled: true
+
+    servers:
+     firstServer:
+       Name: "ODA"
+       Group: "Servers"
+       Port: 5432
+       Username: "postgres"
+       Host: "localhost"
+       SSLMode: "prefer"
+       MaintenanceDB: "postgres"
+
+  resources: {}
+
+  containerPorts:
+    http: 80
+
   ingress:
     enabled: true
-  image:
-    registry: artefact.skao.int
-    image: ska-db-oda
-    tag: 1.7.3
-    pullPolicy: IfNotPresent
-  backend:
-    type: postgres
-    filesystem:
-      use_pv: false
-      pv_hostpath: /mnt/ska-db-oda-persistent-storage
-      pv_mountpoint: /var/lib/oda
-    postgres:
-      host:
-      port: 5432
-      user:
-      password:
-      db:
-        name: "postgres"
-  skuid:
-    url:
 
+initDbName: ska-db-oda-initdb # must be equals to postgresql.primary.initdb.scriptsConfigMap
+initDbBasePath: data/
+initDbScripts:
+- create_tables.sql
+- insert_entries.sql
 
+ska-ser-skuid:
+  enabled: true
