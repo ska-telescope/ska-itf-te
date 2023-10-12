@@ -1,8 +1,9 @@
 global:
   minikube: true
-  tango_host: databaseds-tango-base-test:10000
+  tango_host: tango-databaseds:10000
   facility: test-itf
-  operator: true
+  operator: false
+  cluster_domain: "miditf.internal.skao.int"
   exposeAllDS: true
   sub-system:
     ska-tango-base:
@@ -44,6 +45,8 @@ cbf-tmleafnode:
 ska-csp-lmc-mid:
   legacy_compatibility: true
   enabled: true
+#  cluster_domain: "miditf.internal.skao.int"
+#  operator: false
 
 ### tmc
 tmc-mid:

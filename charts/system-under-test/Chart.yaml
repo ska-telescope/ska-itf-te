@@ -27,11 +27,11 @@ dependencies:
     alias: cbf-tmleafnode
     condition: cbf-tmleafnode.enabled
 
-#  - name: ska-tmc-mid
-#    version: 0.10.2 # check latest version
-#    repository: https://artefact.skao.int/repository/helm-internal
-#    alias: tmc
-#    condition: test-equipment.enabled
+  - name: ska-tmc-mid
+    version: 0.10.2 # check latest version
+    repository: https://artefact.skao.int/repository/helm-internal
+    alias: tmc
+    condition: test-equipment.enabled
 
   - name: ska-csp-lmc-mid
     version: 0.16.3 # check latest version
