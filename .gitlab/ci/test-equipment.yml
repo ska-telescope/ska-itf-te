@@ -131,34 +131,32 @@ deploy-file-browser:
       if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       when: always
 
-deploy-oda-install:
-  stage: platform
+deploy-oda:
+  stage: on_demand_itf_sut
   tags:
     - ska-k8srunner-za-itf
   variables:
     MINIKUBE: "false"
     CLUSTER_DOMAIN: k8s.miditf.internal.skao.int
     INGRESS_HOST: k8s.miditf.internal.skao.int
-    K8S_CHART: ska-db-oda
-    KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG"
   script:
-    - echo "Deploy ODA"
+    - echo "Deploying ska-db-oda"
     - make k8s-namespace
-    - make k8s-install-chart
-    # Verify if deployment was succesful.
-    - make k8s-wait SKA_TANGO_OPERATOR=true
-    - make k8s-get-pods
+    - make itf-install-oda
   when: manual
-  environment:
-    name: ska-mid-itf/ska-db-oda
-    kubernetes:
-      namespace: $KUBE_NAMESPACE
-  allow_failure: true
-  rules:
-    - changes:
-        - charts/ska-db-oda/*
-      if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      when: always
+
+destroy-oda:
+  stage: on_demand_itf_sut
+  tags:
+    - ska-k8srunner-za-itf
+  variables:
+    MINIKUBE: "false"
+    CLUSTER_DOMAIN: k8s.miditf.internal.skao.int
+    INGRESS_HOST: k8s.miditf.internal.skao.int
+  script:
+    - echo "Destroying ODA"
+    - make itf-uninstall-oda
+  when: manual
 
 .deploy-test-equipment-for-verification:
   tags:
