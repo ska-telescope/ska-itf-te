@@ -61,7 +61,7 @@ itf-install-oda:
 	make k8s-install-chart K8S_CHART=ska-db-oda KUBE_APP=oda KUBE_NAMESPACE=$(ODA_NAMESPACE)
 
 itf-uninstall-oda:
-	@make k8s-uninstall-chart K8S_CHART=ska-db-oda KUBE_APP=oda KUBE_NAMESPACE=$(ODA_NAMEPACE) 
+	@make k8s-uninstall-chart K8S_CHART=ska-db-oda KUBE_APP=oda KUBE_NAMESPACE=$(ODA_NAMEPACE) HELM_RELEASE=test 
 
 # install taranta dashboards in separate namespace
 k8s-install-taranta-dashboards:

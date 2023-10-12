@@ -141,7 +141,6 @@ deploy-oda:
     INGRESS_HOST: k8s.miditf.internal.skao.int
   script:
     - echo "Deploying ska-db-oda"
-    - make k8s-namespace
     - make itf-install-oda
   when: manual
 
