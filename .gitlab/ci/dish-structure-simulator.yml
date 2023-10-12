@@ -92,50 +92,50 @@ remove-aa05-ds-sim:
 #    - uninstall-aa05-dishes
     - remove-aa05-ds-sim
 
-deploy-dish-structure-simulator-ska001:
+deploy-ds-sim-ska001:
   extends: .deploy-dish-structure-simulator
   variables:
     DISH_INDEX: "001"
   environment:
-    on_stop: remove-dish-structure-simulator-ska001
+    on_stop: remove-ds-sim-ska001
 
-remove-dish-structure-simulator-ska001:
+remove-ds-sim-ska001:
   extends: .remove-dish-structure-simulator
   variables:
     DISH_INDEX: "001"
 
-deploy-dish-structure-simulator-ska036:
+deploy-ds-sim-ska036:
   extends: .deploy-additional-dish-structure-simulator
   variables:
     DISH_INDEX: "036"
   environment:
-    on_stop: remove-dish-structure-simulator-ska001
+    on_stop: remove-ds-sim-ska001
 
-remove-dish-structure-simulator-ska036:
+remove-ds-sim-ska036:
   extends: .remove-dish-structure-simulator
   variables:
     DISH_INDEX: "036"
 
-deploy-dish-structure-simulator-ska063:
+deploy-ds-sim-ska063:
   extends: .deploy-additional-dish-structure-simulator
   variables:
     DISH_INDEX: "063"
   environment:
-    on_stop: remove-dish-structure-simulator-ska001
+    on_stop: remove-ds-sim-ska001
 
-remove-dish-structure-simulator-ska063:
+remove-ds-sim-ska063:
   extends: .remove-dish-structure-simulator
   variables:
     DISH_INDEX: "063"
 
-deploy-dish-structure-simulator-ska100:
+deploy-ds-sim-ska100:
   extends: .deploy-additional-dish-structure-simulator
   variables:
     DISH_INDEX: "100"
   environment:
-    on_stop: remove-dish-structure-simulator-ska100
+    on_stop: remove-ds-sim-ska100
 
-remove-dish-structure-simulator-ska100:
+remove-ds-sim-ska100:
   extends: .remove-dish-structure-simulator
   variables:
     DISH_INDEX: "100"
