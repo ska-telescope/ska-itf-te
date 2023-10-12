@@ -56,14 +56,6 @@ itf-spookd-uninstall:
 itf-spookd-template-chart:
 	@make k8s-template-chart K8S_CHART=ska-mid-itf-ghosts KUBE_APP=spookd KUBE_NAMESPACE=$(SPOOKD_NAMESPACE) HELM_RELEASE=whoyougonnacall
 
-NOTEBOOK_TEST_NAMESPACE=ska-mid-itf-integration
-itf-install-notebook-test:
-	make k8s-install-chart K8S_CHART=ska-mid-itf-integration KUBE_APP=oda KUBE_NAMESPACE=$(NOTEBOOK_TEST_NAMESPACE) HELM_RELEASE=notebook-test
-
-itf-uninstall-notebook-test:
-	make k8s-uninstall-chart K8S_CHART=ska-mid-itf-integration KUBE_APP=oda KUBE_NAMESPACE=$(NOTEBOOK_TEST_NAMESPACE) HELM_RELEASE=notebook-test
-
-
 # install taranta dashboards in separate namespace
 k8s-install-taranta-dashboards:
 #TODO: add target
