@@ -15,6 +15,8 @@
     K8S_EXTRA_CHART_PARMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
     TANGO_DATABASE_DS: tango-databaseds
     KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
+    # temporarily disable the operator because it is not implemented by CSP.LMC
+    SKA_TANGO_OPERATOR: "false"
     # LOADBALANCER_IP: 10.164.10.1
 
 .sut_base_no_cache:
