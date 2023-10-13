@@ -25,7 +25,7 @@
 .sut_on_demand:
   stage: on_demand_itf_sut
   extends:
-    - .sut_base
+    - .sut_base_no_cache
     - .on_demand_rules
   variables:
     HELM_RELEASE: sut
