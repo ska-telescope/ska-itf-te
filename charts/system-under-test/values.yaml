@@ -1,7 +1,6 @@
 global:
-  dishes: ["001", "002", "003", "004"] # Temporary Dish LMC configuration
+  dishes: ["001", "036", "063", "100"] # Temporary Dish LMC configuration
   dish_suffix: "elt/master"
-  dish_prefix: "elt/master"
   minikube: true
   tango_host: tango-databaseds:10000
   facility: test-itf
@@ -11,6 +10,13 @@ global:
   sub-system:
     ska-tango-base:
       enabled: false
+tmc:
+  deviceServers:
+    centralnode:
+      DishIDs: ["SKA001", "SKA036", "SKA063", "SKA100"]
+    dishleafnode:
+      instances: ["001", "036", "063", "100"]
+
 
 ska-tango-base:
   itango:
