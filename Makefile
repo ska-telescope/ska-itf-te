@@ -3,6 +3,7 @@ PYTHON_VARS_AFTER_PYTEST= --disable-pytest-warnings
 POETRY_CONFIG_VIRTUALENVS_CREATE = true
 
 k8s-pre-install-chart:
+	kubectl get persistentvolumeclaims -n $(KUBE_NAMESPACE)
 
 VALUES ?= $(K8S_UMBRELLA_CHART_PATH)values.yaml
 XAUTHORITY ?= $(HOME)/.Xauthority
