@@ -202,7 +202,7 @@ k8s-test-runner:
   before_script:
     - time poetry install
     - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
-    - make itf-namespaces
+    - make sut-namespaces
     - "make help | grep k8s-test"
     - make k8s-install-chart
     - make k8s-wait
@@ -210,9 +210,7 @@ k8s-test-runner:
     - make integration-test TANGO_HOST=$TANGO_DATABASE_DS.$KUBE_NAMESPACE.svc.$CLUSTER_DOMAIN:10000 || true
     - |
       if [[ 0 == "$(cat build/status)" ]]; then
-        make k8s-uninstall-chart || true
-        kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all || true
-        make k8s-delete-namespace || true
+        make remove-sut-deployment
       else
         echo "#####################################################################################"
         echo "# NOTE: this deployment will persist for about 2 hours, for investigation purposes. #"
@@ -235,9 +233,7 @@ stop-k8s-test-runner:
   tags:
     - ska-k8srunner-za-itf
   script:
-    - make k8s-uninstall-chart || true
-    - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all || true
-    - make k8s-delete-namespace || true
+    - make remove-sut-deployment
   extends:
     - .sut_base
   when: manual
