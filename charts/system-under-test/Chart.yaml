@@ -44,6 +44,12 @@ dependencies:
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-sdp.enabled
 
+  # Temporarily deploy Dish LMC in SUT because TMC doesn't currently support an external Dish LMC
+  - name: ska-dish-lmc
+    version: 2.5.0
+    repository: https://artefact.skao.int/repository/helm-internal
+    alias: dishlmc
+
   # SKA Configuration Inspector API
   # Gitlab Location: https://gitlab.com/ska-telescope/ska-ser-config-inspector
   # Releases: https://gitlab.com/ska-telescope/ska-ser-config-inspector/-/releases

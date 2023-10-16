@@ -1,4 +1,7 @@
 global:
+  dishes: ["001", "002", "003", "004"] # Temporary Dish LMC configuration
+  dish_suffix: "elt/master"
+  dish_prefix: "elt/master"
   minikube: true
   tango_host: tango-databaseds:10000
   facility: test-itf
@@ -84,6 +87,21 @@ ska-sdp:
             cpu: 100m
   ska-tango-base:
     enabled: false
+
+# Temporarily deploy Dish LMC in SUT because TMC doesn't currently support an external Dish LMC
+dishlmc:
+  ska-mid-dish-manager:
+    legacy_compatibility: true
+    ska-mid-dish-simulators:
+      enabled: true
+      legacy_compatibility: true
+      ska-tango-base:
+        enabled: false
+      deviceServers:
+        spfdevice:
+          enabled: true
+        spfrxdevice:
+          enabled: true
 
 # helpers
 ska-log-consumer:
