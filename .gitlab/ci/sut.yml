@@ -202,6 +202,7 @@ k8s-test-runner:
   before_script:
     - time poetry install
     - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
+    - make itf-namespaces
     - "make help | grep k8s-test"
     - make k8s-install-chart
     - make k8s-wait
