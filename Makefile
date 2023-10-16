@@ -2,9 +2,6 @@ HELM_CHARTS_TO_PUBLISH=ska-mid-itf
 PYTHON_VARS_AFTER_PYTEST= --disable-pytest-warnings
 POETRY_CONFIG_VIRTUALENVS_CREATE = true
 
-k8s-pre-install-chart:
-	kubectl get persistentvolumeclaims -n $(KUBE_NAMESPACE)
-
 VALUES ?= $(K8S_UMBRELLA_CHART_PATH)values.yaml
 XAUTHORITY ?= $(HOME)/.Xauthority
 THIS_HOST := $(shell ip a 2> /dev/null | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p' | head -n1)

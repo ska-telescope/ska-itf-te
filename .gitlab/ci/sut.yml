@@ -198,7 +198,7 @@ k8s-test-runner:
     paths:
       - "build/"
   extends:
-    - .sut_base
+    - .sut_base_no_cache
   before_script:
     - time poetry install
     - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
@@ -228,6 +228,7 @@ k8s-test-runner:
     SHOW_STEP_FUNCTIONS: "True"
     CAPTURE_LOGS: "True"
     EXIT_AT_FAIL: "True"
+    KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
 
 stop-k8s-test-runner:
   tags:
