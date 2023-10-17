@@ -15,7 +15,7 @@ A subset of the makefile commands available in the [Deploy Mid ITF](https://gitl
 ### Prerequisites
 
 #### VPN
-You need to be on the SKAO ITF VPN (connect via AnyConnect client) - see instructions in https://confluence.skatelescope.org/display/SE/Connect+to+the+Mid+ITF+VPN 
+You need to be on the SKAO ITF VPN (connect via AnyConnect client) - see instructions in https://confluence.skatelescope.org/display/SE/Connect+to+the+Mid+ITF+VPN
 #### Make variables
 You need to set one `make` variable in order to use your own access pattern. Do that with this command, substituting `<your-initials>` with your initials which are also the foldernames under `resources/users/`:
 ```
@@ -46,13 +46,13 @@ $ make k9s
 ```
 If the above target succeeded, you should be looking at something like this:
 ```
-Context: minikube                                 <?> Help                                                                                               ____  __.________        
- Cluster: minikube                                                                                                                                       |    |/ _/   __   \______ 
- User:    minikube                                                                                                                                       |      < \____    /  ___/ 
- K9s Rev: v0.26.3 ⚡️v0.26.6                                                                                                                              |    |  \   /    /\___ \  
- K8s Rev: v1.24.3                                                                                                                                        |____|__ \ /____//____  > 
- CPU:     5%                                                                                                                                                     \/            \/  
- MEM:     11%                                                                                                                                                                      
+Context: minikube                                 <?> Help                                                                                               ____  __.________
+ Cluster: minikube                                                                                                                                       |    |/ _/   __   \______
+ User:    minikube                                                                                                                                       |      < \____    /  ___/
+ K9s Rev: v0.26.3 ⚡️v0.26.6                                                                                                                              |    |  \   /    /\___ \
+ K8s Rev: v1.24.3                                                                                                                                        |____|__ \ /____//____  >
+ CPU:     5%                                                                                                                                                     \/            \/
+ MEM:     11%
 ┌─────────────────────────────────────────────────────────────────────────────── Contexts(all)[1] ────────────────────────────────────────────────────────────────────────────────┐
 │ NAME↑                                         CLUSTER                                    AUTHINFO                                   NAMESPACE                                   │
 │ minikube(*)                                   minikube                                   minikube                                   default                                     │
@@ -69,17 +69,17 @@ Context: minikube                                 <?> Help                      
 │                                                                                                                                                                                 │
 │                                                                                                                                                                                 │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
-  <contexts>                                                                                                                                                                    
+  <contexts>
   ```
   Or, you could be looking at this:
   ```
-  Context: minikube                                 <0> all               <a>      Attach     <l>       Logs               <y> YAML                        ____  __.________        
- Cluster: minikube                                 <1> integration-itf   <ctrl-d> Delete     <p>       Logs Previous                                     |    |/ _/   __   \______ 
- User:    minikube                                 <2> default           <d>      Describe   <shift-f> Port-Forward                                      |      < \____    /  ___/ 
- K9s Rev: v0.26.3 ⚡️v0.26.6                                              <e>      Edit       <s>       Shell                                             |    |  \   /    /\___ \  
- K8s Rev: v1.24.3                                                        <?>      Help       <n>       Show Node                                         |____|__ \ /____//____  > 
- CPU:     5%                                                             <ctrl-k> Kill       <f>       Show PortForward                                          \/            \/  
- MEM:     11%                                                                                                                                                                      
+  Context: minikube                                 <0> all               <a>      Attach     <l>       Logs               <y> YAML                        ____  __.________
+ Cluster: minikube                                 <1> integration-itf   <ctrl-d> Delete     <p>       Logs Previous                                     |    |/ _/   __   \______
+ User:    minikube                                 <2> default           <d>      Describe   <shift-f> Port-Forward                                      |      < \____    /  ___/
+ K9s Rev: v0.26.3 ⚡️v0.26.6                                              <e>      Edit       <s>       Shell                                             |    |  \   /    /\___ \
+ K8s Rev: v1.24.3                                                        <?>      Help       <n>       Show Node                                         |____|__ \ /____//____  >
+ CPU:     5%                                                             <ctrl-k> Kill       <f>       Show PortForward                                          \/            \/
+ MEM:     11%
 ┌─────────────────────────────────────────────────────────────────────────── Pods(integration-itf)[15] ───────────────────────────────────────────────────────────────────────────┐
 │ NAME↑                                           PF   READY     RESTARTS STATUS         CPU   MEM   %CPU/R   %CPU/L    %MEM/R    %MEM/L IP               NODE         AGE        │
 │ dashboard-ska-tango-taranta-dashboard-test-0    ●    1/1              0 Running          3    88        3        3        68        68 172.17.0.10      minikube     6h30m      │
@@ -96,13 +96,13 @@ Context: minikube                                 <?> Help                      
 │ tangotest-test-config-276hx                     ●    0/1              0 Completed        0     0      n/a      n/a       n/a       n/a 172.17.0.13      minikube     45m        │
 │ taranta-auth-ska-tango-taranta-auth-test-0      ●    2/2              0 Running          2    18        1        1         7         7 172.17.0.15      minikube     6h30m      │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
-  <namespace>   <pod>                                                                                                                                                              
+  <namespace>   <pod>
   ```
   Learn the `k9s` commands, and open a shell (select the correct pod and use `s`) in the `ska-tango-base-itango-console` pod.
   `k9s` will choose the container to open a shell in. You'll now see this:
   ```
-  <<K9s-Shell>> Pod: integration-itf/ska-tango-base-itango-console | Container: itango 
-tango@ska-tango-base-itango-console:/app$ 
+  <<K9s-Shell>> Pod: integration-itf/ska-tango-base-itango-console | Container: itango
+tango@ska-tango-base-itango-console:/app$
 ```
 Run the `itango3` command and enjoy.
 
@@ -124,29 +124,29 @@ The ansible playbooks in `resources/ansible-playbooks` are used to manage access
 
 ## Test instruments:
 
-### Arbitrary Waveform Generator    
+### Arbitrary Waveform Generator
 
-FQDN: za-itf-awg.ad.skatelescope.org                 
-IP  : 10.165.3.3   
-Port: 4000    
+FQDN: za-itf-awg.ad.skatelescope.org
+IP  : 10.165.3.3
+Port: 4000
 Web : http://za-itf-awg.ad.skatelescope.org/Default.aspx
 
-### Oscilloscope                    
+### Oscilloscope
 
-FQDN: za-itf-oscilloscope.ad.skatelescope.org        
-IP  : 10.165.3.2   
-Port: 4000    
+FQDN: za-itf-oscilloscope.ad.skatelescope.org
+IP  : 10.165.3.2
+Port: 4000
 Web : http://za-itf-oscilloscope.ad.skatelescope.org/
 
-### Spectrum analyser               
+### Spectrum analyser
 
-FQDN: za-itf-spectrum-analyser.ad.skatelescope.org   
-IP  : 10.165.3.4   
+FQDN: za-itf-spectrum-analyser.ad.skatelescope.org
+IP  : 10.165.3.4
 Port: 9001
 
-### Programmable attenuator         
+### Programmable attenuator
 
-FQDN: za-itf-attenuator.ad.skatelescope.org          
+FQDN: za-itf-attenuator.ad.skatelescope.org
 IP  : 10.165.3.6
 
 ### Signal generator
@@ -154,3 +154,4 @@ IP  : 10.165.3.6
 FQDN: za-itf-signal-generator.ad.skatelescope.org
 IP  : 10.165.3.1
 Web : http://za-itf-signal-generator.ad.skatelescope.org/webpages/web/html/ihp.php
+
