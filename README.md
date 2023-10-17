@@ -148,6 +148,7 @@ Port: 9001
 
 FQDN: za-itf-attenuator.ad.skatelescope.org
 IP  : 10.165.3.6
+Port:22
 
 ### Signal generator
 
