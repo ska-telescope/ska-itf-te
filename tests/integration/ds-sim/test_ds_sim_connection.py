@@ -1,6 +1,7 @@
-from pytest_bdd import given, scenario, then
+from pytest_bdd import given, scenario, then, when
 from kubernetes.client.models.v1_service import V1Service
 import logging
+from asyncua import Client
 
 @scenario(
     "features/ds_sim_connection.feature",
@@ -21,9 +22,16 @@ def connection_details(ds_sim_ip: str, ds_sim_http_port: int, ds_sim_discover_po
     )
 
 @when("the OPCUA client connects to it")
-def opcua_client_connect_ds_sim(opcua_client):
-    logging.debug("opcua_client connected")
+def opcua_client_connect_ds_sim(opcua_client: Client):
+    logging.debug("opcua_client connected: %s", opcua_client.application_uri)
 
+
+@then("it responds with the expected values")
+def responds_with_expected_values(opcua_client: Client):
+    root = opcua_client.get_root_node()
+    logging.debug("opcua_client read root value: %s", root.read_value())
+    assert False
+#     Then it responds with the expected values
 
 # DS_SIM_HOST=$(kubectl -n ${DS_SIM_NAMESPACE} get svc ${DS_SIM_SERVICE} -o jsonpath={.status.loadBalancer.ingress[0].ip})
 # DS_SIM_HTTP_PORT=$(kubectl get svc -n ${DS_SIM_NAMESPACE} ${DS_SIM_SERVICE} -o jsonpath='{.spec.ports[?(@.name=="server")].port}')

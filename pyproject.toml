@@ -49,8 +49,8 @@ build-backend = "poetry.core.masonry.api"
 [tool.pytest.ini_options]
 addopts = "-p no:warnings"
 testpaths = ["tests/integration"]
-log_cli_level = "INFO"
-log_cli = "False"
+log_cli_level = DEBUG
+log_cli = True
 junit_family = "xunit2"
 python_classes = "!Test"
 #bdd_features_base_dir = "tests"
