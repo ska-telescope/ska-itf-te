@@ -131,6 +131,32 @@ deploy-file-browser:
       if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       when: always
 
+deploy-oda:
+  stage: on_demand_itf_sut
+  tags:
+    - ska-k8srunner-za-itf
+  variables:
+    MINIKUBE: "false"
+    CLUSTER_DOMAIN: k8s.miditf.internal.skao.int
+    INGRESS_HOST: k8s.miditf.internal.skao.int
+  script:
+    - echo "Deploying ODA"
+    - make itf-install-oda
+  when: manual
+
+destroy-oda:
+  stage: on_demand_itf_sut
+  tags:
+    - ska-k8srunner-za-itf
+  variables:
+    MINIKUBE: "false"
+    CLUSTER_DOMAIN: k8s.miditf.internal.skao.int
+    INGRESS_HOST: k8s.miditf.internal.skao.int
+  script:
+    - echo "Uninstalling ODA"
+    - make itf-uninstall-oda
+  when: manual
+
 .deploy-test-equipment-for-verification:
   tags:
     - ska-k8srunner-za-itf

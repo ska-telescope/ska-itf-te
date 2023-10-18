@@ -92,6 +92,7 @@ pgadmin4:
        Group: "Servers"
        Port: 5432
        Username: "postgres"
+       Password: "secretpassword"
        Host: "localhost"
        SSLMode: "prefer"
        MaintenanceDB: "postgres"
