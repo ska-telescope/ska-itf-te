@@ -25,7 +25,14 @@ remove-aa05-ds-sim:
     action: stop
   when: manual
 
+.ds-sim-rules:
+  rules:
+    - changes:
+        - .gitlab/ci/dish-aiv.yml
+        - charts/dish-structure-simulators/*
+
 .dish-structure-simulator:
+  extends: .ds-sim-rules
   tags:
     - ska-k8srunner-za-itf
   image: $SKA_K8S_TOOLS_BUILD_DEPLOY
@@ -64,10 +71,6 @@ remove-aa05-ds-sim:
       - build/
   allow_failure: true # need to keep this to unlock the pipeline
   when: manual
-  rules:
-    - changes:
-        - .gitlab/ci/dish-aiv.yml
-        - charts/dish-structure-simulators/*
 
 .deploy-additional-dish-structure-simulator:
   extends:
@@ -91,6 +94,28 @@ remove-aa05-ds-sim:
   needs:
 #    - uninstall-aa05-dishes
     - remove-aa05-ds-sim
+
+deploy-ds-sim-standalone:
+  extends:
+    - .deploy-dish-structure-simulator
+    - .integration_rules
+  variables:
+    KUBE_NAMESPACE: dish-structure-simulators
+  environment:
+    name: mid-itf/integration/dish-structure-simulators
+    kubernetes:
+      namespace: "$KUBE_NAMESPACE"
+    url: https://$INGRESS_HOST/$KUBE_NAMESPACE/webds/
+    on_stop: remove-ds-sim-standalone
+
+remove-ds-sim-standalone:
+  extends:
+    - .remove-dish-structure-simulator
+    - .integration_rules
+  variables:
+    KUBE_NAMESPACE: dish-structure-simulators
+  environment:
+    name: mid-itf/integration/dish-structure-simulators
 
 deploy-ds-sim-ska001:
   extends: .deploy-dish-structure-simulator
@@ -157,3 +182,24 @@ remove-dish-structure-simulator:
   environment:
     name: dish-structure-simulators/dish-sim-1
     action: stop
+
+test-dish-structure-simulator:
+  stage: test-dish-aiv
+  extends: .ds-sim-rules
+  tags:
+    - ska-k8srunner-za-itf
+  image: $TEST_IMAGE
+  artifacts:
+    name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID"
+    paths:
+      - "build/"
+  before_script:
+    - time poetry install
+  script:
+    make ds-sim-test
+  variables:
+    DS_SIM_ENV: "true"
+    DS_SIM_SERVICE: ds-sim
+    DS_SIM_NAMESPACE: ds-sim-ska001
+  needs:
+    - deploy-ds-sim-ska001

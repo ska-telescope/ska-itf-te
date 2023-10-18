@@ -16,8 +16,10 @@ ska-ser-skallop = { version = "2.29.6", extras = ["bit"] }
 ska-tmc-cdm = "7.3.1"
 pytest-json-report = "^1.5.0"
 pytest-repeat = "^0.9.1"
+pytest-asyncio = "^0.20.3"
 kubernetes = "^21.7.0" 
 asyncua = "^1.0.4"
+ska_ser_logging = "^0.4.1"
 
 [tool.poetry.group.docs.dependencies]
 Sphinx = "^5.1.1"
@@ -49,8 +51,8 @@ build-backend = "poetry.core.masonry.api"
 [tool.pytest.ini_options]
 addopts = "-p no:warnings"
 testpaths = ["tests/integration"]
-log_cli_level = DEBUG
-log_cli = True
+log_cli_level = "INFO"
+log_cli = "False"
 junit_family = "xunit2"
 python_classes = "!Test"
 #bdd_features_base_dir = "tests"
