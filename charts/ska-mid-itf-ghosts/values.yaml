@@ -17,7 +17,7 @@ spookd:
   enabled: true
   deviceMapping:
     - hosts:
-        - za-itf-cloud03
+        - za-itf-k8s-worker01
       devices:
         - resourceName: skao.int/signal-generator-01
           instanceID: "0001"
