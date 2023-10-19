@@ -134,3 +134,9 @@ deploy-taranta:
   script:
     - make k8s-install-chart
   when: manual
+
+### SPOOKD GHOST DEVICE DEPLOYMENT
+enable-test-equipment-hw:
+  stage: platform
+  tags:
+    - ska-k8srunner-za-itf

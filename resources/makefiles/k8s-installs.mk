@@ -40,6 +40,7 @@ itf-ds-links: ## Create the URLs with which to access Skampi if it is available
 # @echo "#			File uploads are easier here:"
 # @echo "#            https://$(INGRESS_HOST)/$(KUBE_NAMESPACE)/fileserver/"
 
+# $ make k8s-template-chart K8S_CHART=ska-mid-itf-ghosts KUBE_APP=spookd KUBE_NAMESPACE=spookd HELM_RELEASE=whoyougonnacall K8S_EXTRA_PARAMS="--set spookd.deviceMapping[0].hosts[0]=za-itf-k8s-worker01"
 itf-spookd-install:
 	@make k8s-install-chart K8S_CHART=ska-mid-itf-ghosts KUBE_APP=spookd KUBE_NAMESPACE=$(SPOOKD_NAMESPACE) HELM_RELEASE=whoyougonnacall
 
