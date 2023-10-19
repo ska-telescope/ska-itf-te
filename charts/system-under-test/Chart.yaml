@@ -34,7 +34,7 @@ dependencies:
     condition: test-equipment.enabled
 
   - name: ska-csp-lmc-mid
-    version: 0.16.3 # check latest version
+    version: 0.16.5 # check latest version
     repository: https://artefact.skao.int/repository/helm-internal
     alias: csp-lmc
     condition: test-equipment.enabled
