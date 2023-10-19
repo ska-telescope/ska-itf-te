@@ -47,11 +47,8 @@ else
 EXIT = 
 endif
 
-
 INTEGRATION_TEST_SOURCE ?= tests/integration
 INTEGRATION_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(_MARKS) $(_COUNTS) $(EXIT) $(PYTEST_ADDOPTS) | tee pytest.stdout
-DS_SIM_TEST_SOURCE ?= tests/integration/ds_sim
-
 
 SDP_PARAMS ?= --set ska-sdp.helmdeploy.namespace=$(KUBE_NAMESPACE_SDP) \
 	--set ska-sdp.ska-sdp-qa.zookeeper.clusterDomain=$(CLUSTER_DOMAIN) \
@@ -188,8 +185,3 @@ template-chart: k8s-dep-update
 	$(K8S_CHART_PARAMS) \
 	--debug \
 	 $(K8S_UMBRELLA_CHART_PATH) --namespace $(KUBE_NAMESPACE) > build/manifests.yaml
-
-ds-sim-test:
-	@mkdir -p build
-	$(PYTHON_RUNNER) pytest $(DS_SIM_TEST_SOURCE); \
-	echo $$? > build/status

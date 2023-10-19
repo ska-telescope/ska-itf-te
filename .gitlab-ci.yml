@@ -22,7 +22,6 @@ stages:
   - test-equipment-setup
   - deploy-dish-aiv
   - remove-dish-aiv
-  - test-dish-aiv
   - dish-aiv
   - integration
   - staging

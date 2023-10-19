@@ -13,16 +13,6 @@ from kubernetes.client.models.v1_service_status import V1ServiceStatus
 from ska_ser_logging import configure_logging
 
 
-def ds_sim_env() -> bool:
-    """
-    Determine whether this is a dish structure simulator test environment.
-
-    :return: True if this is a dish structure simulator test environment, False otherwise.
-    :rtype: bool
-    """
-    return os.getenv("DS_SIM_ENV") is not None
-
-
 @pytest.fixture(scope="session", autouse=True)
 def before_all():
     """Do setup for all tests."""

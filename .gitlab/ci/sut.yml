@@ -186,6 +186,12 @@ destroy-sut-staging:
     url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
     action: stop
 
+.ds-sim-test-vars:
+  variables:
+    DS_SIM_NAMESPACE: $KUBE_NAMESPACE-ds-sim
+    DS_SIM_ENV: "true"
+    DS_SIM_SERVICE: ds-sim
+
 k8s-test-runner:
   tags:
     - ska-k8srunner-za-itf
@@ -197,18 +203,17 @@ k8s-test-runner:
       - "build/"
   extends:
     - .sut_base_no_cache
+    - .ds-sim-test-vars
   before_script:
     - time poetry install
     - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
-    - make sut-namespaces
     - "make help | grep k8s-test"
-    - make k8s-install-chart
-    - make k8s-wait
+    - make install-test-system
   script:
     - make integration-test TANGO_HOST=$TANGO_DATABASE_DS.$KUBE_NAMESPACE.svc.$CLUSTER_DOMAIN:10000 || true
     - |
       if [[ 0 == "$(cat build/status)" ]]; then
-        make remove-sut-deployment
+        make uninstall-test-system
       else
         echo "#####################################################################################"
         echo "# NOTE: this deployment will persist for about 2 hours, for investigation purposes. #"
@@ -216,8 +221,6 @@ k8s-test-runner:
       fi
     - '[ -f build/status ] || (echo "Something went wrong with the test (no build/status file); exit 1")'
     - exit $(cat build/status)
-  # after_script:
-  #   - make template-chart
   variables:
     DEBUG_ENTRYPOINT: "True"
     DEBUG_ENTRYPOINT_EXTENDED: "True"
@@ -231,9 +234,10 @@ stop-k8s-test-runner:
   tags:
     - ska-k8srunner-za-itf
   script:
-    - make remove-sut-deployment
+    - make uninstall-test-system
   extends:
     - .sut_base
+    - .ds-sim-test-vars
   when: manual
 
 publish-k8s-test-results:

@@ -1,4 +1,4 @@
-"""Test connection to dish structure simulator post-deployment."""
+"""Test connection to dish structure simulator."""
 import asyncio
 import logging
 
@@ -8,20 +8,14 @@ from asyncua.common.node import Node
 from kubernetes.client.models.v1_service import V1Service
 from pytest_bdd import given, scenario, then, when
 
-from tests.integration.ds_sim.conftest import ds_sim_env
-
-pytestmark = pytest.mark.skipif(
-    not ds_sim_env(), reason="Not a dish structure simulator environment"
-)
-
 
 @scenario(
     "features/ds_sim_connection.feature",
-    "Connect to Dish Structure Simulators post-deployment",
+    "Connect to Dish Structure Simulator",
 )
 @pytest.mark.dish_structure_simulator
 def test_connection_to_ds_sim():
-    """Test connection to the Dish Structure Simulator post-deployment."""
+    """Test connection to the Dish Structure Simulator."""
 
 
 @given("the dish structure simulator is deployed in the Mid ITF")
@@ -81,13 +75,13 @@ def responds_with_expected_values(opcua_client: Client):
     """
     # pytest-asyncio & pytest-bdd don't work together so we run until the Futures are done
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(test_value(opcua_client=opcua_client))
+    loop.run_until_complete(check_value(opcua_client=opcua_client))
     logging.debug("it responds with the expected values")
 
 
-async def test_value(opcua_client: Client):
+async def check_value(opcua_client: Client):
     """
-    Test that the OPCUA server responds with expected values when queried.
+    Check that the OPCUA server responds with expected values when queried.
 
     This is separate from the responds_with_expected_values method because
     pytest-bdd & pytest-asyncio don't work together.
