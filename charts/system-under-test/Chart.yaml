@@ -10,10 +10,6 @@ dependencies:
     version: 0.4.7
     repository: https://artefact.skao.int/repository/helm-internal
 
-#  - name: ska-tango-util
-#    version: 0.4.7
-#    repository: https://artefact.skao.int/repository/helm-internal
-
   - name: ska-tango-util
     version: 0.4.11-dev.c921857f5
     repository: https://gitlab.com/api/v4/projects/9027158/packages/helm/dev
@@ -47,12 +43,6 @@ dependencies:
     version: 0.17.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-sdp.enabled
-
-  # Temporarily deploy Dish LMC in SUT because TMC doesn't currently support an external Dish LMC
-  - name: ska-dish-lmc
-    version: 2.5.0
-    repository: https://artefact.skao.int/repository/helm-internal
-    alias: dishlmc
 
   # SKA Configuration Inspector API
   # Gitlab Location: https://gitlab.com/ska-telescope/ska-ser-config-inspector

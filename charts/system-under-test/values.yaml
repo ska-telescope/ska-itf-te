@@ -1,5 +1,6 @@
 global:
-  dishes: ["001", "036", "063", "100"] # Temporary Dish LMC configuration
+  # Used by TMC dishleafnode for Dish LMC device identifier triplet.
+  # The TMC centralnode's values are hardocoded at the moment.
   dish_suffix: "elt/master"
   minikube: true
   tango_host: tango-databaseds:10000
@@ -10,13 +11,6 @@ global:
   sub-system:
     ska-tango-base:
       enabled: false
-tmc:
-  deviceServers:
-    centralnode:
-      DishIDs: ["SKA001", "SKA036", "SKA063", "SKA100"]
-    dishleafnode:
-      instances: ["001", "036", "063", "100"]
-
 
 ska-tango-base:
   itango:
@@ -93,21 +87,6 @@ ska-sdp:
             cpu: 100m
   ska-tango-base:
     enabled: false
-
-# Temporarily deploy Dish LMC in SUT because TMC doesn't currently support an external Dish LMC
-dishlmc:
-  ska-mid-dish-manager:
-    legacy_compatibility: true
-    ska-mid-dish-simulators:
-      enabled: true
-      legacy_compatibility: true
-      ska-tango-base:
-        enabled: false
-      deviceServers:
-        spfdevice:
-          enabled: true
-        spfrxdevice:
-          enabled: true
 
 # helpers
 ska-log-consumer:
