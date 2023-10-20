@@ -25,26 +25,7 @@ remove-aa05-ds-sim:
     action: stop
   when: manual
 
-.ds-sim-rules:
-  rules:
-    - changes:
-        - .gitlab/ci/dish-aiv.yml
-        - charts/dish-structure-simulators/*
-
-.ds-sim-integration-rules:
-  rules:
-    - changes:
-        - .gitlab/ci/dish-aiv.yml
-        - charts/dish-structure-simulators/*
-    - if: $CI_PIPELINE_SOURCE == "pipeline"
-      when: never
-    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
-      when: manual
-      allow_failure: true
-    - when: never
-
 .dish-structure-simulator:
-  extends: .ds-sim-rules
   tags:
     - ska-k8srunner-za-itf
   image: $SKA_K8S_TOOLS_BUILD_DEPLOY
@@ -66,15 +47,15 @@ remove-aa05-ds-sim:
   extends: .dish-structure-simulator
   stage: deploy-dish-aiv
   before_script:
-    - bash resources/gitlab_section.sh vars "Make config dump" make vars
-    - bash resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
+    - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+    - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
   script:
-    - bash resources/gitlab_section.sh template "Template chart" make k8s-template-chart
-    - bash resources/gitlab_section.sh install "Install chart" make k8s-install-chart
+    - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart
+    - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart
     - mkdir -p build
     - mv manifests.yaml build/ds_sim_manifests.yaml || true
-    - bash resources/gitlab_section.sh ds-sim-env "Export DS Sim service configuration" make itf-ds-sim-env
-    - bash resources/gitlab_section.sh links "DS Sim links" make itf-ds-sim-links
+    - bash .make/resources/gitlab_section.sh ds-sim-env "Export DS Sim service configuration" make itf-ds-sim-env
+    - bash .make/resources/gitlab_section.sh links "DS Sim links" make itf-ds-sim-links
   artifacts:
     reports:
       dotenv: build/itf-ds-sim.env
@@ -87,7 +68,7 @@ remove-aa05-ds-sim:
 .deploy-additional-dish-structure-simulator:
   extends:
     - .deploy-dish-structure-simulator
-    - .ds-sim-integration-rules
+    - .integration_rules
   when: on_success
   needs:
     - deploy-aa05-ds-sim
@@ -96,7 +77,7 @@ remove-aa05-ds-sim:
   extends:
     - .uninstall_chart
     - .dish-structure-simulator
-    - .ds-sim-integration-rules
+    - .integration_rules
   stage: remove-dish-aiv
   environment:
     action: stop
@@ -104,28 +85,6 @@ remove-aa05-ds-sim:
   allow_failure: true # need to keep this to unlock the pipeline
   needs:
     - remove-aa05-ds-sim
-
-deploy-ds-sim-standalone:
-  extends:
-    - .deploy-dish-structure-simulator
-    - .ds-sim-integration-rules
-  variables:
-    KUBE_NAMESPACE: dish-structure-simulators
-  environment:
-    name: mid-itf/integration/dish-structure-simulators
-    kubernetes:
-      namespace: "$KUBE_NAMESPACE"
-    url: https://$INGRESS_HOST/$KUBE_NAMESPACE/webds/
-    on_stop: remove-ds-sim-standalone
-
-remove-ds-sim-standalone:
-  extends:
-    - .remove-dish-structure-simulator
-    - .ds-sim-integration-rules
-  variables:
-    KUBE_NAMESPACE: dish-structure-simulators
-  environment:
-    name: mid-itf/integration/dish-structure-simulators
 
 deploy-ds-sim-ska001:
   extends: .deploy-dish-structure-simulator
@@ -175,20 +134,25 @@ remove-ds-sim-ska100:
   variables:
     DISH_INDEX: "100"
 
-
 # This dish structure simulator deployment is intended for use by the dish LMC deployed in the dish LMC clusers
-deploy-dish-structure-simulator:
-  extends: .deploy-dish-structure-simulator
+deploy-ds-sim-standalone:
+  extends:
+    - .deploy-dish-structure-simulator
+    - .integration_rules
   variables:
     KUBE_NAMESPACE: dish-structure-simulators
   environment:
-    name: dish-structure-simulators/dish-sim-1
-    on_stop: remove-dish-structure-simulator
+    name: mid-itf/integration/dish-structure-simulators
+    kubernetes:
+      namespace: "$KUBE_NAMESPACE"
+    url: https://$INGRESS_HOST/$KUBE_NAMESPACE/webds/
+    on_stop: remove-ds-sim-standalone
 
-remove-dish-structure-simulator:
-  extends: .remove-dish-structure-simulator
+remove-ds-sim-standalone:
+  extends:
+    - .remove-dish-structure-simulator
+    - .integration_rules
   variables:
     KUBE_NAMESPACE: dish-structure-simulators
   environment:
-    name: dish-structure-simulators/dish-sim-1
-    action: stop
+    name: mid-itf/integration/dish-structure-simulators
