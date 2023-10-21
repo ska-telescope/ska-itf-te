@@ -103,3 +103,15 @@ sdp:
 # helpers
 ska-log-consumer:
   enabled: false
+
+# EDA
+ska-tango-archiver:
+  hostname: eda.ska-tango-archiver
+  dbname: itf_eda
+  dbuser: admin
+  port: 5432
+  telescope: SKA-mid
+  telescope_environment: MID-ITF
+  configuration_manager: mid-eda/cm/01
+  event_subscriber: mid-eda/es/01
+  archwizard_config: MyHDB=tango://tango-databaseds:10000/mid-eda/cm/01
