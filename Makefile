@@ -2,8 +2,6 @@ HELM_CHARTS_TO_PUBLISH=ska-mid-itf
 PYTHON_VARS_AFTER_PYTEST= --disable-pytest-warnings
 POETRY_CONFIG_VIRTUALENVS_CREATE = true
 
-k8s-pre-install-chart:
-
 VALUES ?= $(K8S_UMBRELLA_CHART_PATH)values.yaml
 XAUTHORITY ?= $(HOME)/.Xauthority
 THIS_HOST := $(shell ip a 2> /dev/null | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p' | head -n1)
@@ -53,6 +51,11 @@ endif
 INTEGRATION_TEST_SOURCE ?= tests/integration
 INTEGRATION_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(_MARKS) $(_COUNTS) $(EXIT) $(PYTEST_ADDOPTS) | tee pytest.stdout
 
+SDP_PARAMS ?= --set ska-sdp.helmdeploy.namespace=$(KUBE_NAMESPACE_SDP) \
+	--set ska-sdp.ska-sdp-qa.zookeeper.clusterDomain=$(CLUSTER_DOMAIN) \
+	--set ska-sdp.ska-sdp-qa.kafka.clusterDomain=$(CLUSTER_DOMAIN) \
+	--set ska-sdp.ska-sdp-qa.redis.clusterDomain=$(CLUSTER_DOMAIN)
+
 K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	--set global.exposeAllDS=$(EXPOSE_All_DS) \
 	--set global.exposeDatabaseDS=$(EXPOSE_DATABASE_DS) \
@@ -65,6 +68,7 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	--set ska-tango-base.xauthority=$(XAUTHORITY) \
 	--set ska-tango-base.jive.enabled=$(JIVE) \
 	--set ska-tango-base.itango.enabled=$(ITANGO_ENABLED) \
+	$(SDP_PARAMS) \
 	$(TARANTA_PARAMS) \
 	${K8S_TEST_TANGO_IMAGE_PARAMS} \
 	${SKIP_TANGO_EXAMPLES_PARAMS} \

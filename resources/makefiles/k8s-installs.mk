@@ -64,9 +64,20 @@ k8s-install-taranta-dashboards:
 	@make k8s-install-ska-tango-taranta-dashboard-pvc K8S_UMBRELLA_CHART_PATH=ska-tango-taranta-dashboard-pvc KUBE_APP=tango-base KUBE_NAMESPACE=tango-tar-pvc
 #TODO: add target for skysimcontroller and other Test Equipment
 
-itf-cluster-credentials:  ## PIPELINE USE ONLY - allocate credentials for deployment namespaces
-	make k8s-namespace
-	make k8s-namespace KUBE_NAMESPACE=$(KUBE_NAMESPACE_SDP)
+sut-namespaces: ## Create both normal & SDP helmdeploy namespaces for SUT.
+	@make k8s-namespace
+	@make k8s-namespace KUBE_NAMESPACE=$(KUBE_NAMESPACE_SDP)
+
+delete-sut-namespaces:
+	@make k8s-delete-namespace || true
+	@make k8s-delete-namespace KUBE_NAMESPACE=$(KUBE_NAMESPACE_SDP) || true
+
+remove-sut-deployment:
+	@make k8s-uninstall-chart || true
+	@kubectl -n $(KUBE_NAMESPACE) delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all --ignore-not-found
+	@make delete-sut-namespaces
+
+itf-cluster-credentials: sut-namespaces ## PIPELINE USE ONLY - allocate credentials for deployment namespaces
 	curl -s https://gitlab.com/ska-telescope/templates-repository/-/raw/master/scripts/namespace_auth.sh | bash -s $(SERVICE_ACCOUNT) $(KUBE_NAMESPACE) $(KUBE_NAMESPACE_SDP) || true
 
 links: itf-te-links
