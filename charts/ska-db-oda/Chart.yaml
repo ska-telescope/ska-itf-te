@@ -2,18 +2,18 @@ apiVersion: v2
 name: ska-db-oda-umbrella
 description: Helm umbrella chart for ska-db-oda
 type: application
-version: 0.1.0
-appVersion: 0.1.0
+version: 1.8.2
+appVersion: 1.8.2
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
-  - name: ska-db-oda
-    version: 1.7.3
-    repository: https://artefact.skao.int/repository/helm-internal
-  - name: postgresql
-    version: 11.6.6
-    repository: https://charts.bitnami.com/bitnami
-    condition: postgresql.enabled
-  - name: ska-ser-skuid
-    version: 3.3.3
-    repository: https://artefact.skao.int/repository/helm-internal
-    condition: ska-ser-skuid.enabled
+- name: ska-db-oda
+  repository: https://artefact.skao.int/repository/helm-internal
+  version: 1.8.2
+- condition: postgresql.enabled
+  name: postgresql
+  repository: https://charts.bitnami.com/bitnami
+  version: 11.6.6
+- condition: ska-ser-skuid.enabled
+  name: ska-ser-skuid
+  repository: https://artefact.skao.int/repository/helm-internal
+  version: 3.3.3
