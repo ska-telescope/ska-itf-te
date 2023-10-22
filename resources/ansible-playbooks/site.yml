@@ -65,9 +65,8 @@
   roles:
     - local_ssh
 
-# Configure raspberry pi (SPFC)
-- name: Setup raspberry_pi_spfc
+- name: Update spfc 
   hosts:
-    - raspberry_pi_spfc
+    - spfc
   roles:
     - role: update_spfc

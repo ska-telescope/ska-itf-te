@@ -1,14 +1,8 @@
-- name: Create config dir
-  ansible.builtin.file:
-    path: "{{ config_dir }}"
-    state: directory
-    mode: '0755'
-
 - name: Configure the TANGO_HOST in the config file
   ansible.builtin.template:
     src: tango_host_conf.ini.j2
     dest: "{{ config_dir }}/tango_host_conf.ini"
-    owner: "{{ sky_sim_usr }}"
+    owner: "{{ spfc_usr }}"
     mode: "u=rw,g=r,o=r"
   become: true
 
