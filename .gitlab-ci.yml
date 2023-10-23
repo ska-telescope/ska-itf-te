@@ -65,7 +65,7 @@ xray-publish:
   # when: manual
   when: always #### TODO: Remove this and uncomment line just above this one!
   rules: # this is just to override the rules that are apparently blocking execution at the moment
-
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
 python-test:
   image: $TEST_IMAGE
 
