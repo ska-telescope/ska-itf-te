@@ -20,6 +20,8 @@ stages:
   - test
   - platform
   - test-equipment-setup
+  - deploy-dish-aiv
+  - remove-dish-aiv
   - dish-aiv
   - integration
   - staging
@@ -55,6 +57,7 @@ include:
   - local: .gitlab/ci/common.yml
   - local: .gitlab/ci/sut.yml
   - local: .gitlab/ci/test-equipment.yml
+  - local: .gitlab/ci/dish-structure-simulator.yml
   - local: .gitlab/ci/dish-aiv.yml
   - local: .gitlab/ci/ansible.yml
 

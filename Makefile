@@ -47,7 +47,6 @@ else
 EXIT = 
 endif
 
-
 INTEGRATION_TEST_SOURCE ?= tests/integration
 INTEGRATION_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(_MARKS) $(_COUNTS) $(EXIT) $(PYTEST_ADDOPTS) | tee pytest.stdout
 
@@ -80,6 +79,9 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 ### USEFUL BITS FROM LOW
 # better be verbose for debugging
 PYTHON_VARS_AFTER_PYTEST ?= -v
+
+# Assume the project root is the directory of the top-level Makefile
+PROJECT_ROOT := $(dir $(abspath $(firstword $(MAKEFILE_LIST))))
 
 python-post-lint:
 	.venv/bin/mypy --config-file mypy.ini ska_mid_itf/ tests/
