@@ -1,0 +1,158 @@
+# ############################################
+# # Dish Strcuture Simulator related CICD jobs
+# ############################################
+deploy-aa05-ds-sim:
+  stage: on_demand_itf_sut
+  extends:
+    - .sut_base_no_cache
+  script:
+    - echo "Deploying multiple dish structure simulators in downstream dish-aiv stage - first deploy ska001 manually"
+    - echo "Deploying 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
+  environment:
+    name: mid-itf/integration/dish-structure-simulator-aa05
+    on_stop: remove-aa05-ds-sim
+  when: manual
+
+remove-aa05-ds-sim:
+  stage: on_demand_itf_sut
+  extends:
+    - .sut_base_no_cache
+  script:
+    - echo "Uninstalling all dish structure simulators in downstream dish-aiv stage"
+    - echo "Uninstalling 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
+  environment:
+    name: mid-itf/integration/dish-structure-simulator-aa05
+    action: stop
+  when: manual
+
+.dish-structure-simulator:
+  tags:
+    - ska-k8srunner-za-itf
+  image: $SKA_K8S_TOOLS_BUILD_DEPLOY
+  variables:
+    DISH_ID: ska$DISH_INDEX
+    MINIKUBE: "false"
+    CLUSTER_DOMAIN: miditf.internal.skao.int
+    INGRESS_HOST: k8s.miditf.internal.skao.int
+    K8S_CHART: dish-structure-simulators
+    KUBE_NAMESPACE: ds-sim-$DISH_ID
+    NEXUS_CACHE: NEXUS_CACHE
+  environment:
+    name: mid-itf/integration/dish-structure-simulators-$DISH_ID
+    kubernetes:
+      namespace: "$KUBE_NAMESPACE"
+    url: https://$INGRESS_HOST/$KUBE_NAMESPACE/webds/
+
+.deploy-dish-structure-simulator:
+  extends: .dish-structure-simulator
+  stage: deploy-dish-aiv
+  before_script:
+    - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+    - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
+  script:
+    - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart
+    - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart
+    - mkdir -p build
+    - mv manifests.yaml build/ds_sim_manifests.yaml || true
+    - bash .make/resources/gitlab_section.sh ds-sim-env "Export DS Sim service configuration" make itf-ds-sim-env
+    - bash .make/resources/gitlab_section.sh links "DS Sim links" make itf-ds-sim-links
+  artifacts:
+    reports:
+      dotenv: build/itf-ds-sim.env
+    name: "$CI_PROJECT_NAME-$CI_JOB_ID"
+    paths:
+      - build/
+  allow_failure: true # need to keep this to unlock the pipeline
+  when: manual
+
+.deploy-additional-dish-structure-simulator:
+  extends:
+    - .deploy-dish-structure-simulator
+    - .integration_rules
+  when: on_success
+  needs:
+    - deploy-aa05-ds-sim
+
+.remove-dish-structure-simulator:
+  extends:
+    - .uninstall_chart
+    - .dish-structure-simulator
+    - .integration_rules
+  stage: remove-dish-aiv
+  environment:
+    action: stop
+  when: manual
+  allow_failure: true # need to keep this to unlock the pipeline
+  needs:
+    - remove-aa05-ds-sim
+
+deploy-ds-sim-ska001:
+  extends: .deploy-dish-structure-simulator
+  variables:
+    DISH_INDEX: "001"
+  environment:
+    on_stop: remove-ds-sim-ska001
+
+remove-ds-sim-ska001:
+  extends: .remove-dish-structure-simulator
+  variables:
+    DISH_INDEX: "001"
+
+deploy-ds-sim-ska036:
+  extends: .deploy-additional-dish-structure-simulator
+  variables:
+    DISH_INDEX: "036"
+  environment:
+    on_stop: remove-ds-sim-ska001
+
+remove-ds-sim-ska036:
+  extends: .remove-dish-structure-simulator
+  variables:
+    DISH_INDEX: "036"
+
+deploy-ds-sim-ska063:
+  extends: .deploy-additional-dish-structure-simulator
+  variables:
+    DISH_INDEX: "063"
+  environment:
+    on_stop: remove-ds-sim-ska001
+
+remove-ds-sim-ska063:
+  extends: .remove-dish-structure-simulator
+  variables:
+    DISH_INDEX: "063"
+
+deploy-ds-sim-ska100:
+  extends: .deploy-additional-dish-structure-simulator
+  variables:
+    DISH_INDEX: "100"
+  environment:
+    on_stop: remove-ds-sim-ska100
+
+remove-ds-sim-ska100:
+  extends: .remove-dish-structure-simulator
+  variables:
+    DISH_INDEX: "100"
+
+# This dish structure simulator deployment is intended for use by the dish LMC deployed in the dish LMC clusers
+deploy-ds-sim-standalone:
+  extends:
+    - .deploy-dish-structure-simulator
+    - .integration_rules
+  variables:
+    KUBE_NAMESPACE: dish-structure-simulators
+  environment:
+    name: mid-itf/integration/dish-structure-simulators
+    kubernetes:
+      namespace: "$KUBE_NAMESPACE"
+    url: https://$INGRESS_HOST/$KUBE_NAMESPACE/webds/
+    on_stop: remove-ds-sim-standalone
+
+remove-ds-sim-standalone:
+  extends:
+    - .remove-dish-structure-simulator
+    - .integration_rules
+  variables:
+    KUBE_NAMESPACE: dish-structure-simulators
+  environment:
+    name: mid-itf/integration/dish-structure-simulators
