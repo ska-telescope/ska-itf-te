@@ -244,6 +244,7 @@ publish-k8s-test-results:
   stage: publish
   needs:
     - k8s-test-runner
+  image: $TEST_IMAGE
   tags:
     - k8srunner
   artifacts:
