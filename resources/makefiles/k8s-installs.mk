@@ -178,7 +178,7 @@ file-browser-secrets: k8s-namespace
 	kubectl delete secret -n $(KUBE_NAMESPACE) --ignore-not-found=true file-browser-config-secret
 	kubectl create secret -n $(KUBE_NAMESPACE) generic $(FILEBROWSER_CONFIG_SECRET_NAME) --from-file=$(FILEBROWSER_CONFIG_SECRET_FILE)=$(FILEBROWSER_CONFIG_PATH)
 
-install-test-system:
+install-test-system: sut-namespaces
 	@time poetry install
 	@make k8s-install-chart
 	@make k8s-install-chart K8S_CHART=dish-structure-simulators KUBE_NAMESPACE=$(DS_SIM_NAMESPACE)
@@ -189,7 +189,7 @@ uninstall-test-system:
 	@make k8s-uninstall-chart KUBE_NAMESPACE=$(DS_SIM_NAMESPACE) || true
 	@kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all || true
 	@kubectl -n $(DS_SIM_NAMESPACE) delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all || true
-	@make k8s-delete-namespace || true
+	@make delete-sut-namespaces || true
 	@make k8s-delete-namespace KUBE_NAMESPACE=$(DS_SIM_NAMESPACE) || true
 
 vars:
