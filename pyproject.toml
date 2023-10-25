@@ -19,6 +19,7 @@ pytest-repeat = "^0.9.1"
 kubernetes = "^21.7.0" 
 asyncua = "^1.0.4"
 ska_ser_logging = "^0.4.1"
+yg = "^0.1.0"
 
 [tool.poetry.group.docs.dependencies]
 Sphinx = "^5.1.1"
