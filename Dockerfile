@@ -20,6 +20,12 @@ RUN poetry config virtualenvs.in-project true
 
 RUN pip install virtualenv
 
+WORKDIR /app
+
+COPY . /app
+
+RUN poetry install
+
 # re-install poetry for user tango also
 
 USER tango

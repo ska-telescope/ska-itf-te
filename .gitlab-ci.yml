@@ -1,9 +1,20 @@
 image: $SKA_K8S_TOOLS_BUILD_DEPLOY
 
+workflow:
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+      variables:
+        BASE_IMAGE_TAG: "latest"
+    - if: $CI_COMMIT_REF_NAME != $CI_DEFAULT_BRANCH
+      variables:
+        BASE_IMAGE_TAG: "$CI_COMMIT_SHORT_SHA"
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: never
+
 variables:
   MINIKUBE: "false"
   CI_REGISTRY_IMAGE: $CI_REGISTRY/ska-telescope/ska-mid-itf/base
-  TEST_IMAGE: $CI_REGISTRY_IMAGE:latest
+  TEST_IMAGE: $CI_REGISTRY_IMAGE:$BASE_IMAGE_TAG
   GIT_SUBMODULE_STRATEGY: recursive
   EXPOSE_All_DS: "true"
   CLEAN_UP_TEST_ENVIRONMENT: "true"
@@ -65,14 +76,20 @@ include:
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/xray-publish.gitlab-ci.yml"
 xray-publish:
+  tags:
+  - ska-k8srunner-za-itf
   # when: manual
   when: always #### TODO: Remove this and uncomment line just above this one!
   rules: # this is just to override the rules that are apparently blocking execution at the moment
 
 python-test:
+  tags:
+  - ska-k8srunner-za-itf
   image: $TEST_IMAGE
 
 python-lint:
+  tags:
+  - ska-k8srunner-za-itf
   image: $TEST_IMAGE
   rules:
     - allow_failure: true
@@ -88,46 +105,81 @@ python-lint:
     - make k8s-delete-namespace
 
 python-build-for-publication-legacy:
+  tags:
+  - ska-k8srunner-za-itf
   image: $TEST_IMAGE
   before_script:
     - ""
 
 python-build-for-publication:
+  tags:
+  - ska-k8srunner-za-itf
   image: $TEST_IMAGE
   before_script:
     - ""
 
 python-build-for-development-legacy:
+  tags:
+  - ska-k8srunner-za-itf
   image: $TEST_IMAGE
   before_script:
     - ""
 
 python-build-for-development:
+  tags:
+  - ska-k8srunner-za-itf
   image: $TEST_IMAGE
   before_script:
     - ""
 
 # base stage
 build-base-image:
+  tags:
+  - ska-k8srunner-za-itf
   stage: .pre
   image: docker:19.03.12
   rules:
     - if: $REBUILD_IMAGES
     - changes:
         - Dockerfile
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      when: never
+        - pyproject.toml
   services:
     - docker:dind
   before_script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
-    - |
-      if [[ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]]; then
-        tag="latest"
-      else
-        tag="$CI_COMMIT_SHORT_SHA"
-      fi
-      echo "Running on '$CI_COMMIT_BRANCH' branch; tag = $tag"
-    - docker build --pull -t "$CI_REGISTRY_IMAGE:${tag}" .
-    - docker push "$CI_REGISTRY_IMAGE:${tag}"
+    - echo "Running on '$CI_COMMIT_BRANCH' branch; tag = $BASE_IMAGE_TAG"
+    - docker build --pull -t "${CI_REGISTRY_IMAGE}:${BASE_IMAGE_TAG}" .
+    - docker push "${CI_REGISTRY_IMAGE}:${BASE_IMAGE_TAG}"
+
+
+##### TEMPORARY TAGS FIXUP #######
+##### Run everything in the Mid ITF while the STFC is down #####
+
+python-gemnasium-scan:
+  tags:
+  - ska-k8srunner-za-itf
+python-gemnasium-scan-legacy:
+  tags:
+  - ska-k8srunner-za-itf
+python-publish-to-car:
+  tags:
+  - ska-k8srunner-za-itf
+python-publish-to-gitlab:
+  tags:
+  - ska-k8srunner-za-itf
+docs-build:
+  tags:
+  - ska-k8srunner-za-itf
+docs-pages:
+  tags:
+  - ska-k8srunner-za-itf
+oci-image-scan-from-car:
+  tags:
+  - ska-k8srunner-za-itf
+create-ci-metrics:
+  tags:
+  - ska-k8srunner-za-itf
+build-changelog:
+  tags:
+  - ska-k8srunner-za-itf
