@@ -103,6 +103,8 @@
 # or build
 
 helm-chart-lint:
+  tags:
+  - ska-k8srunner-za-itf
   after_script:
     - make helm-check-deps
   rules:
@@ -112,6 +114,8 @@ helm-chart-lint:
         - charts/**/*
 
 helm-chart-build:
+  tags:
+  - ska-k8srunner-za-itf
   rules:
     - if: $CI_PIPELINE_SOURCE == "pipeline"
       when: never
@@ -119,6 +123,8 @@ helm-chart-build:
         - charts/**/*
 
 docs-build:
+  tags:
+  - ska-k8srunner-za-itf
   rules:
     - if: $CI_PIPELINE_SOURCE == "pipeline"
       when: never

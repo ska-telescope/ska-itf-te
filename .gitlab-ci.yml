@@ -65,14 +65,20 @@ include:
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/xray-publish.gitlab-ci.yml"
 xray-publish:
+  tags:
+  - ska-k8srunner-za-itf
   # when: manual
   when: always #### TODO: Remove this and uncomment line just above this one!
   rules: # this is just to override the rules that are apparently blocking execution at the moment
 
 python-test:
+  tags:
+  - ska-k8srunner-za-itf
   image: $TEST_IMAGE
 
 python-lint:
+  tags:
+  - ska-k8srunner-za-itf
   image: $TEST_IMAGE
   rules:
     - allow_failure: true
@@ -88,27 +94,37 @@ python-lint:
     - make k8s-delete-namespace
 
 python-build-for-publication-legacy:
+  tags:
+  - ska-k8srunner-za-itf
   image: $TEST_IMAGE
   before_script:
     - ""
 
 python-build-for-publication:
+  tags:
+  - ska-k8srunner-za-itf
   image: $TEST_IMAGE
   before_script:
     - ""
 
 python-build-for-development-legacy:
+  tags:
+  - ska-k8srunner-za-itf
   image: $TEST_IMAGE
   before_script:
     - ""
 
 python-build-for-development:
+  tags:
+  - ska-k8srunner-za-itf
   image: $TEST_IMAGE
   before_script:
     - ""
 
 # base stage
 build-base-image:
+  tags:
+  - ska-k8srunner-za-itf
   stage: .pre
   image: docker:19.03.12
   rules:
@@ -131,3 +147,46 @@ build-base-image:
       echo "Running on '$CI_COMMIT_BRANCH' branch; tag = $tag"
     - docker build --pull -t "$CI_REGISTRY_IMAGE:${tag}" .
     - docker push "$CI_REGISTRY_IMAGE:${tag}"
+
+
+### Run everything in the Mid ITF while the STFC is down ###
+
+python-gemnasium-scan:
+  tags:
+  - ska-k8srunner-za-itf
+python-gemnasium-scan-legacy:
+  tags:
+  - ska-k8srunner-za-itf
+python-publish-to-car:
+  tags:
+  - ska-k8srunner-za-itf
+python-publish-to-gitlab:
+  tags:
+  - ska-k8srunner-za-itf
+docs-build:
+  tags:
+  - ska-k8srunner-za-itf
+docs-pages:
+  tags:
+  - ska-k8srunner-za-itf
+oci-image-lint:
+  tags:
+  - ska-k8srunner-za-itf
+oci-image-build:
+  tags:
+  - ska-k8srunner-za-itf
+oci-image-publish:
+  tags:
+  - ska-k8srunner-za-itf
+oci-image-scan:
+  tags:
+  - ska-k8srunner-za-itf
+oci-image-scan-from-car:
+  tags:
+  - ska-k8srunner-za-itf
+create-ci-metrics:
+  tags:
+  - ska-k8srunner-za-itf
+build-changelog:
+  tags:
+  - ska-k8srunner-za-itf
