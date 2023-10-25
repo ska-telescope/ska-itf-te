@@ -131,3 +131,2951 @@ build-base-image:
       echo "Running on '$CI_COMMIT_BRANCH' branch; tag = $tag"
     - docker build --pull -t "$CI_REGISTRY_IMAGE:${tag}" .
     - docker push "$CI_REGISTRY_IMAGE:${tag}"
+##### TEMPORARY TAGS FIXUP #######
+# ---
+# variables:
+#   POETRY_CONFIG_VIRTUALENVS_CREATE: 'true'
+#   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+#   MINIKUBE: 'false'
+#   CI_REGISTRY_IMAGE: "$CI_REGISTRY/ska-telescope/ska-mid-itf/base"
+#   TEST_IMAGE: "$CI_REGISTRY_IMAGE:latest"
+#   GIT_SUBMODULE_STRATEGY: recursive
+#   EXPOSE_All_DS: 'true'
+#   CLEAN_UP_TEST_ENVIRONMENT: 'true'
+#   DEPLOYMENT_CONFIGURATION: ska-$CONFIG
+# cache:
+#   key:
+#     files:
+#     - poetry.lock
+#     - requirements.txt
+#     prefix: "$CI_COMMIT_REF_SLUG"
+#   paths:
+#   - ".cache/pip"
+#   - ".venv"
+# python-lint:
+#   image: "$TEST_IMAGE"
+#   stage: lint
+#   tags:
+#   - k8srunner
+#   before_script:
+#   - '[ -f .make/python.mk ] || (echo "File python.mk not included in Makefile"; exit
+#     1;)'
+#   - make help | grep python-lint
+#   - poetry config virtualenvs.in-project true
+#   - echo "python-build Setting.. poetry config virtualenvs.create $POETRY_CONFIG_VIRTUALENVS_CREATE"
+#   - poetry config virtualenvs.create $POETRY_CONFIG_VIRTUALENVS_CREATE
+#   - |
+#     if [[ -f pyproject.toml ]]; then
+#       if [[ -n $CI_POETRY_VERSION ]] && [[ $(poetry --version) != *$CI_POETRY_VERSION* ]]; then
+#         echo "python-lint: Updating poetry to $CI_POETRY_VERSION";
+#         time poetry self update $CI_POETRY_VERSION;
+#       fi;
+
+#       echo "python-lint: Installing with poetry";
+#       time poetry install;
+#     else
+#       if  [[ -f requirements.txt ]]; then
+#         echo "python-lint: Installing with pip";
+#         time pip3 install -r requirements.txt;
+#       fi;
+#     fi;
+#   script:
+#   - make python-lint;
+#   artifacts:
+#     paths:
+#     - build/
+#     when: always
+#   rules:
+#   - allow_failure: true
+# python-build-for-publication-legacy:
+#   allow_failure: true
+#   stage: build
+#   image: "$TEST_IMAGE"
+#   tags:
+#   - k8srunner
+#   before_script:
+#   - ''
+#   script:
+#   - make python-build PYTHON_BUILD_TYPE="tag_setup"
+#   rules:
+#   - if: "$CI_COMMIT_TAG"
+#     exists:
+#     - setup.py
+#   artifacts:
+#     paths:
+#     - "./dist/"
+# python-build-for-publication:
+#   allow_failure: true
+#   stage: build
+#   image: "$TEST_IMAGE"
+#   tags:
+#   - k8srunner
+#   before_script:
+#   - ''
+#   script:
+#   - make python-build PYTHON_BUILD_TYPE="tag_pyproject"
+#   rules:
+#   - if: "$CI_COMMIT_TAG"
+#     exists:
+#     - pyproject.toml
+#   artifacts:
+#     paths:
+#     - "./dist/"
+# python-build-for-development-legacy:
+#   allow_failure: true
+#   stage: build
+#   image: "$TEST_IMAGE"
+#   tags:
+#   - k8srunner
+#   before_script:
+#   - ''
+#   script:
+#   - make python-build PYTHON_BUILD_TYPE="non_tag_setup"
+#   rules:
+#   - if: "$CI_COMMIT_TAG"
+#     when: never
+#   - exists:
+#     - setup.py
+#   artifacts:
+#     paths:
+#     - "./dist/"
+# python-build-for-development:
+#   allow_failure: true
+#   stage: build
+#   image: "$TEST_IMAGE"
+#   tags:
+#   - k8srunner
+#   before_script:
+#   - ''
+#   script:
+#   - make python-build PYTHON_BUILD_TYPE="non_tag_pyproject"
+#   rules:
+#   - if: "$CI_COMMIT_TAG"
+#     when: never
+#   - exists:
+#     - pyproject.toml
+#   artifacts:
+#     paths:
+#     - "./dist/"
+# python-test:
+#   image: "$TEST_IMAGE"
+#   stage: test
+#   tags:
+#   - k8srunner
+#   before_script:
+#   - '[ -f .make/python.mk ] || (echo "File python.mk not included in Makefile; exit
+#     1")'
+#   - make help | grep python-test
+#   - poetry config virtualenvs.in-project true
+#   - echo "python-build Setting.. poetry config virtualenvs.create $POETRY_CONFIG_VIRTUALENVS_CREATE"
+#   - poetry config virtualenvs.create $POETRY_CONFIG_VIRTUALENVS_CREATE
+#   - |
+#     if [[ -f pyproject.toml ]]; then
+#       if [[ -n $CI_POETRY_VERSION ]] && [[ $(poetry --version) != *$CI_POETRY_VERSION* ]]; then
+#         echo "python-test: Updating poetry to $CI_POETRY_VERSION";
+#         time poetry self update $CI_POETRY_VERSION;
+#       fi;
+
+#       echo "python-test: Installing with poetry";
+#       time poetry install;
+#     else
+#       if  [[ -f requirements.txt ]]; then
+#         echo "python-test: Installing with pip";
+#         time pip3 install -r requirements.txt;
+#       fi;
+#     fi;
+#   script:
+#   - make python-test;
+#   artifacts:
+#     name: "$CI_PROJECT_NAME-$CI_JOB_ID"
+#     paths:
+#     - build/
+#     reports:
+#       junit:
+#       - build/reports/unit-tests.xml
+#     when: always
+#   rules:
+#   - exists:
+#     - pyproject.toml
+#     - setup.py
+#     - tests/requirements.txt
+#     - tests/pytest.ini
+# python-gemnasium-scan:
+#   stage: scan
+#   tags:
+#   - k8srunner
+#   image: "$SKA_GEMNASIUM_IMAGE"
+#   allow_failure: true
+#   before_script:
+#   - '[ -f .make/python.mk ] || (echo "File python.mk not included in Makefile; exit
+#     1")'
+#   - make help | grep python-scan
+#   script:
+#   - make python-scan PYTHON_BUILD_TYPE="tag_pyproject"
+#   rules:
+#   - exists:
+#     - pyproject.toml
+#   artifacts:
+#     paths:
+#     - gl-dependency-scanning-report.json
+#     reports:
+#       dependency_scanning:
+#       - gl-dependency-scanning-report.json
+# python-gemnasium-scan-legacy:
+#   stage: scan
+#   tags:
+#   - k8srunner
+#   image: "$SKA_GEMNASIUM_IMAGE"
+#   allow_failure: true
+#   before_script:
+#   - '[ -f .make/python.mk ] || (echo "File python.mk not included in Makefile; exit
+#     1")'
+#   - make help | grep python-scan
+#   script:
+#   - make python-scan PYTHON_BUILD_TYPE="non_tag_setup"
+#   rules:
+#   - exists:
+#     - setup.py
+#     - requirements.txt
+#   artifacts:
+#     paths:
+#     - gl-dependency-scanning-report.json
+#     reports:
+#       dependency_scanning:
+#       - gl-dependency-scanning-report.json
+# python-publish-to-car:
+#   stage: publish
+#   tags:
+#   - k8srunner
+#   image: "$SKA_K8S_TOOLS_BUILD_DEPLOY"
+#   before_script:
+#   - '[ -f .make/python.mk ] || (echo "File python.mk not included in Makefile; exit
+#     1")'
+#   - make help | grep python-publish
+#   script:
+#   - make PYTHON_PUBLISH_USERNAME=${CAR_PYPI_USERNAME} PYTHON_PUBLISH_PASSWORD=${CAR_PYPI_PASSWORD}
+#     PYTHON_PUBLISH_URL=${CAR_PYPI_REPOSITORY_URL} python-publish
+#   rules:
+#   - if: "$CI_COMMIT_TAG"
+#     exists:
+#     - pyproject.toml
+#     - setup.py
+# python-publish-to-gitlab:
+#   stage: publish
+#   tags:
+#   - k8srunner
+#   image: "$SKA_K8S_TOOLS_BUILD_DEPLOY"
+#   allow_failure: true
+#   before_script:
+#   - '[ -f .make/python.mk ] || (echo "File python.mk not included in Makefile; exit
+#     1")'
+#   - make help | grep python-publish
+#   script:
+#   - make PYTHON_PUBLISH_USERNAME=gitlab-ci-token PYTHON_PUBLISH_PASSWORD=${CI_JOB_TOKEN}
+#     PYTHON_PUBLISH_URL=https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/pypi
+#     python-publish
+#   rules:
+#   - exists:
+#     - pyproject.toml
+#     - setup.py
+# docs-build:
+#   stage: build
+#   image: "$SKA_K8S_TOOLS_BUILD_DEPLOY"
+#   tags:
+#   - k8srunner
+#   before_script:
+#   - '[ -f .make/docs.mk ] || (echo "File docs.mk not included in Makefile; exit 1")'
+#   - make help | grep docs-build
+#   - |
+#     if  [[ -f docs/requirements.txt ]]; then
+#       pip3 install sphinx==5.1.1 sphinx-rtd-theme==1.0.0 recommonmark==0.7.1 "MarkupSafe < 2.1.0";
+#       echo "docs-build: Installing docs/requirements.txt with pip";
+#       echo "WARNING: Please consider moving to pyproject.toml docs group support"
+#       time pip3 install -r docs/requirements.txt;
+#     else
+#       if [[ -f pyproject.toml ]]; then
+#         if [[ -n $CI_POETRY_VERSION ]] && [[ $(poetry --version) != *$CI_POETRY_VERSION* ]]; then
+#           echo "docs-build: Updating poetry to $CI_POETRY_VERSION";
+#           time poetry self update $CI_POETRY_VERSION;
+#         fi;
+
+#         poetry config virtualenvs.in-project true
+#         echo "docs-build Setting.. poetry config virtualenvs.create $POETRY_CONFIG_VIRTUALENVS_CREATE"
+#         poetry config virtualenvs.create $POETRY_CONFIG_VIRTUALENVS_CREATE
+#         echo "docs-build: Installing with poetry docs dependency group";
+#         time poetry install --no-root --only docs;
+#       else
+#         echo "Installing sphinx==5.1.1 sphinx-rtd-theme==1.0.0 recommonmark==0.7.1 and MarkupSafe < 2.1.0";
+#         echo "WARNING: Please consider moving to pyproject.toml docs group support"
+#         pip3 install sphinx==5.1.1 sphinx-rtd-theme==1.0.0 recommonmark==0.7.1 "MarkupSafe < 2.1.0";
+#       fi;
+#     fi;
+#   script:
+#   - make docs-build html
+#   artifacts:
+#     name: "$CI_PROJECT_NAME-$CI_JOB_ID"
+#     paths:
+#     - docs/build
+#     when: always
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - exists:
+#     - charts/**/*
+# docs-pages:
+#   stage: pages
+#   image: "$SKA_K8S_TOOLS_BUILD_DEPLOY"
+#   tags:
+#   - k8srunner
+#   before_script:
+#   - '[ -f .make/docs.mk ] || (echo "File docs.mk not included in Makefile; exit 1")'
+#   - make help | grep docs-build
+#   - |
+#     if  [[ -f docs/requirements.txt ]]; then
+#       pip3 install sphinx==5.1.1 sphinx-rtd-theme==1.0.0 recommonmark==0.7.1 "MarkupSafe < 2.1.0";
+#       echo "docs-pages: Installing docs/requirements.txt with pip";
+#       echo "WARNING: Please consider moving to pyproject.toml docs group support"
+#       time pip3 install -r docs/requirements.txt;
+#     else
+#       if [[ -f pyproject.toml ]]; then
+#         if [[ -n $CI_POETRY_VERSION ]] && [[ $(poetry --version) != *$CI_POETRY_VERSION* ]]; then
+#           echo "docs-pages: Updating poetry to $CI_POETRY_VERSION";
+#           time poetry self update $CI_POETRY_VERSION;
+#         fi;
+
+#         poetry config virtualenvs.in-project true
+#         echo "docs-pages Setting.. poetry config virtualenvs.create $POETRY_CONFIG_VIRTUALENVS_CREATE"
+#         poetry config virtualenvs.create $POETRY_CONFIG_VIRTUALENVS_CREATE
+#         echo "docs-pages: Installing with poetry docs dependency group";
+#         time poetry install --no-root --only docs;
+#       else
+#         echo "Installing sphinx==5.1.1 sphinx-rtd-theme==1.0.0 recommonmark==0.7.1 and MarkupSafe < 2.1.0";
+#         echo "WARNING: Please consider moving to pyproject.toml docs group support"
+#         pip3 install sphinx==5.1.1 sphinx-rtd-theme==1.0.0 recommonmark==0.7.1 "MarkupSafe < 2.1.0";
+#       fi;
+#     fi;
+#   script:
+#   - make docs-build html
+#   - |
+#     if [[ -d docs/build/html/ ]]; then
+#       mv docs/build/html/ public;
+#     else
+#       echo "WARNING: no docs/build/html/";
+#     fi;
+#   when: always
+#   artifacts:
+#     paths:
+#     - public
+# oci-image-lint:
+#   image: "$SKA_K8S_TOOLS_BUILD_DEPLOY"
+#   stage: lint
+#   tags:
+#   - k8srunner
+#   before_script:
+#   - '[ -f .make/oci.mk ] || (echo "File oci.mk not included in Makefile; exit 1")'
+#   - make help | grep oci-lint
+#   script:
+#   - make oci-lint
+#   rules:
+#   - exists:
+#     - Dockerfile
+#     - images/**/*
+# ".image_builder_template":
+#   image: "$SKA_K8S_TOOLS_BUILD_DEPLOY"
+#   tags:
+#   - k8srunner
+#   before_script:
+#   - '[ -f .make/oci.mk ] || (echo "File oci.mk not included in Makefile; exit 1")'
+#   - make help | grep oci-build-all
+#   - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin
+#     $CI_REGISTRY
+#   script:
+#   - make oci-build-all CAR_OCI_REGISTRY_HOST=${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}
+# oci-image-build:
+#   image: "$SKA_K8S_TOOLS_BUILD_DEPLOY"
+#   tags:
+#   - k8srunner
+#   before_script:
+#   - '[ -f .make/oci.mk ] || (echo "File oci.mk not included in Makefile; exit 1")'
+#   - make help | grep oci-build-all
+#   - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin
+#     $CI_REGISTRY
+#   script:
+#   - make oci-build-all CAR_OCI_REGISTRY_HOST=${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}
+#   extends:
+#   - ".image_builder_template"
+#   stage: build
+#   rules:
+#   - exists:
+#     - Dockerfile
+#     - images/**/*
+# oci-image-publish:
+#   stage: publish
+#   image: "$SKA_K8S_TOOLS_BUILD_DEPLOY"
+#   tags:
+#   - k8srunner
+#   before_script:
+#   - '[ -f .make/oci.mk ] || (echo "File oci.mk not included in Makefile; exit 1")'
+#   - make help | grep oci-publish-all
+#   - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin
+#     $CI_REGISTRY
+#   - echo $CAR_OCI_REGISTRY_PASSWORD | docker login -u $CAR_OCI_REGISTRY_USERNAME --password-stdin
+#     $CAR_OCI_REGISTRY_HOST
+#   script:
+#   - make oci-publish-all
+#   rules:
+#   - if: "$CI_COMMIT_TAG"
+#     exists:
+#     - Dockerfile
+#     - images/**/*
+# ".container-scanning":
+#   stage: scan
+#   tags:
+#   - k8srunner
+#   image:
+#     name: "$SKA_TRIVY_IMAGE"
+#     entrypoint:
+#     - ''
+#   variables:
+#     TRIVY_NO_PROGRESS: 'true'
+#     TRIVY_CACHE_DIR: ".trivycache/"
+#   allow_failure: true
+#   before_script:
+#   - 'apk add bash make curl git-lfs
+
+#     '
+#   cache:
+#     paths:
+#     - ".trivycache/"
+#   artifacts:
+#     when: always
+#     reports:
+#       container_scanning: gl-container-scanning-report.json
+# oci-image-scan:
+#   stage: scan
+#   tags:
+#   - k8srunner
+#   image:
+#     name: "$SKA_TRIVY_IMAGE"
+#     entrypoint:
+#     - ''
+#   variables:
+#     TRIVY_NO_PROGRESS: 'true'
+#     TRIVY_CACHE_DIR: ".trivycache/"
+#   allow_failure: true
+#   before_script:
+#   - 'apk add bash make curl git-lfs
+
+#     '
+#   cache:
+#     paths:
+#     - ".trivycache/"
+#   artifacts:
+#     when: always
+#     reports:
+#       container_scanning:
+#       - gl-container-scanning-report.json
+#   extends:
+#   - ".container-scanning"
+#   script:
+#   - make oci-scan-all CAR_OCI_REGISTRY_HOST=${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}
+#   rules:
+#   - exists:
+#     - Dockerfile
+#     - images/**/*
+# oci-image-scan-from-car:
+#   stage: scan
+#   tags:
+#   - k8srunner
+#   image:
+#     name: "$SKA_TRIVY_IMAGE"
+#     entrypoint:
+#     - ''
+#   variables:
+#     TRIVY_NO_PROGRESS: 'true'
+#     TRIVY_CACHE_DIR: ".trivycache/"
+#   allow_failure: true
+#   before_script:
+#   - 'apk add bash make curl git-lfs
+
+#     '
+#   cache:
+#     paths:
+#     - ".trivycache/"
+#   artifacts:
+#     when: always
+#     reports:
+#       container_scanning:
+#       - gl-container-scanning-report.json
+#   extends:
+#   - ".container-scanning"
+#   script:
+#   - make oci-scan-all CAR_OCI_REGISTRY_HOST=${CAR_OCI_REGISTRY_HOST}
+#   rules:
+#   - if: "$FULL_IMAGE_NAME"
+#     variables:
+#       OVERRIDE_FULL_IMAGE_NAME: 'true'
+# workflow:
+#   rules:
+#   - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS && $CI_PIPELINE_SOURCE == "push"
+#     when: never
+#   - if: "$CI_MERGE_REQUEST_IID"
+#   - if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH"
+#   - if: "$CI_COMMIT_TAG"
+#   - if: "$CI_COMMIT_BRANCH"
+# create-ci-metrics:
+#   stage: ".post"
+#   image: "$SKA_K8S_TOOLS_BUILD_DEPLOY"
+#   cache: {}
+#   when: always
+#   tags:
+#   - k8srunner
+#   script:
+#   - apt-get -y update
+#   - apt-get install -y curl --no-install-recommends
+#   - 'curl --retry 30 --retry-delay 3 --header "PRIVATE-TOKEN: $CI_JOB_TOKEN" -s https://gitlab.com/ska-telescope/ska-cicd-ci-metrics-utilities/raw/master/ska_ci_metrics_utilities/ci-badges-func.sh
+#     | sh'
+#   artifacts:
+#     paths:
+#     - "./build"
+#   allow_failure: true
+# helm-chart-lint:
+#   image: "$SKA_K8S_TOOLS_BUILD_DEPLOY"
+#   stage: lint
+#   tags:
+#   - k8srunner
+#   before_script:
+#   - '[ -f .make/helm.mk ] || (echo "File helm.mk not included in Makefile; exit 1")'
+#   - make help | grep helm-lint
+#   script:
+#   - make helm-lint
+#   artifacts:
+#     paths:
+#     - build/
+#     when: always
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - exists:
+#     - charts/**/*
+#   after_script:
+#   - make helm-check-deps
+# helm-chart-build:
+#   stage: build
+#   image: "$SKA_K8S_TOOLS_BUILD_DEPLOY"
+#   tags:
+#   - k8srunner
+#   before_script:
+#   - '[ -f .make/helm.mk ] || (echo "File helm.mk not included in Makefile; exit 1")'
+#   - make help | grep helm-build
+#   script:
+#   - make helm-build
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - exists:
+#     - charts/**/*
+# ".helm-chart-publish-template":
+#   stage: publish
+#   image: "$SKA_K8S_TOOLS_BUILD_DEPLOY"
+#   tags:
+#   - k8srunner
+#   before_script:
+#   - '[ -f .make/helm.mk ] || (echo "File helm.mk not included in Makefile; exit 1")'
+#   - make help | grep helm-publish
+#   script:
+#   - make helm-publish
+#   rules:
+#   - if: "$CI_COMMIT_TAG"
+#     exists:
+#     - charts/**/*
+# helm-chart-publish:
+#   stage: publish
+#   image: "$SKA_K8S_TOOLS_BUILD_DEPLOY"
+#   tags:
+#   - k8srunner
+#   before_script:
+#   - '[ -f .make/helm.mk ] || (echo "File helm.mk not included in Makefile; exit 1")'
+#   - make help | grep helm-publish
+#   script:
+#   - make helm-publish
+#   rules:
+#   - if: "$CI_COMMIT_TAG"
+#     exists:
+#     - charts/**/*
+#   extends:
+#   - ".helm-chart-publish-template"
+# k8s-test-runner:
+#   variables:
+#     CONFIG: mid
+#     K8S_CHART: system-under-test
+#     KUBE_APP: ska-mid-sut
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     K8S_EXTRA_CHART_PARMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
+#     TANGO_DATABASE_DS: tango-databaseds
+#     KUBE_NAMESPACE: ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA
+#     DS_SIM_NAMESPACE: "$KUBE_NAMESPACE-ds-sim"
+#     DS_SIM_ENV: 'true'
+#     DS_SIM_SERVICE: ds-sim
+#     DEBUG_ENTRYPOINT: 'True'
+#     DEBUG_ENTRYPOINT_EXTENDED: 'True'
+#     LIVE_LOGGING_EXTENDED: 'True'
+#     SHOW_STEP_FUNCTIONS: 'True'
+#     CAPTURE_LOGS: 'True'
+#     EXIT_AT_FAIL: 'True'
+#     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+#   tags:
+#   - ska-k8srunner-za-itf
+#   extends:
+#   - ".sut_base_no_cache"
+#   - ".ds-sim-test-vars"
+#   cache: []
+#   allow_failure: false
+#   image: "$TEST_IMAGE"
+#   stage: test
+#   before_script:
+#   - time poetry install
+#   - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
+#   - make help | grep k8s-test
+#   - make install-test-system
+#   script:
+#   - make integration-test TANGO_HOST=$TANGO_DATABASE_DS.$KUBE_NAMESPACE.svc.$CLUSTER_DOMAIN:10000
+#     || true
+#   - |
+#     if [[ 0 == "$(cat build/status)" ]]; then
+#       make uninstall-test-system
+#     else
+#       echo "#####################################################################################"
+#       echo "# NOTE: this deployment will persist for about 2 hours, for investigation purposes. #"
+#       echo "#####################################################################################"
+#     fi
+#   - '[ -f build/status ] || (echo "Something went wrong with the test (no build/status
+#     file); exit 1")'
+#   - exit $(cat build/status)
+#   artifacts:
+#     name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID"
+#     paths:
+#     - build/
+#     reports:
+#       junit:
+#       - build/report.xml
+#     when: always
+#   environment:
+#     name: test/$CI_COMMIT_REF_SLUG
+#     on_stop: stop-k8s-test-runner
+#     auto_stop_in: 1 minute
+#   rules:
+#   - exists:
+#     - tests/**/*
+# stop-k8s-test-runner:
+#   variables:
+#     CONFIG: mid
+#     K8S_CHART: system-under-test
+#     KUBE_APP: ska-mid-sut
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     K8S_EXTRA_CHART_PARMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
+#     TANGO_DATABASE_DS: tango-databaseds
+#     KUBE_NAMESPACE: ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA
+#     DS_SIM_NAMESPACE: "$KUBE_NAMESPACE-ds-sim"
+#     DS_SIM_ENV: 'true'
+#     DS_SIM_SERVICE: ds-sim
+#   tags:
+#   - ska-k8srunner-za-itf
+#   extends:
+#   - ".sut_base"
+#   - ".ds-sim-test-vars"
+#   image: "$SKA_K8S_TOOLS_BUILD_DEPLOY"
+#   stage: test
+#   when: manual
+#   script:
+#   - make uninstall-test-system
+#   environment:
+#     name: test/$CI_COMMIT_REF_SLUG
+#     action: stop
+# build-changelog:
+#   stage: publish
+#   image: "$SKA_K8S_TOOLS_BUILD_DEPLOY"
+#   tags:
+#   - k8srunner
+#   script:
+#   - make generate-changelog
+#   rules:
+#   - if: "$CI_COMMIT_TAG"
+# ".mid":
+#   variables:
+#     CONFIG: mid
+# ".on_demand_rules":
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME != $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+# ".integration_rules":
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+# ".staging_rules":
+#   variables:
+#     K8S_INSTALL_FROM_CAR: 'true'
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+# ".deploy":
+#   stage: deploy
+#   variables:
+#     K8S_CHART: ska-$CONFIG
+#     HELM_RELEASE: sut
+#     KUBE_NAMESPACE: ci-ska-mid-itf-$CI_PIPELINE_ID-$CONFIG
+#     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+#     K8S_AUTH_NAMESPACES: "$KUBE_NAMESPACE $KUBE_NAMESPACE_SDP"
+#     K8S_AUTH_SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_PIPELINE_ID
+#     ARCHIVER_DBNAME: "${CONFIG}_archiver_db_${CI_COMMIT_REF_SLUG}"
+#   script:
+#   - echo $CI_JOB_NAME - $CI_JOB_STAGE
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
+#   - |
+#     if [ "$K8S_INSTALL_FROM_CAR" != "true" ]; then
+#       bash .make/resources/gitlab_section.sh install "Installing $K8S_CHART Charts - not from CAR" make k8s-install-chart
+#     else
+#       bash .make/resources/gitlab_section.sh install "Installing $K8S_CHART Charts from CAR" make k8s-install-chart-car
+#     fi
+#   - bash .make/resources/gitlab_section.sh get-ns "Get namespace resources" make k8s-get
+#   - bash .make/resources/gitlab_section.sh wait-ns "Wait namespace resources" make
+#     k8s-wait
+#   - bash .make/resources/gitlab_section.sh links "Skampi landing page" make links
+#   after_script:
+#   - make template-chart
+#   artifacts:
+#     name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID-$CI_JOB_STAGE-$CI_JOB_NAME"
+#     paths:
+#     - build/
+# ".info":
+#   stage: deploy
+#   variables:
+#     K8S_CHART: ska-$CONFIG
+#     HELM_RELEASE: sut
+#     KUBE_NAMESPACE: ci-ska-mid-itf-$CI_PIPELINE_ID-$CONFIG
+#     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+#   script:
+#   - bash .make/resources/gitlab_section.sh get-ns "Get namespace resources" make k8s-get
+#   - bash .make/resources/gitlab_section.sh get-ns-dp "Get SDP namespace resources"
+#     make k8s-get KUBE_NAMESPACE=${KUBE_NAMESPACE}-sdp
+#   - make k8s-info
+#   - make k8s-info KUBE_NAMESPACE=${KUBE_NAMESPACE}-sdp
+# ".cleanup":
+#   stage: cleanup
+#   variables:
+#     K8S_CHART: ska-$CONFIG
+#     HELM_RELEASE: sut
+#     KUBE_NAMESPACE: ci-ska-mid-itf-$CI_PIPELINE_ID-$CONFIG
+#     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+#   script:
+#   - echo $CI_JOB_NAME - $CI_JOB_STAGE
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - make k8s-uninstall-chart || true
+#   - |
+#     if [ "$KEEP_NAMESPACE" != "true" ]; then
+#       make k8s-delete-namespace
+#     fi
+# ".redeploy":
+#   stage: deploy
+#   variables:
+#     K8S_CHART: ska-$CONFIG
+#     HELM_RELEASE: sut
+#     KUBE_NAMESPACE: ci-ska-mid-itf-$CI_PIPELINE_ID-$CONFIG
+#     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+#     K8S_AUTH_NAMESPACES: "$KUBE_NAMESPACE $KUBE_NAMESPACE_SDP"
+#     K8S_AUTH_SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_PIPELINE_ID
+#     ARCHIVER_DBNAME: "${CONFIG}_archiver_db_${CI_COMMIT_REF_SLUG}"
+#   script:
+#   - echo $CI_JOB_NAME - $CI_JOB_STAGE
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
+#   - |
+#     if [ "$K8S_INSTALL_FROM_CAR" != "true" ]; then
+#       bash .make/resources/gitlab_section.sh install "Installing $K8S_CHART Charts - not from CAR" make k8s-install-chart
+#     else
+#       bash .make/resources/gitlab_section.sh install "Installing $K8S_CHART Charts from CAR" make k8s-install-chart-car
+#     fi
+#   - bash .make/resources/gitlab_section.sh get-ns "Get namespace resources" make k8s-get
+#   - bash .make/resources/gitlab_section.sh wait-ns "Wait namespace resources" make
+#     k8s-wait
+#   - bash .make/resources/gitlab_section.sh links "Skampi landing page" make links
+#   after_script:
+#   - make template-chart
+#   artifacts:
+#     name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID-$CI_JOB_STAGE-$CI_JOB_NAME"
+#     paths:
+#     - build/
+#   extends:
+#   - ".deploy"
+#   before_script:
+#   - echo $CI_JOB_NAME - $CI_JOB_STAGE
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - make k8s-uninstall-chart || true
+#   - |
+#     if [ "$KEEP_NAMESPACE" != "true" ]; then
+#       make k8s-delete-namespace
+#     fi
+# deploy-taranta:
+#   stage: platform
+#   tags:
+#   - ska-k8srunner-za-itf
+#   variables:
+#     KUBE_NAMESPACE: taranta
+#     KUBE_APP: ska-taranta-backend
+#     HELM_RELEASE: taranta
+#     K8S_CHART: taranta-itf
+#   script:
+#   - make k8s-install-chart
+#   when: manual
+# ".sut_base":
+#   variables:
+#     CONFIG: mid
+#     K8S_CHART: system-under-test
+#     KUBE_APP: ska-mid-sut
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     K8S_EXTRA_CHART_PARMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
+#     TANGO_DATABASE_DS: tango-databaseds
+#     KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
+#   tags:
+#   - ska-k8srunner-za-itf
+#   extends:
+#   - ".mid"
+# ".sut_base_no_cache":
+#   variables:
+#     CONFIG: mid
+#     K8S_CHART: system-under-test
+#     KUBE_APP: ska-mid-sut
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     K8S_EXTRA_CHART_PARMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
+#     TANGO_DATABASE_DS: tango-databaseds
+#     KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
+#   tags:
+#   - ska-k8srunner-za-itf
+#   extends:
+#   - ".sut_base"
+#   cache: []
+# ".sut_on_demand":
+#   variables:
+#     CONFIG: mid
+#     K8S_CHART: system-under-test
+#     KUBE_APP: ska-mid-sut
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     K8S_EXTRA_CHART_PARMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
+#     TANGO_DATABASE_DS: tango-databaseds
+#     KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
+#     HELM_RELEASE: sut
+#     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+#     SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_COMMIT_REF_NAME
+#   tags:
+#   - ska-k8srunner-za-itf
+#   extends:
+#   - ".sut_base_no_cache"
+#   - ".on_demand_rules"
+#   cache: []
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME != $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+#   stage: on_demand_itf_sut
+# deploy-sut-on-demand:
+#   stage: on_demand_itf_sut
+#   variables:
+#     K8S_CHART: system-under-test
+#     HELM_RELEASE: sut
+#     KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
+#     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+#     K8S_AUTH_NAMESPACES: "$KUBE_NAMESPACE $KUBE_NAMESPACE_SDP"
+#     K8S_AUTH_SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_PIPELINE_ID
+#     ARCHIVER_DBNAME: "${CONFIG}_archiver_db_${CI_COMMIT_REF_SLUG}"
+#     CONFIG: mid
+#     KUBE_APP: ska-mid-sut
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     K8S_EXTRA_CHART_PARMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
+#     TANGO_DATABASE_DS: tango-databaseds
+#     SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_COMMIT_REF_NAME
+#   script:
+#   - echo $CI_JOB_NAME - $CI_JOB_STAGE
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
+#   - |
+#     if [ "$K8S_INSTALL_FROM_CAR" != "true" ]; then
+#       bash .make/resources/gitlab_section.sh install "Installing $K8S_CHART Charts - not from CAR" make k8s-install-chart
+#     else
+#       bash .make/resources/gitlab_section.sh install "Installing $K8S_CHART Charts from CAR" make k8s-install-chart-car
+#     fi
+#   - bash .make/resources/gitlab_section.sh get-ns "Get namespace resources" make k8s-get
+#   - bash .make/resources/gitlab_section.sh wait-ns "Wait namespace resources" make
+#     k8s-wait
+#   - bash .make/resources/gitlab_section.sh links "Skampi landing page" make links
+#   after_script:
+#   - make template-chart
+#   artifacts:
+#     name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID-$CI_JOB_STAGE-$CI_JOB_NAME"
+#     paths:
+#     - build/
+#   tags:
+#   - ska-k8srunner-za-itf
+#   extends:
+#   - ".deploy"
+#   - ".sut_on_demand"
+#   cache: []
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME != $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+#   environment:
+#     name: mid-itf/ska-$CONFIG-$CI_COMMIT_REF_SLUG
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta
+#     on_stop: destroy-sut-on-demand
+# redeploy-sut-on-demand:
+#   stage: on_demand_itf_sut
+#   variables:
+#     K8S_CHART: system-under-test
+#     HELM_RELEASE: sut
+#     KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
+#     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+#     K8S_AUTH_NAMESPACES: "$KUBE_NAMESPACE $KUBE_NAMESPACE_SDP"
+#     K8S_AUTH_SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_PIPELINE_ID
+#     ARCHIVER_DBNAME: "${CONFIG}_archiver_db_${CI_COMMIT_REF_SLUG}"
+#     CONFIG: mid
+#     KUBE_APP: ska-mid-sut
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     K8S_EXTRA_CHART_PARMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
+#     TANGO_DATABASE_DS: tango-databaseds
+#     SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_COMMIT_REF_NAME
+#   script:
+#   - echo $CI_JOB_NAME - $CI_JOB_STAGE
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
+#   - |
+#     if [ "$K8S_INSTALL_FROM_CAR" != "true" ]; then
+#       bash .make/resources/gitlab_section.sh install "Installing $K8S_CHART Charts - not from CAR" make k8s-install-chart
+#     else
+#       bash .make/resources/gitlab_section.sh install "Installing $K8S_CHART Charts from CAR" make k8s-install-chart-car
+#     fi
+#   - bash .make/resources/gitlab_section.sh get-ns "Get namespace resources" make k8s-get
+#   - bash .make/resources/gitlab_section.sh wait-ns "Wait namespace resources" make
+#     k8s-wait
+#   - bash .make/resources/gitlab_section.sh links "Skampi landing page" make links
+#   after_script:
+#   - make template-chart
+#   artifacts:
+#     name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID-$CI_JOB_STAGE-$CI_JOB_NAME"
+#     paths:
+#     - build/
+#   extends:
+#   - ".redeploy"
+#   - ".sut_on_demand"
+#   before_script:
+#   - echo $CI_JOB_NAME - $CI_JOB_STAGE
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - make k8s-uninstall-chart || true
+#   - |
+#     if [ "$KEEP_NAMESPACE" != "true" ]; then
+#       make k8s-delete-namespace
+#     fi
+#   tags:
+#   - ska-k8srunner-za-itf
+#   cache: []
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME != $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+#   environment:
+#     name: mid-itf/ska-$CONFIG-$CI_COMMIT_REF_SLUG
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta
+#     on_stop: destroy-sut-on-demand
+# info-sut-on-demand:
+#   stage: on_demand_itf_sut
+#   variables:
+#     K8S_CHART: system-under-test
+#     HELM_RELEASE: sut
+#     KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
+#     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+#     CONFIG: mid
+#     KUBE_APP: ska-mid-sut
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     K8S_EXTRA_CHART_PARMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
+#     TANGO_DATABASE_DS: tango-databaseds
+#     SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_COMMIT_REF_NAME
+#   script:
+#   - bash .make/resources/gitlab_section.sh get-ns "Get namespace resources" make k8s-get
+#   - bash .make/resources/gitlab_section.sh get-ns-dp "Get SDP namespace resources"
+#     make k8s-get KUBE_NAMESPACE=${KUBE_NAMESPACE}-sdp
+#   - make k8s-info
+#   - make k8s-info KUBE_NAMESPACE=${KUBE_NAMESPACE}-sdp
+#   tags:
+#   - ska-k8srunner-za-itf
+#   extends:
+#   - ".info"
+#   - ".sut_on_demand"
+#   cache: []
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME != $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+# destroy-sut-on-demand:
+#   stage: on_demand_itf_sut
+#   variables:
+#     K8S_CHART: system-under-test
+#     HELM_RELEASE: sut
+#     KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
+#     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+#     CONFIG: mid
+#     KUBE_APP: ska-mid-sut
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     K8S_EXTRA_CHART_PARMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
+#     TANGO_DATABASE_DS: tango-databaseds
+#     SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_COMMIT_REF_NAME
+#   script:
+#   - echo $CI_JOB_NAME - $CI_JOB_STAGE
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - make k8s-uninstall-chart || true
+#   - |
+#     if [ "$KEEP_NAMESPACE" != "true" ]; then
+#       make k8s-delete-namespace
+#     fi
+#   tags:
+#   - ska-k8srunner-za-itf
+#   extends:
+#   - ".cleanup"
+#   - ".sut_on_demand"
+#   cache: []
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME != $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+#   environment:
+#     name: mid-itf/ska-$CONFIG-$CI_COMMIT_REF_SLUG
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta
+#     action: stop
+# ".sut_integration":
+#   variables:
+#     CONFIG: mid
+#     K8S_CHART: system-under-test
+#     KUBE_APP: ska-mid-sut
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     K8S_EXTRA_CHART_PARMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
+#     TANGO_DATABASE_DS: tango-databaseds
+#     KUBE_NAMESPACE: integration
+#     HELM_RELEASE: integration-$CI_COMMIT_REF_SLUG
+#     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+#     SERVICE_ACCOUNT: ci-svc-integration
+#     ARCHIVER_DBNAME: integration_archiver_db
+#     KEEP_NAMESPACE: 'true'
+#   tags:
+#   - ska-k8srunner-za-itf
+#   extends:
+#   - ".sut_base"
+#   - ".integration_rules"
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+#   stage: integration
+# deploy-sut-integration:
+#   stage: integration
+#   variables:
+#     K8S_CHART: system-under-test
+#     HELM_RELEASE: integration-$CI_COMMIT_REF_SLUG
+#     KUBE_NAMESPACE: integration
+#     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+#     K8S_AUTH_NAMESPACES: "$KUBE_NAMESPACE $KUBE_NAMESPACE_SDP"
+#     K8S_AUTH_SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_PIPELINE_ID
+#     ARCHIVER_DBNAME: integration_archiver_db
+#     CONFIG: mid
+#     KUBE_APP: ska-mid-sut
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     K8S_EXTRA_CHART_PARMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
+#     TANGO_DATABASE_DS: tango-databaseds
+#     SERVICE_ACCOUNT: ci-svc-integration
+#     KEEP_NAMESPACE: 'true'
+#   script:
+#   - echo $CI_JOB_NAME - $CI_JOB_STAGE
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
+#   - |
+#     if [ "$K8S_INSTALL_FROM_CAR" != "true" ]; then
+#       bash .make/resources/gitlab_section.sh install "Installing $K8S_CHART Charts - not from CAR" make k8s-install-chart
+#     else
+#       bash .make/resources/gitlab_section.sh install "Installing $K8S_CHART Charts from CAR" make k8s-install-chart-car
+#     fi
+#   - bash .make/resources/gitlab_section.sh get-ns "Get namespace resources" make k8s-get
+#   - bash .make/resources/gitlab_section.sh wait-ns "Wait namespace resources" make
+#     k8s-wait
+#   - bash .make/resources/gitlab_section.sh links "Skampi landing page" make links
+#   after_script:
+#   - make template-chart
+#   artifacts:
+#     name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID-$CI_JOB_STAGE-$CI_JOB_NAME"
+#     paths:
+#     - build/
+#   tags:
+#   - ska-k8srunner-za-itf
+#   extends:
+#   - ".deploy"
+#   - ".sut_integration"
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+#   environment:
+#     name: mid-itf/ska-$CONFIG-integration
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta
+#     on_stop: destroy-sut-integration
+# redeploy-sut-integration:
+#   stage: integration
+#   variables:
+#     K8S_CHART: system-under-test
+#     HELM_RELEASE: integration-$CI_COMMIT_REF_SLUG
+#     KUBE_NAMESPACE: integration
+#     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+#     K8S_AUTH_NAMESPACES: "$KUBE_NAMESPACE $KUBE_NAMESPACE_SDP"
+#     K8S_AUTH_SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_PIPELINE_ID
+#     ARCHIVER_DBNAME: integration_archiver_db
+#     CONFIG: mid
+#     KUBE_APP: ska-mid-sut
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     K8S_EXTRA_CHART_PARMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
+#     TANGO_DATABASE_DS: tango-databaseds
+#     SERVICE_ACCOUNT: ci-svc-integration
+#     KEEP_NAMESPACE: 'true'
+#   script:
+#   - echo $CI_JOB_NAME - $CI_JOB_STAGE
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
+#   - |
+#     if [ "$K8S_INSTALL_FROM_CAR" != "true" ]; then
+#       bash .make/resources/gitlab_section.sh install "Installing $K8S_CHART Charts - not from CAR" make k8s-install-chart
+#     else
+#       bash .make/resources/gitlab_section.sh install "Installing $K8S_CHART Charts from CAR" make k8s-install-chart-car
+#     fi
+#   - bash .make/resources/gitlab_section.sh get-ns "Get namespace resources" make k8s-get
+#   - bash .make/resources/gitlab_section.sh wait-ns "Wait namespace resources" make
+#     k8s-wait
+#   - bash .make/resources/gitlab_section.sh links "Skampi landing page" make links
+#   after_script:
+#   - make template-chart
+#   artifacts:
+#     name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID-$CI_JOB_STAGE-$CI_JOB_NAME"
+#     paths:
+#     - build/
+#   extends:
+#   - ".redeploy"
+#   - ".sut_integration"
+#   before_script:
+#   - echo $CI_JOB_NAME - $CI_JOB_STAGE
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - make k8s-uninstall-chart || true
+#   - |
+#     if [ "$KEEP_NAMESPACE" != "true" ]; then
+#       make k8s-delete-namespace
+#     fi
+#   tags:
+#   - ska-k8srunner-za-itf
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+#   environment:
+#     name: mid-itf/ska-$CONFIG-integration
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta
+#     on_stop: destroy-sut-integration
+# info-sut-integration:
+#   stage: integration
+#   variables:
+#     K8S_CHART: system-under-test
+#     HELM_RELEASE: integration-$CI_COMMIT_REF_SLUG
+#     KUBE_NAMESPACE: integration
+#     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+#     CONFIG: mid
+#     KUBE_APP: ska-mid-sut
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     K8S_EXTRA_CHART_PARMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
+#     TANGO_DATABASE_DS: tango-databaseds
+#     SERVICE_ACCOUNT: ci-svc-integration
+#     ARCHIVER_DBNAME: integration_archiver_db
+#     KEEP_NAMESPACE: 'true'
+#   script:
+#   - bash .make/resources/gitlab_section.sh get-ns "Get namespace resources" make k8s-get
+#   - bash .make/resources/gitlab_section.sh get-ns-dp "Get SDP namespace resources"
+#     make k8s-get KUBE_NAMESPACE=${KUBE_NAMESPACE}-sdp
+#   - make k8s-info
+#   - make k8s-info KUBE_NAMESPACE=${KUBE_NAMESPACE}-sdp
+#   tags:
+#   - ska-k8srunner-za-itf
+#   extends:
+#   - ".info"
+#   - ".sut_integration"
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+# destroy-sut-integration:
+#   stage: integration
+#   variables:
+#     K8S_CHART: system-under-test
+#     HELM_RELEASE: integration-$CI_COMMIT_REF_SLUG
+#     KUBE_NAMESPACE: integration
+#     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+#     CONFIG: mid
+#     KUBE_APP: ska-mid-sut
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     K8S_EXTRA_CHART_PARMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
+#     TANGO_DATABASE_DS: tango-databaseds
+#     SERVICE_ACCOUNT: ci-svc-integration
+#     ARCHIVER_DBNAME: integration_archiver_db
+#     KEEP_NAMESPACE: 'true'
+#   script:
+#   - echo $CI_JOB_NAME - $CI_JOB_STAGE
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - make k8s-uninstall-chart || true
+#   - |
+#     if [ "$KEEP_NAMESPACE" != "true" ]; then
+#       make k8s-delete-namespace
+#     fi
+#   tags:
+#   - ska-k8srunner-za-itf
+#   extends:
+#   - ".cleanup"
+#   - ".sut_integration"
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+#   environment:
+#     name: mid-itf/ska-$CONFIG-integration
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta
+#     action: stop
+# ".sut_staging":
+#   variables:
+#     CONFIG: mid
+#     K8S_CHART: system-under-test
+#     KUBE_APP: ska-mid-sut
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     K8S_EXTRA_CHART_PARMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
+#     TANGO_DATABASE_DS: tango-databaseds
+#     KUBE_NAMESPACE: staging
+#     K8S_INSTALL_FROM_CAR: 'true'
+#     HELM_RELEASE: staging-$CI_COMMIT_REF_SLUG
+#     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+#     SERVICE_ACCOUNT: ci-svc-staging
+#     ARCHIVER_DBNAME: staging_archiver_db
+#     KEEP_NAMESPACE: 'true'
+#   tags:
+#   - ska-k8srunner-za-itf
+#   extends:
+#   - ".sut_base"
+#   - ".staging_rules"
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+#   stage: staging
+# deploy-sut-staging:
+#   stage: staging
+#   variables:
+#     K8S_CHART: system-under-test
+#     HELM_RELEASE: staging-$CI_COMMIT_REF_SLUG
+#     KUBE_NAMESPACE: staging
+#     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+#     K8S_AUTH_NAMESPACES: "$KUBE_NAMESPACE $KUBE_NAMESPACE_SDP"
+#     K8S_AUTH_SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_PIPELINE_ID
+#     ARCHIVER_DBNAME: staging_archiver_db
+#     CONFIG: mid
+#     KUBE_APP: ska-mid-sut
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     K8S_EXTRA_CHART_PARMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
+#     TANGO_DATABASE_DS: tango-databaseds
+#     K8S_INSTALL_FROM_CAR: 'true'
+#     SERVICE_ACCOUNT: ci-svc-staging
+#     KEEP_NAMESPACE: 'true'
+#   script:
+#   - echo $CI_JOB_NAME - $CI_JOB_STAGE
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
+#   - |
+#     if [ "$K8S_INSTALL_FROM_CAR" != "true" ]; then
+#       bash .make/resources/gitlab_section.sh install "Installing $K8S_CHART Charts - not from CAR" make k8s-install-chart
+#     else
+#       bash .make/resources/gitlab_section.sh install "Installing $K8S_CHART Charts from CAR" make k8s-install-chart-car
+#     fi
+#   - bash .make/resources/gitlab_section.sh get-ns "Get namespace resources" make k8s-get
+#   - bash .make/resources/gitlab_section.sh wait-ns "Wait namespace resources" make
+#     k8s-wait
+#   - bash .make/resources/gitlab_section.sh links "Skampi landing page" make links
+#   after_script:
+#   - make template-chart
+#   artifacts:
+#     name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID-$CI_JOB_STAGE-$CI_JOB_NAME"
+#     paths:
+#     - build/
+#   tags:
+#   - ska-k8srunner-za-itf
+#   extends:
+#   - ".deploy"
+#   - ".sut_staging"
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+#   needs:
+#   - deploy-sut-integration
+#   environment:
+#     name: mid-itf/ska-$CONFIG-staging
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta
+#     on_stop: destroy-sut-staging
+# redeploy-sut-staging:
+#   stage: staging
+#   variables:
+#     K8S_CHART: system-under-test
+#     HELM_RELEASE: staging-$CI_COMMIT_REF_SLUG
+#     KUBE_NAMESPACE: staging
+#     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+#     K8S_AUTH_NAMESPACES: "$KUBE_NAMESPACE $KUBE_NAMESPACE_SDP"
+#     K8S_AUTH_SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_PIPELINE_ID
+#     ARCHIVER_DBNAME: staging_archiver_db
+#     CONFIG: mid
+#     KUBE_APP: ska-mid-sut
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     K8S_EXTRA_CHART_PARMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
+#     TANGO_DATABASE_DS: tango-databaseds
+#     K8S_INSTALL_FROM_CAR: 'true'
+#     SERVICE_ACCOUNT: ci-svc-staging
+#     KEEP_NAMESPACE: 'true'
+#   script:
+#   - echo $CI_JOB_NAME - $CI_JOB_STAGE
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
+#   - |
+#     if [ "$K8S_INSTALL_FROM_CAR" != "true" ]; then
+#       bash .make/resources/gitlab_section.sh install "Installing $K8S_CHART Charts - not from CAR" make k8s-install-chart
+#     else
+#       bash .make/resources/gitlab_section.sh install "Installing $K8S_CHART Charts from CAR" make k8s-install-chart-car
+#     fi
+#   - bash .make/resources/gitlab_section.sh get-ns "Get namespace resources" make k8s-get
+#   - bash .make/resources/gitlab_section.sh wait-ns "Wait namespace resources" make
+#     k8s-wait
+#   - bash .make/resources/gitlab_section.sh links "Skampi landing page" make links
+#   after_script:
+#   - make template-chart
+#   artifacts:
+#     name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID-$CI_JOB_STAGE-$CI_JOB_NAME"
+#     paths:
+#     - build/
+#   extends:
+#   - ".redeploy"
+#   - ".sut_staging"
+#   before_script:
+#   - echo $CI_JOB_NAME - $CI_JOB_STAGE
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - make k8s-uninstall-chart || true
+#   - |
+#     if [ "$KEEP_NAMESPACE" != "true" ]; then
+#       make k8s-delete-namespace
+#     fi
+#   tags:
+#   - ska-k8srunner-za-itf
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+#   environment:
+#     name: mid-itf/ska-$CONFIG-staging
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta
+#     on_stop: destroy-sut-staging
+# info-sut-staging:
+#   stage: staging
+#   variables:
+#     K8S_CHART: system-under-test
+#     HELM_RELEASE: staging-$CI_COMMIT_REF_SLUG
+#     KUBE_NAMESPACE: staging
+#     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+#     CONFIG: mid
+#     KUBE_APP: ska-mid-sut
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     K8S_EXTRA_CHART_PARMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
+#     TANGO_DATABASE_DS: tango-databaseds
+#     K8S_INSTALL_FROM_CAR: 'true'
+#     SERVICE_ACCOUNT: ci-svc-staging
+#     ARCHIVER_DBNAME: staging_archiver_db
+#     KEEP_NAMESPACE: 'true'
+#   script:
+#   - bash .make/resources/gitlab_section.sh get-ns "Get namespace resources" make k8s-get
+#   - bash .make/resources/gitlab_section.sh get-ns-dp "Get SDP namespace resources"
+#     make k8s-get KUBE_NAMESPACE=${KUBE_NAMESPACE}-sdp
+#   - make k8s-info
+#   - make k8s-info KUBE_NAMESPACE=${KUBE_NAMESPACE}-sdp
+#   tags:
+#   - ska-k8srunner-za-itf
+#   extends:
+#   - ".info"
+#   - ".sut_staging"
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+# destroy-sut-staging:
+#   stage: staging
+#   variables:
+#     K8S_CHART: system-under-test
+#     HELM_RELEASE: staging-$CI_COMMIT_REF_SLUG
+#     KUBE_NAMESPACE: staging
+#     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+#     CONFIG: mid
+#     KUBE_APP: ska-mid-sut
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     K8S_EXTRA_CHART_PARMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
+#     TANGO_DATABASE_DS: tango-databaseds
+#     K8S_INSTALL_FROM_CAR: 'true'
+#     SERVICE_ACCOUNT: ci-svc-staging
+#     ARCHIVER_DBNAME: staging_archiver_db
+#     KEEP_NAMESPACE: 'true'
+#   script:
+#   - echo $CI_JOB_NAME - $CI_JOB_STAGE
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - make k8s-uninstall-chart || true
+#   - |
+#     if [ "$KEEP_NAMESPACE" != "true" ]; then
+#       make k8s-delete-namespace
+#     fi
+#   tags:
+#   - ska-k8srunner-za-itf
+#   extends:
+#   - ".cleanup"
+#   - ".sut_staging"
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+#   environment:
+#     name: mid-itf/ska-$CONFIG-staging
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta
+#     action: stop
+# ".ds-sim-test-vars":
+#   variables:
+#     DS_SIM_NAMESPACE: "$KUBE_NAMESPACE-ds-sim"
+#     DS_SIM_ENV: 'true'
+#     DS_SIM_SERVICE: ds-sim
+# publish-k8s-test-results:
+#   variables:
+#     CONFIG: mid
+#     K8S_CHART: system-under-test
+#     KUBE_APP: ska-mid-sut
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     K8S_EXTRA_CHART_PARMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
+#     TANGO_DATABASE_DS: tango-databaseds
+#     KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
+#   tags:
+#   - k8srunner
+#   extends:
+#   - ".sut_base"
+#   stage: publish
+#   needs:
+#   - k8s-test-runner
+#   artifacts:
+#     name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID"
+#     paths:
+#     - build/
+#   script:
+#   - echo "Test result code from k8s-test-runner job was $(cat build/status)"
+#   - make upload-to-confluence
+# ".test-equipment-base":
+#   image: "$SKA_K8S_TOOLS_BUILD_DEPLOY"
+#   stage: test-equipment-setup
+#   rules:
+#   - if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH"
+#   tags:
+#   - ska-k8srunner-za-itf
+# deploy-test-equipment:
+#   image: "$SKA_K8S_TOOLS_BUILD_DEPLOY"
+#   stage: test-equipment-setup
+#   rules:
+#   - if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH"
+#   tags:
+#   - ska-k8srunner-za-itf
+#   extends: ".test-equipment-base"
+#   variables:
+#     MINIKUBE: 'false'
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     K8S_CHART: ska-mid-itf
+#     KUBE_APP: ska-ser-test-equipment
+#     KUBE_NAMESPACE: test-equipment
+#     K8S_EXTRA_PARAMS: --set ds-sim.maxuploadfilesize="128Mi"
+#     SERVICE_ACCOUNT: ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
+#     NEXUS_CACHE: NEXUS_CACHE
+#   before_script:
+#   - bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install
+#     --upgrade poetry
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
+#   script:
+#   - make file-browser-secrets
+#   - make itf-te-template
+#   - make spooky
+#   - make itf-te-install
+#   - make k8s-wait SKA_TANGO_OPERATOR=true
+#   - kubectl logs -l job-name=signalgenerator-test-config -n $KUBE_NAMESPACE
+#   - make k8s-get-pods
+#   - make itf-te-links
+#   environment:
+#     name: ska-mid-itf/test-equipment
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta
+#     on_stop: remove-test-equipment
+#   artifacts:
+#     name: "$CI_PROJECT_NAME-$CI_JOB_ID"
+#     paths:
+#     - build/
+#     reports:
+#       junit:
+#       - build/report.xml
+#   needs:
+#   - remove-test-equipment
+#   allow_failure: true
+# generate-skysimctl-config:
+#   image: "$SKA_K8S_TOOLS_BUILD_DEPLOY"
+#   stage: test-equipment-setup
+#   rules:
+#   - if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH"
+#   tags:
+#   - ska-k8srunner-za-itf
+#   extends: ".test-equipment-base"
+#   script: make itf-te-pass-env
+#   artifacts:
+#     reports:
+#       dotenv:
+#       - build/deploy.env
+#     untracked: false
+#     when: on_success
+#     paths:
+#     - build/
+#   needs:
+#   - deploy-test-equipment
+# deploy-skysimctl-install:
+#   stage: test-equipment-setup
+#   trigger:
+#     project: ska-telescope/ska-te-mid-skysimctl
+#     branch: main
+#   inherit:
+#     variables: false
+#   needs:
+#   - generate-skysimctl-config
+#   rules:
+#   - if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH"
+# remove-test-equipment:
+#   image: "$SKA_K8S_TOOLS_BUILD_DEPLOY"
+#   stage: test-equipment-setup
+#   rules:
+#   - if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH"
+#     when: manual
+#   tags:
+#   - ska-k8srunner-za-itf
+#   script:
+#   - echo $CI_JOB_NAME - $CI_JOB_STAGE
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - bash .make/resources/gitlab_section.sh env "Environment dump" env
+#   - make k8s-uninstall-chart || true
+#   - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps
+#     --all --ignore-not-found
+#   - make k8s-delete-namespace
+#   variables:
+#     K8S_CHART: ska-mid-itf
+#     KUBE_NAMESPACE: test-equipment
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     SERVICE_ACCOUNT: ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
+#     NEXUS_CACHE: NEXUS_CACHE
+#   extends:
+#   - ".test-equipment-base"
+#   - ".uninstall_chart"
+#   after_script: make itf-spookd-uninstall
+#   environment:
+#     name: ska-mid-itf/test-equipment
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta
+#     action: stop
+#   allow_failure: true
+# deploy-file-browser:
+#   tags:
+#   - ska-k8srunner-za-itf
+#   stage: test-equipment-setup
+#   variables:
+#     MINIKUBE: 'false'
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     K8S_CHART: file-browser
+#     KUBE_NAMESPACE: file-browser
+#     NEXUS_CACHE: NEXUS_CACHE
+#     FILEBROWSER_ENV: production
+#   script:
+#   - make k8s-namespace
+#   - make file-browser-install
+#   - make k8s-wait SKA_TANGO_OPERATOR=true
+#   - make k8s-get-pods
+#   environment:
+#     name: ska-mid-itf/file-browser
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#   allow_failure: true
+#   rules:
+#   - changes:
+#     - charts/file-browser/*
+#     if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH"
+#     when: always
+# ".deploy-test-equipment-for-verification":
+#   tags:
+#   - ska-k8srunner-za-itf
+#   image: "$SKA_K8S_TOOLS_BUILD_DEPLOY"
+#   stage: verify-test-equipment
+#   variables:
+#     MINIKUBE: 'false'
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     KUBE_APP: ska-ser-test-equipment
+#     K8S_CHART: test-equipment-verification
+#     KUBE_NAMESPACE: ci-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG
+#     SERVICE_ACCOUNT: ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
+#     NEXUS_CACHE: NEXUS_CACHE
+#   before_script:
+#   - make k8s-uninstall-chart
+#   - make k8s-delete-namespace
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
+#   script:
+#   - make k8s-install-chart
+#   - make itf-te-links
+#   - make k8s-wait || true
+#   - bash .make/resources/gitlab_section.sh template "Show used Helm Chart Template"
+#     make k8s-template-chart
+#   environment:
+#     name: ska-mid-itf/te-verification
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta
+#   allow_failure: true
+#   artifacts:
+#     name: "$CI_PROJECT_NAME-$CI_JOB_ID"
+#     paths:
+#     - build/
+#   rules:
+#   - changes:
+#     - charts/test-equipment-verification/*
+#     - resources/makefiles/test-equipment-dev.mk
+#     if: $CI_PIPELINE_SOURCE == "merge_request_event"
+#     when: always
+#   - if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH"
+#     when: never
+# deploy-aa05-ds-sim:
+#   variables:
+#     CONFIG: mid
+#     K8S_CHART: system-under-test
+#     KUBE_APP: ska-mid-sut
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     K8S_EXTRA_CHART_PARMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
+#     TANGO_DATABASE_DS: tango-databaseds
+#     KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
+#   tags:
+#   - ska-k8srunner-za-itf
+#   extends:
+#   - ".sut_base_no_cache"
+#   cache: []
+#   stage: on_demand_itf_sut
+#   script:
+#   - echo "Deploying multiple dish structure simulators in downstream dish-aiv stage
+#     - first deploy ska001 manually"
+#   - echo "Deploying 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
+#   environment:
+#     name: mid-itf/integration/dish-structure-simulator-aa05
+#     on_stop: remove-aa05-ds-sim
+#   when: manual
+# remove-aa05-ds-sim:
+#   variables:
+#     CONFIG: mid
+#     K8S_CHART: system-under-test
+#     KUBE_APP: ska-mid-sut
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     K8S_EXTRA_CHART_PARMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
+#     TANGO_DATABASE_DS: tango-databaseds
+#     KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
+#   tags:
+#   - ska-k8srunner-za-itf
+#   extends:
+#   - ".sut_base_no_cache"
+#   cache: []
+#   stage: on_demand_itf_sut
+#   script:
+#   - echo "Uninstalling all dish structure simulators in downstream dish-aiv stage"
+#   - echo "Uninstalling 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
+#   environment:
+#     name: mid-itf/integration/dish-structure-simulator-aa05
+#     action: stop
+#   when: manual
+# ".dish-structure-simulator":
+#   tags:
+#   - ska-k8srunner-za-itf
+#   image: "$SKA_K8S_TOOLS_BUILD_DEPLOY"
+#   variables:
+#     DISH_ID: ska$DISH_INDEX
+#     MINIKUBE: 'false'
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     K8S_CHART: dish-structure-simulators
+#     KUBE_NAMESPACE: ds-sim-$DISH_ID
+#     NEXUS_CACHE: NEXUS_CACHE
+#   environment:
+#     name: mid-itf/integration/dish-structure-simulators-$DISH_ID
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/webds/
+# ".deploy-dish-structure-simulator":
+#   tags:
+#   - ska-k8srunner-za-itf
+#   image: "$SKA_K8S_TOOLS_BUILD_DEPLOY"
+#   variables:
+#     DISH_ID: ska$DISH_INDEX
+#     MINIKUBE: 'false'
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     K8S_CHART: dish-structure-simulators
+#     KUBE_NAMESPACE: ds-sim-$DISH_ID
+#     NEXUS_CACHE: NEXUS_CACHE
+#   environment:
+#     name: mid-itf/integration/dish-structure-simulators-$DISH_ID
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/webds/
+#   extends: ".dish-structure-simulator"
+#   stage: deploy-dish-aiv
+#   before_script:
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
+#   script:
+#   - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart
+#   - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart
+#   - mkdir -p build
+#   - mv manifests.yaml build/ds_sim_manifests.yaml || true
+#   - bash .make/resources/gitlab_section.sh ds-sim-env "Export DS Sim service configuration"
+#     make itf-ds-sim-env
+#   - bash .make/resources/gitlab_section.sh links "DS Sim links" make itf-ds-sim-links
+#   artifacts:
+#     reports:
+#       dotenv: build/itf-ds-sim.env
+#     name: "$CI_PROJECT_NAME-$CI_JOB_ID"
+#     paths:
+#     - build/
+#   allow_failure: true
+#   when: manual
+# ".deploy-additional-dish-structure-simulator":
+#   tags:
+#   - ska-k8srunner-za-itf
+#   image: "$SKA_K8S_TOOLS_BUILD_DEPLOY"
+#   variables:
+#     DISH_ID: ska$DISH_INDEX
+#     MINIKUBE: 'false'
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     K8S_CHART: dish-structure-simulators
+#     KUBE_NAMESPACE: ds-sim-$DISH_ID
+#     NEXUS_CACHE: NEXUS_CACHE
+#   environment:
+#     name: mid-itf/integration/dish-structure-simulators-$DISH_ID
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/webds/
+#   extends:
+#   - ".deploy-dish-structure-simulator"
+#   - ".integration_rules"
+#   stage: deploy-dish-aiv
+#   before_script:
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
+#   script:
+#   - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart
+#   - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart
+#   - mkdir -p build
+#   - mv manifests.yaml build/ds_sim_manifests.yaml || true
+#   - bash .make/resources/gitlab_section.sh ds-sim-env "Export DS Sim service configuration"
+#     make itf-ds-sim-env
+#   - bash .make/resources/gitlab_section.sh links "DS Sim links" make itf-ds-sim-links
+#   artifacts:
+#     reports:
+#       dotenv: build/itf-ds-sim.env
+#     name: "$CI_PROJECT_NAME-$CI_JOB_ID"
+#     paths:
+#     - build/
+#   allow_failure: true
+#   when: on_success
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+#   needs:
+#   - deploy-aa05-ds-sim
+# ".remove-dish-structure-simulator":
+#   script:
+#   - echo $CI_JOB_NAME - $CI_JOB_STAGE
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - bash .make/resources/gitlab_section.sh env "Environment dump" env
+#   - make k8s-uninstall-chart || true
+#   - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps
+#     --all --ignore-not-found
+#   - make k8s-delete-namespace
+#   tags:
+#   - ska-k8srunner-za-itf
+#   image: "$SKA_K8S_TOOLS_BUILD_DEPLOY"
+#   variables:
+#     DISH_ID: ska$DISH_INDEX
+#     MINIKUBE: 'false'
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     K8S_CHART: dish-structure-simulators
+#     KUBE_NAMESPACE: ds-sim-$DISH_ID
+#     NEXUS_CACHE: NEXUS_CACHE
+#   environment:
+#     name: mid-itf/integration/dish-structure-simulators-$DISH_ID
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/webds/
+#     action: stop
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+#   extends:
+#   - ".uninstall_chart"
+#   - ".dish-structure-simulator"
+#   - ".integration_rules"
+#   stage: remove-dish-aiv
+#   when: manual
+#   allow_failure: true
+#   needs:
+#   - remove-aa05-ds-sim
+# deploy-ds-sim-ska001:
+#   tags:
+#   - ska-k8srunner-za-itf
+#   image: "$SKA_K8S_TOOLS_BUILD_DEPLOY"
+#   variables:
+#     DISH_ID: ska$DISH_INDEX
+#     MINIKUBE: 'false'
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     K8S_CHART: dish-structure-simulators
+#     KUBE_NAMESPACE: ds-sim-$DISH_ID
+#     NEXUS_CACHE: NEXUS_CACHE
+#     DISH_INDEX: '001'
+#   environment:
+#     name: mid-itf/integration/dish-structure-simulators-$DISH_ID
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/webds/
+#     on_stop: remove-ds-sim-ska001
+#   extends: ".deploy-dish-structure-simulator"
+#   stage: deploy-dish-aiv
+#   before_script:
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
+#   script:
+#   - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart
+#   - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart
+#   - mkdir -p build
+#   - mv manifests.yaml build/ds_sim_manifests.yaml || true
+#   - bash .make/resources/gitlab_section.sh ds-sim-env "Export DS Sim service configuration"
+#     make itf-ds-sim-env
+#   - bash .make/resources/gitlab_section.sh links "DS Sim links" make itf-ds-sim-links
+#   artifacts:
+#     reports:
+#       dotenv:
+#       - build/itf-ds-sim.env
+#     name: "$CI_PROJECT_NAME-$CI_JOB_ID"
+#     paths:
+#     - build/
+#   allow_failure: true
+#   when: manual
+# remove-ds-sim-ska001:
+#   script:
+#   - echo $CI_JOB_NAME - $CI_JOB_STAGE
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - bash .make/resources/gitlab_section.sh env "Environment dump" env
+#   - make k8s-uninstall-chart || true
+#   - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps
+#     --all --ignore-not-found
+#   - make k8s-delete-namespace
+#   tags:
+#   - ska-k8srunner-za-itf
+#   image: "$SKA_K8S_TOOLS_BUILD_DEPLOY"
+#   variables:
+#     DISH_ID: ska$DISH_INDEX
+#     MINIKUBE: 'false'
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     K8S_CHART: dish-structure-simulators
+#     KUBE_NAMESPACE: ds-sim-$DISH_ID
+#     NEXUS_CACHE: NEXUS_CACHE
+#     DISH_INDEX: '001'
+#   environment:
+#     name: mid-itf/integration/dish-structure-simulators-$DISH_ID
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/webds/
+#     action: stop
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+#   extends: ".remove-dish-structure-simulator"
+#   stage: remove-dish-aiv
+#   when: manual
+#   allow_failure: true
+#   needs:
+#   - remove-aa05-ds-sim
+# deploy-ds-sim-ska036:
+#   tags:
+#   - ska-k8srunner-za-itf
+#   image: "$SKA_K8S_TOOLS_BUILD_DEPLOY"
+#   variables:
+#     DISH_ID: ska$DISH_INDEX
+#     MINIKUBE: 'false'
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     K8S_CHART: dish-structure-simulators
+#     KUBE_NAMESPACE: ds-sim-$DISH_ID
+#     NEXUS_CACHE: NEXUS_CACHE
+#     DISH_INDEX: '036'
+#   environment:
+#     name: mid-itf/integration/dish-structure-simulators-$DISH_ID
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/webds/
+#     on_stop: remove-ds-sim-ska001
+#   extends: ".deploy-additional-dish-structure-simulator"
+#   stage: deploy-dish-aiv
+#   before_script:
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
+#   script:
+#   - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart
+#   - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart
+#   - mkdir -p build
+#   - mv manifests.yaml build/ds_sim_manifests.yaml || true
+#   - bash .make/resources/gitlab_section.sh ds-sim-env "Export DS Sim service configuration"
+#     make itf-ds-sim-env
+#   - bash .make/resources/gitlab_section.sh links "DS Sim links" make itf-ds-sim-links
+#   artifacts:
+#     reports:
+#       dotenv:
+#       - build/itf-ds-sim.env
+#     name: "$CI_PROJECT_NAME-$CI_JOB_ID"
+#     paths:
+#     - build/
+#   allow_failure: true
+#   when: on_success
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+#   needs:
+#   - deploy-aa05-ds-sim
+# remove-ds-sim-ska036:
+#   script:
+#   - echo $CI_JOB_NAME - $CI_JOB_STAGE
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - bash .make/resources/gitlab_section.sh env "Environment dump" env
+#   - make k8s-uninstall-chart || true
+#   - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps
+#     --all --ignore-not-found
+#   - make k8s-delete-namespace
+#   tags:
+#   - ska-k8srunner-za-itf
+#   image: "$SKA_K8S_TOOLS_BUILD_DEPLOY"
+#   variables:
+#     DISH_ID: ska$DISH_INDEX
+#     MINIKUBE: 'false'
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     K8S_CHART: dish-structure-simulators
+#     KUBE_NAMESPACE: ds-sim-$DISH_ID
+#     NEXUS_CACHE: NEXUS_CACHE
+#     DISH_INDEX: '036'
+#   environment:
+#     name: mid-itf/integration/dish-structure-simulators-$DISH_ID
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/webds/
+#     action: stop
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+#   extends: ".remove-dish-structure-simulator"
+#   stage: remove-dish-aiv
+#   when: manual
+#   allow_failure: true
+#   needs:
+#   - remove-aa05-ds-sim
+# deploy-ds-sim-ska063:
+#   tags:
+#   - ska-k8srunner-za-itf
+#   image: "$SKA_K8S_TOOLS_BUILD_DEPLOY"
+#   variables:
+#     DISH_ID: ska$DISH_INDEX
+#     MINIKUBE: 'false'
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     K8S_CHART: dish-structure-simulators
+#     KUBE_NAMESPACE: ds-sim-$DISH_ID
+#     NEXUS_CACHE: NEXUS_CACHE
+#     DISH_INDEX: '063'
+#   environment:
+#     name: mid-itf/integration/dish-structure-simulators-$DISH_ID
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/webds/
+#     on_stop: remove-ds-sim-ska001
+#   extends: ".deploy-additional-dish-structure-simulator"
+#   stage: deploy-dish-aiv
+#   before_script:
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
+#   script:
+#   - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart
+#   - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart
+#   - mkdir -p build
+#   - mv manifests.yaml build/ds_sim_manifests.yaml || true
+#   - bash .make/resources/gitlab_section.sh ds-sim-env "Export DS Sim service configuration"
+#     make itf-ds-sim-env
+#   - bash .make/resources/gitlab_section.sh links "DS Sim links" make itf-ds-sim-links
+#   artifacts:
+#     reports:
+#       dotenv:
+#       - build/itf-ds-sim.env
+#     name: "$CI_PROJECT_NAME-$CI_JOB_ID"
+#     paths:
+#     - build/
+#   allow_failure: true
+#   when: on_success
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+#   needs:
+#   - deploy-aa05-ds-sim
+# remove-ds-sim-ska063:
+#   script:
+#   - echo $CI_JOB_NAME - $CI_JOB_STAGE
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - bash .make/resources/gitlab_section.sh env "Environment dump" env
+#   - make k8s-uninstall-chart || true
+#   - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps
+#     --all --ignore-not-found
+#   - make k8s-delete-namespace
+#   tags:
+#   - ska-k8srunner-za-itf
+#   image: "$SKA_K8S_TOOLS_BUILD_DEPLOY"
+#   variables:
+#     DISH_ID: ska$DISH_INDEX
+#     MINIKUBE: 'false'
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     K8S_CHART: dish-structure-simulators
+#     KUBE_NAMESPACE: ds-sim-$DISH_ID
+#     NEXUS_CACHE: NEXUS_CACHE
+#     DISH_INDEX: '063'
+#   environment:
+#     name: mid-itf/integration/dish-structure-simulators-$DISH_ID
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/webds/
+#     action: stop
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+#   extends: ".remove-dish-structure-simulator"
+#   stage: remove-dish-aiv
+#   when: manual
+#   allow_failure: true
+#   needs:
+#   - remove-aa05-ds-sim
+# deploy-ds-sim-ska100:
+#   tags:
+#   - ska-k8srunner-za-itf
+#   image: "$SKA_K8S_TOOLS_BUILD_DEPLOY"
+#   variables:
+#     DISH_ID: ska$DISH_INDEX
+#     MINIKUBE: 'false'
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     K8S_CHART: dish-structure-simulators
+#     KUBE_NAMESPACE: ds-sim-$DISH_ID
+#     NEXUS_CACHE: NEXUS_CACHE
+#     DISH_INDEX: '100'
+#   environment:
+#     name: mid-itf/integration/dish-structure-simulators-$DISH_ID
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/webds/
+#     on_stop: remove-ds-sim-ska100
+#   extends: ".deploy-additional-dish-structure-simulator"
+#   stage: deploy-dish-aiv
+#   before_script:
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
+#   script:
+#   - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart
+#   - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart
+#   - mkdir -p build
+#   - mv manifests.yaml build/ds_sim_manifests.yaml || true
+#   - bash .make/resources/gitlab_section.sh ds-sim-env "Export DS Sim service configuration"
+#     make itf-ds-sim-env
+#   - bash .make/resources/gitlab_section.sh links "DS Sim links" make itf-ds-sim-links
+#   artifacts:
+#     reports:
+#       dotenv:
+#       - build/itf-ds-sim.env
+#     name: "$CI_PROJECT_NAME-$CI_JOB_ID"
+#     paths:
+#     - build/
+#   allow_failure: true
+#   when: on_success
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+#   needs:
+#   - deploy-aa05-ds-sim
+# remove-ds-sim-ska100:
+#   script:
+#   - echo $CI_JOB_NAME - $CI_JOB_STAGE
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - bash .make/resources/gitlab_section.sh env "Environment dump" env
+#   - make k8s-uninstall-chart || true
+#   - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps
+#     --all --ignore-not-found
+#   - make k8s-delete-namespace
+#   tags:
+#   - ska-k8srunner-za-itf
+#   image: "$SKA_K8S_TOOLS_BUILD_DEPLOY"
+#   variables:
+#     DISH_ID: ska$DISH_INDEX
+#     MINIKUBE: 'false'
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     K8S_CHART: dish-structure-simulators
+#     KUBE_NAMESPACE: ds-sim-$DISH_ID
+#     NEXUS_CACHE: NEXUS_CACHE
+#     DISH_INDEX: '100'
+#   environment:
+#     name: mid-itf/integration/dish-structure-simulators-$DISH_ID
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/webds/
+#     action: stop
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+#   extends: ".remove-dish-structure-simulator"
+#   stage: remove-dish-aiv
+#   when: manual
+#   allow_failure: true
+#   needs:
+#   - remove-aa05-ds-sim
+# deploy-ds-sim-standalone:
+#   tags:
+#   - ska-k8srunner-za-itf
+#   image: "$SKA_K8S_TOOLS_BUILD_DEPLOY"
+#   variables:
+#     DISH_ID: ska$DISH_INDEX
+#     MINIKUBE: 'false'
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     K8S_CHART: dish-structure-simulators
+#     KUBE_NAMESPACE: dish-structure-simulators
+#     NEXUS_CACHE: NEXUS_CACHE
+#   environment:
+#     name: mid-itf/integration/dish-structure-simulators
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/webds/
+#     on_stop: remove-ds-sim-standalone
+#   extends:
+#   - ".deploy-dish-structure-simulator"
+#   - ".integration_rules"
+#   stage: deploy-dish-aiv
+#   before_script:
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
+#   script:
+#   - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart
+#   - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart
+#   - mkdir -p build
+#   - mv manifests.yaml build/ds_sim_manifests.yaml || true
+#   - bash .make/resources/gitlab_section.sh ds-sim-env "Export DS Sim service configuration"
+#     make itf-ds-sim-env
+#   - bash .make/resources/gitlab_section.sh links "DS Sim links" make itf-ds-sim-links
+#   artifacts:
+#     reports:
+#       dotenv:
+#       - build/itf-ds-sim.env
+#     name: "$CI_PROJECT_NAME-$CI_JOB_ID"
+#     paths:
+#     - build/
+#   allow_failure: true
+#   when: manual
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+# remove-ds-sim-standalone:
+#   script:
+#   - echo $CI_JOB_NAME - $CI_JOB_STAGE
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - bash .make/resources/gitlab_section.sh env "Environment dump" env
+#   - make k8s-uninstall-chart || true
+#   - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps
+#     --all --ignore-not-found
+#   - make k8s-delete-namespace
+#   tags:
+#   - ska-k8srunner-za-itf
+#   image: "$SKA_K8S_TOOLS_BUILD_DEPLOY"
+#   variables:
+#     DISH_ID: ska$DISH_INDEX
+#     MINIKUBE: 'false'
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     K8S_CHART: dish-structure-simulators
+#     KUBE_NAMESPACE: dish-structure-simulators
+#     NEXUS_CACHE: NEXUS_CACHE
+#   environment:
+#     name: mid-itf/integration/dish-structure-simulators
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/webds/
+#     action: stop
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+#   extends:
+#   - ".remove-dish-structure-simulator"
+#   - ".integration_rules"
+#   stage: remove-dish-aiv
+#   when: manual
+#   allow_failure: true
+#   needs:
+#   - remove-aa05-ds-sim
+# ".deploy-dish-lmc":
+#   cache: []
+#   stage: dish-aiv
+#   tags:
+#   - ska-k8srunner-za-itf
+#   variables:
+#     K8S_EXTRA_PARAMS: -f charts/dish-lmc/values.yaml --set "global.dishes={$DISH_INDEX}"
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     K8S_CHART: dish-lmc
+#     KUBE_NAMESPACE: dish-lmc-$DISH_ID
+#     KUBE_APP: dish-lmc
+#     DISH_ID: ska$DISH_INDEX
+#   before_script:
+#   - make vars
+#   script:
+#   - make k8s-install-chart
+#   - make itf-dish-links
+#   when: manual
+#   needs:
+#   - helm-chart-build
+#   allow_failure: true
+#   environment:
+#     name: mid-itf/integration/dish-lmc-$DISH_ID
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta/
+# ".destroy-dish-lmc":
+#   script:
+#   - echo $CI_JOB_NAME - $CI_JOB_STAGE
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - bash .make/resources/gitlab_section.sh env "Environment dump" env
+#   - make k8s-uninstall-chart || true
+#   - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps
+#     --all --ignore-not-found
+#   - make k8s-delete-namespace
+#   cache: []
+#   stage: dish-aiv
+#   tags:
+#   - ska-k8srunner-za-itf
+#   variables:
+#     K8S_EXTRA_PARAMS: "-f charts/dish-lmc/values.yaml"
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     K8S_CHART: dish-lmc
+#     KUBE_NAMESPACE: dish-lmc-$DISH_ID
+#     KUBE_APP: dish-lmc
+#   extends:
+#   - ".uninstall_chart"
+#   needs:
+#   - helm-chart-build
+#   environment:
+#     name: mid-itf/integration/dish-lmc-$DISH_ID
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta/
+#     action: stop
+#   when: manual
+#   allow_failure: true
+# ".deploy-additional-lmc":
+#   cache: []
+#   stage: dish-aiv
+#   tags:
+#   - ska-k8srunner-za-itf
+#   variables:
+#     K8S_EXTRA_PARAMS: -f charts/dish-lmc/values.yaml --set "global.dishes={$DISH_INDEX}"
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     K8S_CHART: dish-lmc
+#     KUBE_NAMESPACE: dish-lmc-$DISH_ID
+#     KUBE_APP: dish-lmc
+#     DISH_ID: ska$DISH_INDEX
+#   before_script:
+#   - make vars
+#   script:
+#   - make k8s-install-chart
+#   - make itf-dish-links
+#   when: on_success
+#   needs:
+#   - helm-chart-build
+#   allow_failure: true
+#   environment:
+#     name: mid-itf/integration/dish-lmc-$DISH_ID
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta/
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+#   extends:
+#   - ".deploy-dish-lmc"
+#   - ".integration_rules"
+# deploy-dishlmc-ska001:
+#   cache: []
+#   stage: dish-aiv
+#   tags:
+#   - ska-k8srunner-za-itf
+#   variables:
+#     K8S_EXTRA_PARAMS: -f charts/dish-lmc/values.yaml --set "global.dishes={$DISH_INDEX}"
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     K8S_CHART: dish-lmc
+#     KUBE_NAMESPACE: dish-lmc-$DISH_ID
+#     KUBE_APP: dish-lmc
+#     DISH_ID: ska$DISH_INDEX
+#     DISH_INDEX: '001'
+#   before_script:
+#   - make vars
+#   script:
+#   - make k8s-install-chart
+#   - make itf-dish-links
+#   when: manual
+#   needs:
+#   - helm-chart-build
+#   allow_failure: true
+#   environment:
+#     name: mid-itf/integration/dish-lmc-$DISH_ID
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta/
+#     on_stop: uninstall-dishlmc-ska001
+#   extends:
+#   - ".deploy-dish-lmc"
+# deploy-aa05-dishes:
+#   variables:
+#     CONFIG: mid
+#     K8S_CHART: system-under-test
+#     KUBE_APP: ska-mid-sut
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     K8S_EXTRA_CHART_PARMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
+#     TANGO_DATABASE_DS: tango-databaseds
+#     KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
+#   tags:
+#   - ska-k8srunner-za-itf
+#   extends:
+#   - ".sut_base_no_cache"
+#   - ".integration_rules"
+#   cache: []
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+#   stage: on_demand_itf_sut
+#   script:
+#   - echo "Deploying multiple dishes in downstream dish-aiv stage - first deploy ska001
+#     manually"
+#   - echo "Deploying 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
+#   environment:
+#     name: mid-itf/integration/dish-lmc-aa05
+#     on_stop: uninstall-aa05-dishes
+# uninstall-aa05-dishes:
+#   variables:
+#     CONFIG: mid
+#     K8S_CHART: system-under-test
+#     KUBE_APP: ska-mid-sut
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     K8S_EXTRA_CHART_PARMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
+#     TANGO_DATABASE_DS: tango-databaseds
+#     KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
+#   tags:
+#   - ska-k8srunner-za-itf
+#   extends:
+#   - ".sut_base_no_cache"
+#   - ".integration_rules"
+#   cache: []
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+#   stage: on_demand_itf_sut
+#   script:
+#   - echo "Uninstalling all dishes in downstream dish-aiv stage"
+#   - echo "Uninstalling 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
+#   environment:
+#     name: mid-itf/integration/dish-lmc-aa05
+#     action: stop
+# deploy-dishlmc-ska036:
+#   cache: []
+#   stage: dish-aiv
+#   tags:
+#   - ska-k8srunner-za-itf
+#   variables:
+#     K8S_EXTRA_PARAMS: -f charts/dish-lmc/values.yaml --set "global.dishes={$DISH_INDEX}"
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     K8S_CHART: dish-lmc
+#     KUBE_NAMESPACE: dish-lmc-$DISH_ID
+#     KUBE_APP: dish-lmc
+#     DISH_ID: ska$DISH_INDEX
+#     DISH_INDEX: '036'
+#   before_script:
+#   - make vars
+#   script:
+#   - make k8s-install-chart
+#   - make itf-dish-links
+#   when: on_success
+#   needs:
+#   - deploy-dishlmc-ska001
+#   - deploy-aa05-dishes
+#   allow_failure: true
+#   environment:
+#     name: mid-itf/integration/dish-lmc-$DISH_ID
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta/
+#     on_stop: uninstall-dishlmc-ska036
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+#   extends:
+#   - ".deploy-additional-lmc"
+# deploy-dishlmc-ska063:
+#   cache: []
+#   stage: dish-aiv
+#   tags:
+#   - ska-k8srunner-za-itf
+#   variables:
+#     K8S_EXTRA_PARAMS: -f charts/dish-lmc/values.yaml --set "global.dishes={$DISH_INDEX}"
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     K8S_CHART: dish-lmc
+#     KUBE_NAMESPACE: dish-lmc-$DISH_ID
+#     KUBE_APP: dish-lmc
+#     DISH_ID: ska$DISH_INDEX
+#     DISH_INDEX: '063'
+#   before_script:
+#   - make vars
+#   script:
+#   - make k8s-install-chart
+#   - make itf-dish-links
+#   when: on_success
+#   needs:
+#   - deploy-dishlmc-ska036
+#   allow_failure: true
+#   environment:
+#     name: mid-itf/integration/dish-lmc-$DISH_ID
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta/
+#     on_stop: uninstall-dishlmc-ska063
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+#   extends:
+#   - ".deploy-additional-lmc"
+# deploy-dishlmc-ska100:
+#   cache: []
+#   stage: dish-aiv
+#   tags:
+#   - ska-k8srunner-za-itf
+#   variables:
+#     K8S_EXTRA_PARAMS: -f charts/dish-lmc/values.yaml --set "global.dishes={$DISH_INDEX}"
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     K8S_CHART: dish-lmc
+#     KUBE_NAMESPACE: dish-lmc-$DISH_ID
+#     KUBE_APP: dish-lmc
+#     DISH_ID: ska$DISH_INDEX
+#     DISH_INDEX: '100'
+#   before_script:
+#   - make vars
+#   script:
+#   - make k8s-install-chart
+#   - make itf-dish-links
+#   when: on_success
+#   needs:
+#   - deploy-dishlmc-ska063
+#   allow_failure: true
+#   environment:
+#     name: mid-itf/integration/dish-lmc-$DISH_ID
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta/
+#     on_stop: uninstall-dishlmc-ska100
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+#   extends:
+#   - ".deploy-additional-lmc"
+# ".destroy-aa05-dishes":
+#   script:
+#   - echo $CI_JOB_NAME - $CI_JOB_STAGE
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - bash .make/resources/gitlab_section.sh env "Environment dump" env
+#   - make k8s-uninstall-chart || true
+#   - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps
+#     --all --ignore-not-found
+#   - make k8s-delete-namespace
+#   cache: []
+#   stage: dish-aiv
+#   tags:
+#   - ska-k8srunner-za-itf
+#   variables:
+#     K8S_EXTRA_PARAMS: "-f charts/dish-lmc/values.yaml"
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     K8S_CHART: dish-lmc
+#     KUBE_NAMESPACE: dish-lmc-$DISH_ID
+#     KUBE_APP: dish-lmc
+#   extends:
+#   - ".destroy-dish-lmc"
+#   - ".integration_rules"
+#   needs:
+#   - uninstall-aa05-dishes
+#   environment:
+#     name: mid-itf/integration/dish-lmc-$DISH_ID
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta/
+#     action: stop
+#   when: on_success
+#   allow_failure: true
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+# uninstall-dishlmc-ska001:
+#   script:
+#   - echo $CI_JOB_NAME - $CI_JOB_STAGE
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - bash .make/resources/gitlab_section.sh env "Environment dump" env
+#   - make k8s-uninstall-chart || true
+#   - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps
+#     --all --ignore-not-found
+#   - make k8s-delete-namespace
+#   cache: []
+#   stage: dish-aiv
+#   tags:
+#   - ska-k8srunner-za-itf
+#   variables:
+#     K8S_EXTRA_PARAMS: "-f charts/dish-lmc/values.yaml"
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     K8S_CHART: dish-lmc
+#     KUBE_NAMESPACE: dish-lmc-$DISH_ID
+#     KUBE_APP: dish-lmc
+#     DISH_ID: ska001
+#   extends:
+#   - ".destroy-aa05-dishes"
+#   needs:
+#   - uninstall-aa05-dishes
+#   environment:
+#     name: mid-itf/integration/dish-lmc-$DISH_ID
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta/
+#     action: stop
+#   when: on_success
+#   allow_failure: true
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+# uninstall-dishlmc-ska036:
+#   script:
+#   - echo $CI_JOB_NAME - $CI_JOB_STAGE
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - bash .make/resources/gitlab_section.sh env "Environment dump" env
+#   - make k8s-uninstall-chart || true
+#   - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps
+#     --all --ignore-not-found
+#   - make k8s-delete-namespace
+#   cache: []
+#   stage: dish-aiv
+#   tags:
+#   - ska-k8srunner-za-itf
+#   variables:
+#     K8S_EXTRA_PARAMS: "-f charts/dish-lmc/values.yaml"
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     K8S_CHART: dish-lmc
+#     KUBE_NAMESPACE: dish-lmc-$DISH_ID
+#     KUBE_APP: dish-lmc
+#     DISH_ID: ska036
+#   extends:
+#   - ".destroy-aa05-dishes"
+#   needs:
+#   - uninstall-aa05-dishes
+#   environment:
+#     name: mid-itf/integration/dish-lmc-$DISH_ID
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta/
+#     action: stop
+#   when: on_success
+#   allow_failure: true
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+# uninstall-dishlmc-ska063:
+#   script:
+#   - echo $CI_JOB_NAME - $CI_JOB_STAGE
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - bash .make/resources/gitlab_section.sh env "Environment dump" env
+#   - make k8s-uninstall-chart || true
+#   - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps
+#     --all --ignore-not-found
+#   - make k8s-delete-namespace
+#   cache: []
+#   stage: dish-aiv
+#   tags:
+#   - ska-k8srunner-za-itf
+#   variables:
+#     K8S_EXTRA_PARAMS: "-f charts/dish-lmc/values.yaml"
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     K8S_CHART: dish-lmc
+#     KUBE_NAMESPACE: dish-lmc-$DISH_ID
+#     KUBE_APP: dish-lmc
+#     DISH_ID: ska063
+#   extends:
+#   - ".destroy-aa05-dishes"
+#   needs:
+#   - uninstall-aa05-dishes
+#   environment:
+#     name: mid-itf/integration/dish-lmc-$DISH_ID
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta/
+#     action: stop
+#   when: on_success
+#   allow_failure: true
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+# uninstall-dishlmc-ska100:
+#   script:
+#   - echo $CI_JOB_NAME - $CI_JOB_STAGE
+#   - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+#   - bash .make/resources/gitlab_section.sh env "Environment dump" env
+#   - make k8s-uninstall-chart || true
+#   - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps
+#     --all --ignore-not-found
+#   - make k8s-delete-namespace
+#   cache: []
+#   stage: dish-aiv
+#   tags:
+#   - ska-k8srunner-za-itf
+#   variables:
+#     K8S_EXTRA_PARAMS: "-f charts/dish-lmc/values.yaml"
+#     CLUSTER_DOMAIN: miditf.internal.skao.int
+#     INGRESS_HOST: k8s.miditf.internal.skao.int
+#     K8S_CHART: dish-lmc
+#     KUBE_NAMESPACE: dish-lmc-$DISH_ID
+#     KUBE_APP: dish-lmc
+#     DISH_ID: ska100
+#   extends:
+#   - ".destroy-aa05-dishes"
+#   needs:
+#   - uninstall-aa05-dishes
+#   environment:
+#     name: mid-itf/integration/dish-lmc-$DISH_ID
+#     kubernetes:
+#       namespace: "$KUBE_NAMESPACE"
+#     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta/
+#     action: stop
+#   when: on_success
+#   allow_failure: true
+#   rules:
+#   - if: $CI_PIPELINE_SOURCE == "pipeline"
+#     when: never
+#   - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+#     when: manual
+#     allow_failure: true
+#   - when: never
+# register-spfc:
+#   tags:
+#   - ska-k8srunner-za-itf
+#   image: artefact.skao.int/ska-tango-images-pytango-runtime:9.4.3
+#   variables:
+#     SERVICE_NAME: tango-databaseds
+#     NAMESPACE: dish-lmc-ska001
+#     TANGO_HOST: 0.0.0.0
+#     PLAYBOOK_PARAMETERS: ''
+#   script:
+#   - python3 -m pip install --user ansible-core
+#   - curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+#     && sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+#   - export TANGO_HOST=$(kubectl -n ${NAMESPACE} get svc ${SERVICE_NAME} -o jsonpath={.status.loadBalancer.ingress[0].ip})
+#   - export PLAYBOOK_PARAMETERS=$PLAYBOOK_PARAMETERS:--extra-vars='{tango_host:$TANGO_HOST:10000}'
+#   - python scripts/spfc/register_device.py $TANGO_HOST
+#   when: manual
+# ".setup-ansible":
+#   variables:
+#     AD_USER: test
+#   tags:
+#   - k8srunner
+#   image: "$SKA_K8S_TOOLS_BUILD_DEPLOY"
+#   before_script:
+#   - export LC_ALL="C.UTF-8"
+#   - poetry install --only ansible
+#   rules:
+#   - changes:
+#     - ".gitlab/ci/ansible.yml"
+#     - resources/ansible-playbooks/*
+# ansible-lint:
+#   variables:
+#     AD_USER: test
+#   tags:
+#   - k8srunner
+#   image: "$SKA_K8S_TOOLS_BUILD_DEPLOY"
+#   before_script:
+#   - export LC_ALL="C.UTF-8"
+#   - poetry install --only ansible
+#   rules:
+#   - changes:
+#     - ".gitlab/ci/ansible.yml"
+#     - resources/ansible-playbooks/*
+#   stage: lint
+#   extends: ".setup-ansible"
+#   script:
+#   - make -f resources/ansible-playbooks/Makefile lint
+# ansible-test:
+#   variables:
+#     AD_USER: test
+#   tags:
+#   - k8srunner
+#   image: "$SKA_K8S_TOOLS_BUILD_DEPLOY"
+#   before_script:
+#   - export LC_ALL="C.UTF-8"
+#   - poetry install --only ansible
+#   rules:
+#   - changes:
+#     - ".gitlab/ci/ansible.yml"
+#     - resources/ansible-playbooks/*
+#   stage: test
+#   services:
+#   - name: registry.gitlab.com/ska-telescope/ska-mid-itf/ansible-test-default:0.0.0
+#     alias: ansible-test-default
+#   - name: registry.gitlab.com/ska-telescope/ska-mid-itf/ansible-test-default:0.0.0
+#     alias: ansible-test-raspberry-pi
+#   - name: registry.gitlab.com/ska-telescope/ska-mid-itf/ansible-test-gaia:0.0.0
+#     alias: ansible-test-gaia
+#   extends: ".setup-ansible"
+#   script:
+#   - make -f resources/ansible-playbooks/Makefile test-cicd
+# ansible-test-image-build:
+#   tags:
+#   - k8srunner
+# xray-publish:
+#   tags:
+#   - k8srunner
