@@ -131,6 +131,39 @@ docs-build:
     - exists:
         - charts/**/*
 
+# Only build images when there are changes
+oci-image-lint:
+  tags:
+  - ska-k8srunner-za-itf
+  rules:
+    - changes:
+        - Dockerfile
+        - pyproject.toml
+
+oci-image-build:
+  tags:
+  - ska-k8srunner-za-itf
+  rules:
+    - changes:
+        - Dockerfile
+        - pyproject.toml
+
+oci-image-publish:
+  tags:
+  - ska-k8srunner-za-itf
+  rules:
+    - changes:
+        - Dockerfile
+        - pyproject.toml
+
+oci-image-scan:
+  tags:
+  - ska-k8srunner-za-itf
+  rules:
+    - changes:
+        - Dockerfile
+        - pyproject.toml
+
 ### TARANTA DEPLOYMENT
 deploy-taranta:
   stage: platform
