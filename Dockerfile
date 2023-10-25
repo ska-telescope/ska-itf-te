@@ -20,6 +20,10 @@ RUN poetry config virtualenvs.in-project true
 
 RUN pip install virtualenv
 
+WORKDIR /app
+
+COPY . /app
+
 RUN poetry install
 
 # re-install poetry for user tango also
@@ -37,8 +41,6 @@ RUN  pipx install build
 RUN poetry config virtualenvs.in-project true
 
 RUN pip install virtualenv
-
-RUN poetry install
 
 USER root
 

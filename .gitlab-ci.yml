@@ -131,6 +131,7 @@ build-base-image:
     - if: $REBUILD_IMAGES
     - changes:
         - Dockerfile
+        - pyproject.toml
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
       when: never
   services:
