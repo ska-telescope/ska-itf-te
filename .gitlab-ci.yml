@@ -152,41 +152,11 @@ build-base-image:
 #   paths:
 #   - ".cache/pip"
 #   - ".venv"
-# python-lint:
-#   image: "$TEST_IMAGE"
-#   stage: lint
-#   tags:
-#   - k8srunner
-#   before_script:
-#   - '[ -f .make/python.mk ] || (echo "File python.mk not included in Makefile"; exit
-#     1;)'
-#   - make help | grep python-lint
-#   - poetry config virtualenvs.in-project true
-#   - echo "python-build Setting.. poetry config virtualenvs.create $POETRY_CONFIG_VIRTUALENVS_CREATE"
-#   - poetry config virtualenvs.create $POETRY_CONFIG_VIRTUALENVS_CREATE
-#   - |
-#     if [[ -f pyproject.toml ]]; then
-#       if [[ -n $CI_POETRY_VERSION ]] && [[ $(poetry --version) != *$CI_POETRY_VERSION* ]]; then
-#         echo "python-lint: Updating poetry to $CI_POETRY_VERSION";
-#         time poetry self update $CI_POETRY_VERSION;
-#       fi;
+python-lint:
+  tags:
+  - ska-k8srunner-za-itf
 
-#       echo "python-lint: Installing with poetry";
-#       time poetry install;
-#     else
-#       if  [[ -f requirements.txt ]]; then
-#         echo "python-lint: Installing with pip";
-#         time pip3 install -r requirements.txt;
-#       fi;
-#     fi;
-#   script:
-#   - make python-lint;
-#   artifacts:
-#     paths:
-#     - build/
-#     when: always
-#   rules:
-#   - allow_failure: true
+
 # python-build-for-publication-legacy:
 #   allow_failure: true
 #   stage: build
