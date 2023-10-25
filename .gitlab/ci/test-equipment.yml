@@ -67,6 +67,8 @@ generate-skysimctl-config:
     - deploy-test-equipment
 
 deploy-skysimctl-install:
+  tags:
+    - ska-k8srunner-za-itf
   stage: test-equipment-setup
   trigger:
     project: ska-telescope/ska-te-mid-skysimctl
