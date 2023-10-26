@@ -24,6 +24,12 @@ dishlmc:
           enabled: true
         spfrxdevice:
           enabled: true
+        dsOpcuaSimulator:
+          enabled: true
+  ska-mid-dish-ds-manager:
+    enabled: true
+    ska-tango-base:
+      enabled: false
 
 # TARANTA SUITE
 ska-taranta:

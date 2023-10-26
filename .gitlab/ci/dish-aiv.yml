@@ -7,7 +7,7 @@
   tags:
     - ska-k8srunner-za-itf
   variables:
-    K8S_EXTRA_PARAMS: -f charts/dish-lmc/values.yaml --set "global.dishes={$DISH_INDEX}"
+    K8S_EXTRA_PARAMS: -f charts/dish-lmc/values.yaml {$ADDITIONAL_K8S_PARAMS} --set "global.dishes={$DISH_INDEX}"
     CLUSTER_DOMAIN: miditf.internal.skao.int
     INGRESS_HOST: k8s.miditf.internal.skao.int
     K8S_CHART: dish-lmc
@@ -35,7 +35,7 @@
   tags:
     - ska-k8srunner-za-itf
   variables:
-    K8S_EXTRA_PARAMS: -f charts/dish-lmc/values.yaml
+    K8S_EXTRA_PARAMS: -f charts/dish-lmc/values.yaml {$ADDITIONAL_K8S_PARAMS}
     CLUSTER_DOMAIN: miditf.internal.skao.int
     INGRESS_HOST: k8s.miditf.internal.skao.int
     K8S_CHART: dish-lmc
@@ -60,14 +60,6 @@
     - .integration_rules
   when: on_success
 
-deploy-dishlmc-ska001:
-  extends:
-    - .deploy-dish-lmc
-  variables:
-    DISH_INDEX: "001"
-  environment:
-    on_stop: uninstall-dishlmc-ska001
-
 deploy-aa05-dishes:
   stage: on_demand_itf_sut
   extends:
@@ -75,7 +67,7 @@ deploy-aa05-dishes:
     - .integration_rules
   script:
     - echo "Deploying multiple dishes in downstream dish-aiv stage - first deploy ska001 manually"
-    - echo "Deploying 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
+    - echo "Deploying 'SKA001', 'SKA002', 'SKA003', 'SKA004'"
   environment:
     name: mid-itf/integration/dish-lmc-aa05
     on_stop: uninstall-aa05-dishes
@@ -87,41 +79,52 @@ uninstall-aa05-dishes:
     - .integration_rules
   script:
     - echo "Uninstalling all dishes in downstream dish-aiv stage"
-    - echo "Uninstalling 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
+    - echo "Uninstalling 'SKA001', 'SKA002', 'SKA003', 'SKA004'"
   environment:
     name: mid-itf/integration/dish-lmc-aa05
     action: stop
 
-deploy-dishlmc-ska036:
+deploy-dishlmc-ska001:
+  extends:
+    - .deploy-dish-lmc
+  variables:
+    DISH_INDEX: "001"
+  environment:
+    on_stop: uninstall-dishlmc-ska001
+
+deploy-dishlmc-ska002:
   extends:
     - .deploy-additional-lmc
   needs:
     - deploy-dishlmc-ska001
     - deploy-aa05-dishes
   variables:
-    DISH_INDEX: "036"
+    DISH_INDEX: "002"
+    ADDITIONAL_K8S_PARAMS: charts/dish-lmc/values-cetc-ds.yaml
   environment:
     on_stop: uninstall-dishlmc-ska036
 
-deploy-dishlmc-ska063:
+deploy-dishlmc-ska003:
   extends:
     - .deploy-additional-lmc
   needs:
-    - deploy-dishlmc-ska036
+    - deploy-dishlmc-ska002
   variables:
-    DISH_INDEX: "063"
+    DISH_INDEX: "003"
+    ADDITIONAL_K8S_PARAMS: charts/dish-lmc/values-spfc.yaml
   environment:
-    on_stop: uninstall-dishlmc-ska063
+    on_stop: uninstall-dishlmc-ska003
 
-deploy-dishlmc-ska100:
+deploy-dishlmc-ska004:
   extends:
     - .deploy-additional-lmc
   needs:
-    - deploy-dishlmc-ska063
+    - deploy-dishlmc-ska003
   variables:
-    DISH_INDEX: "100"
+    DISH_INDEX: "004"
+    ADDITIONAL_K8S_PARAMS: charts/dish-lmc/values-spfrx.yaml
   environment:
-    on_stop: uninstall-dishlmc-ska100
+    on_stop: uninstall-dishlmc-ska004
 
 .destroy-aa05-dishes:
   extends:
@@ -139,23 +142,26 @@ uninstall-dishlmc-ska001:
   variables:
     DISH_ID: ska001
 
-uninstall-dishlmc-ska036:
+uninstall-dishlmc-ska002:
   extends:
     - .destroy-aa05-dishes
   variables:
-    DISH_ID: ska036
+    DISH_ID: ska002
+    ADDITIONAL_K8S_PARAMS: "-f charts/dish-lmc/values-cetc-ds.yaml"
 
-uninstall-dishlmc-ska063:
+uninstall-dishlmc-ska003:
   extends:
     - .destroy-aa05-dishes
   variables:
-    DISH_ID: ska063
+    DISH_ID: ska003
+    ADDITIONAL_K8S_PARAMS: "-f charts/dish-lmc/values-cetc-ds.yaml"
 
-uninstall-dishlmc-ska100:
+uninstall-dishlmc-ska004:
   extends:
     - .destroy-aa05-dishes
   variables:
-    DISH_ID: ska100
+    DISH_ID: ska004
+    ADDITIONAL_K8S_PARAMS: "-f charts/dish-lmc/values-cetc-ds.yaml"
 
 register-spfc:
   tags:

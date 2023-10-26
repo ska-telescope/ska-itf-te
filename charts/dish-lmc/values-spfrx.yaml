@@ -1,0 +1,12 @@
+# DISH LMC
+dishlmc:
+  ska-mid-dish-manager:
+    dishmanager:
+      spfrx:
+        # Dish Manager will follow the format of "ska0<DISH_ID>/<family_name>/<member_name>"
+        family_name: "#### ENTER THE SPFRX FAMILY NAME HERE ####"
+        member_name: "#### ENTER THE SPFRX MEMBER NAME HERE ####"
+    ska-mid-dish-simulators:
+      deviceServers:
+        spfrxdevice:
+          enabled: false

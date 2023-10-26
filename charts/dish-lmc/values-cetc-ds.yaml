@@ -1,0 +1,12 @@
+# DISH LMC
+dishlmc:
+  ska-mid-dish-manager:
+    ska-mid-dish-simulators:
+      deviceServers:
+        dsOpcuaSimulator:
+          enabled: false
+
+    dishstructuremanager:
+      dsSim:
+        fqdn: "#### ENTER THE CETC54 DS SIMULATOR FQDN HERE ####"
+      ds_opcua_namespace: "CETC54"
