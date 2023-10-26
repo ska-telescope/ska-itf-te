@@ -102,7 +102,7 @@ deploy-dishlmc-ska002:
     DISH_INDEX: "002"
     ADDITIONAL_K8S_PARAMS: charts/dish-lmc/values-cetc-ds.yaml
   environment:
-    on_stop: uninstall-dishlmc-ska036
+    on_stop: uninstall-dishlmc-ska002
 
 deploy-dishlmc-ska003:
   extends:
