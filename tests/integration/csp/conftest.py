@@ -8,8 +8,8 @@ from typing import Callable
 import pytest
 from assertpy import assert_that
 from pytest_bdd import given, parsers, then
-from resources.models.csp_model.entry_point import CSPEntryPoint
-from resources.models.mvp_model.states import ObsState
+from ..resources.models.csp_model.entry_point import CSPEntryPoint
+from ..resources.models.mvp_model.states import ObsState
 from ska_ser_skallop.connectors import configuration as con_config
 from ska_ser_skallop.mvp_control.describing import mvp_names as names
 from ska_ser_skallop.mvp_control.entry_points import types as conf_types
