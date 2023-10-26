@@ -167,19 +167,6 @@ class _OnlineFlag:
         """_summary_."""
         self.value = True
 
-@pytest.fixture(name="talon_hw", autouse=True, scope="session")
-def fxt_configure_correlator():
-    """
-    Four necessary steps that have to be executed to 
-    1. Switch off the Talon Hardware
-    2. Copy over the HW config file from repo to CBF Controller Pod
-    3. Generate talondx-config.json file
-    4. Download artefacts from CAR (Talon DeviceServer CPP binaries)
-    5. Configure DS'es in the TangoDB
-
-    Returns:
-        _type_: _description_
-    """
 
 # setting systems online
 @pytest.fixture(name="online", autouse=True, scope="session")
