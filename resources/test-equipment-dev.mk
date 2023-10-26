@@ -7,8 +7,8 @@
 # TE_REGISTRY ?= registry.gitlab.com/ska-telescope/ska-ser-test-equipment
 # TE_IMAGE ?= ska-ser-test-equipment
 # # COMMIT_HASH ?= 9943106d
-#TE_VERSION ?= 0.9.0 # this line can be commented out or overwritten by the following line
-TE_VERSION ?= 0.9.1-dev.c$(COMMIT_HASH) 
+# TE_VERSION ?= 0.9.0 # this line can be commented out or overwritten by the following line
+# TE_VERSION ?= 0.9.1-dev.c$(COMMIT_HASH) 
 # This is the version of the image that we want to pull from 
 # https://gitlab.com/ska-telescope/ska-ser-test-equipment/container_registry/3213235
 
