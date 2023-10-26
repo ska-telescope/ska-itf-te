@@ -3,7 +3,6 @@
 Welcome to the Mid ITF Tests project. Here you can find methods to connect to hosts in the Mid Integration Test Facility (ITF) network, System Under Test (SUT) and Test Equipment (TE), as well as tests (BDD and python tests) and scripts for interacting with the SUT and TE.
 
 Control can be done using Taranta Dashboards and Jupyter Notebooks.
-Spectrum Analyser.
 
 ## Run Binderhub
 
@@ -164,3 +163,39 @@ This script is used to turn the LRU ON/OFF or to check its current status. When 
 # Switch the LRU1 OFF
 ./talon_power_lru.sh lru1 off
 ```
+
+## Mid ITF test instruments
+
+### Arbitrary Waveform Generator
+
+FQDN: za-itf-awg.ad.skatelescope.org
+IP  : 10.165.3.3
+Port: 4000
+Web : http://za-itf-awg.ad.skatelescope.org/Default.aspx
+
+### Oscilloscope
+
+FQDN: za-itf-oscilloscope.ad.skatelescope.org
+IP  : 10.165.3.2
+Port: 4000
+Web : http://za-itf-oscilloscope.ad.skatelescope.org/
+
+### Spectrum analyser
+
+FQDN: za-itf-spectrum-analyser.ad.skatelescope.org
+IP  : 10.165.3.4
+Port: 9001
+
+### Programmable attenuator
+
+FQDN: za-itf-attenuator.ad.skatelescope.org
+IP  : 10.165.3.6
+Port: 45451
+
+### Signal generator
+
+FQDN: za-itf-signal-generator.ad.skatelescope.org
+IP  : 10.165.3.1
+Port: 5025
+Web : http://za-itf-signal-generator.ad.skatelescope.org/webpages/web/html/ihp.php
+
