@@ -166,6 +166,10 @@ python-publish-to-car:
   tags:
   - ska-k8srunner-za-itf
 python-publish-to-gitlab:
+  before_script:
+    - '[ -f .make/python.mk ] || (echo "File python.mk not included in Makefile; exit 1")'
+    - 'make help | grep python-publish'
+    - poetry install
   tags:
   - ska-k8srunner-za-itf
 docs-build:
