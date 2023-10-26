@@ -70,7 +70,8 @@ xray-publish:
   tags:
   - ska-k8srunner-za-itf
   when: always #### TODO: Remove this and uncomment line just above this one!
-  rules: !reference [publish-k8s-test-results] # Only run this job for the main job, the same as publish-k8s-test-results
+  rules: # Only run this job for the main job, the same as publish-k8s-test-results
+    - !reference [publish-k8s-test-results]
 
 python-test:
   tags:
