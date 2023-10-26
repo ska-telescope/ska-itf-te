@@ -65,7 +65,7 @@
   roles:
     - local_ssh
 
-- name: Setup spfc 
+- name: Setup spfc
   hosts: spfc
   roles:
     - role: update_spfc
