@@ -3,7 +3,8 @@
 # ############################################
 deploy-aa05-ds-sim:
   stage: on_demand_itf_sut
-  extends: sut_base
+  extends:
+    - .sut_base
   script:
     - echo "Deploying multiple dish structure simulators in downstream dish-aiv stage - first deploy ska001 manually"
     - echo "Deploying 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
