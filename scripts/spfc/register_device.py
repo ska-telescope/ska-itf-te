@@ -31,6 +31,7 @@ def main():
             exception = True
             print("Exception occured:")
             print(ex)
+            sleep(2)
             continue
         else:
             print("Registration succeded.")
