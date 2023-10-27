@@ -14,7 +14,8 @@ deploy-aa05-ds-sim:
 
 remove-aa05-ds-sim:
   stage: on_demand_itf_sut
-  extends: sut_base
+  extends:
+    - .sut_base
   script:
     - echo "Uninstalling all dish structure simulators in downstream dish-aiv stage"
     - echo "Uninstalling 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
