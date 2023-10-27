@@ -172,21 +172,10 @@ class _OnlineFlag:
 @pytest.fixture(name="online", autouse=True, scope="session")
 def fxt_online():
     """Set all systems online
-    In the case of the Talon Demo Correlator:
-        Preliminary steps that have to be executed to
-        1. Switch off the Talon Hardware
-        2. Copy over the HW config file from repo to CBF Controller Pod
-        3. Generate talondx-config.json file
-        4. Download artefacts from CAR (Talon DeviceServer CPP binaries)
-        5. Configure DS'es in the TangoDB
 
     :return: Flag representing the online status of all systems
     :rtype: _type_
     """
-    # 1. Switch off Talon LRU
-    switch_off_str = "./talon_power_apc.sh lru1 off"
-    loc = os.path.join(os.getcwd(), "..", "..", "resources", "talon")
-    subprocess.run([switch_off_str], cwd=loc, shell=True, check=False)
 
     return _OnlineFlag()
 
