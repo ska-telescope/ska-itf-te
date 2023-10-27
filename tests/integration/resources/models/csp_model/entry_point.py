@@ -5,7 +5,6 @@ import os
 from time import sleep
 from typing import List
 
-from resources.utils.validation import CommandException, command_success
 from ska_ser_skallop.connectors import configuration as con_config
 from ska_ser_skallop.event_handling.builders import MessageBoardBuilder, get_message_board_builder
 from ska_ser_skallop.event_handling.handlers import WaitForLRCComplete
@@ -14,6 +13,8 @@ from ska_ser_skallop.mvp_control.describing import mvp_names as names
 from ska_ser_skallop.mvp_control.entry_points import base
 from ska_ser_skallop.mvp_control.entry_points.composite import CompositeEntryPoint
 from ska_ser_skallop.utils.singleton import Memo
+
+from resources.utils.validation import CommandException, command_success
 
 from ..mvp_model.object_with_obsconfig import HasObservation
 from ..mvp_model.states import ObsState
