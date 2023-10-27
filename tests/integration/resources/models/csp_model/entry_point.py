@@ -500,11 +500,10 @@ class CSPSetOnlineStep(base.SetOnlineStep, LogEnabled):
 
         simulation_mode = controller.read_attribute("cbfSimulationMode").value
         if simulation_mode != 0:
-            self._log(f"Setting simulation_mode for {controller_name} to '0' (Real Hardware Controlled)")
+            self._log(
+                f"Setting simulation_mode for {controller_name} to '0' (Real Hardware Controlled)"
+            )
             controller.write_attribute("simulation_mode", 0)
-        # .   NEED STEPS TO CONFIGURE TALON HW SO THAT SIMULATION MODE IS NOT USED #
-        self.csp_controller.cbfSimulationMode=0
-        #### THIS IS WHERE WE EXPECT THE TEST TO FAIL ####
 
     def set_wait_for_do_set_online(self) -> MessageBoardBuilder:
         """
