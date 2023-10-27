@@ -47,18 +47,18 @@ cbf-tmleafnode:
 
 ska-csp-lmc-mid:
   legacy_compatibility: true
-  enabled: true
+  enabled: false
 
 ### tmc
 tmc-mid:
   legacy_compatibility: true
-  enabled: true
+  enabled: false
   telescope: SKA-mid
 
 
 ska-sdp:
   legacy_compatibility: true
-  enabled: true
+  enabled: false
   lmc:
     prefix: mid
     nsubarray: 3
