@@ -17,15 +17,10 @@
     KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
     # LOADBALANCER_IP: 10.164.10.1
 
-.sut_base_no_cache:
-  extends:
-    - .sut_base
-  cache: []
-
 .sut_on_demand:
   stage: on_demand_itf_sut
   extends:
-    - .sut_base_no_cache
+    - .sut_base
     - .on_demand_rules
   variables:
     HELM_RELEASE: sut
@@ -202,14 +197,13 @@ k8s-test-runner:
     paths:
       - "build/"
   extends:
-    - .sut_base_no_cache
+    - .sut_base
     - .ds-sim-test-vars
   before_script:
     - time poetry install
     - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
     - "make help | grep k8s-test"
     - make install-test-system
-    - make itf-cbf-setup --dry
 
   script:
     - make integration-test TANGO_HOST=$TANGO_DATABASE_DS.$KUBE_NAMESPACE.svc.$CLUSTER_DOMAIN:10000 || true

@@ -3,8 +3,7 @@
 # ############################################
 deploy-aa05-ds-sim:
   stage: on_demand_itf_sut
-  extends:
-    - .sut_base_no_cache
+  extends: sut_base
   script:
     - echo "Deploying multiple dish structure simulators in downstream dish-aiv stage - first deploy ska001 manually"
     - echo "Deploying 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
@@ -15,8 +14,7 @@ deploy-aa05-ds-sim:
 
 remove-aa05-ds-sim:
   stage: on_demand_itf_sut
-  extends:
-    - .sut_base_no_cache
+  extends: sut_base
   script:
     - echo "Uninstalling all dish structure simulators in downstream dish-aiv stage"
     - echo "Uninstalling 'SKA001', 'SKA036', 'SKA063', 'SKA100'"

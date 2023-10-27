@@ -38,7 +38,7 @@ class LogEnabled:
 
 
 class StartUpStep(base.StartUpStep, LogEnabled):
-    """Implementation of Startup step for CSP."""
+    """Implementation of Startup step for CBF."""
 
     def __init__(self, nr_of_subarrays: int) -> None:
         """_summary_.
@@ -426,7 +426,7 @@ class CBFSetOnlineStep(base.SetOnlineStep, LogEnabled):
 
 
 class CBFEntryPoint(CompositeEntryPoint, HasObservation):
-    """Derived Entrypoint scoped to SDP element."""
+    """Derived Entrypoint scoped to CBF element."""
 
     nr_of_subarrays = 2
 

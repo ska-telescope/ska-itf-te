@@ -171,12 +171,11 @@ class _OnlineFlag:
 # setting systems online
 @pytest.fixture(name="online", autouse=True, scope="session")
 def fxt_online():
-    """Set all systems online
+    """Set all systems online.
 
-    :return: Flag representing the online status of all systems
+    :return: Flag representing the online status of all systems.
     :rtype: _type_
     """
-
     return _OnlineFlag()
 
 
