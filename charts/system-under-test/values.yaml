@@ -47,7 +47,7 @@ cbf-tmleafnode:
 
 ska-csp-lmc-mid:
   legacy_compatibility: true
-  enabled: true
+  enabled: false
 
 ### tmc
 tmc-mid:
