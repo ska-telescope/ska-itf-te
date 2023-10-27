@@ -21,7 +21,7 @@ def main():
     database = Database(tango_db_ip, tango_db_port)
     exception = True
     int_success_cause = 60
-    while (True):
+    while (exception):
         try:
             database.add_device(dev_info1)
             sleep(2)
