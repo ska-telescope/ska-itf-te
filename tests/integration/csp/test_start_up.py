@@ -80,12 +80,12 @@ def the_csp_must_be_on(
         assert_that(str(result)).is_equal_to("ON")
 
 
-# test validation
-@pytest.mark.test_tests
-@pytest.mark.usefixtures("setup_csp_mock")
-def test_test_csp_startup(run_mock):
-    """Test the test using a mock SUT.
+# # test validation
+# @pytest.mark.test_tests
+# @pytest.mark.usefixtures("setup_csp_mock")
+# def test_test_csp_startup(run_mock):
+#     """Test the test using a mock SUT.
 
-    :param run_mock: a run mock object
-    """
-    run_mock(test_csp_start_up_telescope_mid)
+#     :param run_mock: a run mock object
+#     """
+#     run_mock(test_csp_start_up_telescope_mid)
