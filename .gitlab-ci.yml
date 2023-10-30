@@ -134,7 +134,7 @@ build-base-image:
     - if: $REBUILD_IMAGES
     - changes:
         - Dockerfile
-        - pyproject.toml
+        # - pyproject.toml ###FIXME: Temporarily ignore changes in pyproject.toml
   services:
     - docker:dind
   before_script:
