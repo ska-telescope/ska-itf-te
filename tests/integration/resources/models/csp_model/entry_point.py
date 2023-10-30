@@ -494,7 +494,7 @@ class CSPSetOnlineStep(base.SetOnlineStep, LogEnabled):
             self._log(
                 f"Setting simulation_mode for {controller_name} to '0' (Real Hardware Controlled)"
             )
-            controller.write_attribute("simulation_mode", 0)
+            controller.write_attribute("cbfSimulationMode", 0)
 
     def set_wait_for_do_set_online(self) -> MessageBoardBuilder:
         """
