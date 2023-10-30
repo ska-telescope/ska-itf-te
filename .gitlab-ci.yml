@@ -76,6 +76,11 @@ python-test:
   tags:
   - ska-k8srunner-za-itf
   image: $TEST_IMAGE
+  script:
+    - echo -e "section_start:`date +%s`:my_first_section[collapsed=true]\r\e[0KHeader of the 1st collapsible section"
+    - echo 'this line should be hidden automatically after loading the job log'
+    - echo -e "section_end:`date +%s`:my_first_section\r\e[0K"
+
 
 python-lint:
   tags:
