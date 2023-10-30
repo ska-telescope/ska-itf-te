@@ -23,39 +23,34 @@ def register_all_devices():
                         level=log_test.DEBUG)
 
     ls_device_names = ["spfc", "spf1", "spf2", "spf345", "spfhe", "spfvac"]
-    for dev in ls_device_names:
-        print(f"===Registering device:{dev}===") 
-        msg_processing_thread = threading.Thread(target=register_device,  args=(dev, database, dev_info,))
-        msg_processing_thread.start()
+    for dev_name in ls_device_names:
+        dev_class = str(dev_name[0].upper()) + str(dev_name[1:])
+        dev_info.name = "ska000/spf/" + dev_name 
+        dev_info._class = dev_class
+        dev_info.server = dev_class + "/4F1018"      
+        register_device(dev_info, database)
         sleep(2)
 
 def main():
     register_all_devices()
 
-def register_device(dev_name, database, dev_info1):
-    dev_info1.name = "ska000/spf/" + dev_name 
-    dev_info1._class = "Spfc"
-    dev_info1.server = "Spfc/4F1018"
+def register_device(dev_info, database):
     exception = True
     int_success_pause = 60
     while (exception):
+        sleep(1)
         try:
-            database.add_device(dev_info1)
-            sleep(1)
-            dp = DeviceProxy(dev_info1.name)
+            database.add_device(dev_info)
+            dp = DeviceProxy(dev_info.name)
             print(dp.get_attribute_list())
         except Exception as ex:
             exception = True
-            print(f"!!Reg. {dev_name} \n Exception occured:")
+            print(f"!!Registering name={dev_info.name} \n Exception occured!!")
             print(ex)
-            sleep(1)
-            continue
+            pass
         else:
-            log_test.info(f"== {dev_name} registered ==")
-            print(f"Now will pause for { int_success_pause } seconds")
-            sleep(int_success_cause)
+            log_test.info(f"== {dev_info.name} registered ==")
             exception = False
-        sleep(1)
 
 if __name__ == "__main__":
     main()
