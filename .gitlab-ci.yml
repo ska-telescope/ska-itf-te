@@ -16,10 +16,11 @@ stages:
   - pre-build
   - verify-test-equipment
   - on_demand_itf_sut
-  # FIXME: TEMPORARY COMMIT ONLY - NEEDS TO GET REMOVED!!!
-  # - build
-  # - lint
   - test
+  # FIXME: TEMPORARY COMMIT ONLY - THIS JOB NEEDS TO GET PUT BACK TO RUNNING BEFORE TESTS!!!
+  - build
+  # FIXME: TEMPORARY COMMIT ONLY - THIS JOB NEEDS TO GET PUT BACK TO RUNNING BEFORE TESTS!!!
+  - lint
   - platform
   - test-equipment-setup
   - deploy-dish-aiv
