@@ -2,6 +2,7 @@
 # # System Under Test Deployment and Test jobs
 # ############################################
 .sut_base:
+  image: $TEST_IMAGE
   tags:
     - ska-k8srunner-za-itf
   extends:
@@ -191,7 +192,7 @@ k8s-test-runner:
   tags:
     - ska-k8srunner-za-itf
   allow_failure: false
-  image: $TEST_IMAGE
+  # image: $TEST_IMAGE
   artifacts:
     name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID"
     paths:
@@ -241,7 +242,7 @@ publish-k8s-test-results:
   needs:
     - k8s-test-runner
     - xray-publish
-  image: $TEST_IMAGE
+  # image: $TEST_IMAGE
   tags:
     - ska-k8srunner-za-itf
   artifacts:
