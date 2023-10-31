@@ -2,6 +2,9 @@ FROM artefact.skao.int/ska-tango-images-pytango-builder:9.3.32
 
 ARG POETRY_VERSION=1.3.2
 
+# Set timezone:
+RUN ln -snf /usr/share/zoneinfo/$CONTAINER_TIMEZONE /etc/localtime && echo $CONTAINER_TIMEZONE > /etc/timezone
+
 RUN apt-get update && apt-get install openssh-client gnupg2 gawk yamllint curl git vim graphviz telnet expect -y
 RUN curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
