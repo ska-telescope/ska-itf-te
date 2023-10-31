@@ -11,11 +11,10 @@ NUMBER_OF_TALON_BOARDS ?= 1
 ##	HW_CONFIG_FILE_PATH=[scripts path] (default value: resources/talon)
 ##	LRU_INDEX=[lru index paramter] (default value: lru1)
 ##  make target for switching off the Talon LRU
-COMMAND:=$(shell $(HW_CONFIG_FILE_PATH)/talon_power_apc.sh $(LRU_INDEX) off)
 
 itf-cbf-talonlru-off: ## Switch off the Talon LRU specified
 	@[[ -f  $(HW_CONFIG_FILE_PATH)/talon_power_apc.sh ]] || exit 404;
-	@echo $(COMMAND)
+	@echo $(shell $(HW_CONFIG_FILE_PATH)/talon_power_apc.sh $(LRU_INDEX) off)
 
 ## TARGET: itf-cbf-config-talon
 ## SYNOPSIS: make itf-cbf-config-talon
