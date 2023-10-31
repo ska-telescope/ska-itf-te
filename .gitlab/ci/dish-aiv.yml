@@ -230,7 +230,6 @@ register-spfc:
     NAMESPACE: dish-lmc-ska001
     TANGO_HOST: "0.0.0.0:10000"
   script:
-    - python3 -m pip install --user ansible-core
     #Install kubectl as this image does not contain it
     - echo "Resolving Dish.LMC tango database"
     - curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" 
@@ -240,5 +239,6 @@ register-spfc:
     - sudo apt-get update && sudo apt-get install -y openssh-client
     - echo "Updating TANGO_HOST in the SPFC through tango_host.ini file."
     - scp resources/ansible-playbooks/roles/update_spfc/templates/tango_host.ini.j2 skao@10.165.3.28:/home/skao/tango_host.ini
-    - python scripts/spfc/register_device.py ska000/spf/spfc Spfc Spfc/4F1018
+    - python scripts/spfc/register_device.py
+    - ssh spfc@10.165.3.28 -t sudo systemctl restart spfc-system.target
   when: manual
