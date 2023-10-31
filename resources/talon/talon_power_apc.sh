@@ -6,7 +6,10 @@ STATE=$2
 DIR_PATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
 APC_PDU_SCRIPT=".${DIR_PATH}/apc_pdu.expect"
-echo "###&&&### APC PDU Script located at ${APC_PDU_SCRIPT} ###&&&###"
+echo "###&&&## ###&&&#### ###&&&###" 
+echo "APC PDU Script location:"
+ls ${APC_PDU_SCRIPT}
+echo "###&&&## ###&&&#### ###&&&###" 
 
 USAGE_BANNER="Usage: ./talon_power_lru.sh LRU [STATE]
   LRU: lru1
