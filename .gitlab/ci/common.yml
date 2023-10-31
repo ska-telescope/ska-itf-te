@@ -58,10 +58,10 @@
     - bash .make/resources/gitlab_section.sh get-ns "Get namespace resources" make k8s-get
     - bash .make/resources/gitlab_section.sh wait-ns "Wait namespace resources" make k8s-wait
     - make itf-cbf-setup --dry # Just outputting what we'll be attempting - this single target might replace the following four
-    - make itf-cbf-talonlru-off
-    - make itf-cbf-config-talon
-    - make itf-cbf-tangocpp-update
-    - make itf-cbf-config-tangodb
+    - bash .make/resources/gitlab_section.sh talon_off "Switch off Talon" make itf-cbf-talonlru-off
+    - bash .make/resources/gitlab_section.sh talon_config "Configure Talon(s)" make itf-cbf-config-talon
+    - bash .make/resources/gitlab_section.sh talon_download_tangocpp_ds "Download CPP Tango device server updates" make itf-cbf-tangocpp-update
+    - bash .make/resources/gitlab_section.sh talon_config_tangodb "Configure TangoDB with device servers" make itf-cbf-config-tangodb
     - make links
   after_script:
     - make template-chart
