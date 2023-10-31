@@ -200,7 +200,7 @@ k8s-test-runner:
     - .sut_base
     - .ds-sim-test-vars
   before_script:
-    - bash .make/resources/gitlab_section.sh poetry_install "Install Poetry Dependencies" time poetry install
+    - bash .make/resources/gitlab_section.sh poetry_install "Install Poetry Dependencies" poetry install
     - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
     - "make help | grep k8s-test"
     - make install-test-system
