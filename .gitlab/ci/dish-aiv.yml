@@ -123,14 +123,6 @@ remove-dish-structure-simulator:
     - .integration_rules
   when: on_success
 
-deploy-dishlmc-ska001:
-  extends:
-    - .deploy-dish-lmc
-  variables:
-    DISH_INDEX: "001"
-  environment:
-    on_stop: uninstall-dishlmc-ska001
-
 deploy-aa05-dishes:
   stage: on_demand_itf_sut
   extends:
@@ -138,7 +130,7 @@ deploy-aa05-dishes:
     - .integration_rules
   script:
     - echo "Deploying multiple dishes in downstream dish-aiv stage - first deploy ska001 manually"
-    - echo "Deploying 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
+    - echo "Deploying 'SKA000','SKA001', 'SKA036', 'SKA063', 'SKA100'"
   environment:
     name: mid-itf/integration/dish-lmc-aa05
     on_stop: uninstall-aa05-dishes
@@ -150,10 +142,29 @@ uninstall-aa05-dishes:
     - .integration_rules
   script:
     - echo "Uninstalling all dishes in downstream dish-aiv stage"
-    - echo "Uninstalling 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
+    - echo "Uninstalling 'SKA000','SKA001', 'SKA036', 'SKA063', 'SKA100'"
   environment:
     name: mid-itf/integration/dish-lmc-aa05
     action: stop
+
+deploy-dishlmc-ska000:
+  extends:
+    - .deploy-dish-lmc
+  variables:
+    DISH_INDEX: "000"
+  environment:
+    on_stop: uninstall-dishlmc-ska000
+
+deploy-dishlmc-ska001:
+  extends:
+    - .deploy-additional-lmc
+  needs:
+    - deploy-dishlmc-ska000
+    - deploy-aa05-dishes
+  variables:
+    DISH_INDEX: "001"
+  environment:
+    on_stop: uninstall-dishlmc-ska001
 
 deploy-dishlmc-ska036:
   extends:
@@ -195,6 +206,13 @@ deploy-dishlmc-ska100:
     - uninstall-aa05-dishes
   environment:
     name: mid-itf/integration/dish-lmc-$DISH_ID
+
+uninstall-dishlmc-ska000:
+  extends:
+    - .destroy-aa05-dishes
+  variables:
+    DISH_ID: ska000
+
 
 uninstall-dishlmc-ska001:
   extends:
