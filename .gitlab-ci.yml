@@ -125,7 +125,7 @@ python-build-for-development:
     - ""
 
 # base stage
-build-base-image:
+.build-base-image:
   tags:
     - ska-k8srunner-za-itf
   stage: .pre
