@@ -26,7 +26,7 @@ itf-cbf-talonlru-status: ## Switch off the Talon LRU specified
 
 itf-cbf-talonlru-off: ## Switch off the Talon LRU specified
 	@[[ -f  $(HW_CONFIG_FILE_PATH)/talon_power_apc.sh ]] || exit 404;
-	.$(HW_CONFIG_FILE_PATH)/talon_power_apc.sh $(LRU_INDEX) off
+	@cd $(HW_CONFIG_FILE_PATH) && ./talon_power_apc.sh $(LRU_INDEX) off
 
 ## TARGET: itf-cbf-config-talon
 ## SYNOPSIS: make itf-cbf-config-talon
