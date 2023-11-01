@@ -4,6 +4,7 @@ dishlmc:
     dishmanager:
       spf:
         # Dish Manager will follow the format of "ska0<DISH_ID>/<family_name>/<member_name>"
+        fqdn: "001"
         family_name: "spf"
         member_name: "spf1"
     ska-mid-dish-simulators:
