@@ -46,7 +46,7 @@
     ARCHIVER_DBNAME: "${CONFIG}_archiver_db_${CI_COMMIT_REF_SLUG}"
     # VALUES: pipeline.yaml
   before_script:
-    - sudo apt install inetutils-ping -y
+    - sudo apt install inetutils-ping expect sshpass -y
     - ping -c 1 10.20.2.14 || (echo "Cannot reach PDU" && exit 1) #FIXME: This is the type of config data that we should ideally be putting in Vault / Config database
   script:
     - mkdir deploy
