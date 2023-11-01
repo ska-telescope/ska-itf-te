@@ -128,6 +128,7 @@ deploy-dishlmc-ska001:
     - .deploy-dish-lmc
   variables:
     DISH_INDEX: "001"
+    ADDITIONAL_K8S_PARAMS: charts/dish-lmc/values-spfc.yaml
   environment:
     on_stop: uninstall-dishlmc-ska001
 
