@@ -45,6 +45,8 @@
     K8S_AUTH_SERVICE_ACCOUNT: "ci-svc-ska-miditf-$CI_PIPELINE_ID"
     ARCHIVER_DBNAME: "${CONFIG}_archiver_db_${CI_COMMIT_REF_SLUG}"
     # VALUES: pipeline.yaml
+  before_script:
+    - ping -c 1 10.20.2.14 || echo "Cannot reach PDU" #FIXME: This is the type of config data that we should ideally be putting in Vault / Config database
   script:
     - echo $CI_JOB_NAME - $CI_JOB_STAGE
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
@@ -104,7 +106,7 @@
 
 helm-chart-lint:
   tags:
-  - ska-k8srunner-za-itf
+    - ska-k8srunner-za-itf
   after_script:
     - make helm-check-deps
   rules:
@@ -115,7 +117,7 @@ helm-chart-lint:
 
 helm-chart-build:
   tags:
-  - ska-k8srunner-za-itf
+    - ska-k8srunner-za-itf
   rules:
     - if: $CI_PIPELINE_SOURCE == "pipeline"
       when: never
@@ -124,7 +126,7 @@ helm-chart-build:
 
 docs-build:
   tags:
-  - ska-k8srunner-za-itf
+    - ska-k8srunner-za-itf
   rules:
     - if: $CI_PIPELINE_SOURCE == "pipeline"
       when: never
@@ -134,7 +136,7 @@ docs-build:
 # Only build images when there are changes
 oci-image-lint:
   tags:
-  - ska-k8srunner-za-itf
+    - ska-k8srunner-za-itf
   rules:
     - changes:
         - Dockerfile
@@ -142,7 +144,7 @@ oci-image-lint:
 
 oci-image-build:
   tags:
-  - ska-k8srunner-za-itf
+    - ska-k8srunner-za-itf
   rules:
     - changes:
         - Dockerfile
@@ -150,7 +152,7 @@ oci-image-build:
 
 oci-image-publish:
   tags:
-  - ska-k8srunner-za-itf
+    - ska-k8srunner-za-itf
   rules:
     - changes:
         - Dockerfile
@@ -158,7 +160,7 @@ oci-image-publish:
 
 oci-image-scan:
   tags:
-  - ska-k8srunner-za-itf
+    - ska-k8srunner-za-itf
   rules:
     - changes:
         - Dockerfile
