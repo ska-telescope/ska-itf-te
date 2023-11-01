@@ -49,7 +49,7 @@
     - ln -snf /usr/share/zoneinfo/$CONTAINER_TIMEZONE /etc/localtime && echo $CONTAINER_TIMEZONE > /etc/timezone
     - sudo apt install inetutils-ping expect sshpass netcat -y
     - ping -c 1 10.20.2.14 || (echo "Cannot reach PDU" && exit 1) #FIXME: This is the type of config data that we should ideally be putting in Vault / Config database
-    - nc -zv 10.20.2.14 22
+    - nc -zv 10.20.2.14 22 || (echo "Cannot reach PDU SSH interface - go to  https://za-itf-pdu3.ad.skatelescope.org and reset" && exit 1)
   script:
     - mkdir deploy
     - echo $CI_JOB_NAME - $CI_JOB_STAGE > deploy/ci_details.txt # This is just to double-check if the job output to the build folder works
@@ -69,9 +69,9 @@
     - bash .make/resources/gitlab_section.sh talon_config "Configure Talon(s)" make itf-cbf-config-talon
     - bash .make/resources/gitlab_section.sh talon_download_tangocpp_ds "Download CPP Tango device server updates" make itf-cbf-tangocpp-update &> deploy/talonconfig.log
     - bash .make/resources/gitlab_section.sh talon_config_tangodb "Configure TangoDB with device servers" make itf-cbf-config-tangodb
-    - make links
   after_script:
     - make template-chart
+    - make links
   artifacts:
     name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID-$CI_JOB_STAGE-$CI_JOB_NAME"
     paths:
