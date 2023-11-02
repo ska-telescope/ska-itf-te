@@ -8,9 +8,9 @@ SERVICE_PORTS=$(kubectl -n ${DS_SIM_NAMESPACE} get svc ${DS_SIM_SERVICE} -o json
 
 cat << EOF
 ${CI_JOB_NAME}
-"DS_SIM_NAMESPACE: ${DS_SIM_NAMESPACE}"
-"DS_SIM_SERVICE: ${DS_SIM_SERVICE}"
-"DS_SIM_HOST: ${DS_SIM_HOST}"
+DS_SIM_NAMESPACE: ${DS_SIM_NAMESPACE}
+DS_SIM_SERVICE: ${DS_SIM_SERVICE}
+DS_SIM_HOST: ${DS_SIM_HOST}
 
 ############################################################################"
 #            Access the Dish Structure Simulator web server here:"
