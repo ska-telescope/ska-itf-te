@@ -7,10 +7,10 @@ DS_SIM_HOST=$(kubectl -n ${DS_SIM_NAMESPACE} get svc ${DS_SIM_SERVICE} -o jsonpa
 SERVICE_PORTS=$(kubectl -n ${DS_SIM_NAMESPACE} get svc ${DS_SIM_SERVICE} -o jsonpath='{range @.spec.ports[*]}{@.name}{": "}{@.port}{";   "}{end}')
 
 cat << EOF
-echo ${CI_JOB_NAME}
-echo "DS_SIM_NAMESPACE: ${DS_SIM_NAMESPACE}"
-echo "DS_SIM_SERVICE: ${DS_SIM_SERVICE}"
-echo "DS_SIM_HOST: ${DS_SIM_HOST}"
+${CI_JOB_NAME}
+"DS_SIM_NAMESPACE: ${DS_SIM_NAMESPACE}"
+"DS_SIM_SERVICE: ${DS_SIM_SERVICE}"
+"DS_SIM_HOST: ${DS_SIM_HOST}"
 
 ############################################################################"
 #            Access the Dish Structure Simulator web server here:"
