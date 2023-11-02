@@ -190,11 +190,12 @@ Port: 9001
 
 FQDN: za-itf-attenuator.ad.skatelescope.org
 IP  : 10.165.3.6
-Port:22
+Port: 45451
 
 ### Signal generator
 
 FQDN: za-itf-signal-generator.ad.skatelescope.org
 IP  : 10.165.3.1
+Port: 5025
 Web : http://za-itf-signal-generator.ad.skatelescope.org/webpages/web/html/ihp.php
 
