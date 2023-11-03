@@ -138,19 +138,17 @@ uninstall-dishlmc-ska001:
     DISH_ID: ska001
 
 deploy-dishlmc-ska003:
-  stage: dish-aiv
+  stage: on_demand_itf_sut
   extends:
     - .deploy-additional-lmc
-  needs:
-    - deploy-dishlmc-ska001
   variables:
     DISH_INDEX: "002"
     ADDITIONAL_K8S_PARAMS: charts/dish-lmc/values-spfc.yaml
   environment:
-    on_stop: uninstall-dishlmc-ska002
+    on_stop: uninstall-dishlmc-ska003
 
 uninstall-dishlmc-ska003:
-  stage: dish-aiv
+  stage: on_demand_itf_sut
   extends:
     - .destroy-aa05-dishes
   variables:
