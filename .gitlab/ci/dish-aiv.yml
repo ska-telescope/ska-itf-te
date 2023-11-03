@@ -138,7 +138,7 @@ uninstall-dishlmc-ska001:
     DISH_ID: ska001
 
 deploy-dishlmc-ska003:
-  stage: on_demand_itf_sut
+  stage: dish-aiv
   extends:
     - .deploy-additional-lmc
   needs:
@@ -150,7 +150,7 @@ deploy-dishlmc-ska003:
     on_stop: uninstall-dishlmc-ska002
 
 uninstall-dishlmc-ska003:
-  stage: on_demand_itf_sut 
+  stage: dish-aiv
   extends:
     - .destroy-aa05-dishes
   variables:
