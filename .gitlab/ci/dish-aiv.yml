@@ -140,7 +140,7 @@ uninstall-dishlmc-ska001:
 deploy-dishlmc-ska002:
   stage: dish-aiv
   extends:
-    - .deploy-additional-lmc
+    - .deploy-dish-lmc
   variables:
     DISH_INDEX: "002"
     ADDITIONAL_K8S_PARAMS: charts/dish-lmc/values-spfc.yaml
