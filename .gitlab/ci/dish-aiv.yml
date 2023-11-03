@@ -252,16 +252,17 @@ register-spfc:
     SERVICE_NAME: tango-databaseds
     NAMESPACE: dish-lmc-ska001
     TANGO_HOST: "0.0.0.0:10000"
+    SPFC_HOST: "10.165.3.33"
+    KUBECTL_CMD: "docker run -rm -it artefact.skao.int/ska-cicd-k8s-tools-build-deploy:0.9.0 kubectl"
   script:
-    #Install kubectl as this image does not contain it
+    #Install register SPFC
     - echo "Resolving Dish.LMC tango database"
-    - curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" 
-      && sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-    - export TANGO_HOST=$(kubectl -n ${NAMESPACE} get svc ${SERVICE_NAME} -o jsonpath={.status.loadBalancer.ingress[0].ip})
+    - docker run -rm -it artefact.skao.int/ska-cicd-k8s-tools-build-deploy:0.9.0 kubectl
+    - export TANGO_HOST=$(${KUBECTL_CMD} -n ${NAMESPACE} get svc ${SERVICE_NAME} -o jsonpath={.status.loadBalancer.ingress[0].ip})
     - echo "Installing scp"
     - sudo apt-get update && sudo apt-get install -y openssh-client
     - echo "Updating TANGO_HOST in the SPFC through tango_host.ini file."
     - scp resources/ansible-playbooks/roles/update_spfc/templates/tango_host.ini.j2 skao@10.165.3.28:/home/skao/tango_host.ini
     - python scripts/spfc/register_device.py
-    - ssh spfc@10.165.3.28 -t sudo /bin/systemctl restart spfc-system.target
+    - ssh spfc@10.165.3.33 -t sudo /bin/systemctl restart spfc-system.target
   when: manual
