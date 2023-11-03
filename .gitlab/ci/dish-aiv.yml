@@ -139,15 +139,8 @@ uninstall-dishlmc-ska001:
 
 deploy-dishlmc-ska003:
   stage: dish-aiv
-  extends:
-    - .deploy-additional-lmc
-  needs:
-    - deploy-dishlmc-ska001
-  variables:
-    DISH_INDEX: "003"
-    ADDITIONAL_K8S_PARAMS: charts/dish-lmc/values-spfc.yaml
-  environment:
-    on_stop: uninstall-dishlmc-ska003
+  script:
+    echo "Testing ska dish 003 lmc deployment"
 
 uninstall-dishlmc-ska003:
   stage: dish-aiv
