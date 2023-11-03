@@ -138,12 +138,12 @@ uninstall-dishlmc-ska001:
     DISH_ID: ska001
 
 deploy-dishlmc-ska003:
-  stage: dish-aiv
+  stage: on_demand_itf_sut 
   script:
     echo "Testing ska dish 003 lmc deployment"
 
 uninstall-dishlmc-ska003:
-  stage: dish-aiv
+  stage: on_demand_itf_sut 
   extends:
     - .destroy-aa05-dishes
   variables:
