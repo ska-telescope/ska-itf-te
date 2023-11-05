@@ -256,13 +256,13 @@ register-spfc:
     KUBECTL_CMD: "docker run -rm -it artefact.skao.int/ska-cicd-k8s-tools-build-deploy:0.9.0 kubectl"
     SPFC_SERIAL: ""
     DEVICE_LOCATION: "ska002"
+  before_script:
+      - apt-get update && apt-get install -y docker.io
+      - docker version
   script:
     #Install register SPFC
     - echo "Resolving Dish.LMC tango database"
-    - docker run -rm -it artefact.skao.int/ska-cicd-k8s-tools-build-deploy:0.9.0 kubectl
     - export TANGO_HOST=$(${KUBECTL_CMD} -n ${NAMESPACE} get svc ${SERVICE_NAME} -o jsonpath={.status.loadBalancer.ingress[0].ip})
-    - echo "Installing scp"
-    - sudo apt-get update && sudo apt-get install -y openssh-client
     - echo "Updating TANGO_HOST in the SPFC through tango_host.ini file."
     - scp resources/ansible-playbooks/roles/update_spfc/templates/tango_host.ini.j2 skao@{SPFC_HOST}:/home/skao/tango_host.ini
     #Extract serial number from SPFC's config file
