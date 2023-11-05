@@ -15,12 +15,12 @@ class RegisterSPFC:
     __dict_device_names = dict([ ("spfc", "Spfc"), ("spf1", "Spf1"), ("spf2", "Spf2"),
                                  ("spf345", "Spf345"), ("spfhe","SpfHe"), ("spfvac","SpfVac")])
         
-    def register_all_devices(self, server_location, serial_number):
+    def register_all_devices(self,tango_host, server_location, serial_number):
         self.__server_location = server_location
         self.__serial_number = serial_number
-        tango_db_env = str(tango.ApiUtil.get_env_var("TANGO_HOST"))
-        print(tango_db_env)
+        tango_db_env = str(tango_host)
         tango_db_ip = str(tango_db_env.split(":")[0])
+        tango_db_ip = str(tango_db_ip.split("=")[1])
         tango_db_port = int(tango_db_env.split(":")[1])
         self.__database = Database(tango_db_ip, tango_db_port)
         self.__dev_info = DbDevInfo()
@@ -32,7 +32,7 @@ class RegisterSPFC:
             self.__dev_info.server = class_name + "/" + self.__serial_number            
             msg_processing_thread = threading.Thread(target=self.register_device)
             msg_processing_thread.start()
-            sleep(2)
+            sleep(10)
         #All TDS's are registered. Add their properties
         self.apply_device_properties()
     
@@ -88,13 +88,18 @@ class RegisterSPFC:
 def main():
     reg_spfc = RegisterSPFC()
     pars = argparse.ArgumentParser()
+    pars.add_argument("tango_host", help="Tango host of the tango database and port. For example 10.1.2.4:10000", type=str)
     pars.add_argument("dev_location", help="Device server location, for example ska001", type=str)
     pars.add_argument("serial_number", help="SPFC serial number, for exmaple 4F0001 (found in /var/lib/spfc/spfc/spfc_config.ini within SPFC device)", type=str)
+    tango_host = pars.parse_args().tango_host
     device_location = pars.parse_args().dev_location
     #serial_num is in this format: SPFC=SERIAL_NO
     serial_num = pars.parse_args().serial_number
     serial_num = str(serial_num).split("=")[1]
-    reg_spfc.register_all_devices(device_location, serial_num)
+    print(f"tango_host={tango_host}")
+    print(f"device_location={device_location}")
+    print(f"serial_num={serial_num}")
+    reg_spfc.register_all_devices(tango_host, device_location, serial_num)
 
 if __name__ == "__main__":
     main()
