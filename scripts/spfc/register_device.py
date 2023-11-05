@@ -33,60 +33,57 @@ class RegisterSPFC:
             msg_processing_thread = threading.Thread(target=self.register_device)
             msg_processing_thread.start()
             sleep(2)
+        #All TDS's are registered. Add their properties
+        self.apply_device_properties()
+    
+    def apply_device_properties(self):
+        #Devices are registered now we add their properties
+        print("Adding device properties...")
+        for (dev_name, class_name) in self.__dict_device_names.items():
+            self.__add_device_properties(dev_name)
+            sleep(5)
 
-    def add_device_properties(self, dev_name):
-        spfc = list(self.__dict_device_names.keys())[0]
-        key_spfc1 = list(self.__dict_device_names.keys())[1]
-        key_spfc2 = list(self.__dict_device_names.keys())[2]
-        key_spfc345 = list(self.__dict_device_names.keys())[3]
+    def __add_device_properties(self, dev_name):
         match dev_name:
-            #spfc
-            case str(spfc):
+            case "spfc":
                 ls_properties = {"SpfHeLocation":[self.__server_location+"/spf/spfhe"], "SpfVacLocation":[self.__server_location+"/spf/spfvac"],
                                 "Spf1Location":[self.__server_location+"/spf/spf1"], "Spf2Location":[self.__server_location+"/spf/spf2"],
                                 "Spf345Location":[self.__server_location+"/spf/spf345"]}
-            #spfc1
-            case str(key_spfc1):
+            case "spf1":
                 ls_properties = {"ttyPort":["/dev/ttyS1"]}
-            #spfc2
-            case str(key_spfc2):
+
+            case "spf2":
                 ls_properties = {"ttyPort":["/dev/ttyS2"], "SpfHeLocation":[self.__server_location+"/spf/spfhe"],
                                 "SpfVacLocation":[self.__server_location+"/spf/spfvac"]}
-            #spfc345
-            case str(key_spfc345):
+
+            case "spf345":
                 ls_properties = {"ttyPort":["/dev/ttyS3"], "SpfHeLocation":[self.__server_location+"/spf/spfhe"], 
                                  "SpfVacLocation":[self.__server_location+"/spf/spfvac"]}
 
+            case _:
+                print(f"Leaving out {dev_name}'s properties.")
+                return
         print(f"Adding {dev_name}'s propeties...")
-        self.__database.put_device_property(self.__dev_info.name, ls_properties)
+        self.__database.put_device_property(self.__server_location + "/spf/" + dev_name, ls_properties)
 
 
     def register_device(self):
         exception = True
         int_success_pause = 60
-        while (exception):
-            try:
-                self.__database.add_device(self.__dev_info)
-                sleep(1)
-                self.__dev_proxy = DeviceProxy(self.__dev_info.name)
-                print(f"server========={self.__dev_info.server}==========")
-                print(f"class={self.__dev_info._class}")
-                print(f"server={self.__dev_info.server}\n\n")
-                print(self.__dev_proxy.get_attribute_list())
-            except Exception as ex:
-                exception = True
-                print(f"!!Reg. {self.__dev_info.name} \n Exception occured:")
-                print(ex)
-                sleep(2)
-                continue
-            else:
-                exception = False
-            sleep(5)
-        #Devices are registered now we add their properties
-        print("Adding device properties...")
-        for (dev_name, class_name) in self.__dict_device_names.items():
-            self.add_device_properties(dev_name)
-            sleep(5)
+        try:
+            self.__database.add_device(self.__dev_info)
+            sleep(1)
+            self.__dev_proxy = DeviceProxy(self.__dev_info.name)
+            print(f"server========={self.__dev_info.server}==========")
+            print(f"class={self.__dev_info._class}")
+            print(f"server={self.__dev_info.server}\n\n")
+            print(self.__dev_proxy.get_attribute_list())
+        except Exception as ex:
+            exception = True
+            print(f"!!Reg. {self.__dev_info.name} \n Exception occured:")
+            print(ex)
+            sleep(2)
+        sleep(5)
 
 def main():
     reg_spfc = RegisterSPFC()
