@@ -264,12 +264,12 @@ register-spfc:
     - echo "Installing scp"
     - sudo apt-get update && sudo apt-get install -y openssh-client
     - echo "Updating TANGO_HOST in the SPFC through tango_host.ini file."
-    - scp resources/ansible-playbooks/roles/update_spfc/templates/tango_host.ini.j2 skao@10.165.3.28:/home/skao/tango_host.ini
+    - scp resources/ansible-playbooks/roles/update_spfc/templates/tango_host.ini.j2 skao@{SPFC_HOST}:/home/skao/tango_host.ini
     #Extract serial number from SPFC's config file
-    - SPFC_SERIAL=$(ssh -t skao@${SPFC_HOST} "grep -A1 "Serial_Nr" /var/lib/spfc/spfc/spfc_config.ini | grep "SPFC"")
-    - python scripts/spfc/register_device.py ${DEVICE_LOCATION} ${PFC_SERIAL}
-    - ssh spfc@{SPFC_HOST} -t sudo /bin/systemctl restart spfc-system.target
+    - export SPFC_SERIAL=$(ssh -t skao@${SPFC_HOST} "grep -A1 "Serial_Nr" /var/lib/spfc/spfc/spfc_config.ini | grep "SPFC"")
+    - python scripts/spfc/register_device.py ${DEVICE_LOCATION} ${SPFC_SERIAL}
+    - ssh spfc@${SPFC_HOST} -t sudo /bin/systemctl restart spfc-system.target
     #Now restart spfc-system.target service
     - echo "Restarting spfc-system.target"
-    - ssh -t skao@10.165.3.28 "sudo /bin/systemctl restart spfc-system.target"
+    - ssh -t skao@{SPFC_HOST} "sudo /bin/systemctl restart spfc-system.target"
   when: manual
