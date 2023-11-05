@@ -17,6 +17,7 @@ class RegisterSPFC:
         
     def register_all_devices(self, server_location, serial_number):
         self.__server_location = server_location
+        self.__serial_number = serial_number
         tango_db_env = str(tango.ApiUtil.get_env_var("TANGO_HOST"))
         print(tango_db_env)
         tango_db_ip = str(tango_db_env.split(":")[0])
@@ -34,21 +35,25 @@ class RegisterSPFC:
             sleep(2)
 
     def add_device_properties(self, dev_name):
+        spfc = list(self.__dict_device_names.keys())[0]
+        key_spfc1 = list(self.__dict_device_names.keys())[1]
+        key_spfc2 = list(self.__dict_device_names.keys())[2]
+        key_spfc345 = list(self.__dict_device_names.keys())[3]
         match dev_name:
             #spfc
-            case list(self.__dict_device_names.keys())[0]:
+            case str(spfc):
                 ls_properties = {"SpfHeLocation":[self.__server_location+"/spf/spfhe"], "SpfVacLocation":[self.__server_location+"/spf/spfvac"],
                                 "Spf1Location":[self.__server_location+"/spf/spf1"], "Spf2Location":[self.__server_location+"/spf/spf2"],
                                 "Spf345Location":[self.__server_location+"/spf/spf345"]}
             #spfc1
-            case list(self.__dict_device_names.keys())[1]:
+            case str(key_spfc1):
                 ls_properties = {"ttyPort":["/dev/ttyS1"]}
             #spfc2
-            case list(self.__dict_device_names.keys())[2]:
+            case str(key_spfc2):
                 ls_properties = {"ttyPort":["/dev/ttyS2"], "SpfHeLocation":[self.__server_location+"/spf/spfhe"],
                                 "SpfVacLocation":[self.__server_location+"/spf/spfvac"]}
             #spfc345
-            case list(self.__dict_device_names.keys())[3]:
+            case str(key_spfc345):
                 ls_properties = {"ttyPort":["/dev/ttyS3"], "SpfHeLocation":[self.__server_location+"/spf/spfhe"], 
                                  "SpfVacLocation":[self.__server_location+"/spf/spfvac"]}
 
@@ -84,13 +89,13 @@ class RegisterSPFC:
             sleep(5)
 
 def main():
-    reg_spfc = RegisterSPFC
+    reg_spfc = RegisterSPFC()
     pars = argparse.ArgumentParser()
     pars.add_argument("dev_location", help="Device server location, for example ska001", type=str)
     pars.add_argument("serial_number", help="SPFC serial number, for exmaple 4F0001 (found in /var/lib/spfc/spfc/spfc_config.ini within SPFC device)", type=str)
     device_location = pars.parse_args().dev_location
-    serial_number = pars.parse_args().serial_number
-    reg_spfc.register_all_devices(device_location, serial_number)
+    serial_num = pars.parse_args().serial_number
+    reg_spfc.register_all_devices(device_location, serial_num)
 
 if __name__ == "__main__":
     main()
