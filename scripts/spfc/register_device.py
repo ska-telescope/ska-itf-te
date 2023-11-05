@@ -91,7 +91,9 @@ def main():
     pars.add_argument("dev_location", help="Device server location, for example ska001", type=str)
     pars.add_argument("serial_number", help="SPFC serial number, for exmaple 4F0001 (found in /var/lib/spfc/spfc/spfc_config.ini within SPFC device)", type=str)
     device_location = pars.parse_args().dev_location
+    #serial_num is in this format: SPFC=SERIAL_NO
     serial_num = pars.parse_args().serial_number
+    serial_num = str(serial_num).split("=")[1]
     reg_spfc.register_all_devices(device_location, serial_num)
 
 if __name__ == "__main__":

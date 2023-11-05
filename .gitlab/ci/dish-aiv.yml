@@ -148,11 +148,11 @@ deploy-dishlmc-ska002:
     on_stop: uninstall-dishlmc-ska002
 
 uninstall-dishlmc-ska002:
-  stage: on_demand_itf_sut
+  stage: dish-aiv
   extends:
     - .destroy-aa05-dishes
   variables:
-    DISH_ID: ska003
+    DISH_ID: ska002
 
 deploy-aa05-dishes:
   stage: on_demand_itf_sut
@@ -252,8 +252,10 @@ register-spfc:
     SERVICE_NAME: tango-databaseds
     NAMESPACE: dish-lmc-ska001
     TANGO_HOST: "0.0.0.0:10000"
-    SPFC_HOST: "10.165.3.33"
+    SPFC_HOST: "10.165.3.28"
     KUBECTL_CMD: "docker run -rm -it artefact.skao.int/ska-cicd-k8s-tools-build-deploy:0.9.0 kubectl"
+    SPFC_SERIAL: ""
+    DEVICE_LOCATION: "ska002"
   script:
     #Install register SPFC
     - echo "Resolving Dish.LMC tango database"
@@ -263,6 +265,8 @@ register-spfc:
     - sudo apt-get update && sudo apt-get install -y openssh-client
     - echo "Updating TANGO_HOST in the SPFC through tango_host.ini file."
     - scp resources/ansible-playbooks/roles/update_spfc/templates/tango_host.ini.j2 skao@10.165.3.28:/home/skao/tango_host.ini
-    - python scripts/spfc/register_device.py
-    - ssh spfc@10.165.3.33 -t sudo /bin/systemctl restart spfc-system.target
+    #Extract serial number from SPFC's config file
+    - SPFC_SERIAL=$(ssh -t skao@${SPFC_HOST} "grep -A1 "Serial_Nr" /var/lib/spfc/spfc/spfc_config.ini | grep "SPFC"")
+    - python scripts/spfc/register_device.py ${DEVICE_LOCATION} ${PFC_SERIAL}
+    - ssh spfc@{SPFC_HOST} -t sudo /bin/systemctl restart spfc-system.target
   when: manual
