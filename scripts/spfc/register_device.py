@@ -20,7 +20,6 @@ class RegisterSPFC:
         self.__serial_number = serial_number
         tango_db_env = str(tango_host)
         tango_db_ip = str(tango_db_env.split(":")[0])
-        tango_db_ip = str(tango_db_ip.split("=")[1])
         tango_db_port = int(tango_db_env.split(":")[1])
         self.__database = Database(tango_db_ip, tango_db_port)
         self.__dev_info = DbDevInfo()
@@ -30,9 +29,8 @@ class RegisterSPFC:
             self.__dev_info.name = self.__server_location + "/spf/" + dev_name
             self.__dev_info._class = class_name
             self.__dev_info.server = class_name + "/" + self.__serial_number            
-            msg_processing_thread = threading.Thread(target=self.register_device)
-            msg_processing_thread.start()
-            sleep(10)
+            target=self.register_device()
+            sleep(5)
         #All TDS's are registered. Add their properties
         self.apply_device_properties()
     
