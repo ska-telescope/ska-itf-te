@@ -199,3 +199,51 @@ IP  : 10.165.3.1
 Port: 5025
 Web : http://za-itf-signal-generator.ad.skatelescope.org/webpages/web/html/ihp.php
 
+## Preparing to SSH to SPFC device
+
+Before remotely loggin in to the SPFC device using the ssh key, please crete a local ssh public key and
+add it to your ~/.ssh directory.
+Login to https://vault.skao.int/ui/ and `sign in with gitlab` button (You need to be logged in to gitlab.com
+in the same browser already).
+Navigate to secrets/kv/groups/ska-dev/atlas and copy the `SPFC_PRIVATE_KEY` value to a file called `spfc_rsa`
+such that you have it in `~/.ssh/spfc_rsa`
+Next step is to copy the `SPFC_PUBLIC_KEY` value to a file called `spfc_rsa.id` such that you have it in
+`~/.ssh/spfc_rsa.id`
+Next step is to add the following configuration information to your `~/.ssh/config` file:
+
+```
+Host 10.165.3.28
+    KexAlgorithms +diffie-hellman-group1-sha1,diffie-hellman-group14-sha1
+    IdentityFile ~/.ssh/spfc_rsa
+    PubkeyAcceptedKeyTypes=+ssh-rsa
+    HostKeyAlgorithms=+ssh-rsa
+
+Host 10.165.3.33
+    KexAlgorithms +diffie-hellman-group1-sha1,diffie-hellman-group14-sha1
+    IdentityFile ~/.ssh/spfc_rsa
+    PubkeyAcceptedKeyTypes=+ssh-rsa
+    HostKeyAlgorithms=+ssh-rsa
+```
+
+The step above will enable seamless login to both SPF devices in the MID-ITF in both 
+`10.165.3.28` and `10.165.3.33` IP addresses.
+
+You should be able to login to SPFC using the generic user `skao` to SPFC.
+
+### Register SPFC device to tango database
+
+There is a set of commands that one can run to register the SPFC device to the tango database.
+This is important, for example, in cases where registration SPFC needs to communicate with Dish.LMC
+
+To use the SPFC registration to tango device, please ensure that the TANGO_HOST environment variable is set.
+To set the TANGO_HOST variable one can simply run the `export TANGO_HOST=<ipaddress>:<port_number>` command.
+Secondly please update the `resources\makefiles\spfc-register.mk` with correct SPFC configuration information.
+
+We can extract the tango database port from the cluster under specified namespace and service name using the
+following command. 
+`export TANGO_HOST=$(kubectl -n ${NAMESPACE} get svc ${SERVICE_NAME} -o jsonpath={.status.loadBalancer.ingress[0].ip})`
+please see `ska-mid-itf/resources/makefiles/spfc-register.mk` file with correct variable values to use as a guide.
+
+Once done, you can simply run the `make register-spfc --dry-run` to preview steps that will be taken to register
+the SPFC. Once satisfied with the preview, you can then `make register-spfc` to register the SPFC to tango DB.
+
