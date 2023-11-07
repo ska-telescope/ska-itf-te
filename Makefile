@@ -162,6 +162,9 @@ include .make/base.mk
 # include namespace-specific targets
 -include resources/makefiles/k8s-installs.mk
 
+#include register spfc
+-include resources/makefiles/spfc-register.mk
+
 # include Xray uploads
 include .make/xray.mk
 
