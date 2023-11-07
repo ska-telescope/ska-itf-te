@@ -201,8 +201,9 @@ Web : http://za-itf-signal-generator.ad.skatelescope.org/webpages/web/html/ihp.p
 
 ## Preparing to SSH to SPFC device
 
-Before remotely loggin in to the SPFC device using the ssh key, please crete a local ssh public key and
-add it to your ~/.ssh directory.
+Before remotely loggin in to the SPFC device using the ssh key, please add local ssh keys and
+it to your ~/.ssh directory using the following steps.
+
 Login to https://vault.skao.int/ui/ and `sign in with gitlab` button (You need to be logged in to gitlab.com
 in the same browser already).
 Navigate to secrets/kv/groups/ska-dev/atlas and copy the `SPFC_PRIVATE_KEY` value to a file called `spfc_rsa`
@@ -243,6 +244,9 @@ We can extract the tango database port from the cluster under specified namespac
 following command. 
 `export TANGO_HOST=$(kubectl -n ${NAMESPACE} get svc ${SERVICE_NAME} -o jsonpath={.status.loadBalancer.ingress[0].ip})`
 please see `ska-mid-itf/resources/makefiles/spfc-register.mk` file with correct variable values to use as a guide.
+
+Please note:
+Before running any SPFC command please ensure that the TANGO_HOST variable is set.
 
 Once done, you can simply run the `make register-spfc --dry-run` to preview steps that will be taken to register
 the SPFC. Once satisfied with the preview, you can then `make register-spfc` to register the SPFC to tango DB.

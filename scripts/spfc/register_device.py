@@ -59,7 +59,7 @@ class RegisterSPFC:
             case _:
                 print(f"Leaving out {dev_name}'s properties.")
                 return
-        print(f"Adding {dev_name}'s propeties...")
+        print(f"Adding {dev_name}'s properties...")
         self.__database.put_device_property(self.__server_location + "/spf/" + dev_name, ls_properties)
 
 
