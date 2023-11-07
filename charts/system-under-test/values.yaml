@@ -42,7 +42,7 @@ cbf-mcs:
     clusterDomain: "miditf.internal.skao.int"
 
 cbf-tmleafnode:
-  enabled: false
+  enabled: true
 
 ska-csp-lmc-mid:
   legacy_compatibility: true
