@@ -3,9 +3,9 @@ FROM artefact.skao.int/ska-tango-images-pytango-builder:9.3.32
 ARG POETRY_VERSION=1.3.2
 
 # Set timezone:
-RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install tzdata
+# RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install tzdata
 
-RUN apt-get update && apt-get install openssh-client gnupg2 gawk yamllint curl git vim graphviz telnet expect sshpass inetutils-ping -y
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get install openssh-client gnupg2 gawk yamllint curl git vim graphviz telnet expect sshpass inetutils-ping -y
 RUN curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
 RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
