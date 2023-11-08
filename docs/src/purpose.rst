@@ -53,8 +53,36 @@ Each of these deployment jobs has an associated `destroy-sut-*` job which will r
 Deployment of the Dish LMC
 ==========================
 
+There are 4 instances of the Dish LMC deployed from this project. Each instance is intended to exercise a different set of Dish LMC software simulators and external components.
+The completed deployments will look as follows:
+
+1. Dish LMC connected to only Dish LMC software simulators.
+2. Dish LMC connected to CETC dish structure simulator and software simulators for SPFC and SPFRx.
+3. Dish LMC connected to the physical SPFC and software simulators for Dish Structure and SPFRx.
+4. Dish LMC connected to the physical SPFRx and software simulators for Dish Structure and SPFC.
+
+Currently, only 2 is fully implemented.
+This is deployed with the `deploy-dishlmc-ska001` job. When running in development branches, this will deploy into a `ci-dish-lmc-ska001-$BRANCH` namespace.
+In the main branch, it is deployed to the `dish-lmc-ska001` namespace.
+This deployment is triggered by deploying the dish structure simulator with the `deploy-ds-sim-ska001` job.
+There is also a `redeploy-dishlmc-ska001` job which does an uninstall of the dish LMC prior to installing it and this is triggered by the `redeploy-ds-sim-ska001` job.
+Both of these deployment jobs consume connection details exported by the dish structure simulator deployment jobs in order to be able to connect to the CETC dish structure simulator.
+There is also an uninstall job, `uninstall-dishlmc-ska001`, which is used to remove the deployment.
+
+At the moment, other the dish LMC instances can be deployed in the same way except that:
+
+1. They do not require a deployment of the dish structure simulator.
+2. They require the `deploy-dishlmc-ska001` job to have completed successfully.
+3. They require the `deploy-aa05-dishes` job to have completed successfully. This is a the manual job in the `on_demand_itf_sut` stage.
+
+Their uninstall jobs also require the `uninstall-aa05-dishes` job in the `on_demand_itf_sut` stage to have completed successfully.
+
 Deployment of the Dish Structure Simulator
 ==========================================
+
+The dish structure simulator can be deployed using the `deploy-ds-sim-ska001` job. It deploys to `ci-ds-sim-ska001-$BRANCH` namespace in development branches and to `ds-sim-ska001` in the main branch.
+There is also a `redeploy-ds-sim-ska001` job which does an uninstall of the dish structure simulator prior to installing it.
+The job exports connection details as an artifact which is consumed by the Dish LMC SKA001 deployment job.
 
 Deployment of File Browser
 ==========================

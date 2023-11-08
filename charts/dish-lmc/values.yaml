@@ -9,9 +9,6 @@ global:
 
 # DISH LMC
 dishlmc:
-  # ska-dish-lmc:
-  #   taranta:
-  #     enabled: false
   ska-mid-dish-manager:
     legacy_compatibility: true
     ska-mid-dish-simulators:
@@ -19,11 +16,17 @@ dishlmc:
       legacy_compatibility: true
       ska-tango-base:
         enabled: false
+      dsOpcuaSimulator:
+        enabled: true
       deviceServers:
         spfdevice:
           enabled: true
         spfrxdevice:
           enabled: true
+  ska-mid-dish-ds-manager:
+    enabled: true
+    ska-tango-base:
+      enabled: false
 
 # TARANTA SUITE
 ska-taranta:
