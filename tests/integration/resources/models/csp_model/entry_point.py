@@ -500,11 +500,11 @@ class CSPSetOnlineStep(base.SetOnlineStep, LogEnabled):
             #     subarray.write_attribute("adminmode", 0)
 
         simulation_mode = controller.read_attribute("cbfSimulationMode").value
-        if simulation_mode != 0:
+        if simulation_mode != 1:
             self._log(
-                f"Setting simulation_mode for {controller_name} to '0' (Real Hardware Controlled)"
+                f"Setting simulation_mode for {controller_name} to '1' (Without Real Hardware)"
             )
-            controller.write_attribute("cbfSimulationMode", 0)
+            controller.write_attribute("cbfSimulationMode", 1)
 
     def set_wait_for_do_set_online(self) -> MessageBoardBuilder:
         """
