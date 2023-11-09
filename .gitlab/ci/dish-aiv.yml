@@ -170,8 +170,8 @@ register-spfc:
   script:
     #Install SCP
     - sudo apt-get update && sudo apt-get install -y openssh-client
-    - echo $SPFC_KEY > /etc/ssh/spfc_rsa
-    - echo $SPFC_CONFIG > /etc/ssh/config
+    - sudo echo $SPFC_KEY > /etc/ssh/spfc_rsa
+    - sudo echo $SPFC_CONFIG > /etc/ssh/config
     - ls -all ~
     - pwd
     - cat ~/.ssh/spfc_rsa
