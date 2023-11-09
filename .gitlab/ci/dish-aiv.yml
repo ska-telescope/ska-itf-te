@@ -169,8 +169,8 @@ register-spfc:
     PLAYBOOK_PARAMETERS: ""
   script:
     - mkdir ~/.ssh
-    - sudo $(echo $SPFC_KEY > ~/.ssh/spfc_rsa)
-    - sudo (echo $SPFC_CONFIG > ~/.ssh/config)
+    - echo $SPFC_KEY > ~/.ssh/spfc_rsa
+    - echo $SPFC_CONFIG > ~/.ssh/config
     - scp skao@$(SPFC_HOST):/var/lib/spfc/spfc/spfc_config.ini ~
     - ls -all ~
   when: manual
