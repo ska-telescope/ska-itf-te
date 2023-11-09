@@ -7,9 +7,13 @@ appVersion: 0.1.0-dev.c
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
   # Tango
-  - name: tango-base-util
-    version: 0.1.0
-    repository: "file://../tango-base-util"
+  - name: ska-tango-base
+    version: 0.4.7 # Check latest version
+    repository: https://artefact.skao.int/repository/helm-internal
+
+  - name: ska-tango-util
+    version: 0.4.9 # Check latest version
+    repository: https://artefact.skao.int/repository/helm-internal
 
   # SKA Test Equipment
   - name: ska-ser-test-equipment
