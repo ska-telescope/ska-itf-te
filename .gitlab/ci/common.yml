@@ -105,8 +105,6 @@
 # or build
 
 helm-chart-lint:
-  tags:
-    - ska-k8srunner-za-itf
   after_script:
     - make helm-check-deps
   rules:
@@ -116,8 +114,6 @@ helm-chart-lint:
         - charts/**/*
 
 helm-chart-build:
-  tags:
-    - ska-k8srunner-za-itf
   rules:
     - if: $CI_PIPELINE_SOURCE == "pipeline"
       when: never
@@ -125,8 +121,6 @@ helm-chart-build:
         - charts/**/*
 
 docs-build:
-  tags:
-    - ska-k8srunner-za-itf
   rules:
     - if: $CI_PIPELINE_SOURCE == "pipeline"
       when: never
@@ -135,32 +129,24 @@ docs-build:
 
 # Only build images when there are changes
 oci-image-lint:
-  tags:
-    - ska-k8srunner-za-itf
   rules:
     - changes:
         - Dockerfile
         - pyproject.toml
 
 oci-image-build:
-  tags:
-    - ska-k8srunner-za-itf
   rules:
     - changes:
         - Dockerfile
         - pyproject.toml
 
 oci-image-publish:
-  tags:
-    - ska-k8srunner-za-itf
   rules:
     - changes:
         - Dockerfile
         - pyproject.toml
 
 oci-image-scan:
-  tags:
-    - ska-k8srunner-za-itf
   rules:
     - changes:
         - Dockerfile
