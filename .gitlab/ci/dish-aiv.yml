@@ -173,7 +173,7 @@ register-spfc:
     - mkdir ~/.ssh
     - cat /etc/ssh/ssh_config
     - echo $SPFC_KEY > ~/.ssh/spfc_rsa
-    - echo $SPFC_CONFIG > ~/.ssh/config
+    - echo $SPFC_CONFIG > /etc/ssh/ssh_config.d/config
     - ls -all ~
     - pwd
     - cat ~/.ssh/spfc_rsa
