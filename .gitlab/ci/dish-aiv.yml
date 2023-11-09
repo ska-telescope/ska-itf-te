@@ -170,6 +170,7 @@ register-spfc:
   script:
     - sudo $(echo $SPFC_KEY > ~/.ssh/spfc_rsa)
     - sudo (echo $SPFC_CONFIG > ~/.ssh/config)
-    - scp skao@$(SPFC_HOST):/var/lib/spfc/spfc/spfc_config.ini /home
-    - ls -all /home
+    - mkdir ~/.ssh
+    - scp skao@$(SPFC_HOST):/var/lib/spfc/spfc/spfc_config.ini ~
+    - ls -all ~
   when: manual
