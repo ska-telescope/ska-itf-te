@@ -12,10 +12,6 @@ global:
     ska-tango-base:
       enabled: false
 
-ska-tango-base:
-  itango:
-    enabled: true
-
 # TARANTA
 ska-taranta:
   enabled: true
@@ -35,12 +31,11 @@ cia:
 
 cbf-mcs:
   enabled: true
-  engineeringConsoleVersion: 0.8.3
-  signalVerificationVersion: 0.1.11
+  # engineeringConsoleVersion: 0.8.3
+  # signalVerificationVersion: 0.1.11
   hostInfo:
     environment: "mid-itf"
     clusterDomain: "miditf.internal.skao.int"
-
 
 cbf-tmleafnode:
   enabled: false
@@ -54,7 +49,6 @@ tmc-mid:
   legacy_compatibility: true
   enabled: true
   telescope: SKA-mid
-
 
 ska-sdp:
   legacy_compatibility: true
