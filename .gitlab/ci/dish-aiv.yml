@@ -174,8 +174,8 @@ register-spfc:
     - cat /etc/ssh/ssh_config
     - echo $SPFC_KEY > ~/.ssh/spfc_rsa
     - sudo touch /etc/ssh/ssh_config.d/spfc_config.conf
-    - sudo echo $SPFC_CONFIG > /etc/ssh/ssh_config.d/spfc_config.conf
-    - ls -all ~
+    - sudo  bash -c  'echo $SPFC_CONFIG > /etc/ssh/ssh_config.d/spfc_config.conf'
+    - sudo bash -c cat /etc/ssh/ssh_config.d/spfc_config.conf
     - pwd
     - scp skao@$SPFC_HOST:/var/lib/spfc/spfc/spfc_config.ini ~/spfc_config.ini
     - ls -all ~/.ssh/
