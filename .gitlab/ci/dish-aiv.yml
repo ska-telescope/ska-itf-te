@@ -171,6 +171,8 @@ register-spfc:
     - mkdir ~/.ssh
     - echo $SPFC_KEY > ~/.ssh/spfc_rsa
     - echo $SPFC_CONFIG > ~/.ssh/config
+    #Install SCP
+    - sudo apt install -y openssh-client
     - scp skao@$SPFC_HOST:/var/lib/spfc/spfc/spfc_config.ini ~
     - ls -all ~/.ssh/
   when: manual
