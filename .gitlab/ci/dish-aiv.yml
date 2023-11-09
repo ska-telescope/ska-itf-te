@@ -177,7 +177,7 @@ register-spfc:
     - sudo  bash -c  'echo $SPFC_CONFIG > /etc/ssh/ssh_config.d/spfc_config.conf'
     - sudo bash -c cat /etc/ssh/ssh_config.d/spfc_config.conf
     - pwd
-    - ping $SPFC_HOST
+    - telnet $SPFC_HOST 22
     - scp skao@$SPFC_HOST:/var/lib/spfc/spfc/spfc_config.ini ~/spfc_config.ini
     - ls -all ~/.ssh/
   when: manual
