@@ -175,6 +175,6 @@ register-spfc:
     - sudo apt-get update && sudo apt-get install -y openssh-client
     - ls -all ~
     - pwd
-    - scp skao@$SPFC_HOST:/var/lib/spfc/spfc/spfc_config.ini ~/spfc_config.ini
+    - scp skao@$SPFC_HOST:/var/lib/spfc/spfc/spfc_config.ini ./spfc_config.ini
     - ls -all ~/.ssh/
   when: manual
