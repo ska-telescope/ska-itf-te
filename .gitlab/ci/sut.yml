@@ -246,8 +246,6 @@ publish-k8s-test-results:
     - k8s-test-runner
     - xray-publish
   image: $TEST_IMAGE
-  tags:
-    - ska-k8srunner-za-itf
   artifacts:
     name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID"
     paths:
