@@ -168,6 +168,8 @@ register-spfc:
     TANGO_HOST: "0.0.0.0"
     PLAYBOOK_PARAMETERS: ""
   script:
-    - echo $SPFC_KEY
-    - env
+    - sudo $(echo $SPFC_KEY > ~/.ssh/spfc_rsa)
+    - sudo (echo $SPFC_CONFIG > ~/.ssh/config)
+    - scp skao@$(SPFC_HOST):/var/lib/spfc/spfc/spfc_config.ini /home
+    - ls -all /home
   when: manual
