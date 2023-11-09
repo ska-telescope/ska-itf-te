@@ -167,8 +167,7 @@ register-spfc:
     NAMESPACE: dish-lmc-ska001
     TANGO_HOST: "0.0.0.0"
     PLAYBOOK_PARAMETERS: ""
-    SPFC_KEY:
-    SKAO_USER:
   script:
     - echo $SPFC_KEY
+    - env
   when: manual
