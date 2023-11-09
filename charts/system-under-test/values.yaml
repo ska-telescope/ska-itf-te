@@ -12,10 +12,6 @@ global:
     ska-tango-base:
       enabled: false
 
-ska-tango-base:
-  itango:
-    enabled: true
-
 # TARANTA
 ska-taranta:
   enabled: true
