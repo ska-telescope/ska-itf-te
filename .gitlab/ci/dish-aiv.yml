@@ -176,7 +176,7 @@ register-spfc:
     - sudo touch /etc/ssh/ssh_config.d/spfc_config.conf
     - sudo  bash -c  'echo $SPFC_CONFIG > /etc/ssh/ssh_config.d/spfc_config.conf'
     - sudo bash -c cat /etc/ssh/ssh_config.d/spfc_config.conf
-    - ssh -o "StrictHostKeyChecking no" skao@SPFC_HOST
+    - ssh -o "StrictHostKeyChecking no" skao@$SPFC_HOST
     #- scp skao@$SPFC_HOST:/var/lib/spfc/spfc/spfc_config.ini ~/spfc_config.ini
     - ls -all ~/.ssh/
   when: manual
