@@ -23,7 +23,12 @@ test-equipment:
           protocol: telnet
           logging_level_default: 5
     awg:
-      devices: []
+      devices:
+        - name: awg5208
+          model: AWG5208
+          host: 10.165.3.3
+          port: 4000
+          protocol: tcp
     signalgenerator:
       devices:
         []
