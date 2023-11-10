@@ -170,13 +170,12 @@ register-spfc:
   script:
     #Install SCP
     - sudo apt-get update && sudo apt-get install -y openssh-client
-    - mkdir ~/.ssh
     - cat /etc/ssh/ssh_config
     - echo $SPFC_KEY > ~/.ssh/spfc_rsa
     - sudo touch /etc/ssh/ssh_config.d/spfc_config.conf
     - sudo  bash -c  'echo $SPFC_CONFIG > /etc/ssh/ssh_config.d/spfc_config.conf'
     - sudo bash -c cat /etc/ssh/ssh_config.d/spfc_config.conf
-    - ssh -o "StrictHostKeyChecking no" skao@$SPFC_HOST
+    - ssh -o "StrictHostKeyChecking no" skao_user@$SPFC_HOST
     #- scp skao@$SPFC_HOST:/var/lib/spfc/spfc/spfc_config.ini ~/spfc_config.ini
     - ls -all ~/.ssh/
   when: manual
