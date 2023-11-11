@@ -172,8 +172,8 @@ register-spfc:
     - sudo apt-get update && sudo apt-get install -y openssh-client
     #Firstly decode that key because it is already encoded to base 64
     - sudo touch /etc/ssh/ssh_config.d/spfc_config.conf
-    - sudo echo "IdentityFile ~/.ssh/spfc_rsa" > /etc/ssh/ssh_config
-    - sudo  bash -c  'echo $SPFC_CONFIG > /etc/ssh/ssh_config.d/spfc_config.conf'
+    - sudo echo "IdentityFile ~/.ssh/spfc_rsa" >> /etc/ssh/ssh_config
+    - sudo  bash -c  'echo $SPFC_CONFIG >> /etc/ssh/ssh_config.d/spfc_config.conf'
     - mkdir ~/.ssh && echo "$SPFC_KEY" | base64 -d > ~/.ssh/spfc_rsa
     - cat /etc/ssh/ssh_config
     - touch ~/.ssh/known_hosts
