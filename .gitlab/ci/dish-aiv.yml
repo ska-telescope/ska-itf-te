@@ -178,7 +178,7 @@ register-spfc:
     - cat /etc/ssh/ssh_config
     - touch ~/.ssh/known_hosts
     - sudo apt-get install telnet -y
-    - telnet $SPFC_HOST 22
+    - telnet 'echo $SPFC_HOST 22'
     - ssh -o "StrictHostKeyChecking no" skao_user@$SPFC_HOST
     #- scp skao@$SPFC_HOST:/var/lib/spfc/spfc/spfc_config.ini ~/spfc_config.ini
     - ls -all ~/.ssh/
