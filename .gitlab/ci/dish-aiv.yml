@@ -171,11 +171,11 @@ register-spfc:
     #Install SCP
     - sudo apt-get update && sudo apt-get install -y openssh-client
     - cat /etc/ssh/ssh_config
-    - echo $SPFC_KEY > ~/.ssh/spfc_rsa
+    #Firstly decode that key because it is already encoded to base 64
     - sudo touch /etc/ssh/ssh_config.d/spfc_config.conf
     - sudo  bash -c  'echo $SPFC_CONFIG > /etc/ssh/ssh_config.d/spfc_config.conf'
     - sudo bash -c cat /etc/ssh/ssh_config.d/spfc_config.conf
-    - ssh -o "StrictHostKeyChecking no" skao_user@$SPFC_HOST
+    - echo "$SPFC_KEY" | base64 -d > ~/.ssh/spfc_rsa && ssh -o "StrictHostKeyChecking no" skao_user@$SPFC_HOST
     #- scp skao@$SPFC_HOST:/var/lib/spfc/spfc/spfc_config.ini ~/spfc_config.ini
     - ls -all ~/.ssh/
   when: manual
