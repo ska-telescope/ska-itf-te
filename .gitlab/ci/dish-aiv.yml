@@ -173,10 +173,13 @@ register-spfc:
     - cat /etc/ssh/ssh_config
     #Firstly decode that key because it is already encoded to base 64
     - sudo touch /etc/ssh/ssh_config.d/spfc_config.conf
+    - echo "IdentityFile ~/.ssh/spfc_rsa" > /etc/ssh/ssh_config
     - sudo  bash -c  'echo $SPFC_CONFIG > /etc/ssh/ssh_config.d/spfc_config.conf'
-    - sudo bash -c cat /etc/ssh/ssh_config.d/spfc_config.conf
     - mkdir ~/.ssh && echo "$SPFC_KEY" | base64 -d > ~/.ssh/spfc_rsa
-    - ssh -o "StrictHostKeyChecking no" skao_user@$SPFC_HOST
+    - touch ~/.ssh/known_hosts
+    - sudo apt-get install telnet -y
+    - telnet $SPFC_HOST 22
+    #- ssh -o "StrictHostKeyChecking no" skao_user@$SPFC_HOST
     #- scp skao@$SPFC_HOST:/var/lib/spfc/spfc/spfc_config.ini ~/spfc_config.ini
     - ls -all ~/.ssh/
   when: manual
