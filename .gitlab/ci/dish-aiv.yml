@@ -170,12 +170,12 @@ register-spfc:
   script:
     #Install SCP
     - sudo apt-get update && sudo apt-get install -y openssh-client
-    - cat /etc/ssh/ssh_config
     #Firstly decode that key because it is already encoded to base 64
     - sudo touch /etc/ssh/ssh_config.d/spfc_config.conf
     - sudo echo "IdentityFile ~/.ssh/spfc_rsa" > /etc/ssh/ssh_config
     - sudo  bash -c  'echo $SPFC_CONFIG > /etc/ssh/ssh_config.d/spfc_config.conf'
     - mkdir ~/.ssh && echo "$SPFC_KEY" | base64 -d > ~/.ssh/spfc_rsa
+    - cat /etc/ssh/ssh_config
     - touch ~/.ssh/known_hosts
     - sudo apt-get install telnet -y
     - telnet $SPFC_HOST 22
