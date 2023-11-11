@@ -173,7 +173,7 @@ register-spfc:
     - cat /etc/ssh/ssh_config
     #Firstly decode that key because it is already encoded to base 64
     - sudo touch /etc/ssh/ssh_config.d/spfc_config.conf
-    - echo "IdentityFile ~/.ssh/spfc_rsa" > /etc/ssh/ssh_config
+    - sudo echo "IdentityFile ~/.ssh/spfc_rsa" > /etc/ssh/ssh_config
     - sudo  bash -c  'echo $SPFC_CONFIG > /etc/ssh/ssh_config.d/spfc_config.conf'
     - mkdir ~/.ssh && echo "$SPFC_KEY" | base64 -d > ~/.ssh/spfc_rsa
     - touch ~/.ssh/known_hosts
