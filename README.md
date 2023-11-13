@@ -199,38 +199,6 @@ IP  : 10.165.3.1
 Port: 5025
 Web : http://za-itf-signal-generator.ad.skatelescope.org/webpages/web/html/ihp.php
 
-## Preparing to SSH to SPFC device
-
-Before remotely loggin in to the SPFC device using the ssh key, please add local ssh keys and
-it to your ~/.ssh directory using the following steps.
-
-Login to https://vault.skao.int/ui/ and `sign in with gitlab` button (You need to be logged in to gitlab.com
-in the same browser already).
-Navigate to secrets/kv/groups/ska-dev/atlas and copy the `SPFC_PRIVATE_KEY` value to a file called `spfc_rsa`
-such that you have it in `~/.ssh/spfc_rsa`
-Next step is to copy the `SPFC_PUBLIC_KEY` value to a file called `spfc_rsa.id` such that you have it in
-`~/.ssh/spfc_rsa.id`
-Next step is to add the following configuration information to your `~/.ssh/config` file:
-
-```
-Host 10.165.3.28
-    KexAlgorithms +diffie-hellman-group1-sha1,diffie-hellman-group14-sha1
-    IdentityFile ~/.ssh/spfc_rsa
-    PubkeyAcceptedKeyTypes=+ssh-rsa
-    HostKeyAlgorithms=+ssh-rsa
-
-Host 10.165.3.33
-    KexAlgorithms +diffie-hellman-group1-sha1,diffie-hellman-group14-sha1
-    IdentityFile ~/.ssh/spfc_rsa
-    PubkeyAcceptedKeyTypes=+ssh-rsa
-    HostKeyAlgorithms=+ssh-rsa
-```
-
-The step above will enable seamless login to both SPF devices in the MID-ITF in both 
-`10.165.3.28` and `10.165.3.33` IP addresses.
-
-You should be able to login to SPFC using the generic user `skao` to SPFC.
-
 ### Register SPFC device to tango database
 
 There is a set of commands that one can run to register the SPFC device to the tango database.

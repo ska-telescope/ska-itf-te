@@ -16,11 +16,15 @@
 ##  make target for registering SPFC to the tango database.
 ##  Please ensure that the TANGO_HOST variable is set before running the register-spfc command.
 
+# set the following variables within the PrivateRules.mak file
+
 SERVICE_NAME ?= tango-databaseds
-NAMESPACE ?= dish-lmc-ska001
-TANGO_HOST = 10.164.10.22:10000
-SPFC_HOST ?= 10.165.3.28
-DEVICE_LOCATION ?= ska002
+NAMESPACE ?= dish-namespace
+TANGO_HOST ?= tango-ip:port
+SPFC_HOST ?= spfc-host
+SPFC_USER ?= spfc-user
+DEVICE_LOCATION ?= dish-index
+SPFC_STATUS ?= 
 #The following two lines need not to be changed.
 TANGO_HOST_CONFIG ?= resources/spfc/tango_host.ini
 SPFC_CONFIG ?= resources/spfc/spfc_config.ini
@@ -30,27 +34,41 @@ update-spfc-config:
 	@touch $(TANGO_HOST_CONFIG)
 	@echo "[Hosts]" >> $(TANGO_HOST_CONFIG)
 	@echo "TANGO_HOST="$(TANGO_HOST) >> $(TANGO_HOST_CONFIG)
-	@scp $(TANGO_HOST_CONFIG) skao@$(SPFC_HOST):/home/skao/tango_host.ini
+	@scp $(TANGO_HOST_CONFIG) skao_user@$(SPFC_HOST):/home/skao_user/tango_host.ini
 	@rm $(TANGO_HOST_CONFIG)
 	sleep 8
 
 restart-spfc-service:
-	@ssh skao@$(SPFC_HOST) -t "sudo /bin/systemctl restart spfc-system.target"
+	@ssh skao_user@$(SPFC_HOST) -t "sudo /bin/systemctl restart spfc-system.target"
 
-#Get the config file with serial number, for exmaple 4F0001 (found in /var/lib/spfc/spfc/spfc_config.ini within SPFC device
+#Get the config file with serial number, for example 4F0001 (found in /var/lib/spfc/spfc/spfc_config.ini within SPFC device
 get-spfc-serial:
-	@scp skao@$(SPFC_HOST):/var/lib/spfc/spfc/spfc_config.ini resources/spfc
+	@scp skao_user@$(SPFC_HOST):/var/lib/spfc/spfc/spfc_config.ini resources/spfc
 	@sleep 5
+
+get-service-status:
+	@secs ?= 10
+	while [ $${secs} -gt 0 ] ; do
+		SPFC_STATUS=$(ssh $(SPFC_USER)@$(SPFC_HOST) -t "/bin/systemctl is-active --quiet spfc-system.target")
+		secs=`expr $$secs - 1`;
+		@if [[ -z "${SPFC_STATUS}" ]];then
+			break
+		fi;
+	done;
+	@if [[ "*$$not loaded*" == "$(SPFC_STATUS)" ]];then
+		echo 'SPFC spfc-system.target is not loaded.';
+		exit 0;
+	@fi
 
 register-spfc:
 	@make update-spfc-config
-	@make $(restart-spfc-service)
-	@sleep 10
+	@make restart-spfc-service
+	@make get-service-status
+	@
 	@make get-spfc-serial
 	@python3 scripts/spfc/register_device.py $(TANGO_HOST) $(DEVICE_LOCATION) $(SPFC_HOST)
-	@sleep 6
 	@echo "Registration done."
 	@echo "Restarting SPFC"
 	@make $(restart-spfc-service)
-	@sleep 10
+	@get-service-status
 	@rm $(SPFC_CONFIG)
