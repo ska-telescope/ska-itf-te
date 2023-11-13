@@ -8,15 +8,16 @@ icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_201
 dependencies:
   # TANGO DEPENDENCIES
   - name: ska-tango-base
-    version: 0.4.6
+    version: 0.4.7
     repository: https://artefact.skao.int/repository/helm-internal
+
   - name: ska-tango-util
-    version: 0.4.6
-    repository: https://artefact.skao.int/repository/helm-internal
+    version: 0.4.11-dev.c921857f5
+    repository: https://gitlab.com/api/v4/projects/9027158/packages/helm/dev
 
   # TARANTA APPLICATION
   - name: ska-tango-taranta
-    version: 2.2.0
+    version: 2.4.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-taranta.enabled
   - name: ska-tango-tangogql
@@ -26,6 +27,6 @@ dependencies:
 
   # DISH LMC CHART
   - name: ska-dish-lmc
-    version: 2.5.0
+    version: 2.6.0
     repository: https://artefact.skao.int/repository/helm-internal
     alias: dishlmc
