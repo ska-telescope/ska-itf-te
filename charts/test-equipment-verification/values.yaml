@@ -4,10 +4,6 @@ global:
     ska-tango-base:
       enabled: false
 
-ska-tango-base:
-  itango:
-    enabled: true
-
 test-equipment:
   legacy_compatibility: true
   enabled: true
