@@ -80,8 +80,9 @@ sut-namespaces: ## Create both normal & SDP helmdeploy namespaces for SUT.
 	@make k8s-namespace KUBE_NAMESPACE=$(KUBE_NAMESPACE_SDP)
 
 delete-sut-namespaces:
-	@make k8s-delete-namespace || true
-	@make k8s-delete-namespace KUBE_NAMESPACE=$(KUBE_NAMESPACE_SDP) || true
+	make k8s-delete-namespace || true
+	make k8s-delete-namespace KUBE_NAMESPACE=$(KUBE_NAMESPACE_SDP) || true
+	kubectl -v5 delete --ignore-not-found namespace $(KUBE_NAMESPACE_SDP) || true
 
 remove-sut-deployment:
 	@make k8s-uninstall-chart || true
