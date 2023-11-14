@@ -1,0 +1,11 @@
+apiVersion: v2
+name: spfc-registration
+description: A Helm chart for registering SPFC
+type: application
+version: 0.4.28
+appVersion: 0.4.28
+icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
+dependencies:
+- name: ska-tango-util
+  version: 0.4.9
+  repository: https://artefact.skao.int/repository/helm-internal

@@ -1,0 +1,21 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  labels:
+    batch.kubernetes.io/job-name: register-spfc-job
+    job-name: register-spfc-job
+  name: register-spfc
+spec:
+  template:
+    spec:
+      containers:
+      - name: register-spfc
+        image: artefact.skao.int/ska-tango-images-pytango-runtime:9.4.3
+        env:
+          - name: TEST_KEY
+            value: testing_key
+        command: ["/bin/bash","-c","echo $TEST_KEY"]
+      restartPolicy: Never
+  backoffLimit: 6
+  suspend: false
