@@ -93,9 +93,8 @@ python-post-lint:
 
 DOCS_SPHINXOPTS=-n -W --keep-going
 
-# Use the previously built image when running in the pipeline
-ifneq ($(CI_JOB_ID),)
-OCI_TAG = $(VERSION)-dev.c$(CI_COMMIT_SHORT_SHA)
+# Also push to the latest tag so that we can use the image in the pipeline.
+OCI_BUILD_ADDITIONAL_TAGS := latest
 CI_REGISTRY ?= registry.gitlab.com
 
 # # for k8s-test
