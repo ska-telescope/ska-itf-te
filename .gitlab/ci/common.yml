@@ -131,25 +131,25 @@ docs-build:
 oci-image-lint:
   rules:
     - changes:
-        - Dockerfile
+        - images/base/Dockerfile
         - pyproject.toml
 
 oci-image-build:
   rules:
     - changes:
-        - Dockerfile
+        - images/base/Dockerfile
         - pyproject.toml
 
 oci-image-publish:
   rules:
     - changes:
-        - Dockerfile
+        - images/base/Dockerfile
         - pyproject.toml
 
 oci-image-scan:
   rules:
     - changes:
-        - Dockerfile
+        - images/base/Dockerfile
         - pyproject.toml
 
 ### TARANTA DEPLOYMENT
