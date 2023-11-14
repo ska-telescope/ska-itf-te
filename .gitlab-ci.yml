@@ -3,7 +3,7 @@ image: $SKA_K8S_TOOLS_BUILD_DEPLOY
 variables:
   MINIKUBE: "false"
   CI_REGISTRY_IMAGE: $CI_REGISTRY/ska-telescope/ska-mid-itf/base
-  BASE_IMAGE_TAG: "latest"
+  BASE_IMAGE_TAG: "0.1.0-dev.c42d4ef0f"
   TEST_IMAGE: $CI_REGISTRY_IMAGE:$BASE_IMAGE_TAG
   GIT_SUBMODULE_STRATEGY: recursive
   EXPOSE_All_DS: "true"
@@ -68,18 +68,18 @@ include:
 
 xray-publish:
   tags:
-  - ska-k8srunner-za-itf
+    - ska-k8srunner-za-itf
   when: always #### TODO: Remove this and uncomment line just above this one!
   rules: !reference [publish-k8s-test-results, rules]
 
 python-test:
   tags:
-  - ska-k8srunner-za-itf
+    - ska-k8srunner-za-itf
   image: $TEST_IMAGE
 
 python-lint:
   tags:
-  - ska-k8srunner-za-itf
+    - ska-k8srunner-za-itf
   image: $TEST_IMAGE
   rules:
     - allow_failure: true
@@ -96,28 +96,28 @@ python-lint:
 
 python-build-for-publication-legacy:
   tags:
-  - ska-k8srunner-za-itf
+    - ska-k8srunner-za-itf
   image: $TEST_IMAGE
   before_script:
     - ""
 
 python-build-for-publication:
   tags:
-  - ska-k8srunner-za-itf
+    - ska-k8srunner-za-itf
   image: $TEST_IMAGE
   before_script:
     - ""
 
 python-build-for-development-legacy:
   tags:
-  - ska-k8srunner-za-itf
+    - ska-k8srunner-za-itf
   image: $TEST_IMAGE
   before_script:
     - ""
 
 python-build-for-development:
   tags:
-  - ska-k8srunner-za-itf
+    - ska-k8srunner-za-itf
   image: $TEST_IMAGE
   before_script:
     - ""
@@ -125,7 +125,7 @@ python-build-for-development:
 # base stage
 build-base-image:
   tags:
-  - ska-k8srunner-za-itf
+    - ska-k8srunner-za-itf
   stage: .pre
   image: docker:19.03.12
   rules:
@@ -142,39 +142,38 @@ build-base-image:
     - docker build --pull -t "${CI_REGISTRY_IMAGE}:${BASE_IMAGE_TAG}" .
     - docker push "${CI_REGISTRY_IMAGE}:${BASE_IMAGE_TAG}"
 
-
 ##### TEMPORARY TAGS FIXUP #######
 ##### Run everything in the Mid ITF while the STFC is down #####
 
 python-gemnasium-scan:
   tags:
-  - ska-k8srunner-za-itf
+    - ska-k8srunner-za-itf
 python-gemnasium-scan-legacy:
   tags:
-  - ska-k8srunner-za-itf
+    - ska-k8srunner-za-itf
 python-publish-to-car:
   tags:
-  - ska-k8srunner-za-itf
+    - ska-k8srunner-za-itf
 python-publish-to-gitlab:
   before_script:
     - '[ -f .make/python.mk ] || (echo "File python.mk not included in Makefile; exit 1")'
-    - 'make help | grep python-publish'
+    - "make help | grep python-publish"
     - poetry config virtualenvs.in-project true
     - poetry install
   tags:
-  - ska-k8srunner-za-itf
+    - ska-k8srunner-za-itf
 docs-build:
   tags:
-  - ska-k8srunner-za-itf
+    - ska-k8srunner-za-itf
 docs-pages:
   tags:
-  - ska-k8srunner-za-itf
+    - ska-k8srunner-za-itf
 oci-image-scan-from-car:
   tags:
-  - ska-k8srunner-za-itf
+    - ska-k8srunner-za-itf
 create-ci-metrics:
   tags:
-  - ska-k8srunner-za-itf
+    - ska-k8srunner-za-itf
 build-changelog:
   tags:
-  - ska-k8srunner-za-itf
+    - ska-k8srunner-za-itf
