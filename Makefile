@@ -94,9 +94,10 @@ python-post-lint:
 DOCS_SPHINXOPTS=-n -W --keep-going
 
 # Use the previously built image when running in the pipeline
-ifneq ($(CI_JOB_ID),)
-OCI_TAG = $(VERSION)-dev.c$(CI_COMMIT_SHORT_SHA)
-CI_REGISTRY ?= registry.gitlab.com
+# ifneq ($(CI_JOB_ID),)
+# # OCI_TAG = $(VERSION)-dev.c$(CI_COMMIT_SHORT_SHA)
+# OCI_TAG = $(VERSION)-dev.c42d4ef0f # fix to specific dev tag
+# CI_REGISTRY ?= registry.gitlab.com
 
 # # for k8s-test
 # K8S_TEST_IMAGE_TO_TEST=$(CI_REGISTRY)/ska-telescope/$(NAME)/$(NAME):$(OCI_TAG)
