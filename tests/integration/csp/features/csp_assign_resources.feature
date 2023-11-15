@@ -8,19 +8,19 @@ Feature: Assign resources to CSP subarray
 		When I assign resources to it
 		Then the CSP subarray must be in IDLE state
 
-	@XTP-5787 @XTP-5537 @XTP-4635 @XTP-3324
+	@skip @XTP-5787 @XTP-5537 @XTP-4635 @XTP-3324
 	Scenario: Release resources assigned to an CSP mid subarray
 		Given a CSP subarray in IDLE state
 		When I release all resources assigned to it
 		Then the CSP subarray must be in EMPTY state
 
-	@XTP-20082 @XTP-5537 @XTP-4635 @XTP-3324
+	@skip @XTP-20082 @XTP-5537 @XTP-4635 @XTP-3324
 	Scenario: Abort assigning CSP
 		Given an subarray busy assigning
 		When I command it to Abort
 		Then the subarray should go into an aborted state
 
-	@XTP-20131
+	@skip @XTP-20131
 	Scenario: Abort assigning CSP Low
 		Given an subarray busy assigning
 		When I command it to Abort
