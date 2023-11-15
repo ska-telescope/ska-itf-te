@@ -4,6 +4,18 @@ KUBE_NAMESPACE ?= $(KUBE_NAMESPACE)
 LRU_INDEX ?= lru1
 NUMBER_OF_TALON_BOARDS ?= 1
 
+## TARGET: itf-cbf-talonlru-status
+## SYNOPSIS: make itf-cbf-talonlru-status
+## HOOKS: none
+## VARS: 
+##	HW_CONFIG_FILE_PATH=[scripts path] (default value: resources/talon)
+##	LRU_INDEX=[lru index paramter] (default value: lru1)
+##  make target for checking the Talon LRU status
+
+itf-cbf-talonlru-status: ## Switch off the Talon LRU specified
+	@[[ -f  $(HW_CONFIG_FILE_PATH)/talon_power_apc.sh ]] || exit 404;
+	@cd $(HW_CONFIG_FILE_PATH) && ./talon_power_apc.sh $(LRU_INDEX)
+
 ## TARGET: itf-cbf-talonlru-off
 ## SYNOPSIS: make itf-cbf-talonlru-off
 ## HOOKS: none
@@ -13,7 +25,8 @@ NUMBER_OF_TALON_BOARDS ?= 1
 ##  make target for switching off the Talon LRU
 
 itf-cbf-talonlru-off: ## Switch off the Talon LRU specified
-	shell $(HW_CONFIG_FILE_PATH)/talon_power_apc.sh $(LRU_INDEX) off
+	@[[ -f  $(HW_CONFIG_FILE_PATH)/talon_power_apc.sh ]] || exit 404;
+	@cd $(HW_CONFIG_FILE_PATH) && ./talon_power_apc.sh $(LRU_INDEX) off
 
 ## TARGET: itf-cbf-config-talon
 ## SYNOPSIS: make itf-cbf-config-talon

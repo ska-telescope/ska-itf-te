@@ -202,7 +202,7 @@ register-spfc:
   script:
     - python3 -m pip install --user ansible-core
     #Install kubectl as this image does not contain it
-    - curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" 
+    - curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
       && sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
     - export TANGO_HOST=$(kubectl -n ${NAMESPACE} get svc ${SERVICE_NAME} -o jsonpath={.status.loadBalancer.ingress[0].ip})
     - export PLAYBOOK_PARAMETERS=$PLAYBOOK_PARAMETERS:--extra-vars='{tango_host:$TANGO_HOST:10000}'

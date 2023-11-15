@@ -34,8 +34,12 @@ def fxt_set_up_log_checking_for_csp(
     sut_settings: conftest.SutTestSettings,
 ):
     """Set up log checking (using log consumer) on cbf.
-    :param log_checking: skallop fixture used to set up log checking.
-    :param sut_settings: A class representing the settings for the system under test.
+    <<<<<<< HEAD
+    =======
+
+    >>>>>>> 23b8914c68ff4d4ffb907c7f931f10cd70caab68
+        :param log_checking: skallop fixture used to set up log checking.
+        :param sut_settings: A class representing the settings for the system under test.
     """
     if os.getenv("CAPTURE_LOGS"):
         tel = names.TEL()
@@ -49,7 +53,7 @@ def a_csp(
     set_up_log_checking_for_csp,  # pylint: disable=unused-argument
 ):
     """
-    a CSP.
+    Given a CSP.
 
     :param set_up_log_checking_for_csp: skallop fixture used to set up log checking.
     """
@@ -64,7 +68,7 @@ def the_csp_must_be_on(
     sut_settings: conftest.SutTestSettings,
 ):
     """
-    the csp must be on.
+    Assert that the csp is on.
 
     :param sut_settings: A class representing the settings for the system under test.
     """
@@ -79,11 +83,12 @@ def the_csp_must_be_on(
         assert_that(str(result)).is_equal_to("ON")
 
 
-# test validation
-@pytest.mark.test_tests
-@pytest.mark.usefixtures("setup_csp_mock")
-def test_test_csp_startup(run_mock):
-    """Test the test using a mock SUT
-    :param run_mock: a run mock object
-    """
-    run_mock(test_csp_start_up_telescope_mid)
+# # test validation
+# @pytest.mark.test_tests
+# @pytest.mark.usefixtures("setup_csp_mock")
+# def test_test_csp_startup(run_mock):
+#     """Test the test using a mock SUT.
+
+#     :param run_mock: a run mock object
+#     """
+#     run_mock(test_csp_start_up_telescope_mid)

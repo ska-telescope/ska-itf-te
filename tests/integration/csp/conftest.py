@@ -1,6 +1,4 @@
-"""
-Pytest fixtures and bdd step implementations specific to csp integration tests.
-"""
+"""Pytest fixtures and bdd step implementations specific to csp integration tests."""
 import logging
 import os
 from typing import Callable
@@ -22,7 +20,7 @@ from ..resources.models.mvp_model.states import ObsState
 
 @pytest.fixture(name="nr_of_subarrays", autouse=True, scope="session")
 def fxt_nr_of_subarrays() -> int:
-    """_summary_
+    """_summary_.
 
     :return: _description_
     :rtype: int
@@ -43,7 +41,8 @@ def fxt_set_nr_of_subarray(
     exec_settings: fxt_types.exec_settings,
     nr_of_subarrays: int,
 ):
-    """_summary_
+    """_summary_.
+
     :param nr_of_subarrays: _description_
     :type nr_of_subarrays: int
     :param sut_settings: _description_
@@ -51,7 +50,6 @@ def fxt_set_nr_of_subarray(
     :param exec_settings: A fixture that returns the execution settings of the test
     :type exec_settings: fxt_types.exec_settings
     """
-
     CSPEntryPoint.nr_of_subarrays = nr_of_subarrays
     sut_settings.nr_of_subarrays = nr_of_subarrays
 
@@ -63,7 +61,7 @@ def fxt_set_csp_online_from_csp(
     wait_sut_ready_for_session: Callable[[EntryPoint], None],
     nr_of_subarrays: int,
 ):
-    """_summary_
+    """_summary_.
 
     :param nr_of_subarrays: _description_
     :type nr_of_subarrays: int
@@ -96,7 +94,7 @@ def fxt_set_csp_entry_point(
     exec_settings: fxt_types.exec_settings,
     sut_settings: conftest.SutTestSettings,
 ):
-    """_summary_
+    """_summary_.
 
     :param set_nr_of_subarray: To set the number of subarray
     :type set_nr_of_subarray: int
@@ -146,7 +144,7 @@ def fxt_setup_transition_monitoring(
     context_monitoring: fxt_types.context_monitoring,
 ):
     """
-    A fixture for setting up the transition monitoring.
+    Set up the transition monitoring.
 
     :param context_monitoring: An instance of the ContextMonitoring class
         containing context monitoring settings.
@@ -162,7 +160,7 @@ def fxt_setup_transition_monitoring(
 
 @pytest.fixture(name="csp_base_composition")
 def fxt_csp_base_composition(tmp_path) -> conf_types.Composition:
-    """Setup a base composition configuration to use for csp/cbf.
+    """Set up a base composition configuration to use for csp/cbf.
 
     :param tmp_path: a temporary path for sending configuration as a file.
     :return: the configuration settings.
@@ -173,7 +171,7 @@ def fxt_csp_base_composition(tmp_path) -> conf_types.Composition:
 
 @pytest.fixture(name="csp_base_configuration")
 def fxt_csp_base_configuration(tmp_path) -> conf_types.ScanConfiguration:
-    """Setup a base scan configuration to use for csp/cbf.
+    """Set up a base scan configuration to use for csp/cbf.
 
     :param tmp_path: a temporary path for sending configuration as a file.
     :return: the configuration settings.
@@ -187,7 +185,7 @@ def fxt_csp_base_configuration(tmp_path) -> conf_types.ScanConfiguration:
 @pytest.fixture(name="monitor_cbf")
 def fxt_monitor_cbf(context_monitoring: fxt_types.context_monitoring):
     """
-    A fixture for monitoring the CBF.
+    Monitor the CBF.
 
     :param context_monitoring: An instance of the ContextMonitoring class
         containing context monitoring settings.
@@ -211,7 +209,8 @@ def an_csp_subarray(
     csp_base_composition: conf_types.Composition,
 ) -> conf_types.Composition:
     """
-    a CSP subarray.
+    Given a CSP subarray.
+
     :param set_up_subarray_log_checking_for_csp: Object for
         set_up_subarray_log_checking_for_csp parameter.
     :param monitor_cbf: Object for monitor_cbf parameter.
@@ -229,7 +228,7 @@ def an_csp_subarray_in_idle_state(
     sut_settings: conftest.SutTestSettings,
 ) -> None:
     """
-    a CSP subarray in IDLE state.
+    Given a CSP subarray in IDLE state.
 
     :param set_up_subarray_log_checking_for_csp: A fixture used for setting up
         subarray log checking for the CSP.
@@ -252,7 +251,7 @@ def the_csp_subarray_must_be_in_some_obsstate(
     obsstate: ObsState,
     integration_test_exec_settings: fxt_types.exec_settings,
 ):
-    """the subarray must be in IDLE state.
+    """Assert that the subarray is in IDLE state.
 
     :param sut_settings: An instance of SutTestSettings class
         containing test settings for the SUT.
