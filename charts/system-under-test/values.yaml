@@ -50,6 +50,10 @@ tmc:
   legacy_compatibility: true
   enabled: false
   telescope: SKA-mid
+  global:
+    Dish:
+    isSimulated:
+      enabled: true
 
 sdp:
   legacy_compatibility: true
