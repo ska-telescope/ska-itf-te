@@ -1,0 +1,21 @@
+global:
+  minikube: true
+  facility: mid-itf
+  exposeAllDS: true
+
+
+nameOverride: ""
+fullnameOverride: ""
+job:
+  name: register-spfc
+  image: artefact.skao.int/ska-tango-images-pytango-runtime:9.4.3
+
+imagePullPolicy: IfNotPresent
+
+vault:
+  useVault: true
+  address: "https://vault.skao.int"
+  secretPath: kv/data/groups/ska-dev/atlas
+  secretKey: test-injection
+  key1: TEST_KEY
+  role: kube-role   
