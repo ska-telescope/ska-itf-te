@@ -17,18 +17,6 @@ def test_abort_configuring(set_up_subarray_log_checking_for_csp: None):
     :param: set_up_subarray_log_checking_for_csp: sets up subarray log checking for csp
     """
 
-
-@pytest.mark.skip(reason="This functionality not tested at CSP/CBF, raised SKB-221")
-@pytest.mark.skalow
-@pytest.mark.configure
-@pytest.mark.csp
-@scenario("features/csp_configure_scan.feature", "Abort configuring on CSP Low")
-def test_csp_abort_configuring_low(set_up_subarray_log_checking_for_csp: None):
-    """Abort in configuring obstate.
-    :param: set_up_subarray_log_checking_for_csp: sets up subarray log checking for csp
-    """
-
-
 @pytest.mark.csp_related
 @pytest.mark.skamid
 @pytest.mark.csp
@@ -36,15 +24,3 @@ def test_csp_abort_configuring_low(set_up_subarray_log_checking_for_csp: None):
 @scenario("features/csp_configure_scan.feature", "Configure scan on csp subarray in mid")
 def test_configure_csp_mid_subarray():
     """Configure CSP mid subarray."""
-
-
-@pytest.mark.skip(reason="Disable test as it need update to support new JSON Schema")
-@pytest.mark.skalow
-@pytest.mark.csp
-@pytest.mark.configure
-@scenario(
-    "features/csp_configure_scan.feature",
-    "Configure scan on csp subarray in low",
-)
-def test_configure_csp_low_subarray():
-    """Configure CSP low subarray."""

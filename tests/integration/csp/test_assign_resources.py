@@ -21,18 +21,6 @@ def fxt_default_composition(csp_base_composition: conf_types.Composition):
     return csp_base_composition
 
 
-@pytest.mark.csprelated
-@pytest.mark.skalow
-@pytest.mark.csp
-@pytest.mark.assign
-@scenario(
-    "features/csp_assign_resources.feature",
-    "Assign resources to CSP low subarray",
-)
-def test_assign_resources_to_csp_low_subarray():
-    """Assign resources to CSP low subarray."""
-
-
 @pytest.mark.csp_related
 @pytest.mark.skamid
 @pytest.mark.csp
@@ -43,18 +31,6 @@ def test_assign_resources_to_csp_low_subarray():
 )
 def test_assign_resources_to_csp_mid_subarray():
     """Assign resources to CSP mid subarray."""
-
-
-@pytest.mark.csp_related
-@pytest.mark.skalow
-@pytest.mark.csp
-@pytest.mark.assign
-@scenario(
-    "features/csp_assign_resources.feature",
-    "Release resources assigned to an CSP low subarray",
-)
-def test_release_resources_to_csp_low_subarray():
-    """Release resources assigned to an CSP low subarray"""
 
 
 @pytest.mark.csp_related
@@ -92,22 +68,6 @@ def test_abort_in_resourcing_mid(
     :param set_restart_after_abort: A fixture to set restart after abort which is set as none
     :param composition: The assign resources configuration paramaters
     """
-
-
-@pytest.mark.skip(reason="abort in resourcing not implemented yet for CSP")
-@pytest.mark.k8s
-@pytest.mark.k8sonly
-@pytest.mark.skalow
-@pytest.mark.assign
-@scenario("features/csp_assign_resources.feature", "Abort assigning CSP Low")
-def test_abort_in_resourcing_low(
-    set_restart_after_abort: None, composition: conf_types.Composition
-):
-    """Assign resources to csp subarray in low.
-    :param set_restart_after_abort: A fixture to set restart after abort which is set as none
-    :param composition: The assign resources configuration paramaters
-    """
-
 
 # use when from ..shared_assign_resources in ..conftest.py
 # @when("I assign resources to it")
