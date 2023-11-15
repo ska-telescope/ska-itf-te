@@ -205,6 +205,7 @@ k8s-test-runner:
     - .sut_base_no_cache
     - .ds-sim-test-vars
   before_script:
+    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
     - time poetry install
     - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
     - "make help | grep k8s-test"
@@ -229,6 +230,7 @@ k8s-test-runner:
     CAPTURE_LOGS: "True"
     EXIT_AT_FAIL: "True"
     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+    DS_SIM_SERVER_CERT: $CI_PROJECT_DIR/.secure_files/SimpleServer_2048.der
 
 stop-k8s-test-runner:
   tags:

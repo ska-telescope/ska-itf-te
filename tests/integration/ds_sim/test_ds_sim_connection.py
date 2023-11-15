@@ -1,6 +1,7 @@
 """Test connection to dish structure simulator."""
 import asyncio
 import logging
+from typing import Any
 
 import pytest
 from asyncua import Client
@@ -75,11 +76,11 @@ def responds_with_expected_values(opcua_client: Client):
     """
     # pytest-asyncio & pytest-bdd don't work together so we run until the Futures are done
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(check_value(opcua_client=opcua_client))
-    logging.debug("it responds with the expected values")
+    val = loop.run_until_complete(check_value(opcua_client=opcua_client))
+    logging.debug("it responds with the expected values %s", val)
 
 
-async def check_value(opcua_client: Client):
+async def check_value(opcua_client: Client) -> Any:
     """
     Check that the OPCUA server responds with expected values when queried.
 
@@ -88,6 +89,8 @@ async def check_value(opcua_client: Client):
 
     :param opcua_client: The OPCUA client used to connect to the server.
     :type opcua_client: Client
+    :return: the AxisState of the Azimuth
+    :rtype: Any
     """
     child: Node = await opcua_client.nodes.root.get_child(
         [
@@ -95,10 +98,10 @@ async def check_value(opcua_client: Client):
             "2:Logic",
             "2:Application",
             "2:PLC_PRG",
-            "2:Pointing",
-            "2:Status",
-            "2:StaticCorrActive",
+            "2:Azimuth",
+            "2:AxisState",
         ]
     )
-    val = await child.read_value()
-    logging.debug("opcua_client read value for StaticCorrActive: %s", val)
+    val = await child.get_value()
+    logging.debug("opcua_client read value for AxisState: %s", val)
+    return val
