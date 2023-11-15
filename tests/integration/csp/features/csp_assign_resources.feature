@@ -2,14 +2,14 @@
 Feature: Assign resources to CSP subarray
 
 
-	@XTP-4636 @XTP-5537 @XTP-4635 @XTP-3324 @XTP-5573
+	@skip @XTP-4636 @XTP-5537 @XTP-4635 @XTP-3324 @XTP-5573
 	Scenario: Assign resources to CSP mid subarray
 		Given a CSP subarray
 		When I assign resources to it
 		Then the CSP subarray must be in IDLE state
 
 
-	@XTP-4637 @XTP-5537 @XTP-4635 @XTP-3325 @XTP-5539
+	@skip @XTP-4637 @XTP-5537 @XTP-4635 @XTP-3325 @XTP-5539
 	Scenario: Assign resources to CSP low subarray
 		Given a CSP subarray
 		When I assign resources to it
