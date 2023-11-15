@@ -211,6 +211,7 @@ k8s-test-runner:
     - make install-test-system
   script:
     - make integration-test TANGO_HOST=$TANGO_DATABASE_DS.$KUBE_NAMESPACE.svc.$CLUSTER_DOMAIN:10000 || true
+    - echo "Test command exit code - $(cat build/status)"
     - |
       if [[ 0 == "$(cat build/status)" ]]; then
         make uninstall-test-system
