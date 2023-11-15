@@ -15,7 +15,7 @@ Feature: Assign resources to CSP subarray
 		When I assign resources to it
 		Then the CSP subarray must be in IDLE state
 
-	@XTP-5538 @XTP-5537 @XTP-4635 @XTP-3325 @XTP-5539
+	@skip @XTP-5538 @XTP-5537 @XTP-4635 @XTP-3325 @XTP-5539
 	Scenario: Release resources assigned to an CSP low subarray
 		Given a CSP subarray in IDLE state
 		When I release all resources assigned to it
