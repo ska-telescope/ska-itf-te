@@ -1,6 +1,6 @@
 from typing import TypedDict, cast
 
-from obsconfig.target_spec import ArraySpec, BaseTargetSpec
+from .target_spec import ArraySpec, BaseTargetSpec
 from ska_tmc_cdm.messages.central_node.csp import CSPConfiguration as CSPAssignConfiguration
 from ska_tmc_cdm.messages.subarray_node.configure.csp import (
     CBFConfiguration,
