@@ -5,10 +5,10 @@ from ska_tmc_cdm.messages.central_node.assign_resources import AssignResourcesRe
 from ska_tmc_cdm.messages.subarray_node.configure import ConfigureRequest
 
 from .base import encoded
-from .csp import CSPconfig
-from .dishes import Dishes
-from .mccs import MCCSConfig
-from .sdp_config import (
+from csp import CSPconfig
+from dishes import Dishes
+from mccs import MCCSConfig
+from sdp_config import (
     ArraySpec,
     BaseTargetSpec,
     Beamgrouping,
