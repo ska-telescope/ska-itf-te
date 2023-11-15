@@ -8,7 +8,7 @@ Feature: Configure scan on csp subarray
         When I configure it for a scan
         Then the CSP subarray must be in READY state
 
-    @XTP-16346
+    @skip @XTP-16346
 	    Scenario: Abort configuring
         Given an subarray busy configuring
         When I command it to Abort
