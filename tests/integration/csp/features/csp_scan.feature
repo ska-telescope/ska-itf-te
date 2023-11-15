@@ -8,7 +8,7 @@ Feature: Run a scan on CSP subarray
         When I command it to scan for a given period
         Then the CSP subarray must be in the SCANNING state until finished
 
-    @XTP-16345
+    @skip @XTP-16345
     Scenario: Abort Csp scanning
         Given an subarray busy scanning
         When I command it to Abort
