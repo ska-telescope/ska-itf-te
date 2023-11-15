@@ -1,23 +1,4 @@
-enabled: true
-
-system: SPFC
-subsystem: ska-tango-examples
-telescope: SKA-mid
-
-labels:
-  app: register-spfc
-
-vaultAddress: "https://vault.skao.int"
-
 global:
   minikube: true
-  retry:
-  - "--tries=10"
-  - "--sleep=5"
-
-
-nodeSelector: {}
-
-affinity: {}
-
-tolerations: []
+spfc-reg:
+  enabled: true

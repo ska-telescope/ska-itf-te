@@ -1,11 +1,24 @@
-apiVersion: v2
-name: spfc-registration
-description: A Helm chart for registering SPFC
-type: application
-version: 0.4.28
-appVersion: 0.4.28
-icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
-dependencies:
-- name: ska-tango-util
-  version: 0.4.9
-  repository: https://artefact.skao.int/repository/helm-internal
+---
+apiVersion: batch/v1
+name: spfc-register
+version: 0.1.0
+kind: Job
+metadata:
+  labels:
+    batch.kubernetes.io/job-name: spfc-register
+    job-name: spfc-register
+  name: register-spfc
+  enabled: true
+spec:
+  template:
+    spec:
+      containers:
+      - name: register-spfc
+        image: artefact.skao.int/ska-tango-images-pytango-runtime:9.4.3
+        env:
+          - name: SPFC_KEY
+            value: testing_key
+        command: ["/bin/bash","-c","echo $SPFC_KEY"]
+      restartPolicy: Never
+  backoffLimit: 6
+  suspend: false
