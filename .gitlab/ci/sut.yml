@@ -10,6 +10,7 @@
     K8S_CHART: system-under-test
     KUBE_APP: ska-mid-sut
     # VALUES: "pipeline.yaml resources/itf/$CONFIG.yml" # DEFINE FOR EACH JOB
+    VALUES: charts/system-under-test/values.yaml
     INGRESS_HOST: "k8s.miditf.internal.skao.int"
     CLUSTER_DOMAIN: "miditf.internal.skao.int"
     K8S_EXTRA_CHART_PARMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
