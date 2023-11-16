@@ -50,6 +50,8 @@ endif
 INTEGRATION_TEST_SOURCE ?= tests/integration
 INTEGRATION_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(_MARKS) $(_COUNTS) $(EXIT) $(PYTEST_ADDOPTS) | tee pytest.stdout
 
+DISH_LMC_PARAMS ?= $(DISH_LMC_INITIAL_PARAMS) $(DISH_LMC_EXTRA_PARAMS)
+
 SDP_PARAMS ?= --set ska-sdp.helmdeploy.namespace=$(KUBE_NAMESPACE_SDP) \
 	--set ska-sdp.ska-sdp-qa.zookeeper.clusterDomain=$(CLUSTER_DOMAIN) \
 	--set ska-sdp.ska-sdp-qa.kafka.clusterDomain=$(CLUSTER_DOMAIN) \
@@ -68,6 +70,7 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	--set ska-tango-base.jive.enabled=$(JIVE) \
 	--set ska-tango-base.itango.enabled=$(ITANGO_ENABLED) \
 	$(SDP_PARAMS) \
+	$(DISH_LMC_PARAMS) \
 	$(TARANTA_PARAMS) \
 	${K8S_TEST_TANGO_IMAGE_PARAMS} \
 	${SKIP_TANGO_EXAMPLES_PARAMS} \
@@ -92,7 +95,8 @@ DOCS_SPHINXOPTS=-n -W --keep-going
 
 # Use the previously built image when running in the pipeline
 # ifneq ($(CI_JOB_ID),)
-# OCI_TAG = $(VERSION)-dev.c$(CI_COMMIT_SHORT_SHA)
+# # OCI_TAG = $(VERSION)-dev.c$(CI_COMMIT_SHORT_SHA)
+# OCI_TAG = $(VERSION)-dev.c42d4ef0f # fix to specific dev tag
 # CI_REGISTRY ?= registry.gitlab.com
 
 # # for k8s-test

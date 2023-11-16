@@ -177,6 +177,7 @@ def fxt_online():
     :return: Flag representing the online status of all systems.
     :rtype: _type_
     """
+
     return _OnlineFlag()
 
 

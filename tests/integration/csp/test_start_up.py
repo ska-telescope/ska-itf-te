@@ -35,8 +35,8 @@ def fxt_set_up_log_checking_for_csp(
 ):
     """Set up log checking (using log consumer) on cbf.
 
-    :param log_checking: skallop fixture used to set up log checking.
-    :param sut_settings: A class representing the settings for the system under test.
+        :param log_checking: skallop fixture used to set up log checking.
+        :param sut_settings: A class representing the settings for the system under test.
     """
     if os.getenv("CAPTURE_LOGS"):
         tel = names.TEL()
