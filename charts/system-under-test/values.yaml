@@ -48,7 +48,7 @@ csp-lmc:
 ### tmc
 tmc:
   legacy_compatibility: true
-  enabled: false
+  enabled: true
   telescope: SKA-mid
   global:
     Dish:
@@ -66,6 +66,8 @@ tmc:
     dishleafnode:
       enabled: true
       instances: ["01"]
+  ska-tango-base:
+      enabled: false
     
 
 sdp:
