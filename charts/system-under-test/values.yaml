@@ -52,8 +52,8 @@ tmc:
   telescope: SKA-mid
   global:
     Dish:
-    isSimulated:
-      enabled: false
+      isSimulated:
+        enabled: false
     subarray_count: 1
     namespace_dish:
       dish_name: ["tango://tango-databaseds/ci-dish-lmc-ska001-hm-363.svc.miditf.internal.skao.int:10000/ska001/elt/master"]
