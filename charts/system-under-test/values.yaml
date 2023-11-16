@@ -54,6 +54,19 @@ tmc:
     Dish:
     isSimulated:
       enabled: true
+    subarray_count: 1
+    namespace_dish:
+      dish_name: ["tango://tango-databaseds/ci-dish-lmc-ska001-at-1767-helm-flags-fixed.svc.miditf.internal.skao.int:10000/ska001/elt/master"]
+  deviceServers:
+    centralnode:
+      subarray_count: 1
+      DishIDs: ["SKA001"]  
+    subarraynode:
+      DishIDs: ["SKA001"]
+    dishleafnode:
+      enabled: true
+      instances: ["01"]
+    
 
 sdp:
   legacy_compatibility: true
