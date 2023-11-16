@@ -56,7 +56,7 @@ tmc:
       enabled: false
     subarray_count: 1
     namespace_dish:
-      dish_name: ["tango://tango-databaseds/ci-dish-lmc-ska001-at-1767-helm-flags-fixed.svc.miditf.internal.skao.int:10000/ska001/elt/master"]
+      dish_name: ["tango://tango-databaseds/ci-dish-lmc-ska001-hm-363.svc.miditf.internal.skao.int:10000/ska001/elt/master"]
   deviceServers:
     centralnode:
       subarray_count: 1
