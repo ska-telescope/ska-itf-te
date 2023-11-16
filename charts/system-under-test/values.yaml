@@ -48,8 +48,14 @@ csp-lmc:
 ### tmc
 tmc:
   legacy_compatibility: true
-  enabled: false
+  enabled: true
   telescope: SKA-mid
+  # For each DISH_ID: tango://$(DATABASEDS_NAME).$(DISH_NAMESPACE).svc.$(CLUSTER_DOMAIN):10000/$(DISH_ID)/elt/master
+  # or tango://tango-databaseds/miditf-lmc-003-karoo-sims.svc.miditf.internal.skao.int:10000/ska003/elt/master
+  dishes:
+    [
+      "tango://tango-databaseds/miditf-lmc-003-karoo-sims.svc.miditf.internal.skao.int:10000/ska003/elt/master",
+    ]
 
 sdp:
   legacy_compatibility: true
