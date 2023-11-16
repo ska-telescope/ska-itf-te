@@ -9,6 +9,7 @@
   variables:
     K8S_CHART: system-under-test
     KUBE_APP: ska-mid-sut
+    VALUES: charts/system-under-test/values.yaml
     # VALUES: "pipeline.yaml resources/itf/$CONFIG.yml" # DEFINE FOR EACH JOB
     INGRESS_HOST: "k8s.miditf.internal.skao.int"
     CLUSTER_DOMAIN: "miditf.internal.skao.int"
