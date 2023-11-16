@@ -7,7 +7,6 @@ from ska_tmc_cdm.messages.subarray_node.configure import ConfigureRequest
 from .base import encoded
 from .csp import CSPconfig
 from .dishes import Dishes
-from .mccs import MCCSConfig
 from .sdp_config import (
     ArraySpec,
     BaseTargetSpec,
@@ -22,7 +21,7 @@ from .sdp_config import (
 from .tmc_config import TmcConfig
 
 
-class Observation(SdpConfig, CSPconfig, Dishes, TmcConfig, MCCSConfig):
+class Observation(SdpConfig, CSPconfig, Dishes, TmcConfig):
     def __init__(
         self,
         context: dict[Any, Any] | None = None,
@@ -52,7 +51,6 @@ class Observation(SdpConfig, CSPconfig, Dishes, TmcConfig, MCCSConfig):
         CSPconfig.__init__(self, base_target_specs, array)
         Dishes.__init__(self, base_target_specs, array)
         TmcConfig.__init__(self)
-        MCCSConfig.__init__(self)
 
     assign_resources_schema = "https://schema.skao.int/ska-tmc-assignresources/2.1"
 
