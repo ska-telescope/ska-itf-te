@@ -19,14 +19,14 @@ dependencies:
     version: 0.12.0 # check latest version
     repository: https://artefact.skao.int/repository/helm-internal
     alias: tmc
-    condition: test-equipment.enabled
+    condition: tmc.enabled
 
   # SKA Mid CSP LMC
   - name: ska-csp-lmc-mid
     version: 0.17.0 # check latest version
     repository: https://artefact.skao.int/repository/helm-internal
     alias: csp-lmc
-    condition: test-equipment.enabled
+    condition: csp-lmc.enabled
 
   # SKA Mid CBF
   - name: ska-mid-cbf-mcs
@@ -44,7 +44,8 @@ dependencies:
   - name: ska-sdp
     version: 0.17.0
     repository: https://artefact.skao.int/repository/helm-internal
-    condition: ska-sdp.enabled
+    alias: sdp
+    condition: sdp.enabled
 
   # SKA Configuration Inspector API
   # Gitlab Location: https://gitlab.com/ska-telescope/ska-ser-config-inspector
@@ -69,3 +70,4 @@ dependencies:
   - name: ska-log-consumer
     version: 0.1.6
     repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-log-consumer.enabled
