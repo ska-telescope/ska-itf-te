@@ -37,7 +37,7 @@ class Dishes(TargetSpecs):
             self.dish_specs: dict[str, list[ReceptorName | MeerkatDishHame]] = {
                 "two": ["SKA001", "SKA002"],
                 "three": ["SKA001", "SKA002", "SKA003"],
-                "four": ["SKA001", "SKA002", "SKA003", "SKA004"],
+                "four": ["SKA001", "SKA036", "SKA063", "SKA100"],
                 # vis-receive script doesn't allow the above resources
                 # in the current visibility-receive test because it is running
                 # for Low, and the above names are for Mid dishes,
