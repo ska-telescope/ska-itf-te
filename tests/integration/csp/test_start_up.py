@@ -34,10 +34,7 @@ def fxt_set_up_log_checking_for_csp(
     sut_settings: conftest.SutTestSettings,
 ):
     """Set up log checking (using log consumer) on cbf.
-    <<<<<<< HEAD
-    =======
 
-    >>>>>>> 23b8914c68ff4d4ffb907c7f931f10cd70caab68
         :param log_checking: skallop fixture used to set up log checking.
         :param sut_settings: A class representing the settings for the system under test.
     """
