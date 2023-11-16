@@ -56,6 +56,8 @@ tmc:
     [
       "tango://tango-databaseds/miditf-lmc-003-karoo-sims.svc.miditf.internal.skao.int:10000/ska003/elt/master",
     ]
+  ska-tango-base:
+    enabled: false
 
 sdp:
   legacy_compatibility: true
