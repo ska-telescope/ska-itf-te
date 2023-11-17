@@ -177,7 +177,13 @@ deploy-dishlmc-ska100:
   needs:
     - uninstall-aa05-dishes
 
-yuninstall-dishlmc-ska036:
+uninstall-dishlmc-ska001:
+  extends:
+    - .destroy-dish-lmc
+  variables:
+    DISH_ID: ska001
+
+uninstall-dishlmc-ska036:
   extends:
     - .destroy-aa05-dishes
   variables:
