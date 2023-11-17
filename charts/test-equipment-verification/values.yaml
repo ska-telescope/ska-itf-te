@@ -15,20 +15,22 @@ test-equipment:
     enabled: false
   deviceServers:
     progattenuator:
-      devices:
-        - name: rc1dat800030
-          model: RC1DAT800030
-          host: 10.165.3.6
-          port: 45451
-          protocol: telnet
-          logging_level_default: 5
+      devices: []
+        # - name: rc1dat800030
+        #   model: RC1DAT800030
+        #   host: 10.165.3.6
+        #   port: 45451
+        #   protocol: telnet
+        #   logging_level_default: 5
     awg:
+      devices: []
+    awgvisa:
       devices:
-        - name: awg5208
-          model: AWG5208
+        - name: awg5208i
+          model: AWG5208I
           host: 10.165.3.3
-          port: 4000
-          protocol: tcp
+          port: 0
+          protocol: visa
     signalgenerator:
       devices:
         []
@@ -46,8 +48,7 @@ test-equipment:
     spectrumanalyser:
       devices: []
     spectrumanalyseranritsu:
-      devices:
-        []
+      devices: []
         # - name: ms2090a
         #   model: MS2090A
         #   host: 10.165.3.4

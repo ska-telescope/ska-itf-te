@@ -47,12 +47,19 @@ test-equipment:
             limits:
               skao.int/spectrum-analyser-01: "1"
     awg:
-      devices:
-        - name: awg5208
-          model: AWG5208
-          host: 10.165.3.3
-          port: 4000
-          protocol: tcp
+      devices: []
+    #     - name: awg5208
+    #       model: AWG5208
+    #       host: 10.165.3.3
+    #       port: 4000
+    # #       protocol: tcp
+    awgvisa:
+      devices: []
+    #     - name: awg5208i
+    #       model: AWG5208I
+    #       host: 10.165.3.3
+    #       port: 0
+    #       protocol: visa
     sp6t:
       devices: []
     spdt:
