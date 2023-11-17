@@ -58,9 +58,9 @@ SDP_PARAMS ?= --set ska-sdp.helmdeploy.namespace=$(KUBE_NAMESPACE_SDP) \
 	--set ska-sdp.ska-sdp-qa.redis.clusterDomain=$(CLUSTER_DOMAIN)
 
 TMC_PARAMS ?= --set tmc.global.namespace_dish.dish_name[0]="tango://tango-databaseds.ci-dish-lmc-ska001-hm-363.svc.miditf.internal.skao.int:10000/ska001/elt/master" \
-	--set tmc.global.namespace_dish.dish_name[1]="tango://tango-databaseds.ci-dish-lmc-ska001-hm-363.svc.miditf.internal.skao.int:10000/ska036/elt/master" \
-	--set tmc.global.namespace_dish.dish_name[2]="tango://tango-databaseds.ci-dish-lmc-ska001-hm-363.svc.miditf.internal.skao.int:10000/ska063/elt/master" \
-	--set tmc.global.namespace_dish.dish_name[3]="tango://tango-databaseds.ci-dish-lmc-ska001-hm-363.svc.miditf.internal.skao.int:10000/ska100/elt/master" \
+	--set tmc.global.namespace_dish.dish_name[1]="tango://tango-databaseds.ci-dish-lmc-ska036-hm-363.svc.miditf.internal.skao.int:10000/ska036/elt/master" \
+	--set tmc.global.namespace_dish.dish_name[2]="tango://tango-databaseds.ci-dish-lmc-ska063-hm-363.svc.miditf.internal.skao.int:10000/ska063/elt/master" \
+	--set tmc.global.namespace_dish.dish_name[3]="tango://tango-databaseds.ci-dish-lmc-ska100-hm-363.svc.miditf.internal.skao.int:10000/ska100/elt/master" \
 
 K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	--set global.exposeAllDS=$(EXPOSE_All_DS) \
