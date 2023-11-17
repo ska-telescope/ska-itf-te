@@ -60,12 +60,12 @@ tmc:
   deviceServers:
     centralnode:
       subarray_count: 1
-      DishIDs: ["SKA001"]  
+      DishIDs: ["SKA001", "SKA036", "SKA063", "SKA100"]  
     subarraynode:
-      DishIDs: ["SKA001"]
+      DishIDs: ["SKA001", "SKA036", "SKA063", "SKA100"]
     dishleafnode:
       enabled: true
-      instances: ["01"]
+      instances: ["01", "36", "63", "100"]
   ska-tango-base:
       enabled: false
     
