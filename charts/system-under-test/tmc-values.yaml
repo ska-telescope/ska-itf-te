@@ -1,0 +1,16 @@
+### tmc
+tmc:
+  global:
+    namespace_dish:
+      dish_name:
+        [
+          "tango://tango-databaseds.dish-lmc-ska001.svc.miditf.internal.skao.int:10000/ska001/elt/master",
+          "tango://tango-databaseds.dish-lmc-ska036.svc.miditf.internal.skao.int:10000/ska036/elt/master",
+        ]
+  deviceServers:
+    centralnode:
+      DishIDs: ["SKA001", "SKA036"]
+    subarraynode:
+      DishIDs: ["SKA001", "SKA036"]
+    dishleafnode:
+      instances: ["01", "36"]
