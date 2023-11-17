@@ -1,3 +1,4 @@
+dev-values.yaml
 charts/**/charts/*
 .DS_Store
 *.pyc
