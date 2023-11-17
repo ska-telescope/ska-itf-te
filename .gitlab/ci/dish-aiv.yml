@@ -99,12 +99,12 @@ redeploy-dishlmc-ska001:
       when: never
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
       variables:
-        ENV_NAME: mid-itf/integration/dish-lmc-aa05
+        ENV_NAME: dish.itf/dish-lmc-aa05
       when: manual
       allow_failure: true
     - if: $CI_COMMIT_REF_NAME != $CI_DEFAULT_BRANCH
       variables:
-        ENV_NAME: mid-itf/integration/ci-dish-lmc-aa05-$CI_COMMIT_REF_NAME
+        ENV_NAME: dish.itf/ci-dish-lmc-aa05-$CI_COMMIT_REF_NAME
       when: manual
       allow_failure: true
   environment:
@@ -116,6 +116,15 @@ deploy-aa05-dishes:
   script:
     - echo "Deploying multiple dishes in downstream dish-aiv stage - first deploy ska001 manually"
     - echo "Deploying 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
+  environment:
+    on_stop: uninstall-aa05-dishes
+
+redeploy-aa05-dishes:
+  extends:
+    - .aa05-dishes
+  script:
+    - echo "Redeploying multiple dishes in downstream dish-aiv stage - first deploy ska001 manually"
+    - echo "Redeploying 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
   environment:
     on_stop: uninstall-aa05-dishes
 
@@ -132,7 +141,7 @@ deploy-dishlmc-ska036:
   extends:
     - .deploy-additional-lmc
   needs:
-    - deploy-dishlmc-ska001
+    # - deploy-dishlmc-ska001
     - deploy-aa05-dishes
   variables:
     DISH_INDEX: "036"
@@ -143,7 +152,8 @@ deploy-dishlmc-ska063:
   extends:
     - .deploy-additional-lmc
   needs:
-    - deploy-dishlmc-ska036
+    - deploy-aa05-dishes
+    # - deploy-dishlmc-ska036
   variables:
     DISH_INDEX: "063"
   environment:
@@ -153,7 +163,8 @@ deploy-dishlmc-ska100:
   extends:
     - .deploy-additional-lmc
   needs:
-    - deploy-dishlmc-ska063
+    - deploy-aa05-dishes
+    # - deploy-dishlmc-ska063
   variables:
     DISH_INDEX: "100"
   environment:
@@ -166,13 +177,7 @@ deploy-dishlmc-ska100:
   needs:
     - uninstall-aa05-dishes
 
-uninstall-dishlmc-ska001:
-  extends:
-    - .destroy-dish-lmc
-  variables:
-    DISH_ID: ska001
-
-uninstall-dishlmc-ska036:
+yuninstall-dishlmc-ska036:
   extends:
     - .destroy-aa05-dishes
   variables:
@@ -202,7 +207,7 @@ register-spfc:
   script:
     - python3 -m pip install --user ansible-core
     #Install kubectl as this image does not contain it
-    - curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" 
+    - curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
       && sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
     - export TANGO_HOST=$(kubectl -n ${NAMESPACE} get svc ${SERVICE_NAME} -o jsonpath={.status.loadBalancer.ingress[0].ip})
     - export PLAYBOOK_PARAMETERS=$PLAYBOOK_PARAMETERS:--extra-vars='{tango_host:$TANGO_HOST:10000}'
