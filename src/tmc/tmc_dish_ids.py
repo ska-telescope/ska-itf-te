@@ -140,8 +140,8 @@ def tmc_values(
     :param cluster_domain_prefix: Cluster Domain prefix for each dish, defaults to
         "miditf.internal.skao.int" for MidITF cluster
     :type cluster_domain_prefix: str, optional
-    :param namespace_prefix: _description_, defaults to "dish-lmc-"
-    :type namespace_prefix: str, optional
+    :param namespace_postfix: _description_, defaults to "dish-lmc-"
+    :type namespace_postfix: str, optional
     :param dish_ids: _description_, defaults to "SKA000"
     :type dish_ids: str, optional
     :return: _description_
