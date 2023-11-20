@@ -116,8 +116,8 @@ def dish_fqdns(
 
 def tmc_values(
     hostname="tango-databaseds",
-    cluster_domain_prefix="miditf.internal.skao.int",
-    namespace_postfix="dish-lmc-",
+    cluster_domain_postfix="miditf.internal.skao.int",
+    namespace_prefix="dish-lmc-",
     dish_ids="SKA000",
 ):
     """Generate values for the TMC to connect to DishIDs as set in the environment.
@@ -137,11 +137,11 @@ def tmc_values(
 
     :param hostname: TangoDB hostname, defaults to "tango-databaseds"
     :type hostname: str, optional
-    :param cluster_domain_prefix: Cluster Domain prefix for each dish, defaults to
+    :param cluster_domain_postfix: Cluster Domain prefix for each dish, defaults to
         "miditf.internal.skao.int" for MidITF cluster
-    :type cluster_domain_prefix: str, optional
-    :param namespace_postfix: _description_, defaults to "dish-lmc-"
-    :type namespace_postfix: str, optional
+    :type cluster_domain_postfix: str, optional
+    :param namespace_prefix: _description_, defaults to "dish-lmc-"
+    :type namespace_prefix: str, optional
     :param dish_ids: _description_, defaults to "SKA000"
     :type dish_ids: str, optional
     :return: _description_
@@ -161,7 +161,7 @@ def tmc_values(
             "global": {
                 "namespace_dish": {
                     "dish_name": dish_fqdns(
-                        hostname, cluster_domain_prefix, namespace_postfix, DISH_IDS
+                        hostname, cluster_domain_postfix, namespace_prefix, DISH_IDS
                     )
                 }
             },
