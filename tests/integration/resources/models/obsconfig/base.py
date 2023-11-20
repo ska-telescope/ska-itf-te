@@ -16,6 +16,9 @@ ReceptorName = Literal[
     "SKA007",
     "SKA008",
     "SKA009",
+    "SKA036",
+    "SKA063",
+    "SKA100",
 ]
 
 MeerkatDishHame = Literal["MKT000", "MKT001", "MKT002", "MKT003"]

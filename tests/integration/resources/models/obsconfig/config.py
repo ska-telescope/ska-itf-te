@@ -90,7 +90,6 @@ class Observation(SdpConfig, CSPconfig, Dishes, TmcConfig):
             interface=self.low_assign_resources_schema,
             transaction_id=transaction_id,
             subarray_id=subarray_id,
-            mccs=self.generate_low_mccs_assign_resources_config().as_object,
             sdp_config=self.generate_sdp_assign_resources_config().as_object,
             csp_config=self.generate_low_csp_assign_resources_config().as_object,  # noqa: E501
         )
