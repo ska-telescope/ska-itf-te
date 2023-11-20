@@ -1,13 +1,13 @@
 {
-  "id": "6548c0cdf6d53e0019b968c3",
+  "id": "654185ae50e4ce001838c677",
   "name": "CSP MonitorPanel",
-  "version": "2.2.0",
-  "user": "ATLAS",
-  "insertTime": "2023-11-06T10:32:45.291Z",
-  "updateTime": "2023-11-06T10:32:45.285Z",
+  "version": "2.4.0",
+  "user": "CIPA",
+  "insertTime": "2023-10-31T22:54:38.298Z",
+  "updateTime": "2023-11-01T20:15:03.255Z",
   "group": null,
   "groupWriteAccess": false,
-  "lastUpdatedBy": "ATLAS",
+  "lastUpdatedBy": "CIPA",
   "widget": [
     {
       "id": "18",
@@ -149,7 +149,10 @@
         "backgroundColor": "#ffffff",
         "size": 0.7,
         "font": "Courier new",
-        "widgetCss": ""
+        "widgetCss": "",
+        "precision": 2,
+        "scientificNotation": false,
+        "showEnumLabels": true
       },
       "percentage": -1,
       "order": 9
@@ -307,7 +310,10 @@
         "backgroundColor": "#ffffff",
         "size": 0.8,
         "font": "Courier new",
-        "widgetCss": ""
+        "widgetCss": "",
+        "precision": 2,
+        "scientificNotation": false,
+        "showEnumLabels": true
       },
       "order": 13
     },

@@ -1,13 +1,13 @@
 {
-  "id": "6543b415f6d53e0019b95d14",
+  "id": "654186f650e4ce001838c68c",
   "name": "CSP Commands",
   "version": "2.4.0",
-  "user": "ATLAS",
-  "insertTime": "2023-11-02T14:37:09.347Z",
-  "updateTime": "2023-11-07T12:29:57.449Z",
+  "user": "CIPA",
+  "insertTime": "2023-10-31T23:00:06.902Z",
+  "updateTime": "2023-11-01T20:30:11.633Z",
   "group": null,
   "groupWriteAccess": false,
-  "lastUpdatedBy": "ATLAS",
+  "lastUpdatedBy": "CIPA",
   "widget": [
     {
       "id": "2",
@@ -21,7 +21,7 @@
         "text": "CSP Subarray",
         "textColor": "#070a68",
         "backgroundColor": "#dcdcdc",
-        "size": 1.5,
+        "size": 1,
         "borderWidth": 0,
         "borderColor": "#dcdcdc",
         "font": "Helvetica",
@@ -54,10 +54,10 @@
     {
       "id": "7",
       "x": 5,
-      "y": 38,
+      "y": 40,
       "canvas": "0",
       "width": 39,
-      "height": 3,
+      "height": 4,
       "type": "LABEL",
       "inputs": {
         "text": "commandResult",
@@ -75,7 +75,7 @@
     {
       "id": "8",
       "x": 4,
-      "y": 7,
+      "y": 6,
       "canvas": "0",
       "width": 41,
       "height": 4,
@@ -84,7 +84,7 @@
         "text": "CSP Controller",
         "textColor": "#070a68",
         "backgroundColor": "#dcdcdc",
-        "size": 1.5,
+        "size": 1.2,
         "borderWidth": 0,
         "borderColor": "#dcdcdc",
         "font": "Helvetica",
@@ -99,7 +99,7 @@
       "y": 6,
       "canvas": "0",
       "width": 43,
-      "height": 40,
+      "height": 41,
       "type": "LABEL",
       "inputs": {
         "text": "",
@@ -117,7 +117,7 @@
     {
       "id": "11",
       "x": 23,
-      "y": 35,
+      "y": 37,
       "canvas": "0",
       "width": 21,
       "height": 7,
@@ -140,48 +140,6 @@
       "order": 5
     },
     {
-      "id": "18",
-      "x": 4,
-      "y": 14.399999999999999,
-      "canvas": "0",
-      "width": 40,
-      "height": 16.2,
-      "type": "ATTRIBUTE WRITER DROPDOWN",
-      "inputs": {
-        "attribute": {
-          "device": "mid-csp/control/0",
-          "attribute": "adminmode",
-          "label": "adminMode"
-        },
-        "writeValues": [
-          {
-            "title": "MAINTENANCE",
-            "value": "2"
-          },
-          {
-            "title": "OFFLINE",
-            "value": "1"
-          },
-          {
-            "title": "ONLINE",
-            "value": "0"
-          }
-        ],
-        "writeValuesSpectrum": {
-          "device": null,
-          "attribute": null
-        },
-        "showDevice": false,
-        "showAttribute": "Label",
-        "textColor": "#000000",
-        "backgroundColor": "#ffffff",
-        "size": 1,
-        "font": "Helvetica",
-        "customCss": ""
-      },
-      "order": 12
-    },
-    {
       "id": "19",
       "x": 24,
       "y": 49,
@@ -198,10 +156,10 @@
     {
       "id": "22",
       "x": 4,
-      "y": 61,
+      "y": 60,
       "canvas": "0",
       "width": 40,
-      "height": 13,
+      "height": 14,
       "type": "BOX",
       "inputs": {
         "title": "",
@@ -224,10 +182,10 @@
         {
           "id": "24",
           "x": 4.4,
-          "y": 62.44,
+          "y": 61.52,
           "canvas": "0",
           "width": 39.2,
-          "height": 3.8,
+          "height": 3.1,
           "type": "command_file",
           "inputs": {
             "uploadBtnLabel": "Upload File",
@@ -254,23 +212,27 @@
             "alignSendButtonRight": true
           },
           "valid": true,
-          "order": 28
+          "order": 29
         },
         {
           "id": "25",
           "x": 4.4,
-          "y": 66.24,
+          "y": 64.62,
           "canvas": "0",
           "width": 39.2,
-          "height": 3.8,
+          "height": 3.1,
           "type": "command_file",
           "inputs": {
             "uploadBtnLabel": "Upload File",
-            "buttonLabel": "CONFIGURE",
+            "buttonLabel": "CONFIGURE SCAN",
             "command": {
-              "device": "cspsubarrays",
-              "command": "Configure",
-              "acceptedType": "DevString"
+              "device": "mid_csp_cbf/sub_elt/subarray_01",
+              "command": "ConfigureScan",
+              "acceptedType": "DevString",
+              "intypedesc": "Scan configuration",
+              "outtypedesc": "(ReturnType, 'informational message')",
+              "outtype": "DevVarLongStringArray",
+              "tag": "0"
             },
             "showDevice": false,
             "showCommand": false,
@@ -285,15 +247,42 @@
             "alignSendButtonRight": true
           },
           "valid": true,
-          "order": 29
+          "order": 30
+        },
+        {
+          "id": "59",
+          "x": 4.4,
+          "y": 67.72,
+          "canvas": "0",
+          "width": 39.2,
+          "height": 3.1,
+          "type": "ATTRIBUTE_WRITER",
+          "inputs": {
+            "title": "",
+            "attribute": {
+              "device": "ska_mid/tm_leaf_node/csp_subarray_01",
+              "attribute": "delaymodel",
+              "label": "Delay model coefficients"
+            },
+            "showDevice": false,
+            "showAttribute": "Name",
+            "alignValueRight": true,
+            "textColor": "#000000",
+            "backgroundColor": "#ffffff",
+            "size": 1,
+            "font": "Helvetica",
+            "widgetCss": ""
+          },
+          "valid": true,
+          "order": 31
         },
         {
           "id": "26",
           "x": 4.4,
-          "y": 70.03999999999999,
+          "y": 70.82,
           "canvas": "0",
           "width": 39.2,
-          "height": 3.8,
+          "height": 3.1,
           "type": "command_file",
           "inputs": {
             "uploadBtnLabel": "Upload File",
@@ -316,7 +305,7 @@
             "alignSendButtonRight": true
           },
           "valid": true,
-          "order": 30
+          "order": 32
         }
       ]
     },
@@ -332,7 +321,7 @@
         "text": "CSP commands",
         "textColor": "#ffffff",
         "backgroundColor": "#070068",
-        "size": 1.7,
+        "size": 1,
         "borderWidth": 0,
         "borderColor": "#000000",
         "font": "Helvetica",
@@ -390,7 +379,7 @@
     {
       "id": "30",
       "x": 4,
-      "y": 12,
+      "y": 10,
       "canvas": "0",
       "width": 40,
       "height": 2,
@@ -409,33 +398,12 @@
       "order": 13
     },
     {
-      "id": "32",
-      "x": 4,
-      "y": 19,
-      "canvas": "0",
-      "width": 40,
-      "height": 2,
-      "type": "LABEL",
-      "inputs": {
-        "text": "To turn On/Off/Standby all devices send [] as argument",
-        "textColor": "#2e3436",
-        "backgroundColor": "#dcdcdc",
-        "size": 1,
-        "borderWidth": 0,
-        "borderColor": "#000000",
-        "font": "Helvetica",
-        "linkTo": "",
-        "customCss": "text-align: center\n"
-      },
-      "order": 14
-    },
-    {
       "id": "35",
       "x": 4,
-      "y": 22,
+      "y": 12,
       "canvas": "0",
-      "width": 25,
-      "height": 12,
+      "width": 28,
+      "height": 25,
       "type": "BOX",
       "inputs": {
         "title": "",
@@ -456,12 +424,77 @@
       "order": 15,
       "innerWidgets": [
         {
-          "id": "33",
+          "id": "32",
           "x": 4.4,
-          "y": 23.36,
+          "y": 14.4,
           "canvas": "0",
           "width": 24.2,
-          "height": 3.5,
+          "height": 4.5,
+          "type": "LABEL",
+          "inputs": {
+            "text": "To turn On/Off/Standby all devices send [] as argument",
+            "textColor": "#2e3436",
+            "backgroundColor": "#dcdcdc",
+            "size": 0.6,
+            "borderWidth": 0,
+            "borderColor": "#000000",
+            "font": "Helvetica",
+            "linkTo": "",
+            "customCss": "text-align: center\n"
+          },
+          "valid": true,
+          "order": 3
+        },
+        {
+          "id": "18",
+          "x": 4.4,
+          "y": 18.9,
+          "canvas": "0",
+          "width": 24.2,
+          "height": 4.5,
+          "type": "ATTRIBUTE WRITER DROPDOWN",
+          "inputs": {
+            "attribute": {
+              "device": "mid-csp/control/0",
+              "attribute": "adminmode",
+              "label": "adminMode"
+            },
+            "writeValues": [
+              {
+                "title": "MAINTENANCE",
+                "value": "2"
+              },
+              {
+                "title": "OFFLINE",
+                "value": "1"
+              },
+              {
+                "title": "ONLINE",
+                "value": "0"
+              }
+            ],
+            "writeValuesSpectrum": {
+              "device": null,
+              "attribute": null
+            },
+            "showDevice": false,
+            "showAttribute": "Label",
+            "textColor": "#000000",
+            "backgroundColor": "#ffffff",
+            "size": 1,
+            "font": "Helvetica",
+            "customCss": ""
+          },
+          "valid": true,
+          "order": 4
+        },
+        {
+          "id": "31",
+          "x": 4.4,
+          "y": 23.4,
+          "canvas": "0",
+          "width": 24.2,
+          "height": 4.5,
           "type": "COMMAND",
           "inputs": {
             "buttonText": "ON",
@@ -474,7 +507,13 @@
               "outtype": "DevVarLongStringArray",
               "tag": "0"
             },
-            "commandArgs": [],
+            "commandArgs": [
+              {
+                "name": "CBF Controller",
+                "value": "[mid_csp_cbf/sub_elt/controller]",
+                "isDefault": true
+              }
+            ],
             "showDevice": false,
             "showCommand": false,
             "requireConfirmation": true,
@@ -483,85 +522,67 @@
             "placeholder": "intype",
             "textColor": "#000000",
             "backgroundColor": "#ffffff",
-            "size": 1,
+            "size": 0.8,
             "font": "Helvetica",
             "btnCss": "background-color: rgb(130,130,130);\ncolor: white;",
             "widgetCss": ""
           },
           "valid": true,
-          "order": 1
+          "order": 5
         },
         {
-          "id": "31",
+          "id": "57",
           "x": 4.4,
-          "y": 26.86,
+          "y": 27.9,
           "canvas": "0",
           "width": 24.2,
-          "height": 3.5,
-          "type": "COMMAND",
+          "height": 4.5,
+          "type": "ATTRIBUTE_WRITER",
           "inputs": {
-            "buttonText": "OFF",
-            "command": {
+            "title": "",
+            "attribute": {
               "device": "mid-csp/control/0",
-              "command": "Off",
-              "acceptedType": "DevVarStringArray",
-              "intypedesc": "If the array length is 0, the command applies to the whole CSP Element. If the array length is > 1, each array element specifies the FQDN of the CSP SubElement to switch ON.",
-              "outtypedesc": "(ReturnType, 'informational message')",
-              "outtype": "DevVarLongStringArray",
-              "tag": "0"
+              "attribute": "cbfsimulationmode",
+              "label": "CBF Simulation Mode"
             },
-            "commandArgs": [],
             "showDevice": false,
-            "showCommand": false,
-            "requireConfirmation": true,
-            "displayOutput": false,
-            "alignButtonRight": false,
-            "placeholder": "intype",
+            "showAttribute": "Label",
+            "alignValueRight": true,
             "textColor": "#000000",
             "backgroundColor": "#ffffff",
-            "size": 1,
+            "size": 0.6,
             "font": "Helvetica",
-            "btnCss": "background-color: rgb(130,130,130);\ncolor: white;",
             "widgetCss": ""
           },
           "valid": true,
-          "order": 3
+          "order": 6
         },
         {
-          "id": "34",
+          "id": "58",
           "x": 4.4,
-          "y": 30.36,
+          "y": 32.4,
           "canvas": "0",
           "width": 24.2,
-          "height": 3.5,
-          "type": "COMMAND",
+          "height": 4.5,
+          "type": "ATTRIBUTE_WRITER",
           "inputs": {
-            "buttonText": "STANDBY",
-            "command": {
+            "title": "",
+            "attribute": {
               "device": "mid-csp/control/0",
-              "command": "Off",
-              "acceptedType": "DevVarStringArray",
-              "intypedesc": "If the array length is 0, the command applies to the whole CSP Element. If the array length is > 1, each array element specifies the FQDN of the CSP SubElement to switch ON.",
-              "outtypedesc": "(ReturnType, 'informational message')",
-              "outtype": "DevVarLongStringArray",
-              "tag": "0"
+              "attribute": "commandtimeout",
+              "label": "Command timeout"
             },
-            "commandArgs": [],
             "showDevice": false,
-            "showCommand": false,
-            "requireConfirmation": true,
-            "displayOutput": false,
-            "alignButtonRight": false,
-            "placeholder": "intype",
+            "showAttribute": "Label",
+            "alignValueRight": true,
             "textColor": "#000000",
             "backgroundColor": "#ffffff",
-            "size": 1,
+            "size": 0.6,
             "font": "Helvetica",
-            "btnCss": "background-color: rgb(130,130,130);\ncolor: white;",
             "widgetCss": ""
           },
           "valid": true,
-          "order": 4
+          "order": 7
         }
       ]
     },
@@ -1144,7 +1165,7 @@
     {
       "id": "55",
       "x": 4,
-      "y": 34,
+      "y": 37,
       "canvas": "0",
       "width": 39,
       "height": 2,
@@ -1165,7 +1186,7 @@
     {
       "id": "56",
       "x": 5,
-      "y": 43,
+      "y": 45,
       "canvas": "0",
       "width": 39,
       "height": 2,
@@ -1181,7 +1202,7 @@
         "linkTo": "prova.com",
         "customCss": "text-align: center"
       },
-      "order": 31
+      "order": 24
     }
   ],
   "variables": [
