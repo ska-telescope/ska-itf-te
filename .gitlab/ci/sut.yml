@@ -201,8 +201,8 @@ k8s-test-runner:
     - .sut_base
     - .ds-sim-test-vars
   before_script:
-    - !reference [.deploy, before_script]
-    - bash .make/resources/gitlab_section.sh poetry_install "Install Poetry Dependencies" poetry install
+    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
+    - time poetry install
     - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
     - "make help | grep k8s-test"
     - bash .make/resources/gitlab_section.sh install_sut "Install SUT and wait" make install-test-system
@@ -210,6 +210,7 @@ k8s-test-runner:
 
   script:
     - make integration-test TANGO_HOST=$TANGO_DATABASE_DS.$KUBE_NAMESPACE.svc.$CLUSTER_DOMAIN:10000 || true
+    - echo "Test command exit code - $(cat build/status)"
     - |
       if [[ 0 == "$(cat build/status)" ]]; then
         make uninstall-test-system
@@ -228,6 +229,7 @@ k8s-test-runner:
     CAPTURE_LOGS: "True"
     EXIT_AT_FAIL: "True"
     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+    DS_SIM_SERVER_CERT: $CI_PROJECT_DIR/.secure_files/SimpleServer_2048.der
 
 stop-k8s-test-runner:
   tags:

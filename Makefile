@@ -48,7 +48,7 @@ EXIT =
 endif
 
 INTEGRATION_TEST_SOURCE ?= tests/integration
-INTEGRATION_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(_MARKS) $(_COUNTS) $(EXIT) $(PYTEST_ADDOPTS) | tee pytest.stdout
+INTEGRATION_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(_MARKS) $(_COUNTS) $(EXIT) $(PYTEST_ADDOPTS)
 
 DISH_LMC_PARAMS ?= $(DISH_LMC_INITIAL_PARAMS) $(DISH_LMC_EXTRA_PARAMS)
 
@@ -119,8 +119,7 @@ PYTHON_VARS_AFTER_PYTEST += --true-context --cucumberjson=build/reports/cucumber
 # hack in test target directory
 K8S_TEST_TEST_COMMAND = unset PYTHONPATH; TANGO_HOST=$(TANGO_HOST) \
 						pytest \
-						$(PYTHON_VARS_AFTER_PYTEST) ./tests/functional \
-						 | tee pytest.stdout ## k8s-test test command to run in container
+						$(PYTHON_VARS_AFTER_PYTEST) ./tests/functional
 endif
 
 PING_HOST=itf-gateway# set this up in your /etc/hosts file from the Confluence page describing all the hosts.
@@ -178,7 +177,7 @@ XRAY_EXTRA_OPTS=-v
 
 integration-test:
 	@mkdir -p build
-	$(PYTHON_RUNNER) pytest $(INTEGRATION_TEST_SOURCE) $(INTEGRATION_TEST_ARGS); \
+	set -o pipefail; $(PYTHON_RUNNER) pytest $(INTEGRATION_TEST_SOURCE) $(INTEGRATION_TEST_ARGS); \
 	echo $$? > build/status
 
 
