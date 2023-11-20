@@ -1,9 +1,11 @@
 """Tests for verifying correct DishID generation."""
 
 import os
+
 import pytest
-from src.tmc.tmc_dish_ids import dish_ids_array_from_str, tmc_values, dish_fqdns, main
 from yaml import safe_load
+
+from src.tmc.tmc_dish_ids import dish_fqdns, dish_ids_array_from_str, tmc_values
 
 DISH_IDS = "SKA001 SKA036 SKA063 SKA100"
 os.environ["DISH_IDS"] = DISH_IDS
