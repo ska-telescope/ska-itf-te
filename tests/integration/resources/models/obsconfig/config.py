@@ -21,6 +21,9 @@ from .sdp_config import (
 )
 from .tmc_config import TmcConfig
 
+# pylint: disable=no-member
+# pylint: disable=too-many-ancestors
+
 
 class Observation(SdpConfig, CSPconfig, Dishes, TmcConfig):
     """A class representing an observation."""

@@ -25,6 +25,11 @@ logger = logging.getLogger(__name__)
 SCAN_DURATION = 4
 
 
+# pylint: disable=abstract-method
+# pylint: disable=attribute-defined-outside-init
+# pylint: disable=too-many-instance-attributes
+
+
 class LogEnabled:
     """Allow for logging if set by env var."""
 

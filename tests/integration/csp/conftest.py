@@ -17,6 +17,8 @@ from ..conftest import SutTestSettings
 from ..resources.models.csp_model.entry_point import CSPEntryPoint
 from ..resources.models.mvp_model.states import ObsState
 
+# pylint: disable=eval-used
+
 
 @pytest.fixture(name="nr_of_subarrays", autouse=True, scope="session")
 def fxt_nr_of_subarrays() -> int:

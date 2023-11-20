@@ -1,3 +1,4 @@
+"""."""
 from typing import Any, NamedTuple, Tuple, Union, cast
 
 from ska_tmc_cdm.messages.central_node.sdp import (
@@ -21,7 +22,12 @@ from .dishes import Dishes
 from .target_spec import ArraySpec, BaseTargetSpec, TargetSpecs
 
 
+# pylint: disable=invalid-name
+# pylint: disable=too-many-ancestors
+# pylint: disable=use-dict-literal
 class Beamgrouping(NamedTuple):
+    """A class representing Beamgrouping."""
+
     id: str
     configuration: BeamConfiguration
     types: dict[str, EBScanTypeBeam]
@@ -59,6 +65,11 @@ DEFAULT_BEAMS = {
 
 
 def DEFAULT_SCAN_TYPES(owner: "ScanTypes"):
+    """_summary_.
+
+    :param: owner: _descripttion_
+    :return: _description_
+    """
     return {
         ".default": EBScanType(
             scan_type_id=".default",
@@ -73,6 +84,8 @@ def DEFAULT_SCAN_TYPES(owner: "ScanTypes"):
 
 
 class ScanTypes(TargetSpecs):
+    """A class representing scan types."""
+
     def __init__(
         self,
         additional_beam_groupings: list[Beamgrouping] | None = None,
@@ -80,7 +93,13 @@ class ScanTypes(TargetSpecs):
         base_target_specs: dict[str, BaseTargetSpec] | None = None,
         array: ArraySpec | None = None,
     ) -> None:
-        """Init object."""
+        """Init object.
+
+        :param: additional_beam_groupings: _description_
+        :param: additional_scan_types: _description_
+        :param: base_target_specs: _description_
+        :param: array: _description_
+        """
         TargetSpecs.__init__(self, base_target_specs, array)
         self._beam_configurations = DEFAULT_BEAMS
         self._scan_type_configurations = DEFAULT_SCAN_TYPES(self)
@@ -110,6 +129,15 @@ class ScanTypes(TargetSpecs):
         timing_beam_id: int | None = None,
         vlbi_beam_id: int | None = None,
     ):
+        """Add beam configuration.
+
+        :param: config_name: _description_
+        :param: function: _description_
+        :param: beam_types: _description_
+        :param: search_beam_id: _description_
+        :param: timing_beam_id: _description_
+        :param: vlbi_beam_id: _description_
+        """
         assert (
             self._beam_configurations.get(config_name) is None
         ), f"configuration {config_name} already exists."
@@ -140,6 +168,11 @@ class ScanTypes(TargetSpecs):
         )
 
     def add_beam_types(self, grouping_id: str, beam_types: dict[str, EBScanTypeBeam]):
+        """Add beam types.
+
+        :param: grouping_id: _description_
+        :param: beam_types: _description_
+        """
         assert self._beam_configurations.get(grouping_id), (
             f"grouping {grouping_id} does not exist, did you call" " `add_beam_configuration()`."
         )
@@ -161,6 +194,12 @@ class ScanTypes(TargetSpecs):
         ],
         derive_from: str | None = None,
     ):
+        """Add scan  type configuration.
+
+        :param: config_name: _description_
+        :param: beams: _description_
+        :param: derive_from: _description_
+        """
         agg_beam_types: dict[str, EBScanTypeBeam] = dict()
 
         def add_beam(grouping_id: str, beam_type_id: str):
@@ -212,19 +251,39 @@ class ScanTypes(TargetSpecs):
 
     @property
     def target_spec_scan_types(self):
+        """Get target spec scan types.
+
+        :return: _description_
+        :rtype: _type_
+        """
         return {target.scan_type for target in self.target_specs.values()}
 
     @property
     def scan_types(self):
+        """Get scan types.
+
+        :return: _description_
+        :rtype: _type_
+        """
         unique_keys = self.target_spec_scan_types
         return [self._scan_type_configurations[key] for key in unique_keys]
 
     @property
     def target_spec_beams(self):
+        """Get target spec beams.
+
+        :return: _description_
+        :rtype: _type_
+        """
         return {key for scan_type in self.scan_types for key in scan_type.beams.keys()}
 
     @property
     def beams(self):
+        """Get beams.
+
+        :return: _description_
+        :rtype: _type_
+        """
         unique_keys = self.target_spec_beams
         return [
             beam_configuration.configuration
@@ -234,9 +293,20 @@ class ScanTypes(TargetSpecs):
 
     @property
     def scan_type_configurations(self):
+        """Get scan type configurations.
+
+        :return: _description_
+        :rtype: _type_
+        """
         return list(self._scan_type_configurations.keys())
 
     def get_scan_type_configuration(self, config_name: str):
+        """Get can type configurations.
+
+        :param: config_name: _description_
+        :return: _description_
+        :rtype: _type_
+        """
         assert (
             self._scan_type_configurations.get(config_name) is not None
         ), f"configuration {config_name} does not exist."
@@ -244,9 +314,20 @@ class ScanTypes(TargetSpecs):
 
     @property
     def beam_configurations(self):
+        """Get beam configurations.
+
+        :return: _description_
+        :rtype: _type_
+        """
         return list(self._beam_configurations.keys())
 
     def get_beam_configurations(self, config_name: str):
+        """Get beam configurations.
+
+        :param: config_name: _description_
+        :return: _description_
+        :rtype: _type_
+        """
         assert (
             self._beam_configurations.get(config_name) is not None
         ), f"configuration {config_name} does not exist."
@@ -254,17 +335,29 @@ class ScanTypes(TargetSpecs):
 
     @property
     def pending_scan_type_id(self):
+        """Get pending scan type id.
+
+        :return: _description_
+        :rtype: _type_
+        """
         return self._pending_scan_type
 
 
 class Polarisations(TargetSpecs):
+    """A class representing polarisations."""
+
     def __init__(
         self,
         polarizations: list[PolarisationConfiguration] | None = None,
         base_target_specs: dict[str, BaseTargetSpec] | None = None,
         array: ArraySpec | None = None,
     ) -> None:
-        """Init object."""
+        """Init object.
+
+        :param: polarizations: _description_
+        :param: base_target_specs: _description_
+        :param: array: _description_
+        """
         TargetSpecs.__init__(self, base_target_specs, array)
 
         if polarizations is not None:
@@ -283,6 +376,11 @@ class Polarisations(TargetSpecs):
 
     @property
     def polarizations(self):
+        """Get polarizations.
+
+        :return: _description_
+        :rtype: _type_
+        """
         return self._get_polarizations_from_target_specs()
 
 
@@ -309,6 +407,11 @@ class Fields(TargetSpecs):
 
     @property
     def fields(self):
+        """Get fields.
+
+        :return: _description_
+        :rtype: _type_
+        """
         return self._get_fields_from_target_specs()
 
     @property
