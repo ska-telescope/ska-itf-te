@@ -287,13 +287,20 @@ class Polarisations(TargetSpecs):
 
 
 class Fields(TargetSpecs):
+    """A class representing fields."""
+
     def __init__(
         self,
         field_configurations: list[FieldConfiguration] | None = None,
         base_target_specs: dict[str, BaseTargetSpec] | None = None,
         array: ArraySpec | None = None,
     ) -> None:
-        """Init object."""
+        """Init object.
+
+        :param: field_configurations: _description_
+        :param: base_target_specs: _description_
+        :param: array: _description_
+        """
         TargetSpecs.__init__(self, base_target_specs, array)
         if field_configurations is None:
             self._fields = DEFAULT_FIELDS
@@ -306,6 +313,11 @@ class Fields(TargetSpecs):
 
     @property
     def field_configurations(self):
+        """Return field configurations.
+
+        :return: _description_
+        :rtype: _type_
+        """
         return self._fields
 
     def _get_fields_from_target_specs(self):
@@ -314,6 +326,8 @@ class Fields(TargetSpecs):
 
 
 class ProcessingSpec(NamedTuple):
+    """A class representing processing specs."""
+
     script: ScriptConfiguration
     parameters: dict[Any, Any] = {
         # makes sure that Configure transitions to READY
@@ -323,6 +337,11 @@ class ProcessingSpec(NamedTuple):
     }
 
     def __hash__(self):
+        """Return hash.
+
+        :return: _description_
+        :rtype: _type_
+        """
         return hash(f"{self.script.name}")
 
 
@@ -332,13 +351,20 @@ DEFAULT_SCRIPT = ScriptConfiguration(
 
 
 class ProcessingSpecs(TargetSpecs):
+    """A class representing processing specs."""
+
     def __init__(
         self,
         processing_specs: list[ProcessingSpec] | None = None,
         base_target_specs: dict[str, BaseTargetSpec] | None = None,
         array: ArraySpec | None = None,
     ) -> None:
-        """Init object."""
+        """Init object.
+
+        :param: processing_specs: _description_
+        :param: base_target_specs: _description_
+        :param: array: _description_
+        """
         TargetSpecs.__init__(self, base_target_specs, array)
         if processing_specs is not None:
             self._processing_specs = {
@@ -354,18 +380,38 @@ class ProcessingSpecs(TargetSpecs):
 
     @property
     def processing_specs(self):
+        """Reurn processing specs.
+
+        :return: _description_
+        :rtype: _type_
+        """
         return self._processing_specs
 
     @processing_specs.setter
     def processing_specs(self, new_spec: dict[str, ProcessingSpec]):
+        """Set processing specs.
+
+        :param: new_spec: _description
+        :type new_spec: (dict[str, ProcessingSpec]): _description_
+        """
         self._processing_specs = new_spec
 
     @property
     def target_processings(self):
+        """Return target processings.
+
+        :return: _description_
+        :rtype: _type_
+        """
         return {target.processing for target in self.target_specs.values()}
 
     @property
     def processing_scripts(self):
+        """Return processing scripts.
+
+        :return: _description_
+        :rtype: _type_
+        """
         unique_keys = self.target_processings
         return [self._processing_specs[key] for key in unique_keys]
 
@@ -377,6 +423,14 @@ class ProcessingSpecs(TargetSpecs):
         script_kind: str = "realtime",
         parameters: dict[Any, Any] | None = None,
     ):
+        """Add processing specs.
+
+        :param: spec_name: _description_
+        :param: script_version: _description_
+        :param: script_name: _description
+        :param: script_kind: _description_
+        :param: parameters: _description_
+        """
         assert (
             self._processing_specs.get(spec_name) is None
         ), f"The processing spec {spec_name}already exists"
@@ -392,17 +446,29 @@ class ProcessingSpecs(TargetSpecs):
 
 
 class ProcessingBlockSpec(ProcessingSpecs):
+    """A class representing a processing block."""
+
     def __init__(
         self,
         processing_specs: list[ProcessingSpec] | None = None,
         base_target_specs: dict[str, BaseTargetSpec] | None = None,
         array: ArraySpec | None = None,
     ) -> None:
-        """Init object."""
+        """Init object.
+
+        :param: processing_specs: _description_
+        :param: base_target_specs: _description_
+        :param: array: _description_
+        """
         ProcessingSpecs.__init__(self, processing_specs, base_target_specs, array)
 
     @property
     def processing_blocks(self):
+        """Return processing block configuration.
+
+        :return: _description_
+        :rtype: ProcessingBlockConfiguration
+        """
         return [
             ProcessingBlockConfiguration(
                 pb_id=self.pb_id,
@@ -415,6 +481,8 @@ class ProcessingBlockSpec(ProcessingSpecs):
 
 
 class ExecutionBlockSpecs(ScanTypes, Channelization, Polarisations, Fields, TargetSpecs):
+    """A class representing an execution block."""
+
     def __init__(
         self,
         context: dict[Any, Any] | None = None,
@@ -427,7 +495,18 @@ class ExecutionBlockSpecs(ScanTypes, Channelization, Polarisations, Fields, Targ
         base_target_specs: dict[str, BaseTargetSpec] | None = None,
         array: ArraySpec | None = None,
     ) -> None:
-        """Init object."""
+        """Init object.
+
+        :param: context: _description_
+        :param: max_length: _description_
+        :param: beam_groupings: _description_
+        :param: scan_types: _description_
+        :param: channels: _description_
+        :param: polarizations: _description_
+        :param: field_configurations: _description_
+        :param: base_target_specs: _description_
+        :param: array: _description_
+        """
         ScanTypes.__init__(self, beam_groupings, scan_types, base_target_specs, array)
         Channelization.__init__(self, channels)
         Polarisations.__init__(self, polarizations)
@@ -440,6 +519,11 @@ class ExecutionBlockSpecs(ScanTypes, Channelization, Polarisations, Fields, Targ
 
     @property
     def execution_block(self):
+        """Return execution block config.
+
+        :return: _description_
+        :rtype: ExecutionBlockConfiguration
+        """
         context = self._context
         max_length = self._max_length
         scan_types = self.scan_types
@@ -458,7 +542,7 @@ class ExecutionBlockSpecs(ScanTypes, Channelization, Polarisations, Fields, Targ
 
 
 class SdpConfig(Dishes, ExecutionBlockSpecs, ProcessingBlockSpec):
-    """A class representing SDP configuration"""
+    """A class representing SDP configuration."""
 
     sdp_assign_resources_schema = "https://schema.skao.int/ska-sdp-assignres/0.4"
     sdp_configure_scan_schema = "https://schema.skao.int/ska-sdp-configure/0.3"
@@ -476,7 +560,19 @@ class SdpConfig(Dishes, ExecutionBlockSpecs, ProcessingBlockSpec):
         base_target_specs: dict[str, BaseTargetSpec] | None = None,
         array: ArraySpec | None = None,
     ) -> None:
-        """Init object."""
+        """Init object.
+
+        :param: context: _description_
+        :param: max_length: _description_
+        :param: beam_groupings: _description_
+        :param: scan_types: _description_
+        :param: channels: _description_
+        :param: polarizations: _description_
+        :param: field_configurations: _description_
+        :param: processing_specs: _description_
+        :param: base_target_specs: _description_
+        :param: array: _description_
+        """
         Dishes.__init__(self)
         ExecutionBlockSpecs.__init__(
             self,

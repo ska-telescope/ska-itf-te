@@ -38,7 +38,19 @@ class Observation(SdpConfig, CSPconfig, Dishes, TmcConfig):
         base_target_specs: dict[str, BaseTargetSpec] | None = None,
         array: ArraySpec | None = None,
     ) -> None:
-        """Init object."""
+        """Init object.
+
+        :param: context: _description_
+        :param: max_length: _description_
+        :param: beam_groupings: _description_
+        :param: scan_types: _description_
+        :param: channels: _description_
+        :param: polarizations: _description_
+        :param: field_configurations: _description_
+        :param: processing_specs: _description_
+        :param: base_target_specs: _description_
+        :param: array: _description_
+        """
         SdpConfig.__init__(
             self,
             context,
@@ -94,13 +106,21 @@ class Observation(SdpConfig, CSPconfig, Dishes, TmcConfig):
 
     @encoded
     def generate_assign_resources_config(self, subarray_id: int = 1):
+        """Generate assign resources config.
+
+        :param: subarray_id: id of the subarray
+        :return: _description_
+        :rtype: _type_
+        """
         return self._generate_assign_resources_config(subarray_id)
 
-    @encoded
-    def generate_low_assign_resources_config(self, subarray_id: int = 1):
-        return self._generate_low_assign_resources_config(subarray_id)
-
     def generate_release_all_resources_config_for_central_node(self, subarray_id: int = 1) -> str:
+        """Generate release all resources config for central node.
+
+        :param: subarray_id: id of the subarray
+        :return: configuration
+        :rtype: str
+        """
         config = {
             "interface": ("https://schema.skao.int/ska-tmc-releaseresources/2.1"),
             "transaction_id": "txn-....-00001",
@@ -113,10 +133,23 @@ class Observation(SdpConfig, CSPconfig, Dishes, TmcConfig):
 
     @encoded
     def generate_scan_config(self, target_id: str | None = None, scan_duration: float = 6):
+        """Generate scan config.
+
+        :param: target_id: id of the target
+        :param: scan_duration: duration of the scan
+        :return: _description_
+        :rtype: _type_
+        """
         return self._generate_scan_config(target_id, scan_duration)
 
     @encoded
     def generate_run_scan_conf(self, backwards: bool = False):
+        """Generate run scan config.
+
+        :param: backwards: _description_
+        :return: _description_
+        :rtype: _type_
+        """
         return self.get_scan_id(backwards)
 
     def generate_scan_config_parsed_for_csp(
@@ -125,6 +158,14 @@ class Observation(SdpConfig, CSPconfig, Dishes, TmcConfig):
         subarray_id: int = 1,
         scan_duration: float = 4,
     ) -> str:
+        """Generate scan config parsed for csp.
+
+        :param: target_id: if of a target
+        :param: subarray_id: id of a subarray
+        :param: scan_duration: duration of a scan
+        :return: csp configuration
+        :rtype: str
+        """
         config = cast(
             dict[str, Any],
             self.generate_scan_config(target_id, scan_duration).as_dict,
