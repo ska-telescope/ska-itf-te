@@ -1,6 +1,5 @@
 from typing import TypedDict, cast
 
-from .target_spec import ArraySpec, BaseTargetSpec
 from ska_tmc_cdm.messages.central_node.csp import CSPConfiguration as CSPAssignConfiguration
 from ska_tmc_cdm.messages.subarray_node.configure.csp import (
     CBFConfiguration,
@@ -13,7 +12,7 @@ from ska_tmc_cdm.messages.subarray_node.configure.csp import (
 
 from .base import encoded
 from .dishes import Dishes
-from .target_spec import TargetSpecs
+from .target_spec import ArraySpec, BaseTargetSpec, TargetSpecs
 
 
 class CSPrunScanConfig(TypedDict):

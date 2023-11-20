@@ -69,6 +69,7 @@ def test_abort_in_resourcing_mid(
     :param composition: The assign resources configuration paramaters
     """
 
+
 # use when from ..shared_assign_resources in ..conftest.py
 # @when("I assign resources to it")
 

@@ -16,10 +16,10 @@ from ska_ser_skallop.mvp_control.entry_points import types as conf_types
 from ska_ser_skallop.mvp_control.infra_mon.configuration import get_mvp_release
 from ska_ser_skallop.mvp_fixtures.fixtures import fxt_types
 
-from .resources.models.obsconfig.config import Observation
-from .resources.models.mvp_model.env import init_observation_config
 from .resources.models.base.states import ObsState
+from .resources.models.mvp_model.env import init_observation_config
 from .resources.models.obsconfig.base import DishName
+from .resources.models.obsconfig.config import Observation
 
 logger = logging.getLogger(__name__)
 
