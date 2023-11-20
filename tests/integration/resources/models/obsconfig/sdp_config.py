@@ -80,6 +80,7 @@ class ScanTypes(TargetSpecs):
         base_target_specs: dict[str, BaseTargetSpec] | None = None,
         array: ArraySpec | None = None,
     ) -> None:
+        """Init object."""
         TargetSpecs.__init__(self, base_target_specs, array)
         self._beam_configurations = DEFAULT_BEAMS
         self._scan_type_configurations = DEFAULT_SCAN_TYPES(self)
@@ -263,6 +264,7 @@ class Polarisations(TargetSpecs):
         base_target_specs: dict[str, BaseTargetSpec] | None = None,
         array: ArraySpec | None = None,
     ) -> None:
+        """Init object."""
         TargetSpecs.__init__(self, base_target_specs, array)
 
         if polarizations is not None:
@@ -291,6 +293,7 @@ class Fields(TargetSpecs):
         base_target_specs: dict[str, BaseTargetSpec] | None = None,
         array: ArraySpec | None = None,
     ) -> None:
+        """Init object."""
         TargetSpecs.__init__(self, base_target_specs, array)
         if field_configurations is None:
             self._fields = DEFAULT_FIELDS
@@ -335,6 +338,7 @@ class ProcessingSpecs(TargetSpecs):
         base_target_specs: dict[str, BaseTargetSpec] | None = None,
         array: ArraySpec | None = None,
     ) -> None:
+        """Init object."""
         TargetSpecs.__init__(self, base_target_specs, array)
         if processing_specs is not None:
             self._processing_specs = {
@@ -394,6 +398,7 @@ class ProcessingBlockSpec(ProcessingSpecs):
         base_target_specs: dict[str, BaseTargetSpec] | None = None,
         array: ArraySpec | None = None,
     ) -> None:
+        """Init object."""
         ProcessingSpecs.__init__(self, processing_specs, base_target_specs, array)
 
     @property
@@ -422,6 +427,7 @@ class ExecutionBlockSpecs(ScanTypes, Channelization, Polarisations, Fields, Targ
         base_target_specs: dict[str, BaseTargetSpec] | None = None,
         array: ArraySpec | None = None,
     ) -> None:
+        """Init object."""
         ScanTypes.__init__(self, beam_groupings, scan_types, base_target_specs, array)
         Channelization.__init__(self, channels)
         Polarisations.__init__(self, polarizations)
@@ -452,6 +458,7 @@ class ExecutionBlockSpecs(ScanTypes, Channelization, Polarisations, Fields, Targ
 
 
 class SdpConfig(Dishes, ExecutionBlockSpecs, ProcessingBlockSpec):
+    """A class representing SDP configuration"""
 
     sdp_assign_resources_schema = "https://schema.skao.int/ska-sdp-assignres/0.4"
     sdp_configure_scan_schema = "https://schema.skao.int/ska-sdp-configure/0.3"
@@ -469,6 +476,7 @@ class SdpConfig(Dishes, ExecutionBlockSpecs, ProcessingBlockSpec):
         base_target_specs: dict[str, BaseTargetSpec] | None = None,
         array: ArraySpec | None = None,
     ) -> None:
+        """Init object."""
         Dishes.__init__(self)
         ExecutionBlockSpecs.__init__(
             self,
@@ -485,6 +493,11 @@ class SdpConfig(Dishes, ExecutionBlockSpecs, ProcessingBlockSpec):
         ProcessingBlockSpec.__init__(self, processing_specs)
 
     def _generate_sdp_assign_resources_config(self):
+        """Generate sdp assign resources config.
+
+        :return: _description_
+        :rtype: _type_
+        """
         return SDPConfiguration(
             interface=self.sdp_assign_resources_schema,
             execution_block=self.execution_block,
@@ -493,6 +506,13 @@ class SdpConfig(Dishes, ExecutionBlockSpecs, ProcessingBlockSpec):
         )
 
     def _generate_sdp_scan_config(self, target_id: str | None = None):
+        """Generate sdp scan config.
+
+        :param: target_id: id of a target
+        :type target_id: str
+        :return: _description_
+        :rtype: _type_
+        """
         if target_id:
             assert self.target_specs[target_id], "unknown target id specified"
         else:
@@ -501,16 +521,38 @@ class SdpConfig(Dishes, ExecutionBlockSpecs, ProcessingBlockSpec):
         return SDPScanConfiguration(interface=self.sdp_configure_scan_schema, scan_type=target_id)
 
     def _generate_sdp_run_scan(self):
+        """Generate sdp scan config.
+
+        :return: _description_
+        :rtype: _type_
+        """
         return self.get_scan_id(backwards=True)
 
     @encoded
     def generate_sdp_run_scan(self):
+        """Generate sdp scan config.
+
+        :return: _description_
+        :rtype: _type_
+        """
         return self._generate_sdp_run_scan()
 
     @encoded
     def generate_sdp_scan_config(self, target_id: str | None = None):
+        """Generate sdp scan config.
+
+        :param: target_id: id of a target
+        :type target_id: str
+        :return: _description_
+        :rtype: _type_
+        """
         return self._generate_sdp_scan_config(target_id)
 
     @encoded
     def generate_sdp_assign_resources_config(self):
+        """Generate sdp assign resources config.
+
+        :return: _description_
+        :rtype: _type_
+        """
         return self._generate_sdp_assign_resources_config()

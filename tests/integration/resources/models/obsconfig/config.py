@@ -1,3 +1,4 @@
+"""."""
 import json
 from typing import Any, cast
 
@@ -22,6 +23,8 @@ from .tmc_config import TmcConfig
 
 
 class Observation(SdpConfig, CSPconfig, Dishes, TmcConfig):
+    """A class representing an observation."""
+
     def __init__(
         self,
         context: dict[Any, Any] | None = None,
@@ -35,6 +38,7 @@ class Observation(SdpConfig, CSPconfig, Dishes, TmcConfig):
         base_target_specs: dict[str, BaseTargetSpec] | None = None,
         array: ArraySpec | None = None,
     ) -> None:
+        """Init object."""
         SdpConfig.__init__(
             self,
             context,
