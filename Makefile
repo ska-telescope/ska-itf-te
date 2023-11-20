@@ -79,8 +79,6 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 TMC_VALUES_PATH=charts/system-under-test/tmc-values.yaml
 ifneq ("$(wildcard $(TMC_VALUES_PATH))","")
 	K8S_EXTRA_PARAMS+=-f $(TMC_VALUES_PATH)
-# else
-#     FILE_EXISTS = 0
 endif
 
 
@@ -196,3 +194,4 @@ template-chart: k8s-dep-update
 	$(K8S_CHART_PARAMS) \
 	--debug \
 	 $(K8S_UMBRELLA_CHART_PATH) --namespace $(KUBE_NAMESPACE) > build/manifests.yaml
+
