@@ -26,6 +26,7 @@ def test_run_a_scan_on_csp_subarray_in_mid():
 @scenario("features/csp_scan.feature", "Abort Csp scanning")
 def test_abort_scanning(disable_clear):
     """Abort scanning.
+
     :param disable_clear: A disable clear object
     """
 
@@ -38,7 +39,7 @@ def an_csp_subarray_in_ready_state(
     sut_settings: conftest.SutTestSettings,
 ) -> conf_types.ScanConfiguration:
     """
-    an CSP subarray in READY state.
+    Set CSP subarray in READY state.
 
     :param set_up_subarray_log_checking_for_csp: A fixture used for setting up
         subarray log checking for the CSP.
@@ -68,7 +69,7 @@ def the_csp_subarray_must_be_in_the_scanning_state(
     integration_test_exec_settings: fxt_types.exec_settings,
 ):
     """
-    the SDP subarray must be in the SCANNING state until finished.
+    Wait for CSP subarray in the SCANNING state until finished.
 
     :param configured_subarray: The configured subarray
     :param context_monitoring: Context monitoring object.

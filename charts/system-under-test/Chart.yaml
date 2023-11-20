@@ -23,7 +23,7 @@ dependencies:
 
   # SKA Mid CSP LMC
   - name: ska-csp-lmc-mid
-    version: 0.17.0 # check latest version
+    version: 0.17.1 # check latest version
     repository: https://artefact.skao.int/repository/helm-internal
     alias: csp-lmc
     condition: csp-lmc.enabled

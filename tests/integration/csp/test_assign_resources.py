@@ -12,8 +12,8 @@ logger = logging.getLogger(__name__)
 
 @pytest.fixture(name="composition")
 def fxt_default_composition(csp_base_composition: conf_types.Composition):
-    """
-    A fixture for default composition
+    """Set up default composition.
+
     :param csp_base_composition: A csp base composition object
     :type csp_base_composition: conf_types.Composition
     :return: A class representing the csp base configuration for the system under test.
@@ -42,13 +42,14 @@ def test_assign_resources_to_csp_mid_subarray():
     "Release resources assigned to an CSP mid subarray",
 )
 def test_release_resources_to_csp_mid_subarray():
-    """Release resources assigned to an CSP mid subarray"""
+    """Release resources assigned to an CSP mid subarray."""
 
 
 @pytest.fixture(name="set_restart_after_abort")
 def fxt_set_restart_after_abort(sut_settings: SutTestSettings):
     """
-    A fixture to set restart after abort
+    Set restart after abort.
+
     :param sut_settings: An instance of SutTestSettings class
         containing test settings for the SUT.
     """
@@ -65,6 +66,7 @@ def test_abort_in_resourcing_mid(
     set_restart_after_abort: None, composition: conf_types.Composition
 ):
     """Assign resources to csp subarray in mid.
+
     :param set_restart_after_abort: A fixture to set restart after abort which is set as none
     :param composition: The assign resources configuration paramaters
     """

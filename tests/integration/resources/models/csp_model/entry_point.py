@@ -121,6 +121,7 @@ class StartUpStep(base.StartUpStep, LogEnabled, WithCommandID):
     def set_wait_for_undo_startup(self) -> MessageBoardBuilder:
         """
         Domain logic for what needs to be waited for switching the csp off.
+
         :return: brd
         """
         brd = get_message_board_builder()

@@ -30,6 +30,7 @@ class CSPconfig(Dishes, TargetSpecs):
         base_target_specs: dict[str, BaseTargetSpec] | None = None,
         array: ArraySpec | None = None,
     ) -> None:
+        """Init object."""
         Dishes.__init__(self, base_target_specs, array)
         TargetSpecs.__init__(self, base_target_specs, array)
 

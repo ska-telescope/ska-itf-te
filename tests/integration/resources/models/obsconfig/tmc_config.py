@@ -1,3 +1,4 @@
+"""Configuration generator for the csp."""
 from datetime import timedelta
 
 from ska_tmc_cdm.messages.subarray_node.configure import TMCConfiguration
