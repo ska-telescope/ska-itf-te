@@ -46,8 +46,8 @@
     ARCHIVER_DBNAME: "${CONFIG}_archiver_db_${CI_COMMIT_REF_SLUG}"
     # VALUES: pipeline.yaml
   before_script:
-    - ln -snf /usr/share/zoneinfo/$CONTAINER_TIMEZONE /etc/localtime && echo $CONTAINER_TIMEZONE > /etc/timezone
-    - sudo apt install inetutils-ping expect sshpass netcat jq -y
+    - bash .make/resources/gitlab_section.sh set-tz "Set Timezone to UTC" "ln -snf /usr/share/zoneinfo/$CONTAINER_TIMEZONE /etc/localtime && echo $CONTAINER_TIMEZONE > /etc/timezone"
+    - bash .make/resources/gitlab_section.sh install_packages "Install required packages" sudo apt install inetutils-ping expect sshpass netcat jq -y #FIXME: Move this to Dockerfile
     - ping -c 1 10.20.2.14 || (echo "Cannot reach PDU" && exit 1) #FIXME: This is the type of config data that we should ideally be putting in Vault / Config database
     - nc -zv 10.20.2.14 22 || (echo "Cannot reach PDU SSH interface - go to  https://za-itf-pdu3.ad.skatelescope.org and reset" && exit 1)
   script:
