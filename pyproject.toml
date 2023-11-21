@@ -21,7 +21,6 @@ kubernetes = "^21.7.0"
 asyncua = "^1.0.4"
 ska_ser_logging = "^0.4.1"
 ska-control-model = "^0.3.1"
-jq = "^1.6.0"
 
 [tool.poetry.group.docs.dependencies]
 Sphinx = "^5.1.1"
