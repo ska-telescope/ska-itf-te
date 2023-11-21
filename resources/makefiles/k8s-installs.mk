@@ -58,7 +58,10 @@ SPOOKD_VALUES=charts/ska-mid-itf-ghosts/values.yaml
 SPOOKD_VERSION=0.2.2
 SPOOKD_NAMESPACE=spookd
 
-SPFC_NAMESPACE=spfc 
+SPFC_NAMESPACE=default 
+
+itf-spfc-get-pod-name:
+	@kubectl get pods --selector=job-name=register-spfc -o jsonpath='{.items[0].metadata.name}'
 
 itf-spookd-install-chart:
 	helm install --values $(SPOOKD_VALUES) spookd-device-plugin skao/ska-ser-k8s-spookd --version $(SPOOKD_VERSION) --namespace spookd
@@ -69,12 +72,19 @@ itf-spookd-uninstall:
 itf-spookd-template-chart:
 	@make k8s-template-chart K8S_CHART=ska-mid-itf-ghosts KUBE_APP=spookd KUBE_NAMESPACE=$(SPOOKD_NAMESPACE) HELM_RELEASE=whoyougonnacall
 
+
+# copy content into a file in the remote pod
+itf-spfc-copy-script:	
+	@kubectl cp scripts/spfc default/$(make itf-spfc-get-pod-name):/scripts
+
+
 itf-spfc-install-chart:
 	@make k8s-install-chart K8S_CHART=spfc-registration KUBE_APP=spfc-register KUBE_NAMESPACE=$(SPFC_NAMESPACE) HELM_RELEASE=spfc-register
+	@make itf-spfc-copy-script
 
 itf-spfc-uninstall-chart:
 	@make k8s-uninstall-chart K8S_CHART=spfc-registration KUBE_APP=spfc-register KUBE_NAMESPACE=$(SPFC_NAMESPACE) HELM_RELEASE=spfc-register
-	
+
 # install taranta dashboards in separate namespace
 k8s-install-taranta-dashboards:
 #TODO: add target

@@ -2,20 +2,35 @@ global:
   minikube: true
   facility: mid-itf
   exposeAllDS: true
-
+  
+  httpPort: 8080
+  httpNodePort: 8080
 
 nameOverride: ""
 fullnameOverride: ""
 job:
   name: register-spfc
-  image: artefact.skao.int/ska-tango-images-pytango-runtime:9.4.3
+  image: artefact.skao.int/ska-cicd-k8s-tools-build-deploy:0.9.0
 
 imagePullPolicy: IfNotPresent
+volume:
+  name: spfc-data
+  persistentVolumeClaim:
+  claimName: spfc-pvc
+mounts:
+  setupScript:
+    name: spfc-data
+    mount: /scripts
+    source: scripts/spfc/read_vault_keys.py
+    dest: read_vault_keys.py
 
 vault:
+  serviceName: vault-service
   useVault: true
-  address: "https://vault.skao.int"
-  secretPath: kv/data/groups/ska-dev/atlas
-  secretKey: test-injection
+  webport: 8080
+  address: "http://127.0.0.1:8080"
+  secretPath: secret/webapp/config
+  secretKey: TEST_KEY
   key1: TEST_KEY
-  role: kube-role   
+  role: kube-role
+  namespace: default

@@ -2,17 +2,44 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: {{ .Values.job.name }}
+  labels:
+    app: {{ .Values.job.name }}
 
 spec:
   template:
     spec:
+      volumes:
+      - name: {{ .Values.volume.name }}
+        hostPath:
+          path: {{ .Values.mounts.setupScript.mount}}
       containers:
       - name: {{ .Values.job.name }}
         image: {{ .Values.job.image }}
         env:
           - name: SPFC_KEY
             value: {{ .Values.vault.key1 }}
-        command: ["/bin/bash","-c","echo $SPFC_KEY"]
+          - name: SPFC_HOST
+            value: 10.165.3.33        
+        command: ["/bin/bash","-c"]
+        args:
+          #- echo $(curl 'http://vault-service.default.svc.cluster.local:8080');
+          - ls -all /scripts;
+
+        volumeMounts:
+        - name: {{ .Values.volume.name }}
+          mountPath: {{ .Values.mounts.setupScript.mount }}
+
+        - name:  {{ .Values.volume.name }}
+          mountPath:   {{ .Values.volume.name }}
+          subPath: spfc.config
+
+
+
       restartPolicy: Never
+
+      ports:
+      - protocol: TCP
+        port: 8200
+        targetPort: 8200
   backoffLimit: 6
   suspend: false

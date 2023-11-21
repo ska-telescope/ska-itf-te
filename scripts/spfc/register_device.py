@@ -2,8 +2,11 @@ import argparse
 import configparser
 import subprocess
 import tango
+import logging
 from time import sleep
 from tango import Database, DbDevInfo,DeviceProxy
+
+logger = logging.getLogger(__name__)
 class RegisterSPFC:
     __database = None
     __dev_info = None
@@ -28,16 +31,16 @@ class RegisterSPFC:
             self.__dev_info._class = class_name
             self.__dev_info.server = class_name + "/" + self.__serial_number            
             target=self.register_device()
-            sleep(5)
+            sleep(2)
         #All TDS's are registered. Add their properties
         self.apply_device_properties()
     
     def apply_device_properties(self):
         #Devices are registered now we add their properties
-        print("Adding device properties...")
+        logger.info("Adding device properties...")
         for (dev_name, class_name) in self.__dict_device_names.items():
             self.__add_device_properties(dev_name)
-            sleep(5)
+            sleep(2)
 
     def __add_device_properties(self, dev_name):
         match dev_name:
@@ -57,29 +60,26 @@ class RegisterSPFC:
                                  "SpfVacLocation":[self.__server_location+"/spf/spfvac"]}
 
             case _:
-                print(f"Leaving out {dev_name}'s properties.")
+                logger.info(f"Leaving out {dev_name}'s properties.")
                 return
-        print(f"Adding {dev_name}'s properties...")
+        logger.info(f"Adding {dev_name}'s properties...")
         self.__database.put_device_property(self.__server_location + "/spf/" + dev_name, ls_properties)
 
 
     def register_device(self):
         exception = True
-        int_success_pause = 60
         try:
             self.__database.add_device(self.__dev_info)
             sleep(1)
             self.__dev_proxy = DeviceProxy(self.__dev_info.name)
-            print(f"server========={self.__dev_info.server}==========")
-            print(f"class={self.__dev_info._class}")
-            print(f"server={self.__dev_info.server}\n\n")
-            print(self.__dev_proxy.get_attribute_list())
+            logger.info(f"server========={self.__dev_info.server}==========")
+            logger.info(f"class={self.__dev_info._class}")
+            logger.info(f"server={self.__dev_info.server}\n\n")
+            logger.info(self.__dev_proxy.get_attribute_list())
         except Exception as ex:
             exception = True
-            print(f"!!Reg. {self.__dev_info.name} \n Exception occured:")
-            print(ex)
-            sleep(2)
-        sleep(5)
+            logger.info(f"!!Reg. {self.__dev_info.name} \n Exception occured:")
+            logger.info(ex)
 
 def main():
     reg_spfc = RegisterSPFC()
@@ -93,15 +93,19 @@ def main():
     spfc_config = configparser.ConfigParser()
     spfc_config.read("resources/spfc/spfc_config.ini")
     spfc_serial_number = spfc_config['Serial_Nr']['SPFC']
-    print(f"tango_host={tango_host}")
-    print(f"device_location={device_location}")
-    print(f"serial_num={spfc_serial_number}")
-    print(f"spfc_host={spfc_host}")
+    logger.info(f"tango_host={tango_host}")
+    logger.info(f"device_location={device_location}")
+    logger.info(f"serial_num={spfc_serial_number}")
+    logger.info(f"spfc_host={spfc_host}")
     reg_spfc.register_all_devices(tango_host, device_location, spfc_serial_number)
 
     #Restart SPFC
     spfc_response = subprocess.call(["ssh", f"skao@{spfc_host}", "-t", '"sudo /bin/systemctl restart spfc-system.target"'] ,stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
-    print(f"spfc_response={spfc_response}")
+    spfc_status = subprocess.call(["ssh", f"skao@{spfc_host}", "-t", '"sudo /bin/systemctl is-active --quiet spfc-system.target"'] ,stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+    
+    if ("not loaded" in spfc_status):
+        raise Exception("SPFC spfc-system.target is offline.")
+    logger.info(f"spfc_response={spfc_response}")
 
 if __name__ == "__main__":
     main()
