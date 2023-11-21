@@ -1,5 +1,6 @@
 # Makefile targets for deploying and configuring the Talon HW
 HW_CONFIG_FILE_PATH ?= $(PROJECT_ROOT)resources/talon
+MCS_CONFIG_FILE_PATH ?= $(PROJECT_ROOT)resources/mcs
 KUBE_NAMESPACE ?= $(KUBE_NAMESPACE)
 LRU_INDEX ?= lru1
 NUMBER_OF_TALON_BOARDS ?= 1
@@ -32,14 +33,25 @@ itf-cbf-talonlru-off: ## Switch off the Talon LRU specified
 ## SYNOPSIS: make itf-cbf-config-talon
 ## HOOKS: none
 ## VARS: 
-##	HW_CONFIG_FILE_PATH=[hw_config.yaml folder path] (default value: resources/talon)
 ##	KUBE_NAMESPACE=[kubernetes namespace where MCS is deployed] (default value: integration)
 ##	NUMBER_OF_TALON_BOARDS=[lru count paramter] (default value: 1)
 ##  make target for configuring the Talon
 
-itf-cbf-config-talon: ## Copy the Talon HW Config file onto a pod and generate talondx-config.json
-	@kubectl cp $(HW_CONFIG_FILE_PATH)/hw_config.yaml $(KUBE_NAMESPACE)/ds-cbfcontroller-controller-0:/app/mnt/hw_config/hw_config.yaml
+itf-cbf-config-talon: ## generate talondx-config.json
 	@kubectl exec -ti -n $(KUBE_NAMESPACE) ec-deployer -- python3 midcbf_deployer.py --generate-talondx-config --boards=$(NUMBER_OF_TALON_BOARDS)
+
+## TARGET: itf-cbf-config-mcs
+## SYNOPSIS: make itf-cbf-config-mcs
+## HOOKS: none
+## VARS:
+##      MCS_CONFIG_FILE_PATH=[hw_config.yaml init_sys_param.json internal_params.json folder path] (default value: resources/mcs)
+##      KUBE_NAMESPACE=[kubernetes namespace where MCS is deployed] (default value: integration)
+##  make target for configuring the MCS
+
+itf-cbf-config-mcs: ## Copy the Talon HW Config file onto a pod, copy the init sys params into the bite pod, copy the vcc gains json for band1 into the pod
+        @kubectl cp $(MCS_CONFIG_FILE_PATH)/hw_config.yaml $(KUBE_NAMESPACE)/ds-cbfcontroller-controller-0:/app/mnt/hw_config/hw_config.yaml
+	@kubectl cp $(MCS_CONFIG_FILE_PATH)/init_sys_param.json  $(KUBE_NAMESPACE)/ec-bite:/app/images/ska-mid-cbf-engineering-console-bite/ext_config/initial_system_param.json
+	@kubectl cp $(MCS_CONFIG_FILE_PATH)/internal_params.json $(KUBE_NAMESPACE)/ds-vcc-vcc-001-0:/app/mnt/vcc_param/internal_params_receptor1_band1.json
 
 ## TARGET: itf-cbf-tangocpp-update
 ## SYNOPSIS: make itf-cbf-tangocpp-update
@@ -71,4 +83,4 @@ itf-cbf-config-tangodb: ## Configure Deviceservers in the TangoDB
 ##	NUMBER_OF_TALON_BOARDS=[lru count paramter] (default value: 1)
 ##  make target for registering the deviceservers in the TangoDB.
 
-itf-cbf-setup: itf-cbf-talonlru-off itf-cbf-config-talon itf-cbf-tangocpp-update itf-cbf-config-tangodb
+itf-cbf-setup: itf-cbf-talonlru-off itf-cbf-config-talon itf-cbf-config-mcs itf-cbf-tangocpp-update itf-cbf-config-tangodb
