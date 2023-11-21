@@ -93,9 +93,9 @@ itf-cluster-credentials: sut-namespaces ## PIPELINE USE ONLY - allocate credenti
 
 links: itf-te-links
 
-CLUSTER_DOMAIN_POSTFIX?=$(CLUSTER_DOMAIN)## Default value is the same as the ITF Cluster
-KUBE_NAMESPACE_PREFIX?=dish-lmc-
-KUBE_NAMESPACE_POSTFIX?=
+CLUSTER_DOMAIN_POSTFIX ?= miditf.internal.skao.int
+KUBE_NAMESPACE_PREFIX ?= dish-lmc-
+KUBE_NAMESPACE_POSTFIX ?=
 
 ## TARGET: itf-dish-ids
 ## SYNOPSIS: make itf-dish-ids

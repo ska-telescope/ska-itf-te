@@ -49,28 +49,36 @@ def dish_ids_array_from_str(ids: str = "SKA000") -> list[str]:
     return list(ids.split(" "))
 
 
-def set_cluster_domain(dish_id: str = "ska000", domain: str = "miditf.internal.skao.int"):
+def set_cluster_domain(
+    dish_id: str = "ska000",
+    domain_postfix: str = "miditf.internal.skao.int",
+    domain_prefix: str = "",
+):
     """Make wild assumptions about the future of Kubernetes clusters in SKAO.
 
     :param dish_id: Lowercase DishID, defaults to "ska000"
     :type dish_id: str
-    :param domain: Cluster Domain where this dish is deployed, defaults to
+    :param domain_postfix: Cluster Domain where this dish is deployed, defaults to
         "miditf.internal.skao.int"
-    :type domain: str
+    :type domain_postfix: str
+    :param domain_prefix: Prefix of Cluster Domain where this dish is deployed, defaults to
+        ""
+    :type domain_prefix: str
     :return: A cluster domain.
     :rtype: str
     """
-    if domain == "miditf.internal.skao.int":
-        return domain
+    if domain_postfix == "miditf.internal.skao.int":
+        return domain_postfix
     else:
-        return dish_id + "." + domain
+        return domain_prefix + "." + dish_id + "." + domain_postfix
 
 
 def dish_fqdns(
     hostname: str = "tango-databaseds",
-    cluster_domain_prefix: str = "miditf.internal.skao.int",
+    cluster_domain_postfix: str = "miditf.internal.skao.int",
     namespace_prefix: str = "dish-lmc-",
     dish_ids: str = "SKA000",
+    namespace_postfix: str = "",
 ):
     """Create an array of Dish FQDNs for use by the TMC.
 
@@ -78,10 +86,12 @@ def dish_fqdns(
 
     :param hostname: _description_, defaults to "tango-databaseds"
     :type hostname: str
-    :param cluster_domain_prefix: _description_, defaults to "miditf.internal.skao.int"
-    :type cluster_domain_prefix: str
+    :param cluster_domain_postfix: _description_, defaults to "miditf.internal.skao.int"
+    :type cluster_domain_postfix: str
     :param namespace_prefix: _description_, defaults to "dish-lmc-"
     :type namespace_prefix: str
+    :param namespace_postfix: _description_, defaults to ""
+    :type namespace_postfix: str
     :param dish_ids: Space separated DishIDS, defaults to "SKA000"
     :type dish_ids: str
     :return: _description_
@@ -92,21 +102,21 @@ def dish_fqdns(
 
     def single_dish_fqdn(
         hostname: str = "tango-databaseds",
-        cluster_domain_prefix: str = "miditf.internal.skao.int",
+        cluster_domain_postfix: str = "miditf.internal.skao.int",
         namespace_prefix: str = "dish-lmc-",
         dish_id: str = "SKA000",
+        namespace_postfix: str = "",
     ):
         id = single_dish_id_lowercase(id=dish_id)
-        cluster_domain = set_cluster_domain(dish_id=id, domain=cluster_domain_prefix)
-        return (
-            f"tango://{hostname}.{namespace_prefix}{id}.svc.{cluster_domain}:10000/{id}/elt/master"
-        )
+        cluster_domain = set_cluster_domain(dish_id=id, domain_postfix=cluster_domain_postfix)
+        return f"tango://{hostname}.{namespace_prefix}{id}{namespace_postfix}.svc.{cluster_domain}:10000/{id}/elt/master"
 
     fqdns = [
         single_dish_fqdn(
             hostname=hostname,
-            cluster_domain_prefix=cluster_domain_prefix,
+            cluster_domain_postfix=cluster_domain_postfix,
             namespace_prefix=namespace_prefix,
+            namespace_postfix=namespace_postfix,
             dish_id=x,
         )
         for x in dish_ids_array_from_str(dish_ids)
@@ -119,6 +129,7 @@ def tmc_values(
     cluster_domain_postfix="miditf.internal.skao.int",
     namespace_prefix="dish-lmc-",
     dish_ids="SKA000",
+    namespace_postfix: str = "",
 ):
     """Generate values for the TMC to connect to DishIDs as set in the environment.
 
@@ -142,6 +153,8 @@ def tmc_values(
     :type cluster_domain_postfix: str, optional
     :param namespace_prefix: _description_, defaults to "dish-lmc-"
     :type namespace_prefix: str, optional
+    :param namespace_postfix: _description_, defaults to ""
+    :type namespace_postfix: str
     :param dish_ids: _description_, defaults to "SKA000"
     :type dish_ids: str, optional
     :return: _description_
@@ -151,6 +164,22 @@ def tmc_values(
         DISH_IDS = dish_ids
     else:
         DISH_IDS = os.environ["DISH_IDS"]
+    if "TANGO_DATABASE_DS" not in os.environ:
+        TANGO_DATABASE_DS = hostname
+    else:
+        TANGO_DATABASE_DS = os.environ["TANGO_DATABASE_DS"]
+    if "CLUSTER_DOMAIN_POSTFIX" not in os.environ:
+        CLUSTER_DOMAIN_POSTFIX = cluster_domain_postfix
+    else:
+        CLUSTER_DOMAIN_POSTFIX = os.environ["CLUSTER_DOMAIN_POSTFIX"]
+    if "KUBE_NAMESPACE_PREFIX" not in os.environ:
+        KUBE_NAMESPACE_PREFIX = namespace_prefix
+    else:
+        KUBE_NAMESPACE_PREFIX = os.environ["KUBE_NAMESPACE_PREFIX"]
+    if "KUBE_NAMESPACE_POSTFIX" not in os.environ:
+        KUBE_NAMESPACE_POSTFIX = namespace_postfix
+    else:
+        KUBE_NAMESPACE_POSTFIX = os.environ["KUBE_NAMESPACE_POSTFIX"]
     values = {
         "tmc": {
             "deviceServers": {
@@ -161,7 +190,11 @@ def tmc_values(
             "global": {
                 "namespace_dish": {
                     "dish_name": dish_fqdns(
-                        hostname, cluster_domain_postfix, namespace_prefix, DISH_IDS
+                        hostname=TANGO_DATABASE_DS,
+                        cluster_domain_postfix=CLUSTER_DOMAIN_POSTFIX,
+                        namespace_prefix=KUBE_NAMESPACE_PREFIX,
+                        dish_ids=DISH_IDS,
+                        namespace_postfix=KUBE_NAMESPACE_POSTFIX,
                     )
                 }
             },
@@ -182,8 +215,9 @@ def main():
 
 
 if __name__ == "__main__":
-    for item in ["DISH_IDS"]:
-        assert item in os.environ, f"{item} environment variable not set."
-    # FIXME: we're currently assuming that only the DishIDs are to be set in the environment, \
-    # and the other defaults are correct. This needs to be changed.
+    assert (
+        "CLUSTER_DOMAIN_POSTFIX" in os.environ
+    ), "CLUSTER_DOMAIN_POSTFIX environment variable not set."
+    assert "DISH_IDS" in os.environ, "DISH_IDS environment variable not set."
+    # print(os.environ)
     main()
