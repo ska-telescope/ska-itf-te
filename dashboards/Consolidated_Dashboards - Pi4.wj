@@ -1,18 +1,19 @@
 {
-  "id": "64e8a62b6f41c4001966734a",
+  "id": "65362df3e9e6c10019b411d2",
   "name": "Consolidated_Dashboards - Pi4",
-  "version": "2.2.0",
+  "version": "2.5.0",
   "user": "ATLAS",
-  "insertTime": "2023-08-25T13:01:31.027Z",
-  "updateTime": "2023-08-25T13:32:24.835Z",
+  "insertTime": "2023-10-23T08:25:23.673Z",
+  "updateTime": "2023-11-21T05:42:35.076Z",
   "group": null,
   "groupWriteAccess": false,
   "lastUpdatedBy": "ATLAS",
   "widget": [
     {
+      "valid": 1,
       "id": "22",
-      "x": 4,
-      "y": 4,
+      "x": 41,
+      "y": 31,
       "canvas": "0",
       "width": 169,
       "height": 73,
@@ -26,14 +27,16 @@
         "borderColor": "#000000",
         "font": "Helvetica",
         "linkTo": "",
-        "customCss": "border: 3px solid black;\nborder-radius: 25px;\n"
+        "customCss": "border: 3px solid black;\nborder-radius: 25px;\n",
+        "automaticResize": "Disabled"
       },
       "order": 2
     },
     {
+      "valid": 1,
       "id": "23",
-      "x": 7,
-      "y": 15,
+      "x": 44,
+      "y": 42,
       "canvas": "0",
       "width": 61,
       "height": 59,
@@ -47,14 +50,16 @@
         "borderColor": "#000000",
         "font": "Helvetica",
         "linkTo": "",
-        "customCss": "border: 3px solid #070068;"
+        "customCss": "border: 3px solid #070068;",
+        "automaticResize": "Disabled"
       },
       "order": 3
     },
     {
+      "valid": 1,
       "id": "42",
-      "x": 119,
-      "y": 15,
+      "x": 156,
+      "y": 42,
       "canvas": "0",
       "width": 51,
       "height": 40,
@@ -68,35 +73,39 @@
         "borderColor": "#000000",
         "font": "Helvetica",
         "linkTo": "",
-        "customCss": "border: 3px solid #070068;"
+        "customCss": "border: 3px solid #070068;",
+        "automaticResize": "Disabled"
       },
       "order": 4
     },
     {
+      "valid": 1,
       "id": "43",
-      "x": 120,
-      "y": 16,
+      "x": 157,
+      "y": 43,
       "canvas": "0",
       "width": 49,
       "height": 6,
       "type": "LABEL",
       "inputs": {
         "text": "Signal Generator",
-        "textColor": "#000000",
+        "textColor": "#ffffff",
         "backgroundColor": "#ffffff",
         "size": 1,
         "borderWidth": 0,
         "borderColor": "#000000",
         "font": "Helvetica",
         "linkTo": "",
-        "customCss": "border: 1px solid #070068;\ncolor: #FFFFFF;\nbackground:  #070068;\nfont-weight: bold;\nfont-size: 26px;\ntext-align: center;\n"
+        "customCss": "border: 1px solid #070068;\ncolor: #FFFFFF;\nbackground:  #070068;\nfont-weight: bold;\nfont-size: 26px;\ntext-align: center;\npadding-top: 10px;",
+        "automaticResize": "Disabled"
       },
       "order": 5
     },
     {
+      "valid": 1,
       "id": "46",
-      "x": 148,
-      "y": 30,
+      "x": 185,
+      "y": 57,
       "canvas": "0",
       "width": 20,
       "height": 5,
@@ -117,14 +126,18 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": "border: 1px solid black;\nfontWeight: bold;\npadding-bottom: 10px;\ntext-align:center;"
+        "widgetCss": "border: 1px solid black;\nfontWeight: bold;\npadding-top: 10px;\ntext-align:center;",
+        "format": "",
+        "alignTextCenter": false,
+        "alignValueRight": true
       },
       "order": 7
     },
     {
+      "valid": 1,
       "id": "47",
-      "x": 121,
-      "y": 24,
+      "x": 158,
+      "y": 51,
       "canvas": "0",
       "width": 19,
       "height": 4,
@@ -147,9 +160,10 @@
       "order": 8
     },
     {
+      "valid": 1,
       "id": "48",
-      "x": 121,
-      "y": 42,
+      "x": 158,
+      "y": 69,
       "canvas": "0",
       "width": 47,
       "height": 4,
@@ -169,14 +183,17 @@
         "showAttributeValue": false,
         "showDeviceName": false,
         "showAttribute": "Label",
-        "customCss": "border: 1px solid black;\nfontWeight: bold;\ntext-align:center;\nheight: 100%\npadding-top: px"
+        "customCss": "border: 1px solid black;\nfontWeight: bold;\ntext-align:center\nheight: 100%;\npadding-top: 7px;\npadding-right: 10px",
+        "alignTextCenter": false,
+        "alignValueRight": true
       },
       "order": 9
     },
     {
+      "valid": 1,
       "id": "49",
-      "x": 147,
-      "y": 36,
+      "x": 184,
+      "y": 63,
       "canvas": "0",
       "width": 21,
       "height": 5,
@@ -197,71 +214,41 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": "border: 1px solid black;\nfontWeight: bold;\npadding-bottom: 12px;\ntext-align:center;"
+        "widgetCss": "border: 1px solid black;\nfont-weight: bold;\ntext-align:center;\npadding-top: 10px;",
+        "format": "",
+        "alignTextCenter": false,
+        "alignValueRight": true
       },
       "order": 10
     },
     {
-      "id": "50",
-      "x": 154,
-      "y": 47,
-      "canvas": "0",
-      "width": 15,
-      "height": 6,
-      "type": "COMMAND_ARRAY",
-      "inputs": {
-        "buttonText": "Reset",
-        "command": {
-          "device": "mid-itf/siggen/1",
-          "command": "Reset",
-          "acceptedType": "DevVoid",
-          "intypedesc": "Uninitialised",
-          "outtypedesc": "Uninitialised",
-          "outtype": "DevVarLongStringArray",
-          "tag": "0"
-        },
-        "commandArgs": [],
-        "showDevice": false,
-        "showCommand": false,
-        "requireConfirmation": true,
-        "displayOutput": true,
-        "placeholder": "intype",
-        "OutputMaxSize": 20,
-        "timeDisplayOutput": 3000,
-        "textColor": "#000000",
-        "backgroundColor": "#ffffff",
-        "size": 1,
-        "font": "Helvetica",
-        "btnCss": "border: 1px solid black;\nfontWeight: bold;",
-        "widgetCss": "float: right;\n"
-      },
-      "order": 11
-    },
-    {
+      "valid": 1,
       "id": "62",
-      "x": 7,
-      "y": 5,
+      "x": 44,
+      "y": 32,
       "canvas": "0",
       "width": 163,
       "height": 8,
       "type": "LABEL",
       "inputs": {
         "text": "SKA Mid Sky Simulator",
-        "textColor": "#000000",
+        "textColor": "#ffffff",
         "backgroundColor": "#ffffff",
         "size": 1,
         "borderWidth": 0,
         "borderColor": "#000000",
         "font": "Helvetica",
         "linkTo": "",
-        "customCss": "border: 1px solid #070068;\ncolor: #FFFFFF;\nbackground:  #070068;\nfont-weight: bold;\nfont-size: 30px;\ntext-align: center;\nborder-radius: 25px 25px 0 0;"
+        "customCss": "border: 1px solid #070068;\ncolor: #FFFFFF;\nbackground:  #070068;\nfont-weight: bold;\nfont-size: 30px;\ntext-align: center;\nborder-radius: 25px 25px 0 0;\npadding-top: 15px;",
+        "automaticResize": "Disabled"
       },
-      "order": 12
+      "order": 11
     },
     {
+      "valid": 1,
       "id": "67",
-      "x": 70,
-      "y": 15,
+      "x": 107,
+      "y": 42,
       "canvas": "0",
       "width": 47,
       "height": 22,
@@ -275,35 +262,39 @@
         "borderColor": "#000000",
         "font": "Helvetica",
         "linkTo": "",
-        "customCss": "border: 3px solid #070068;"
+        "customCss": "border: 3px solid #070068;",
+        "automaticResize": "Disabled"
       },
-      "order": 13
+      "order": 12
     },
     {
+      "valid": 1,
       "id": "68",
-      "x": 71,
-      "y": 16,
+      "x": 108,
+      "y": 43,
       "canvas": "0",
       "width": 45,
       "height": 6,
       "type": "LABEL",
       "inputs": {
         "text": "Programmable Attenuator",
-        "textColor": "#000000",
+        "textColor": "#ffffff",
         "backgroundColor": "#ffffff",
         "size": 1,
         "borderWidth": 0,
         "borderColor": "#000000",
         "font": "Helvetica",
         "linkTo": "",
-        "customCss": "border: 1px solid #070068;\ncolor: #FFFFFF;\nbackground:  #070068;\nfont-weight: bold;\nfont-size: 26px;\ntext-align: center;"
+        "customCss": "border: 1px solid #070068;\ncolor: #FFFFFF;\nbackground:  #070068;\nfont-weight: bold;\nfont-size: 26px;\ntext-align: center;\npadding-top: 10px;",
+        "automaticResize": "Disabled"
       },
-      "order": 14
+      "order": 13
     },
     {
+      "valid": 1,
       "id": "69",
-      "x": 8,
-      "y": 16,
+      "x": 45,
+      "y": 43,
       "canvas": "0",
       "width": 59,
       "height": 20,
@@ -317,35 +308,39 @@
         "borderColor": "#000000",
         "font": "Helvetica",
         "linkTo": "",
-        "customCss": "border: 2px solid #070068;\nborder-radius: 10px;"
+        "customCss": "border: 2px solid #070068;\nborder-radius: 10px;",
+        "automaticResize": "Disabled"
       },
-      "order": 15
+      "order": 14
     },
     {
+      "valid": 1,
       "id": "70",
-      "x": 9,
-      "y": 17,
+      "x": 46,
+      "y": 44,
       "canvas": "0",
       "width": 57,
       "height": 6,
       "type": "LABEL",
       "inputs": {
         "text": "Band Selector",
-        "textColor": "#000000",
+        "textColor": "#ffffff",
         "backgroundColor": "#ffffff",
         "size": 1,
         "borderWidth": 0,
         "borderColor": "#000000",
         "font": "Helvetica",
         "linkTo": "",
-        "customCss": "border: 1px solid #070068;\ncolor: #FFFFFF;\nbackground:  #070068;\nfont-weight: bold;\nfont-size: 26px;\ntext-align: center;"
+        "customCss": "border: 1px solid #070068;\ncolor: #FFFFFF;\nbackground:  #070068;\nfont-weight: bold;\nfont-size: 26px;\ntext-align: center;\npadding-top: 10px;",
+        "automaticResize": "Disabled"
       },
-      "order": 16
+      "order": 15
     },
     {
+      "valid": 1,
       "id": "71",
-      "x": 9,
-      "y": 24,
+      "x": 46,
+      "y": 51,
       "canvas": "0",
       "width": 57,
       "height": 17,
@@ -382,14 +377,15 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "customCss": "height: 30px;\nfont-weight: bold;"
+        "customCss": "height: 30px;\nfont-weight: bold;\nmargin-top: 10px"
       },
-      "order": 17
+      "order": 16
     },
     {
+      "valid": 1,
       "id": "72",
-      "x": 12,
-      "y": 30,
+      "x": 49,
+      "y": 57,
       "canvas": "0",
       "width": 8,
       "height": 4,
@@ -403,14 +399,16 @@
         "borderColor": "#000000",
         "font": "Helvetica",
         "linkTo": "",
-        "customCss": "font-weight: bold;\nborder: 1px solid black"
+        "customCss": "font-weight: bold;\nborder: 1px solid black;\ntext-align: center;\npadding-top: 6px",
+        "automaticResize": "Disabled"
       },
-      "order": 18
+      "order": 17
     },
     {
+      "valid": 1,
       "id": "73",
-      "x": 20,
-      "y": 30,
+      "x": 57,
+      "y": 57,
       "canvas": "0",
       "width": 4,
       "height": 4,
@@ -430,14 +428,17 @@
         "showAttributeValue": false,
         "showDeviceName": false,
         "showAttribute": "None",
-        "customCss": "padding-top: 5px;\nborder: 1px solid black;\nheight: 40px;"
+        "customCss": "padding-top: 5px;\nborder: 1px solid black;\nheight: 40px;\npadding-right: 11px",
+        "alignTextCenter": false,
+        "alignValueRight": true
       },
-      "order": 19
+      "order": 18
     },
     {
+      "valid": 1,
       "id": "74",
-      "x": 31,
-      "y": 30,
+      "x": 68,
+      "y": 57,
       "canvas": "0",
       "width": 8,
       "height": 4,
@@ -451,14 +452,16 @@
         "borderColor": "#000000",
         "font": "Helvetica",
         "linkTo": "",
-        "customCss": "font-weight: bold;\nborder: 1px solid black"
+        "customCss": "font-weight: bold;\nborder: 1px solid black;\ntext-align: center;\npadding-top: 6px",
+        "automaticResize": "Disabled"
       },
-      "order": 20
+      "order": 19
     },
     {
+      "valid": 1,
       "id": "75",
-      "x": 39,
-      "y": 30,
+      "x": 76,
+      "y": 57,
       "canvas": "0",
       "width": 4,
       "height": 4,
@@ -478,14 +481,17 @@
         "showAttributeValue": false,
         "showDeviceName": false,
         "showAttribute": "None",
-        "customCss": "padding-top: 5px;\nborder: 1px solid black;\nheight: 40px;"
+        "customCss": "padding-top: 5px;\nborder: 1px solid black;\nheight: 40px;\npadding-right: 11px",
+        "alignTextCenter": false,
+        "alignValueRight": true
       },
-      "order": 21
+      "order": 20
     },
     {
+      "valid": 1,
       "id": "76",
-      "x": 49,
-      "y": 30,
+      "x": 86,
+      "y": 57,
       "canvas": "0",
       "width": 8,
       "height": 4,
@@ -499,14 +505,16 @@
         "borderColor": "#000000",
         "font": "Helvetica",
         "linkTo": "",
-        "customCss": "font-weight: bold;\nborder: 1px solid black;"
+        "customCss": "font-weight: bold;\nborder: 1px solid black;\ntext-align: center;\npadding-top: 6px",
+        "automaticResize": "Disabled"
       },
-      "order": 22
+      "order": 21
     },
     {
+      "valid": 1,
       "id": "77",
-      "x": 57,
-      "y": 30,
+      "x": 94,
+      "y": 57,
       "canvas": "0",
       "width": 4,
       "height": 4,
@@ -526,14 +534,17 @@
         "showAttributeValue": false,
         "showDeviceName": false,
         "showAttribute": "None",
-        "customCss": "padding-top: 5px;\nborder: 1px solid black;\nheight: 40px;"
+        "customCss": "padding-top: 5px;\nborder: 1px solid black;\nheight: 40px;\npadding-right: 11px",
+        "alignTextCenter": false,
+        "alignValueRight": true
       },
-      "order": 23
+      "order": 22
     },
     {
+      "valid": 1,
       "id": "78",
-      "x": 8,
-      "y": 39,
+      "x": 45,
+      "y": 66,
       "canvas": "0",
       "width": 59,
       "height": 14,
@@ -547,35 +558,39 @@
         "borderColor": "#000000",
         "font": "Helvetica",
         "linkTo": "",
-        "customCss": "border: 2px solid #070068;\nborder-radius: 10px;"
+        "customCss": "border: 2px solid #070068;\nborder-radius: 10px;",
+        "automaticResize": "Disabled"
       },
-      "order": 24
+      "order": 23
     },
     {
+      "valid": 1,
       "id": "79",
-      "x": 9,
-      "y": 40,
+      "x": 46,
+      "y": 67,
       "canvas": "0",
       "width": 57,
       "height": 6,
       "type": "LABEL",
       "inputs": {
         "text": "Polarization",
-        "textColor": "#000000",
+        "textColor": "#ffffff",
         "backgroundColor": "#ffffff",
         "size": 1,
         "borderWidth": 0,
         "borderColor": "#000000",
         "font": "Helvetica",
         "linkTo": "",
-        "customCss": "border: 1px solid #070068;\ncolor: #FFFFFF;\nbackground:  #070068;\nfont-weight: bold;\nfont-size: 26px;\ntext-align: center;"
+        "customCss": "border: 1px solid #070068;\ncolor: #FFFFFF;\nbackground:  #070068;\nfont-weight: bold;\nfont-size: 26px;\ntext-align: center;\npadding-top: 10px;",
+        "automaticResize": "Disabled"
       },
-      "order": 25
+      "order": 24
     },
     {
+      "valid": 1,
       "id": "81",
-      "x": 38,
-      "y": 47,
+      "x": 75,
+      "y": 74,
       "canvas": "0",
       "width": 23,
       "height": 4,
@@ -588,14 +603,18 @@
         },
         "showAttribute": "Label",
         "showDevice": false,
-        "widgetCss": "float: right;\nfont-weight: bold;\nword-spacing: 72px;\nborder: 1px solid black;\npadding-left: 1px;"
+        "alignSwitchRight": true,
+        "widgetCSS": "font-weight: bold;\npadding-top: 6px;\npadding-left:25px",
+        "OnCSS": "background-color: green;",
+        "OffCSS": "background-color: red;"
       },
-      "order": 26
+      "order": 25
     },
     {
+      "valid": 1,
       "id": "83",
-      "x": 8,
-      "y": 55,
+      "x": 45,
+      "y": 82,
       "canvas": "0",
       "width": 59,
       "height": 18,
@@ -609,35 +628,39 @@
         "borderColor": "#000000",
         "font": "Helvetica",
         "linkTo": "",
-        "customCss": "border: 2px solid #070068;\nborder-radius: 10px;"
+        "customCss": "border: 2px solid #070068;\nborder-radius: 10px;",
+        "automaticResize": "Disabled"
       },
-      "order": 28
+      "order": 27
     },
     {
+      "valid": 1,
       "id": "84",
-      "x": 9,
-      "y": 56,
+      "x": 46,
+      "y": 83,
       "canvas": "0",
       "width": 57,
       "height": 6,
       "type": "LABEL",
       "inputs": {
         "text": "Noise Sources",
-        "textColor": "#000000",
+        "textColor": "#ffffff",
         "backgroundColor": "#ffffff",
         "size": 1,
         "borderWidth": 0,
         "borderColor": "#000000",
         "font": "Helvetica",
         "linkTo": "",
-        "customCss": "border: 1px solid #070068;\ncolor: #FFFFFF;\nbackground:  #070068;\nfont-weight: bold;\nfont-size: 26px;\ntext-align: center;"
+        "customCss": "border: 1px solid #070068;\ncolor: #FFFFFF;\nbackground:  #070068;\nfont-weight: bold;\nfont-size: 26px;\ntext-align: center;\npadding-top: 10px;",
+        "automaticResize": "Disabled"
       },
-      "order": 29
+      "order": 28
     },
     {
+      "valid": 1,
       "id": "85",
-      "x": 9,
-      "y": 63,
+      "x": 46,
+      "y": 90,
       "canvas": "0",
       "width": 37,
       "height": 4,
@@ -650,14 +673,18 @@
         },
         "showAttribute": "Label",
         "showDevice": false,
-        "widgetCss": "float: right;\nfont-weight: bold;\nborder: 1px solid black;\nword-spacing: 100px;\npadding-left: 1px;"
+        "alignSwitchRight": true,
+        "widgetCSS": "font-weight: bold;\npadding-left: 42px;\npadding-top: 6px;",
+        "OnCSS": "background-color: green;",
+        "OffCSS": "background-color: red;"
       },
-      "order": 30
+      "order": 29
     },
     {
+      "valid": 1,
       "id": "86",
-      "x": 9,
-      "y": 67,
+      "x": 46,
+      "y": 94,
       "canvas": "0",
       "width": 37,
       "height": 4,
@@ -670,16 +697,20 @@
         },
         "showAttribute": "Label",
         "showDevice": false,
-        "widgetCss": "float: right;\nfont-weight: bold;\nborder: 1px solid black;\nword-spacing: 72px;\npadding-left: 1px;"
+        "alignSwitchRight": true,
+        "widgetCSS": "font-weight: bold;\npadding-left: 15px;\npadding-top: 6px;",
+        "OnCSS": "background-color: green;",
+        "OffCSS": "background-color: red;"
       },
-      "order": 31
+      "order": 30
     },
     {
+      "valid": 1,
       "id": "88",
-      "x": 101,
-      "y": 30,
+      "x": 137,
+      "y": 57,
       "canvas": "0",
-      "width": 13,
+      "width": 16,
       "height": 5,
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
@@ -698,14 +729,18 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": "border: 1px solid black;\nfontWeight: bold;\npadding-bottom: 12px;\ntext-align:center;"
+        "widgetCss": "border: 1px solid black;\nfont-weight: bold;\npadding-top: 15px;",
+        "format": "",
+        "alignTextCenter": false,
+        "alignValueRight": true
       },
-      "order": 33
+      "order": 32
     },
     {
+      "valid": 1,
       "id": "89",
-      "x": 73,
-      "y": 30,
+      "x": 108,
+      "y": 57,
       "canvas": "0",
       "width": 28,
       "height": 5,
@@ -723,14 +758,16 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": "border: 1px solid black;\nfontWeight: bold;\ntext-align:center;\npadding-top: 10px;"
+        "widgetCss": "border: 1px solid black;\nfont-weight: bold;\ntext-align:center;\npadding-top: 15px;",
+        "alignValueRight": true
       },
-      "order": 34
+      "order": 33
     },
     {
+      "valid": 1,
       "id": "90",
-      "x": 73,
-      "y": 24,
+      "x": 108,
+      "y": 51,
       "canvas": "0",
       "width": 13,
       "height": 4,
@@ -750,14 +787,15 @@
         "textSize": 1,
         "widgetCss": "border: 1px solid black;\nfontWeight: bold;"
       },
-      "order": 35
+      "order": 34
     },
     {
+      "valid": 1,
       "id": "91",
-      "x": 86,
-      "y": 24,
+      "x": 121,
+      "y": 51,
       "canvas": "0",
-      "width": 28,
+      "width": 32,
       "height": 12,
       "type": "ATTRIBUTE WRITER DROPDOWN",
       "inputs": {
@@ -792,12 +830,13 @@
         "submitButtonCss": "fontWeight: bold;",
         "customCss": "border: 1px solid black;\nfontWeight: bold;"
       },
-      "order": 32
+      "order": 31
     },
     {
+      "valid": 1,
       "id": "92",
-      "x": 140,
-      "y": 24,
+      "x": 177,
+      "y": 51,
       "canvas": "0",
       "width": 28,
       "height": 12,
@@ -837,9 +876,10 @@
       "order": 6
     },
     {
+      "valid": 1,
       "id": "93",
-      "x": 102,
-      "y": 25,
+      "x": 139,
+      "y": 52,
       "canvas": "0",
       "width": 6,
       "height": 2,
@@ -860,14 +900,18 @@
         "backgroundColor": "#ffffff",
         "size": 0,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "format": "",
+        "alignTextCenter": false,
+        "alignValueRight": true
       },
       "order": 0
     },
     {
+      "valid": 1,
       "id": "94",
-      "x": 154,
-      "y": 25,
+      "x": 191,
+      "y": 52,
       "canvas": "0",
       "width": 6,
       "height": 2,
@@ -888,14 +932,18 @@
         "backgroundColor": "#ffffff",
         "size": 0,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "format": "",
+        "alignTextCenter": false,
+        "alignValueRight": true
       },
       "order": 1
     },
     {
+      "valid": 1,
       "id": "95",
-      "x": 121,
-      "y": 36,
+      "x": 158,
+      "y": 63,
       "canvas": "0",
       "width": 26,
       "height": 5,
@@ -913,14 +961,16 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": "border: 1px solid black;\nfontWeight: bold;\ntext-align:center;\npadding-top: 10px;"
+        "widgetCss": "border: 1px solid black;\nfontWeight: bold;\ntext-align:center;\npadding-top: 10px;",
+        "alignValueRight": true
       },
-      "order": 36
+      "order": 35
     },
     {
+      "valid": 1,
       "id": "96",
-      "x": 121,
-      "y": 30,
+      "x": 158,
+      "y": 57,
       "canvas": "0",
       "width": 27,
       "height": 5,
@@ -938,35 +988,16 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": "border: 1px solid black;\nfontWeight: bold;\ntext-align:center;\npadding-top: 10px;"
+        "widgetCss": "border: 1px solid black;\nfont-weight: bold;\ntext-align:center;\npadding-top: 10px;",
+        "alignValueRight": true
       },
-      "order": 37
+      "order": 36
     },
     {
+      "valid": 1,
       "id": "98",
-      "x": 31,
-      "y": 47,
-      "canvas": "0",
-      "width": 6,
-      "height": 4,
-      "type": "LABEL",
-      "inputs": {
-        "text": "OFF",
-        "textColor": "#000000",
-        "backgroundColor": "#ffffff",
-        "size": 1,
-        "borderWidth": 0,
-        "borderColor": "#000000",
-        "font": "Helvetica",
-        "linkTo": "",
-        "customCss": "font-weight: bold;\nborder: 1px solid black;"
-      },
-      "order": 38
-    },
-    {
-      "id": "99",
-      "x": 50,
-      "y": 47,
+      "x": 69,
+      "y": 74,
       "canvas": "0",
       "width": 5,
       "height": 4,
@@ -980,16 +1011,18 @@
         "borderColor": "#000000",
         "font": "Helvetica",
         "linkTo": "",
-        "customCss": "font-weight: bold;\nborder: 1px solid black;"
+        "customCss": "font-weight: bold;\nborder: 1px solid black;\npadding-top: 6px;\npadding-left: 10px;",
+        "automaticResize": "Disabled"
       },
-      "order": 39
+      "order": 37
     },
     {
-      "id": "100",
-      "x": 60,
-      "y": 47,
+      "valid": 1,
+      "id": "99",
+      "x": 87,
+      "y": 74,
       "canvas": "0",
-      "width": 6,
+      "width": 5,
       "height": 4,
       "type": "LABEL",
       "inputs": {
@@ -1001,14 +1034,39 @@
         "borderColor": "#000000",
         "font": "Helvetica",
         "linkTo": "",
-        "customCss": "font-weight: bold;\nborder: 1px solid black;"
+        "customCss": "font-weight: bold;\nborder: 1px solid black;\npadding-top: 6px;\npadding-left: 10px;",
+        "automaticResize": "Disabled"
       },
-      "order": 40
+      "order": 38
     },
     {
+      "valid": 1,
+      "id": "100",
+      "x": 98,
+      "y": 74,
+      "canvas": "0",
+      "width": 5,
+      "height": 4,
+      "type": "LABEL",
+      "inputs": {
+        "text": "ON",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "font-weight: bold;\nborder: 1px solid black;\npadding-top: 6px;\npadding-left: 10px;",
+        "automaticResize": "Disabled"
+      },
+      "order": 39
+    },
+    {
+      "valid": 1,
       "id": "101",
-      "x": 9,
-      "y": 47,
+      "x": 45,
+      "y": 74,
       "canvas": "0",
       "width": 23,
       "height": 4,
@@ -1021,14 +1079,41 @@
         },
         "showAttribute": "Label",
         "showDevice": false,
-        "widgetCss": "float: right;\nfont-weight: bold;\nword-spacing: 72px;\nborder: 1px solid black;\npadding-left: 1px;\nfont-align: right;"
+        "alignSwitchRight": true,
+        "widgetCSS": "font-weight: bold;\npadding-left: 31px;\npadding-top: 6px;",
+        "OnCSS": "background-color: green;",
+        "OffCSS": "background-color: red;"
       },
-      "order": 27
+      "order": 26
     },
     {
+      "valid": 1,
       "id": "102",
-      "x": 21,
-      "y": 47,
+      "x": 57,
+      "y": 74,
+      "canvas": "0",
+      "width": 5,
+      "height": 4,
+      "type": "LABEL",
+      "inputs": {
+        "text": "OFF",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "font-weight: bold;\nborder: 1px solid black;\npadding-top: 6px;\npadding-left: 10px;",
+        "automaticResize": "Disabled"
+      },
+      "order": 40
+    },
+    {
+      "valid": 1,
+      "id": "105",
+      "x": 84,
+      "y": 94,
       "canvas": "0",
       "width": 5,
       "height": 4,
@@ -1042,20 +1127,22 @@
         "borderColor": "#000000",
         "font": "Helvetica",
         "linkTo": "",
-        "customCss": "font-weight: bold;\nborder: 1px solid black;"
+        "customCss": "font-weight: bold;\nborder: 1px solid black;\npadding-top: 6px;\npadding-left: 10px;",
+        "automaticResize": "Disabled"
       },
       "order": 41
     },
     {
-      "id": "105",
-      "x": 46,
-      "y": 67,
+      "valid": 1,
+      "id": "106",
+      "x": 71,
+      "y": 94,
       "canvas": "0",
-      "width": 5,
+      "width": 6,
       "height": 4,
       "type": "LABEL",
       "inputs": {
-        "text": "ON",
+        "text": "OFF",
         "textColor": "#000000",
         "backgroundColor": "#ffffff",
         "size": 1,
@@ -1063,35 +1150,16 @@
         "borderColor": "#000000",
         "font": "Helvetica",
         "linkTo": "",
-        "customCss": "font-weight: bold;\nborder: 1px solid black;"
+        "customCss": "font-weight: bold;\nborder: 1px solid black;\npadding-top: 6px;\npadding-left: 10px;",
+        "automaticResize": "Disabled"
       },
       "order": 42
     },
     {
-      "id": "106",
-      "x": 34,
-      "y": 67,
-      "canvas": "0",
-      "width": 6,
-      "height": 4,
-      "type": "LABEL",
-      "inputs": {
-        "text": "OFF",
-        "textColor": "#000000",
-        "backgroundColor": "#ffffff",
-        "size": 1,
-        "borderWidth": 0,
-        "borderColor": "#000000",
-        "font": "Helvetica",
-        "linkTo": "",
-        "customCss": "font-weight: bold;\nborder: 1px solid black;"
-      },
-      "order": 43
-    },
-    {
+      "valid": 1,
       "id": "107",
-      "x": 46,
-      "y": 63,
+      "x": 84,
+      "y": 90,
       "canvas": "0",
       "width": 5,
       "height": 4,
@@ -1105,14 +1173,16 @@
         "borderColor": "#000000",
         "font": "Helvetica",
         "linkTo": "",
-        "customCss": "font-weight: bold;\nborder: 1px solid black;"
+        "customCss": "font-weight: bold;\nborder: 1px solid black;\npadding-top: 6px;\npadding-left: 10px;",
+        "automaticResize": "Disabled"
       },
-      "order": 44
+      "order": 43
     },
     {
+      "valid": 1,
       "id": "108",
-      "x": 34,
-      "y": 63,
+      "x": 71,
+      "y": 90,
       "canvas": "0",
       "width": 6,
       "height": 4,
@@ -1126,17 +1196,19 @@
         "borderColor": "#000000",
         "font": "Helvetica",
         "linkTo": "",
-        "customCss": "font-weight: bold;\nborder: 1px solid black;"
+        "customCss": "font-weight: bold;\nborder: 1px solid black;\npadding-top: 6px;\npadding-left: 10px;",
+        "automaticResize": "Disabled"
       },
-      "order": 45
+      "order": 44
     },
     {
+      "valid": 1,
       "id": "109",
-      "x": 70,
-      "y": 40,
+      "x": 107,
+      "y": 66,
       "canvas": "0",
       "width": 47,
-      "height": 25,
+      "height": 19,
       "type": "LABEL",
       "inputs": {
         "text": "",
@@ -1147,35 +1219,39 @@
         "borderColor": "#000000",
         "font": "Helvetica",
         "linkTo": "",
-        "customCss": "border: 3px solid #070068;"
+        "customCss": "border: 3px solid #070068;",
+        "automaticResize": "Disabled"
       },
-      "order": 46
+      "order": 45
     },
     {
+      "valid": 1,
       "id": "110",
-      "x": 71,
-      "y": 41,
+      "x": 108,
+      "y": 67,
       "canvas": "0",
       "width": 45,
       "height": 6,
       "type": "LABEL",
       "inputs": {
         "text": "Sky Simulator Environment",
-        "textColor": "#000000",
+        "textColor": "#ffffff",
         "backgroundColor": "#ffffff",
         "size": 1,
         "borderWidth": 0,
         "borderColor": "#000000",
         "font": "Helvetica",
         "linkTo": "",
-        "customCss": "border: 1px solid #070068;\ncolor: #FFFFFF;\nbackground:  #070068;\nfont-weight: bold;\nfont-size: 26px;\ntext-align: center;"
+        "customCss": "border: 1px solid #070068;\ncolor: #FFFFFF;\nbackground:  #070068;\nfont-weight: bold;\nfont-size: 26px;\ntext-align: center;\npadding-top: 10px",
+        "automaticResize": "Disabled"
       },
-      "order": 47
+      "order": 46
     },
     {
+      "valid": 1,
       "id": "111",
-      "x": 71,
-      "y": 54,
+      "x": 108,
+      "y": 74,
       "canvas": "0",
       "width": 24,
       "height": 10,
@@ -1196,14 +1272,18 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": "border: 3px solid #070068;\nfont-weight: bold;\nfont-size: 20px"
+        "widgetCss": "border: 3px solid #070068;\nfont-weight: bold;\nfont-size: 20px;\npadding-top: 28px;\npadding-left: 5px;",
+        "format": "",
+        "alignTextCenter": false,
+        "alignValueRight": true
       },
-      "order": 48
+      "order": 47
     },
     {
+      "valid": 1,
       "id": "112",
-      "x": 96,
-      "y": 54,
+      "x": 133,
+      "y": 74,
       "canvas": "0",
       "width": 20,
       "height": 10,
@@ -1224,7 +1304,47 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": "border: 3px solid #070068;\nfont-weight: bold;\nfont-size: 20px"
+        "widgetCss": "border: 3px solid #070068;\nfont-weight: bold;\nfont-size: 20px;\npadding-top: 28px;\npadding-left: 5px;",
+        "format": "",
+        "alignTextCenter": false,
+        "alignValueRight": true
+      },
+      "order": 48
+    },
+    {
+      "valid": 1,
+      "id": "113",
+      "x": 185,
+      "y": 75,
+      "canvas": "0",
+      "width": 20,
+      "height": 6,
+      "type": "COMMAND",
+      "inputs": {
+        "title": "Reset",
+        "buttonText": "Reset",
+        "command": {
+          "device": "mid-itf/siggen/1",
+          "command": "Reset",
+          "acceptedType": "DevVoid",
+          "intypedesc": "Uninitialised",
+          "outtypedesc": "Uninitialised",
+          "outtype": "DevVarLongStringArray",
+          "tag": "0"
+        },
+        "commandArgs": [],
+        "showDevice": false,
+        "showCommand": false,
+        "requireConfirmation": true,
+        "displayOutput": true,
+        "alignButtonRight": false,
+        "placeholder": "intype",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "btnCss": "font-weight: bold",
+        "widgetCss": "font-weight: bold;\nfloat: right;\npadding-top: 15px;\npadding-right: 10px;\n"
       },
       "order": 49
     }

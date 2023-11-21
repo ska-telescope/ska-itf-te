@@ -8,14 +8,14 @@ icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_201
 dependencies:
   # TARANTA THINGS
   - name: ska-tango-taranta-auth
-    version: 0.1.6
+    version: 0.1.9
     repository: https://artefact.skao.int/repository/helm-internal
     condition: global.taranta_auth_enabled
   - name: ska-tango-taranta-dashboard
-    version: 1.4.0
+    version: 1.4.1
     repository: https://artefact.skao.int/repository/helm-internal
     condition: global.taranta_dashboard_enabled
   - name: ska-tango-taranta-dashboard-pvc
-    version: 1.4.0
+    version: 1.4.1
     repository: https://artefact.skao.int/repository/helm-internal
     condition: global.taranta_dashboard_enabled

@@ -2,10 +2,15 @@
 import asyncio
 import logging
 import os
+from pathlib import Path
 from typing import Generator
 
 import pytest
 from asyncua import Client
+from asyncua.crypto.cert_gen import setup_self_signed_certificate
+from asyncua.crypto.security_policies import SecurityPolicyBasic256
+from asyncua.ua import MessageSecurityMode
+from cryptography.x509.oid import ExtendedKeyUsageOID
 from kubernetes import client, config
 from kubernetes.client.models.v1_service import V1Service
 from kubernetes.client.models.v1_service_spec import V1ServiceSpec
@@ -152,18 +157,122 @@ def fixture_opcua_url(ds_sim_ip: str, ds_sim_discover_port: int) -> Generator:
     yield url
 
 
+@pytest.fixture(name="opcua_user")
+def fixture_opcua_user() -> Generator:
+    """
+    OPCUA user to authenticate with.
+
+    :yield: OPCUA user as a string
+    :rtype: Generator
+    """
+    user = os.environ["DS_SIM_USER"]
+    yield user
+
+
+@pytest.fixture(name="opcua_password")
+def fixture_opcua_password() -> Generator:
+    """
+    OPCUA password to authenticate with.
+
+    :yield: OPCUA password as a string
+    :rtype: Generator
+    """
+    password = os.environ["DS_SIM_PASSWORD"]
+    yield password
+
+
+@pytest.fixture(name="opcua_server_cert")
+def fixture_opcua_server_cert() -> Generator:
+    """
+    OPCUA server certificate path.
+
+    :yield: OPCUA server certificate path as a Path
+    :rtype: Generator
+    """
+    server_cert = Path(os.environ["DS_SIM_SERVER_CERT"])
+    yield server_cert
+
+
+@pytest.fixture(name="opcua_client_cert")
+def fixture_opcua_client_cert() -> Generator:
+    """
+    Path to generate the OPCUA client certificate at.
+
+    :yield: OPCUA client certificate path as a Path
+    :rtype: Generator
+    """
+    client_cert = Path(Path(__file__).parent, "ds_sim_client_cert.der")
+    yield client_cert
+
+
+@pytest.fixture(name="opcua_client_key")
+def fixture_opcua_client_key() -> Generator:
+    """
+    Path to generate OPCUA client key at.
+
+    :yield: OPCUA client key path as a Path
+    :rtype: Generator
+    """
+    client_key = Path(Path(__file__).parent, "ds_sim_client_key.pem")
+    yield client_key
+
+
 @pytest.fixture(name="opcua_client")
-def fixture_opcua_client(opcua_url: str) -> Generator:
+def fixture_opcua_client(
+    opcua_url: str,
+    opcua_user: str,
+    opcua_password: str,
+    opcua_server_cert: Path,
+    opcua_client_cert: Path,
+    opcua_client_key: Path,
+) -> Generator:
     """
     OPCUA client fixture.
 
     :param opcua_url: The OPCUA URL to connect to.
     :type opcua_url: str
+    :param opcua_user: The OPCUA user to authenticate with.
+    :type opcua_user: str
+    :param opcua_password: The OPCUA password to authenticate with.
+    :type opcua_password: str
+    :param opcua_server_cert: The OPCUA server certificate to for the security policy.
+    :type opcua_server_cert: Path
+    :param opcua_client_cert: The OPCUA client certificate to for the security policy.
+    :type opcua_client_cert: Path
+    :param opcua_client_key: The OPCUA client key to for the security policy.
+    :type opcua_client_key: Path
     :yield: The OPCUA client.
     :rtype: Generator
     """
     loop = asyncio.get_event_loop()
     opcua_client = Client(url=opcua_url)
+    opcua_client.set_user(opcua_user)
+    opcua_client.set_password(opcua_password)
+    client_app_uri = "urn:freeopcua:client"
+    loop.run_until_complete(
+        setup_self_signed_certificate(
+            opcua_client_key,
+            opcua_client_cert,
+            client_app_uri,
+            "localhost",
+            [ExtendedKeyUsageOID.CLIENT_AUTH],
+            {
+                "countryName": "ZA",
+                "stateOrProvinceName": "Western Cape",
+                "localityName": "Cape Town",
+                "organizationName": "SKAO",
+            },
+        )
+    )
+    loop.run_until_complete(
+        opcua_client.set_security(
+            SecurityPolicyBasic256,
+            certificate=str(opcua_client_cert),
+            private_key=str(opcua_client_key),
+            server_certificate=str(opcua_server_cert),
+            mode=MessageSecurityMode.Sign,
+        )
+    )
     # pytest-asyncio doesn't seem to work with pytest-bdd so we run until the Futures are done
     loop.run_until_complete(opcua_client.connect())
     yield opcua_client

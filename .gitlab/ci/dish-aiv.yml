@@ -1,95 +1,131 @@
 # ############################
 # # Dish AIV related CICD jobs
 # ############################
-.deploy-dish-lmc:
-  cache: []
-  stage: dish-aiv
+
+.dish_rules:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "pipeline"
+      when: never
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+      when: manual
+    - if: $CI_COMMIT_REF_NAME != $CI_DEFAULT_BRANCH
+      variables:
+        KUBE_NAMESPACE: "ci-$KUBE_APP-$DISH_ID-$CI_COMMIT_REF_NAME"
+
+.dish-lmc:
   tags:
     - ska-k8srunner-za-itf
+  extends:
+    - .dish_rules
   variables:
-    K8S_EXTRA_PARAMS: -f charts/dish-lmc/values.yaml --set "global.dishes={$DISH_INDEX}"
+    DISH_LMC_INITIAL_PARAMS: -f charts/dish-lmc/values.yaml --set "global.dishes={$DISH_INDEX}"
     CLUSTER_DOMAIN: miditf.internal.skao.int
     INGRESS_HOST: k8s.miditf.internal.skao.int
     K8S_CHART: dish-lmc
     KUBE_NAMESPACE: dish-lmc-$DISH_ID
     KUBE_APP: dish-lmc
     DISH_ID: ska$DISH_INDEX
-  before_script:
-    - make vars
-  script:
-    - make k8s-install-chart
-    - make itf-dish-links
   when: manual
   needs:
     - helm-chart-build
   allow_failure: true # need to keep this to unlock the pipeline
   environment:
-    name: mid-itf/integration/dish-lmc-$DISH_ID
+    name: mid-itf/integration/$KUBE_NAMESPACE
     kubernetes:
       namespace: "$KUBE_NAMESPACE"
     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta/
 
+.deploy-dish-lmc:
+  stage: deploy-dish-aiv
+  before_script:
+    - bash .make/resources/gitlab_section.sh vars "Print vars" make vars
+  script:
+    - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart
+    - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart
+    - make itf-dish-links
+  extends:
+    - .dish-lmc
+
+.redeploy-dish-lmc:
+  extends:
+    - .deploy-dish-lmc
+  script:
+    - !reference [.uninstall_chart, script]
+    - !reference [.deploy-dish-lmc, script]
+
 .destroy-dish-lmc:
-  cache: []
-  stage: dish-aiv
-  tags:
-    - ska-k8srunner-za-itf
-  variables:
-    K8S_EXTRA_PARAMS: -f charts/dish-lmc/values.yaml
-    CLUSTER_DOMAIN: miditf.internal.skao.int
-    INGRESS_HOST: k8s.miditf.internal.skao.int
-    K8S_CHART: dish-lmc
-    KUBE_NAMESPACE: dish-lmc-$DISH_ID
-    KUBE_APP: dish-lmc
+  stage: remove-dish-aiv
   extends:
     - .uninstall_chart
-  needs:
-    - helm-chart-build
+    - .dish-lmc
   environment:
-    name: mid-itf/integration/dish-lmc-$DISH_ID
-    kubernetes:
-      namespace: "$KUBE_NAMESPACE"
-    url: https://$INGRESS_HOST/$KUBE_NAMESPACE/taranta/
     action: stop
-  when: manual
-  allow_failure: true # need to keep this to unlock the pipeline
 
 .deploy-additional-lmc:
   extends:
     - .deploy-dish-lmc
-    - .integration_rules
   when: on_success
 
 deploy-dishlmc-ska001:
   extends:
     - .deploy-dish-lmc
+  needs:
+    - deploy-ds-sim-ska001
+  when: on_success
   variables:
     DISH_INDEX: "001"
+    DISH_LMC_EXTRA_PARAMS: -f charts/dish-lmc/values-cetc.yaml --set dishlmc.ska-mid-dish-ds-manager.dishstructuremanager.dsSim.fqdn=$DS_SIM_OPCUA_FQDN
   environment:
     on_stop: uninstall-dishlmc-ska001
 
-deploy-aa05-dishes:
+redeploy-dishlmc-ska001:
+  extends:
+    - .redeploy-dish-lmc
+  needs:
+    - redeploy-ds-sim-ska001
+  when: on_success
+  variables:
+    DISH_INDEX: "001"
+    DISH_LMC_EXTRA_PARAMS: -f charts/dish-lmc/values-cetc.yaml --set dishlmc.ska-mid-dish-ds-manager.dishstructuremanager.dsSim.fqdn=$DS_SIM_OPCUA_FQDN
+  environment:
+    on_stop: uninstall-dishlmc-ska001
+
+.aa05-dishes:
   stage: on_demand_itf_sut
   extends:
     - .sut_base_no_cache
-    - .integration_rules
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "pipeline"
+      when: never
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+      variables:
+        ENV_NAME: mid-itf/integration/dish-lmc-aa05
+      when: manual
+      allow_failure: true
+    - if: $CI_COMMIT_REF_NAME != $CI_DEFAULT_BRANCH
+      variables:
+        ENV_NAME: mid-itf/integration/ci-dish-lmc-aa05-$CI_COMMIT_REF_NAME
+      when: manual
+      allow_failure: true
+  environment:
+    name: $ENV_NAME
+
+deploy-aa05-dishes:
+  extends:
+    - .aa05-dishes
   script:
     - echo "Deploying multiple dishes in downstream dish-aiv stage - first deploy ska001 manually"
     - echo "Deploying 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
   environment:
-    name: mid-itf/integration/dish-lmc-aa05
     on_stop: uninstall-aa05-dishes
 
 uninstall-aa05-dishes:
-  stage: on_demand_itf_sut
   extends:
-    - .sut_base_no_cache
-    - .integration_rules
+    - .aa05-dishes
   script:
     - echo "Uninstalling all dishes in downstream dish-aiv stage"
     - echo "Uninstalling 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
   environment:
-    name: mid-itf/integration/dish-lmc-aa05
     action: stop
 
 deploy-dishlmc-ska036:
@@ -126,16 +162,13 @@ deploy-dishlmc-ska100:
 .destroy-aa05-dishes:
   extends:
     - .destroy-dish-lmc
-    - .integration_rules
   when: on_success
   needs:
     - uninstall-aa05-dishes
-  environment:
-    name: mid-itf/integration/dish-lmc-$DISH_ID
 
 uninstall-dishlmc-ska001:
   extends:
-    - .destroy-aa05-dishes
+    - .destroy-dish-lmc
   variables:
     DISH_ID: ska001
 

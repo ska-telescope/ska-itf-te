@@ -41,22 +41,17 @@ cbf-mcs:
     environment: "mid-itf"
     clusterDomain: "miditf.internal.skao.int"
 
-
-cbf-tmleafnode:
-  enabled: false
-
-ska-csp-lmc-mid:
+csp-lmc:
   legacy_compatibility: true
   enabled: false
 
 ### tmc
-tmc-mid:
+tmc:
   legacy_compatibility: true
   enabled: false
   telescope: SKA-mid
 
-
-ska-sdp:
+sdp:
   legacy_compatibility: true
   enabled: false
   lmc:

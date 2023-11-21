@@ -19,8 +19,7 @@ CI_PROJECT_NAMESPACE=${CI_PROJECT_NAMESPACE:-ska-telescope}
 CI_PROJECT_NAME=${CI_PROJECT_NAME:-ska-mid-itf}
 VERSION=${VERSION:-0.0.0}
 IMAGE_FQDN=${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}/${IMAGE}:${VERSION}
-identifier="$(< /dev/urandom tr -dc 'a-z0-9' | fold -w 5 | head -n 1)" ||:
-NAME=${IMAGE}-${identifier}
+NAME=${IMAGE}-${RANDOM}
 base_dir="$(dirname "$(readlink -f "$0")")"
 
 function cleanup_docker() {

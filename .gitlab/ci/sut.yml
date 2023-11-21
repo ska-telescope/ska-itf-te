@@ -205,12 +205,14 @@ k8s-test-runner:
     - .sut_base_no_cache
     - .ds-sim-test-vars
   before_script:
+    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
     - time poetry install
     - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
     - "make help | grep k8s-test"
     - make install-test-system
   script:
     - make integration-test TANGO_HOST=$TANGO_DATABASE_DS.$KUBE_NAMESPACE.svc.$CLUSTER_DOMAIN:10000 || true
+    - echo "Test command exit code - $(cat build/status)"
     - |
       if [[ 0 == "$(cat build/status)" ]]; then
         make uninstall-test-system
@@ -229,6 +231,7 @@ k8s-test-runner:
     CAPTURE_LOGS: "True"
     EXIT_AT_FAIL: "True"
     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+    DS_SIM_SERVER_CERT: $CI_PROJECT_DIR/.secure_files/SimpleServer_2048.der
 
 stop-k8s-test-runner:
   tags:
@@ -246,8 +249,6 @@ publish-k8s-test-results:
     - k8s-test-runner
     - xray-publish
   image: $TEST_IMAGE
-  tags:
-    - ska-k8srunner-za-itf
   artifacts:
     name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID"
     paths:
