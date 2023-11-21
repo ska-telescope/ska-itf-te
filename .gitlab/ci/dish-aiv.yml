@@ -113,7 +113,7 @@ redeploy-dishlmc-ska001:
 deploy-aa05-dishes:
   extends:
     - .aa05-dishes
-    - .aa05-vars
+    - .mid
   script:
     - echo "Deploying multiple dishes in downstream dish-aiv stage - first deploy ska001 manually"
     - echo "Deploying dishes $DISH_IDS:"
