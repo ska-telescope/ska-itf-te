@@ -109,7 +109,7 @@ KUBE_NAMESPACE_POSTFIX?=
 ##  make target for generating the URLs for accessing the DishLMC deployments in the Mid ITF cluster
 
 itf-dish-ids: ## Create the TMC values.yaml file needed to connect the Dishes to the TMC in the ITF
-	@pip install pyyaml
+	@pip install pyyaml==6.0.1
 	@python3 -m src.tmc.tmc_dish_ids
 
 ## TARGET: itf-dish-links
