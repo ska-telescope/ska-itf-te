@@ -43,7 +43,7 @@ cbf-mcs:
 
 csp-lmc:
   legacy_compatibility: true
-  enabled: false
+  enabled: true
 
 ### tmc
 tmc:
