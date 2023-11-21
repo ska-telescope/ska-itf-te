@@ -44,11 +44,13 @@
     K8S_AUTH_NAMESPACES: "$KUBE_NAMESPACE $KUBE_NAMESPACE_SDP"
     K8S_AUTH_SERVICE_ACCOUNT: "ci-svc-ska-miditf-$CI_PIPELINE_ID"
     ARCHIVER_DBNAME: "${CONFIG}_archiver_db_${CI_COMMIT_REF_SLUG}"
+    DISH_IDS: "SKA001 SKA036 SKA063 SKA100"
     # VALUES: pipeline.yaml
   before_script:
     - ping -c 1 10.20.2.14 || echo "Cannot reach PDU" #FIXME: This is the type of config data that we should ideally be putting in Vault / Config database
   script:
     - echo $CI_JOB_NAME - $CI_JOB_STAGE
+    - make itf-dish-ids
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
     - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
     - |

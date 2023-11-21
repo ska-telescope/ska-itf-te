@@ -109,8 +109,8 @@ KUBE_NAMESPACE_POSTFIX?=
 ##  make target for generating the URLs for accessing the DishLMC deployments in the Mid ITF cluster
 
 itf-dish-ids: ## Create the TMC values.yaml file needed to connect the Dishes to the TMC in the ITF
-	poetry install
-	python3 -m src.tmc.tmc_dish_ids
+	@poetry install
+	@python3 -m src.tmc.tmc_dish_ids
 
 ## TARGET: itf-dish-links
 ## SYNOPSIS: make itf-dish-links
