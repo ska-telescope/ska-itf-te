@@ -187,13 +187,15 @@ k8s-test-runner:
   tags:
     - ska-k8srunner-za-itf
   allow_failure: false
-  image: $TEST_IMAGE
   artifacts:
     name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID"
     paths:
       - "build/"
   extends:
     - .sut_base
+  rules:
+    - !reference [.use-base-image-rules, rules]
+  image: !reference [.use-base-image-rules, image]
   before_script:
     - make vars
     - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
@@ -246,9 +248,6 @@ publish-k8s-test-results:
   needs:
     - k8s-test-runner
     - xray-publish
-  image: $TEST_IMAGE
-  tags:
-    - ska-k8srunner-za-itf
   artifacts:
     name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID"
     paths:
