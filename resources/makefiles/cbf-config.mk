@@ -3,7 +3,7 @@ HW_CONFIG_FILE_PATH ?= $(PROJECT_ROOT)resources/talon
 MCS_CONFIG_FILE_PATH ?= $(PROJECT_ROOT)resources/mcs
 KUBE_NAMESPACE ?= $(KUBE_NAMESPACE)
 LRU_INDEX ?= lru1
-NUMBER_OF_TALON_BOARDS ?= 1
+TALON_BOARD_IDX ?= 1
 
 ## TARGET: itf-cbf-talonlru-status
 ## SYNOPSIS: make itf-cbf-talonlru-status
@@ -34,11 +34,11 @@ itf-cbf-talonlru-off: ## Switch off the Talon LRU specified
 ## HOOKS: none
 ## VARS: 
 ##	KUBE_NAMESPACE=[kubernetes namespace where MCS is deployed] (default value: integration)
-##	NUMBER_OF_TALON_BOARDS=[lru count paramter] (default value: 1)
+##	TALON_BOARD_IDX=[Talon board index number] (default value: 1)
 ##  make target for configuring the Talon
 
 itf-cbf-config-talon: ## generate talondx-config.json
-	@kubectl exec -ti -n $(KUBE_NAMESPACE) ec-deployer -- python3 midcbf_deployer.py --generate-talondx-config --boards=$(NUMBER_OF_TALON_BOARDS)
+	@kubectl exec -ti -n $(KUBE_NAMESPACE) ec-deployer -- python3 midcbf_deployer.py --generate-talondx-config --boards=$(TALON_BOARD_IDX)
 
 ## TARGET: itf-cbf-config-mcs
 ## SYNOPSIS: make itf-cbf-config-mcs
@@ -85,7 +85,7 @@ itf-cbf-config-tangodb: ## Configure Deviceservers in the TangoDB
 ##	KUBE_NAMESPACE=[kubernetes namespace where MCS is deployed] (default value: integration)
 ##	HW_CONFIG_FILE_PATH=[scripts path] (default value: resources/talon)
 ##	LRU_INDEX=[lru index paramter] (default value: lru1)
-##	NUMBER_OF_TALON_BOARDS=[lru count paramter] (default value: 1)
+##	TALON_BOARD_IDX=[Talon board index number] (default value: 1)
 ##  make target for registering the deviceservers in the TangoDB.
 
 itf-cbf-setup: itf-cbf-talonlru-off itf-cbf-config-talon itf-cbf-config-mcs itf-cbf-tangocpp-update itf-cbf-config-tangodb
