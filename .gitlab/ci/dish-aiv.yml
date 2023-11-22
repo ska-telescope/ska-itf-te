@@ -177,6 +177,7 @@ deploy-dishlmc-ska100:
     - deploy-aa05-dishes
     - deploy-dishlmc-ska001
   variables:
+    DISH_LMC_INITIAL_PARAMS: -f charts/dish-lmc/values.yaml
     DISH_INDEX: "100"
   environment:
     on_stop: uninstall-dishlmc-ska100
