@@ -30,7 +30,7 @@
     KUBE_NAMESPACE: dish-lmc-$DISH_ID
     KUBE_APP: dish-lmc
     DISH_ID: ska$DISH_INDEX
-  when: manual
+  # when: manual
   needs:
     - helm-chart-build
   allow_failure: true # need to keep this to unlock the pipeline
