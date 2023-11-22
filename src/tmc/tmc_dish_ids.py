@@ -125,11 +125,11 @@ def dish_fqdns(
 
 
 def tmc_values(
-    HOSTNAME="tango-databaseds",
-    CLUSTER_DOMAIN_POSTFIX="miditf.internal.skao.int",
-    NAMESPACE_PREFIX="dish-lmc-",
-    DISH_IDS="SKA000",
-    NAMESPACE_POSTFIX: str = "",
+    hostname="tango-databaseds",
+    cluster_domain_postfix="miditf.internal.skao.int",
+    namespace_prefix="dish-lmc-",
+    dish_ids="SKA000",
+    namespace_postfix: str = "",
 ):
     """Generate values for the TMC to connect to DishIDs as set in the environment.
 
@@ -161,30 +161,30 @@ def tmc_values(
     :rtype: _type_
     """
     if "DISH_IDS" in os.environ:
-        DISH_IDS = os.environ["DISH_IDS"]
+        dish_ids = os.environ["DISH_IDS"]
     if "TANGO_DATABASE_DS" in os.environ:
-        HOSTNAME = os.environ["TANGO_DATABASE_DS"]
+        hostname = os.environ["TANGO_DATABASE_DS"]
     if "CLUSTER_DOMAIN_POSTFIX" in os.environ:
-        CLUSTER_DOMAIN_POSTFIX = os.environ["CLUSTER_DOMAIN_POSTFIX"]
+        cluster_domain_postfix = os.environ["CLUSTER_DOMAIN_POSTFIX"]
     if "KUBE_NAMESPACE_PREFIX" in os.environ:
-        NAMESPACE_PREFIX = os.environ["KUBE_NAMESPACE_PREFIX"]
+        namespace_prefix = os.environ["KUBE_NAMESPACE_PREFIX"]
     if "KUBE_NAMESPACE_POSTFIX" in os.environ:
-        NAMESPACE_POSTFIX = os.environ["KUBE_NAMESPACE_POSTFIX"]
+        namespace_postfix = os.environ["KUBE_NAMESPACE_POSTFIX"]
     values = {
         "tmc": {
             "deviceServers": {
-                "centralnode": {"DishIDs": dish_ids_array_from_str(DISH_IDS)},
-                "subarraynode": {"DishIDs": dish_ids_array_from_str(DISH_IDS)},
-                "dishleafnode": {"instances": instances(DISH_IDS)},
+                "centralnode": {"DishIDs": dish_ids_array_from_str(dish_ids)},
+                "subarraynode": {"DishIDs": dish_ids_array_from_str(dish_ids)},
+                "dishleafnode": {"instances": instances(dish_ids)},
             },
             "global": {
                 "namespace_dish": {
                     "dish_name": dish_fqdns(
-                        hostname=HOSTNAME,
-                        cluster_domain_postfix=CLUSTER_DOMAIN_POSTFIX,
-                        namespace_prefix=NAMESPACE_PREFIX,
-                        dish_ids=DISH_IDS,
-                        namespace_postfix=NAMESPACE_POSTFIX,
+                        hostname=hostname,
+                        cluster_domain_postfix=cluster_domain_postfix,
+                        namespace_prefix=namespace_prefix,
+                        dish_ids=dish_ids,
+                        namespace_postfix=namespace_postfix,
                     )
                 }
             },
