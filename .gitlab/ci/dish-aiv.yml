@@ -11,6 +11,7 @@
       variables:
         KUBE_NAMESPACE_PREFIX: dish-lmc-
     - if: $CI_COMMIT_REF_NAME != $CI_DEFAULT_BRANCH
+      when: manual
       variables:
         KUBE_NAMESPACE: "ci-$KUBE_APP-$DISH_ID-$CI_COMMIT_REF_NAME"
         KUBE_NAMESPACE_PREFIX: ci-dish-lmc-
@@ -98,19 +99,20 @@ redeploy-dishlmc-ska001:
   stage: on_demand_itf_sut
   extends:
     - .sut_base_no_cache
+    - .dish_rules
   rules:
     - if: $CI_PIPELINE_SOURCE == "pipeline"
       when: never
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
       variables:
-        KUBE_NAMESPACE_PREFIX: dish-lmc-
+        # KUBE_NAMESPACE_PREFIX: dish-lmc-
         ENV_NAME: dish.itf/dish-lmc-aa05
       allow_failure: true
     - if: $CI_COMMIT_REF_NAME != $CI_DEFAULT_BRANCH
       variables:
-        KUBE_NAMESPACE: "ci-$KUBE_APP-$DISH_ID-$CI_COMMIT_REF_NAME"
-        KUBE_NAMESPACE_PREFIX: ci-dish-lmc-
-        KUBE_NAMESPACE_POSTFIX: -$CI_COMMIT_REF_NAME
+        # KUBE_NAMESPACE: "ci-$KUBE_APP-$DISH_ID-$CI_COMMIT_REF_NAME"
+        # KUBE_NAMESPACE_PREFIX: ci-dish-lmc-
+        # KUBE_NAMESPACE_POSTFIX: -$CI_COMMIT_REF_NAME
         ENV_NAME: dish.itf/ci-dish-lmc-aa05-$CI_COMMIT_REF_NAME
       allow_failure: true
   environment:
