@@ -93,6 +93,25 @@ itf-cluster-credentials: sut-namespaces ## PIPELINE USE ONLY - allocate credenti
 
 links: itf-te-links
 
+CLUSTER_DOMAIN_POSTFIX ?= miditf.internal.skao.int
+KUBE_NAMESPACE_PREFIX ?= dish-lmc-
+KUBE_NAMESPACE_POSTFIX ?=
+
+## TARGET: itf-dish-ids
+## SYNOPSIS: make itf-dish-ids
+## HOOKS: none
+## VARS: 
+## 	  DISH_IDS=<Space separated string containing all Dish IDs to be connected to from TMC.>, default 
+##    CLUSTER_DOMAIN_POSTFIX=<DishLMC Hosts' Cluster Domain postfixes>
+##    TANGO_DATABASEDS=<TangoDB hostname>
+##    KUBE_NAMESPACE_PREFIX=<Prefix for the Kubenamespaces for all the dishes>, default dish-lmc-
+##    KUBE_NAMESPACE_POSTFIX?=<Postfix for the Kubenamespaces for all the dishes>, default None
+##  make target for generating the URLs for accessing the DishLMC deployments in the Mid ITF cluster
+
+itf-dish-ids: ## Create the TMC values.yaml file needed to connect the Dishes to the TMC in the ITF
+	@pip install pyyaml==6.0.1
+	@python3 -m src.tmc.tmc_dish_ids
+
 ## TARGET: itf-dish-links
 ## SYNOPSIS: make itf-dish-links
 ## HOOKS: none
@@ -225,3 +244,7 @@ vars:
 	$(info SKA_TANGO_OPERATOR_DEPLOYED: $(SKA_TANGO_OPERATOR_DEPLOYED))
 	$(info DISH_ID: $(DISH_ID))
 	$(info HELM_RELEASE: $(HELM_RELEASE))
+	$(info DISH_IDS: $(DISH_IDS))
+	$(info CLUSTER_DOMAIN_POSTFIX: $(CLUSTER_DOMAIN_POSTFIX))
+	$(info KUBE_NAMESPACE_PREFIX: $(KUBE_NAMESPACE_PREFIX))
+	$(info KUBE_NAMESPACE_POSTFIX: $(KUBE_NAMESPACE_POSTFIX))

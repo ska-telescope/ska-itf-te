@@ -46,6 +46,8 @@ remove-aa05-ds-sim:
       namespace: "$KUBE_NAMESPACE"
     url: https://$INGRESS_HOST/$KUBE_NAMESPACE/webds/
   when: manual
+  needs:
+    - helm-chart-build
   allow_failure: true # need to keep this to unlock the pipeline
 
 .deploy-dish-structure-simulator:

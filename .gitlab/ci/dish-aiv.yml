@@ -7,10 +7,14 @@
     - if: $CI_PIPELINE_SOURCE == "pipeline"
       when: never
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
-      when: manual
+      variables:
+        KUBE_NAMESPACE: $KUBE_APP-$DISH_ID
+        KUBE_NAMESPACE_PREFIX: dish-lmc-
     - if: $CI_COMMIT_REF_NAME != $CI_DEFAULT_BRANCH
       variables:
         KUBE_NAMESPACE: "ci-$KUBE_APP-$DISH_ID-$CI_COMMIT_REF_NAME"
+        KUBE_NAMESPACE_PREFIX: ci-dish-lmc-
+        KUBE_NAMESPACE_POSTFIX: -$CI_COMMIT_REF_NAME
 
 .dish-lmc:
   tags:
@@ -22,10 +26,9 @@
     CLUSTER_DOMAIN: miditf.internal.skao.int
     INGRESS_HOST: k8s.miditf.internal.skao.int
     K8S_CHART: dish-lmc
-    KUBE_NAMESPACE: dish-lmc-$DISH_ID
     KUBE_APP: dish-lmc
     DISH_ID: ska$DISH_INDEX
-  when: manual
+  # when: manual
   needs:
     - helm-chart-build
   allow_failure: true # need to keep this to unlock the pipeline
@@ -98,14 +101,18 @@ redeploy-dishlmc-ska001:
     - if: $CI_PIPELINE_SOURCE == "pipeline"
       when: never
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
-      variables:
-        ENV_NAME: mid-itf/integration/dish-lmc-aa05
       when: manual
+      variables:
+        KUBE_NAMESPACE_PREFIX: dish-lmc-
+        ENV_NAME: dish.itf/dish-lmc-aa05
       allow_failure: true
     - if: $CI_COMMIT_REF_NAME != $CI_DEFAULT_BRANCH
-      variables:
-        ENV_NAME: mid-itf/integration/ci-dish-lmc-aa05-$CI_COMMIT_REF_NAME
       when: manual
+      variables:
+        KUBE_NAMESPACE: "ci-$KUBE_APP-$DISH_ID-$CI_COMMIT_REF_NAME"
+        KUBE_NAMESPACE_PREFIX: ci-dish-lmc-
+        KUBE_NAMESPACE_POSTFIX: -$CI_COMMIT_REF_NAME
+        ENV_NAME: dish.itf/ci-dish-lmc-aa05-$CI_COMMIT_REF_NAME
       allow_failure: true
   environment:
     name: $ENV_NAME
@@ -113,9 +120,22 @@ redeploy-dishlmc-ska001:
 deploy-aa05-dishes:
   extends:
     - .aa05-dishes
+    - .mid
   script:
     - echo "Deploying multiple dishes in downstream dish-aiv stage - first deploy ska001 manually"
-    - echo "Deploying 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
+    - echo "Deploying dishes $DISH_IDS:"
+    - |
+      make itf-dish-ids
+      cat charts/system-under-test/tmc-values.yaml
+  environment:
+    on_stop: uninstall-aa05-dishes
+
+redeploy-aa05-dishes:
+  extends:
+    - .aa05-dishes
+  script:
+    - echo "Redeploying multiple dishes in downstream dish-aiv stage - first deploy ska001 manually"
+    - echo "Redeploying 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
   environment:
     on_stop: uninstall-aa05-dishes
 
@@ -143,7 +163,8 @@ deploy-dishlmc-ska063:
   extends:
     - .deploy-additional-lmc
   needs:
-    - deploy-dishlmc-ska036
+    - deploy-aa05-dishes
+    - deploy-dishlmc-ska001
   variables:
     DISH_INDEX: "063"
   environment:
@@ -153,8 +174,10 @@ deploy-dishlmc-ska100:
   extends:
     - .deploy-additional-lmc
   needs:
-    - deploy-dishlmc-ska063
+    - deploy-aa05-dishes
+    - deploy-dishlmc-ska001
   variables:
+    DISH_LMC_INITIAL_PARAMS: -f charts/dish-lmc/values.yaml
     DISH_INDEX: "100"
   environment:
     on_stop: uninstall-dishlmc-ska100

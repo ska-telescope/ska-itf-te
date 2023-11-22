@@ -1,10 +1,15 @@
+ska-tango-archiver: # FIXME: also see global section
+  enabled: false
+
 global:
+  ska-tango-archiver:
+    enabled: false
   # Used by TMC dishleafnode for Dish LMC device identifier triplet.
   # The TMC centralnode's values are hardocoded at the moment.
   dish_suffix: "elt/master"
-  minikube: true
+  minikube: false
   tango_host: tango-databaseds:10000
-  facility: test-itf
+  facility: mid-itf
   operator: true
   exposeAllDS: true
   data-product-pvc-name: test-pvc
@@ -45,11 +50,23 @@ csp-lmc:
   legacy_compatibility: true
   enabled: true
 
-### tmc
+### tmc - also see tmc-values for DishIDs!
 tmc:
   legacy_compatibility: true
-  enabled: false
+  enabled: true
   telescope: SKA-mid
+  global:
+    Dish:
+      isSimulated:
+        enabled: false
+    subarray_count: 1
+  deviceServers:
+    centralnode:
+      subarray_count: 1
+    dishleafnode:
+      enabled: true
+  ska-tango-base:
+    enabled: false
 
 sdp:
   legacy_compatibility: true
