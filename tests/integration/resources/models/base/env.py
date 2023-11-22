@@ -6,6 +6,8 @@ from ..obsconfig.config import Observation
 
 
 class _ENV(TypedDict):
+    """."""
+
     observation: Observation | None
 
 

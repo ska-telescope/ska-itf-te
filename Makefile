@@ -165,6 +165,9 @@ include .make/base.mk
 # include namespace-specific targets
 -include resources/makefiles/k8s-installs.mk
 
+# include CBF configuration targets
+-include resources/makefiles/cbf-config.mk
+
 # include Xray uploads
 include .make/xray.mk
 
@@ -188,3 +191,6 @@ template-chart: k8s-dep-update
 	$(K8S_CHART_PARAMS) \
 	--debug \
 	 $(K8S_UMBRELLA_CHART_PATH) --namespace $(KUBE_NAMESPACE) > build/manifests.yaml
+
+python-pre-lint:
+	which expect

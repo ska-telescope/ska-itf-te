@@ -16,9 +16,10 @@ from ska_ser_skallop.mvp_control.entry_points import types as conf_types
 from ska_ser_skallop.mvp_control.infra_mon.configuration import get_mvp_release
 from ska_ser_skallop.mvp_fixtures.fixtures import fxt_types
 
-from .resources.models.base.env import Observation, init_observation_config
 from .resources.models.base.states import ObsState
+from .resources.models.mvp_model.env import init_observation_config
 from .resources.models.obsconfig.base import DishName
+from .resources.models.obsconfig.config import Observation
 
 logger = logging.getLogger(__name__)
 
@@ -171,9 +172,9 @@ class _OnlineFlag:
 # setting systems online
 @pytest.fixture(name="online", autouse=True, scope="session")
 def fxt_online():
-    """_summary_.
+    """Set all systems online.
 
-    :return: _description_
+    :return: Flag representing the online status of all systems.
     :rtype: _type_
     """
     return _OnlineFlag()

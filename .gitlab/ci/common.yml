@@ -46,9 +46,12 @@
     ARCHIVER_DBNAME: "${CONFIG}_archiver_db_${CI_COMMIT_REF_SLUG}"
     # VALUES: pipeline.yaml
   before_script:
-    - ping -c 1 10.20.2.14 || echo "Cannot reach PDU" #FIXME: This is the type of config data that we should ideally be putting in Vault / Config database
+    - bash .make/resources/gitlab_section.sh install_packages "Install required packages" sudo apt install jq -y #FIXME: Move this to Dockerfile
+    - ping -c 1 10.20.2.14 || (echo "Cannot reach PDU" && exit 1) #FIXME: This is the type of config data that we should ideally be putting in Vault / Config database
+    - nc -zv 10.20.2.14 22 || (echo "Cannot reach PDU SSH interface - go to  https://za-itf-pdu3.ad.skatelescope.org and reset" && exit 1)
   script:
-    - echo $CI_JOB_NAME - $CI_JOB_STAGE
+    - mkdir deploy
+    - echo $CI_JOB_NAME - $CI_JOB_STAGE > deploy/ci_details.txt # This is just to double-check if the job output to the build folder works
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
     - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
     - |
@@ -59,13 +62,23 @@
       fi
     - bash .make/resources/gitlab_section.sh get-ns "Get namespace resources" make k8s-get
     - bash .make/resources/gitlab_section.sh wait-ns "Wait namespace resources" make k8s-wait
-    - bash .make/resources/gitlab_section.sh links "Skampi landing page" make links
+    - make itf-cbf-setup --dry # Just outputting what we'll be attempting - this single target might replace the following four
+    - make itf-cbf-talonlru-status
+    - bash .make/resources/gitlab_section.sh talon_off "Switch off Talon" make itf-cbf-talonlru-off
+    - bash .make/resources/gitlab_section.sh talon_config "Configure Talon(s)" make itf-cbf-config-talon
+    - bash .make/resources/gitlab_section.sh mcs_config "Configure MCS" make itf-cbf-config-mcs
+    - bash .make/resources/gitlab_section.sh talon_download_tangocpp_ds "Download CPP Tango device server updates" make itf-cbf-tangocpp-update &> deploy/talonconfig.log
+    - bash .make/resources/gitlab_section.sh talon_config_tangodb "Configure TangoDB with device servers" make itf-cbf-config-tangodb
+    - kubectl apply -f resources/talon/sdp-surrogate.yaml -n $KUBE_NAMESPACE-sdp #FIXME: Remove and replace with SDP
+    - kubectl get pod -n $KUBE_NAMESPACE-sdp -o yaml
   after_script:
     - make template-chart
+    - make links
   artifacts:
     name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID-$CI_JOB_STAGE-$CI_JOB_NAME"
     paths:
       - "build/"
+      - "deploy/"
 
 .info:
   stage: deploy
@@ -94,6 +107,7 @@
     - |
       if [ "$KEEP_NAMESPACE" != "true" ]; then
         make k8s-delete-namespace
+        make k8s-delete-namespace KUBE_NAMESPACE=$KUBE_NAMESPACE_SDP
       fi
 
 .redeploy:

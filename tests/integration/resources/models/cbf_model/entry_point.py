@@ -38,7 +38,7 @@ class LogEnabled:
 
 
 class StartUpStep(base.StartUpStep, LogEnabled):
-    """Implementation of Startup step for CSP."""
+    """Implementation of Startup step for CBF."""
 
     def __init__(self, nr_of_subarrays: int) -> None:
         """_summary_.
@@ -426,7 +426,7 @@ class CBFSetOnlineStep(base.SetOnlineStep, LogEnabled):
 
 
 class CBFEntryPoint(CompositeEntryPoint, HasObservation):
-    """Derived Entrypoint scoped to SDP element."""
+    """Derived Entrypoint scoped to CBF element."""
 
     nr_of_subarrays = 2
 
@@ -438,87 +438,3 @@ class CBFEntryPoint(CompositeEntryPoint, HasObservation):
         self.assign_resources_step = CbfAssignResourcesStep()
         self.configure_scan_step = CbfConfigureStep()
         self.scan_step = CbfScanStep()
-
-
-cbf_low_start_scan = {
-    "common": {"subarray_id": 1},
-    "lowcbf": {
-        "scan_id": 987654321,
-        "unix_epoch_seconds": 1616971738,
-        "timestamp_ns": 987654321,
-        "packet_offset": 123456789,
-        "scan_seconds": 2,
-    },
-}
-
-cbf_low_assign_resources = {
-    "common": {"subarrayID": 1},
-    "lowcbf": {
-        "resources": [
-            {
-                "device": "fsp_01",
-                "shared": True,
-                "fw_image": "pst",
-                "fw_mode": "unused",
-            },
-            {
-                "device": "p4_01",
-                "shared": True,
-                "fw_image": "p4.bin",
-                "fw_mode": "p4",
-            },
-        ]
-    },
-}
-
-
-cbf_low_release_resources = (
-    {
-        "lowcbf": {
-            "resources": [
-                {"device": "device"},
-            ]
-        },
-    },
-)
-
-cbf_low_configure_scan = {
-    "id": 1,
-    "scanId": 1,
-    "stationType": 0,
-    "common": {"id": 1},
-    "lowcbf": {
-        "jones_source": "tango://host:port/domain/family/member",
-        "station_beams": [
-            {
-                "station_beam_id": 1,
-                "station_delay_src": "tango://host:port/domain/family/member",
-                "visibility_dest": [{"dest_ip": "10.0.2.1", "dest_mac": "02:00:00:00:02:01"}],
-                "pst_beams": [
-                    {
-                        "pst_beam_id": 1,
-                        "pst_beam_delay_src": ("tango://host:port/domain/family/member"),
-                        "pst_beam_dest": [
-                            {
-                                "dest_ip": "10.0.3.1",
-                                "dest_mac": "02:00:00:00:03:01",
-                                "channels": 200,
-                            },
-                            {
-                                "dest_ip": "10.0.3.2",
-                                "dest_mac": "02:00:00:00:03:02",
-                                "channels": 500,
-                            },
-                        ],
-                    }
-                ],
-            },
-            {
-                "station_beam_id": 2,
-                "station_delay_src": "tango://host:port/domain/family/member",
-                "visibility_dest": [{"dest_ip": "10.0.3.3", "dest_mac": "02:00:00:00:03:03"}],
-                "pst_beams": [],
-            },
-        ],
-    },
-}

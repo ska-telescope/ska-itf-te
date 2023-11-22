@@ -3,14 +3,15 @@
 LRU=$1
 STATE=$2
 
-APC_PDU_SCRIPT="./apc_pdu.expect"
+DIR_PATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+
+APC_PDU_SCRIPT=./apc_pdu.expect
 
 USAGE_BANNER="Usage: ./talon_power_lru.sh LRU [STATE]
   LRU: lru1
 
   Options:
     [STATE]: on|On|ON|off|Off|OFF (sets the lru to the STATE; if no STATE is provided, the LRU status is returned)"
-
 
 if ! [[ "$LRU" =~ lru1 ]]; then
 	echo "ERROR: Unrecognized LRU \"$LRU\" provided."

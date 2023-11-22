@@ -187,7 +187,7 @@ install-test-system: sut-namespaces
 uninstall-test-system:
 	@make k8s-uninstall-chart || true
 	@make k8s-uninstall-chart KUBE_NAMESPACE=$(DS_SIM_NAMESPACE) || true
-	@kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all || true
+	@kubectl -n $(KUBE_NAMESPACE) delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all || true
 	@kubectl -n $(DS_SIM_NAMESPACE) delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all || true
 	@make delete-sut-namespaces || true
 	@make k8s-delete-namespace KUBE_NAMESPACE=$(DS_SIM_NAMESPACE) || true
@@ -224,3 +224,4 @@ vars:
 	$(info K8S_CHARTS: $(K8S_CHARTS))
 	$(info SKA_TANGO_OPERATOR_DEPLOYED: $(SKA_TANGO_OPERATOR_DEPLOYED))
 	$(info DISH_ID: $(DISH_ID))
+	$(info HELM_RELEASE: $(HELM_RELEASE))
