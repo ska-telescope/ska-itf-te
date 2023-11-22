@@ -4,7 +4,7 @@ variables:
   MINIKUBE: "false"
   CI_DEBUG_SERVICES: "true"
   CI_REGISTRY_IMAGE: $CI_REGISTRY/ska-telescope/ska-mid-itf/base
-  BASE_IMAGE_TAG: "0.1.2"
+  BASE_IMAGE_TAG: "0.1.3"
   TEST_IMAGE: $CI_REGISTRY_IMAGE:$BASE_IMAGE_TAG
   GIT_SUBMODULE_STRATEGY: recursive
   EXPOSE_All_DS: "true"
