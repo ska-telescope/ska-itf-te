@@ -8,6 +8,7 @@
       when: never
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
       variables:
+        KUBE_NAMESPACE: $KUBE_APP-$DISH_ID
         KUBE_NAMESPACE_PREFIX: dish-lmc-
     - if: $CI_COMMIT_REF_NAME != $CI_DEFAULT_BRANCH
       variables:
@@ -25,7 +26,6 @@
     CLUSTER_DOMAIN: miditf.internal.skao.int
     INGRESS_HOST: k8s.miditf.internal.skao.int
     K8S_CHART: dish-lmc
-    KUBE_NAMESPACE: dish-lmc-$DISH_ID
     KUBE_APP: dish-lmc
     DISH_ID: ska$DISH_INDEX
   # when: manual
