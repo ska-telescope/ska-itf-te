@@ -125,11 +125,11 @@ def dish_fqdns(
 
 
 def tmc_values(
-    hostname="tango-databaseds",
-    cluster_domain_postfix="miditf.internal.skao.int",
-    namespace_prefix="dish-lmc-",
-    dish_ids="SKA000",
-    namespace_postfix: str = "",
+    HOSTNAME="tango-databaseds",
+    CLUSTER_DOMAIN_POSTFIX="miditf.internal.skao.int",
+    NAMESPACE_PREFIX="dish-lmc-",
+    DISH_IDS="SKA000",
+    NAMESPACE_POSTFIX: str = "",
 ):
     """Generate values for the TMC to connect to DishIDs as set in the environment.
 
@@ -160,26 +160,16 @@ def tmc_values(
     :return: _description_
     :rtype: _type_
     """
-    if "DISH_IDS" not in os.environ:
-        DISH_IDS = dish_ids
-    else:
+    if "DISH_IDS" in os.environ:
         DISH_IDS = os.environ["DISH_IDS"]
-    if "TANGO_DATABASE_DS" not in os.environ:
-        TANGO_DATABASE_DS = hostname
-    else:
-        TANGO_DATABASE_DS = os.environ["TANGO_DATABASE_DS"]
-    if "CLUSTER_DOMAIN_POSTFIX" not in os.environ:
-        CLUSTER_DOMAIN_POSTFIX = cluster_domain_postfix
-    else:
+    if "TANGO_DATABASE_DS" in os.environ:
+        HOSTNAME = os.environ["TANGO_DATABASE_DS"]
+    if "CLUSTER_DOMAIN_POSTFIX" in os.environ:
         CLUSTER_DOMAIN_POSTFIX = os.environ["CLUSTER_DOMAIN_POSTFIX"]
-    if "KUBE_NAMESPACE_PREFIX" not in os.environ:
-        KUBE_NAMESPACE_PREFIX = namespace_prefix
-    else:
-        KUBE_NAMESPACE_PREFIX = os.environ["KUBE_NAMESPACE_PREFIX"]
-    if "KUBE_NAMESPACE_POSTFIX" not in os.environ:
-        KUBE_NAMESPACE_POSTFIX = namespace_postfix
-    else:
-        KUBE_NAMESPACE_POSTFIX = os.environ["KUBE_NAMESPACE_POSTFIX"]
+    if "KUBE_NAMESPACE_PREFIX" in os.environ:
+        NAMESPACE_PREFIX = os.environ["KUBE_NAMESPACE_PREFIX"]
+    if "KUBE_NAMESPACE_POSTFIX" in os.environ:
+        NAMESPACE_POSTFIX = os.environ["KUBE_NAMESPACE_POSTFIX"]
     values = {
         "tmc": {
             "deviceServers": {
@@ -190,11 +180,11 @@ def tmc_values(
             "global": {
                 "namespace_dish": {
                     "dish_name": dish_fqdns(
-                        hostname=TANGO_DATABASE_DS,
+                        hostname=HOSTNAME,
                         cluster_domain_postfix=CLUSTER_DOMAIN_POSTFIX,
-                        namespace_prefix=KUBE_NAMESPACE_PREFIX,
+                        namespace_prefix=NAMESPACE_PREFIX,
                         dish_ids=DISH_IDS,
-                        namespace_postfix=KUBE_NAMESPACE_POSTFIX,
+                        namespace_postfix=NAMESPACE_POSTFIX,
                     )
                 }
             },
