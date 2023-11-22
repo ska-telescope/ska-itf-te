@@ -232,7 +232,7 @@ k8s-test-runner:
     CAPTURE_LOGS: "True"
     EXIT_AT_FAIL: "True"
     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
-    KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
+    # KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
     DS_SIM_SERVER_CERT: $CI_PROJECT_DIR/.secure_files/SimpleServer_2048.der
 
 stop-k8s-test-runner:
@@ -244,6 +244,9 @@ stop-k8s-test-runner:
     - .sut_base
     - .ds-sim-test-vars
   when: manual
+  variables:
+    KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+  #   KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
 
 publish-k8s-test-results:
   stage: publish
