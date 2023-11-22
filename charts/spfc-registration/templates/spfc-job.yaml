@@ -8,10 +8,6 @@ metadata:
 spec:
   template:
     spec:
-      volumes:
-      - name: {{ .Values.volume.name }}
-        hostPath:
-          path: {{ .Values.mounts.setupScript.mount}}
       containers:
       - name: {{ .Values.job.name }}
         image: {{ .Values.job.image }}
@@ -23,16 +19,16 @@ spec:
         command: ["/bin/bash","-c"]
         args:
           #- echo $(curl 'http://vault-service.default.svc.cluster.local:8080');
-          - ls -all /scripts;
+          - bash /scripts/register_spfc.sh
 
         volumeMounts:
         - name: {{ .Values.volume.name }}
           mountPath: {{ .Values.mounts.setupScript.mount }}
 
-        - name:  {{ .Values.volume.name }}
-          mountPath:   {{ .Values.volume.name }}
-          subPath: spfc.config
-
+      volumes:
+        - name: {{ .Values.volume.name }}
+          configMap:
+            name: {{ .Values.volume.name }}
 
 
       restartPolicy: Never

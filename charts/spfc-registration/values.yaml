@@ -21,8 +21,7 @@ mounts:
   setupScript:
     name: spfc-data
     mount: /scripts
-    source: scripts/spfc/read_vault_keys.py
-    dest: read_vault_keys.py
+    source: scripts/spfc
 
 vault:
   serviceName: vault-service

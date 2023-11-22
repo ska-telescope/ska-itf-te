@@ -72,17 +72,12 @@ itf-spookd-uninstall:
 itf-spookd-template-chart:
 	@make k8s-template-chart K8S_CHART=ska-mid-itf-ghosts KUBE_APP=spookd KUBE_NAMESPACE=$(SPOOKD_NAMESPACE) HELM_RELEASE=whoyougonnacall
 
-
-# copy content into a file in the remote pod
-itf-spfc-copy-script:	
-	@kubectl cp scripts/spfc default/$(make itf-spfc-get-pod-name):/scripts
-
-
 itf-spfc-install-chart:
+	kubectl create configmap spfc-data --from-file scripts/spfc
 	@make k8s-install-chart K8S_CHART=spfc-registration KUBE_APP=spfc-register KUBE_NAMESPACE=$(SPFC_NAMESPACE) HELM_RELEASE=spfc-register
-	@make itf-spfc-copy-script
 
 itf-spfc-uninstall-chart:
+	@kubectl delete configmap spfc-data
 	@make k8s-uninstall-chart K8S_CHART=spfc-registration KUBE_APP=spfc-register KUBE_NAMESPACE=$(SPFC_NAMESPACE) HELM_RELEASE=spfc-register
 
 # install taranta dashboards in separate namespace
