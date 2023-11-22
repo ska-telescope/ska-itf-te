@@ -110,7 +110,7 @@ KUBE_NAMESPACE_POSTFIX ?=
 
 itf-dish-ids: ## Create the TMC values.yaml file needed to connect the Dishes to the TMC in the ITF
 	@pip install pyyaml==6.0.1
-	@python3 -m src.tmc.tmc_dish_ids
+	@python3 -m src.ska_mid_itf.tmc_dish_ids
 
 ## TARGET: itf-dish-links
 ## SYNOPSIS: make itf-dish-links
