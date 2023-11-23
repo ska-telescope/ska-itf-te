@@ -1,0 +1,20 @@
+unregister-spfc:
+  stage: on_demand_itf_sut 
+  tags:
+    - ska-k8srunner-za-itf
+  script:
+    - make itf-spfc-uninstall-chart
+  when: manual
+  allow_failure: true
+
+register-spfc:
+  stage: on_demand_itf_sut
+  tags:
+    - ska-k8srunner-za-itf 
+  before-script:
+    - make itf-spfc-uninstall-chart
+  script:
+    #Install SCP
+    - make itf-spfc-install-chart
+  when: manual
+  allow_failure: true

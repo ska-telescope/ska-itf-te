@@ -1,7 +1,36 @@
+---
+apiVersion: secrets-store.csi.x-k8s.io/v1
+kind: SecretProviderClass
+metadata:
+  name: vault-spfc-secrets
+  namespace: {{ .Values.job.namespace }}
+spec:
+  provider: vault
+  secretObjects:
+    - secretName: test-injection
+      type: Opaque
+      data:
+        - objectName: csi-driver
+          key: TEST_KEY
+        - objectName: injector
+          key: injector
+  parameters:
+    vaultAddress: "https://vault.skao.int"
+    roleName: "kube-role"
+    objects: |
+      - objectName: "csi-driver"
+        secretPath: "/v1/kv/data/groups/ska-dev/atlas"
+        secretKey: "TEST_KEY"
+      - objectName: "injector"
+        secretPath: "mid-itf/data/test-injection"
+        secretKey: "injector"
+---
+
 apiVersion: batch/v1
 kind: Job
 metadata:
   name: {{ .Values.job.name }}
+  namespace: {{ .Values.job.namespace }}
   labels:
     app: {{ .Values.job.name }}
 
@@ -20,16 +49,37 @@ spec:
         args:
           #- echo $(curl 'http://vault-service.default.svc.cluster.local:8080');
           - bash /scripts/register_spfc.sh
-
+          #---------------------------secret provider stuff...
+          - name: CSI_DRIVER
+            valueFrom:
+              secretKeyRef:
+                name: test-injection
+                key: TEST_KEY
+          - name: INJECTOR
+            valueFrom:
+              secretKeyRef:
+                name: test-injection
+                key: injector
+          #--------------------------ends secrets profider stuff...
         volumeMounts:
         - name: {{ .Values.volume.name }}
           mountPath: {{ .Values.mounts.setupScript.mount }}
+
+        - name: secrets-store-inline
+          mountPath: "/mnt/secrets-store"
+          readOnly: true
 
       volumes:
         - name: {{ .Values.volume.name }}
           configMap:
             name: {{ .Values.volume.name }}
-
+        #--------------------secret provider class
+        - name: secrets-store-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: vault-nginx-secrets
 
       restartPolicy: Never
 
