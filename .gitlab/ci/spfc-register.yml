@@ -1,5 +1,8 @@
 unregister-spfc:
-  stage: on_demand_itf_sut 
+  stage: on_demand_itf_sut
+  extends:
+    - .redeploy
+    - .sut_integration
   tags:
     - ska-k8srunner-za-itf
   script:
@@ -9,6 +12,9 @@ unregister-spfc:
 
 register-spfc:
   stage: on_demand_itf_sut
+  extends:
+    - .redeploy
+    - .sut_integration
   tags:
     - ska-k8srunner-za-itf 
   before-script:
