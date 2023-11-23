@@ -61,7 +61,6 @@ include:
   - local: .gitlab/ci/dish-structure-simulator.yml
   - local: .gitlab/ci/dish-aiv.yml
   - local: .gitlab/ci/ansible.yml
-  - local: .gitlab/ci/spfc-register.yml
 
   # Upload Xray report
   - project: "ska-telescope/templates-repository"

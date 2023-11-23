@@ -157,3 +157,30 @@ uninstall-dishlmc-ska100:
   variables:
     DISH_ID: ska100
 
+unregister-spfc:
+  stage: on_demand_itf_sut 
+  tags:
+    - ska-k8srunner-za-itf
+  image: artefact.skao.int/ska-tango-images-pytango-runtime:9.4.3
+  variables:
+    SERVICE_NAME: tango-databaseds
+    NAMESPACE: dish-lmc-ska001
+    TANGO_HOST: "0.0.0.0"
+    PLAYBOOK_PARAMETERS: ""
+  script:
+    - make itf-spfc-uninstall-chart
+  when: manual
+
+register-spfc:
+  stage: on_demand_itf_sut 
+  tags:
+    - ska-k8srunner-za-itf
+  image: artefact.skao.int/ska-tango-images-pytango-runtime:9.4.3
+  variables:
+    SERVICE_NAME: tango-databaseds
+    NAMESPACE: dish-lmc-ska001
+    TANGO_HOST: "0.0.0.0"
+    PLAYBOOK_PARAMETERS: ""
+  script:
+    - make itf-spfc-install-chart
+  when: manual

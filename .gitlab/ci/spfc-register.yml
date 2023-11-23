@@ -1,20 +1,45 @@
-unregister-spfc:
-  stage: on_demand_itf_sut
+deploy-spfc-register:
+  stage: on_demand_itf_sut 
+  tags:
+    - ska-k8srunner-za-itf
+  before_script:
+    - make spfc-register-uninstall
+  script:
+    - make spfc-register-install
+  environment:
+    name: ska-mid-itf/spfc-register
+    kubernetes:
+      namespace: "$KUBE_NAMESPACE"
+    on_stop: remove-spfc-register
+  allow_failure: true
+
+remove-spfc-register:
+  stage: on_demand_itf_sut 
   tags:
     - ska-k8srunner-za-itf
   script:
-    - make itf-spfc-uninstall-chart
+    - make spfc-register-uninstall
+  environment:
+    name: ska-mid-itf/spfc-register
+    kubernetes:
+      namespace: "$KUBE_NAMESPACE"
+    action: stop
   when: manual
   allow_failure: true
 
 register-spfc:
-  stage: on_demand_itf_sut
-  tags:
-    - ska-k8srunner-za-itf 
-  before-script:
-    - make itf-spfc-uninstall-chart
   script:
     #Install SCP
-    - make itf-spfc-install-chart
-  when: manual
-  allow_failure: true
+    - sudo apt-get update && sudo apt-get install -y openssh-client
+    #Firstly decode that key because it is already encoded to base 64
+    - sudo touch /etc/ssh/ssh_config.d/spfc_config.conf
+    - sudo bash -c "echo 'IdentityFile ~/.ssh/spfc_rsa' > /etc/ssh/ssh_config"
+    - sudo  bash -c  'echo $SPFC_CONFIG >> /etc/ssh/ssh_config.d/spfc_config.conf'
+    - mkdir ~/.ssh && echo "$SPFC_KEY" | base64 -d > ~/.ssh/spfc_rsa
+    - cat /etc/ssh/ssh_config
+    - touch ~/.ssh/known_hosts
+    - sudo apt-get install telnet -y
+    - telnet ${SPFC_HOST} 22
+    - ssh -tt -o "StrictHostKeyChecking no" skao_user@${SPFC_HOST}
+    #- scp skao@$SPFC_HOST:/var/lib/spfc/spfc/spfc_config.ini ~/spfc_config.ini
+    - ls -all ~/.ssh/
