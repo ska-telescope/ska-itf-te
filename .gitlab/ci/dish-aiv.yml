@@ -157,29 +157,3 @@ uninstall-dishlmc-ska100:
   variables:
     DISH_ID: ska100
 
-register-spfc:
-  stage: on_demand_itf_sut 
-  tags:
-    - ska-k8srunner-za-itf
-  image: artefact.skao.int/ska-tango-images-pytango-runtime:9.4.3
-  variables:
-    SERVICE_NAME: tango-databaseds
-    NAMESPACE: dish-lmc-ska001
-    TANGO_HOST: "0.0.0.0"
-    PLAYBOOK_PARAMETERS: ""
-  script:
-    #Install SCP
-    - sudo apt-get update && sudo apt-get install -y openssh-client
-    #Firstly decode that key because it is already encoded to base 64
-    - sudo touch /etc/ssh/ssh_config.d/spfc_config.conf
-    - sudo bash -c "echo 'IdentityFile ~/.ssh/spfc_rsa' > /etc/ssh/ssh_config"
-    - sudo  bash -c  'echo $SPFC_CONFIG >> /etc/ssh/ssh_config.d/spfc_config.conf'
-    - mkdir ~/.ssh && echo "$SPFC_KEY" | base64 -d > ~/.ssh/spfc_rsa
-    - cat /etc/ssh/ssh_config
-    - touch ~/.ssh/known_hosts
-    - sudo apt-get install telnet -y
-    - sudo apt-get install iputils-ping -y && ping ${SPFC_HOST}
-    - ssh -tt -o "StrictHostKeyChecking no" skao_user@${SPFC_HOST}
-    #- scp skao@$SPFC_HOST:/var/lib/spfc/spfc/spfc_config.ini ~/spfc_config.ini
-    - ls -all ~/.ssh/
-  when: manual
