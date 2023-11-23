@@ -74,11 +74,10 @@ itf-spookd-template-chart:
 
 itf-spfc-install-chart:
 	kubectl create configmap spfc-data --from-file scripts/spfc
-	kubectl create namespace register-spfc
 	@make k8s-install-chart K8S_CHART=spfc-registration KUBE_APP=spfc-register KUBE_NAMESPACE=$(SPFC_NAMESPACE) HELM_RELEASE=spfc-register
 
 itf-spfc-uninstall-chart:
-	@kubectl delete configmap spfc-data
+	kubectl delete configmap spfc-data
 	@make k8s-uninstall-chart K8S_CHART=spfc-registration KUBE_APP=spfc-register KUBE_NAMESPACE=$(SPFC_NAMESPACE) HELM_RELEASE=spfc-register
 
 # install taranta dashboards in separate namespace
