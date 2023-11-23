@@ -1,15 +1,16 @@
 {
-  "id": "654186f650e4ce001838c68c",
+  "id": "655c5c2d72024f001940aca8",
   "name": "CSP Commands",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "user": "CIPA",
-  "insertTime": "2023-10-31T23:00:06.902Z",
-  "updateTime": "2023-11-01T20:30:11.633Z",
+  "insertTime": "2023-11-21T07:28:45.775Z",
+  "updateTime": "2023-11-21T07:35:08.521Z",
   "group": null,
   "groupWriteAccess": false,
   "lastUpdatedBy": "CIPA",
   "widget": [
     {
+      "valid": 1,
       "id": "2",
       "x": 4,
       "y": 49,
@@ -26,11 +27,13 @@
         "borderColor": "#dcdcdc",
         "font": "Helvetica",
         "linkTo": "",
-        "customCss": "padding-top:5px;\npadding-left:20px;\nborder: 1px solid gray;"
+        "customCss": "padding-top:5px;\npadding-left:20px;\nborder: 1px solid gray;",
+        "automaticResize": "Disabled"
       },
       "order": 2
     },
     {
+      "valid": 1,
       "id": "6",
       "x": 3,
       "y": 48,
@@ -47,11 +50,13 @@
         "borderColor": "#000000",
         "font": "Helvetica",
         "linkTo": "",
-        "customCss": "border:1px solid #b3b3b3;\npadding-top:5px;\npadding-left:20px;\n"
+        "customCss": "border:1px solid #b3b3b3;\npadding-top:5px;\npadding-left:20px;\n",
+        "automaticResize": "Disabled"
       },
       "order": 1
     },
     {
+      "valid": 1,
       "id": "7",
       "x": 5,
       "y": 40,
@@ -68,11 +73,13 @@
         "borderColor": "#000000",
         "font": "Helvetica",
         "linkTo": "",
-        "customCss": "padding-left:15px;\n"
+        "customCss": "padding-left:15px;\n",
+        "automaticResize": "Disabled"
       },
       "order": 3
     },
     {
+      "valid": 1,
       "id": "8",
       "x": 4,
       "y": 6,
@@ -89,11 +96,13 @@
         "borderColor": "#dcdcdc",
         "font": "Helvetica",
         "linkTo": "",
-        "customCss": "padding-top:5px;\ntext-align: center;\nborder: 1px solid gray;"
+        "customCss": "padding-top:5px;\ntext-align: center;\nborder: 1px solid gray;",
+        "automaticResize": "Disabled"
       },
       "order": 4
     },
     {
+      "valid": 1,
       "id": "9",
       "x": 3,
       "y": 6,
@@ -110,11 +119,13 @@
         "borderColor": "#000000",
         "font": "Helvetica",
         "linkTo": "",
-        "customCss": "border:1px solid #b3b3b3;\npadding-top:5px;\npadding-left:20px;\n"
+        "customCss": "border:1px solid #b3b3b3;\npadding-top:5px;\npadding-left:20px;\n",
+        "automaticResize": "Disabled"
       },
       "order": 0
     },
     {
+      "valid": 1,
       "id": "11",
       "x": 23,
       "y": 37,
@@ -140,6 +151,7 @@
       "order": 5
     },
     {
+      "valid": 1,
       "id": "19",
       "x": 24,
       "y": 49,
@@ -154,6 +166,7 @@
       "order": 6
     },
     {
+      "valid": 1,
       "id": "22",
       "x": 4,
       "y": 60,
@@ -194,8 +207,8 @@
               "device": "cspsubarrays",
               "command": "AssignResources",
               "acceptedType": "DevString",
-              "intypedesc": "JSON-encoded string with the resources to add to subarray",
-              "outtypedesc": "(ReturnType, 'informational message')",
+              "intypedesc": "Uninitialised",
+              "outtypedesc": "Uninitialised",
               "outtype": "DevVarLongStringArray",
               "tag": "0"
             },
@@ -211,7 +224,7 @@
             "sendButtonCss": "color: #ffffff;\nbackground-color: rgb(130, 130, 130);\nopacity: 100%;\npadding:0.2em;\n",
             "alignSendButtonRight": true
           },
-          "valid": true,
+          "valid": 1,
           "order": 29
         },
         {
@@ -246,7 +259,7 @@
             "sendButtonCss": "background-color: rgb(130,130,130);\ncolor: white;\nopacity: 100%;\npadding:0.2em;",
             "alignSendButtonRight": true
           },
-          "valid": true,
+          "valid": 1,
           "order": 30
         },
         {
@@ -273,7 +286,7 @@
             "font": "Helvetica",
             "widgetCss": ""
           },
-          "valid": true,
+          "valid": 1,
           "order": 31
         },
         {
@@ -290,7 +303,11 @@
             "command": {
               "device": "cspsubarrays",
               "command": "Scan",
-              "acceptedType": "DevString"
+              "acceptedType": "DevString",
+              "intypedesc": "Uninitialised",
+              "outtypedesc": "Uninitialised",
+              "outtype": "DevVarLongStringArray",
+              "tag": "0"
             },
             "showDevice": false,
             "showCommand": false,
@@ -304,12 +321,13 @@
             "sendButtonCss": "background-color: rgb(130,130,130);\ncolor: white;\nopacity: 100%;\npadding:0.2em;\n\n",
             "alignSendButtonRight": true
           },
-          "valid": true,
+          "valid": 1,
           "order": 32
         }
       ]
     },
     {
+      "valid": 1,
       "id": "27",
       "x": 12,
       "y": 1,
@@ -326,11 +344,13 @@
         "borderColor": "#000000",
         "font": "Helvetica",
         "linkTo": "",
-        "customCss": "text-align: center;\npadding-top:5px"
+        "customCss": "text-align: center;\npadding-top:5px",
+        "automaticResize": "Disabled"
       },
       "order": 8
     },
     {
+      "valid": 1,
       "id": "28",
       "x": 3,
       "y": 1,
@@ -347,11 +367,13 @@
         "borderColor": "#000000",
         "font": "Helvetica",
         "linkTo": "",
-        "customCss": "background-image: url('https://www.skao.int/themes/custom/ska/assets/images/logo-color.svg');\nbackground-repeat: no-repeat;\nbackground-size: cover;"
+        "customCss": "background-image: url('https://www.skao.int/themes/custom/ska/assets/images/logo-color.svg');\nbackground-repeat: no-repeat;\nbackground-size: cover;",
+        "automaticResize": "Disabled"
       },
       "order": 9
     },
     {
+      "valid": 1,
       "id": "29",
       "x": 21,
       "y": 91,
@@ -377,6 +399,7 @@
       "order": 11
     },
     {
+      "valid": 1,
       "id": "30",
       "x": 4,
       "y": 10,
@@ -393,11 +416,13 @@
         "borderColor": "#000000",
         "font": "Helvetica",
         "linkTo": "",
-        "customCss": "text-align: center\n"
+        "customCss": "text-align: center\n",
+        "automaticResize": "Disabled"
       },
-      "order": 13
+      "order": 12
     },
     {
+      "valid": 1,
       "id": "35",
       "x": 4,
       "y": 12,
@@ -421,36 +446,14 @@
         "padding": 0,
         "customCss": ""
       },
-      "order": 15,
+      "order": 13,
       "innerWidgets": [
-        {
-          "id": "32",
-          "x": 4.4,
-          "y": 14.4,
-          "canvas": "0",
-          "width": 24.2,
-          "height": 4.5,
-          "type": "LABEL",
-          "inputs": {
-            "text": "To turn On/Off/Standby all devices send [] as argument",
-            "textColor": "#2e3436",
-            "backgroundColor": "#dcdcdc",
-            "size": 0.6,
-            "borderWidth": 0,
-            "borderColor": "#000000",
-            "font": "Helvetica",
-            "linkTo": "",
-            "customCss": "text-align: center\n"
-          },
-          "valid": true,
-          "order": 3
-        },
         {
           "id": "18",
           "x": 4.4,
-          "y": 18.9,
+          "y": 14.4,
           "canvas": "0",
-          "width": 24.2,
+          "width": 27.2,
           "height": 4.5,
           "type": "ATTRIBUTE WRITER DROPDOWN",
           "inputs": {
@@ -485,15 +488,15 @@
             "font": "Helvetica",
             "customCss": ""
           },
-          "valid": true,
+          "valid": 1,
           "order": 4
         },
         {
           "id": "31",
           "x": 4.4,
-          "y": 23.4,
+          "y": 18.9,
           "canvas": "0",
-          "width": 24.2,
+          "width": 27.2,
           "height": 4.5,
           "type": "COMMAND",
           "inputs": {
@@ -527,42 +530,15 @@
             "btnCss": "background-color: rgb(130,130,130);\ncolor: white;",
             "widgetCss": ""
           },
-          "valid": true,
-          "order": 5
-        },
-        {
-          "id": "57",
-          "x": 4.4,
-          "y": 27.9,
-          "canvas": "0",
-          "width": 24.2,
-          "height": 4.5,
-          "type": "ATTRIBUTE_WRITER",
-          "inputs": {
-            "title": "",
-            "attribute": {
-              "device": "mid-csp/control/0",
-              "attribute": "cbfsimulationmode",
-              "label": "CBF Simulation Mode"
-            },
-            "showDevice": false,
-            "showAttribute": "Label",
-            "alignValueRight": true,
-            "textColor": "#000000",
-            "backgroundColor": "#ffffff",
-            "size": 0.6,
-            "font": "Helvetica",
-            "widgetCss": ""
-          },
-          "valid": true,
+          "valid": 1,
           "order": 6
         },
         {
           "id": "58",
           "x": 4.4,
-          "y": 32.4,
+          "y": 23.4,
           "canvas": "0",
-          "width": 24.2,
+          "width": 27.2,
           "height": 4.5,
           "type": "ATTRIBUTE_WRITER",
           "inputs": {
@@ -581,12 +557,73 @@
             "font": "Helvetica",
             "widgetCss": ""
           },
-          "valid": true,
-          "order": 7
+          "valid": 1,
+          "order": 8
+        },
+        {
+          "id": "57",
+          "x": 4.4,
+          "y": 27.9,
+          "canvas": "0",
+          "width": 27.2,
+          "height": 4.5,
+          "type": "ATTRIBUTE_WRITER",
+          "inputs": {
+            "title": "",
+            "attribute": {
+              "device": "mid-csp/control/0",
+              "attribute": "cbfsimulationmode",
+              "label": "CBF Simulation Mode"
+            },
+            "showDevice": false,
+            "showAttribute": "Label",
+            "alignValueRight": true,
+            "textColor": "#000000",
+            "backgroundColor": "#ffffff",
+            "size": 0.6,
+            "font": "Helvetica",
+            "widgetCss": ""
+          },
+          "valid": 1,
+          "order": 9
+        },
+        {
+          "id": "60",
+          "x": 4.4,
+          "y": 32.4,
+          "canvas": "0",
+          "width": 27.2,
+          "height": 4.5,
+          "type": "command_file",
+          "inputs": {
+            "uploadBtnLabel": "Upload",
+            "buttonLabel": "SysParam",
+            "command": {
+              "device": "mid_csp_cbf/sub_elt/controller",
+              "command": "InitSysParam",
+              "acceptedType": "DevString",
+              "intypedesc": "the Dish ID - VCC ID mapping and frequency offset (k) in a json string",
+              "outtypedesc": "Tuple containing a return code and a string message indicating the status of the command.",
+              "outtype": "DevVarLongStringArray",
+              "tag": "0"
+            },
+            "showDevice": false,
+            "showCommand": false,
+            "requireConfirmation": true,
+            "displayOutput": true,
+            "alignSendButtonRight": true,
+            "textColor": "#000000",
+            "backgroundColor": "#ffffff",
+            "size": 14,
+            "font": "Helvetica"
+          },
+          "valid": 1,
+          "order": 11
         }
       ]
     },
     {
+      "valid": 1,
       "id": "36",
       "x": 32,
       "y": 22,
@@ -619,9 +656,10 @@
         "btnCss": "background-color: rgb(130,130,130);\ncolor: white;",
         "widgetCss": ""
       },
-      "order": 16
+      "order": 14
     },
     {
+      "valid": 1,
       "id": "41",
       "x": 4,
       "y": 55,
@@ -645,7 +683,7 @@
         "padding": 0,
         "customCss": ""
       },
-      "order": 17,
+      "order": 15,
       "innerWidgets": [
         {
           "id": "38",
@@ -680,7 +718,7 @@
             "btnCss": "background-color: rgb(130,130,130);\ncolor: white;",
             "widgetCss": ""
           },
-          "valid": true,
+          "valid": 1,
           "order": 1
         },
         {
@@ -716,7 +754,7 @@
             "btnCss": "background-color: rgb(130,130,130);\ncolor: white;",
             "widgetCss": ""
           },
-          "valid": true,
+          "valid": 1,
           "order": 2
         },
         {
@@ -752,7 +790,7 @@
             "btnCss": "background-color: rgb(130,130,130);\ncolor: white;",
             "widgetCss": ""
           },
-          "valid": true,
+          "valid": 1,
           "order": 5
         },
         {
@@ -788,12 +826,13 @@
             "btnCss": "background-color: rgb(130,130,130);\ncolor: white;",
             "widgetCss": ""
           },
-          "valid": true,
+          "valid": 1,
           "order": 9
         }
       ]
     },
     {
+      "valid": 1,
       "id": "46",
       "x": 4,
       "y": 75,
@@ -817,7 +856,7 @@
         "padding": 0,
         "customCss": ""
       },
-      "order": 18,
+      "order": 16,
       "innerWidgets": [
         {
           "id": "43",
@@ -852,7 +891,7 @@
             "btnCss": "background-color: rgb(130,130,130);\ncolor: white;",
             "widgetCss": ""
           },
-          "valid": true,
+          "valid": 1,
           "order": 1
         },
         {
@@ -888,7 +927,7 @@
             "btnCss": "background-color: rgb(130,130,130);\ncolor: white;",
             "widgetCss": ""
           },
-          "valid": true,
+          "valid": 1,
           "order": 2
         },
         {
@@ -924,12 +963,13 @@
             "btnCss": "background-color: rgb(130,130,130);\ncolor: white;",
             "widgetCss": ""
           },
-          "valid": true,
+          "valid": 1,
           "order": 3
         }
       ]
     },
     {
+      "valid": 1,
       "id": "47",
       "x": 4,
       "y": 85,
@@ -953,7 +993,7 @@
         "padding": 0,
         "customCss": ""
       },
-      "order": 19,
+      "order": 17,
       "innerWidgets": [
         {
           "id": "48",
@@ -988,7 +1028,7 @@
             "btnCss": "background-color: rgb(130,130,130);\ncolor: white;",
             "widgetCss": ""
           },
-          "valid": true,
+          "valid": 1,
           "order": 1
         },
         {
@@ -1024,7 +1064,7 @@
             "btnCss": "background-color: rgb(130,130,130);\ncolor: white;",
             "widgetCss": ""
           },
-          "valid": true,
+          "valid": 1,
           "order": 2
         },
         {
@@ -1060,12 +1100,13 @@
             "btnCss": "background-color: rgb(130,130,130);\ncolor: white;",
             "widgetCss": ""
           },
-          "valid": true,
+          "valid": 1,
           "order": 3
         }
       ]
     },
     {
+      "valid": 1,
       "id": "51",
       "x": 4.399999999999999,
       "y": 80.76,
@@ -1097,9 +1138,10 @@
         "sendButtonCss": "background-color: rgb(130,130,130);\ncolor: white;\nopacity: 100%;\npadding:0.2em;\n\n",
         "alignSendButtonRight": true
       },
-      "order": 20
+      "order": 18
     },
     {
+      "valid": 1,
       "id": "52",
       "x": 5,
       "y": 95,
@@ -1116,11 +1158,13 @@
         "borderColor": "#000000",
         "font": "Helvetica",
         "linkTo": "",
-        "customCss": "padding-left:15px;\n"
+        "customCss": "padding-left:15px;\n",
+        "automaticResize": "Disabled"
       },
       "order": 10
     },
     {
+      "valid": 1,
       "id": "53",
       "x": 5,
       "y": 99,
@@ -1137,11 +1181,13 @@
         "borderColor": "#000000",
         "font": "Helvetica",
         "linkTo": "prova.com",
-        "customCss": "text-align: center"
+        "customCss": "text-align: center",
+        "automaticResize": "Disabled"
       },
-      "order": 21
+      "order": 19
     },
     {
+      "valid": 1,
       "id": "54",
       "x": 4,
       "y": 90,
@@ -1158,11 +1204,13 @@
         "borderColor": "#070a68",
         "font": "Helvetica",
         "linkTo": "",
-        "customCss": ""
+        "customCss": "",
+        "automaticResize": "Disabled"
       },
-      "order": 22
+      "order": 20
     },
     {
+      "valid": 1,
       "id": "55",
       "x": 4,
       "y": 37,
@@ -1179,11 +1227,13 @@
         "borderColor": "#070a68",
         "font": "Helvetica",
         "linkTo": "",
-        "customCss": ""
+        "customCss": "",
+        "automaticResize": "Disabled"
       },
-      "order": 23
+      "order": 21
     },
     {
+      "valid": 1,
       "id": "56",
       "x": 5,
       "y": 45,
@@ -1200,9 +1250,10 @@
         "borderColor": "#000000",
         "font": "Helvetica",
         "linkTo": "prova.com",
-        "customCss": "text-align: center"
+        "customCss": "text-align: center",
+        "automaticResize": "Disabled"
       },
-      "order": 24
+      "order": 22
     }
   ],
   "variables": [

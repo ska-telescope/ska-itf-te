@@ -110,7 +110,7 @@ KUBE_NAMESPACE_POSTFIX ?=
 
 itf-dish-ids: ## Create the TMC values.yaml file needed to connect the Dishes to the TMC in the ITF
 	@pip install pyyaml==6.0.1
-	@python3 -m src.tmc.tmc_dish_ids
+	@python3 -m src.ska_mid_itf.tmc_dish_ids
 
 ## TARGET: itf-dish-links
 ## SYNOPSIS: make itf-dish-links
@@ -206,7 +206,7 @@ install-test-system: sut-namespaces
 uninstall-test-system:
 	@make k8s-uninstall-chart || true
 	@make k8s-uninstall-chart KUBE_NAMESPACE=$(DS_SIM_NAMESPACE) || true
-	@kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all || true
+	@kubectl -n $(KUBE_NAMESPACE) delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all || true
 	@kubectl -n $(DS_SIM_NAMESPACE) delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all || true
 	@make delete-sut-namespaces || true
 	@make k8s-delete-namespace KUBE_NAMESPACE=$(DS_SIM_NAMESPACE) || true
@@ -243,6 +243,7 @@ vars:
 	$(info K8S_CHARTS: $(K8S_CHARTS))
 	$(info SKA_TANGO_OPERATOR_DEPLOYED: $(SKA_TANGO_OPERATOR_DEPLOYED))
 	$(info DISH_ID: $(DISH_ID))
+	$(info HELM_RELEASE: $(HELM_RELEASE))
 	$(info DISH_IDS: $(DISH_IDS))
 	$(info CLUSTER_DOMAIN_POSTFIX: $(CLUSTER_DOMAIN_POSTFIX))
 	$(info KUBE_NAMESPACE_PREFIX: $(KUBE_NAMESPACE_PREFIX))

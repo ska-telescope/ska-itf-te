@@ -2,6 +2,7 @@
 # # System Under Test Deployment and Test jobs
 # ############################################
 .sut_base:
+  image: $TEST_IMAGE
   tags:
     - ska-k8srunner-za-itf
   extends:
@@ -18,15 +19,10 @@
     KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
     # LOADBALANCER_IP: 10.164.10.1
 
-.sut_base_no_cache:
-  extends:
-    - .sut_base
-  cache: []
-
 .sut_on_demand:
   stage: on_demand_itf_sut
   extends:
-    - .sut_base_no_cache
+    - .sut_base
     - .on_demand_rules
   variables:
     HELM_RELEASE: sut
@@ -203,14 +199,17 @@ k8s-test-runner:
     paths:
       - "build/"
   extends:
-    - .sut_base_no_cache
+    - .sut_base
     - .ds-sim-test-vars
   before_script:
+    - make vars
     - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
     - time poetry install
     - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
     - "make help | grep k8s-test"
-    - make install-test-system
+    - bash .make/resources/gitlab_section.sh install_sut "Install SUT and wait" make install-test-system
+    - make itf-cbf-setup --dry
+
   script:
     - make integration-test TANGO_HOST=$TANGO_DATABASE_DS.$KUBE_NAMESPACE.svc.$CLUSTER_DOMAIN:10000 || true
     - echo "Test command exit code - $(cat build/status)"
@@ -221,6 +220,8 @@ k8s-test-runner:
         echo "#####################################################################################"
         echo "# NOTE: this deployment will persist for about 2 hours, for investigation purposes. #"
         echo "#####################################################################################"
+        bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
+        make links
       fi
     - '[ -f build/status ] || (echo "Something went wrong with the test (no build/status file); exit 1")'
     - exit $(cat build/status)
@@ -232,6 +233,7 @@ k8s-test-runner:
     CAPTURE_LOGS: "True"
     EXIT_AT_FAIL: "True"
     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+    # KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
     DS_SIM_SERVER_CERT: $CI_PROJECT_DIR/.secure_files/SimpleServer_2048.der
 
 stop-k8s-test-runner:
@@ -243,6 +245,9 @@ stop-k8s-test-runner:
     - .sut_base
     - .ds-sim-test-vars
   when: manual
+  variables:
+    KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+  #   KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
 
 publish-k8s-test-results:
   stage: publish
@@ -250,6 +255,8 @@ publish-k8s-test-results:
     - k8s-test-runner
     - xray-publish
   image: $TEST_IMAGE
+  tags:
+    - ska-k8srunner-za-itf
   artifacts:
     name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID"
     paths:

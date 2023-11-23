@@ -96,7 +96,7 @@ redeploy-dishlmc-ska001:
 .aa05-dishes:
   stage: on_demand_itf_sut
   extends:
-    - .sut_base_no_cache
+    - .sut_base
   rules:
     - if: $CI_PIPELINE_SOURCE == "pipeline"
       when: never

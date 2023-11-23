@@ -1,0 +1,23 @@
+ska-tango-base:
+  itango:
+    enabled: false
+
+# TARANTA
+ska-taranta:
+  enabled: false
+
+# CIA
+cia:
+  enabled: false
+
+cbf-mcs:
+  enabled: false
+
+csp-lmc:
+  enabled: false
+
+sdp:
+  enabled: false
+
+ska-log-consumer:
+  enabled: false

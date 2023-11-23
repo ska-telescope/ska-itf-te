@@ -142,7 +142,7 @@ class ArraySpec:
         self.receptors = receptors
 
 
-DEFAULT_ARRAY_SPEC = ArraySpec(receptors="two")
+DEFAULT_ARRAY_SPEC = ArraySpec(receptors="four")
 
 
 class Scan:
