@@ -80,7 +80,7 @@ spec:
             driver: secrets-store.csi.k8s.io
             readOnly: true
             volumeAttributes:
-              secretProviderClass: vault-nginx-secrets
+              secretProviderClass: vault-spfc-secrets
 
       restartPolicy: Never
   backoffLimit: 6
