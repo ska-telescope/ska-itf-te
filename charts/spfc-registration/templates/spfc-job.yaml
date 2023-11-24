@@ -1,3 +1,31 @@
+---
+apiVersion: secrets-store.csi.x-k8s.io/v1
+kind: SecretProviderClass
+metadata:
+  name: vault-spfc-secrets
+  namespace: {{ .Values.job.namespace }}
+spec:
+  provider: vault
+  secretObjects:
+    - secretName: test-injection
+      type: Opaque
+      data:
+        - objectName: csi-driver
+          key: TEST_KEY
+        - objectName: injector
+          key: injector
+  parameters:
+    vaultAddress: "https://vault.skao.int"
+    roleName: "kube-role"
+    objects: |
+      - objectName: "csi-driver"
+        secretPath: "/v1/kv/data/groups/ska-dev/atlas"
+        secretKey: "TEST_KEY"
+      - objectName: "injector"
+        secretPath: "mid-itf/data/test-injection"
+        secretKey: "injector"
+---
+
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -16,11 +44,7 @@ spec:
           - name: SPFC_KEY
             value: {{ .Values.vault.key1 }}
           - name: SPFC_HOST
-            value: 10.165.3.33        
-        command: ["/bin/bash","-c"]
-        args:
-          #- echo $(curl 'http://vault-service.default.svc.cluster.local:8080');
-          - bash /scripts/register_spfc.sh
+            value: 10.165.3.33
           #---------------------------secret provider stuff...
           - name: CSI_DRIVER
             valueFrom:
@@ -32,7 +56,12 @@ spec:
               secretKeyRef:
                 name: test-injection
                 key: injector
-          #--------------------------ends secrets profider stuff...
+          #--------------------------ends secrets profider stuff...        
+        command: ["/bin/bash","-c"]
+        args:
+          #- echo $(curl 'http://vault-service.default.svc.cluster.local:8080');
+          - bash /scripts/register_spfc.sh
+
         volumeMounts:
         - name: {{ .Values.volume.name }}
           mountPath: {{ .Values.mounts.setupScript.mount }}
