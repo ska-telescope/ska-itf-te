@@ -55,7 +55,7 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: test-injection
-                key: SPFC_USER
+                key: injector
           #--------------------------ends secrets profider stuff...        
         command: ["/bin/bash","-c"]
         args:
