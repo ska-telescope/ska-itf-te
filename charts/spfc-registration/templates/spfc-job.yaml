@@ -1,31 +1,3 @@
----
-apiVersion: secrets-store.csi.x-k8s.io/v1
-kind: SecretProviderClass
-metadata:
-  name: vault-spfc-secrets
-  namespace: {{ .Values.job.namespace }}
-spec:
-  provider: vault
-  secretObjects:
-    - secretName: test-injection
-      type: Opaque
-      data:
-        - objectName: csi-driver
-          key: TEST_KEY
-        - objectName: injector
-          key: injector
-  parameters:
-    vaultAddress: "https://vault.skao.int"
-    roleName: "kube-role"
-    objects: |
-      - objectName: "csi-driver"
-        secretPath: "/v1/kv/data/groups/ska-dev/atlas"
-        secretKey: "TEST_KEY"
-      - objectName: "injector"
-        secretPath: "mid-itf/data/test-injection"
-        secretKey: "injector"
----
-
 apiVersion: batch/v1
 kind: Job
 metadata:
