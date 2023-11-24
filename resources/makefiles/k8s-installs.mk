@@ -76,6 +76,7 @@ itf-spfc-install-chart:
 	@make k8s-install-chart K8S_CHART=spfc-registration KUBE_APP=spfc-register KUBE_NAMESPACE=$(SPFC_NAMESPACE) HELM_RELEASE=spfc-register
 
 itf-spfc-uninstall-chart:
+	@kubectl delete namespace register-spfc
 	@kubectl delete configmap spfc-data -n register-spfc
 	@make k8s-uninstall-chart K8S_CHART=spfc-registration KUBE_APP=spfc-register KUBE_NAMESPACE=$(SPFC_NAMESPACE) HELM_RELEASE=spfc-register
 
