@@ -209,10 +209,8 @@ template-chart: k8s-dep-update
 	--debug \
 	 $(K8S_UMBRELLA_CHART_PATH) --namespace $(KUBE_NAMESPACE) > build/manifests.yaml
 
-python-pre-lint:
-	which expect
-
 build-base-image:
 	@echo "Running on branch: '$(CI_COMMIT_BRANCH)'; image: '$(BASE_IMAGE)' tag: '$(BASE_IMAGE_TAG)'"
 	@docker build --pull -t "$(BASE_IMAGE):$(BASE_IMAGE_TAG)" -f images/base/Dockerfile .
 	@docker push "$(BASE_IMAGE):$(BASE_IMAGE_TAG)"
+.PHONY: build-base-image

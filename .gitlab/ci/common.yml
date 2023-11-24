@@ -53,7 +53,6 @@
     ARCHIVER_DBNAME: "${CONFIG}_archiver_db_${CI_COMMIT_REF_SLUG}"
     # VALUES: pipeline.yaml
   before_script:
-    - bash .make/resources/gitlab_section.sh install_packages "Install required packages" sudo apt install jq -y
     - ping -c 1 10.20.2.14 || (echo "Cannot reach PDU" && exit 1) #FIXME: This is the type of config data that we should ideally be putting in Vault / Config database
     - nc -zv 10.20.2.14 22 || (echo "Cannot reach PDU SSH interface - go to  https://za-itf-pdu3.ad.skatelescope.org and reset" && exit 1)
   script:
@@ -124,16 +123,6 @@
   extends:
     - .deploy
   before_script: *cleanup_script
-
-.use-base-image-rules:
-  rules:
-    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
-      variables:
-        BASE_IMAGE_TAG: $BASE_IMAGE_VERSION
-    - if: $CI_COMMIT_REF_NAME != $CI_DEFAULT_BRANCH
-      variables:
-        BASE_IMAGE_TAG: $BASE_IMAGE_VERSION-dev.c$CI_COMMIT_SHORT_SHA
-  image: $BASE_IMAGE:$BASE_IMAGE_TAG
 
 # If the pipeline is being exectued as a downstream, do not lint
 # or build
@@ -215,4 +204,5 @@ deploy-taranta:
     K8S_CHART: taranta-itf
   script:
     - make k8s-install-chart
-  when: manual
+  extends:
+    - .integration_rules
