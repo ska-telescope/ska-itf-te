@@ -46,12 +46,12 @@ spec:
           - name: SPFC_HOST
             value: 10.165.3.33
           #---------------------------secret provider stuff...
-          - name: THE_TEST_KEY
+          - name: CSI_DRIVER
             valueFrom:
               secretKeyRef:
                 name: test-injection
                 key: TEST_KEY
-          - name: THE_SPFC_USER
+          - name: INJECTOR
             valueFrom:
               secretKeyRef:
                 name: test-injection
