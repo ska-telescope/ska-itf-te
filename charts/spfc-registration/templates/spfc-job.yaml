@@ -12,8 +12,8 @@ spec:
       data:
         - objectName: csi-driver
           key: TEST_KEY
-        - objectName: spfc-user
-          key: SPFC_USER
+        - objectName: injector
+          key: injector
   parameters:
     vaultAddress: "https://vault.skao.int"
     roleName: "kube-role"
@@ -21,9 +21,9 @@ spec:
       - objectName: "csi-driver"
         secretPath: "/v1/kv/data/groups/ska-dev/atlas"
         secretKey: "TEST_KEY"
-      - objectName: "spfc-user"
+      - objectName: "injector"
         secretPath: "mid-itf/data/test-injection"
-        secretKey: "SPFC_USER"
+        secretKey: "injector"
 ---
 
 apiVersion: batch/v1
@@ -51,7 +51,7 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: test-injection
-                key: SPFC_USER
+                key: injector
           #--------------------------ends secrets profider stuff...        
         command: ["/bin/bash","-c"]
         args:
