@@ -71,8 +71,8 @@ itf-spookd-template-chart:
 	@make k8s-template-chart K8S_CHART=ska-mid-itf-ghosts KUBE_APP=spookd KUBE_NAMESPACE=$(SPOOKD_NAMESPACE) HELM_RELEASE=whoyougonnacall
 
 itf-spfc-install-chart:
-	@kubectl create configmap spfc-data -n register-spfc --from-file scripts/spfc
 	@kubectl create namespace register-spfc
+	@kubectl create configmap spfc-data -n register-spfc --from-file scripts/spfc
 	@make k8s-install-chart K8S_CHART=spfc-registration KUBE_APP=spfc-register KUBE_NAMESPACE=$(SPFC_NAMESPACE) HELM_RELEASE=spfc-register
 
 itf-spfc-uninstall-chart:
