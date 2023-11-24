@@ -7,7 +7,7 @@ metadata:
 spec:
   provider: vault
   secretObjects:
-    - secretName: secret
+    - secretName: test-injection
       type: Opaque
       data:
         - objectName: csi-driver
@@ -22,7 +22,7 @@ spec:
         secretPath: "/v1/kv/data/groups/ska-dev/atlas"
         secretKey: "TEST_KEY"
       - objectName: "injector"
-        secretPath: "mid-itf/data/secret"
+        secretPath: "mid-itf/data/test-injection"
         secretKey: "injector"
 ---
 
@@ -49,13 +49,13 @@ spec:
           - name: THE_TEST_KEY
             valueFrom:
               secretKeyRef:
-                name: secret
+                name: test-injection
                 key: TEST_KEY
-          - name: THE_SKAO_USER
+          - name: THE_SPFC_USER
             valueFrom:
               secretKeyRef:
-                name: secret
-                key: SKAO_USER
+                name: test-injection
+                key: SPFC_USER
           #--------------------------ends secrets profider stuff...        
         command: ["/bin/bash","-c"]
         args:
