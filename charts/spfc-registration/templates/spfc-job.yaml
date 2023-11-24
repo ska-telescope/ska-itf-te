@@ -82,10 +82,5 @@ spec:
               secretProviderClass: vault-nginx-secrets
 
       restartPolicy: Never
-
-      ports:
-      - protocol: TCP
-        port: 8200
-        targetPort: 8200
   backoffLimit: 6
   suspend: false
