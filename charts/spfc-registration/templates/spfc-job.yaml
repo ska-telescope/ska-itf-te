@@ -12,8 +12,8 @@ spec:
       data:
         - objectName: csi-driver
           key: TEST_KEY
-        - objectName: injector
-          key: injector
+        - objectName: spfc-user
+          key: SPFC_USER
   parameters:
     vaultAddress: "https://vault.skao.int"
     roleName: "kube-role"
@@ -21,9 +21,9 @@ spec:
       - objectName: "csi-driver"
         secretPath: "/v1/kv/data/groups/ska-dev/atlas"
         secretKey: "TEST_KEY"
-      - objectName: "injector"
+      - objectName: "spfc-user"
         secretPath: "mid-itf/data/test-injection"
-        secretKey: "injector"
+        secretKey: "SPFC_USER"
 ---
 
 apiVersion: batch/v1
@@ -41,10 +41,6 @@ spec:
       - name: {{ .Values.job.name }}
         image: {{ .Values.job.image }}
         env:
-          - name: SPFC_KEY
-            value: {{ .Values.vault.key1 }}
-          - name: SPFC_HOST
-            value: 10.165.3.33
           #---------------------------secret provider stuff...
           - name: CSI_DRIVER
             valueFrom:
@@ -55,11 +51,10 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: test-injection
-                key: injector
+                key: SPFC_USER
           #--------------------------ends secrets profider stuff...        
         command: ["/bin/bash","-c"]
         args:
-          #- echo $(curl 'http://vault-service.default.svc.cluster.local:8080');
           - bash /scripts/register_spfc.sh
 
         volumeMounts:
