@@ -182,12 +182,6 @@ destroy-sut-staging:
     url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
     action: stop
 
-.ds-sim-test-vars:
-  variables:
-    DS_SIM_NAMESPACE: $KUBE_NAMESPACE-ds-sim
-    DS_SIM_ENV: "true"
-    DS_SIM_SERVICE: ds-sim
-
 k8s-test-runner:
   tags:
     - ska-k8srunner-za-itf
@@ -199,14 +193,16 @@ k8s-test-runner:
       - "build/"
   extends:
     - .sut_base
-    - .ds-sim-test-vars
   before_script:
     - make vars
     - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
     - time poetry install
     - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
     - "make help | grep k8s-test"
-    - bash .make/resources/gitlab_section.sh install_sut "Install SUT and wait" make install-test-system
+    - bash .make/resources/gitlab_section.sh poetry "Poetry Install" poetry install
+    - bash .make/resources/gitlab_section.sh namespaces "Create namespaces" make sut-namespaces
+    - bash .make/resources/gitlab_section.sh install "K8S Install" make k8s-install-chart
+    - bash .make/resources/gitlab_section.sh wait "K8S wait" make k8s-wait
     - make itf-cbf-setup --dry
 
   script:
@@ -214,7 +210,7 @@ k8s-test-runner:
     - echo "Test command exit code - $(cat build/status)"
     - |
       if [[ 0 == "$(cat build/status)" ]]; then
-        make uninstall-test-system
+        make remove-sut-deployment
       else
         echo "#####################################################################################"
         echo "# NOTE: this deployment will persist for about 2 hours, for investigation purposes. #"
@@ -232,21 +228,17 @@ k8s-test-runner:
     CAPTURE_LOGS: "True"
     EXIT_AT_FAIL: "True"
     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
-    # KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
-    DS_SIM_SERVER_CERT: $CI_PROJECT_DIR/.secure_files/SimpleServer_2048.der
 
 stop-k8s-test-runner:
   tags:
     - ska-k8srunner-za-itf
   script:
-    - make uninstall-test-system
+    - make remove-sut-deployment
   extends:
     - .sut_base
-    - .ds-sim-test-vars
   when: manual
   variables:
     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
-  #   KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
 
 publish-k8s-test-results:
   stage: publish

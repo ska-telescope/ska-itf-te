@@ -79,14 +79,12 @@ sut-namespaces: ## Create both normal & SDP helmdeploy namespaces for SUT.
 	@make k8s-namespace
 	@make k8s-namespace KUBE_NAMESPACE=$(KUBE_NAMESPACE_SDP)
 
-delete-sut-namespaces:
-	@make k8s-delete-namespace || true
-	@make k8s-delete-namespace KUBE_NAMESPACE=$(KUBE_NAMESPACE_SDP) || true
-
 remove-sut-deployment:
 	@make k8s-uninstall-chart || true
 	@kubectl -n $(KUBE_NAMESPACE) delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all --ignore-not-found
-	@make delete-sut-namespaces
+	@kubectl -n $(KUBE_NAMESPACE_SDP) delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all --ignore-not-found
+	@make k8s-delete-namespace || true
+	@make k8s-delete-namespace KUBE_NAMESPACE=$(KUBE_NAMESPACE_SDP) || true
 
 itf-cluster-credentials: sut-namespaces ## PIPELINE USE ONLY - allocate credentials for deployment namespaces
 	curl -s https://gitlab.com/ska-telescope/templates-repository/-/raw/master/scripts/namespace_auth.sh | bash -s $(SERVICE_ACCOUNT) $(KUBE_NAMESPACE) $(KUBE_NAMESPACE_SDP) || true
@@ -177,20 +175,6 @@ file-browser-install: k8s-uninstall-chart file-browser-secrets k8s-install-chart
 file-browser-secrets: k8s-namespace
 	kubectl delete secret -n $(KUBE_NAMESPACE) --ignore-not-found=true file-browser-config-secret
 	kubectl create secret -n $(KUBE_NAMESPACE) generic $(FILEBROWSER_CONFIG_SECRET_NAME) --from-file=$(FILEBROWSER_CONFIG_SECRET_FILE)=$(FILEBROWSER_CONFIG_PATH)
-
-install-test-system: sut-namespaces
-	@time poetry install
-	@make k8s-install-chart
-	@make k8s-install-chart K8S_CHART=dish-structure-simulators KUBE_NAMESPACE=$(DS_SIM_NAMESPACE)
-	@make k8s-wait
-
-uninstall-test-system:
-	@make k8s-uninstall-chart || true
-	@make k8s-uninstall-chart KUBE_NAMESPACE=$(DS_SIM_NAMESPACE) || true
-	@kubectl -n $(KUBE_NAMESPACE) delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all || true
-	@kubectl -n $(DS_SIM_NAMESPACE) delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all || true
-	@make delete-sut-namespaces || true
-	@make k8s-delete-namespace KUBE_NAMESPACE=$(DS_SIM_NAMESPACE) || true
 
 vars:
 	$(info KUBE_NAMESPACE: $(KUBE_NAMESPACE))
