@@ -93,8 +93,4 @@
             "moby": true
         }
     },*/
-    // "remoteUser": "tango"
-    // "remoteEnv": {
-    //     "PATH": "/home/tango/.local/bin:${containerEnv:PATH}",
-    // },
 }
