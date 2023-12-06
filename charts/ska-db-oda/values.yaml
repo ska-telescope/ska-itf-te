@@ -15,6 +15,8 @@ ska-db-oda:
       postgres:
         user: "postgres"
         password: "secretpassword"
+    skuid:
+      url: ska-ser-skuid-test-svc.ska-db-oda.svc.miditf.internal.skao.int:9870
 
 # The following values overwrite the default values in the postgresql dependency.
 # See https://artifacthub.io/packages/helm/bitnami/postgresql
