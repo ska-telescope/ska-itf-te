@@ -1,5 +1,6 @@
 """."""
 import os
+
 from yaml import safe_dump
 
 
@@ -22,8 +23,8 @@ def instances(ids: str = "SKA000") -> list[str]:
     :return: Array of instances
     :rtype: list[str]
     """
-    ids = list(ids.split(" "))
-    instances = [instance(x) for x in ids]
+    ds_ids = list(ids.split(" "))
+    instances = [instance(x) for x in ds_ids]
     return instances
 
 
@@ -109,7 +110,8 @@ def dish_fqdns(
     ):
         id = single_dish_id_lowercase(id=dish_id)
         cluster_domain = set_cluster_domain(dish_id=id, domain_postfix=cluster_domain_postfix)
-        return f"tango://{hostname}.{namespace_prefix}{id}{namespace_postfix}.svc.{cluster_domain}:10000/{id}/elt/master"
+        return f"tango://{hostname}.{namespace_prefix}{id}{namespace_postfix}.\
+            svc.{cluster_domain}:10000/{id}/elt/master"
 
     fqdns = [
         single_dish_fqdn(

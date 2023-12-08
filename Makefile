@@ -92,7 +92,7 @@ PYTHON_VARS_AFTER_PYTEST ?= -v
 PROJECT_ROOT := $(dir $(abspath $(firstword $(MAKEFILE_LIST))))
 
 python-post-lint:
-	.venv/bin/mypy --config-file mypy.ini ska_mid_itf/ tests/
+	.venv/bin/mypy --install-types --non-interactive --config-file mypy.ini src/ tests/
 
 .PHONY: python-post-lint
 
