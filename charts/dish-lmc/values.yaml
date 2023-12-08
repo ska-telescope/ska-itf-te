@@ -1,4 +1,5 @@
 global:
+  dishes: ["100"]
   exposeDatabaseDS: true
   exposeAllDS: true
   facility: mid-itf

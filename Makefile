@@ -2,7 +2,7 @@ HELM_CHARTS_TO_PUBLISH=ska-mid-itf
 PYTHON_VARS_AFTER_PYTEST= --disable-pytest-warnings
 POETRY_CONFIG_VIRTUALENVS_CREATE = true
 
-VALUES ?= $(K8S_UMBRELLA_CHART_PATH)values.yaml
+# VALUES ?= $(K8S_UMBRELLA_CHART_PATH)values.yaml
 XAUTHORITY ?= $(HOME)/.Xauthority
 THIS_HOST := $(shell ip a 2> /dev/null | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p' | head -n1)
 DISPLAY ?= $(THIS_HOST):0
@@ -22,7 +22,6 @@ PYTHON_RUNNER = .venv/bin/python3 -m
 PYTHON_LINE_LENGTH = 99
 DOCS_SPHINXBUILD = .venv/bin/python3 -msphinx
 PYTHON_TEST_FILE = tests/unit/ tests/functional/
-PYTHON_SRC = ska_mid_itf
 ifneq ($(COUNT),)
 # Dashcount is a synthesis of testcount as input user variable and is used to
 # run a paricular test/s multiple times. If no testcount is set then the entire
@@ -76,6 +75,12 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	${SKIP_TANGO_EXAMPLES_PARAMS} \
 	$(K8S_EXTRA_PARAMS)
 
+TMC_VALUES_PATH=charts/system-under-test/tmc-values.yaml
+ifneq ("$(wildcard $(TMC_VALUES_PATH))","")
+	K8S_EXTRA_PARAMS+=-f $(TMC_VALUES_PATH)
+endif
+
+
 # # TODO: remove if no longer needed.
 # -include resources/makefiles/itf-connect.mk
 
@@ -87,7 +92,7 @@ PYTHON_VARS_AFTER_PYTEST ?= -v
 PROJECT_ROOT := $(dir $(abspath $(firstword $(MAKEFILE_LIST))))
 
 python-post-lint:
-	.venv/bin/mypy --config-file mypy.ini ska_mid_itf/ tests/
+	.venv/bin/mypy --install-types --non-interactive --config-file mypy.ini src/ tests/
 
 .PHONY: python-post-lint
 
