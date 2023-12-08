@@ -22,7 +22,6 @@ PYTHON_RUNNER = .venv/bin/python3 -m
 PYTHON_LINE_LENGTH = 99
 DOCS_SPHINXBUILD = .venv/bin/python3 -msphinx
 PYTHON_TEST_FILE = tests/unit/ tests/functional/
-PYTHON_SRC = ska_mid_itf
 ifneq ($(COUNT),)
 # Dashcount is a synthesis of testcount as input user variable and is used to
 # run a paricular test/s multiple times. If no testcount is set then the entire
