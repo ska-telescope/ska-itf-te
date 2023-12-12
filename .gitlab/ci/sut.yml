@@ -87,6 +87,8 @@ deploy-sut-integration:
   extends:
     - .deploy
     - .sut_integration
+  variables:
+    HW_IN_THE_LOOP: "true"
   environment:
     name: mid-itf/ska-$CONFIG-integration
     kubernetes:
