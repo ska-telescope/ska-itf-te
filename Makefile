@@ -1,3 +1,15 @@
+
+BASE_IMAGE := $(CI_REGISTRY)/ska-telescope/ska-mid-itf/base
+BASE_IMAGE_VERSION := 0.1.4
+BASE_IMAGE_TAG := $(BASE_IMAGE_VERSION)
+
+ifneq ($(CI_COMMIT_REF_NAME),$(CI_DEFAULT_BRANCH))
+	BASE_IMAGE_TAG := $(BASE_IMAGE_VERSION)-dev.c$(CI_COMMIT_SHORT_SHA)
+endif
+
+OCI_BUILD_ADDITIONAL_ARGS += --build-arg BASE_IMAGE=$(BASE_IMAGE) \
+	--build-arg BASE_IMAGE_TAG=$(BASE_IMAGE_TAG)
+
 HELM_CHARTS_TO_PUBLISH=ska-mid-itf
 PYTHON_VARS_AFTER_PYTEST= --disable-pytest-warnings
 POETRY_CONFIG_VIRTUALENVS_CREATE = true
@@ -197,5 +209,8 @@ template-chart: k8s-dep-update
 	--debug \
 	 $(K8S_UMBRELLA_CHART_PATH) --namespace $(KUBE_NAMESPACE) > build/manifests.yaml
 
-python-pre-lint:
-	which expect
+build-base-image:
+	@echo "Running on branch: '$(CI_COMMIT_BRANCH)'; image: '$(BASE_IMAGE)' tag: '$(BASE_IMAGE_TAG)'"
+	@docker build --pull -t "$(BASE_IMAGE):$(BASE_IMAGE_TAG)" -f images/base/Dockerfile .
+	@docker push "$(BASE_IMAGE):$(BASE_IMAGE_TAG)"
+.PHONY: build-base-image

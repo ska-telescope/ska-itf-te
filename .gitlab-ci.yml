@@ -3,14 +3,25 @@ image: $SKA_K8S_TOOLS_BUILD_DEPLOY
 variables:
   MINIKUBE: "false"
   CI_DEBUG_SERVICES: "true"
-  CI_REGISTRY_IMAGE: $CI_REGISTRY/ska-telescope/ska-mid-itf/base
-  BASE_IMAGE_TAG: "0.1.3"
-  TEST_IMAGE: $CI_REGISTRY_IMAGE:$BASE_IMAGE_TAG
   GIT_SUBMODULE_STRATEGY: recursive
   EXPOSE_All_DS: "true"
   CLEAN_UP_TEST_ENVIRONMENT: "true"
   DEPLOYMENT_CONFIGURATION: "ska-$CONFIG"
   POETRY_CONFIG_VIRTUALENVS_CREATE: "true"
+  BASE_IMAGE: $CI_REGISTRY/ska-telescope/ska-mid-itf/base
+  BASE_IMAGE_VERSION: "0.1.4"
+
+workflow:
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+      variables:
+        BASE_IMAGE_TAG: $BASE_IMAGE_VERSION
+        TEST_IMAGE: $BASE_IMAGE:$BASE_IMAGE_TAG
+    - if: $CI_COMMIT_REF_NAME != $CI_DEFAULT_BRANCH
+      variables:
+        BASE_IMAGE_TAG: $BASE_IMAGE_VERSION-dev.c$CI_COMMIT_SHORT_SHA
+        TEST_IMAGE: $BASE_IMAGE:$BASE_IMAGE_TAG
+
   # PYTEST_SUBSYS_MARK: (csp_startup or sdp or eda)
   # K8S_INSTALL_FROM_CAR: "false"remove redundant cache
 stages:
@@ -72,14 +83,6 @@ xray-publish:
   when: always #### TODO: Remove this and uncomment line just above this one!
   rules: !reference [publish-k8s-test-results, rules]
 
-python-test:
-  image: $TEST_IMAGE
-
-python-lint:
-  image: $TEST_IMAGE
-  rules:
-    - allow_failure: true
-
 #### FROM SKAMPI, COPIED FOR REFERENCE:
 .uninstall_chart:
   script:
@@ -90,41 +93,10 @@ python-lint:
     - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all --ignore-not-found
     - make k8s-delete-namespace
 
-python-build-for-publication-legacy:
-  image: $TEST_IMAGE
-  before_script:
-    - ""
-
 python-build-for-publication:
-  image: $TEST_IMAGE
-  before_script:
-    - ""
-
-python-build-for-development-legacy:
-  image: $TEST_IMAGE
   before_script:
     - ""
 
 python-build-for-development:
-  image: $TEST_IMAGE
   before_script:
     - ""
-
-# base stage
-build-base-image:
-  stage: .pre
-  image: docker:19.03.12
-  rules:
-    - if: $REBUILD_IMAGES
-    - changes:
-        - images/base/Dockerfile
-        - pyproject.toml
-  services:
-    - docker:dind
-  before_script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-  script:
-    - echo "Running on '$CI_COMMIT_BRANCH' branch; tag = $BASE_IMAGE_TAG"
-    - mv images/base/Dockerfile .
-    - docker build --pull -t "${CI_REGISTRY_IMAGE}:${BASE_IMAGE_TAG}" .
-    - docker push "${CI_REGISTRY_IMAGE}:${BASE_IMAGE_TAG}"

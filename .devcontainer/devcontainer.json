@@ -22,7 +22,7 @@
                     }
                 },
                 "terminal.integrated.defaultProfile.linux": "bash",
-                "vs-kubernetes.kubeconfig": "/home/tango/.kube/config",
+                "vs-kubernetes.kubeconfig": "/home/root/.kube/config",
                 "python.envFile": "${workspaceFolder}/.vscode/.env",
                 "terminal.integration.defaultProfile.linux": "bash",
                 "python.pythonPath": ".venv/bin/python",
@@ -67,7 +67,7 @@
         // "--dns",
         //"10.164.0.11",
         "--dns",
-        "1.1.1.1",
+        "1.1.1.1"
     ],
     //this may break if you are attempting to do this from a non debian host
     // therefore manualy uncomment it in your branch if you want to use K8s
@@ -80,7 +80,7 @@
     // Use 'forwardPorts' to make a list of ports inside the container available locally.
     // "forwardPorts": [],
     // Use 'postCreateCommand' to run commands after the container is created.
-    "postCreateCommand": "poetry config virtualenvs.in-project true",
+    "postCreateCommand": "poetry config virtualenvs.in-project true"
     // if you want to work with k8 and helm directly from this container:
     /*
     "features": {
@@ -93,8 +93,4 @@
             "moby": true
         }
     },*/
-    "remoteUser": "tango"
-    // "remoteEnv": {
-    //     "PATH": "/home/tango/.local/bin:${containerEnv:PATH}",
-    // },
 }

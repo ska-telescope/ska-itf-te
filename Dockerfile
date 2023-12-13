@@ -1,1 +1,3 @@
-FROM registry.gitlab.com/ska-telescope/ska-mid-itf/base:0.1.2 AS base
+ARG BASE_IMAGE
+ARG BASE_IMAGE_TAG
+FROM $BASE_IMAGE:$BASE_IMAGE_TAG AS base
