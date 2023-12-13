@@ -155,7 +155,7 @@ docs-build:
 .base-image-rules:
   rules:
     - changes:
-        - images/base/Dockerfile
+        - images/ska-mid-itf-base/Dockerfile
         - pyproject.toml
 
 .oci-image-rules:
