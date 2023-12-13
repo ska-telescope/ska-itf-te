@@ -150,22 +150,6 @@ docs-build:
     - exists:
         - charts/**/*
 
-oci-image-lint:
-  rules:
-    - !reference [.oci-image-rules, rules]
-
-oci-image-build:
-  rules:
-    - !reference [.oci-image-rules, rules]
-
-oci-image-publish:
-  rules:
-    - !reference [.oci-image-rules, rules]
-
-oci-image-scan:
-  rules:
-    - !reference [.oci-image-rules, rules]
-
 ### TARANTA DEPLOYMENT
 deploy-taranta:
   stage: platform
