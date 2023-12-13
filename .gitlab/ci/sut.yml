@@ -2,7 +2,6 @@
 # # System Under Test Deployment and Test jobs
 # ############################################
 .sut_base:
-  image: $TEST_IMAGE
   tags:
     - ska-k8srunner-za-itf
   extends:
@@ -183,7 +182,6 @@ destroy-sut-staging:
 k8s-test-runner:
   tags:
     - ska-k8srunner-za-itf
-  image: $TEST_IMAGE
   allow_failure: false
   artifacts:
     name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID"

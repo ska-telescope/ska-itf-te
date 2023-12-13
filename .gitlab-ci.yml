@@ -8,31 +8,15 @@ variables:
   CLEAN_UP_TEST_ENVIRONMENT: "true"
   DEPLOYMENT_CONFIGURATION: "ska-$CONFIG"
   POETRY_CONFIG_VIRTUALENVS_CREATE: "true"
-  BASE_IMAGE: $CI_REGISTRY/ska-telescope/ska-mid-itf/base
-  BASE_IMAGE_VERSION: "0.1.4"
-
-workflow:
-  rules:
-    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
-      variables:
-        BASE_IMAGE_TAG: $BASE_IMAGE_VERSION
-        TEST_IMAGE: $BASE_IMAGE:$BASE_IMAGE_TAG
-    - if: $CI_COMMIT_REF_NAME != $CI_DEFAULT_BRANCH
-      variables:
-        BASE_IMAGE_TAG: $BASE_IMAGE_VERSION-dev.c$CI_COMMIT_SHORT_SHA
-        TEST_IMAGE: $BASE_IMAGE:$BASE_IMAGE_TAG
 
   # PYTEST_SUBSYS_MARK: (csp_startup or sdp or eda)
   # K8S_INSTALL_FROM_CAR: "false"remove redundant cache
 stages:
-  - pre-build
+  - lint
+  - build
   - verify-test-equipment
   - on_demand_itf_sut
   - test
-  # FIXME: TEMPORARY COMMIT ONLY - THIS JOB NEEDS TO GET PUT BACK TO RUNNING BEFORE TESTS!!!
-  - build
-  # FIXME: TEMPORARY COMMIT ONLY - THIS JOB NEEDS TO GET PUT BACK TO RUNNING BEFORE TESTS!!!
-  - lint
   - platform
   - test-equipment-setup
   - deploy-dish-aiv
@@ -43,30 +27,22 @@ stages:
   - publish
   - pages
   - scan
+
 include:
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/python.gitlab-ci.yml"
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/docs.gitlab-ci.yml"
-  # OCI Images
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/oci-image.gitlab-ci.yml"
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/finaliser.gitlab-ci.yml"
-  # Helm Charts
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/helm-chart.gitlab-ci.yml"
-  # k8s steps
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/k8s-test-runner.gitlab-ci.yml"
-
-  # changelog release page
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/changelog.gitlab-ci.yml"
-
-  # deploy steps
-  # - project: "ska-telescope/templates-repository"
-  #   file: "gitlab-ci/includes/deploy.gitlab-ci.yml"
 
   - local: .gitlab/ci/common.yml
   - local: .gitlab/ci/sut.yml
@@ -75,23 +51,12 @@ include:
   - local: .gitlab/ci/dish-aiv.yml
   - local: .gitlab/ci/ansible.yml
 
-  # Upload Xray report
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/xray-publish.gitlab-ci.yml"
 
 xray-publish:
   when: always #### TODO: Remove this and uncomment line just above this one!
   rules: !reference [publish-k8s-test-results, rules]
-
-#### FROM SKAMPI, COPIED FOR REFERENCE:
-.uninstall_chart:
-  script:
-    - echo $CI_JOB_NAME - $CI_JOB_STAGE
-    - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
-    - bash .make/resources/gitlab_section.sh env "Environment dump" env
-    - make k8s-uninstall-chart || true
-    - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all --ignore-not-found
-    - make k8s-delete-namespace
 
 python-build-for-publication:
   before_script:
