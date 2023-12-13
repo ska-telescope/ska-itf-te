@@ -8,19 +8,9 @@ variables:
   CLEAN_UP_TEST_ENVIRONMENT: "true"
   DEPLOYMENT_CONFIGURATION: "ska-$CONFIG"
   POETRY_CONFIG_VIRTUALENVS_CREATE: "true"
-  BASE_IMAGE: $CI_REGISTRY/ska-telescope/ska-mid-itf/ska-mid-itf-base
-  BASE_IMAGE_VERSION: "0.1.4"
-
-workflow:
-  rules:
-    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
-      variables:
-        BASE_IMAGE_TAG: $BASE_IMAGE_VERSION
-        TEST_IMAGE: $BASE_IMAGE:$BASE_IMAGE_TAG
-    - if: $CI_COMMIT_REF_NAME != $CI_DEFAULT_BRANCH
-      variables:
-        BASE_IMAGE_TAG: $BASE_IMAGE_VERSION-dev.c$CI_COMMIT_SHORT_SHA
-        TEST_IMAGE: $BASE_IMAGE:$BASE_IMAGE_TAG
+  DEPLOY_IMAGE: $CI_REGISTRY/ska-telescope/ska-mid-itf/ska-mid-itf-deploy
+  DEPLOY_IMAGE_TAG: "0.1.0"
+  TEST_IMAGE: $DEPLOY_IMAGE:$DEPLOY_IMAGE_TAG
 
   # PYTEST_SUBSYS_MARK: (csp_startup or sdp or eda)
   # K8S_INSTALL_FROM_CAR: "false"remove redundant cache
@@ -28,11 +18,9 @@ stages:
   - pre-build
   - verify-test-equipment
   - on_demand_itf_sut
-  - test
-  # FIXME: TEMPORARY COMMIT ONLY - THIS JOB NEEDS TO GET PUT BACK TO RUNNING BEFORE TESTS!!!
-  - build
-  # FIXME: TEMPORARY COMMIT ONLY - THIS JOB NEEDS TO GET PUT BACK TO RUNNING BEFORE TESTS!!!
   - lint
+  - build
+  - test
   - platform
   - test-equipment-setup
   - deploy-dish-aiv
