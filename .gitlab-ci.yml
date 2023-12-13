@@ -8,7 +8,7 @@ variables:
   CLEAN_UP_TEST_ENVIRONMENT: "true"
   DEPLOYMENT_CONFIGURATION: "ska-$CONFIG"
   POETRY_CONFIG_VIRTUALENVS_CREATE: "true"
-  BASE_IMAGE: $CI_REGISTRY/ska-telescope/ska-mid-itf/base
+  BASE_IMAGE: $CI_REGISTRY/ska-telescope/ska-mid-itf/ska-mid-itf-base
   BASE_IMAGE_VERSION: "0.1.4"
 
 workflow:
