@@ -62,7 +62,6 @@
   extends:
     - .uninstall_chart
     - .dish-lmc
-  when: manual
   environment:
     action: stop
 
@@ -194,6 +193,8 @@ deploy-dishlmc-ska100:
 uninstall-dishlmc-ska001:
   extends:
     - .destroy-dish-lmc
+  needs:
+    - remove-ds-sim-ska001
   variables:
     DISH_ID: ska001
 
