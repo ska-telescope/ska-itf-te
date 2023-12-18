@@ -1,14 +1,5 @@
 
-BASE_IMAGE := $(CI_REGISTRY)/ska-telescope/ska-mid-itf/base
-BASE_IMAGE_VERSION := 0.1.4
-BASE_IMAGE_TAG := $(BASE_IMAGE_VERSION)
-
-ifneq ($(CI_COMMIT_REF_NAME),$(CI_DEFAULT_BRANCH))
-	BASE_IMAGE_TAG := $(BASE_IMAGE_VERSION)-dev.c$(CI_COMMIT_SHORT_SHA)
-endif
-
-OCI_BUILD_ADDITIONAL_ARGS += --build-arg BASE_IMAGE=$(BASE_IMAGE) \
-	--build-arg BASE_IMAGE_TAG=$(BASE_IMAGE_TAG)
+OCI_BUILD_ADDITIONAL_ARGS += --cache-from registry.gitlab.com/ska-telescope/ska-mid-itf/ska-mid-itf-base:0.1.4
 
 HELM_CHARTS_TO_PUBLISH=ska-mid-itf
 PYTHON_VARS_AFTER_PYTEST= --disable-pytest-warnings
@@ -30,9 +21,9 @@ TANGO_SERVER_PORT ?= 45450## TANGO_SERVER_PORT - fixed listening port for local 
 CLUSTER_DOMAIN = miditf.internal.skao.int## Domain used for naming Tango Device Servers
 INGRESS_HOST = k8s.$(CLUSTER_DOMAIN)## Tango host, cluster domain, what are all these things???
 ITANGO_ENABLED ?= true## ITango enabled in ska-tango-base
-PYTHON_RUNNER = .venv/bin/python3 -m
+PYTHON_RUNNER = python3 -m
 PYTHON_LINE_LENGTH = 99
-DOCS_SPHINXBUILD = .venv/bin/python3 -msphinx
+DOCS_SPHINXBUILD = python3 -msphinx
 PYTHON_TEST_FILE = tests/unit/ tests/functional/
 ifneq ($(COUNT),)
 # Dashcount is a synthesis of testcount as input user variable and is used to
@@ -104,7 +95,7 @@ PYTHON_VARS_AFTER_PYTEST ?= -v
 PROJECT_ROOT := $(dir $(abspath $(firstword $(MAKEFILE_LIST))))
 
 python-post-lint:
-	.venv/bin/mypy --install-types --non-interactive --config-file mypy.ini src/ tests/
+	mypy --install-types --non-interactive --config-file mypy.ini src/ tests/
 
 .PHONY: python-post-lint
 
