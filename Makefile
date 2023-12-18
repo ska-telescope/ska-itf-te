@@ -21,9 +21,9 @@ TANGO_SERVER_PORT ?= 45450## TANGO_SERVER_PORT - fixed listening port for local 
 CLUSTER_DOMAIN = miditf.internal.skao.int## Domain used for naming Tango Device Servers
 INGRESS_HOST = k8s.$(CLUSTER_DOMAIN)## Tango host, cluster domain, what are all these things???
 ITANGO_ENABLED ?= true## ITango enabled in ska-tango-base
-PYTHON_RUNNER = python3 -m
+PYTHON_RUNNER = poetry run python3 -m
 PYTHON_LINE_LENGTH = 99
-DOCS_SPHINXBUILD = python3 -msphinx
+DOCS_SPHINXBUILD = poetry run python3 -msphinx
 PYTHON_TEST_FILE = tests/unit/ tests/functional/
 ifneq ($(COUNT),)
 # Dashcount is a synthesis of testcount as input user variable and is used to
