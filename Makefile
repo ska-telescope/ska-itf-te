@@ -95,7 +95,7 @@ PYTHON_VARS_AFTER_PYTEST ?= -v
 PROJECT_ROOT := $(dir $(abspath $(firstword $(MAKEFILE_LIST))))
 
 python-post-lint:
-	mypy --install-types --non-interactive --config-file mypy.ini src/ tests/
+	poetry run mypy --install-types --non-interactive --config-file mypy.ini src/ tests/
 
 .PHONY: python-post-lint
 
