@@ -102,35 +102,6 @@ remove-test-equipment:
       when: manual
   allow_failure: true # need to keep this to unlock the pipeline
 
-deploy-file-browser:
-  tags:
-    - ska-k8srunner-za-itf
-  stage: test-equipment-setup
-  variables:
-    MINIKUBE: "false"
-    CLUSTER_DOMAIN: miditf.internal.skao.int
-    INGRESS_HOST: k8s.miditf.internal.skao.int
-    K8S_CHART: file-browser
-    KUBE_NAMESPACE: file-browser
-    NEXUS_CACHE: NEXUS_CACHE
-    FILEBROWSER_ENV: production
-  script:
-    - make k8s-namespace
-    - make file-browser-install
-    # The following are all needed to verify deployment and expose the issue
-    - make k8s-wait SKA_TANGO_OPERATOR=true
-    - make k8s-get-pods
-  environment:
-    name: ska-mid-itf/file-browser
-    kubernetes:
-      namespace: "$KUBE_NAMESPACE"
-  allow_failure: true # need to keep this to unlock the pipeline
-  rules:
-    - changes:
-        - charts/file-browser/*
-      if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      when: always
-
 .deploy-test-equipment-for-verification:
   tags:
     - ska-k8srunner-za-itf

@@ -150,17 +150,42 @@ docs-build:
     - exists:
         - charts/**/*
 
-### TARANTA DEPLOYMENT
-deploy-taranta:
-  stage: platform
+# ############################################
+# # System Under Test Deployment and Test jobs
+# ############################################
+.sut_base:
   tags:
     - ska-k8srunner-za-itf
-  variables:
-    KUBE_NAMESPACE: taranta
-    KUBE_APP: ska-taranta-backend
-    HELM_RELEASE: taranta
-    K8S_CHART: taranta-itf
-  script:
-    - make k8s-install-chart
   extends:
-    - .integration_rules
+    - .mid
+  variables:
+    K8S_CHART: system-under-test
+    KUBE_APP: ska-mid-sut
+    # VALUES: "pipeline.yaml resources/itf/$CONFIG.yml" # DEFINE FOR EACH JOB
+    # VALUES: charts/system-under-test/values.yaml
+    INGRESS_HOST: "k8s.miditf.internal.skao.int"
+    CLUSTER_DOMAIN: "miditf.internal.skao.int"
+    K8S_EXTRA_PARAMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
+    TANGO_DATABASE_DS: tango-databaseds
+    KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
+
+.sut_on_demand:
+  stage: on_demand_itf_sut
+  extends:
+    - .sut_base
+    - .on_demand_rules
+  variables:
+    HELM_RELEASE: sut
+    KUBE_NAMESPACE: "ci-ska-mid-itf-$CI_COMMIT_REF_NAME"
+    KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+    SERVICE_ACCOUNT: "ci-svc-ska-miditf-$CI_COMMIT_REF_NAME"
+
+#### FROM SKAMPI, COPIED FOR REFERENCE:
+.uninstall_chart:
+  script:
+    - echo $CI_JOB_NAME - $CI_JOB_STAGE
+    - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+    - bash .make/resources/gitlab_section.sh env "Environment dump" env
+    - make k8s-uninstall-chart || true
+    - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all --ignore-not-found
+    - make k8s-delete-namespace

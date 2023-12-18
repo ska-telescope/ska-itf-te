@@ -1,0 +1,72 @@
+##################################################################################
+### The deployments of additional dish structure simulators are disabled.      ###
+### We still need to determine how exactly we will deploy these with Dish LMC. ###
+##################################################################################
+
+.deploy-aa05-ds-sim:
+  stage: on_demand_itf_sut
+  extends:
+    - .sut_base
+  script:
+    - echo "Deploying multiple dish structure simulators in downstream dish-aiv stage - first deploy ska001 manually"
+    - echo "Deploying 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
+  environment:
+    name: mid-itf/integration/dish-structure-simulator-aa05
+    on_stop: remove-aa05-ds-sim
+  when: manual
+
+.remove-aa05-ds-sim:
+  stage: on_demand_itf_sut
+  extends:
+    - .sut_base
+  script:
+    - echo "Uninstalling all dish structure simulators in downstream dish-aiv stage"
+    - echo "Uninstalling 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
+  environment:
+    name: mid-itf/integration/dish-structure-simulator-aa05
+    action: stop
+  when: manual
+
+.deploy-additional-dish-structure-simulator:
+  extends:
+    - .deploy-dish-structure-simulator
+    - .integration_rules
+  when: on_success
+  needs:
+    - deploy-aa05-ds-sim
+
+.deploy-ds-sim-ska036:
+  extends: .deploy-additional-dish-structure-simulator
+  variables:
+    DISH_INDEX: "036"
+  environment:
+    on_stop: remove-ds-sim-ska001
+
+.remove-ds-sim-ska036:
+  extends: .remove-dish-structure-simulator
+  variables:
+    DISH_INDEX: "036"
+
+.deploy-ds-sim-ska063:
+  extends: .deploy-additional-dish-structure-simulator
+  variables:
+    DISH_INDEX: "063"
+  environment:
+    on_stop: remove-ds-sim-ska001
+
+.remove-ds-sim-ska063:
+  extends: .remove-dish-structure-simulator
+  variables:
+    DISH_INDEX: "063"
+
+.deploy-ds-sim-ska100:
+  extends: .deploy-additional-dish-structure-simulator
+  variables:
+    DISH_INDEX: "100"
+  environment:
+    on_stop: remove-ds-sim-ska100
+
+.remove-ds-sim-ska100:
+  extends: .remove-dish-structure-simulator
+  variables:
+    DISH_INDEX: "100"

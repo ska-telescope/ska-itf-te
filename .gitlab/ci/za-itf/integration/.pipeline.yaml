@@ -1,0 +1,54 @@
+
+.sut_integration:
+  stage: integration
+  extends:
+    - .sut_base
+    - .integration_rules
+  variables:
+    HELM_RELEASE: "integration-$CI_COMMIT_REF_SLUG"
+    KUBE_NAMESPACE: "integration"
+    KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+    SERVICE_ACCOUNT: "ci-svc-integration"
+    ARCHIVER_DBNAME: "integration_archiver_db"
+    KEEP_NAMESPACE: "true"
+
+deploy-sut-integration:
+  extends:
+    - .deploy
+    - .sut_integration
+  environment:
+    name: mid-itf/ska-$CONFIG-integration
+    kubernetes:
+      # This repetition is needed for gitlab to parse the namespace correctly
+      namespace: $KUBE_NAMESPACE
+    url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
+    on_stop: destroy-sut-integration
+
+redeploy-sut-integration:
+  extends:
+    - .redeploy
+    - .sut_integration
+  environment:
+    name: mid-itf/ska-$CONFIG-integration
+    kubernetes:
+      # This repetition is needed for gitlab to parse the namespace correctly
+      namespace: $KUBE_NAMESPACE
+    url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
+    on_stop: destroy-sut-integration
+
+info-sut-integration:
+  extends:
+    - .info
+    - .sut_integration
+
+destroy-sut-integration:
+  extends:
+    - .cleanup
+    - .sut_integration
+  environment:
+    name: mid-itf/ska-$CONFIG-integration
+    kubernetes:
+      # This repetition is needed for gitlab to parse the namespace correctly
+      namespace: $KUBE_NAMESPACE
+    url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
+    action: stop
