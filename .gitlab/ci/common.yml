@@ -155,14 +155,8 @@ docs-build:
 .base-image-rules:
   rules:
     - changes:
-        - images/base/Dockerfile
+        - images/ska-mid-itf-base/Dockerfile
         - pyproject.toml
-
-.oci-image-rules:
-  rules:
-    - !reference [.base-image-rules, rules]
-    - changes:
-        - Dockerfile
 
 build-base-image:
   stage: .pre
@@ -175,22 +169,6 @@ build-base-image:
     echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
   script:
     - make build-base-image
-
-oci-image-lint:
-  rules:
-    - !reference [.oci-image-rules, rules]
-
-oci-image-build:
-  rules:
-    - !reference [.oci-image-rules, rules]
-
-oci-image-publish:
-  rules:
-    - !reference [.oci-image-rules, rules]
-
-oci-image-scan:
-  rules:
-    - !reference [.oci-image-rules, rules]
 
 ### TARANTA DEPLOYMENT
 deploy-taranta:
