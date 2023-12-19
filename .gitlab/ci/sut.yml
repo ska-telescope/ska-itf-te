@@ -17,7 +17,6 @@
     K8S_EXTRA_PARAMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
     TANGO_DATABASE_DS: tango-databaseds
     KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
-    # LOADBALANCER_IP: 10.164.10.1
 
 .sut_on_demand:
   stage: on_demand_itf_sut
@@ -88,8 +87,6 @@ deploy-sut-integration:
   extends:
     - .deploy
     - .sut_integration
-  # needs:
-  #   - test-mid
   environment:
     name: mid-itf/ska-$CONFIG-integration
     kubernetes:
@@ -186,8 +183,8 @@ destroy-sut-staging:
 k8s-test-runner:
   tags:
     - ska-k8srunner-za-itf
-  allow_failure: false
   image: $TEST_IMAGE
+  allow_failure: false
   artifacts:
     name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID"
     paths:
@@ -245,9 +242,8 @@ publish-k8s-test-results:
   needs:
     - k8s-test-runner
     - xray-publish
-  image: $TEST_IMAGE
   tags:
-    - ska-k8srunner-za-itf
+    - k8srunner
   artifacts:
     name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID"
     paths:

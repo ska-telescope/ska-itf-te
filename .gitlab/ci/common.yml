@@ -53,7 +53,6 @@
     ARCHIVER_DBNAME: "${CONFIG}_archiver_db_${CI_COMMIT_REF_SLUG}"
     # VALUES: pipeline.yaml
   before_script:
-    - bash .make/resources/gitlab_section.sh install_packages "Install required packages" sudo apt install jq -y
     - ping -c 1 10.20.2.14 || (echo "Cannot reach PDU" && exit 1) #FIXME: This is the type of config data that we should ideally be putting in Vault / Config database
     - nc -zv 10.20.2.14 22 || (echo "Cannot reach PDU SSH interface - go to  https://za-itf-pdu3.ad.skatelescope.org and reset" && exit 1)
   script:
@@ -151,30 +150,25 @@ docs-build:
     - exists:
         - charts/**/*
 
-# Only build images when there are changes
-oci-image-lint:
+## Images ##
+# Only run image jobs when there are changes
+.base-image-rules:
   rules:
     - changes:
-        - images/base/Dockerfile
+        - images/ska-mid-itf-base/Dockerfile
         - pyproject.toml
 
-oci-image-build:
+build-base-image:
+  stage: .pre
+  image: $SKA_K8S_TOOLS_BUILD_DEPLOY
+  tags:
+    - k8srunner
   rules:
-    - changes:
-        - images/base/Dockerfile
-        - pyproject.toml
-
-oci-image-publish:
-  rules:
-    - changes:
-        - images/base/Dockerfile
-        - pyproject.toml
-
-oci-image-scan:
-  rules:
-    - changes:
-        - images/base/Dockerfile
-        - pyproject.toml
+    - !reference [.base-image-rules, rules]
+  before_script:
+    echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
+  script:
+    - make build-base-image
 
 ### TARANTA DEPLOYMENT
 deploy-taranta:
@@ -188,4 +182,5 @@ deploy-taranta:
     K8S_CHART: taranta-itf
   script:
     - make k8s-install-chart
-  when: manual
+  extends:
+    - .integration_rules
