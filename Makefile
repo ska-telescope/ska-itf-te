@@ -1,14 +1,4 @@
-
-BASE_IMAGE := $(CI_REGISTRY)/ska-telescope/ska-mid-itf/ska-mid-itf-base
-BASE_IMAGE_VERSION := 0.1.4
-BASE_IMAGE_TAG := $(BASE_IMAGE_VERSION)
-
-OCI_BUILD_ADDITIONAL_ARGS += --build-arg BASE_IMAGE=$(BASE_IMAGE) \
-	--build-arg BASE_IMAGE_TAG=$(BASE_IMAGE_TAG)
-OCI_IMAGE_BUILD_CONTEXT := $(PWD)
-# We do not include ska-mid-itf-base here because it is built in the build-base-image job
-# and not in the oci-* jobs in order to speed up the general build process.
-OCI_IMAGES := ska-mid-itf-deploy
+OCI_BUILD_ADDITIONAL_ARGS += --cache-from registry.gitlab.com/ska-telescope/ska-mid-itf/ska-mid-itf-base:0.1.4
 
 HELM_CHARTS_TO_PUBLISH=ska-mid-itf
 PYTHON_VARS_AFTER_PYTEST= --disable-pytest-warnings
@@ -208,9 +198,3 @@ template-chart: k8s-dep-update
 	$(K8S_CHART_PARAMS) \
 	--debug \
 	 $(K8S_UMBRELLA_CHART_PATH) --namespace $(KUBE_NAMESPACE) > build/manifests.yaml
-
-build-base-image:
-	@echo "Running on branch: '$(CI_COMMIT_BRANCH)'; image: '$(BASE_IMAGE)' tag: '$(BASE_IMAGE_TAG)'"
-	@docker build --pull -t "$(BASE_IMAGE):$(BASE_IMAGE_TAG)" -f images/ska-mid-itf-base/Dockerfile .
-	@docker push "$(BASE_IMAGE):$(BASE_IMAGE_TAG)"
-.PHONY: build-base-image
