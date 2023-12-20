@@ -1,6 +1,6 @@
 {
     "name": "ska-mid-itf devcontainer",
-    "dockerFile": "../images/base/Dockerfile",
+    "dockerFile": "../Dockerfile",
     "context": "..",
     // Set *default* container specific settings.json values on container create.
     "customizations": {

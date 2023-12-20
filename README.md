@@ -6,7 +6,7 @@ Control can be done using Taranta Dashboards and Jupyter Notebooks.
 
 ## Run Binderhub
 
-Use this icon to launch a Jupyter Notebook (using Binderhub) in the ITF: [![Binder](https://10.164.0.3/binderhub/badge_logo.svg)](https://10.164.0.3/binderhub/v2/gh/ska-telescope/ska-mid-itf/HEAD)
+Use this icon to launch a Jupyter Notebook (using Binderhub) in the ITF: [![Binder](https://k8s.miditf.internal.skao.int/binderhub/badge_logo.svg)](https://k8s.miditf.internal.skao.int/binderhub/v2/gh/ska-telescope/ska-mid-itf/HEAD)
 
 ## Makefile for SW server access
 

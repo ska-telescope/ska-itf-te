@@ -43,9 +43,10 @@
   before_script:
     - bash .make/resources/gitlab_section.sh vars "Print vars" make vars
   script:
-    - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart
     - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart
     - make itf-dish-links
+  after_script:
+    - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart
   extends:
     - .dish-lmc
 
@@ -192,6 +193,8 @@ deploy-dishlmc-ska100:
 uninstall-dishlmc-ska001:
   extends:
     - .destroy-dish-lmc
+  needs:
+    - remove-ds-sim-ska001
   variables:
     DISH_ID: ska001
 
