@@ -1,5 +1,5 @@
 
-.this-env:
+.staging-env:
   stage: staging
   extends:
     - .staging_rules
@@ -36,7 +36,7 @@
 deploy-sut-staging:
   extends:
     - .deploy
-    - .this-env
+    - .staging-env
   needs:
     - deploy-sut-integration
   environment:
@@ -50,7 +50,7 @@ deploy-sut-staging:
 redeploy-sut-staging:
   extends:
     - .redeploy
-    - .this-env
+    - .staging-env
   environment:
     name: mid-itf/ska-$CONFIG-staging
     kubernetes:
@@ -62,12 +62,12 @@ redeploy-sut-staging:
 info-sut-staging:
   extends:
     - .info
-    - .this-env
+    - .staging-env
 
 destroy-sut-staging:
   extends:
     - .cleanup
-    - .this-env
+    - .staging-env
   environment:
     name: mid-itf/ska-$CONFIG-staging
     kubernetes:

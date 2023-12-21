@@ -1,7 +1,7 @@
 # ############################
 # # Dish AIV related CICD jobs
 # ############################
-.this_env: &this_env
+.dish-env: 
   variables:
     DISH_LMC_INITIAL_PARAMS: -f charts/dish-lmc/values.yaml --set "global.dishes={$DISH_INDEX}"
     CLUSTER_DOMAIN: miditf.internal.skao.int
@@ -25,11 +25,11 @@
         KUBE_NAMESPACE_POSTFIX: -$CI_COMMIT_REF_NAME
 
 .dish-lmc:
-  <<: *this_env
   tags:
     - ska-k8srunner-za-itf
   extends:
     - .dish_rules
+    - .dish-env
   needs:
     - helm-chart-build
   allow_failure: true # need to keep this to unlock the pipeline
@@ -94,6 +94,7 @@ redeploy-dishlmc-ska001:
     DISH_LMC_EXTRA_PARAMS: -f charts/dish-lmc/values-cetc.yaml --set dishlmc.ska-mid-dish-ds-manager.dishstructuremanager.dsSim.fqdn=$DS_SIM_OPCUA_FQDN
   environment:
     on_stop: uninstall-dishlmc-ska001
+
 
 deploy-dishlmc-ska036:
   extends:

@@ -1,4 +1,4 @@
-.this_env: &this_env
+.aa05-env:
   stage: on_demand_itf_sut
   variables:
     CONFIG: mid
@@ -38,7 +38,8 @@
     name: $ENV_NAME
 
 deploy-aa05-dishes:
-  <<: *this_env
+  extends:
+    - .aa05-env
   script:
     - echo "Deploying multiple dishes in downstream dish-aiv stage - first deploy ska001 manually"
     - echo "Deploying dishes $DISH_IDS:"
@@ -49,7 +50,8 @@ deploy-aa05-dishes:
     on_stop: uninstall-aa05-dishes
 
 redeploy-aa05-dishes:
-  <<: *this_env
+  extends:
+    - .aa05-env
   script:
     - echo "Redeploying multiple dishes in downstream dish-aiv stage - first deploy ska001 manually"
     - echo "Redeploying 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
@@ -57,7 +59,8 @@ redeploy-aa05-dishes:
     on_stop: uninstall-aa05-dishes
 
 uninstall-aa05-dishes:
-  <<: *this_env
+  extends:
+    - .aa05-env
   script:
     - echo "Uninstalling all dishes in downstream dish-aiv stage"
     - echo "Uninstalling 'SKA001', 'SKA036', 'SKA063', 'SKA100'"

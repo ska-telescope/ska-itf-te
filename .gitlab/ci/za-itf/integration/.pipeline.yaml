@@ -1,5 +1,5 @@
 
-.this-env:
+.integration-env:
   stage: integration
   extends:
     - .integration_rules
@@ -25,7 +25,7 @@
 deploy-sut-integration:
   extends:
     - .deploy
-    - .this-env
+    - .integration-env
   environment:
     name: mid-itf/ska-$CONFIG-integration
     kubernetes:
@@ -37,7 +37,7 @@ deploy-sut-integration:
 redeploy-sut-integration:
   extends:
     - .redeploy
-    - .this-env
+    - .integration-env
   environment:
     name: mid-itf/ska-$CONFIG-integration
     kubernetes:
@@ -49,12 +49,12 @@ redeploy-sut-integration:
 info-sut-integration:
   extends:
     - .info
-    - .this-env
+    - .integration-env
 
 destroy-sut-integration:
   extends:
     - .cleanup
-    - .this-env
+    - .integration-env
   environment:
     name: mid-itf/ska-$CONFIG-integration
     kubernetes:

@@ -1,7 +1,7 @@
 # ############################################
 # # Dish Strcuture Simulator related CICD jobs
 # ############################################
-.this-env:
+.dish-sim-env:
   tags:
     - ska-k8srunner-za-itf
   extends:
@@ -27,7 +27,7 @@
   allow_failure: true # need to keep this to unlock the pipeline
 
 .deploy-dish-structure-simulator:
-  extends: .this-env
+  extends: .dish-env
   stage: deploy-dish-aiv
   before_script:
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
@@ -56,7 +56,7 @@
 .remove-dish-structure-simulator:
   extends:
     - .uninstall-chart
-    - .this-env
+    - .dish-env
   stage: remove-dish-aiv
   environment:
     action: stop
