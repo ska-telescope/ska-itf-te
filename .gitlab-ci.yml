@@ -49,11 +49,13 @@ include:
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/xray-publish.gitlab-ci.yml"
 
-  - local: .gitlab/ci/.anchors.yaml
+  - local: .gitlab/ci/.anchors-jobs.yaml
+  - local: .gitlab/ci/.anchors-rules.yaml
   - local: .gitlab/ci/ansible.yml
   - local: .gitlab/ci/attic.yml
   - local: .gitlab/ci/za-itf/ci-ska-mid-commit-ref/.pipeline.yaml
   - local: .gitlab/ci/za-itf/dish-lmc-skaXXX/.pipeline.yaml
+  - local: .gitlab/ci/za-itf/dish-lmc-skaXXX/.pipeline-aa05.yaml
   - local: .gitlab/ci/za-itf/ds-sim-skaXXX/.pipeline.yaml
   - local: .gitlab/ci/za-itf/file-browser/.pipeline.yaml
   - local: .gitlab/ci/za-itf/integration/.pipeline.yaml
