@@ -1,7 +1,7 @@
 # ############################################
 # # System Under Test Deployment and Test jobs
 # ############################################
-.this-env:
+.ci-env:
   variables:
     CONFIG: mid
     K8S_CHART: "ska-$CONFIG"
@@ -23,7 +23,7 @@
 deploy-sut-on-demand:
   extends:
     - .deploy
-    - .this-env
+    - .ci-env
     - .on_demand_rules
   environment:
     name: mid-itf/ska-$CONFIG-$CI_COMMIT_REF_SLUG
@@ -36,7 +36,7 @@ deploy-sut-on-demand:
 redeploy-sut-on-demand:
   extends:
     - .redeploy
-    - .this-env
+    - .ci-env
     - .on_demand_rules
   environment:
     name: mid-itf/ska-$CONFIG-$CI_COMMIT_REF_SLUG
@@ -49,13 +49,13 @@ redeploy-sut-on-demand:
 info-sut-on-demand:
   extends:
     - .info
-    - .this-env
+    - .ci-env
     - .on_demand_rules
 
 destroy-sut-on-demand:
   extends:
     - .cleanup
-    - .this-env
+    - .ci-env
     - .on_demand_rules
   environment:
     name: mid-itf/ska-$CONFIG-$CI_COMMIT_REF_SLUG
@@ -74,7 +74,7 @@ k8s-test-runner:
     paths:
       - "build/"
   extends:
-    - .this-env
+    - .ci-env
   before_script:
     - make vars
     - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
@@ -115,7 +115,7 @@ stop-k8s-test-runner:
   script:
     - make remove-sut-deployment
   extends:
-    - .this-env
+    - .ci-env
   when: manual
   variables:
     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
@@ -132,7 +132,7 @@ publish-k8s-test-results:
     paths:
       - "build/"
   extends:
-    - .this-env
+    - .ci-env
   rules:
     - if: $CI_PIPELINE_SOURCE == "pipeline"
       when: never
@@ -151,7 +151,7 @@ publish-k8s-test-results:
 deploy-aa05-ds-sim:
   stage: on_demand_itf_sut
   extends:
-    - .this-env
+    - .ci-env
   script:
     - echo "Deploying multiple dish structure simulators in downstream dish-aiv stage - first deploy ska001 manually"
     - echo "Deploying 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
@@ -163,7 +163,7 @@ deploy-aa05-ds-sim:
 remove-aa05-ds-sim:
   stage: on_demand_itf_sut
   extends:
-    - .this-env
+    - .ci-env
   script:
     - echo "Uninstalling all dish structure simulators in downstream dish-aiv stage"
     - echo "Uninstalling 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
