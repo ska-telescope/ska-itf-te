@@ -1,4 +1,4 @@
-.this-env:
+.this_env: &this_env
   stage: on_demand_itf_sut
   variables:
     CONFIG: mid
@@ -38,8 +38,7 @@
     name: $ENV_NAME
 
 deploy-aa05-dishes:
-  extends:
-    - .this-env
+  <<: *this_env
   script:
     - echo "Deploying multiple dishes in downstream dish-aiv stage - first deploy ska001 manually"
     - echo "Deploying dishes $DISH_IDS:"
@@ -50,8 +49,7 @@ deploy-aa05-dishes:
     on_stop: uninstall-aa05-dishes
 
 redeploy-aa05-dishes:
-  extends:
-    - .this-env
+  <<: *this_env
   script:
     - echo "Redeploying multiple dishes in downstream dish-aiv stage - first deploy ska001 manually"
     - echo "Redeploying 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
@@ -59,47 +57,12 @@ redeploy-aa05-dishes:
     on_stop: uninstall-aa05-dishes
 
 uninstall-aa05-dishes:
-  extends:
-    - .this-env
+  <<: *this_env
   script:
     - echo "Uninstalling all dishes in downstream dish-aiv stage"
     - echo "Uninstalling 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
   environment:
     action: stop
-
-deploy-dishlmc-ska036:
-  extends:
-    - .deploy-additional-lmc
-  needs:
-    - deploy-dishlmc-ska001
-    - deploy-aa05-dishes
-  variables:
-    DISH_INDEX: "036"
-  environment:
-    on_stop: uninstall-dishlmc-ska036
-
-deploy-dishlmc-ska063:
-  extends:
-    - .deploy-additional-lmc
-  needs:
-    - deploy-aa05-dishes
-    - deploy-dishlmc-ska001
-  variables:
-    DISH_INDEX: "063"
-  environment:
-    on_stop: uninstall-dishlmc-ska063
-
-deploy-dishlmc-ska100:
-  extends:
-    - .deploy-additional-lmc
-  needs:
-    - deploy-aa05-dishes
-    - deploy-dishlmc-ska001
-  variables:
-    DISH_LMC_INITIAL_PARAMS: -f charts/dish-lmc/values.yaml
-    DISH_INDEX: "100"
-  environment:
-    on_stop: uninstall-dishlmc-ska100
 
 .destroy-aa05-dishes:
   extends:
