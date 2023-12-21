@@ -20,11 +20,15 @@
     TANGO_DATABASE_DS: tango-databaseds
     SERVICE_ACCOUNT: "ci-svc-ska-miditf-$CI_COMMIT_REF_NAME"
 
+.on-demand-stage:
+  stage: on_demand_itf_sut
+
 deploy-sut-on-demand:
   extends:
     - .deploy
     - .ci-env
     - .on_demand_rules
+    - .on-demand-stage
   environment:
     name: mid-itf/ska-$CONFIG-$CI_COMMIT_REF_SLUG
     kubernetes:
@@ -38,6 +42,7 @@ redeploy-sut-on-demand:
     - .redeploy
     - .ci-env
     - .on_demand_rules
+    - .on-demand-stage
   environment:
     name: mid-itf/ska-$CONFIG-$CI_COMMIT_REF_SLUG
     kubernetes:
@@ -51,12 +56,14 @@ info-sut-on-demand:
     - .info
     - .ci-env
     - .on_demand_rules
+    - .on-demand-stage
 
 destroy-sut-on-demand:
   extends:
     - .cleanup
     - .ci-env
     - .on_demand_rules
+    - .on-demand-stage
   environment:
     name: mid-itf/ska-$CONFIG-$CI_COMMIT_REF_SLUG
     kubernetes:
