@@ -27,7 +27,7 @@
   allow_failure: true # need to keep this to unlock the pipeline
 
 .deploy-dish-structure-simulator:
-  extends: .dish-env
+  extends: .dish-sim-env
   stage: deploy-dish-aiv
   before_script:
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
@@ -56,7 +56,7 @@
 .remove-dish-structure-simulator:
   extends:
     - .uninstall-chart
-    - .dish-env
+    - .dish-sim-env
   stage: remove-dish-aiv
   environment:
     action: stop
