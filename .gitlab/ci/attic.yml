@@ -1,3 +1,32 @@
+# ############################################
+# # System Under Test Deployment and Test jobs
+# ############################################
+.sut_base:
+  tags:
+    - ska-k8srunner-za-itf
+  variables:
+    CONFIG: mid
+    CLUSTER_DOMAIN_POSTFIX: miditf.internal.skao.int
+    DISH_IDS: "SKA001 SKA036 SKA063 SKA100"
+    K8S_CHART: system-under-test
+    KUBE_APP: ska-mid-sut
+    INGRESS_HOST: "k8s.miditf.internal.skao.int"
+    CLUSTER_DOMAIN: "miditf.internal.skao.int"
+    K8S_EXTRA_PARAMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
+    TANGO_DATABASE_DS: tango-databaseds
+    KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
+    
+.sut_on_demand:
+  stage: on_demand_itf_sut
+  extends:
+    - .sut_base
+    - .on_demand_rules
+  variables:
+    HELM_RELEASE: sut ## in term of variables this is the only difference with sut_base
+    KUBE_NAMESPACE: "ci-ska-mid-itf-$CI_COMMIT_REF_NAME"
+    KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+    SERVICE_ACCOUNT: "ci-svc-ska-miditf-$CI_COMMIT_REF_NAME"
+
 ##################################################################################
 ### The deployments of additional dish structure simulators are disabled.      ###
 ### We still need to determine how exactly we will deploy these with Dish LMC. ###

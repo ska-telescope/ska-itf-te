@@ -1,57 +1,8 @@
 # ##############################################################
 # # Common deployment templates (Copied from Skampi Deployments)
 # ##############################################################
-.mid:
-  variables:
-    CONFIG: mid
-    CLUSTER_DOMAIN_POSTFIX: miditf.internal.skao.int
-    DISH_IDS: "SKA001 SKA036 SKA063 SKA100"
-
-.on_demand_rules:
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "pipeline"
-      when: never
-    - if: $CI_COMMIT_REF_NAME != $CI_DEFAULT_BRANCH
-      when: manual
-      variables:
-        KUBE_NAMESPACE_PREFIX: ci-dish-lmc-
-        KUBE_NAMESPACE_POSTFIX: -$CI_COMMIT_REF_NAME
-      allow_failure: true
-    - when: never
-
-.integration_rules:
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "pipeline"
-      when: never
-    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
-      when: manual
-      variables:
-        KUBE_NAMESPACE_PREFIX: dish-lmc-
-      allow_failure: true
-    - when: never
-
-.staging_rules:
-  variables:
-    K8S_INSTALL_FROM_CAR: "true"
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "pipeline"
-      when: never
-    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
-      when: manual
-      allow_failure: true
-    - when: never
-
 .deploy:
   stage: deploy
-  variables:
-    K8S_CHART: "ska-$CONFIG"
-    HELM_RELEASE: sut
-    KUBE_NAMESPACE: "ci-ska-mid-itf-$CI_PIPELINE_ID-$CONFIG"
-    KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
-    K8S_AUTH_NAMESPACES: "$KUBE_NAMESPACE $KUBE_NAMESPACE_SDP"
-    K8S_AUTH_SERVICE_ACCOUNT: "ci-svc-ska-miditf-$CI_PIPELINE_ID"
-    ARCHIVER_DBNAME: "${CONFIG}_archiver_db_${CI_COMMIT_REF_SLUG}"
-    # VALUES: pipeline.yaml
   before_script:
     - ping -c 1 10.20.2.14 || (echo "Cannot reach PDU" && exit 1) #FIXME: This is the type of config data that we should ideally be putting in Vault / Config database
     - nc -zv 10.20.2.14 22 || (echo "Cannot reach PDU SSH interface - go to  https://za-itf-pdu3.ad.skatelescope.org and reset" && exit 1)
@@ -91,11 +42,6 @@
 
 .info:
   stage: deploy
-  variables:
-    K8S_CHART: "ska-$CONFIG"
-    HELM_RELEASE: sut
-    KUBE_NAMESPACE: "ci-ska-mid-itf-$CI_PIPELINE_ID-$CONFIG"
-    KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
   script:
     - bash .make/resources/gitlab_section.sh get-ns "Get namespace resources" make k8s-get
     - bash .make/resources/gitlab_section.sh get-ns-dp "Get SDP namespace resources" make k8s-get KUBE_NAMESPACE=${KUBE_NAMESPACE}-sdp
@@ -104,11 +50,6 @@
 
 .cleanup:
   stage: cleanup
-  variables:
-    K8S_CHART: "ska-$CONFIG"
-    HELM_RELEASE: sut
-    KUBE_NAMESPACE: "ci-ska-mid-itf-$CI_PIPELINE_ID-$CONFIG"
-    KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
   script: &cleanup_script
     - echo $CI_JOB_NAME - $CI_JOB_STAGE
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
@@ -124,64 +65,9 @@
     - .deploy
   before_script: *cleanup_script
 
-# If the pipeline is being exectued as a downstream, do not lint
-# or build
-
-helm-chart-lint:
-  after_script:
-    - make helm-check-deps
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "pipeline"
-      when: never
-    - exists:
-        - charts/**/*
-
-helm-chart-build:
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "pipeline"
-      when: never
-    - exists:
-        - charts/**/*
-
-docs-build:
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "pipeline"
-      when: never
-    - exists:
-        - charts/**/*
-
-# ############################################
-# # System Under Test Deployment and Test jobs
-# ############################################
-.sut_base:
-  tags:
-    - ska-k8srunner-za-itf
-  extends:
-    - .mid
-  variables:
-    K8S_CHART: system-under-test
-    KUBE_APP: ska-mid-sut
-    # VALUES: "pipeline.yaml resources/itf/$CONFIG.yml" # DEFINE FOR EACH JOB
-    # VALUES: charts/system-under-test/values.yaml
-    INGRESS_HOST: "k8s.miditf.internal.skao.int"
-    CLUSTER_DOMAIN: "miditf.internal.skao.int"
-    K8S_EXTRA_PARAMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
-    TANGO_DATABASE_DS: tango-databaseds
-    KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
-
-.sut_on_demand:
-  stage: on_demand_itf_sut
-  extends:
-    - .sut_base
-    - .on_demand_rules
-  variables:
-    HELM_RELEASE: sut
-    KUBE_NAMESPACE: "ci-ska-mid-itf-$CI_COMMIT_REF_NAME"
-    KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
-    SERVICE_ACCOUNT: "ci-svc-ska-miditf-$CI_COMMIT_REF_NAME"
 
 #### FROM SKAMPI, COPIED FOR REFERENCE:
-.uninstall_chart:
+.uninstall-chart:
   script:
     - echo $CI_JOB_NAME - $CI_JOB_STAGE
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars

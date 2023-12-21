@@ -1,0 +1,137 @@
+.this-env:
+
+.this-env:
+  stage: on_demand_itf_sut
+  variables:
+    CONFIG: mid
+    K8S_CHART: "ska-$CONFIG"
+    HELM_RELEASE: sut
+    KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
+    KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+    K8S_AUTH_NAMESPACES: "$KUBE_NAMESPACE $KUBE_NAMESPACE_SDP"
+    K8S_AUTH_SERVICE_ACCOUNT: "ci-svc-ska-miditf-$CI_PIPELINE_ID"
+    ARCHIVER_DBNAME: "${CONFIG}_archiver_db_${CI_COMMIT_REF_SLUG}"
+    CLUSTER_DOMAIN: "miditf.internal.skao.int"
+    CLUSTER_DOMAIN_POSTFIX: miditf.internal.skao.int
+    DISH_IDS: "SKA001 SKA036 SKA063 SKA100"
+    KUBE_APP: ska-mid-sut
+    INGRESS_HOST: "k8s.miditf.internal.skao.int"
+    K8S_EXTRA_PARAMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
+    TANGO_DATABASE_DS: tango-databaseds
+    SERVICE_ACCOUNT: "ci-svc-ska-miditf-$CI_COMMIT_REF_NAME"
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "pipeline"
+      when: never
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+      when: manual
+      variables:
+        KUBE_NAMESPACE_PREFIX: dish-lmc-
+        ENV_NAME: dish.itf/dish-lmc-aa05
+      allow_failure: true
+    - if: $CI_COMMIT_REF_NAME != $CI_DEFAULT_BRANCH
+      when: manual
+      variables:
+        KUBE_NAMESPACE: "ci-$KUBE_APP-$DISH_ID-$CI_COMMIT_REF_NAME"
+        KUBE_NAMESPACE_PREFIX: ci-dish-lmc-
+        KUBE_NAMESPACE_POSTFIX: -$CI_COMMIT_REF_NAME
+        ENV_NAME: dish.itf/ci-dish-lmc-aa05-$CI_COMMIT_REF_NAME
+      allow_failure: true
+  environment:
+    name: $ENV_NAME
+
+deploy-aa05-dishes:
+  extends:
+    - .this-env
+  script:
+    - echo "Deploying multiple dishes in downstream dish-aiv stage - first deploy ska001 manually"
+    - echo "Deploying dishes $DISH_IDS:"
+    - |
+      make itf-dish-ids
+      cat charts/system-under-test/tmc-values.yaml
+  environment:
+    on_stop: uninstall-aa05-dishes
+
+redeploy-aa05-dishes:
+  extends:
+    - .this-env
+  script:
+    - echo "Redeploying multiple dishes in downstream dish-aiv stage - first deploy ska001 manually"
+    - echo "Redeploying 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
+  environment:
+    on_stop: uninstall-aa05-dishes
+
+uninstall-aa05-dishes:
+  extends:
+    - .this-env
+  script:
+    - echo "Uninstalling all dishes in downstream dish-aiv stage"
+    - echo "Uninstalling 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
+  environment:
+    action: stop
+
+deploy-dishlmc-ska036:
+  extends:
+    - .deploy-additional-lmc
+  needs:
+    - deploy-dishlmc-ska001
+    - deploy-aa05-dishes
+  variables:
+    DISH_INDEX: "036"
+  environment:
+    on_stop: uninstall-dishlmc-ska036
+
+deploy-dishlmc-ska063:
+  extends:
+    - .deploy-additional-lmc
+  needs:
+    - deploy-aa05-dishes
+    - deploy-dishlmc-ska001
+  variables:
+    DISH_INDEX: "063"
+  environment:
+    on_stop: uninstall-dishlmc-ska063
+
+deploy-dishlmc-ska100:
+  extends:
+    - .deploy-additional-lmc
+  needs:
+    - deploy-aa05-dishes
+    - deploy-dishlmc-ska001
+  variables:
+    DISH_LMC_INITIAL_PARAMS: -f charts/dish-lmc/values.yaml
+    DISH_INDEX: "100"
+  environment:
+    on_stop: uninstall-dishlmc-ska100
+
+.destroy-aa05-dishes:
+  extends:
+    - .destroy-dish-lmc
+  when: on_success
+  needs:
+    - uninstall-aa05-dishes
+
+uninstall-dishlmc-ska001:
+  extends:
+    - .destroy-dish-lmc
+  needs:
+    - remove-ds-sim-ska001
+  variables:
+    DISH_ID: ska001
+
+uninstall-dishlmc-ska036:
+  extends:
+    - .destroy-aa05-dishes
+  variables:
+    DISH_ID: ska036
+
+uninstall-dishlmc-ska063:
+  extends:
+    - .destroy-aa05-dishes
+  variables:
+    DISH_ID: ska063
+
+uninstall-dishlmc-ska100:
+  extends:
+    - .destroy-aa05-dishes
+  variables:
+    DISH_ID: ska100

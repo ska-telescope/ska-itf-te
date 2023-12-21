@@ -1,37 +1,30 @@
 # ############################################
-# # Dish Strcuture Simulator related CICD jobs
-# ############################################
-deploy-aa05-ds-sim:
-  stage: on_demand_itf_sut
-  extends:
-    - .sut_base
-  script:
-    - echo "Deploying multiple dish structure simulators in downstream dish-aiv stage - first deploy ska001 manually"
-    - echo "Deploying 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
-  environment:
-    name: mid-itf/integration/dish-structure-simulator-aa05
-    on_stop: remove-aa05-ds-sim
-  when: manual
-
-remove-aa05-ds-sim:
-  stage: on_demand_itf_sut
-  extends:
-    - .sut_base
-  script:
-    - echo "Uninstalling all dish structure simulators in downstream dish-aiv stage"
-    - echo "Uninstalling 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
-  environment:
-    name: mid-itf/integration/dish-structure-simulator-aa05
-    action: stop
-  when: manual
-
-  # ############################################
 # # System Under Test Deployment and Test jobs
 # ############################################
+.this-env:
+  variables:
+    CONFIG: mid
+    K8S_CHART: "ska-$CONFIG"
+    HELM_RELEASE: sut
+    KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
+    KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+    K8S_AUTH_NAMESPACES: "$KUBE_NAMESPACE $KUBE_NAMESPACE_SDP"
+    K8S_AUTH_SERVICE_ACCOUNT: "ci-svc-ska-miditf-$CI_PIPELINE_ID"
+    ARCHIVER_DBNAME: "${CONFIG}_archiver_db_${CI_COMMIT_REF_SLUG}"
+    CLUSTER_DOMAIN: "miditf.internal.skao.int"
+    CLUSTER_DOMAIN_POSTFIX: miditf.internal.skao.int
+    DISH_IDS: "SKA001 SKA036 SKA063 SKA100"
+    KUBE_APP: ska-mid-sut
+    INGRESS_HOST: "k8s.miditf.internal.skao.int"
+    K8S_EXTRA_PARAMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
+    TANGO_DATABASE_DS: tango-databaseds
+    SERVICE_ACCOUNT: "ci-svc-ska-miditf-$CI_COMMIT_REF_NAME"
+
 deploy-sut-on-demand:
   extends:
     - .deploy
-    - .sut_on_demand
+    - .this-env
+    - .on_demand_rules
   environment:
     name: mid-itf/ska-$CONFIG-$CI_COMMIT_REF_SLUG
     kubernetes:
@@ -43,7 +36,8 @@ deploy-sut-on-demand:
 redeploy-sut-on-demand:
   extends:
     - .redeploy
-    - .sut_on_demand
+    - .this-env
+    - .on_demand_rules
   environment:
     name: mid-itf/ska-$CONFIG-$CI_COMMIT_REF_SLUG
     kubernetes:
@@ -55,12 +49,14 @@ redeploy-sut-on-demand:
 info-sut-on-demand:
   extends:
     - .info
-    - .sut_on_demand
+    - .this-env
+    - .on_demand_rules
 
 destroy-sut-on-demand:
   extends:
     - .cleanup
-    - .sut_on_demand
+    - .this-env
+    - .on_demand_rules
   environment:
     name: mid-itf/ska-$CONFIG-$CI_COMMIT_REF_SLUG
     kubernetes:
@@ -78,7 +74,7 @@ k8s-test-runner:
     paths:
       - "build/"
   extends:
-    - .sut_base
+    - .this-env
   before_script:
     - make vars
     - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
@@ -89,7 +85,6 @@ k8s-test-runner:
     - bash .make/resources/gitlab_section.sh install "K8S Install" make k8s-install-chart
     - bash .make/resources/gitlab_section.sh wait "K8S wait" make k8s-wait
     - make itf-cbf-setup --dry
-
   script:
     - make integration-test TANGO_HOST=$TANGO_DATABASE_DS.$KUBE_NAMESPACE.svc.$CLUSTER_DOMAIN:10000 || true
     - echo "Test command exit code - $(cat build/status)"
@@ -120,7 +115,7 @@ stop-k8s-test-runner:
   script:
     - make remove-sut-deployment
   extends:
-    - .sut_base
+    - .this-env
   when: manual
   variables:
     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
@@ -137,7 +132,7 @@ publish-k8s-test-results:
     paths:
       - "build/"
   extends:
-    - .sut_base
+    - .this-env
   rules:
     - if: $CI_PIPELINE_SOURCE == "pipeline"
       when: never
@@ -148,3 +143,31 @@ publish-k8s-test-results:
     - echo "Test result code from k8s-test-runner job was $(cat build/status)"
     - poetry install
     - make upload-to-confluence
+
+
+# ############################################
+# # Dish Strcuture Simulator related CICD jobs
+# ############################################
+deploy-aa05-ds-sim:
+  stage: on_demand_itf_sut
+  extends:
+    - .this-env
+  script:
+    - echo "Deploying multiple dish structure simulators in downstream dish-aiv stage - first deploy ska001 manually"
+    - echo "Deploying 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
+  environment:
+    name: mid-itf/integration/dish-structure-simulator-aa05
+    on_stop: remove-aa05-ds-sim
+  when: manual
+
+remove-aa05-ds-sim:
+  stage: on_demand_itf_sut
+  extends:
+    - .this-env
+  script:
+    - echo "Uninstalling all dish structure simulators in downstream dish-aiv stage"
+    - echo "Uninstalling 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
+  environment:
+    name: mid-itf/integration/dish-structure-simulator-aa05
+    action: stop
+  when: manual

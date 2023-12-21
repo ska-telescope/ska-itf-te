@@ -1,8 +1,7 @@
 
-.sut_integration:
+.this-env:
   stage: integration
   extends:
-    - .sut_base
     - .integration_rules
   variables:
     HELM_RELEASE: "integration-$CI_COMMIT_REF_SLUG"
@@ -11,11 +10,22 @@
     SERVICE_ACCOUNT: "ci-svc-integration"
     ARCHIVER_DBNAME: "integration_archiver_db"
     KEEP_NAMESPACE: "true"
+    K8S_CHART: "ska-$CONFIG"
+    K8S_AUTH_NAMESPACES: "$KUBE_NAMESPACE $KUBE_NAMESPACE_SDP"
+    K8S_AUTH_SERVICE_ACCOUNT: "ci-svc-ska-miditf-$CI_PIPELINE_ID"
+    CONFIG: mid
+    CLUSTER_DOMAIN_POSTFIX: miditf.internal.skao.int
+    DISH_IDS: "SKA001 SKA036 SKA063 SKA100"
+    KUBE_APP: ska-mid-sut
+    INGRESS_HOST: "k8s.miditf.internal.skao.int"
+    CLUSTER_DOMAIN: "miditf.internal.skao.int"
+    K8S_EXTRA_PARAMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
+    TANGO_DATABASE_DS: tango-databaseds
 
 deploy-sut-integration:
   extends:
     - .deploy
-    - .sut_integration
+    - .this-env
   environment:
     name: mid-itf/ska-$CONFIG-integration
     kubernetes:
@@ -27,7 +37,7 @@ deploy-sut-integration:
 redeploy-sut-integration:
   extends:
     - .redeploy
-    - .sut_integration
+    - .this-env
   environment:
     name: mid-itf/ska-$CONFIG-integration
     kubernetes:
@@ -39,12 +49,12 @@ redeploy-sut-integration:
 info-sut-integration:
   extends:
     - .info
-    - .sut_integration
+    - .this-env
 
 destroy-sut-integration:
   extends:
     - .cleanup
-    - .sut_integration
+    - .this-env
   environment:
     name: mid-itf/ska-$CONFIG-integration
     kubernetes:
