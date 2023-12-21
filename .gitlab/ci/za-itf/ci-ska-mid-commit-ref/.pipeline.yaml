@@ -19,6 +19,8 @@
     K8S_EXTRA_PARAMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
     TANGO_DATABASE_DS: tango-databaseds
     SERVICE_ACCOUNT: "ci-svc-ska-miditf-$CI_COMMIT_REF_NAME"
+    HW_IN_THE_LOOP: "false"
+    PDU_IP: "10.20.2.14"
 
 .on-demand-stage:
   stage: on_demand_itf_sut
