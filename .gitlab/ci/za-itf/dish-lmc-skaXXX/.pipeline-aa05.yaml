@@ -1,6 +1,4 @@
 .this-env:
-
-.this-env:
   stage: on_demand_itf_sut
   variables:
     CONFIG: mid
