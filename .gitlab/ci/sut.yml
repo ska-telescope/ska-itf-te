@@ -267,7 +267,7 @@ deploy-oda:
   extends:
     - .on_demand_rules
     - .mid
-  stage: on_demand_itf_sut
+  stage: verify-test-equipment
   tags:
     - ska-k8srunner-za-itf
   image: $TEST_IMAGE
@@ -295,7 +295,7 @@ deploy-oda:
     on_stop: destroy-oda
 
 destroy-oda:
-  stage: on_demand_itf_sut
+  stage: verify-test-equipment
   tags:
     - ska-k8srunner-za-itf
   variables:
