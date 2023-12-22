@@ -4,7 +4,7 @@
 .ci-env:
   variables:
     CONFIG: mid
-    K8S_CHART: "ska-$CONFIG"
+    K8S_CHART: "system-under-test"
     HELM_RELEASE: sut
     KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
@@ -116,7 +116,6 @@ k8s-test-runner:
     SHOW_STEP_FUNCTIONS: "True"
     CAPTURE_LOGS: "True"
     EXIT_AT_FAIL: "True"
-    KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
 
 stop-k8s-test-runner:
   tags:
