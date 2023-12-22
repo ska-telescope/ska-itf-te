@@ -74,3 +74,8 @@ python-build-for-publication:
 python-build-for-development:
   before_script:
     - ""
+
+oci-image-build:
+  rules:
+    - changes:
+        - Dockerfile
