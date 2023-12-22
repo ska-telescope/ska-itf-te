@@ -52,7 +52,7 @@ include:
   - local: .gitlab/ci/.jobs.yaml
   - local: .gitlab/ci/.rules.yaml
   - local: .gitlab/ci/.ansible.yml
-  - local: .gitlab/ci/za-itf/ci-ska-mid-commit-ref/.pipeline.yaml
+  - local: .gitlab/ci/za-itf/ci-ska-mid-itf-commit-ref/.pipeline.yaml
   - local: .gitlab/ci/za-itf/dish-lmc-skaXXX/.pipeline.yaml
   - local: .gitlab/ci/za-itf/ci-ska-mid-sut-skaXXX-commit-ref/.pipeline.yaml
   - local: .gitlab/ci/za-itf/ds-sim-skaXXX/.pipeline.yaml
