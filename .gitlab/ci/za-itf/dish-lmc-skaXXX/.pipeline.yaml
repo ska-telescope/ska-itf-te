@@ -58,14 +58,6 @@
     - !reference [.uninstall-chart, script]
     - !reference [.deploy-dish-lmc, script]
 
-.destroy-dish-lmc:
-  stage: remove-dish-aiv
-  extends:
-    - .uninstall-chart
-    - .dish-lmc
-  environment:
-    action: stop
-
 .deploy-additional-lmc:
   extends:
     - .deploy-dish-lmc
@@ -94,7 +86,6 @@ redeploy-dishlmc-ska001:
     DISH_LMC_EXTRA_PARAMS: -f charts/dish-lmc/values-cetc.yaml --set dishlmc.ska-mid-dish-ds-manager.dishstructuremanager.dsSim.fqdn=$DS_SIM_OPCUA_FQDN
   environment:
     on_stop: uninstall-dishlmc-ska001
-
 
 deploy-dishlmc-ska036:
   extends:
@@ -148,3 +139,44 @@ register-spfc:
     - export PLAYBOOK_PARAMETERS=$PLAYBOOK_PARAMETERS:--extra-vars='{tango_host:$TANGO_HOST:10000}'
     - python scripts/spfc/register_device.py $TANGO_HOST
   when: manual
+
+.destroy-dish-lmc:
+  stage: remove-dish-aiv
+  extends:
+    - .uninstall-chart
+    - .dish-lmc
+  environment:
+    action: stop
+
+.destroy-aa05-dishes:
+  extends:
+    - .destroy-dish-lmc
+  when: on_success
+  needs:
+    - uninstall-aa05-dishes
+
+uninstall-dishlmc-ska001:
+  extends:
+    - .destroy-dish-lmc
+  needs:
+    - remove-ds-sim-ska001
+  variables:
+    DISH_ID: ska001
+
+uninstall-dishlmc-ska036:
+  extends:
+    - .destroy-aa05-dishes
+  variables:
+    DISH_ID: ska036
+
+uninstall-dishlmc-ska063:
+  extends:
+    - .destroy-aa05-dishes
+  variables:
+    DISH_ID: ska063
+
+uninstall-dishlmc-ska100:
+  extends:
+    - .destroy-aa05-dishes
+  variables:
+    DISH_ID: ska100

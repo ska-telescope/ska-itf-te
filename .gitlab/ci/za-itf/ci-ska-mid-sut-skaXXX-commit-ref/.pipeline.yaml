@@ -69,35 +69,3 @@ uninstall-aa05-dishes:
   environment:
     action: stop
 
-.destroy-aa05-dishes:
-  extends:
-    - .destroy-dish-lmc
-  when: on_success
-  needs:
-    - uninstall-aa05-dishes
-
-uninstall-dishlmc-ska001:
-  extends:
-    - .destroy-dish-lmc
-  needs:
-    - remove-ds-sim-ska001
-  variables:
-    DISH_ID: ska001
-
-uninstall-dishlmc-ska036:
-  extends:
-    - .destroy-aa05-dishes
-  variables:
-    DISH_ID: ska036
-
-uninstall-dishlmc-ska063:
-  extends:
-    - .destroy-aa05-dishes
-  variables:
-    DISH_ID: ska063
-
-uninstall-dishlmc-ska100:
-  extends:
-    - .destroy-aa05-dishes
-  variables:
-    DISH_ID: ska100
