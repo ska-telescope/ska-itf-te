@@ -1,8 +1,10 @@
 .aa05-env:
   stage: on_demand_itf_sut
+  tags:
+  - ska-k8srunner-za-itf
   variables:
     CONFIG: mid
-    K8S_CHART: "ska-$CONFIG"
+    K8S_CHART: system-under-test
     HELM_RELEASE: sut
     KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"

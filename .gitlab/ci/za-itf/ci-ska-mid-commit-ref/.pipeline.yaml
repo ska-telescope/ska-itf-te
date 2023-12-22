@@ -2,6 +2,8 @@
 # # System Under Test Deployment and Test jobs
 # ############################################
 .ci-env:
+  tags:
+  - ska-k8srunner-za-itf
   variables:
     CONFIG: mid
     K8S_CHART: "system-under-test"
