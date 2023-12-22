@@ -114,3 +114,5 @@ initDbScripts:
 
 ska-ser-skuid:
   enabled: true
+  config:
+    generator_id: mid-itf
