@@ -1,0 +1,16 @@
+{
+  "channels_per_port": 6912,
+  "receiver": {
+     "options": {
+         "reception": {
+             "transport_protocol": "tcp"
+         },
+         "telescope_model": {
+             "telmodel_source_uris": "gitlab://gitlab.com/ska-telescope/sdp/ska-sdp-tmlite-repository?dfa075be#tmdata"
+         }
+     }
+  },
+  "pod_settings": [{
+    "securityContext": {"fsGroup": 2000}
+  }]
+}

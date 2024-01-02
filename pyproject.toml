@@ -41,6 +41,8 @@ flake8-rst-docstrings = "^0.3.0"
 darglint = "^1.8.1"
 mypy = "^0.991"
 twine = "^4.0.2"
+httpx = "^0.26.0"
+psycopg2-binary = "^2.9.9"
 
 [tool.poetry.group.ansible.dependencies]
 ansible = "^7.5.0"
