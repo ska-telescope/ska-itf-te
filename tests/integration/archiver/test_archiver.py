@@ -13,6 +13,7 @@ EVENT_SUBSCRIBER = f"{CONFIG}-eda/es/01"
 CM_SERVER = "dserver/hdbppcm-srv/01"
 
 
+@pytest.mark.skip("EDA is not currently deployed in Mid ITF.")
 @pytest.mark.post_deployment
 @pytest.mark.skamid
 @pytest.mark.skalow
@@ -49,6 +50,7 @@ def configure_attribute(
     archiver_helper.stop_archiving(attribute)
 
 
+@pytest.mark.skip("EDA is not currently deployed in Mid ITF.")
 @pytest.mark.eda
 @pytest.mark.post_deployment
 @pytest.mark.skamid

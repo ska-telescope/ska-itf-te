@@ -13,7 +13,6 @@ from ska_ser_skallop.mvp_control.describing import mvp_names as names
 from ska_ser_skallop.mvp_control.entry_points import types as conf_types
 from ska_ser_skallop.mvp_fixtures.fixtures import fxt_types
 
-from tests.integration.archiver.archiver_helper import ArchiverHelper
 from tests.integration.resources.models.mvp_model.states import ObsState
 
 from ..conftest import SutTestSettings
@@ -34,10 +33,12 @@ EVENT_SUBSCRIBER = f"{CONFIG}-eda/es/01"
 CONFIGURATION_MANAGER = f"{CONFIG}-eda/cm/01"
 DB_HOST = f"timescaledb.ska-eda-{CONFIG}-db.svc.cluster.local"
 TANGO_DATABASE_DS = "databaseds-tango-base"
-archiver_helper = ArchiverHelper(CONFIGURATION_MANAGER, EVENT_SUBSCRIBER)
+# EDA is not currently deployed in Mid ITF.
+# archiver_helper = ArchiverHelper(CONFIGURATION_MANAGER, EVENT_SUBSCRIBER)
 ARCHIVED_ATTRIBUTE = f"ska_{CONFIG}/tm_subarray_node/1/obsstate"
 
 
+@pytest.mark.skip("EDA is not currently deployed in Mid ITF.")
 @pytest.mark.skip(reason="Raised bug SKB-226")
 @pytest.mark.eda
 @pytest.mark.k8s
@@ -48,6 +49,7 @@ def test_archiver_configuration_in_mid():
     """Configure an EDA database instance for Mid."""
 
 
+@pytest.mark.skip("EDA is not currently deployed in Mid ITF.")
 @pytest.mark.skip(reason="Raised bug SKB-226")
 @pytest.mark.eda
 @pytest.mark.k8s
