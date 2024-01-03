@@ -16,7 +16,7 @@ from ..conftest import SutTestSettings
 logger = logging.getLogger(__name__)
 
 
-@pytest.mark.skip(reason="temp skip for at-489")
+# @pytest.mark.skip(reason="temp skip for at-489")
 @pytest.mark.k8s
 @pytest.mark.k8sonly
 @pytest.mark.skamid
@@ -74,7 +74,7 @@ def fxt_setup_context_monitoring_for_abort_test(
     ).to_become_equal_to(["ABORTED", "EMPTY", "IDLE"])
 
 
-@pytest.mark.skip(reason="temp skip for at-489")
+# @pytest.mark.skip(reason="temp skip for at-489")
 @pytest.mark.k8s
 @pytest.mark.k8sonly
 @pytest.mark.skamid
@@ -95,7 +95,7 @@ def test_abort_in_resourcing_mid(
     """
 
 
-@pytest.mark.skip(reason="temp skip for at-489")
+# @pytest.mark.skip(reason="temp skip for at-489")
 @pytest.mark.k8s
 @pytest.mark.k8sonly
 @pytest.mark.skamid

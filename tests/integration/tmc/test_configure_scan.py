@@ -12,7 +12,7 @@ from tests.integration.resources.models.mvp_model.states import ObsState
 from ..conftest import SutTestSettings
 
 
-@pytest.mark.skip(reason="temp skip for at-489")
+# @pytest.mark.skip(reason="temp skip for at-489")
 @pytest.mark.k8s
 @pytest.mark.k8sonly
 @pytest.mark.skamid
@@ -57,7 +57,7 @@ def fxt_setup_monitoring_for_config_abort(
     ).and_observe()
 
 
-@pytest.mark.skip(reason="temp skip for at-489")
+# @pytest.mark.skip(reason="temp skip for at-489")
 @pytest.mark.skamid
 @pytest.mark.configure
 @scenario("features/tmc_configure_scan.feature", "Abort configuring")

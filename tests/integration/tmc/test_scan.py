@@ -13,6 +13,9 @@ from tests.integration.resources.models.mvp_model.states import ObsState
 from ..conftest import SutTestSettings
 
 
+# Fails due to: INCONSISTENT state: Expected subbarray devices dev state to be ('ON',)
+# but instead found ['mid-sdp/subarray/01'] to be OFF
+# @pytest.mark.skip("skip for now")
 @pytest.mark.k8s
 @pytest.mark.k8sonly
 @pytest.mark.skamid

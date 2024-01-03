@@ -38,7 +38,6 @@ TANGO_DATABASE_DS = "databaseds-tango-base"
 ARCHIVED_ATTRIBUTE = f"ska_{CONFIG}/tm_subarray_node/1/obsstate"
 
 
-@pytest.mark.skip("EDA is not currently deployed in Mid ITF.")
 @pytest.mark.skip(reason="Raised bug SKB-226")
 @pytest.mark.eda
 @pytest.mark.k8s
@@ -49,7 +48,6 @@ def test_archiver_configuration_in_mid():
     """Configure an EDA database instance for Mid."""
 
 
-@pytest.mark.skip("EDA is not currently deployed in Mid ITF.")
 @pytest.mark.skip(reason="Raised bug SKB-226")
 @pytest.mark.eda
 @pytest.mark.k8s

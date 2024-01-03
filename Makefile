@@ -51,13 +51,15 @@ _MARKS ?= -, $(MARKS)
 else
 _MARKS ?= 
 endif
-EXIT_AT_FAIL ?=True## whether the pytest should exit immediately upon failure
+EXIT_AT_FAIL ?=true## whether the pytest should exit immediately upon failure
 ifneq ($(EXIT_AT_FAIL),false)
 EXIT = -x
 else
 EXIT = 
 endif
 
+
+PYTEST_ADDOPTS += -m "not eda"
 INTEGRATION_TEST_SOURCE ?= tests/integration
 INTEGRATION_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(_MARKS) $(_COUNTS) $(EXIT) $(PYTEST_ADDOPTS)
 
@@ -68,6 +70,11 @@ SDP_PARAMS ?= --set ska-sdp.helmdeploy.namespace=$(KUBE_NAMESPACE_SDP) \
 	--set ska-sdp.ska-sdp-qa.kafka.clusterDomain=$(CLUSTER_DOMAIN) \
 	--set ska-sdp.ska-sdp-qa.redis.clusterDomain=$(CLUSTER_DOMAIN) \
 	--set global.sdp.processingNamespace=$(KUBE_NAMESPACE_SDP)
+
+TMC_VALUES_PATH=charts/system-under-test/tmc-values.yaml
+ifneq ("$(wildcard $(TMC_VALUES_PATH))","")
+	K8S_EXTRA_PARAMS+=-f $(TMC_VALUES_PATH)
+endif
 
 K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	--set global.exposeAllDS=$(EXPOSE_All_DS) \
@@ -87,12 +94,6 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	${K8S_TEST_TANGO_IMAGE_PARAMS} \
 	${SKIP_TANGO_EXAMPLES_PARAMS} \
 	$(K8S_EXTRA_PARAMS)
-
-TMC_VALUES_PATH=charts/system-under-test/tmc-values.yaml
-ifneq ("$(wildcard $(TMC_VALUES_PATH))","")
-	K8S_EXTRA_PARAMS+=-f $(TMC_VALUES_PATH)
-endif
-
 
 # # TODO: remove if no longer needed.
 # -include resources/makefiles/itf-connect.mk
@@ -132,6 +133,9 @@ ifeq ($(MAKECMDGOALS),k8s-test)
 # execute in truel context; add BDD test results to be uploaded to xray
 PYTHON_VARS_AFTER_PYTEST += --true-context --cucumberjson=build/reports/cucumber.json \
 	--json-report --json-report-file=build/reports/report.json
+
+# Don't run EDA tests: it is not deployed in the Mid ITF SUT yet.
+PYTHON_VARS_AFTER_PYTEST += -m "not eda"
 
 # hack out PYTHONPATH - why is it even there?
 # hack in test target directory

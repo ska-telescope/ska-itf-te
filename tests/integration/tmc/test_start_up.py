@@ -1,10 +1,12 @@
 """Start up the telescope from tmc feature tests."""
 import logging
+from typing import List
 
 import pytest
 from assertpy import assert_that
 from pytest_bdd import given, scenario, then
 from ska_ser_skallop.connectors import configuration as con_config
+from ska_ser_skallop.connectors import tangodb
 from ska_ser_skallop.mvp_control.describing import mvp_names as names
 from ska_ser_skallop.mvp_fixtures.fixtures import fxt_types
 
@@ -13,6 +15,9 @@ from .. import conftest
 logger = logging.getLogger(__name__)
 
 
+# Fails due to: INCONSISTENT state: Expected subbarray devices dev state to be ('ON',)
+# but instead found ['mid-sdp/subarray/01'] to be OFF
+# @pytest.mark.skip("skip for now")
 @pytest.mark.k8s
 @pytest.mark.k8sonly
 @pytest.mark.skamid
@@ -41,7 +46,11 @@ def a_tmc():
     central_node = con_config.get_device_proxy(central_node_name)
     result = central_node.ping()
     assert result > 0
-
+    db = tangodb.TangoDB()
+    devices: List[str] = db.devices
+    logger.info("got %d devices", len(devices))
+    for d in devices:
+        logger.info("got device: %s", d)
     for index in range(1, sut_settings.nr_of_subarrays + 1):
         subarray_node = con_config.get_device_proxy(tel.tm.subarray(index))
         result = subarray_node.ping()

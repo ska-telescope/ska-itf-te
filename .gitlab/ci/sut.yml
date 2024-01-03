@@ -224,7 +224,7 @@ k8s-test-runner:
     LIVE_LOGGING_EXTENDED: "True"
     SHOW_STEP_FUNCTIONS: "True"
     CAPTURE_LOGS: "True"
-    EXIT_AT_FAIL: "True"
+    EXIT_AT_FAIL: "false"
     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
 
 stop-k8s-test-runner:

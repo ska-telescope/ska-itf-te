@@ -59,10 +59,10 @@ tmc:
     Dish:
       isSimulated:
         enabled: false
-    subarray_count: 1
+    subarray_count: 2
   deviceServers:
     centralnode:
-      subarray_count: 1
+      subarray_count: 2
     dishleafnode:
       enabled: true
   ska-tango-base:
