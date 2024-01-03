@@ -5,7 +5,7 @@ description = "Integration testing and deployment project for the Mid ITF"
 authors = ["ATLAS"]
 license = "BSD 3-Clause"
 readme = "README.md"
-packages = [{ include = "src/ska_mid_itf" }, { include = "tests/integration" } ]
+packages = [{ include = "tests/integration" } ]
 
 [[tool.poetry.source]]
 name = 'skao'
