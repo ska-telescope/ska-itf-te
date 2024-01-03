@@ -203,7 +203,6 @@ k8s-test-runner:
     - bash .make/resources/gitlab_section.sh install "K8S Install" make k8s-install-chart
     - bash .make/resources/gitlab_section.sh wait "K8S wait" make k8s-wait
     - make itf-cbf-setup --dry
-
   script:
     - make integration-test TANGO_HOST=$TANGO_DATABASE_DS.$KUBE_NAMESPACE.svc.$CLUSTER_DOMAIN:10000 || true
     - echo "Test command exit code - $(cat build/status)"
