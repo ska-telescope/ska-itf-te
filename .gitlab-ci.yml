@@ -73,3 +73,7 @@ python-build-for-publication:
 python-build-for-development:
   rules:
     - when: never
+
+python-publish-to-gitlab:
+  rules:
+    - when: never
