@@ -76,7 +76,7 @@ tmc:
 
 sdp:
   legacy_compatibility: true
-  enabled: false
+  enabled: true
   lmc:
     prefix: mid
     nsubarray: 3
