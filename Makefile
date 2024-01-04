@@ -66,10 +66,10 @@ DISH_LMC_PARAMS ?= $(DISH_LMC_INITIAL_PARAMS) $(DISH_LMC_EXTRA_PARAMS)
 SKUID_URL ?= ska-ser-skuid-test-svc.$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN):9870
 ODA_PARAMS ?= --set ska-db-oda-umbrella.ska-db-oda.rest.skuid.url=$(SKUID_URL)
 
-SDP_PARAMS ?= --set ska-sdp.helmdeploy.namespace=$(KUBE_NAMESPACE_SDP) \
-	--set ska-sdp.ska-sdp-qa.zookeeper.clusterDomain=$(CLUSTER_DOMAIN) \
-	--set ska-sdp.ska-sdp-qa.kafka.clusterDomain=$(CLUSTER_DOMAIN) \
-	--set ska-sdp.ska-sdp-qa.redis.clusterDomain=$(CLUSTER_DOMAIN) \
+SDP_PARAMS ?= --set sdp.helmdeploy.namespace=$(KUBE_NAMESPACE_SDP) \
+	--set sdp.ska-sdp-qa.zookeeper.clusterDomain=$(CLUSTER_DOMAIN) \
+	--set sdp.kafka.clusterDomain=$(CLUSTER_DOMAIN) \
+	--set sdp.ska-sdp-qa.redis.clusterDomain=$(CLUSTER_DOMAIN) \
 	--set global.sdp.processingNamespace=$(KUBE_NAMESPACE_SDP)
 
 K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
@@ -202,17 +202,9 @@ integration-test:
 	set -o pipefail; $(PYTHON_RUNNER) pytest $(INTEGRATION_TEST_SOURCE) $(INTEGRATION_TEST_ARGS); \
 	echo $$? > build/status
 
-
 upload-to-confluence:
 	@poetry run upload-to-confluence sut_config.yaml build/reports/cucumber.json
 	@echo "##### Results uploaded to https://confluence.skatelescope.org/x/arzVDQ #####"
-
-template-chart: k8s-dep-update
-	mkdir -p build
-	helm template $(HELM_RELEASE) \
-	$(K8S_CHART_PARAMS) \
-	--debug \
-	 $(K8S_UMBRELLA_CHART_PATH) --namespace $(KUBE_NAMESPACE) > build/manifests.yaml
 
 build-base-image:
 	@echo "Running on branch: '$(CI_COMMIT_BRANCH)'; image: '$(BASE_IMAGE)' tag: '$(BASE_IMAGE_TAG)'"
