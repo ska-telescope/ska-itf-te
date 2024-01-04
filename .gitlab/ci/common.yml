@@ -85,8 +85,6 @@
         bash .make/resources/gitlab_section.sh talon_download_tangocpp_ds "Download CPP Tango device server updates" make itf-cbf-tangocpp-update &> deploy/talonconfig.log
         bash .make/resources/gitlab_section.sh talon_config_tangodb "Configure TangoDB with device servers" make itf-cbf-config-tangodb
       fi
-    - kubectl apply -f resources/talon/sdp-surrogate.yaml -n $KUBE_NAMESPACE-sdp && kubectl wait --for=condition=ready pod/cloud03-sdn-dynamic-vis -n $KUBE_NAMESPACE-sdp #FIXME: Remove and replace with SDP
-    - kubectl get pod -n $KUBE_NAMESPACE-sdp cloud03-sdn-dynamic-vis -o yaml
   after_script:
     - make template-chart
     - make links
