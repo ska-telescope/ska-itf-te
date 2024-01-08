@@ -66,3 +66,29 @@ destroy-oda-integration:
     - - !reference [.cleanup, script]
   environment:
     action: stop
+
+.test-template-chart:
+  stage: on_demand_itf_sut
+  after_script:
+    - make k8s-template-chart
+  variables:
+    K8S_CHART: ska-db-oda
+    KUBE_APP: ska-db-oda
+    INGRESS_HOST: "k8s.miditf.internal.skao.int"
+    CLUSTER_DOMAIN: "miditf.internal.skao.int"
+    K8S_EXTRA_PARAMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
+    TANGO_DATABASE_DS: tango-databaseds
+    MINIKUBE: "false"
+    KUBE_NAMESPACE: oda
+
+template-chart-test-itf:
+  extends:
+    - .test-template-chart
+  tags:
+    - ska-k8srunner-za-itf
+
+template-chart-test-stfc:
+  extends:
+    - .test-template-chart
+  tags:
+    - k8srunner
