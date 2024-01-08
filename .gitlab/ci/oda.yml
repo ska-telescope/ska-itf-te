@@ -24,6 +24,8 @@
 
 
 deploy-oda:
+  extends:
+    - .oda
   script:
     - make k8s-install-chart
   after_script:
