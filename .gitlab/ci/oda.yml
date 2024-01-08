@@ -1,8 +1,6 @@
 .oda:
   extends:
-    - .on_demand_rules
     - .mid
-  stage: verify-test-equipment
   tags:
     - ska-k8srunner-za-itf
   image: $TEST_IMAGE
@@ -13,7 +11,6 @@
     CLUSTER_DOMAIN: "miditf.internal.skao.int"
     K8S_EXTRA_PARAMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
     TANGO_DATABASE_DS: tango-databaseds
-    KUBE_NAMESPACE: ci-ska-mid-itf-oda-$CI_COMMIT_REF_NAME
     MINIKUBE: "false"
   environment:
     name: sut/oda/$KUBE_NAMESPACE
@@ -22,18 +19,49 @@
     url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
   when: manual
 
-
-deploy-oda:
+.oda-on-demand:
   extends:
     - .oda
+    - .on_demand_rules
+  stage: on_demand_itf_sut
+  variables:
+    KUBE_NAMESPACE: ci-ska-mid-itf-oda-$CI_COMMIT_REF_NAME
+
+deploy-oda-on-demand:
+  extends:
+    - .oda-on-demand
   script:
     - make k8s-install-chart
   after_script:
     - make k8s-template-chart
 
-destroy-oda:
+destroy-oda-on-demand:
+  extends:
+    - .oda-on-demand
+  script:
+    - - !reference [.cleanup, script]
+  environment:
+    action: stop
+
+.oda-integration:
   extends:
     - .oda
+    - .integration_rules
+  stage: integration
+  variables:
+    KUBE_NAMESPACE: oda
+
+deploy-oda-integration:
+  extends:
+    - .oda-integration
+  script:
+    - make k8s-install-chart
+  after_script:
+    - make k8s-template-chart
+
+destroy-oda-integration:
+  extends:
+    - .oda-integration
   script:
     - - !reference [.cleanup, script]
   environment:
