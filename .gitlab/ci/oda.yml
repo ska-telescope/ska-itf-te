@@ -9,7 +9,6 @@
     KUBE_APP: ska-db-oda
     INGRESS_HOST: "k8s.miditf.internal.skao.int"
     CLUSTER_DOMAIN: "miditf.internal.skao.int"
-    K8S_EXTRA_PARAMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
     TANGO_DATABASE_DS: tango-databaseds
     MINIKUBE: "false"
   environment:
@@ -63,6 +62,6 @@ destroy-oda-integration:
   extends:
     - .oda-integration
   script:
-    - - !reference [.cleanup, script]
+    - !reference [.cleanup, script]
   environment:
     action: stop

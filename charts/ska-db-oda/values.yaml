@@ -1,9 +1,4 @@
 ska-db-oda-umbrella:
-  ska-db-oda:
-    rest:
-      skuid:
-        url: ska-ser-skuid-test-svc.ska-db-oda.svc.miditf.internal.skao.int:9870
-
-ska-ser-skuid:
-  config:
-    generator_id: mid-itf
+  ska-ser-skuid:
+    config:
+      generator_id: mid-itf
