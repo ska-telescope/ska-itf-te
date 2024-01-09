@@ -75,6 +75,8 @@ tmc:
     enabled: false
 
 sdp:
+  helmdeploy:
+    enableNADClusterRole: true
   legacy_compatibility: true
   enabled: true
   lmc:
