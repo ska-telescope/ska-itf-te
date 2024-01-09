@@ -5,7 +5,7 @@
     - ska-k8srunner-za-itf
   image: $TEST_IMAGE
   variables:
-    K8S_CHART: ska-db-oda
+    K8S_CHART: ska-db-oda-mid-itf
     KUBE_APP: ska-db-oda
     INGRESS_HOST: "k8s.miditf.internal.skao.int"
     CLUSTER_DOMAIN: "miditf.internal.skao.int"
@@ -24,11 +24,13 @@
     - .on_demand_rules
   stage: on_demand_itf_sut
   variables:
-    KUBE_NAMESPACE: ci-ska-mid-itf-oda-$CI_COMMIT_REF_NAME
+    KUBE_NAMESPACE: ci-ska-db-oda-$CI_COMMIT_REF_NAME
 
 deploy-oda-on-demand:
   extends:
     - .oda-on-demand
+  variables:
+    K8S_EXTRA_PARAMS: "-f charts/ska-db-oda-mid-itf/values-ci.yaml"
   script:
     - make k8s-install-chart
   after_script:
@@ -48,11 +50,13 @@ destroy-oda-on-demand:
     - .integration_rules
   stage: integration
   variables:
-    KUBE_NAMESPACE: oda
+    KUBE_NAMESPACE: ska-db-oda
 
 deploy-oda-integration:
   extends:
     - .oda-integration
+  variables:
+    K8S_EXTRA_PARAMS: "-f charts/ska-db-oda-mid-itf/values-integration.yaml"
   script:
     - make k8s-install-chart
   after_script:
