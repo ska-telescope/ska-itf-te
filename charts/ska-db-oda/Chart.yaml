@@ -1,6 +1,6 @@
 apiVersion: v2
-name: ska-db-oda-umbrella
-description: Deployment of ska-db-oda-umbrella which includes ska-db-oda, postgres and ska-ser-skuid.
+name: ska-db-oda-mid-itf
+description: Deployment of ska-db-oda-umbrella, which includes ska-db-oda, postgres and ska-ser-skuid, in the Mid ITF.
 type: application
 version: 1.9.0
 appVersion: 1.9.0

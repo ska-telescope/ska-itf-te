@@ -1,4 +1,5 @@
 ska-db-oda-umbrella:
   ska-ser-skuid:
-    config:
-      generator_id: mid-itf
+    skuid:
+      config:
+        generator_id: mid-itf
