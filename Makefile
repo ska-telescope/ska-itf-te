@@ -63,6 +63,9 @@ INTEGRATION_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(_MARKS) $(_COUNTS)
 
 DISH_LMC_PARAMS ?= $(DISH_LMC_INITIAL_PARAMS) $(DISH_LMC_EXTRA_PARAMS)
 
+SKUID_URL ?= ska-ser-skuid-test-svc.$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN):9870
+ODA_PARAMS ?= --set ska-db-oda-umbrella.ska-db-oda.rest.skuid.url=$(SKUID_URL)
+
 SDP_PARAMS ?= --set ska-sdp.helmdeploy.namespace=$(KUBE_NAMESPACE_SDP) \
 	--set ska-sdp.ska-sdp-qa.zookeeper.clusterDomain=$(CLUSTER_DOMAIN) \
 	--set ska-sdp.ska-sdp-qa.kafka.clusterDomain=$(CLUSTER_DOMAIN) \
@@ -81,6 +84,7 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	--set ska-tango-base.jive.enabled=$(JIVE) \
 	--set ska-tango-base.itango.enabled=$(ITANGO_ENABLED) \
 	$(SDP_PARAMS) \
+	$(ODA_PARAMS) \
 	$(DISH_LMC_PARAMS) \
 	$(TARANTA_PARAMS) \
 	${K8S_TEST_TANGO_IMAGE_PARAMS} \
