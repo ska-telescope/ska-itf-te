@@ -64,7 +64,9 @@
     - |
       if [ "$KEEP_NAMESPACE" != "true" ]; then
         make k8s-delete-namespace
-        make k8s-delete-namespace KUBE_NAMESPACE=$KUBE_NAMESPACE_SDP
+        if [ "$KUBE_NAMESPACE_SDP" != "" ]; then
+          make k8s-delete-namespace KUBE_NAMESPACE=$KUBE_NAMESPACE_SDP
+        fi
       fi
 
 .redeploy:

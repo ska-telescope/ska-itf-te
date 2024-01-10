@@ -61,6 +61,7 @@ include:
   - local: .gitlab/ci/za-itf/staging/.pipeline.yaml
   - local: .gitlab/ci/za-itf/taranta/.pipeline.yaml
   - local: .gitlab/ci/za-itf/test-equipment/.pipeline.yaml
+  - local: .gitlab/ci/oda.yml
 
 xray-publish:
   when: always #### TODO: Remove this and uncomment line just above this one!

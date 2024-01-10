@@ -1,0 +1,71 @@
+.oda:
+  extends:
+    - .mid
+  tags:
+    - ska-k8srunner-za-itf
+  image: $TEST_IMAGE
+  variables:
+    K8S_CHART: ska-db-oda-mid-itf
+    KUBE_APP: ska-db-oda
+    INGRESS_HOST: "k8s.miditf.internal.skao.int"
+    CLUSTER_DOMAIN: "miditf.internal.skao.int"
+    TANGO_DATABASE_DS: tango-databaseds
+    MINIKUBE: "false"
+  environment:
+    name: sut/oda/$KUBE_NAMESPACE
+    kubernetes:
+      namespace: $KUBE_NAMESPACE
+    url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
+  when: manual
+
+.oda-on-demand:
+  extends:
+    - .oda
+    - .on_demand_rules
+  stage: on_demand_itf_sut
+  variables:
+    KUBE_NAMESPACE: ci-ska-db-oda-$CI_COMMIT_REF_NAME
+
+deploy-oda-on-demand:
+  extends:
+    - .oda-on-demand
+  variables:
+    K8S_EXTRA_PARAMS: "-f charts/ska-db-oda-mid-itf/values-ci.yaml"
+  script:
+    - make k8s-install-chart
+  after_script:
+    - make k8s-template-chart
+
+destroy-oda-on-demand:
+  extends:
+    - .oda-on-demand
+  script:
+    - - !reference [.cleanup, script]
+  environment:
+    action: stop
+
+.oda-integration:
+  extends:
+    - .oda
+    - .integration_rules
+  stage: integration
+  variables:
+    KUBE_NAMESPACE: ska-db-oda
+
+deploy-oda-integration:
+  extends:
+    - .oda-integration
+  variables:
+    K8S_EXTRA_PARAMS: "-f charts/ska-db-oda-mid-itf/values-integration.yaml"
+  script:
+    - make k8s-install-chart
+  after_script:
+    - make k8s-template-chart
+
+destroy-oda-integration:
+  extends:
+    - .oda-integration
+  script:
+    - !reference [.cleanup, script]
+  environment:
+    action: stop
