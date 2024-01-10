@@ -1,16 +1,17 @@
 .oda:
-  extends:
-    - .mid
   tags:
     - ska-k8srunner-za-itf
   image: $TEST_IMAGE
   variables:
+    CONFIG: mid
     K8S_CHART: ska-db-oda-mid-itf
     KUBE_APP: ska-db-oda
     INGRESS_HOST: "k8s.miditf.internal.skao.int"
     CLUSTER_DOMAIN: "miditf.internal.skao.int"
     TANGO_DATABASE_DS: tango-databaseds
     MINIKUBE: "false"
+    CLUSTER_DOMAIN_POSTFIX: miditf.internal.skao.int
+    DISH_IDS: "SKA001 SKA036 SKA063 SKA100"
   environment:
     name: sut/oda/$KUBE_NAMESPACE
     kubernetes:
