@@ -2,8 +2,8 @@ apiVersion: v2
 name: test-parent
 description: An umbrella Helm chart for verifying Helm Charts of Test Equipment Tango Device Servers at the Mid ITF
 type: application
-version: 0.1.0-dev.c
-appVersion: 0.1.0-dev.c
+version: 0.1.1-dev.c
+appVersion: 0.1.1-dev.c
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
   # Tango

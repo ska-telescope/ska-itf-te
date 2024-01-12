@@ -2,8 +2,8 @@ apiVersion: v2
 name: taranta-itf
 description: An umbrella Helm chart for deploying Taranta charts that are not the application itself - we need only a single deployment for the cluster
 type: application
-version: 0.1.0
-appVersion: 0.1.0
+version: 0.1.1
+appVersion: 0.1.1
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
   # TARANTA THINGS

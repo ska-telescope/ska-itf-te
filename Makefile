@@ -1,6 +1,6 @@
 
 BASE_IMAGE := $(CI_REGISTRY)/ska-telescope/ska-mid-itf/ska-mid-itf-base
-BASE_IMAGE_VERSION := 0.1.4
+BASE_IMAGE_VERSION := 0.1.5
 BASE_IMAGE_TAG := $(BASE_IMAGE_VERSION)
 
 OCI_BUILD_ADDITIONAL_ARGS += --build-arg BASE_IMAGE=$(BASE_IMAGE) \
