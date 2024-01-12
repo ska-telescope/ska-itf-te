@@ -206,13 +206,6 @@ upload-to-confluence:
 	@poetry run upload-to-confluence sut_config.yaml build/reports/cucumber.json
 	@echo "##### Results uploaded to https://confluence.skatelescope.org/x/arzVDQ #####"
 
-template-chart: k8s-dep-update
-	mkdir -p build
-	helm template $(HELM_RELEASE) \
-	$(K8S_CHART_PARAMS) \
-	--debug \
-	 $(K8S_UMBRELLA_CHART_PATH) --namespace $(KUBE_NAMESPACE) > build/manifests.yaml
-
 build-base-image:
 	@echo "Running on branch: '$(CI_COMMIT_BRANCH)'; image: '$(BASE_IMAGE)' tag: '$(BASE_IMAGE_TAG)'"
 	@docker build --pull -t "$(BASE_IMAGE):$(BASE_IMAGE_TAG)" -f images/ska-mid-itf-base/Dockerfile .
