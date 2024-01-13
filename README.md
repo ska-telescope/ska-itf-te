@@ -199,3 +199,44 @@ IP  : 10.165.3.1
 Port: 5025
 Web : http://za-itf-signal-generator.ad.skatelescope.org/webpages/web/html/ihp.php
 
+## Tango info
+
+```
+$ ./mid_tango_instance_info.py -I tmc
+************************************
+dserver/TmCspSubarrayLeafNodeTest/tm
+************************************
+Commands   : AddLoggingTarget AddObjPolling DevLockStatus DevPollStatus DevRestart EventConfirmSubscription EventSubscriptionChange GetLoggingLevel GetLoggingTarget Init Kill LockDevice PolledDevice QueryClass QueryDevice QuerySubDevice QueryWizardClassProperty QueryWizardDevProperty ReLockDevices RemObjPolling RemoveLoggingTarget RestartServer SetLoggingLevel StartLogging StartPolling State Status StopLogging StopPolling UnLockDevice UpdObjPollingPeriod ZmqEventSubscriptionChange
+
+Attributes :
+        State : ON
+        Status : The device is ON
+The polling is ON
+*************************************
+dserver/TmCspSubarrayLeafNodeTest/tm2
+*************************************
+Commands   : AddLoggingTarget AddObjPolling DevLockStatus DevPollStatus DevRestart EventConfirmSubscription EventSubscriptionChange GetLoggingLevel GetLoggingTarget Init Kill LockDevice PolledDevice QueryClass QueryDevice QuerySubDevice QueryWizardClassProperty QueryWizardDevProperty ReLockDevices RemObjPolling RemoveLoggingTarget RestartServer SetLoggingLevel StartLogging StartPolling State Status StopLogging StopPolling UnLockDevice UpdObjPollingPeriod ZmqEventSubscriptionChange
+
+Attributes :
+        State : ON
+        Status : The device is ON
+The polling is ON
+
+$ itango3
+ITango 9.4.2 -- An interactive Tango client.
+
+Running on top of Python 3.10.12, IPython 8.5 and PyTango 9.4.2
+
+help      -> ITango's help system.
+object?   -> Details about 'object'. ?object also works, ?? prints more.
+
+IPython profile: tango
+
+hint: Try typing: mydev = Device("<tab>
+
+In [1]: dev = Device("dserver/TmCspSubarrayLeafNodeTest/tm")
+
+In [2]: dev.Status()
+Out[2]: 'The device is ON\nThe polling is ON'
+```
+
