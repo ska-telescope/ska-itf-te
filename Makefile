@@ -211,3 +211,9 @@ build-base-image:
 	@docker build --pull -t "$(BASE_IMAGE):$(BASE_IMAGE_TAG)" -f images/ska-mid-itf-base/Dockerfile .
 	@docker push "$(BASE_IMAGE):$(BASE_IMAGE_TAG)"
 .PHONY: build-base-image
+
+k8s-template-chart-with-build-artifacts:
+	@make k8s-template-chart > template.log
+	@mkdir -p build
+	@mv manifests.yaml build/manifests.yaml
+.PHONY: k8s-template-chart-with-build-artifacts
