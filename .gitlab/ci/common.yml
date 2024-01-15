@@ -88,7 +88,7 @@
     - kubectl apply -f resources/talon/sdp-surrogate.yaml -n $KUBE_NAMESPACE-sdp && kubectl wait --for=condition=ready pod/cloud03-sdn-dynamic-vis -n $KUBE_NAMESPACE-sdp #FIXME: Remove and replace with SDP
     - kubectl get pod -n $KUBE_NAMESPACE-sdp cloud03-sdn-dynamic-vis -o yaml
   after_script:
-    - make k8s-template-chart
+    - bash .make/resources/gitlab_section.sh template "Template Chart" make k8s-template-chart
     - make links
   artifacts:
     name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID-$CI_JOB_STAGE-$CI_JOB_NAME"
