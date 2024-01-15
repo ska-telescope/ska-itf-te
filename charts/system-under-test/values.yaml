@@ -56,9 +56,6 @@ tmc:
   enabled: true
   telescope: SKA-mid
   global:
-    # Dish:
-    #   isSimulated:
-    #     enabled: false
     subarray_count: 1
   deviceServers:
     mocks:
