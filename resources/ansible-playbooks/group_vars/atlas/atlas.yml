@@ -40,10 +40,6 @@ team_users:
     ssh_key_path: "{{ users_dir }}/vm/.ssh/id_rsa.pub"
   - name: d.horn
     ssh_key_path: "{{ users_dir }}/dhorn/.ssh/id_ed25519.pub"
-remove_users:
-  - g.leroux
-  - b.lunsky
-
 
 kube_admin_context: kubernetes-admin@kubernetes
 kube_context: atlas-integration-mid-kubernetes
