@@ -19,7 +19,7 @@ RUN sed -i'' -e's/^#PermitRootLogin prohibit-password$/PermitRootLogin yes/' /et
 
 RUN groupadd atlas
 RUN sh -x \
-    && users="a.debeer d.gammon j.coetzer monde.manzini n.nzotho p.jordaan t.tsotetsi vhulahani.manukha" \
+    && users="a.debeer d.gammon j.coetzer monde.manzini n.nzotho p.jordaan t.tsotetsi vhulahani.manukha d.horn" \
     && for u in ${users}; \
        do \
               useradd -m ${u}; \

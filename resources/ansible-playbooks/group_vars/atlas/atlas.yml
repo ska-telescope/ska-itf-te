@@ -38,6 +38,8 @@ team_users:
     ssh_key_path: "{{ users_dir }}/tt/.ssh/id_ed25519.pub"
   - name: vhulahani.manukha
     ssh_key_path: "{{ users_dir }}/vm/.ssh/id_rsa.pub"
+  - name: d.horn
+    ssh_key_path: "{{ users_dir }}/dhorn/.ssh/id_ed25519.pub"
 remove_users:
   - g.leroux
   - b.lunsky
