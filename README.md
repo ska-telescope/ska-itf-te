@@ -240,3 +240,140 @@ In [2]: dev.Status()
 Out[2]: 'The device is ON\nThe polling is ON'
 ```
 
+## K8S stuff
+
+Set up BITE data stream:
+
+```
+$ kubectl -n integration exec ec-bite -- python3 midcbf_bite.py --talon-bite-lstv-replay --boards=1
+[midcbf_bite.py: line 52]INFO: User: root
+[midcbf_bite.py: line 168]INFO: test ID: Test_1, boards_list: ['1']
+[midcbf_bite.py: line 265]INFO: BITE receptors: [{'dish_id': 'SKA001', 'k': 119, 'talon': '1', 'bite_config_id': 'basic gaussian noise', 'bite_initial_timestamp_time_offset': 60.0}]
+[midcbf_bite.py: line 295]INFO: Talon BITE LSTV Replay
+[midcbf_bite.py: line 120]INFO: Creating dps for device server: dsgaussiannoisegen
+[midcbf_bite.py: line 658]INFO: Creating device server for talondx-001/gaussiannoisegen/gn_gen_src_polX_0
+[midcbf_bite.py: line 638]INFO: Created device proxy for talondx-001/gaussiannoisegen/gn_gen_src_polX_0
+[midcbf_bite.py: line 658]INFO: Creating device server for talondx-001/gaussiannoisegen/gn_gen_src_polY_0
+[midcbf_bite.py: line 638]INFO: Created device proxy for talondx-001/gaussiannoisegen/gn_gen_src_polY_0
+[midcbf_bite.py: line 120]INFO: Creating dps for device server: dslstvbandpassfilter
+[midcbf_bite.py: line 658]INFO: Creating device server for talondx-001/lstvbandpassfilter/fir_filt_src_polX_0
+[midcbf_bite.py: line 638]INFO: Created device proxy for talondx-001/lstvbandpassfilter/fir_filt_src_polX_0
+[midcbf_bite.py: line 658]INFO: Creating device server for talondx-001/lstvbandpassfilter/fir_filt_src_polY_0
+[midcbf_bite.py: line 638]INFO: Created device proxy for talondx-001/lstvbandpassfilter/fir_filt_src_polY_0
+[midcbf_bite.py: line 120]INFO: Creating dps for device server: dslstvgen
+[midcbf_bite.py: line 658]INFO: Creating device server for talondx-001/lstvgen/lstv_gen
+[midcbf_bite.py: line 638]INFO: Created device proxy for talondx-001/lstvgen/lstv_gen
+[midcbf_bite.py: line 120]INFO: Creating dps for device server: dslstvplayback
+[midcbf_bite.py: line 658]INFO: Creating device server for talondx-001/lstvplayback/lstv_pbk
+[midcbf_bite.py: line 638]INFO: Created device proxy for talondx-001/lstvplayback/lstv_pbk
+[midcbf_bite.py: line 120]INFO: Creating dps for device server: ska-mid-spfrx-packetizer-ds
+[midcbf_bite.py: line 658]INFO: Creating device server for talondx-001/ska-mid-spfrx-packetizer/spfrx_pkt
+[midcbf_bite.py: line 638]INFO: Created device proxy for talondx-001/ska-mid-spfrx-packetizer/spfrx_pkt
+[midcbf_bite.py: line 120]INFO: Creating dps for device server: dslstvtonegenerator
+[midcbf_bite.py: line 658]INFO: Creating device server for talondx-001/lstvtonegenerator/tone_gen_polX
+[midcbf_bite.py: line 638]INFO: Created device proxy for talondx-001/lstvtonegenerator/tone_gen_polX
+[midcbf_bite.py: line 658]INFO: Creating device server for talondx-001/lstvtonegenerator/tone_gen_polY
+[midcbf_bite.py: line 638]INFO: Created device proxy for talondx-001/lstvtonegenerator/tone_gen_polY
+[midcbf_bite.py: line 120]INFO: Creating dps for device server: dspolarizationcoupler
+[midcbf_bite.py: line 658]INFO: Creating device server for talondx-001/polarizationcoupler/pol_coupler_0
+[midcbf_bite.py: line 638]INFO: Created device proxy for talondx-001/polarizationcoupler/pol_coupler_0
+[midcbf_bite.py: line 120]INFO: Creating dps for device server: dsvcc
+[midcbf_bite.py: line 658]INFO: Creating device server for talondx-001/vcc/vcc
+[midcbf_bite.py: line 638]INFO: Created device proxy for talondx-001/vcc/vcc
+[midcbf_bite.py: line 120]INFO: Creating dps for device server: dscircuitswitch
+[midcbf_bite.py: line 658]INFO: Creating device server for talondx-001/circuitswitch/circuit_switch
+[midcbf_bite.py: line 638]INFO: Created device proxy for talondx-001/circuitswitch/circuit_switch
+[midcbf_bite.py: line 120]INFO: Creating dps for device server: ska-talondx-100-gigabit-ethernet-ds
+[midcbf_bite.py: line 658]INFO: Creating device server for talondx-001/ska-talondx-100-gigabit-ethernet/100g_eth_0
+[midcbf_bite.py: line 638]INFO: Created device proxy for talondx-001/ska-talondx-100-gigabit-ethernet/100g_eth_0
+[midcbf_bite.py: line 658]INFO: Creating device server for talondx-001/ska-talondx-100-gigabit-ethernet/100g_eth_1
+[midcbf_bite.py: line 638]INFO: Created device proxy for talondx-001/ska-talondx-100-gigabit-ethernet/100g_eth_1
+[midcbf_bite.py: line 120]INFO: Creating dps for device server: ska-talondx-status-ds
+[midcbf_bite.py: line 658]INFO: Creating device server for talondx-001/ska-talondx-status/status
+[midcbf_bite.py: line 638]INFO: Created device proxy for talondx-001/ska-talondx-status/status
+[midcbf_bite.py: line 120]INFO: Creating dps for device server: dswbstatecount
+[midcbf_bite.py: line 658]INFO: Creating device server for talondx-001/wbstatecount/state_count
+[midcbf_bite.py: line 638]INFO: Created device proxy for talondx-001/wbstatecount/state_count
+[midcbf_bite.py: line 122]INFO: Device proxies have been initialized.
+[midcbf_bite.py: line 490]INFO: Entering ...
+[midcbf_bite.py: line 551]ERROR: DevFailed[
+DevError[
+    desc = TRANSIENT CORBA system exception: TRANSIENT_CallTimedout
+  origin = void Tango::Connection::connect(const string&) at (/src/cppTango/cppapi/client/devapi_base.cpp:604)
+  reason = API_CorbaException
+severity = ERR]
+
+DevError[
+    desc = Failed to connect to device talondx-001/lstvgen/lstv_gen
+  origin = void Tango::Connection::connect(const string&) at (/src/cppTango/cppapi/client/devapi_base.cpp:604)
+  reason = API_CantConnectToDevice
+severity = ERR]
+
+DevError[
+    desc = Failed to read_attribute on device talondx-001/lstvgen/lstv_gen, attribute ddr4_start_addr
+  origin = virtual Tango::DeviceAttribute Tango::DeviceProxy::read_attribute(const string&) at (/src/cppTango/cppapi/client/devapi_base.cpp:5589)
+  reason = API_AttributeFailed
+severity = ERR]
+]
+```
+
+Tango console 
+
+```
+In [1]: dev = Device("talondx-001/lstvgen/lstv_gen")
+
+In [2]: dev.Status()
+AttributeError: Status
+(For more detailed information type: python_error)
+
+In [3]: dev.State()
+AttributeError: State
+(For more detailed information type: python_error)
+
+In [4]: python_error
+---------------------------------------------------------------------------
+ConnectionFailed                          Traceback (most recent call last)
+File /usr/local/lib/python3.10/dist-packages/tango/device_proxy.py:424, in __DeviceProxy__getattr(self, name)
+    423 try:
+--> 424     self.__refresh_cmd_cache()
+    425 except Exception as e:
+
+File /usr/local/lib/python3.10/dist-packages/tango/device_proxy.py:248, in __DeviceProxy__refresh_cmd_cache(self)
+    247 def __DeviceProxy__refresh_cmd_cache(self):
+--> 248     cmd_list = self.command_list_query()
+    249     cmd_cache = {}
+
+ConnectionFailed: DevFailed[
+DevError[
+    desc = TRANSIENT CORBA system exception: TRANSIENT_CallTimedout
+  origin = void Tango::Connection::connect(const string&) at (/src/cppTango/cppapi/client/devapi_base.cpp:604)
+  reason = API_CorbaException
+severity = ERR]
+
+DevError[
+    desc = Failed to connect to device talondx-001/lstvgen/lstv_gen
+  origin = void Tango::Connection::connect(const string&) at (/src/cppTango/cppapi/client/devapi_base.cpp:604)
+  reason = API_CantConnectToDevice
+severity = ERR]
+]
+
+The above exception was the direct cause of the following exception:
+
+AttributeError                            Traceback (most recent call last)
+Cell In [3], line 1
+----> 1 dev.State()
+
+File /usr/local/lib/python3.10/dist-packages/tango/device_proxy.py:452, in __DeviceProxy__getattr(self, name)
+    449     if name_l in self.__get_pipe_cache():
+    450         return self.read_pipe(name)
+--> 452     raise AttributeError(name) from cause
+    453 finally:
+    454     del cause
+
+AttributeError: State
+
+In [5]: dev.simulationMode
+AttributeError: simulationMode
+(For more detailed information type: python_error)
+
+```
