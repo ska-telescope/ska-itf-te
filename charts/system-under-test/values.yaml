@@ -109,6 +109,7 @@ ska-tango-archiver:
   hostname: eda.ska-tango-archiver
   dbname: itf_eda
   dbuser: admin
+  password: DBeaver
   port: 5432
   telescope: SKA-mid
   telescope_environment: MID-ITF

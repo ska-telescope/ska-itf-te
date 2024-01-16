@@ -14,7 +14,7 @@
     # VALUES: charts/system-under-test/values.yaml
     INGRESS_HOST: "k8s.miditf.internal.skao.int"
     CLUSTER_DOMAIN: "miditf.internal.skao.int"
-    K8S_EXTRA_PARAMS: "--set global.ska-tango-archiver.enabled=true  --set ska-tango-archiver.enabled=true --set ska-tango-archiver.dbpassword=${EDA_DB_PASSWORD}"
+    K8S_EXTRA_PARAMS: "--set global.ska-tango-archiver.enabled=true  --set ska-tango-archiver.enabled=true --set ska-tango-archiver.dbpassword=DBeaver"
     TANGO_DATABASE_DS: tango-databaseds
     KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
 
