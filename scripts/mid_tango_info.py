@@ -1,10 +1,10 @@
 #!/usr/bin/python
-import os
-import sys
-import datetime, json
-import tango
 import getopt
 import logging
+import os
+import sys
+
+import tango
 
 logging.basicConfig(level=logging.WARNING)
 _module_logger = logging.getLogger(__name__)
@@ -29,11 +29,13 @@ def connect_device(device: str):
 
 def show_device(device: str, fforce: bool) -> int:
     """
-    Display Tango device in markdown format
+    Display Tango device in text format
 
     :param device: device name
+    :param fforce: get commands and attributes regadrless of state
     """
     dev, dev_state = connect_device(device)
+    # pylint: disable-next=c-extension-no-member
     if dev_state != tango._tango.DevState.ON:
         print(f"  {device}", end="")
         if not fforce:
@@ -62,7 +64,7 @@ def show_device(device: str, fforce: bool) -> int:
     return 0
 
 
-def show_device_markdown(device: str) -> int:
+def show_device_markdown(device: str) -> int:  # noqa: C901
     """
     Display Tango device in markdown format
 
@@ -88,12 +90,12 @@ def show_device_markdown(device: str) -> int:
     try:
         cmds = sorted(dev.get_command_list())
         # Display version information
-        if 'GetVersionInfo' in cmds:
+        if "GetVersionInfo" in cmds:
             verinfo = dev.GetVersionInfo()
             print(f"### Version\n```\n{verinfo[0]}\n```")
         # Display commands
-        print(f"### Commands")
-        print("```\n%s\n```" % '\n'.join(cmds))
+        print("### Commands")
+        print("```\n%s\n```" % "\n".join(cmds))
         # Read command configuration
         cmd_cfgs = dev.get_command_config()
         for cmd_cfg in cmd_cfgs:
@@ -103,16 +105,17 @@ def show_device_markdown(device: str) -> int:
         cmds = []
         print("### Commands\n```\nNONE\n```")
     # Read status
-    if 'Status' in cmds:
+    if "Status" in cmds:
         print(f"#### Status\n{dev.Status()}")
     else:
         print("#### Status\nNo Status command")
     # Read attributes
     print("### Attributes")
+    # pylint: disable-next=c-extension-no-member
     if dev_state == tango._tango.DevState.ON:
         rval = 1
         attribs = sorted(dev.get_attribute_list())
-        print("```\n%s\n```" % '\n'.join(attribs))
+        print("```\n%s\n```" % "\n".join(attribs))
         for attrib in attribs:
             print(f"#### Attribute *{attrib}*")
             try:
@@ -130,10 +133,12 @@ def show_device_markdown(device: str) -> int:
     return rval
 
 
-def show_devices(evrythng: bool, fforce: bool, itype: str):
+def show_devices(evrythng: bool, fforce: bool, itype: str | None) -> None:
     """
+    Display information about Tango devices
 
     :param evrythng: flag for markdown output
+    :param fforce: get commands and attributes regadrless of state
     :param itype: filter device name
     """
 
@@ -142,7 +147,11 @@ def show_devices(evrythng: bool, fforce: bool, itype: str):
     _module_logger.info("Tango host %s" % tango_host)
 
     # Connect to database
-    database = tango.Database()
+    try:
+        database = tango.Database()
+    except Exception as e:
+        _module_logger.error("Could not connect to Tango database %s", tango_host)
+        return
     # Read devices
     device_list = database.get_device_exported("*")
     _module_logger.info(f"{len(device_list)} devices available")
@@ -152,7 +161,6 @@ def show_devices(evrythng: bool, fforce: bool, itype: str):
         print("# Tango devices")
         print("## Tango host\n%s```" % tango_host)
         print(f"## Number of devices\n{len(device_list)}")
-    dev = None
     dev_count = 0
     on_dev_count = 0
     for device in sorted(device_list.value_string):
@@ -192,10 +200,13 @@ def usage(p_name: str) -> None:
     print("Display device names only")
     print(f"\t{p_name}")
     print("Display all devices")
-    print(f"\t{p_name} -e")
+    print(f"\t{p_name} -e [-f]")
     print("Filter on device name")
-    print(f"\t{p_name} --device=tmc")
-    print(f"\t{p_name} -e --device=csp")
+    print(f"\t{p_name} [-f] --device=tmc")
+    print(f"\t{p_name} -e [-f] --device=csp")
+    print("where:")
+    print("\t-e\tread everything and display in markdown format")
+    print("\t-f\tget commands and attributes regadrless of state")
 
 
 def main(y_arg: list) -> int:
@@ -211,10 +222,7 @@ def main(y_arg: list) -> int:
         opts, _args = getopt.getopt(
             y_arg[1:],
             "efhvVI:",
-            [
-                "help",
-                "device="
-            ],
+            ["help", "device="],
         )
     except getopt.GetoptError as opt_err:
         print(f"Could not read command line: {opt_err}")
@@ -238,6 +246,8 @@ def main(y_arg: list) -> int:
             _module_logger.error("Invalid option %s", opt)
 
     show_devices(evrythng, fforce, itype)
+    return 0
+
 
 if __name__ == "__main__":
     try:
