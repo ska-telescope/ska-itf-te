@@ -11,7 +11,6 @@
     TANGO_DATABASE_DS: tango-databaseds
     MINIKUBE: "false"
     CLUSTER_DOMAIN_POSTFIX: miditf.internal.skao.int
-    DISH_IDS: "SKA001 SKA036 SKA063 SKA100"
   environment:
     name: sut/oda/$KUBE_NAMESPACE
     kubernetes:
