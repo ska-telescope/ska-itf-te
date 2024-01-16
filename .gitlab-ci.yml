@@ -14,10 +14,10 @@ variables:
 stages:
   - verify-test-equipment
   - on_demand_itf_sut
+  - build
   - deploy-dish-aiv
   - remove-dish-aiv
   - lint
-  - build
   - test
   - platform
   - test-equipment-setup
