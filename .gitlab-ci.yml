@@ -17,8 +17,8 @@ stages:
   - build
   - deploy-dish-aiv
   - remove-dish-aiv
-  - lint
   - test
+  - lint
   - platform
   - test-equipment-setup
   - integration
