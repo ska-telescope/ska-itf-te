@@ -216,4 +216,5 @@ k8s-template-chart-with-build-artifacts:
 	@make k8s-template-chart > template.log
 	@mkdir -p build
 	@mv manifests.yaml build/manifests.yaml
+        @echo "Find the chart template used to deploy all the things in the job artefacts - look for manifests.yaml."
 .PHONY: k8s-template-chart-with-build-artifacts
