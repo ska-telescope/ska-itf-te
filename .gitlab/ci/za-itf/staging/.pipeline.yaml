@@ -1,6 +1,8 @@
 
 .staging-env:
   stage: staging
+  tags:
+    - ska-k8srunner-za-itf
   extends:
     - .staging_rules
   variables:
@@ -11,7 +13,7 @@
     SERVICE_ACCOUNT: "ci-svc-staging"
     ARCHIVER_DBNAME: "staging_archiver_db"
     KEEP_NAMESPACE: "true"
-    K8S_CHART: "ska-$CONFIG"
+    K8S_CHART: "system-under-test"
     K8S_AUTH_NAMESPACES: "$KUBE_NAMESPACE $KUBE_NAMESPACE_SDP"
     K8S_AUTH_SERVICE_ACCOUNT: "ci-svc-ska-miditf-$CI_PIPELINE_ID"
     CLUSTER_DOMAIN_POSTFIX: miditf.internal.skao.int

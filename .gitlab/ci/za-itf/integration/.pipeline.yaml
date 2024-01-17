@@ -1,6 +1,8 @@
 
 .integration-env:
   stage: integration
+  tags:
+    - ska-k8srunner-za-itf
   extends:
     - .integration_rules
   variables:
@@ -11,7 +13,7 @@
     SERVICE_ACCOUNT: "ci-svc-integration"
     ARCHIVER_DBNAME: "integration_archiver_db"
     KEEP_NAMESPACE: "true"
-    K8S_CHART: "ska-$CONFIG"
+    K8S_CHART: "system-under-test"
     K8S_AUTH_NAMESPACES: "$KUBE_NAMESPACE $KUBE_NAMESPACE_SDP"
     K8S_AUTH_SERVICE_ACCOUNT: "ci-svc-ska-miditf-$CI_PIPELINE_ID"
     CLUSTER_DOMAIN_POSTFIX: miditf.internal.skao.int
@@ -21,7 +23,7 @@
     CLUSTER_DOMAIN: "miditf.internal.skao.int"
     K8S_EXTRA_PARAMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
     TANGO_DATABASE_DS: tango-databaseds
-    HW_IN_THE_LOOP: "false"
+    HW_IN_THE_LOOP: "true"
     PDU_IP: "10.20.2.14"
 
 deploy-sut-integration:
