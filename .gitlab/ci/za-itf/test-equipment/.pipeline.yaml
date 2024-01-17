@@ -119,7 +119,8 @@ deploy-skysimctl-install:
     - make k8s-install-chart
     - make itf-te-links
     - make k8s-wait || true
-    - bash .make/resources/gitlab_section.sh template "Show used Helm Chart Template" make k8s-template-chart
+  after_script:
+    - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart-with-build-artifacts
   environment:
     name: ska-mid-itf/te-verification
     kubernetes:

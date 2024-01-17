@@ -47,7 +47,7 @@
     - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart
     - make itf-dish-links
   after_script:
-    - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart
+    - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart-with-build-artifacts
   extends:
     - .dish-lmc
 

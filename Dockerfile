@@ -1,4 +1,4 @@
-FROM artefact.skao.int/ska-cicd-k8s-tools-build-deploy:0.9.0
+FROM artefact.skao.int/ska-cicd-k8s-tools-build-deploy:0.9.2
 
 ARG POETRY_VERSION=1.3.2
 ARG DEBIAN_FRONTEND=noninteractive

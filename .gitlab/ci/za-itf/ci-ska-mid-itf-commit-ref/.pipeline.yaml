@@ -136,7 +136,7 @@ publish-k8s-test-results:
     - k8s-test-runner
     - xray-publish
   tags:
-    - k8srunner
+    - ska-k8srunner-za-itf
   artifacts:
     name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID"
     paths:
