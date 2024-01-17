@@ -154,3 +154,31 @@ publish-k8s-test-results:
     - echo "Test result code from k8s-test-runner job was $(cat build/status)"
     - poetry install
     - make upload-to-confluence
+
+
+# ############################################
+# # Dish Strcuture Simulator related CICD jobs
+# ############################################
+deploy-aa05-ds-sim:
+  extends:
+    - .ci-env
+    - .on-demand-stage
+  script:
+    - echo "Deploying multiple dish structure simulators in downstream dish-aiv stage - first deploy ska001 manually"
+    - echo "Deploying 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
+  environment:
+    name: mid-itf/integration/dish-structure-simulator-aa05
+    on_stop: remove-aa05-ds-sim
+  when: manual
+
+remove-aa05-ds-sim:
+  extends:
+    - .ci-env
+    - .on-demand-stage
+  script:
+    - echo "Uninstalling all dish structure simulators in downstream dish-aiv stage"
+    - echo "Uninstalling 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
+  environment:
+    name: mid-itf/integration/dish-structure-simulator-aa05
+    action: stop
+  when: manual
