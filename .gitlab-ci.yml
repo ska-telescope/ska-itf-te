@@ -9,7 +9,7 @@ variables:
   DEPLOYMENT_CONFIGURATION: "ska-$CONFIG"
   POETRY_CONFIG_VIRTUALENVS_CREATE: "true"
   DEPLOY_IMAGE: $CI_REGISTRY/ska-telescope/ska-mid-itf/ska-mid-itf-deploy
-  DEPLOY_IMAGE_TAG: "0.1.0"
+  DEPLOY_IMAGE_TAG: "0.1.1"
   TEST_IMAGE: $DEPLOY_IMAGE:$DEPLOY_IMAGE_TAG
 
   # PYTEST_SUBSYS_MARK: (csp_startup or sdp or eda)

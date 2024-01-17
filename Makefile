@@ -1,6 +1,6 @@
 
 BASE_IMAGE := $(CI_REGISTRY)/ska-telescope/ska-mid-itf/ska-mid-itf-base
-BASE_IMAGE_VERSION := 0.1.4
+BASE_IMAGE_VERSION := 0.1.5
 BASE_IMAGE_TAG := $(BASE_IMAGE_VERSION)
 
 OCI_BUILD_ADDITIONAL_ARGS += --build-arg BASE_IMAGE=$(BASE_IMAGE) \
@@ -206,15 +206,15 @@ upload-to-confluence:
 	@poetry run upload-to-confluence sut_config.yaml build/reports/cucumber.json
 	@echo "##### Results uploaded to https://confluence.skatelescope.org/x/arzVDQ #####"
 
-template-chart: k8s-dep-update
-	mkdir -p build
-	helm template $(HELM_RELEASE) \
-	$(K8S_CHART_PARAMS) \
-	--debug \
-	 $(K8S_UMBRELLA_CHART_PATH) --namespace $(KUBE_NAMESPACE) > build/manifests.yaml
-
 build-base-image:
 	@echo "Running on branch: '$(CI_COMMIT_BRANCH)'; image: '$(BASE_IMAGE)' tag: '$(BASE_IMAGE_TAG)'"
 	@docker build --pull -t "$(BASE_IMAGE):$(BASE_IMAGE_TAG)" -f images/ska-mid-itf-base/Dockerfile .
 	@docker push "$(BASE_IMAGE):$(BASE_IMAGE_TAG)"
 .PHONY: build-base-image
+
+k8s-template-chart-with-build-artifacts:
+	@make k8s-template-chart > template.log
+	@mkdir -p build
+	@mv manifests.yaml build/manifests.yaml
+	@echo "Find the chart template used to deploy all the things in the job artefacts - look for manifests.yaml."
+.PHONY: k8s-template-chart-with-build-artifacts
