@@ -100,7 +100,18 @@ def show_device_markdown(device: str) -> int:  # noqa: C901
         cmd_cfgs = dev.get_command_config()
         for cmd_cfg in cmd_cfgs:
             print(f"#### Command *{cmd_cfg.cmd_name}*")
-            print(f"```\n{cmd_cfg}\n```")
+            # print(f"```\n{cmd_cfg}\n```")
+            print("|Name |Value |")
+            print("|:----|:-----|")
+            if cmd_cfg.cmd_tag != 0:
+                print(f"|cmd_tag|{cmd_cfg.cmd_tag}|")
+            print(f"|disp_level|{cmd_cfg.disp_level}|")
+            print(f"|in_type|{cmd_cfg.in_type}|")
+            if cmd_cfg.in_type_desc != "Uninitialised":
+                print(f"|in_type|{cmd_cfg.in_type_desc}")
+            print(f"|out_type|{cmd_cfg.out_type}|")
+            if cmd_cfg.out_type_desc != "Uninitialised":
+                print(f"|in_type|{cmd_cfg.out_type_desc}")
     except Exception:
         cmds = []
         print("### Commands\n```\nNONE\n```")
@@ -159,7 +170,7 @@ def show_devices(evrythng: bool, fforce: bool, itype: str | None) -> None:
     _module_logger.info("Read %d devices" % (len(device_list)))
     if evrythng:
         print("# Tango devices")
-        print("## Tango host\n%s```" % tango_host)
+        print("## Tango host\n```\n%s\n```" % tango_host)
         print(f"## Number of devices\n{len(device_list)}")
     dev_count = 0
     on_dev_count = 0
