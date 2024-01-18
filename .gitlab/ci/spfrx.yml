@@ -1,0 +1,28 @@
+spfrx-start:
+  stage: deploy-spfrx
+  extends:
+    - .mid
+  variables:
+    KUBE_NAMESPACE: "ci-ska-mid-psi-$CI_PIPELINE_ID-$GITLAB_USER_LOGIN"
+    KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+  tags:
+    - k8srunner-psi-mid
+  script:
+    echo "See logs of spfrx pod"
+    # - cat spfrx_pod.yaml | sed -e "s/TANGO_HOST_VALUE/$TANGO_HOST/" -e "s/SPFRX_CONSOLE_VER/$SPFRX_CONSOLE_VER/"  > spfrx_pod_temp.yaml
+    # - kubectl apply -f spfrx_pods.yaml -n $KUBE_NAMESPACE
+    # - kubectl wait --timeout=120s --for=condition=Ready -n $KUBE_NAMESPACE pod/spfrx-deployer
+    # - kubectl exec -n $KUBE_NAMESPACE spfrx-deployer -- /bin/bash scripts/spfrx-remote-stop.sh "$SPFRX_ADDRESS" "$SPFRX_BIN"
+    # - kubectl exec -n $KUBE_NAMESPACE spfrx-deployer -- python3 spfrx_deployer.py --generate-spfrx-config --dish_id=$DISH_ID
+    # - kubectl exec -n $KUBE_NAMESPACE spfrx-deployer -- python3 spfrx_deployer.py --download-artifacts --dish_id=$DISH_ID
+    # - kubectl exec -n $KUBE_NAMESPACE spfrx-deployer -- python3 spfrx_deployer.py --config-db --dish_id=$DISH_ID
+    # - kubectl exec -n $KUBE_NAMESPACE spfrx-deployer -- /bin/bash scripts/spfrx-deploy-artifacts.sh $SPFRX_ADDRESS $SPFRX_LOCAL_DIR $SPFRX_BIN $SPFRX_SCRIPTS_DIR
+    # - kubectl exec -n $KUBE_NAMESPACE spfrx-deployer -- /bin/bash scripts/program-bitstream-remote.sh $SPFRX_LOCAL_DIR $SPFRX_ADDRESS
+    # - TANGO_HOSTNAME=$(echo $TANGO_HOST | cut -d':' -f1)
+    # - TANGO_PORT=$(echo $TANGO_HOST | cut -d':' -f2)
+    # - kubectl exec -n $KUBE_NAMESPACE spfrx-deployer -- /bin/bash scripts/spfrx-remote-start.sh "$TANGO_HOSTNAME.$KUBE_NAMESPACE.svc.$CLUSTER_DOMAIN:$TANGO_PORT" "$SPFRX_ADDRESS" "$SPFRX_BIN" "$TANGO_INSTANCE" "$SPFRX_LOGGING_LEVEL" &
+    # - sleep 30
+  rules:
+    - when: manual
+  needs:
+    - job: psi-mid-on-demand-deploy
