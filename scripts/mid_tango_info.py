@@ -81,7 +81,7 @@ def show_device(device: str, fforce: bool) -> int:
 
 def show_device_markdown(device: str) -> int:  # noqa: C901
     """
-    Display Tango device in markdown format
+    Display Tango device in mark-down format
 
     :param device: device name
     """
@@ -249,7 +249,7 @@ def main(y_arg: list) -> int:
     try:
         opts, _args = getopt.getopt(
             y_arg[1:],
-            "efhvVI:",
+            "efhsvVI:",
             ["help", "device="],
         )
     except getopt.GetoptError as opt_err:
