@@ -13,7 +13,7 @@ _module_logger.setLevel(logging.WARNING)
 
 def connect_device(device: str):
     """
-    Display Tango device in markdown format
+    Display Tango device in mark-down format
 
     :param device: device name
     """
@@ -25,6 +25,21 @@ def connect_device(device: str):
     except Exception:
         dev_state = None
     return dev, dev_state
+
+
+def show_device_state(device: str) -> int:
+    """
+    Display Tango device name only
+
+    :param device: device name
+    """
+    dev, dev_state = connect_device(device)
+    # pylint: disable-next=c-extension-no-member
+    if dev_state != tango._tango.DevState.ON:
+        print(f"  {device}", end="")
+        return 0
+    print(f"* {device}", end="")
+    return 1
 
 
 def show_device(device: str, fforce: bool) -> int:
@@ -144,7 +159,7 @@ def show_device_markdown(device: str) -> int:  # noqa: C901
     return rval
 
 
-def show_devices(evrythng: bool, fforce: bool, itype: str | None) -> None:
+def show_devices(evrythng: int, fforce: bool, itype: str | None) -> None:
     """
     Display information about Tango devices
 
@@ -168,7 +183,7 @@ def show_devices(evrythng: bool, fforce: bool, itype: str | None) -> None:
     _module_logger.info(f"{len(device_list)} devices available")
 
     _module_logger.info("Read %d devices" % (len(device_list)))
-    if evrythng:
+    if evrythng == 2:
         print("# Tango devices")
         print("## Tango host\n```\n%s\n```" % tango_host)
         print(f"## Number of devices\n{len(device_list)}")
@@ -186,12 +201,14 @@ def show_devices(evrythng: bool, fforce: bool, itype: str | None) -> None:
                 _module_logger.info(f"Ignore {device}")
                 continue
         dev_count += 1
-        if evrythng:
+        if evrythng == 2:
             on_dev_count += show_device_markdown(device)
-        else:
+        elif evrythng == 1:
             on_dev_count += show_device(device, fforce)
+        else:
+            on_dev_count += show_device_state(device)
 
-    if evrythng:
+    if evrythng == 2:
         if itype:
             print("## Summary")
             print(f"Found {dev_count} devices matching {itype}")
@@ -226,9 +243,9 @@ def main(y_arg: list) -> int:
 
     :param y_arg: input arguments
     """
-    itype = None
-    evrythng = False
-    fforce = False
+    itype: bool = None
+    evrythng: int = 1
+    fforce: bool = False
     try:
         opts, _args = getopt.getopt(
             y_arg[1:],
@@ -246,9 +263,11 @@ def main(y_arg: list) -> int:
         elif opt in ("-I", "--device"):
             itype = arg.upper()
         elif opt == "-e":
-            evrythng = True
+            evrythng = 2
         elif opt == "-f":
             fforce = True
+        elif opt == "-s":
+            evrythng = 1
         elif opt == "-v":
             _module_logger.setLevel(logging.INFO)
         elif opt == "-V":
