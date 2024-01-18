@@ -1,38 +1,39 @@
 # ############################################
 # # System Under Test Deployment and Test jobs
 # ############################################
-.sut_base:
-  image: $TEST_IMAGE
+.ci-env:
   tags:
-    - ska-k8srunner-za-itf
-  extends:
-    - .mid
+  - ska-k8srunner-za-itf
   variables:
-    K8S_CHART: system-under-test
-    KUBE_APP: ska-mid-sut
-    # VALUES: "pipeline.yaml resources/itf/$CONFIG.yml" # DEFINE FOR EACH JOB
-    # VALUES: charts/system-under-test/values.yaml
-    INGRESS_HOST: "k8s.miditf.internal.skao.int"
+    CONFIG: mid
+    K8S_CHART: "system-under-test"
+    KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
+    KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
     CLUSTER_DOMAIN: "miditf.internal.skao.int"
+    CLUSTER_DOMAIN_POSTFIX: miditf.internal.skao.int
+    DISH_IDS: "SKA001 SKA036 SKA063 SKA100"
+    KUBE_APP: ska-mid-sut
+    INGRESS_HOST: "k8s.miditf.internal.skao.int"
     K8S_EXTRA_PARAMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
     TANGO_DATABASE_DS: tango-databaseds
-    KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
 
-.sut_on_demand:
+.on-demand-stage:
   stage: on_demand_itf_sut
-  extends:
-    - .sut_base
-    - .on_demand_rules
-  variables:
-    HELM_RELEASE: sut
-    KUBE_NAMESPACE: "ci-ska-mid-itf-$CI_COMMIT_REF_NAME"
-    KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
-    SERVICE_ACCOUNT: "ci-svc-ska-miditf-$CI_COMMIT_REF_NAME"
 
 deploy-sut-on-demand:
+  variables:
+    ARCHIVER_DBNAME: '${CONFIG}_archiver_db_${CI_COMMIT_REF_SLUG}'
+    HELM_RELEASE: sut
+    HW_IN_THE_LOOP: 'false'
+    K8S_AUTH_NAMESPACES: $KUBE_NAMESPACE $KUBE_NAMESPACE_SDP
+    K8S_AUTH_SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_PIPELINE_ID
+    PDU_IP: 10.20.2.14
+    SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_COMMIT_REF_NAME
   extends:
     - .deploy
-    - .sut_on_demand
+    - .ci-env
+    - .on_demand_rules
+    - .on-demand-stage
   environment:
     name: mid-itf/ska-$CONFIG-$CI_COMMIT_REF_SLUG
     kubernetes:
@@ -42,9 +43,19 @@ deploy-sut-on-demand:
     on_stop: destroy-sut-on-demand
 
 redeploy-sut-on-demand:
+  variables:
+    ARCHIVER_DBNAME: '${CONFIG}_archiver_db_${CI_COMMIT_REF_SLUG}'
+    HELM_RELEASE: sut
+    HW_IN_THE_LOOP: 'false'
+    K8S_AUTH_NAMESPACES: $KUBE_NAMESPACE $KUBE_NAMESPACE_SDP
+    K8S_AUTH_SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_PIPELINE_ID
+    PDU_IP: 10.20.2.14
+    SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_COMMIT_REF_NAME
   extends:
     - .redeploy
-    - .sut_on_demand
+    - .ci-env
+    - .on_demand_rules
+    - .on-demand-stage
   environment:
     name: mid-itf/ska-$CONFIG-$CI_COMMIT_REF_SLUG
     kubernetes:
@@ -54,128 +65,26 @@ redeploy-sut-on-demand:
     on_stop: destroy-sut-on-demand
 
 info-sut-on-demand:
+  variables:
+    HELM_RELEASE: sut
+    SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_COMMIT_REF_NAME
   extends:
     - .info
-    - .sut_on_demand
+    - .ci-env
+    - .on_demand_rules
+    - .on-demand-stage
 
 destroy-sut-on-demand:
+  variables:
+    HELM_RELEASE: sut
+    SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_COMMIT_REF_NAME
   extends:
     - .cleanup
-    - .sut_on_demand
+    - .ci-env
+    - .on_demand_rules
+    - .on-demand-stage
   environment:
     name: mid-itf/ska-$CONFIG-$CI_COMMIT_REF_SLUG
-    kubernetes:
-      # This repetition is needed for gitlab to parse the namespace correctly
-      namespace: $KUBE_NAMESPACE
-    url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
-    action: stop
-
-.sut_integration:
-  stage: integration
-  extends:
-    - .sut_base
-    - .integration_rules
-  variables:
-    HELM_RELEASE: "integration-$CI_COMMIT_REF_SLUG"
-    KUBE_NAMESPACE: "integration"
-    KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
-    SERVICE_ACCOUNT: "ci-svc-integration"
-    ARCHIVER_DBNAME: "integration_archiver_db"
-    KEEP_NAMESPACE: "true"
-
-deploy-sut-integration:
-  extends:
-    - .deploy
-    - .sut_integration
-  variables:
-    HW_IN_THE_LOOP: "true"
-  environment:
-    name: mid-itf/ska-$CONFIG-integration
-    kubernetes:
-      # This repetition is needed for gitlab to parse the namespace correctly
-      namespace: $KUBE_NAMESPACE
-    url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
-    on_stop: destroy-sut-integration
-
-redeploy-sut-integration:
-  extends:
-    - .redeploy
-    - .sut_integration
-  environment:
-    name: mid-itf/ska-$CONFIG-integration
-    kubernetes:
-      # This repetition is needed for gitlab to parse the namespace correctly
-      namespace: $KUBE_NAMESPACE
-    url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
-    on_stop: destroy-sut-integration
-
-info-sut-integration:
-  extends:
-    - .info
-    - .sut_integration
-
-destroy-sut-integration:
-  extends:
-    - .cleanup
-    - .sut_integration
-  environment:
-    name: mid-itf/ska-$CONFIG-integration
-    kubernetes:
-      # This repetition is needed for gitlab to parse the namespace correctly
-      namespace: $KUBE_NAMESPACE
-    url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
-    action: stop
-
-.sut_staging:
-  stage: staging
-  extends:
-    - .sut_base
-    - .staging_rules
-  variables:
-    HELM_RELEASE: "staging-$CI_COMMIT_REF_SLUG"
-    KUBE_NAMESPACE: "staging"
-    KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
-    SERVICE_ACCOUNT: "ci-svc-staging"
-    ARCHIVER_DBNAME: "staging_archiver_db"
-    KEEP_NAMESPACE: "true"
-
-deploy-sut-staging:
-  extends:
-    - .deploy
-    - .sut_staging
-  needs:
-    - deploy-sut-integration
-  environment:
-    name: mid-itf/ska-$CONFIG-staging
-    kubernetes:
-      # This repetition is needed for gitlab to parse the namespace correctly
-      namespace: $KUBE_NAMESPACE
-    url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
-    on_stop: destroy-sut-staging
-
-redeploy-sut-staging:
-  extends:
-    - .redeploy
-    - .sut_staging
-  environment:
-    name: mid-itf/ska-$CONFIG-staging
-    kubernetes:
-      # This repetition is needed for gitlab to parse the namespace correctly
-      namespace: $KUBE_NAMESPACE
-    url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
-    on_stop: destroy-sut-staging
-
-info-sut-staging:
-  extends:
-    - .info
-    - .sut_staging
-
-destroy-sut-staging:
-  extends:
-    - .cleanup
-    - .sut_staging
-  environment:
-    name: mid-itf/ska-$CONFIG-staging
     kubernetes:
       # This repetition is needed for gitlab to parse the namespace correctly
       namespace: $KUBE_NAMESPACE
@@ -185,14 +94,13 @@ destroy-sut-staging:
 k8s-test-runner:
   tags:
     - ska-k8srunner-za-itf
-  image: $TEST_IMAGE
   allow_failure: false
   artifacts:
     name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID"
     paths:
       - "build/"
   extends:
-    - .sut_base
+    - .ci-env
   before_script:
     - make vars
     - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
@@ -203,7 +111,6 @@ k8s-test-runner:
     - bash .make/resources/gitlab_section.sh install "K8S Install" make k8s-install-chart
     - bash .make/resources/gitlab_section.sh wait "K8S wait" make k8s-wait
     - make itf-cbf-setup --dry
-
   script:
     - make integration-test TANGO_HOST=$TANGO_DATABASE_DS.$KUBE_NAMESPACE.svc.$CLUSTER_DOMAIN:10000 || true
     - echo "Test command exit code - $(cat build/status)"
@@ -226,7 +133,6 @@ k8s-test-runner:
     SHOW_STEP_FUNCTIONS: "True"
     CAPTURE_LOGS: "True"
     EXIT_AT_FAIL: "True"
-    KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
 
 stop-k8s-test-runner:
   tags:
@@ -234,7 +140,7 @@ stop-k8s-test-runner:
   script:
     - make remove-sut-deployment
   extends:
-    - .sut_base
+    - .ci-env
   when: manual
   variables:
     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
@@ -251,7 +157,7 @@ publish-k8s-test-results:
     paths:
       - "build/"
   extends:
-    - .sut_base
+    - .ci-env
   rules:
     - if: $CI_PIPELINE_SOURCE == "pipeline"
       when: never
@@ -262,3 +168,31 @@ publish-k8s-test-results:
     - echo "Test result code from k8s-test-runner job was $(cat build/status)"
     - poetry install
     - make upload-to-confluence
+
+
+# ############################################
+# # Dish Strcuture Simulator related CICD jobs
+# ############################################
+deploy-aa05-ds-sim:
+  extends:
+    - .ci-env
+    - .on-demand-stage
+  script:
+    - echo "Deploying multiple dish structure simulators in downstream dish-aiv stage - first deploy ska001 manually"
+    - echo "Deploying 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
+  environment:
+    name: mid-itf/integration/dish-structure-simulator-aa05
+    on_stop: remove-aa05-ds-sim
+  when: manual
+
+remove-aa05-ds-sim:
+  extends:
+    - .ci-env
+    - .on-demand-stage
+  script:
+    - echo "Uninstalling all dish structure simulators in downstream dish-aiv stage"
+    - echo "Uninstalling 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
+  environment:
+    name: mid-itf/integration/dish-structure-simulator-aa05
+    action: stop
+  when: manual
