@@ -7,25 +7,25 @@ appVersion: 0.1.0
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
   # TANGO DEPENDENCIES
-  - name: ska-tango-base
-    version: 0.4.7
-    repository: https://artefact.skao.int/repository/helm-internal
-  - name: ska-tango-util
-    version: 0.4.9
-    repository: https://artefact.skao.int/repository/helm-internal
+  # - name: ska-tango-base
+  #   version: 0.4.7
+  #   repository: https://artefact.skao.int/repository/helm-internal
+  # - name: ska-tango-util
+  #   version: 0.4.9
+  #   repository: https://artefact.skao.int/repository/helm-internal
 
-  # TARANTA APPLICATION
-  - name: ska-tango-taranta
-    version: 2.5.0
-    repository: https://artefact.skao.int/repository/helm-internal
-    condition: ska-taranta.enabled
-  - name: ska-tango-tangogql
-    version: 1.3.10
-    repository: https://artefact.skao.int/repository/helm-internal
-    condition: ska-taranta.enabled
+  # # TARANTA APPLICATION
+  # - name: ska-tango-taranta
+  #   version: 2.5.0
+  #   repository: https://artefact.skao.int/repository/helm-internal
+  #   condition: ska-taranta.enabled
+  # - name: ska-tango-tangogql
+  #   version: 1.3.10
+  #   repository: https://artefact.skao.int/repository/helm-internal
+  #   condition: ska-taranta.enabled
 
-  # DISH LMC CHART
-  - name: ska-dish-lmc
-    version: 2.6.0
-    repository: https://artefact.skao.int/repository/helm-internal
-    alias: dishlmc
+  # # DISH LMC CHART
+  # - name: ska-dish-lmc
+  #   version: 2.6.0
+  #   repository: https://artefact.skao.int/repository/helm-internal
+  #   alias: dishlmc

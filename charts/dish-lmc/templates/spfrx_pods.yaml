@@ -1,0 +1,107 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: spfrx-claim # use values.yaml to designate instance
+spec:
+  containers:
+  - name: spfrx-claim # use values.yaml to designate instance
+    image: busybox:1.28
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: spfrx-deployer
+spec:
+  containers:
+  - name: spfrx-deployer
+    command: ["/bin/bash","-c"]
+    args: ["tail -f /dev/null"]
+    env:
+      - name: TANGO_HOST
+        value: {{ .Values.global.tango_host }}
+    image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:SPFRX_CONSOLE_VER
+    imagePullPolicy: IfNotPresent
+  initContainers:
+    - name: check-spfrx-claim-ready
+      # command: ['sh', '-c']
+      command: ["/bin/bash", "echo"] #delete after testing
+      args: ["generate-config"] #delete after testing
+    - name: check-databaseds-ready
+      command: ['sh', '-c']
+      args: ["retry", "--max=60", "--", "tango_admin", "--check-device", "sys/database/2"]
+      env:
+      - name: TANGO_HOST
+        value: {{ .Values.global.tango_host }}
+      image: artefact.skao.int/ska-tango-images-tango-dsconfig:1.5.1
+      imagePullPolicy: IfNotPresent
+    - name: remote-stop
+      # command: 
+      command: ["/bin/bash", "echo"] #delete after testing
+      args: ["remote-stop"] #delete after testing
+      # args: 
+      env:
+        - name:
+          value:
+      image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:SPFRX_CONSOLE_VER
+      imagePullPolicy: IfNotPresent
+    - name: generate-config
+      # command: 
+      command: ["/bin/bash", "echo"] #delete after testing
+      args: ["generate-config"] #delete after testing
+      # args: 
+      env:
+        - name:
+          value:
+      image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:SPFRX_CONSOLE_VER
+      imagePullPolicy: IfNotPresent
+    - name: download-artefacts
+      # command: 
+      command: ["/bin/bash", "echo"] #delete after testing
+      args: ["download-artefacts"] #delete after testing
+      # args: 
+      env:
+        - name:
+          value:
+      image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:SPFRX_CONSOLE_VER
+      imagePullPolicy: IfNotPresent
+    - name: config-db
+      # command: 
+      command: ["/bin/bash", "echo"] #delete after testing
+      args: ["config-db"] #delete after testing
+      # args: 
+      env:
+        - name:
+          value:
+      image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:SPFRX_CONSOLE_VER
+      imagePullPolicy: IfNotPresent
+    - name: deploy-artefacts
+      # command: 
+      command: ["/bin/bash", "echo"] #delete after testing
+      args: ["deploy-artefacts"] #delete after testing
+      # args: 
+      env:
+        - name:
+          value:
+      image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:SPFRX_CONSOLE_VER
+      imagePullPolicy: IfNotPresent
+    - name: program-bitstream
+      # command: 
+      command: ["/bin/bash", "echo"] #delete after testing
+      args: ["program-bitstream"] #delete after testing
+      # args: 
+      env:
+        - name:
+          value:
+      image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:SPFRX_CONSOLE_VER
+      imagePullPolicy: IfNotPresent
+    - name: remote-start
+      # command: 
+      command: ["/bin/bash", "echo"] #delete after testing
+      args: ["remote-start"] #delete after testing
+      # args: 
+      env:
+        - name:
+          value:
+      image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:SPFRX_CONSOLE_VER
+      imagePullPolicy: IfNotPresent
