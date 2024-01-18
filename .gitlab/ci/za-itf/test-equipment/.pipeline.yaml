@@ -5,13 +5,10 @@
   image: $SKA_K8S_TOOLS_BUILD_DEPLOY
   stage: test-equipment-setup
   variables:
-    MINIKUBE: "false"
     CLUSTER_DOMAIN: miditf.internal.skao.int
     INGRESS_HOST: k8s.miditf.internal.skao.int
     K8S_CHART: ska-mid-itf
-    KUBE_APP: ska-ser-test-equipment
     KUBE_NAMESPACE: test-equipment
-    K8S_EXTRA_PARAMS: --set ds-sim.maxuploadfilesize="128Mi"
     SERVICE_ACCOUNT: ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-test-eq
     NEXUS_CACHE: NEXUS_CACHE
   rules:
@@ -20,6 +17,10 @@
     - ska-k8srunner-za-itf
 
 deploy-test-equipment:
+  variables:
+    K8S_EXTRA_PARAMS: --set ds-sim.maxuploadfilesize="128Mi"
+    KUBE_APP: ska-ser-test-equipment
+    MINIKUBE: "false"
   extends: .test-equipment-env
   before_script:
     - bash .make/resources/gitlab_section.sh upgrade_poetry "Upgrade Poetry" pip install --upgrade poetry
@@ -70,7 +71,12 @@ remove-test-equipment:
   allow_failure: true # need to keep this to unlock the pipeline
 
 generate-skysimctl-config:
-  extends: .test-equipment-env
+  image: $SKA_K8S_TOOLS_BUILD_DEPLOY
+  stage: test-equipment-setup
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  tags:
+    - ska-k8srunner-za-itf
   script: make itf-te-pass-env
   artifacts:
     reports:
@@ -119,7 +125,8 @@ deploy-skysimctl-install:
     - make k8s-install-chart
     - make itf-te-links
     - make k8s-wait || true
-    - bash .make/resources/gitlab_section.sh template "Show used Helm Chart Template" make k8s-template-chart
+  after_script:
+    - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart-with-build-artifacts
   environment:
     name: ska-mid-itf/te-verification
     kubernetes:

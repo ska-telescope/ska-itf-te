@@ -111,7 +111,7 @@ In the present repository it is possible to deploy the charts in different names
 
 Please note that: 
 
-* ``commit-ref`` represents the ``CI_COMMIT_REF_NAME`` environment variables of Gitlab (i.e. ``9cda0073``, etc.),
+* ``commit-ref`` represents the ``CI_COMMIT_REF_NAME`` environment variables of Gitlab (the branch or tag name for which project is built),
 * ``skaXXX`` represents the dish identifier (i.e. ``ska001``, ``ska002``, etc.).
 
 For each namespace, the definition of the pipeline used for deploying the various applications is available in the folder ``.gitlab/ci/za-itf/namespace``.

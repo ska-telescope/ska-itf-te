@@ -7,12 +7,8 @@
   variables:
     CONFIG: mid
     K8S_CHART: "system-under-test"
-    HELM_RELEASE: sut
     KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
-    K8S_AUTH_NAMESPACES: "$KUBE_NAMESPACE $KUBE_NAMESPACE_SDP"
-    K8S_AUTH_SERVICE_ACCOUNT: "ci-svc-ska-miditf-$CI_PIPELINE_ID"
-    ARCHIVER_DBNAME: "${CONFIG}_archiver_db_${CI_COMMIT_REF_SLUG}"
     CLUSTER_DOMAIN: "miditf.internal.skao.int"
     CLUSTER_DOMAIN_POSTFIX: miditf.internal.skao.int
     DISH_IDS: "SKA001 SKA036 SKA063 SKA100"
@@ -20,14 +16,19 @@
     INGRESS_HOST: "k8s.miditf.internal.skao.int"
     K8S_EXTRA_PARAMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
     TANGO_DATABASE_DS: tango-databaseds
-    SERVICE_ACCOUNT: "ci-svc-ska-miditf-$CI_COMMIT_REF_NAME"
-    HW_IN_THE_LOOP: "false"
-    PDU_IP: "10.20.2.14"
 
 .on-demand-stage:
   stage: on_demand_itf_sut
 
 deploy-sut-on-demand:
+  variables:
+    ARCHIVER_DBNAME: '${CONFIG}_archiver_db_${CI_COMMIT_REF_SLUG}'
+    HELM_RELEASE: sut
+    HW_IN_THE_LOOP: 'false'
+    K8S_AUTH_NAMESPACES: $KUBE_NAMESPACE $KUBE_NAMESPACE_SDP
+    K8S_AUTH_SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_PIPELINE_ID
+    PDU_IP: 10.20.2.14
+    SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_COMMIT_REF_NAME
   extends:
     - .deploy
     - .ci-env
@@ -42,6 +43,14 @@ deploy-sut-on-demand:
     on_stop: destroy-sut-on-demand
 
 redeploy-sut-on-demand:
+  variables:
+    ARCHIVER_DBNAME: '${CONFIG}_archiver_db_${CI_COMMIT_REF_SLUG}'
+    HELM_RELEASE: sut
+    HW_IN_THE_LOOP: 'false'
+    K8S_AUTH_NAMESPACES: $KUBE_NAMESPACE $KUBE_NAMESPACE_SDP
+    K8S_AUTH_SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_PIPELINE_ID
+    PDU_IP: 10.20.2.14
+    SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_COMMIT_REF_NAME
   extends:
     - .redeploy
     - .ci-env
@@ -56,6 +65,9 @@ redeploy-sut-on-demand:
     on_stop: destroy-sut-on-demand
 
 info-sut-on-demand:
+  variables:
+    HELM_RELEASE: sut
+    SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_COMMIT_REF_NAME
   extends:
     - .info
     - .ci-env
@@ -63,6 +75,9 @@ info-sut-on-demand:
     - .on-demand-stage
 
 destroy-sut-on-demand:
+  variables:
+    HELM_RELEASE: sut
+    SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_COMMIT_REF_NAME
   extends:
     - .cleanup
     - .ci-env
@@ -136,7 +151,7 @@ publish-k8s-test-results:
     - k8s-test-runner
     - xray-publish
   tags:
-    - k8srunner
+    - ska-k8srunner-za-itf
   artifacts:
     name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID"
     paths:
@@ -159,9 +174,9 @@ publish-k8s-test-results:
 # # Dish Strcuture Simulator related CICD jobs
 # ############################################
 deploy-aa05-ds-sim:
-  stage: on_demand_itf_sut
   extends:
     - .ci-env
+    - .on-demand-stage
   script:
     - echo "Deploying multiple dish structure simulators in downstream dish-aiv stage - first deploy ska001 manually"
     - echo "Deploying 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
@@ -171,9 +186,9 @@ deploy-aa05-ds-sim:
   when: manual
 
 remove-aa05-ds-sim:
-  stage: on_demand_itf_sut
   extends:
     - .ci-env
+    - .on-demand-stage
   script:
     - echo "Uninstalling all dish structure simulators in downstream dish-aiv stage"
     - echo "Uninstalling 'SKA001', 'SKA036', 'SKA063', 'SKA100'"

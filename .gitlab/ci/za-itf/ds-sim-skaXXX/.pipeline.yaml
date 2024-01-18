@@ -39,6 +39,8 @@
     - mv manifests.yaml build/ds_sim_manifests.yaml || true
     - bash .make/resources/gitlab_section.sh ds-sim-env "Export DS Sim service configuration" make itf-ds-sim-env
     - make itf-ds-sim-links
+  after_script:
+    - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart-with-build-artifacts
   artifacts:
     reports:
       dotenv: build/itf-ds-sim.env

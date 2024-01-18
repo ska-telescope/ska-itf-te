@@ -12,15 +12,12 @@ variables:
   # PYTEST_SUBSYS_MARK: (csp_startup or sdp or eda)
   # K8S_INSTALL_FROM_CAR: "false"remove redundant cache
 stages:
-  - lint
-  - build
   - verify-test-equipment
   - on_demand_itf_sut
   - build
   - deploy-dish-aiv
   - remove-dish-aiv
   - test
-  # FIXME: TEMPORARY COMMIT ONLY - THIS JOB NEEDS TO GET PUT BACK TO RUNNING BEFORE TESTS!!!
   - lint
   - platform
   - test-equipment-setup
@@ -61,6 +58,7 @@ include:
   - local: .gitlab/ci/za-itf/staging/.pipeline.yaml
   - local: .gitlab/ci/za-itf/taranta/.pipeline.yaml
   - local: .gitlab/ci/za-itf/test-equipment/.pipeline.yaml
+  - local: .gitlab/ci/za-itf/ci-ska-db-oda-commit-ref/.pipeline.yaml
 
 xray-publish:
   when: always #### TODO: Remove this and uncomment line just above this one!
