@@ -10,6 +10,10 @@ logging.basicConfig(level=logging.WARNING)
 _module_logger = logging.getLogger(__name__)
 _module_logger.setLevel(logging.WARNING)
 
+KUBE_NAMESPACE = "ci-ska-mid-itf-at-1820-tmc-test-sdp-notebook-v2"
+CLUSTER_DOMAIN = "miditf.internal.skao.int"
+DATABASEDS_NAME = "tango-databaseds"
+
 
 def connect_device(device: str):
     """
@@ -36,9 +40,9 @@ def show_device_state(device: str) -> int:
     dev, dev_state = connect_device(device)
     # pylint: disable-next=c-extension-no-member
     if dev_state != tango._tango.DevState.ON:
-        print(f"  {device}", end="")
+        print(f"  {device}")
         return 0
-    print(f"* {device}", end="")
+    print(f"* {device}")
     return 1
 
 
@@ -150,7 +154,8 @@ def show_device_markdown(device: str) -> int:  # noqa: C901
                 print(f"```\n{attrib} could not be read\n```")
             try:
                 attrib_cfg = dev.get_attribute_config(attrib)
-                print(f"##### Configuration\n\n```\n{attrib_cfg}\n```")
+                print(f"##### Description\n```\n{attrib_cfg.description}\n```")
+                # print(f"##### Configuration\n```\n{attrib_cfg}\n```")
             except Exception:
                 print(f"```\n{attrib} configuration could not be read\n```")
     else:
@@ -228,12 +233,15 @@ def usage(p_name: str) -> None:
     print("Display device names only")
     print(f"\t{p_name}")
     print("Display all devices")
+    print(f"\t{p_name} [-f]")
     print(f"\t{p_name} -e [-f]")
     print("Filter on device name")
     print(f"\t{p_name} [-f] --device=tmc")
     print(f"\t{p_name} -e [-f] --device=csp")
+    print(f"\t{p_name} -q [-f] --device=csp")
     print("where:")
-    print("\t-e\tread everything and display in markdown format")
+    print("\t-e\tdisplay in markdown format")
+    print("\t-q\tdisplay status and name only")
     print("\t-f\tget commands and attributes regadrless of state")
 
 
@@ -243,13 +251,14 @@ def main(y_arg: list) -> int:
 
     :param y_arg: input arguments
     """
-    itype: bool = None
+    itype: bool = False
     evrythng: int = 1
     fforce: bool = False
+    show_host: bool = False
     try:
         opts, _args = getopt.getopt(
             y_arg[1:],
-            "efhsvVI:",
+            "aefhqvVI:",
             ["help", "device="],
         )
     except getopt.GetoptError as opt_err:
@@ -262,12 +271,14 @@ def main(y_arg: list) -> int:
             sys.exit(1)
         elif opt in ("-I", "--device"):
             itype = arg.upper()
+        elif opt == "-a":
+            show_host = True
         elif opt == "-e":
             evrythng = 2
         elif opt == "-f":
             fforce = True
-        elif opt == "-s":
-            evrythng = 1
+        elif opt == "-q":
+            evrythng = 0
         elif opt == "-v":
             _module_logger.setLevel(logging.INFO)
         elif opt == "-V":
@@ -275,7 +286,15 @@ def main(y_arg: list) -> int:
         else:
             _module_logger.error("Invalid option %s", opt)
 
+    tango_host = f"{DATABASEDS_NAME}.{KUBE_NAMESPACE}.svc.{CLUSTER_DOMAIN}:10000"
+    if show_host:
+        print(f"TANGO_HOST={tango_host}")
+        return 0
+
+    os.environ["TANGO_HOST"] = tango_host
+    _module_logger.info("Set TANGO_HOST to %s", tango_host)
     show_devices(evrythng, fforce, itype)
+
     return 0
 
 

@@ -10,7 +10,7 @@ _module_logger = logging.getLogger(__name__)
 _module_logger.setLevel(logging.WARNING)
 
 
-def show_k8s_namespaces(v1):
+def get_k8s_namespaces(v1):
     # config.load_kube_config()
     # v1 = client.CoreV1Api()
     namespaces = v1.list_namespace()
@@ -40,7 +40,7 @@ def get_k8s_pod(ipod, ns_name: str | None, pod_name: str | None):
     print(f"  {i_pod_name}")
 
 
-def show_k8s_pods(v1, ns_name: str | None, pod_name: str | None):
+def get_k8s_pods(v1, ns_name: str | None, pod_name: str | None):
     # Configs can be set in Configuration class directly or using helper utility
     # config.load_kube_config()
     #
@@ -58,7 +58,7 @@ def show_k8s_pods(v1, ns_name: str | None, pod_name: str | None):
         get_k8s_pod(ipod, ns_name, pod_name)
 
 
-def show_k8s_service(isvc, ns_name: str | None, svc_name: str | None):
+def get_k8s_service(isvc, ns_name: str | None, svc_name: str | None):
     isvc_name = isvc.metadata.name
     if svc_name is not None:
         if svc_name != isvc_name:
@@ -80,7 +80,7 @@ def show_k8s_service(isvc, ns_name: str | None, svc_name: str | None):
     return isvc_name, isvc_ns, svc_ip, svc_port, svc_prot
 
 
-def show_k8s_services(v1, ns_name: str | None, svc_name: str | None):
+def get_k8s_services(v1, ns_name: str | None, svc_name: str | None):
     """
         $ kubectl --namespace integration get service tango-databaseds -o json | jq -r .status.loadBalancer.ingress[].ip
     10.164.10.5
@@ -99,7 +99,7 @@ def show_k8s_services(v1, ns_name: str | None, svc_name: str | None):
     print()
     services = v1.list_service_for_all_namespaces(watch=False)
     for isvc in services.items:
-        show_k8s_service(isvc, ns_name, svc_name)
+        get_k8s_service(isvc, ns_name, svc_name)
 
 
 def usage(p_name: str) -> None:
@@ -108,7 +108,7 @@ def usage(p_name: str) -> None:
 
     :param p_name: executable name
     """
-    print("Display namesnames")
+    print("Display namespaces")
     print(f"\t{p_name} -n")
     print("Display pods")
     print(f"\t{p_name} -p")
@@ -159,12 +159,12 @@ def main(y_arg: list) -> int:
     config.load_kube_config()
     v1 = client.CoreV1Api()
     if show_ns:
-        show_k8s_namespaces(v1)
+        get_k8s_namespaces(v1)
     if show_pod:
-        show_k8s_pods(v1, ns_name, pod_name)
+        get_k8s_pods(v1, ns_name, pod_name)
     if show_svc:
-        show_k8s_services(v1, ns_name, svc_name)
-    return
+        get_k8s_services(v1, ns_name, svc_name)
+    return 0
 
 
 if __name__ == "__main__":
