@@ -1,7 +1,6 @@
 .oda:
   tags:
     - ska-k8srunner-za-itf
-  image: $TEST_IMAGE
   variables:
     CONFIG: mid
     K8S_CHART: ska-db-oda-mid-itf
