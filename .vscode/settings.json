@@ -13,5 +13,6 @@
     },
     "yaml.customTags": [
         "!reference sequence"
-    ]
+    ],
+    "esbonio.sphinx.confDir": ""
 }

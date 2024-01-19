@@ -1,3 +1,5 @@
+# include your own private variables for custom deployment configuration
+-include PrivateRules.mak
 
 OCI_BUILD_ADDITIONAL_ARGS += --cache-from registry.gitlab.com/ska-telescope/ska-mid-itf/ska-mid-itf-base:0.1.4
 
@@ -51,6 +53,14 @@ endif
 
 INTEGRATION_TEST_SOURCE ?= tests/integration
 INTEGRATION_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(_MARKS) $(_COUNTS) $(EXIT) $(PYTEST_ADDOPTS)
+
+DISH_LMC_INITIAL_PARAMS ?=
+DISH_LMC_EXTRA_PARAMS ?=
+
+ifneq ($(DISH_ID),)
+DISH_LMC_EXTRA_PARAMS = --set global.dish_id=$(DISH_ID) \
+	--set global.tangodb_fqdn=$(TANGO_DATABASE_DS).$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN)
+endif
 
 DISH_LMC_PARAMS ?= $(DISH_LMC_INITIAL_PARAMS) $(DISH_LMC_EXTRA_PARAMS)
 
@@ -170,9 +180,6 @@ include .make/raw.mk
 
 # include core make support
 include .make/base.mk
-
-# include your own private variables for custom deployment configuration
--include PrivateRules.mak
 
 # include namespace-specific targets
 -include resources/makefiles/k8s-installs.mk

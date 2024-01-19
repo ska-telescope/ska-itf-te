@@ -29,3 +29,10 @@ dependencies:
   #   version: 2.6.0
   #   repository: https://artefact.skao.int/repository/helm-internal
   #   alias: dishlmc
+
+  # SPOOKD
+  - name: ska-ser-k8s-spookd
+    version: 0.2.2 # check latest version
+    repository: https://artefact.skao.int/repository/helm-internal
+    alias: spookd
+    condition: spookd.enabled
