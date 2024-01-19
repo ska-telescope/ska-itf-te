@@ -1,7 +1,7 @@
 # ############################
 # # Dish AIV related CICD jobs
 # ############################
-.dish-env: 
+.dish-env:
   variables:
     DISH_LMC_INITIAL_PARAMS: -f charts/dish-lmc/values.yaml --set "global.dishes={$DISH_INDEX}"
     CLUSTER_DOMAIN: miditf.internal.skao.int
@@ -47,7 +47,8 @@
     - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart
     - make itf-dish-links
   after_script:
-    - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart-with-build-artifacts
+    - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart
+    # - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart-with-build-artifacts # TEMPORARY COMMIT
   extends:
     - .dish-lmc
 
@@ -68,7 +69,8 @@ deploy-dishlmc-ska001:
     - .deploy-dish-lmc
   needs:
     - deploy-ds-sim-ska001
-  when: on_success
+  when: always # TEMPORARY COMMIT
+  # when: on_success # TEMPORARY COMMIT
   variables:
     DISH_INDEX: "001"
     DISH_LMC_EXTRA_PARAMS: -f charts/dish-lmc/values-cetc.yaml --set dishlmc.ska-mid-dish-ds-manager.dishstructuremanager.dsSim.fqdn=$DS_SIM_OPCUA_FQDN
