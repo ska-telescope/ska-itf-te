@@ -5,101 +5,11 @@ import os
 import sys
 from kubernetes import client, config
 
+from k8s_ctl.get_k8s_info import KubernetesControl
+
 logging.basicConfig(level=logging.WARNING)
 _module_logger = logging.getLogger(__name__)
 _module_logger.setLevel(logging.WARNING)
-
-
-def get_k8s_namespaces(v1):
-    # config.load_kube_config()
-    # v1 = client.CoreV1Api()
-    namespaces = v1.list_namespace()
-    _module_logger.debug("Namespaces: %s", namespaces)
-    print("Namespaces:")
-    for namespace in namespaces.items:
-        _module_logger.debug("Namespace: %s", namespace)
-        ns_name = namespace.metadata.name
-        print(f"{ns_name}")
-
-
-def get_k8s_pod(ipod, ns_name: str | None, pod_name: str | None):
-    i_ns_name = ipod.metadata.namespace
-    if ns_name is not None:
-        if i_ns_name != ns_name:
-            return
-    i_pod_name = ipod.metadata.name
-    if pod_name is not None:
-        if i_pod_name != pod_name:
-            return
-    i_pod_ip = ipod.status.pod_ip
-    if i_pod_ip is None:
-        i_pod_ip = "---"
-    _module_logger.debug("Pod %s:\n%s", i_ns_name, ipod)
-    print(f"{i_pod_ip:<15}", end="")
-    print(f"  {i_ns_name:<64}", end="")
-    print(f"  {i_pod_name}")
-
-
-def get_k8s_pods(v1, ns_name: str | None, pod_name: str | None):
-    # Configs can be set in Configuration class directly or using helper utility
-    # config.load_kube_config()
-    #
-    # v1 = client.CoreV1Api()
-    _module_logger.info("Listing pods with their IPs for namespace %s", ns_name)
-    if pod_name:
-        print(f"Pod {pod_name}", end="")
-    else:
-        print("Pods", end="")
-    if ns_name:
-        print(f" in namespace {ns_name}", end="")
-    print()
-    ret = v1.list_pod_for_all_namespaces(watch=False)
-    for ipod in ret.items:
-        get_k8s_pod(ipod, ns_name, pod_name)
-
-
-def get_k8s_service(isvc, ns_name: str | None, svc_name: str | None):
-    isvc_name = isvc.metadata.name
-    if svc_name is not None:
-        if svc_name != isvc_name:
-            return
-    isvc_ns = isvc.metadata.namespace
-    if ns_name is not None:
-        if isvc_ns != ns_name:
-            return
-    _module_logger.debug("Service %s:\n%s", isvc_name, isvc)
-    try:
-        svc_ip = isvc.status.load_balancer.ingress[0].ip
-        svc_port = str(isvc.spec.ports[0].port)
-        svc_prot = isvc.spec.ports[0].protocol
-    except TypeError:
-        svc_ip = "---"
-        svc_port = ""
-        svc_prot = ""
-    print(f"{svc_ip:<15}  {svc_port:<5}  {svc_prot:<8} {isvc_ns:<64}  {isvc_name}")
-    return isvc_name, isvc_ns, svc_ip, svc_port, svc_prot
-
-
-def get_k8s_services(v1, ns_name: str | None, svc_name: str | None):
-    """
-        $ kubectl --namespace integration get service tango-databaseds -o json | jq -r .status.loadBalancer.ingress[].ip
-    10.164.10.5
-        $ kubectl --namespace integration get service tango-databaseds -o json | jq -r '.spec.ports[0]["port"]?'
-    10000
-        :param v1: k8s handle
-        :param svc_name: service name
-        :return:
-    """
-    if svc_name:
-        print(f"Service {svc_name}", end="")
-    else:
-        print("Services", end="")
-    if ns_name:
-        print(f" in namespace {ns_name}", end="")
-    print()
-    services = v1.list_service_for_all_namespaces(watch=False)
-    for isvc in services.items:
-        get_k8s_service(isvc, ns_name, svc_name)
 
 
 def usage(p_name: str) -> None:
@@ -109,9 +19,15 @@ def usage(p_name: str) -> None:
     :param p_name: executable name
     """
     print("Display namespaces")
-    print(f"\t{p_name} -n")
+    print(f"\t{p_name} -n [--namespace=<NAMESPACE>]")
     print("Display pods")
-    print(f"\t{p_name} -p")
+    print(f"\t{p_name} -p [--namespace=<NAMESPACE>] [--pod=<POD>]")
+    print("Display services")
+    print(f"\t{p_name} -s [--namespace=<NAMESPACE>] [--service=<SERVICE>]")
+    print("where:")
+    print("\t--namespace=<NAMESPACE>\tfilter by namespace")
+    print("\t--pod=<POD>\t\tfilter by pod name")
+    print("\t--service=<SERVICE>\tfilter by service name")
 
 
 def main(y_arg: list) -> int:
@@ -124,7 +40,7 @@ def main(y_arg: list) -> int:
     try:
         opts, _args = getopt.getopt(
             y_arg[1:],
-            "efhnpsvVN:P:S:",
+            "hnpsvVN:P:S:",
             ["help", "namespace=", "pod=", "service="],
         )
     except getopt.GetoptError as opt_err:
@@ -145,8 +61,6 @@ def main(y_arg: list) -> int:
             show_ns = True
         elif opt == "-p":
             show_pod = True
-        # elif opt == "-f":
-        #     fforce = True
         elif opt == "-s":
             show_svc = True
         elif opt == "-v":
@@ -156,14 +70,45 @@ def main(y_arg: list) -> int:
         else:
             _module_logger.error("Invalid option %s", opt)
 
-    config.load_kube_config()
-    v1 = client.CoreV1Api()
+    k8s = KubernetesControl(_module_logger)
     if show_ns:
-        get_k8s_namespaces(v1)
+        print("Namespaces:")
+        ns_list = k8s.get_namespaces()
+        for ns_name in ns_list:
+            print(f"{ns_name}")
     if show_pod:
-        get_k8s_pods(v1, ns_name, pod_name)
+        if pod_name:
+            print(f"Pod {pod_name}", end="")
+        else:
+            print("Pods", end="")
+        if ns_name:
+            print(f" in namespace {ns_name}", end="")
+        print()
+        ipods = k8s.get_pods(ns_name, pod_name)
+        for pod_nm in ipods:
+            pod_ip = ipods[pod_nm][0]
+            pod_ns = ipods[pod_nm][1]
+            if pod_ns is None:
+                pod_ns = "---"
+            print(f"{pod_ip:<15}", end="")
+            print(f"  {pod_ns:<64}", end="")
+            print(f"  {pod_nm}")
     if show_svc:
-        get_k8s_services(v1, ns_name, svc_name)
+        if svc_name:
+            print(f"Service {svc_name}", end="")
+        else:
+            print("Services", end="")
+        if ns_name:
+            print(f" in namespace {ns_name}", end="")
+        print()
+        svcs = k8s.get_services(ns_name, svc_name)
+        for svc_name in svcs:
+            svc = svcs[svc_name]
+            svc_ns = svc[0]
+            svc_ip = svc[1]
+            svc_port = svc[2]
+            svc_prot = svc[3]
+            print(f"{svc_ip:<15}  {svc_port:<5}  {svc_prot:<8} {svc_ns:<64}  {svc_name}")
     return 0
 
 

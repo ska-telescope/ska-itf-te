@@ -1,16 +1,17 @@
 #!/usr/bin/python
 import getopt
+import json
 import logging
 import os
+import pprint
 import socket
 import sys
 import tango
 import time
-import datetime
-import json
-from tango import DeviceProxy, Database
-from kubernetes import client, config
+
 from ska_control_model import AdminMode
+
+from k8s_ctl.get_k8s_info import KubernetesControl
 
 logging.basicConfig(level=logging.WARNING)
 _module_logger = logging.getLogger(__name__)
@@ -23,60 +24,60 @@ KUBE_NAMESPACE = "ci-ska-mid-itf-at-1820-tmc-test-sdp-notebook-v2"
 CLUSTER_DOMAIN = "miditf.internal.skao.int"
 # set the name of the databaseds service
 DATABASEDS_NAME = "tango-databaseds"
+CONTROL_DEVICE = "mid-csp/control/0"
+SUBARRAY_DEVICE = "mid-csp/subarray/01"
+BITE_POD = "ec-bite"
+BITE_CMD = ["python3", "midcbf_bite.py", "--talon-bite-lstv-replay", "--boards=1"]
 TIMEOUT = 60
 
-
-def get_k8s_service(isvc, ns_name: str | None, svc_name: str | None):
-    isvc_ns = isvc.metadata.namespace
-    if ns_name is not None:
-        if isvc_ns != ns_name:
-            _module_logger.debug("Skip namespace %s", isvc_ns)
-            return
-    isvc_name = isvc.metadata.name
-    if svc_name is not None:
-        if svc_name != isvc_name:
-            _module_logger.debug("Skip service %s", isvc_name)
-            return
-    _module_logger.debug("Service %s:\n%s", isvc_name, isvc)
-    try:
-        svc_ip = isvc.status.load_balancer.ingress[0].ip
-        svc_port = str(isvc.spec.ports[0].port)
-        svc_prot = isvc.spec.ports[0].protocol
-    except TypeError:
-        svc_ip = "---"
-        svc_port = ""
-        svc_prot = ""
-    return isvc_name, isvc_ns, svc_ip, svc_port, svc_prot
-
-
-def get_k8s_tangodb(ns_name: str, svc_name: str):
-    """
-    Read IP address and port for a service (e.g. Tango database) from Kubernetes cluster
-
-    :param v1: k8s handle
-    :param svc_name: service name
-    :return: none
-    """
-    config.load_kube_config()
-    v1 = client.CoreV1Api()
-    if svc_name:
-        print(f"Service {svc_name}", end="")
-    else:
-        print("Services", end="")
-    if ns_name:
-        print(f" in namespace {ns_name}", end="")
-    print()
-    services = v1.list_service_for_all_namespaces(watch=False)
-    _module_logger.info("Read %d services", len(services.items))
-    for isvc in services.items:
-        try:
-            svc_name, svc_ns, svc_ip, svc_port, svc_prot = get_k8s_service(isvc, ns_name, svc_name)
-            print(f"{svc_ip:<15}  {svc_port:<5}  {svc_prot:<8} {svc_ns:<64}  {svc_name}")
-        except TypeError:
-            pass
+CONFIGUREDATA = {
+    "interface": "https://schema.skao.int/ska-csp-configure/2.3",
+    "subarray": {
+        "subarray_name": "Single receptor"
+    },
+    "common": {
+        "config_id": "1 receptor, band 1, 1 FSP, no options",
+        "frequency_band": "1",
+        "subarray_id": 0
+    },
+    "cbf": {
+        "delay_model_subscription_point": "ska_mid/tm_leaf_node/csp_subarray_01/delayModel",
+        "rfi_flagging_mask": {},
+        "fsp": [
+            {
+                "fsp_id": 1,
+                "function_mode": "CORR",
+                "receptors": ["SKA001"],
+                "frequency_slice_id": 1,
+                "zoom_factor": 1,
+                "zoom_window_tuning": 450000,
+                "integration_factor": 10,
+                "channel_offset": 14880,
+                "output_link_map": [
+                    [0, 4], [744, 8], [1488, 12], [2232, 16], [2976, 20],
+                    [3720, 24], [4464, 28], [5206, 32], [5952, 36], [6696, 40],
+                    [7440, 44], [8184, 48], [8928, 52], [9672, 56], [10416, 60],
+                    [11160, 64], [11904, 68], [12648, 72], [13392, 76], [14136, 80]
+                ],
+                "output_host": [
+                    [0, "10.165.20.31"]
+                ],
+                "output_port": [
+                    [0, 14000, 1]
+                ]
+            }
+        ]
+    }
+}
 
 
 def get_tango_admin(dev) -> bool:
+    """
+    Read admin mode for a Tango device.
+
+    :param dev: Tango device
+    :return: True when device is in admin mode
+    """
     csp_admin = dev.adminMode
     if csp_admin == AdminMode.ONLINE:
         print("Device admin mode online")
@@ -88,7 +89,159 @@ def get_tango_admin(dev) -> bool:
     return False
 
 
+def setup_device(dev_name):
+    """
+
+    :param dev_name:
+    :return:
+    """
+    print("*** Setup Device connection and Timeouts ***")
+    print(f"Tango device : {dev_name}")
+    dev = tango.DeviceProxy(dev_name)
+    # check AdminMode
+    csp_admin = get_tango_admin(dev)
+    print(f"Device status : {dev.Status()}")
+    csp_state = dev.State()
+    print(f"Device state : {csp_state}")
+    # Set Adminmode to ONLINE and check state
+    if csp_state != tango._tango.DevState.ON:
+        _module_logger.warning("Device %s is off", dev_name)
+        csp_admin = set_tango_admin(dev, False)
+        csp_state = dev.State()
+        if csp_state != tango._tango.DevState.ON:
+            _module_logger.error("Device %s is off", dev_name)
+            return 1, dev
+    # Set Timeout to 60 seconds as the ON command is a long-running command
+    dev.commandTimeout = TIMEOUT
+    # check value
+    print(f"Command timeout is {dev.commandTimeout}")
+    # Check CBF SimulationMode (this should be FALSE for real hardware control)
+    if not dev.cbfSimulationMode:
+        _module_logger.error("Device is not in simulation mode", dev_name)
+        return 1, dev
+    return 0, dev
+
+
+def start_device(dev, subsystems: list, dry_run: bool) -> int:
+    """
+    Start a Tango device
+
+    :param dev: Tango device handle
+    :param subsystems: list, usually empty
+    :param dry_run: dry run flag
+    :return: error condition
+    """
+    dev_state = dev.State()
+    if dev_state == tango._tango.DevState.ON:
+        print(f"Device {dev.name()} is ON")
+    else:
+        print(f"Device {dev.name()} is OFF")
+    # Send the ON command
+    print(f"Send on command to subsystems {subsystems}")
+    if dry_run:
+        print("Dry run")
+        return 0
+    # an empty list sends the ON command to ALL the subsystems, specific subsystems
+    # are turned on if specified in a list of subsystem FQDNs
+    dev.on(subsystems)
+    dev_state = dev.State()
+    if dev_state != tango._tango.DevState.ON:
+        _module_logger.error("Device %s is not on", dev.name())
+        return 1
+    return 0
+
+
+def control_subarray(sub_name: str, ns_name: str, ns_sdp_name: str, dry_run: bool):
+    """
+    Control the CSP subarray.
+
+    Set up a Tango DeviceProxy to the CSP Subarray device
+
+    :param sub_name: subarray device name
+    :param ns_name: namespace
+    :param ns_sdp_name: namespace for SDP
+    :param dry_run: dry run flag
+    :return: error conition
+    """
+    global CONFIGUREDATA
+
+    print("*** Control the CSP Subarray ***")
+
+    k8s = KubernetesControl(_module_logger)
+    # Get Tango database service
+    svcs = k8s.get_services(ns_name, DATABASEDS_NAME)
+    for svc_nm in svcs:
+        svc = svcs[svc_nm]
+        svc_ns = svc[0]
+        svc_ip = svc[1]
+        svc_port = svc[2]
+        svc_prot = svc[3]
+        print(f"{svc_ip:<15}  {svc_port:<5}  {svc_prot:<8} {svc_ns:<64}  {svc_nm}")
+
+    # Get surrogate receiver interface IP address
+    pods = k8s.get_pods(ns_sdp_name, None)
+    if len(pods) > 1:
+        _module_logger.warning("More than one pod in namespace %s", ns_sdp_name)
+    pod_ip = None
+    for pod_nm in pods:
+        pod = pods[pod_nm]
+        pod_ip = pod[0]
+        print(f"{pod_nm}  {pod_ip}")
+    if pod_ip is None:
+        _module_logger.error("Could not read IP address in namespace %s", ns_sdp_name)
+
+    sdp_host_ip_address = pod_ip
+    print(f"Surrogate receiver interface IP address {sdp_host_ip_address}")
+    CONFIGUREDATA["cbf"]["fsp"][0]["output_host"] = sdp_host_ip_address
+
+    # json_obj = json.loads(CONFIGUREDATA)
+    # json_str = json.dumps(json_obj, indent=4)
+    print("CONFIGURE DATA")
+    pp = pprint.PrettyPrinter(depth=8)
+    pp.pprint(CONFIGUREDATA)
+
+    if dry_run:
+        print("Dry run")
+        return 0
+
+    print("Control subarray {sub_name}")
+    subarray = tango.DeviceProxy(sub_name)
+    resources = json.dumps({
+        "subarray_id": 1,
+        "dish":{
+            "receptor_ids":["SKA001"]
+        }
+    })
+    subarray.AssignResources(resources)
+
+    subarray.ConfigureScan(json.dumps(CONFIGUREDATA))
+
+    return 0
+
+
+def setup_bite_stream(ns_name, pod_name, dry_run, exec_cmd):
+    """
+    Setup BITE data stream.
+
+    kubectl -n integration exec ec-bite -- python3 midcbf_bite.py --talon-bite-lstv-replay --boards=1
+
+    :param ns_name: namespace
+    :return:
+    """
+    print("*** Setup BITE data stream ***")
+    kube_cmd = f"kubectl -n {ns_name} exec {pod_name} -- {' '.join(exec_cmd)}"
+    print()
+    k8s = KubernetesControl(_module_logger)
+    k8s.exec_command(ns_name, pod_name, exec_cmd)
+
+
 def set_tango_admin(dev, dev_adm: bool, sleeptime: int = 2):
+    """
+    Write admin mode for a Tango device.
+
+    :param dev: Tango device
+    :return: True when device is in admin mode
+    """
     if dev_adm:
         dev.adminMode = AdminMode.ONLINE
     else:
@@ -104,24 +257,38 @@ def usage(p_name: str) -> None:
     :param p_name: executable name
     """
     print("Display namespaces")
-    print(f"\t{p_name} -n")
+    print(
+        f"\t{p_name}"
+        " [--control=<DEVICE>] [--subarray=<DEVICE] [--namespace=<NAMESPACE>]"
+        " [--service=<SERVICE>]"
+    )
+    print("where:")
+    print(f"\t--control=<DEVICE>\tTango control device, default is {CONTROL_DEVICE}")
+    print(f"\t--subarray=<DEVICE>\tTango subarray device, default is {SUBARRAY_DEVICE}")
+    print(
+        f"\t--namespace=<NAMESPACE>\tKubernetes namespace, default is {KUBE_NAMESPACE}"
+    )
+    print(f"\t--service=<SERVICE>\tTango device, default is {DATABASEDS_NAME}")
 
 
 def main(y_arg: list) -> int:
     """
-    Read and display Tango devices.
+    Start Tango devices for MID ITF.
 
     :param y_arg: input arguments
     """
-    ns_name: str | None = None
-    svc_name: str | None = None
-    dev_name: str = "mid-csp/control/0"
+    ns_name: str = KUBE_NAMESPACE
+    svc_name: str = DATABASEDS_NAME
+    ctl_dev_name: str = CONTROL_DEVICE
+    sub_dev_name: str = SUBARRAY_DEVICE
+    show_tango: bool = False
+    dry_run = True
 
     try:
         opts, _args = getopt.getopt(
             y_arg[1:],
-            "efhnpsvVD:N:S:",
-            ["help", "namespace=", "service=", "device="],
+            "efhnpstvVC:D:N:S:",
+            ["help", "dry-run", "namespace=", "service=", "control="],
         )
     except getopt.GetoptError as opt_err:
         print(f"Could not read command line: {opt_err}")
@@ -131,12 +298,18 @@ def main(y_arg: list) -> int:
         if opt in ("-h", "--help"):
             usage(os.path.basename(y_arg[0]))
             sys.exit(1)
-        elif opt in ("-D", "--device"):
-            dev_name = arg
+        elif opt in ("-C", "--control"):
+            ctl_dev_name = arg
+        elif opt in ("-D", "--subarray"):
+            sub_dev_name = arg
         elif opt in ("-N", "--namespace"):
             ns_name = arg
         elif opt in ("-S", "--service"):
             svc_name = arg
+        elif opt in ("-Nn", "--dry-run"):
+            dry_run = True
+        elif opt == "-t":
+            show_tango = True
         elif opt == "-v":
             _module_logger.setLevel(logging.INFO)
         elif opt == "-V":
@@ -144,52 +317,37 @@ def main(y_arg: list) -> int:
         else:
             _module_logger.error("Invalid option %s", opt)
 
-    if ns_name is None:
-        ns_name = KUBE_NAMESPACE
-    if svc_name is None:
-        svc_name = DATABASEDS_NAME
+    ns_sdp_name = f"{ns_name}-sdp"
 
+    # Set the Tango host
     tango_fqdn = f"{svc_name}.{ns_name}.svc.{CLUSTER_DOMAIN}"
     _module_logger.info("Tango database FQDN is %s", tango_fqdn)
     tango_port = 10000
     tango_host = f"{tango_fqdn}:{tango_port}"
     print("Tango host %s" % tango_host)
-
-    # finally set the TANGO_HOST
     os.environ["TANGO_HOST"] = tango_host
 
+    # Check Tango host address
     try:
-        addr1 = socket.gethostbyname_ex(tango_fqdn)
-        tango_ip = addr1[2][0]
+        tango_addr = socket.gethostbyname_ex(tango_fqdn)
+        tango_ip = tango_addr[2][0]
     except socket.gaierror as e:
-        _module_logger.error("Could not read address %s : %s", addr1, e)
+        _module_logger.error("Could not read address %s : %s", tango_fqdn, e)
         return 1
     print(f"Tango host address {tango_ip}")
 
-    get_k8s_tangodb(ns_name, DATABASEDS_NAME)
+    if show_tango:
+        return 0
 
-    print(f"Tango device : {dev_name}")
-    csp = tango.DeviceProxy(dev_name)
-    csp_admin = get_tango_admin(csp)
-    print(f"Device status : {csp.Status()}")
-    csp_state = csp.State()
-    print(f"Device state : {csp_state}")
-    if csp_state != tango._tango.DevState.ON:
-        _module_logger.warning("Device %s is off", dev_name)
-        csp_admin = set_tango_admin(csp, False)
-        csp_state = csp.State()
-        if csp_state != tango._tango.DevState.ON:
-            _module_logger.error("Device %s is off", dev_name)
-            return 1
-    csp.commandTimeout = TIMEOUT
-    if not csp.cbfSimulationMode:
-        _module_logger.error("Device is not in simulation mode", dev_name)
-        return 1
-    csp_admin = set_tango_admin(csp, True)
-    csp_state = csp.State()
-    if csp_state != tango._tango.DevState.OFF:
-        _module_logger.error("Device %s is on", dev_name)
-        return 1
+    rc, ctl_dev = setup_device(ctl_dev_name)
+    # an empty list sends the ON command to ALL the subsystems, specific subsystems
+    # are turned on if specified in a list of subsystem FQDNs
+    subsystems = []
+    rc = start_device(ctl_dev, subsystems, dry_run)
+    control_subarray(sub_dev_name, ns_name, ns_sdp_name, dry_run)
+
+    setup_bite_stream(ns_name, dry_run)
+
     return 0
 
 
