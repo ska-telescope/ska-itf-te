@@ -1,0 +1,17 @@
+spookd:
+  enabled: true
+  deviceMapping:
+    - hosts:
+        - za-itf-k8s-worker01 #randomly chosen
+      devices:
+        - resourceName: miditf/spfrx-20
+          instanceID: "0001"
+          env:
+            IP: 10.165.3.20
+    - hosts:
+        - za-itf-cloud03 #randomly chosen
+      devices:
+        - resourceName: miditf/spfrx-21
+          instanceID: "0001"
+          env:
+            IP: 10.165.3.21

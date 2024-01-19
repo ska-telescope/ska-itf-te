@@ -2,15 +2,6 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: spfrx-claim # use values.yaml to designate instance
-spec:
-  containers:
-  - name: spfrx-claim # use values.yaml to designate instance
-    image: busybox:1.28
----
-apiVersion: v1
-kind: Pod
-metadata:
   name: spfrx-deployer
 spec:
   containers:
@@ -20,13 +11,49 @@ spec:
     env:
       - name: TANGO_HOST
         value: {{ .Values.global.tango_host }}
-    image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:SPFRX_CONSOLE_VER
+    image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
     imagePullPolicy: IfNotPresent
+    # resources:
+    #   limits: 
+    #     miditf/spfrx-20: "1"
   initContainers:
-    - name: check-spfrx-claim-ready
-      # command: ['sh', '-c']
-      command: ["/bin/bash", "echo"] #delete after testing
-      args: ["generate-config"] #delete after testing
+    # TODO: Deploy SPFRx claim service if needed
+    # - name: check-spfrx-claim-ready
+    #   # command: 
+    #   command: ['sh', '-c']
+    #   # command: ['sh', '-c', "until nslookup spfrx-claim.$SPFRX_CLAIM_NAMESPACE.svc.$CLUSTER_DOMAIN; do echo waiting for service spfrx-claim; sleep 2; done"]
+    #   args: ["echo", "Checking if SPFRx is available"] #delete after testing
+    #   # args: 
+    #   image: busybox:1.28
+    #   imagePullPolicy: IfNotPresent
+    - name: check-values
+      command: ['sh', '-c']
+      args: ["env"]
+      env:
+        - name: TANGO_HOST
+          value: {{ .Values.global.tango_host }}
+        - name: SPFRX_CONSOLE_VER
+          value: {{ .Values.spfrx.console.version }}
+        - name: SPFRX_ADDRESS
+          value: {{ .Values.spfrx.address }}
+        - name: SPFRX_BIN
+          value: {{ .Values.spfrx.bin }}
+        - name: SPFRX_LOCAL_DIR
+          value: {{ .Values.spfrx.local_dir }}
+        - name: SPFRX_SCRIPTS_DIR
+          value: {{ .Values.spfrx.scripts_dir }}
+        - name: DISH_ID
+          value: {{ .Values.global.dishes }}
+        - name: CLUSTER_DOMAIN
+          value: {{ .Values.global.cluster_domain }}
+        - name: TANGO_DB_FQDN
+          value: {{ .Values.global.tangodb_fqdn }}
+        - name: SPFRX_TANGO_INSTANCE
+          value: {{ .Values.spfrx.instance }}
+        - name: SPFRX_TANGO_LOGGING_LEVEL
+          value: {{ .Values.spfrx.logging_level }}
+      image: busybox:1.28
+      imagePullPolicy: IfNotPresent
     - name: check-databaseds-ready
       command: ['sh', '-c']
       args: ["retry", "--max=60", "--", "tango_admin", "--check-device", "sys/database/2"]
@@ -41,9 +68,11 @@ spec:
       args: ["remote-stop"] #delete after testing
       # args: 
       env:
-        - name:
-          value:
-      image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:SPFRX_CONSOLE_VER
+        - name: SPFRX_ADDRESS
+          value: {{ .Values.spfrx.address }}
+        - name: SPFRX_BIN
+          value: {{ .Values.spfrx.bin }}
+      image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
       imagePullPolicy: IfNotPresent
     - name: generate-config
       # command: 
@@ -51,9 +80,9 @@ spec:
       args: ["generate-config"] #delete after testing
       # args: 
       env:
-        - name:
-          value:
-      image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:SPFRX_CONSOLE_VER
+        - name: DISH_ID
+          value: {{ .Values.global.dishes }}
+      image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
       imagePullPolicy: IfNotPresent
     - name: download-artefacts
       # command: 
@@ -61,9 +90,9 @@ spec:
       args: ["download-artefacts"] #delete after testing
       # args: 
       env:
-        - name:
-          value:
-      image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:SPFRX_CONSOLE_VER
+        - name: DISH_ID
+          value: {{ .Values.global.dishes }}
+      image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
       imagePullPolicy: IfNotPresent
     - name: config-db
       # command: 
@@ -71,9 +100,9 @@ spec:
       args: ["config-db"] #delete after testing
       # args: 
       env:
-        - name:
-          value:
-      image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:SPFRX_CONSOLE_VER
+        - name: DISH_ID
+          value: {{ .Values.global.dishes }}
+      image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
       imagePullPolicy: IfNotPresent
     - name: deploy-artefacts
       # command: 
@@ -81,9 +110,15 @@ spec:
       args: ["deploy-artefacts"] #delete after testing
       # args: 
       env:
-        - name:
-          value:
-      image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:SPFRX_CONSOLE_VER
+        - name: SPFRX_ADDRESS
+          value: {{ .Values.spfrx.address }}
+        - name: SPFRX_BIN
+          value: {{ .Values.spfrx.bin }}
+        - name: SPFRX_LOCAL_DIR
+          value: {{ .Values.spfrx.local_dir }}
+        - name: SPFRX_SCRIPTS_DIR
+          value: {{ .Values.spfrx.scripts_dir }}
+      image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
       imagePullPolicy: IfNotPresent
     - name: program-bitstream
       # command: 
@@ -91,9 +126,11 @@ spec:
       args: ["program-bitstream"] #delete after testing
       # args: 
       env:
-        - name:
-          value:
-      image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:SPFRX_CONSOLE_VER
+        - name: SPFRX_ADDRESS
+          value: {{ .Values.spfrx.address }}
+        - name: SPFRX_LOCAL_DIR
+          value: {{ .Values.spfrx.local_dir }}
+      image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
       imagePullPolicy: IfNotPresent
     - name: remote-start
       # command: 
@@ -101,7 +138,15 @@ spec:
       args: ["remote-start"] #delete after testing
       # args: 
       env:
-        - name:
-          value:
-      image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:SPFRX_CONSOLE_VER
+        - name: TANGO_DB_FQDN
+          value: {{ .Values.global.tangodb_fqdn }}
+        - name: SPFRX_ADDRESS
+          value: {{ .Values.spfrx.address }}
+        - name: SPFRX_BIN
+          value: {{ .Values.spfrx.bin }}
+        - name: SPFRX_TANGO_INSTANCE
+          value: {{ .Values.spfrx.instance }}
+        - name: SPFRX_TANGO_LOGGING_LEVEL
+          value: {{ .Values.spfrx.logging_level }}
+      image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
       imagePullPolicy: IfNotPresent
