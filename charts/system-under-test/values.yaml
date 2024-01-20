@@ -123,5 +123,5 @@ ska-tango-archiver:
   #     #keep below field empty if db names are unknown, app will display all dbs present
   #     #e.g:timescale_databases: ""    
       timescale_databases: "itf-eda" 
-  #     timescale_login: "admin:bkS3OD0w9HnibRo_7d3nq1hT"
+      timescale_login: "admin:bkS3OD0w9HnibRo_7d3nq1hT"
  
