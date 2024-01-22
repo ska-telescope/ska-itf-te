@@ -110,7 +110,7 @@ class KubernetesControl():
         i_ns_name = ipod.metadata.namespace
         if ns_name is not None:
             if i_ns_name != ns_name:
-                self.logger.debug("Skip namespace %s", i_ns_name)
+                # self.logger.debug("Skip namespace %s", i_ns_name)
                 return None, None, None
         i_pod_name = ipod.metadata.name
         if pod_name is not None:
@@ -148,7 +148,7 @@ class KubernetesControl():
         isvc_ns = isvc.metadata.namespace
         if ns_name is not None:
             if isvc_ns != ns_name:
-                self.logger.debug("Skip namespace %s", isvc_ns)
+                # self.logger.debug("Skip namespace %s", isvc_ns)
                 return None, None, None, None, None
         isvc_name = isvc.metadata.name
         if svc_name is not None:
@@ -205,7 +205,7 @@ class KubernetesControl():
         isvc_ns = isvc.metadata.namespace
         if ns_name is not None:
             if isvc_ns != ns_name:
-                self.logger.debug("Skip namespace %s", isvc_ns)
+                # self.logger.debug("Skip namespace %s", isvc_ns)
                 return
         isvc_name = isvc.metadata.name
         if svc_name is not None:
