@@ -29,7 +29,6 @@ deploy-test-equipment:
   script:
     - make file-browser-secrets
     - make itf-te-template
-    - make spooky
     - make itf-te-install
     # The following are all needed to verify deployment and expose the issue
     - make k8s-wait SKA_TANGO_OPERATOR=true
@@ -99,7 +98,6 @@ deploy-skysimctl-install:
     - generate-skysimctl-config
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-
 
 ## to delete?
 .deploy-test-equipment-for-verification:
