@@ -96,7 +96,7 @@ remove-sut-deployment:
 itf-cluster-credentials: sut-namespaces ## PIPELINE USE ONLY - allocate credentials for deployment namespaces
 	curl -s https://gitlab.com/ska-telescope/templates-repository/-/raw/master/scripts/namespace_auth.sh | bash -s $(SERVICE_ACCOUNT) $(KUBE_NAMESPACE) $(KUBE_NAMESPACE_SDP) || true
 
-links: itf-te-links
+links: itf-links
 
 CLUSTER_DOMAIN_POSTFIX ?= miditf.internal.skao.int
 KUBE_NAMESPACE_PREFIX ?= dish-lmc-
@@ -125,18 +125,18 @@ itf-dish-ids: ## Create the TMC values.yaml file needed to connect the Dishes to
 
 itf-dish-links: links ## Create the URLs with which to access Taranta Dashboards
 
-## TARGET: itf-te-links
-## SYNOPSIS: make itf-te-links
+## TARGET: itf-links
+## SYNOPSIS: make itf-links
 ## HOOKS: none
-## VARS: none
+## VARS: KUBE_APP
 ##  make target for generating the URLs for accessing the Test Equipment deployment
 
-itf-te-links: ## Create the URLs with which to access Skampi if it is available
+itf-links: k8s-info ## Create the URLs with which to access the Tango Control System if it is available
 	@echo ${CI_JOB_NAME}
-	@echo "############################################################################"
-	@echo "#            Access the Test Equipment Taranta framework here:"
-	@echo "#            https://$(INGRESS_HOST)/$(KUBE_NAMESPACE)/taranta/devices"
-	@echo "############################################################################"
+	@echo "##############################################################################################"
+	@echo "#        Access the Taranta framework for the $(shell echo $(KUBE_APP) | tr a-z A-Z) Tango Control System here:"
+	@echo "#        https://$(INGRESS_HOST)/$(KUBE_NAMESPACE)/taranta/devices"
+	@echo "##############################################################################################"
 
 ## TARGET: itf-te-pass-env
 ## SYNOPSIS: make itf-te-pass-env
@@ -243,3 +243,4 @@ vars:
 	$(info DISH_LMC_INITIAL_PARAMS: $(DISH_LMC_INITIAL_PARAMS))
 	$(info DISH_LMC_EXTRA_PARAMS: $(DISH_LMC_EXTRA_PARAMS))
 	$(info DISH_LMC_PARAMS: $(DISH_LMC_PARAMS))
+	$(info Uppercase KUBE_APP: $(shell echo $(KUBE_APP) | tr a-z A-Z))
