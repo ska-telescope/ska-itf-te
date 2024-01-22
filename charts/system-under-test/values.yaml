@@ -119,9 +119,8 @@ ska-tango-archiver:
   archviewer:
     instances:
     - name: "mid"
-      timescale_host: "tango-databaseds.ci-ska-mid-itf-at-1807-eda-integration-v2.svc.miditf.internal.skao.int:10000/mid-eda/cm/01"
+      timescale_host: "postgres://10.10.22.182:5432/postgres"
   #     #keep below field empty if db names are unknown, app will display all dbs present
   #     #e.g:timescale_databases: ""    
       timescale_databases: "itf-eda" 
       timescale_login: "admin:bkS3OD0w9HnibRo_7d3nq1hT"
- 
