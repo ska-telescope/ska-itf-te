@@ -59,9 +59,7 @@ spec:
       image: artefact.skao.int/ska-tango-images-tango-dsconfig:1.5.1
       imagePullPolicy: IfNotPresent
     - name: remote-stop
-      command: ['/bin/bash', '-c']
-      # args: ["scripts/spfrx-remote-stop.sh", "{{ .Values.spfrx.address }}", "{{ .Values.spfrx.bin }}"]
-      args: ["echo", $SPFRX_ADDRESS, $SPFRX_BIN]
+      command: ['/bin/bash', '-c', "scripts/spfrx-remote-stop.sh $(SPFRX_ADDRESS) $(SPFRX_BIN) || true"]
       env:
         - name: SPFRX_ADDRESS
           value: {{ .Values.spfrx.address }}
@@ -70,10 +68,7 @@ spec:
       image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
       imagePullPolicy: IfNotPresent
     - name: generate-config
-      # command: 
-      command: ['/bin/bash', '-c']
-      args: ["env"]
-      # args: 
+      command: ["python3 spfrx_deployer.py --generate-spfrx-config --dish_id=$(DISH_ID)"]
       env:
         - name: DISH_ID
           value: {{ .Values.global.dish_id }}
