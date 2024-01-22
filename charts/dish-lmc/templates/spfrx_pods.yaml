@@ -60,7 +60,8 @@ spec:
       imagePullPolicy: IfNotPresent
     - name: remote-stop
       command: ['/bin/bash', '-c']
-      args: ["scripts/spfrx-remote-stop.sh", "{{ .Values.spfrx.address }}", "{{ .Values.spfrx.bin }}"]
+      # args: ["scripts/spfrx-remote-stop.sh", "{{ .Values.spfrx.address }}", "{{ .Values.spfrx.bin }}"]
+      args: ["echo", $SPFRX_ADDRESS, $SPFRX_BIN]
       env:
         - name: SPFRX_ADDRESS
           value: {{ .Values.spfrx.address }}
