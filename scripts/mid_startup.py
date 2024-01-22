@@ -14,6 +14,7 @@ from typing import Any, Tuple
 from ska_control_model import AdminMode
 
 from k8s_ctl.get_k8s_info import KubernetesControl
+from mid_tango_info import show_obs_state
 
 logging.basicConfig(level=logging.WARNING)
 _module_logger = logging.getLogger(__name__)
@@ -28,6 +29,13 @@ CLUSTER_DOMAIN = "miditf.internal.skao.int"
 DATABASEDS_NAME = "tango-databaseds"
 CONTROL_DEVICE = "mid-csp/control/0"
 SUBARRAY_DEVICE = "mid-csp/subarray/01"
+SUBARRAY_RESOURCES = """{
+    "subarray_id": 1,
+    "dish": {
+        "receptor_ids":["SKA001", "SKA036"]
+    }
+}"""
+
 LEAFNODE_DEVICE = "ska_mid/tm_leaf_node/csp_subarray_01"
 BITE_POD = "ec-bite"
 BITE_CMD = ["python3", "midcbf_bite.py", "--talon-bite-lstv-replay", "--boards=1"]
@@ -91,7 +99,7 @@ def check_tango(tango_fqdn: str) -> int:
     return 0
 
 
-def get_tango_admin(dev: Any) -> bool:
+def get_tango_admin(dev: tango.DeviceProxy) -> bool:
     """
     Read admin mode for a Tango device.
 
@@ -127,7 +135,7 @@ def set_tango_admin(dev: Any, dev_adm: bool, sleeptime: int = 2) -> bool:
     return get_tango_admin(dev)
 
 
-def setup_device(dev_name: str) -> Tuple[int, Any]:
+def setup_device(dev_name: str) -> Tuple[int, tango.DeviceProxy]:
     """
     Set up device connection and timeouts.
 
@@ -145,13 +153,29 @@ def setup_device(dev_name: str) -> Tuple[int, Any]:
         if csp_admin:
             _module_logger.error("Could not turn off admin mode")
             return 1, None
-    print(f"Admin mode : {dev.adminMode}")
-    print(f"Device status : {dev.Status()}")
-    print(f"Device state : {dev.State()}")
     return 0, dev
 
 
-def start_device(dev: Any) -> int:
+def device_state(dev: tango.DeviceProxy) -> None:
+    """
+    Display status information for Tango device.
+
+    :param dev: Tango device handle
+    :return: None
+    """
+    dev_name = dev.name()
+    print(f"Device {dev_name}")
+    print(f"\tAdmin mode : {dev.adminMode}")
+    print(f"\tDevice status : {dev.Status()}")
+    print(f"\tDevice state : {dev.State()}")
+    try:
+        print(f"\tObservation state : {repr(dev.obsState)}")
+        show_obs_state(dev.obsState)
+    except AttributeError:
+        _module_logger.info("Device %s does not have an observation state", dev_name)
+
+
+def start_device(dev: tango.DeviceProxy) -> int:
     """
     Set up device connection and timeouts.
 
@@ -184,7 +208,7 @@ def start_device(dev: Any) -> int:
     return 0
 
 
-def start_sub_device(dev, subsystems: list, dry_run: bool) -> int:
+def start_sub_device(dev: tango.DeviceProxy, subsystems: list, dry_run: bool) -> int:
     """
     Start a Tango device.
 
@@ -253,7 +277,22 @@ def get_surrogate(ns_name: str, ns_sdp_name: str, dry_run: bool) -> Tuple[str, s
     return pod_nm, sdp_host_ip_address
 
 
-def control_subarray(sdp_host_ip_address: str, sub_name: str, dry_run: bool) -> Any:
+def init_subarray(sub_dev: tango.DeviceProxy, resources: Any):
+    """
+    Initialize subarray
+
+    :param sub_dev: subarray Tango device
+    :param resources: JSON data
+    :return: error condition
+    """
+    print(f"Initialize device {sub_dev.name()}")
+    print(f"Resources {resources}")
+    sub_dev.AssignResources(resources)
+
+
+def control_subarray(
+        sub_dev: tango.DeviceProxy, sdp_host_ip_address: str, dry_run: bool
+) -> int:
     """
     Control the CSP subarray.
 
@@ -279,20 +318,24 @@ def control_subarray(sdp_host_ip_address: str, sub_name: str, dry_run: bool) -> 
         print("Dry run")
         return 0
 
-    print(f"Control subarray {sub_name}")
-    subarray = tango.DeviceProxy(sub_name)
+    print(f"Control subarray {sub_dev.name()}")
+    # sub_dev = tango.DeviceProxy(sub_name)
     resources = json.dumps({
         "subarray_id": 1,
         "dish":{
             "receptor_ids":["SKA001"]
         }
     })
-    subarray.AssignResources(resources)
+    sub_dev.AssignResources(resources)
 
     # subarray.ConfigureScan(json.dumps(CONFIGUREDATA))
-    subarray.Configure(json.dumps(CONFIGUREDATA))
+    try:
+        sub_dev.Configure(json.dumps(CONFIGUREDATA))
+    except tango.DevFailed as e:
+        _module_logger.error(f"Could not configure subarray: {repr(e)}")
+        return 1
 
-    return subarray
+    return 0
 
 
 def setup_bite_stream(ns_name: str, pod_name: str, dry_run: bool, exec_cmd: list):
@@ -373,7 +416,7 @@ def scan_data(ns_name: str, pod_name: str, dry_run: bool):
     k8s.exec_command(ns_name, pod_name, scan_cmd)
 
 
-def csp_shutdown(subarray_dev: Any):
+def csp_shutdown(subarray_dev: tango.DeviceProxy):
     """
     End Scan (CSP Subarray).
 
@@ -389,7 +432,7 @@ def csp_shutdown(subarray_dev: Any):
     subarray_dev.ReleaseAllResources()
 
 
-def csp_teardown(csp_dev: Any):
+def csp_teardown(csp_dev: tango.DeviceProxy):
     """
     Turn off the CSP and CBF.
 
@@ -443,6 +486,8 @@ def main(y_arg: list) -> int:
     ctl_dev_name: str = CONTROL_DEVICE
     sub_dev_name: str = SUBARRAY_DEVICE
     leaf_dev_name: str = LEAFNODE_DEVICE
+    resource_data: str = SUBARRAY_RESOURCES
+    resource_file: str | None = None
     show_tango: bool = False
     show_status: bool = False
     dry_run = False
@@ -451,7 +496,7 @@ def main(y_arg: list) -> int:
     try:
         opts, _args = getopt.getopt(
             y_arg[1:],
-            "adefhnpstvVC:D:L:N:S:",
+            "adefhnpstvVC:D:L:N:R:S:",
             [
                 "help",
                 "dry-run",
@@ -462,6 +507,7 @@ def main(y_arg: list) -> int:
                 "control=",
                 "subarray=",
                 "leafnode=",
+                "resource=",
             ],
         )
     except getopt.GetoptError as opt_err:
@@ -513,13 +559,22 @@ def main(y_arg: list) -> int:
 
     rc, ctl_dev = setup_device(ctl_dev_name)
     if ctl_dev is None:
-        _module_logger.error("Dould not create control Tango device")
+        _module_logger.error("Dould not create control Tango device %s", ctl_dev_name)
         return 1
-
+    device_state(ctl_dev)
     if show_status:
         return 1
 
     start_device(ctl_dev)
+    device_state(ctl_dev)
+
+    rc, sub_dev = setup_device(sub_dev_name)
+    if sub_dev is None:
+        _module_logger.error("Dould not create subarray Tango device %s", sub_dev_name)
+        return 1
+    device_state(sub_dev)
+
+    init_subarray(sub_dev, SUBARRAY_RESOURCES)
 
     # an empty list sends the ON command to ALL the subsystems, specific subsystems
     # are turned on if specified in a list of subsystem FQDNs
@@ -528,9 +583,12 @@ def main(y_arg: list) -> int:
 
     sdp_pod_nm, sdp_host_ip_address = get_surrogate(ns_name, ns_sdp_name, dry_run)
 
-    sub_dev = control_subarray(sdp_host_ip_address, sub_dev_name, dry_run)
+    rc = control_subarray(sub_dev, sdp_host_ip_address, dry_run)
+    if rc:
+        _module_logger.error("Control subarray failed")
+        return 1
 
-    setup_bite_stream(ns_name, dry_run)
+    setup_bite_stream(ns_name, sdp_pod_nm, dry_run, BITE_CMD)
 
     upload_delay(leaf_dev_name, dry_run)
 

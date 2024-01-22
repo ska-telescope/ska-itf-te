@@ -3,7 +3,6 @@ import getopt
 import logging
 import os
 import sys
-from kubernetes import client, config
 
 from k8s_ctl.get_k8s_info import KubernetesControl
 
