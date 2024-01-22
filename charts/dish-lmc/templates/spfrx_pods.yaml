@@ -13,19 +13,15 @@ spec:
         value: {{ .Values.global.tango_host }}
     image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
     imagePullPolicy: IfNotPresent
-    # resources:
-    #   limits: 
+    resources:
+      limits: 
     #     miditf/spfrx-20: "1"
+        cpu: 750m
+        memory: 1024Mi
+      requests:
+        cpu: 250m
+        memory: 500Mi
   initContainers:
-    # TODO: Deploy SPFRx claim service if needed
-    # - name: check-spfrx-claim-ready
-    #   # command: 
-    #   command: ['sh', '-c']
-    #   # command: ['sh', '-c', "until nslookup spfrx-claim.$SPFRX_CLAIM_NAMESPACE.svc.$CLUSTER_DOMAIN; do echo waiting for service spfrx-claim; sleep 2; done"]
-    #   args: ["echo", "Checking if SPFRx is available"] #delete after testing
-    #   # args: 
-    #   image: busybox:1.28
-    #   imagePullPolicy: IfNotPresent
     - name: check-values
       command: ['sh', '-c']
       args: ["env"]
@@ -51,7 +47,7 @@ spec:
         - name: SPFRX_TANGO_INSTANCE
           value: {{ .Values.spfrx.instance }}
         - name: SPFRX_TANGO_LOGGING_LEVEL
-          value: {{ .Values.spfrx.logging_level }}
+          value: "{{ .Values.spfrx.logging_level }}"
       image: busybox:1.28
       imagePullPolicy: IfNotPresent
     - name: check-databaseds-ready
@@ -147,6 +143,6 @@ spec:
         - name: SPFRX_TANGO_INSTANCE
           value: {{ .Values.spfrx.instance }}
         - name: SPFRX_TANGO_LOGGING_LEVEL
-          value: {{ .Values.spfrx.logging_level }}
+          value: "{{ .Values.spfrx.logging_level }}"
       image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
       imagePullPolicy: IfNotPresent

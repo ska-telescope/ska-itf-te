@@ -16,6 +16,7 @@ global:
 spookd:
   enabled: true
   deviceMapping:
+    # TEST EQUIPMENT HARDWARE
     - hosts:
         - za-itf-k8s-worker01
       devices:
@@ -33,3 +34,19 @@ spookd:
           env:
             IP: 10.165.3.6
             HOSTNAME: "za-itf-attenuator.ad.skatelescope.org"
+
+    # DISH LMC DEVICES
+    - hosts:
+        - za-itf-k8s-worker01 #randomly chosen
+      devices:
+        - resourceName: miditf/spfrx-20
+          instanceID: "0001"
+          env:
+            IP: 10.165.3.20
+    - hosts:
+        - za-itf-cloud03 #randomly chosen
+      devices:
+        - resourceName: miditf/spfrx-21
+          instanceID: "0001"
+          env:
+            IP: 10.165.3.21
