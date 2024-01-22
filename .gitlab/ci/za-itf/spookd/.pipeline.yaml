@@ -1,0 +1,14 @@
+### SPOOKD GHOST DEVICE DEPLOYMENT
+deploy-spookd:
+  stage: platform
+  tags:
+    - ska-k8srunner-za-itf
+  variables:
+    KUBE_NAMESPACE: spookd
+    KUBE_APP: ska-mid-itf-ghosts
+    HELM_RELEASE: spookd
+    K8S_CHART: ska-mid-itf-ghosts
+  script:
+    - make spooky
+  extends:
+    - .integration_rules
