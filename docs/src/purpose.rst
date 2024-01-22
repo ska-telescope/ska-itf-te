@@ -27,7 +27,7 @@ Deployment of Test Equipment
 ============================
 Deployment of Test Equipment Tango Device Servers are mainly done using the ``test-equipment`` namespace.
 We have two special makefile targets, ``make itf-te-template`` and ``make itf-te-install``, one for checking what will be deployed, and one for deploying the Helm charts under the ``ska-mid-itf`` umbrella.
-We also have a make target that gives URLs to the deployed software: ``make itf-te-links``.
+We also have a make target that gives URLs to the deployed software: ``make itf-links``.
 
 Deploying Test Equipment charts for verification
 ------------------------------------------------
