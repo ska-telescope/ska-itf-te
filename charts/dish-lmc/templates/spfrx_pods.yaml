@@ -60,8 +60,8 @@ spec:
       imagePullPolicy: IfNotPresent
     - name: remote-stop
       # command: 
-      command: ["/bin/bash", "echo"] #delete after testing
-      args: ["remote-stop"] #delete after testing
+      command: ["/bin/bash"] #delete after testing
+      args: ["echo", "remote-stop"] #delete after testing
       # args: 
       env:
         - name: SPFRX_ADDRESS
