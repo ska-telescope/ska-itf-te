@@ -1,5 +1,5 @@
 spookd:
-  enabled: true
+  enabled: false
   deviceMapping:
     - hosts:
         - za-itf-k8s-worker01 #randomly chosen
