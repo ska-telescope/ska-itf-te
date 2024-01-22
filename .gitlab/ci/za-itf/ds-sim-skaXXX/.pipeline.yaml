@@ -1,0 +1,84 @@
+# ############################################
+# # Dish Strcuture Simulator related CICD jobs
+# ############################################
+.dish-sim-env:
+  tags:
+    - ska-k8srunner-za-itf
+  extends:
+    - .dish_rules
+  image: $SKA_K8S_TOOLS_BUILD_DEPLOY
+  variables:
+    DISH_ID: ska$DISH_INDEX
+    MINIKUBE: "false"
+    CLUSTER_DOMAIN: miditf.internal.skao.int
+    INGRESS_HOST: k8s.miditf.internal.skao.int
+    K8S_CHART: dish-structure-simulators
+    KUBE_NAMESPACE: ds-sim-$DISH_ID
+    KUBE_APP: ds-sim
+    NEXUS_CACHE: NEXUS_CACHE
+  environment:
+    name: mid-itf/integration/$KUBE_NAMESPACE
+    kubernetes:
+      namespace: "$KUBE_NAMESPACE"
+    url: https://$INGRESS_HOST/$KUBE_NAMESPACE/webds/
+  when: manual
+  needs:
+    - helm-chart-build
+  allow_failure: true # need to keep this to unlock the pipeline
+
+.deploy-dish-structure-simulator:
+  extends: .dish-sim-env
+  stage: deploy-dish-aiv
+  before_script:
+    - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+  script:
+    - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart
+    - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
+    - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart
+    - mkdir -p build
+    - mv manifests.yaml build/ds_sim_manifests.yaml || true
+    - bash .make/resources/gitlab_section.sh ds-sim-env "Export DS Sim service configuration" make itf-ds-sim-env
+    - make itf-ds-sim-links
+  after_script:
+    - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart-with-build-artifacts
+  artifacts:
+    reports:
+      dotenv: build/itf-ds-sim.env
+    name: "$CI_PROJECT_NAME-$CI_JOB_ID"
+    paths:
+      - build/
+
+.redeploy-dish-structure-simulator:
+  extends:
+    - .deploy-dish-structure-simulator
+  script:
+    - !reference [.uninstall-chart, script]
+    - !reference [.deploy-dish-structure-simulator, script]
+
+.remove-dish-structure-simulator:
+  extends:
+    - .uninstall-chart
+    - .dish-sim-env
+  stage: remove-dish-aiv
+  environment:
+    action: stop
+
+deploy-ds-sim-ska001:
+  extends: .deploy-dish-structure-simulator
+  variables:
+    DISH_INDEX: "001"
+  environment:
+    on_stop: remove-ds-sim-ska001
+
+redeploy-ds-sim-ska001:
+  extends:
+    - .redeploy-dish-structure-simulator
+  variables:
+    DISH_INDEX: "001"
+  environment:
+    on_stop: remove-ds-sim-ska001
+
+remove-ds-sim-ska001:
+  extends: .remove-dish-structure-simulator
+  variables:
+    DISH_INDEX: "001"

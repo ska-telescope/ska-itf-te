@@ -1,16 +1,15 @@
 .oda:
-  extends:
-    - .mid
   tags:
     - ska-k8srunner-za-itf
-  image: $TEST_IMAGE
   variables:
+    CONFIG: mid
     K8S_CHART: ska-db-oda-mid-itf
     KUBE_APP: ska-db-oda
     INGRESS_HOST: "k8s.miditf.internal.skao.int"
     CLUSTER_DOMAIN: "miditf.internal.skao.int"
     TANGO_DATABASE_DS: tango-databaseds
     MINIKUBE: "false"
+    CLUSTER_DOMAIN_POSTFIX: miditf.internal.skao.int
   environment:
     name: sut/oda/$KUBE_NAMESPACE
     kubernetes:
@@ -34,7 +33,7 @@ deploy-oda-on-demand:
   script:
     - make k8s-install-chart
   after_script:
-    - make k8s-template-chart
+    - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart-with-build-artifacts
 
 destroy-oda-on-demand:
   extends:
@@ -60,7 +59,7 @@ deploy-oda-integration:
   script:
     - make k8s-install-chart
   after_script:
-    - make k8s-template-chart
+    - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart-with-build-artifacts
 
 destroy-oda-integration:
   extends:
