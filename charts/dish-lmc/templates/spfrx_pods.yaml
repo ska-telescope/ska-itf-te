@@ -60,8 +60,8 @@ spec:
       imagePullPolicy: IfNotPresent
     - name: remote-stop
       # command: 
-      command: ["/bin/bash"] #delete after testing
-      args: ["echo", "remote-stop"] #delete after testing
+      command: ['/bin/bash', '-c']
+      args: ["env"]
       # args: 
       env:
         - name: SPFRX_ADDRESS
@@ -72,8 +72,8 @@ spec:
       imagePullPolicy: IfNotPresent
     - name: generate-config
       # command: 
-      command: ["/bin/bash", "echo"] #delete after testing
-      args: ["generate-config"] #delete after testing
+      command: ['/bin/bash', '-c']
+      args: ["env"]
       # args: 
       env:
         - name: DISH_ID
@@ -82,8 +82,8 @@ spec:
       imagePullPolicy: IfNotPresent
     - name: download-artefacts
       # command: 
-      command: ["/bin/bash", "echo"] #delete after testing
-      args: ["download-artefacts"] #delete after testing
+      command: ['/bin/bash', '-c']
+      args: ["env"]
       # args: 
       env:
         - name: DISH_ID
@@ -92,8 +92,8 @@ spec:
       imagePullPolicy: IfNotPresent
     - name: config-db
       # command: 
-      command: ["/bin/bash", "echo"] #delete after testing
-      args: ["config-db"] #delete after testing
+      command: ['/bin/bash', '-c']
+      args: ["env"]
       # args: 
       env:
         - name: DISH_ID
@@ -102,8 +102,8 @@ spec:
       imagePullPolicy: IfNotPresent
     - name: deploy-artefacts
       # command: 
-      command: ["/bin/bash", "echo"] #delete after testing
-      args: ["deploy-artefacts"] #delete after testing
+      command: ['/bin/bash', '-c']
+      args: ["env"]
       # args: 
       env:
         - name: SPFRX_ADDRESS
@@ -118,8 +118,8 @@ spec:
       imagePullPolicy: IfNotPresent
     - name: program-bitstream
       # command: 
-      command: ["/bin/bash", "echo"] #delete after testing
-      args: ["program-bitstream"] #delete after testing
+      command: ['/bin/bash', '-c']
+      args: ["env"]
       # args: 
       env:
         - name: SPFRX_ADDRESS
@@ -130,8 +130,8 @@ spec:
       imagePullPolicy: IfNotPresent
     - name: remote-start
       # command: 
-      command: ["/bin/bash", "echo"] #delete after testing
-      args: ["remote-start"] #delete after testing
+      command: ['/bin/bash', '-c']
+      args: ["env"]
       # args: 
       env:
         - name: TANGO_DB_FQDN
