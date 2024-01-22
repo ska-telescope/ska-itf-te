@@ -1,14 +1,3 @@
-# global:
-#   minikube: true
-#   tango_host: databaseds-tango-base-test:10000
-#   facility: mid-itf
-#   exposeAllDS: true
-#   taranta_auth_enabled: true
-#   taranta_dashboard_enabled: true
-#   sub-system:
-#     ska-tango-base:
-#       enabled: false
-
 # SPOOKD
 # TODO: We only have a single host defined here because spookd gives
 # validation errors if we have multiple. We need to determine why this
@@ -35,6 +24,18 @@ spookd:
             IP: 10.165.3.6
             HOSTNAME: "za-itf-attenuator.ad.skatelescope.org"
 
+    # SUT DEVICES (CORRELATOR)
+    - hosts:
+        - za-itf-cloud03
+      devices:
+        - resourceName: miditf/talondx-1
+          instanceID: "0001"
+          env:
+            IP: 10.165.3.29
+        - resourceName: miditf/talondx-2
+          instanceID: "0001"
+          env:
+            IP: 10.165.3.30
     # DISH LMC DEVICES
     - hosts:
         - za-itf-k8s-worker01 #randomly chosen
