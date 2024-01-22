@@ -43,7 +43,7 @@ spec:
         - name: SPFRX_SCRIPTS_DIR
           value: {{ .Values.spfrx.scripts_dir }}
         - name: DISH_ID
-          value: {{ .Values.global.dishes }}
+          value: {{ .Values.global.dish_id }}
         - name: CLUSTER_DOMAIN
           value: {{ .Values.global.cluster_domain }}
         - name: TANGO_DB_FQDN
@@ -81,7 +81,7 @@ spec:
       # args: 
       env:
         - name: DISH_ID
-          value: {{ .Values.global.dishes }}
+          value: {{ .Values.global.dish_id }}
       image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
       imagePullPolicy: IfNotPresent
     - name: download-artefacts
@@ -91,7 +91,7 @@ spec:
       # args: 
       env:
         - name: DISH_ID
-          value: {{ .Values.global.dishes }}
+          value: {{ .Values.global.dish_id }}
       image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
       imagePullPolicy: IfNotPresent
     - name: config-db
@@ -101,7 +101,7 @@ spec:
       # args: 
       env:
         - name: DISH_ID
-          value: {{ .Values.global.dishes }}
+          value: {{ .Values.global.dish_id }}
       image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
       imagePullPolicy: IfNotPresent
     - name: deploy-artefacts
