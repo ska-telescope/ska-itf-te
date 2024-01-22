@@ -15,7 +15,7 @@ spec:
     imagePullPolicy: IfNotPresent
     resources:
       limits: 
-    #     miditf/spfrx-20: "1"
+        miditf/spfrx-20: "1"
         cpu: 750m
         memory: 1024Mi
       requests:
@@ -59,10 +59,8 @@ spec:
       image: artefact.skao.int/ska-tango-images-tango-dsconfig:1.5.1
       imagePullPolicy: IfNotPresent
     - name: remote-stop
-      # command: 
       command: ['/bin/bash', '-c']
-      args: ["env"]
-      # args: 
+      args: ["scripts/spfrx-remote-stop.sh", "$SPFRX_ADDRESS", "$SPFRX_BIN"]
       env:
         - name: SPFRX_ADDRESS
           value: {{ .Values.spfrx.address }}
