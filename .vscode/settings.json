@@ -14,7 +14,12 @@
     "yaml.customTags": [
         "!reference sequence"
     ],
+    "esbonio.sphinx.confDir": "",
     "yaml.schemas": {
-        "https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json": "file:///Users/aragorn/code/mid-itf/.gitlab/ci/.rules.yaml"
+        "https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json": [
+            "file:///Users/aragorn/code/mid-itf/.gitlab/ci/.rules.yaml",
+            "file:///Users/aragorn/code/mid-itf/.gitlab/ci/.jobs.yaml",
+            "file:///Users/aragorn/code/mid-itf/.gitlab/ci/.ansible.yml"
+        ]
     }
 }
