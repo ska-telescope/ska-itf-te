@@ -9,6 +9,8 @@ global:
     ska-tango-base:
       enabled: false
   tangodb_fqdn: localhost
+  raw_user_account: bond
+  raw_user_pass: jamesbond
 
 # DISH LMC
 dishlmc:
