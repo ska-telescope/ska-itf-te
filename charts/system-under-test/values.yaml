@@ -110,7 +110,6 @@ ska-tango-archiver:
   dbname: itf_eda
   dbuser: admin
   port: 5432
-  password: {EDA_DB_PASSWORD}
   telescope: SKA-mid
   telescope_environment: MID-ITF
   configuration_manager: mid-eda/cm/01
@@ -122,5 +121,4 @@ ska-tango-archiver:
       timescale_host: "10.10.22.182"
   #     #keep below field empty if db names are unknown, app will display all dbs present
   #     #e.g:timescale_databases: ""    
-      timescale_databases: "itf_eda" 
-      timescale_login: "admin:{EDA_DB_PASSWORD}"
+      timescale_databases: "itf_eda"
