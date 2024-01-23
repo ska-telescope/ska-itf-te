@@ -41,6 +41,7 @@ spec:
           requests:
             cpu: 250m
             memory: 500Mi
+      restartPolicy: Never
       initContainers:
         - name: check-values
           command: ['sh', '-c']
