@@ -1,25 +1,9 @@
-apiVersion: v1
-kind: Service
+apiVersion: batch/v1
+kind: Job
 metadata:
-  name: spfrx-20
+  name: spfrx-job
 spec:
-  selector:
-    app: spfrx-20
-  ports:
-    - port: 80
-      targetPort: 9876
-
----
-apiVersion: apps/v1
-kind: StatefulSet
-metadata:
-  name: spfrx-sfs
-spec:
-  serviceName: spfrx-20
-  selector:
-    matchLabels:
-      app: spfrx
-  replicas: 1
+  backoffLimit: 2
   template:
     metadata:
       labels:
@@ -29,15 +13,24 @@ spec:
       - name: {{ .Values.spfrx.local_dir }}
         emptyDir: {}
       containers:
-      - name: spfrx-deployer
-        volumeMounts:
-          - name: {{ .Values.spfrx.local_dir }}
-            mountPath: "/app/images/ska-mid-dish-spfrx-talondx-console-deploy/{{ .Values.spfrx.local_dir }}"
-        command: ["/bin/bash","-c"]
-        args: ["tail -f /dev/null"]
+      - name: remote-start
+        command:
+          [
+            "/bin/bash",
+            "-c",
+            "scripts/spfrx-remote-start.sh $(TANGO_HOSTNAME).$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN):$(TANGO_PORT) $(SPFRX_ADDRESS) $(SPFRX_BIN) $(TANGO_INSTANCE) $(SPFRX_LOGGING_LEVEL) || apt -qq update && apt -qq install tree -y && tree -L 2 && env && false",
+          ]
         env:
-          - name: TANGO_HOST
-            value: {{ .Values.global.tango_host }}
+          - name: TANGO_DB_FQDN
+            value: {{ .Values.global.tangodb_fqdn }}
+          - name: SPFRX_ADDRESS
+            value: {{ .Values.spfrx.address }}
+          - name: SPFRX_BIN
+            value: {{ .Values.spfrx.bin }}
+          - name: SPFRX_TANGO_INSTANCE
+            value: {{ .Values.spfrx.instance }}
+          - name: SPFRX_TANGO_LOGGING_LEVEL
+            value: "{{ .Values.spfrx.logging_level }}"
         image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
         imagePullPolicy: IfNotPresent
         resources:
@@ -208,25 +201,5 @@ spec:
               value: {{ .Values.spfrx.address }}
             - name: SPFRX_LOCAL_DIR
               value: {{ .Values.spfrx.local_dir }}
-          image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
-          imagePullPolicy: IfNotPresent
-        - name: remote-start
-          command:
-            [
-              "/bin/bash",
-              "-c",
-              "scripts/spfrx-remote-start.sh $(TANGO_HOSTNAME).$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN):$(TANGO_PORT) $(SPFRX_ADDRESS) $(SPFRX_BIN) $(TANGO_INSTANCE) $(SPFRX_LOGGING_LEVEL) && env",
-            ]
-          env:
-            - name: TANGO_DB_FQDN
-              value: {{ .Values.global.tangodb_fqdn }}
-            - name: SPFRX_ADDRESS
-              value: {{ .Values.spfrx.address }}
-            - name: SPFRX_BIN
-              value: {{ .Values.spfrx.bin }}
-            - name: SPFRX_TANGO_INSTANCE
-              value: {{ .Values.spfrx.instance }}
-            - name: SPFRX_TANGO_LOGGING_LEVEL
-              value: "{{ .Values.spfrx.logging_level }}"
           image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
           imagePullPolicy: IfNotPresent
