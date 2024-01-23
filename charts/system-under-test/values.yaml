@@ -110,6 +110,7 @@ ska-tango-archiver:
   dbname: itf_eda
   dbuser: admin
   port: 5432
+  password: {EDA_DB_PASSWORD}
   telescope: SKA-mid
   telescope_environment: MID-ITF
   configuration_manager: mid-eda/cm/01
