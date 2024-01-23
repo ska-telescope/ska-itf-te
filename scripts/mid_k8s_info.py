@@ -18,7 +18,8 @@ def usage(p_name: str) -> None:
     :param p_name: executable name
     """
     print("Display namespaces")
-    print(f"\t{p_name} -n [--namespace=<NAMESPACE>]")
+    print(f"\t{p_name} -n")
+    # print(f"\t{p_name} -n [--namespace=<NAMESPACE>]")
     print("Display pods")
     print(f"\t{p_name} -p [--namespace=<NAMESPACE>] [--pod=<POD>]")
     print("Display services")

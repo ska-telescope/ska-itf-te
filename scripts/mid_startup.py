@@ -11,10 +11,15 @@ import tango
 import time
 from typing import Any, Tuple
 
-from ska_control_model import AdminMode
-
-from k8s_ctl.get_k8s_info import KubernetesControl
-from mid_tango_info import show_obs_state
+from k8s_info.get_k8s_info import KubernetesControl
+from tango_info.get_tango_info import (
+    setup_device,
+    device_state,
+    set_tango_admin,
+    show_obs_state,
+    show_long_running_command,
+    show_long_running_commands,
+)
 
 logging.basicConfig(level=logging.WARNING)
 _module_logger = logging.getLogger(__name__)
@@ -35,6 +40,7 @@ SUBARRAY_RESOURCES = """{
         "receptor_ids":["SKA001", "SKA036"]
     }
 }"""
+LONG_RUN_CMDS = 4
 
 LEAFNODE_DEVICE = "ska_mid/tm_leaf_node/csp_subarray_01"
 BITE_POD = "ec-bite"
@@ -52,7 +58,8 @@ CONFIGUREDATA = {
         "subarray_id": 0
     },
     "cbf": {
-        "delay_model_subscription_point": "ska_mid/tm_leaf_node/csp_subarray_01/delayModel",
+        "delay_model_subscription_point":
+            "ska_mid/tm_leaf_node/csp_subarray_01/delayModel",
         "rfi_flagging_mask": {},
         "fsp": [
             {
@@ -96,83 +103,20 @@ def check_tango(tango_fqdn: str) -> int:
         _module_logger.error("Could not read address %s : %s", tango_fqdn, e)
         return 1
     print(f"Tango host address {tango_ip}")
+
+
+def show_observation_status(sub_dev_name: str):
+    """
+
+    :param sub_dev_name: Tango device name
+    :return: error condtion
+    """
+    rc, dev = setup_device(sub_dev_name)
+    if dev is None:
+        return 1
+    dev_obs = dev.obsState
+    show_obs_state(dev_obs)
     return 0
-
-
-def get_tango_admin(dev: tango.DeviceProxy) -> bool:
-    """
-    Read admin mode for a Tango device.
-
-    :param dev: Tango device handle
-    :return: True when device is in admin mode
-    """
-    csp_admin = dev.adminMode
-    if csp_admin == AdminMode.ONLINE:
-        print("Device admin mode online")
-        return False
-    if csp_admin == AdminMode.OFFLINE:
-        print("Device admin mode offline")
-    else:
-        print(f"Device admin mode {csp_admin}")
-    return True
-
-
-def set_tango_admin(dev: Any, dev_adm: bool, sleeptime: int = 2) -> bool:
-    """
-    Write admin mode for a Tango device.
-
-    :param dev: Tango device
-    :param dev_adm: admin mode flag
-    :param sleeptime: seconds to sleep
-    :return: True when device is in admin mode
-    """
-    print(f"*** Set Adminmode to {dev_adm} and check state ***")
-    if dev_adm:
-        dev.adminMode = 1
-    else:
-        dev.adminMode = 0
-    time.sleep(sleeptime)
-    return get_tango_admin(dev)
-
-
-def setup_device(dev_name: str) -> Tuple[int, tango.DeviceProxy]:
-    """
-    Set up device connection and timeouts.
-
-    :param dev_name: Tango device name
-    :return: error condition and Tango device handle
-    """
-    print("*** Setup Device connection and Timeouts ***")
-    print(f"Tango device : {dev_name}")
-    dev = tango.DeviceProxy(dev_name)
-    # check AdminMode
-    csp_admin = get_tango_admin(dev)
-    if csp_admin:
-        # Set Adminmode to OFFLINE and check state
-        csp_admin = set_tango_admin(dev, False)
-        if csp_admin:
-            _module_logger.error("Could not turn off admin mode")
-            return 1, None
-    return 0, dev
-
-
-def device_state(dev: tango.DeviceProxy) -> None:
-    """
-    Display status information for Tango device.
-
-    :param dev: Tango device handle
-    :return: None
-    """
-    dev_name = dev.name()
-    print(f"Device {dev_name}")
-    print(f"\tAdmin mode : {dev.adminMode}")
-    print(f"\tDevice status : {dev.Status()}")
-    print(f"\tDevice state : {dev.State()}")
-    try:
-        print(f"\tObservation state : {repr(dev.obsState)}")
-        show_obs_state(dev.obsState)
-    except AttributeError:
-        _module_logger.info("Device %s does not have an observation state", dev_name)
 
 
 def start_device(dev: tango.DeviceProxy) -> int:
@@ -188,7 +132,7 @@ def start_device(dev: tango.DeviceProxy) -> int:
     print(f"Device state : {csp_state}")
     if csp_state == tango._tango.DevState.OFF:
         _module_logger.warning("Device %s is off", dev_name)
-        csp_admin = set_tango_admin(dev, False)
+        _csp_admin = set_tango_admin(dev, False)
         csp_state = dev.State()
         if csp_state != tango._tango.DevState.ON:
             _module_logger.error("Device %s is off", dev_name)
@@ -208,7 +152,7 @@ def start_device(dev: tango.DeviceProxy) -> int:
     return 0
 
 
-def start_sub_device(dev: tango.DeviceProxy, subsystems: list, dry_run: bool) -> int:
+def start_ctl_device(dev: tango.DeviceProxy, subsystems: list, dry_run: bool) -> int:
     """
     Start a Tango device.
 
@@ -264,6 +208,7 @@ def get_surrogate(ns_name: str, ns_sdp_name: str, dry_run: bool) -> Tuple[str, s
     if len(pods) > 1:
         _module_logger.warning("More than one pod in namespace %s", ns_sdp_name)
     pod_ip = None
+    pod_nm = None
     for pod_nm in pods:
         pod = pods[pod_nm]
         pod_ip = pod[0]
@@ -277,7 +222,7 @@ def get_surrogate(ns_name: str, ns_sdp_name: str, dry_run: bool) -> Tuple[str, s
     return pod_nm, sdp_host_ip_address
 
 
-def init_subarray(sub_dev: tango.DeviceProxy, resources: Any):
+def init_subarray(sub_dev: tango.DeviceProxy, resources: Any) -> int:
     """
     Initialize subarray
 
@@ -287,7 +232,12 @@ def init_subarray(sub_dev: tango.DeviceProxy, resources: Any):
     """
     print(f"Initialize device {sub_dev.name()}")
     print(f"Resources {resources}")
-    sub_dev.AssignResources(resources)
+    try:
+        sub_dev.AssignResources(resources)
+    except tango.DevFailed as e:
+        _module_logger.error(f"Could not assign resources:\n{repr(e)}")
+        return 1
+    return 0
 
 
 def control_subarray(
@@ -298,7 +248,7 @@ def control_subarray(
 
     Set up a Tango DeviceProxy to the CSP Subarray device
 
-    :param sub_name: subarray Tango device name
+    :param sub_dev: subarray Tango device handle
     :param sdp_host_ip_address: surrogate pod address
     :param dry_run: dry run flag
     :return: error conition
@@ -322,8 +272,8 @@ def control_subarray(
     # sub_dev = tango.DeviceProxy(sub_name)
     resources = json.dumps({
         "subarray_id": 1,
-        "dish":{
-            "receptor_ids":["SKA001"]
+        "dish": {
+            "receptor_ids": ["SKA001"]
         }
     })
     sub_dev.AssignResources(resources)
@@ -352,7 +302,7 @@ def setup_bite_stream(ns_name: str, pod_name: str, dry_run: bool, exec_cmd: list
     :return: None
     """
     print("*** Setup BITE data stream ***")
-    kube_cmd = f"kubectl -n {ns_name} exec {pod_name} -- {' '.join(exec_cmd)}"
+    # kube_cmd = f"kubectl -n {ns_name} exec {pod_name} -- {' '.join(exec_cmd)}"
     print()
     k8s = KubernetesControl(_module_logger)
     print(f"Run> {' '.join(exec_cmd)}")
@@ -373,7 +323,9 @@ def upload_delay(leaf_dev_name: str, dry_run: bool):
     # Generate the Delaymodel and check if it was was correctly sent:\n",
     # ska_mid/tm_leaf_node/csp_subarray_01
     sub = tango.DeviceProxy(leaf_dev_name)
-    current_time = float(datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).timestamp())
+    current_time = float(
+        datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).timestamp()
+    )
     dm = {
         "interface": "https://schema.skao.int/ska-csp-delaymodel/2.2",
         "epoch": current_time,
@@ -436,8 +388,9 @@ def csp_teardown(csp_dev: tango.DeviceProxy):
     """
     Turn off the CSP and CBF.
 
+    This should only be done if you don't want to use the system again.
+
     :param csp_dev: CSP Tango device
-    This should only be done if you don't want to use the system again."
     """
     print(f"Shut down device {csp_dev.name()}")
     print("*** Final Teardown ***")
@@ -454,16 +407,27 @@ def usage(p_name: str) -> None:
 
     :param p_name: executable name
     """
-    print("Display namespaces")
+    print("Start CSP:")
     print(
-        f"\t{p_name}"
+        f"\t{p_name} [--teardown] [--jobs=<JOBS>]"
         " [--control=<DEVICE>]"
         " [--subarray=<DEVICE]"
         " [--leafnode=<LEAFNODE>]"
         " [--namespace=<NAMESPACE>]"
         " [--service=<SERVICE>]"
     )
+    print("Check Tango status:")
+    print(f"\t{p_name} -t")
+    print("Display observation state:")
+    print(f"\t{p_name} --observation [--subarray=<DEVICE]")
+    print("Display long running commands:")
+    print(f"\t{p_name} --long-cmd [--subarray=<DEVICE]")
     print("where:")
+    print(
+        "\t--jobs=<JOBS>\t\tMinimum number of long running commands,"
+        f" default is {LONG_RUN_CMDS}"
+    )
+    print("\t--teardown\t\tTear down control device at the end")
     print(f"\t--control=<DEVICE>\tTango control device, default is {CONTROL_DEVICE}")
     print(f"\t--subarray=<DEVICE>\tTango subarray device, default is {SUBARRAY_DEVICE}")
     print(
@@ -472,7 +436,10 @@ def usage(p_name: str) -> None:
     print(
         f"\t--namespace=<NAMESPACE>\tKubernetes namespace, default is {KUBE_NAMESPACE}"
     )
-    print(f"\t--service=<SERVICE>\tdatabase Tango device, default is {DATABASEDS_NAME}")
+    print(
+        "\t--service=<SERVICE>\tKubernetes service for Tango database,"
+        f"default is {DATABASEDS_NAME}"
+    )
 
 
 def main(y_arg: list) -> int:
@@ -487,21 +454,28 @@ def main(y_arg: list) -> int:
     sub_dev_name: str = SUBARRAY_DEVICE
     leaf_dev_name: str = LEAFNODE_DEVICE
     resource_data: str = SUBARRAY_RESOURCES
+    # TODO read JSON data from file
     resource_file: str | None = None
     show_tango: bool = False
     show_status: bool = False
     dry_run = False
     tear_down = False
+    show_obs = False
+    show_long = False
+    long_cmds = LONG_RUN_CMDS
 
     try:
         opts, _args = getopt.getopt(
             y_arg[1:],
-            "adefhnpstvVC:D:L:N:R:S:",
+            "adefhlnopstvVC:D:J:L:N:R:S:",
             [
                 "help",
                 "dry-run",
-                "shutdown",
+                "long-cmd",
+                "observation"
+                "teardown",
                 "status",
+                "jobs=",
                 "namespace=",
                 "service=",
                 "control=",
@@ -522,6 +496,8 @@ def main(y_arg: list) -> int:
             ctl_dev_name = arg
         elif opt in ("-D", "--subarray"):
             sub_dev_name = arg
+        elif opt in ("-J", "--jobs"):
+            long_cmds = int(arg)
         elif opt in ("-L", "--leafnode"):
             leaf_dev_name = arg
         elif opt in ("-N", "--namespace"):
@@ -530,10 +506,14 @@ def main(y_arg: list) -> int:
             svc_name = arg
         elif opt in ("-n", "--dry-run"):
             dry_run = True
-        elif opt in ("-d", "--shutdown"):
+        elif opt in ("-d", "--teardown"):
             tear_down = True
         elif opt in ("-a", "--status"):
             show_status = True
+        elif opt in ("-l", "--long-cmd"):
+            show_long = True
+        elif opt in ("-o", "--observation"):
+            show_obs = True
         elif opt == "-t":
             show_tango = True
         elif opt == "-v":
@@ -557,6 +537,14 @@ def main(y_arg: list) -> int:
     if rc or show_tango:
         return 1
 
+    if show_obs:
+        show_observation_status(sub_dev_name)
+        return 1
+
+    if show_long:
+        show_long_running_commands(sub_dev_name)
+        return 1
+
     rc, ctl_dev = setup_device(ctl_dev_name)
     if ctl_dev is None:
         _module_logger.error("Dould not create control Tango device %s", ctl_dev_name)
@@ -567,6 +555,7 @@ def main(y_arg: list) -> int:
 
     start_device(ctl_dev)
     device_state(ctl_dev)
+    show_long_running_command(ctl_dev)
 
     rc, sub_dev = setup_device(sub_dev_name)
     if sub_dev is None:
@@ -574,12 +563,26 @@ def main(y_arg: list) -> int:
         return 1
     device_state(sub_dev)
 
-    init_subarray(sub_dev, SUBARRAY_RESOURCES)
+    # assign resources
+    _rc = init_subarray(sub_dev, resource_data)
+    lrc = show_long_running_command(sub_dev)
+    l_count = 0
+    while lrc > long_cmds:
+        l_count += 1
+        if l_count > 5:
+            _module_logger.error(
+                "Long running commands still active after"
+                f" {(l_count*TIMEOUT)/60} minutes"
+            )
+            return 1
+        print(f"Waiting for {lrc} long running commands")
+        time.sleep(TIMEOUT)
+        lrc = show_long_running_command(sub_dev)
 
     # an empty list sends the ON command to ALL the subsystems, specific subsystems
     # are turned on if specified in a list of subsystem FQDNs
     subsystems = []
-    rc = start_sub_device(ctl_dev, subsystems, dry_run)
+    _rc = start_ctl_device(ctl_dev, subsystems, dry_run)
 
     sdp_pod_nm, sdp_host_ip_address = get_surrogate(ns_name, ns_sdp_name, dry_run)
 
@@ -592,7 +595,7 @@ def main(y_arg: list) -> int:
 
     upload_delay(leaf_dev_name, dry_run)
 
-    scan_data(ns_sdp_name, sdp_pod_nm)
+    scan_data(ns_sdp_name, sdp_pod_nm, dry_run)
 
     csp_shutdown(sub_dev)
 
