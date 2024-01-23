@@ -62,27 +62,3 @@ uninstall-aa05-dishes:
     - echo "Uninstalling 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
   environment:
     action: stop
-
-.start-spfrx-20:
-  stage: on_demand_itf_sut
-  variables:
-    KUBE_NAMESPACE: "spfrx"
-    KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
-  tags:
-    - k8srunner-psi-mid
-  script:
-    echo "See logs of spfrx pod"
-    # - kubectl exec -n $KUBE_NAMESPACE spfrx-deployer -- /bin/bash scripts/spfrx-remote-stop.sh "$SPFRX_ADDRESS" "$SPFRX_BIN"
-    # - kubectl exec -n $KUBE_NAMESPACE spfrx-deployer -- python3 spfrx_deployer.py --generate-spfrx-config --dish_id=$DISH_ID
-    # - kubectl exec -n $KUBE_NAMESPACE spfrx-deployer -- python3 spfrx_deployer.py --download-artifacts --dish_id=$DISH_ID
-    # - kubectl exec -n $KUBE_NAMESPACE spfrx-deployer -- python3 spfrx_deployer.py --config-db --dish_id=$DISH_ID
-    # - kubectl exec -n $KUBE_NAMESPACE spfrx-deployer -- /bin/bash scripts/spfrx-deploy-artifacts.sh $SPFRX_ADDRESS $SPFRX_LOCAL_DIR $SPFRX_BIN $SPFRX_SCRIPTS_DIR
-    # - kubectl exec -n $KUBE_NAMESPACE spfrx-deployer -- /bin/bash scripts/program-bitstream-remote.sh $SPFRX_LOCAL_DIR $SPFRX_ADDRESS
-    # - TANGO_HOSTNAME=$(echo $TANGO_HOST | cut -d':' -f1)
-    # - TANGO_PORT=$(echo $TANGO_HOST | cut -d':' -f2)
-    # - kubectl exec -n $KUBE_NAMESPACE spfrx-deployer -- /bin/bash scripts/spfrx-remote-start.sh "$TANGO_HOSTNAME.$KUBE_NAMESPACE.svc.$CLUSTER_DOMAIN:$TANGO_PORT" "$SPFRX_ADDRESS" "$SPFRX_BIN" "$TANGO_INSTANCE" "$SPFRX_LOGGING_LEVEL" &
-    # - sleep 30
-  # rules:
-  #   - when: manual
-  needs:
-    - job:
