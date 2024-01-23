@@ -3,7 +3,7 @@
 # ############################
 .dish-env:
   variables:
-    DISH_LMC_INITIAL_PARAMS: -f charts/dish-lmc/values.yaml --set global.dishes={$DISH_INDEX} --set global.raw_user_account=$RAW_USER_ACCOUNT --set global.raw_user_pass=$RAW_USER_PASS"
+    DISH_LMC_INITIAL_PARAMS: -f charts/dish-lmc/values.yaml --set global.dishes={$DISH_INDEX} --set global.raw_user_account=$RAW_USER_ACCOUNT --set global.raw_user_pass=$RAW_USER_PASS
     CLUSTER_DOMAIN: miditf.internal.skao.int
     INGRESS_HOST: k8s.miditf.internal.skao.int
     K8S_CHART: dish-lmc
