@@ -78,7 +78,7 @@ spec:
               value: {{ .Values.spfrx.instance }}
             - name: SPFRX_TANGO_LOGGING_LEVEL
               value: "{{ .Values.spfrx.logging_level }}"
-          image: busybox:1.28
+          image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
           imagePullPolicy: IfNotPresent
         - name: 1-check-databaseds-ready
           command: ['sh', '-c']
