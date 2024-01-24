@@ -48,7 +48,7 @@
     - make itf-dish-links
   after_script:
     - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart
-    - env
+    # - env
     # - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart-with-build-artifacts # TEMPORARY COMMIT
   extends:
     - .dish-lmc
