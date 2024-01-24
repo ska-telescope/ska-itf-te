@@ -100,8 +100,8 @@ spec:
           command: [
               "/bin/bash",
               "-c",
-              "echo remote-stop && env && echo && echo '####################################' && echo 'remember SSH?' && echo '####################################'",
-              # TODO: "scripts/spfrx-remote-stop.sh $(SPFRX_ADDRESS) $(SPFRX_BIN) || true",
+              # "echo remote-stop && env && echo && echo '####################################' && echo 'remember SSH?' && echo '####################################'",
+              "scripts/spfrx-remote-stop.sh $(SPFRX_ADDRESS) $(SPFRX_BIN)",
             ]
           env:
             - name: SPFRX_ADDRESS
@@ -118,7 +118,8 @@ spec:
             [
               "/bin/bash",
               "-c",
-              "python3 spfrx_deployer.py --generate-spfrx-config --dish_id=$(DISH_ID) || true && apt -qq update && apt -qq install tree -y && tree -L 2 && env",
+              "python3 spfrx_deployer.py --generate-spfrx-config --dish_id=$(DISH_ID)",
+              # "python3 spfrx_deployer.py --generate-spfrx-config --dish_id=$(DISH_ID) || true && apt -qq update && apt -qq install tree -y && tree -L 2 && env",
             ]
           env:
             - name: DISH_ID
@@ -133,7 +134,7 @@ spec:
             [
               "/bin/bash",
               "-c",
-              "python3 spfrx_deployer.py --download-artifacts --dish_id=$(DISH_ID) || true && apt -qq update && apt -qq install tree -y && tree -L 2 && env",
+              "python3 spfrx_deployer.py --download-artifacts --dish_id=$(DISH_ID)",
             ]
           env:
             - name: RAW_USER_ACCOUNT
@@ -152,7 +153,7 @@ spec:
             [
               "/bin/bash",
               "-c",
-              "python3 spfrx_deployer.py --config-db --dish_id=$(DISH_ID) || true && apt -qq update && apt -qq install tree -y && tree -L 2 && env",
+              "python3 spfrx_deployer.py --config-db --dish_id=$(DISH_ID)",
             ]
           env:
             - name: DISH_ID
@@ -167,7 +168,7 @@ spec:
             [
               "/bin/bash",
               "-c",
-              "scripts/spfrx-deploy-artifacts.sh $(SPFRX_ADDRESS) $(SPFRX_LOCAL_DIR) $(SPFRX_BIN) $(SPFRX_SCRIPTS_DIR) || true && apt -qq update && apt -qq install tree -y && tree -L 2 && env",
+              "scripts/spfrx-deploy-artifacts.sh $(SPFRX_ADDRESS) $(SPFRX_LOCAL_DIR) $(SPFRX_BIN) $(SPFRX_SCRIPTS_DIR)",
             ]
           env:
             - name: SPFRX_ADDRESS
@@ -188,7 +189,7 @@ spec:
             [
               "/bin/bash",
               "-c",
-              "scripts/program-bitstream-remote.sh $(SPFRX_LOCAL_DIR) $(SPFRX_ADDRESS) || true && apt -qq update && apt -qq install tree -y && tree -L 2 && env",
+              "scripts/program-bitstream-remote.sh $(SPFRX_LOCAL_DIR) $(SPFRX_ADDRESS)",
             ]
           env:
             - name: SPFRX_ADDRESS
