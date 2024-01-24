@@ -39,10 +39,18 @@ spec:
             cpu: 250m
             memory: 500Mi
       restartPolicy: Never
+      ttlSecondsAfterFinished: 60
       initContainers:
-        - name: check-values
-          command: ['sh', '-c']
-          args: ["env"]
+        - name: 0-hello
+          volumeMounts:
+            - name: {{ .Values.spfrx.local_dir }}
+              mountPath: "/app/images/ska-mid-dish-spfrx-talondx-console-deploy/{{ .Values.spfrx.local_dir }}"
+          command:
+            [
+              "/bin/bash",
+              "-c",
+              "python3 spfrx_deployer.py && touch artifacts/testfile && apt -qq update && apt -qq install tree -y && tree -L 2 && env",
+            ]
           env:
             - name: RAW_USER_ACCOUNT
               value: {{ .Values.global.raw_user_account }}
@@ -72,19 +80,7 @@ spec:
               value: "{{ .Values.spfrx.logging_level }}"
           image: busybox:1.28
           imagePullPolicy: IfNotPresent
-        - name: hello
-          volumeMounts:
-            - name: {{ .Values.spfrx.local_dir }}
-              mountPath: "/app/images/ska-mid-dish-spfrx-talondx-console-deploy/{{ .Values.spfrx.local_dir }}"
-          command:
-            [
-              "/bin/bash",
-              "-c",
-              "python3 spfrx_deployer.py && touch artifacts/testfile && apt -qq update && apt -qq install tree -y && tree -L 2",
-            ]
-          image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:0.1.0
-          imagePullPolicy: IfNotPresent
-        - name: check-databaseds-ready
+        - name: 1-check-databaseds-ready
           command: ['sh', '-c']
           args:
             [
@@ -100,7 +96,7 @@ spec:
             value: {{ .Values.global.tango_host }}
           image: artefact.skao.int/ska-tango-images-tango-dsconfig:1.5.1
           imagePullPolicy: IfNotPresent
-        - name: remote-stop
+        - name: 2-remote-stop
           command: [
               "/bin/bash",
               "-c",
@@ -114,7 +110,7 @@ spec:
               value: {{ .Values.spfrx.bin }}
           image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
           imagePullPolicy: IfNotPresent
-        - name: generate-config
+        - name: 3-enerate-config
           volumeMounts:
             - name: {{ .Values.spfrx.local_dir }}
               mountPath: "/app/images/ska-mid-dish-spfrx-talondx-console-deploy/{{ .Values.spfrx.local_dir }}"
@@ -129,7 +125,7 @@ spec:
               value: {{ .Values.global.dish_id }}
           image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
           imagePullPolicy: IfNotPresent
-        - name: download-artefacts
+        - name: 4-download-artefacts
           volumeMounts:
             - name: {{ .Values.spfrx.local_dir }}
               mountPath: "/app/images/ska-mid-dish-spfrx-talondx-console-deploy/{{ .Values.spfrx.local_dir }}"
@@ -148,7 +144,7 @@ spec:
               value: {{ .Values.global.dish_id }}
           image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
           imagePullPolicy: IfNotPresent
-        - name: config-db
+        - name: 5-config-db
           volumeMounts:
             - name: {{ .Values.spfrx.local_dir }}
               mountPath: "/app/images/ska-mid-dish-spfrx-talondx-console-deploy/{{ .Values.spfrx.local_dir }}"
@@ -163,7 +159,7 @@ spec:
               value: {{ .Values.global.dish_id }}
           image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
           imagePullPolicy: IfNotPresent
-        - name: deploy-artefacts
+        - name: 6-deploy-artefacts
           volumeMounts:
             - name: {{ .Values.spfrx.local_dir }}
               mountPath: "/app/images/ska-mid-dish-spfrx-talondx-console-deploy/{{ .Values.spfrx.local_dir }}"
@@ -184,7 +180,7 @@ spec:
               value: {{ .Values.spfrx.scripts_dir }}
           image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
           imagePullPolicy: IfNotPresent
-        - name: program-bitstream
+        - name: 7-program-bitstream
           volumeMounts:
             - name: {{ .Values.spfrx.local_dir }}
               mountPath: "/app/images/ska-mid-dish-spfrx-talondx-console-deploy/{{ .Values.spfrx.local_dir }}"
