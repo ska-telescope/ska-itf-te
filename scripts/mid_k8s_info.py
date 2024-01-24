@@ -1,10 +1,13 @@
 #!/usr/bin/python
+"""
+Use Kubernetes client API to read information about pods and services.
+"""
 import getopt
 import logging
 import os
 import sys
 
-from k8s_ctl.get_k8s_info import KubernetesControl
+from k8s_info.get_k8s_info import KubernetesControl
 
 logging.basicConfig(level=logging.WARNING)
 _module_logger = logging.getLogger(__name__)
@@ -30,7 +33,7 @@ def usage(p_name: str) -> None:
     print("\t--service=<SERVICE>\tfilter by service name")
 
 
-def main(y_arg: list) -> int:
+def main(y_arg: list) -> int:  # noqa: C901
     ns_name: str | None = None
     svc_name: str | None = None
     pod_name: str | None = None
@@ -108,7 +111,9 @@ def main(y_arg: list) -> int:
             svc_ip = svc[1]
             svc_port = svc[2]
             svc_prot = svc[3]
-            print(f"{svc_ip:<15}  {svc_port:<5}  {svc_prot:<8} {svc_ns:<64}  {svc_name}")
+            print(
+                f"{svc_ip:<15}  {svc_port:<5}  {svc_prot:<8} {svc_ns:<64}  {svc_name}"
+            )
     return 0
 
 

@@ -1,4 +1,9 @@
 #!/usr/bin/python
+"""
+Start and stop Central Signal Processor (CSP) or Telescope Monitor and Control (TMC).
+
+Use to test functionality used in notebooks.
+"""
 import datetime
 import getopt
 import json
@@ -7,18 +12,18 @@ import os
 import pprint
 import socket
 import sys
-import tango
 import time
-from typing import Any, Tuple
+from typing import Any, List, Tuple
 
+import tango
 from k8s_info.get_k8s_info import KubernetesControl
 from tango_info.get_tango_info import (
-    setup_device,
     device_state,
     set_tango_admin,
-    show_obs_state,
+    setup_device,
     show_long_running_command,
     show_long_running_commands,
+    show_obs_state,
 )
 
 logging.basicConfig(level=logging.WARNING)
@@ -47,19 +52,18 @@ BITE_POD = "ec-bite"
 BITE_CMD = ["python3", "midcbf_bite.py", "--talon-bite-lstv-replay", "--boards=1"]
 TIMEOUT = 60
 
-CONFIGUREDATA = {
+CONFIGUREDATA: Any = {
     "interface": "https://schema.skao.int/ska-csp-configure/2.3",
-    "subarray": {
-        "subarray_name": "Single receptor"
-    },
+    "subarray": {"subarray_name": "Single receptor"},
     "common": {
         "config_id": "1 receptor, band 1, 1 FSP, no options",
         "frequency_band": "1",
-        "subarray_id": 0
+        "subarray_id": 0,
     },
     "cbf": {
-        "delay_model_subscription_point":
+        "delay_model_subscription_point": (
             "ska_mid/tm_leaf_node/csp_subarray_01/delayModel",
+        ),
         "rfi_flagging_mask": {},
         "fsp": [
             {
@@ -72,20 +76,32 @@ CONFIGUREDATA = {
                 "integration_factor": 10,
                 "channel_offset": 14880,
                 "output_link_map": [
-                    [0, 4], [744, 8], [1488, 12], [2232, 16], [2976, 20],
-                    [3720, 24], [4464, 28], [5206, 32], [5952, 36], [6696, 40],
-                    [7440, 44], [8184, 48], [8928, 52], [9672, 56], [10416, 60],
-                    [11160, 64], [11904, 68], [12648, 72], [13392, 76], [14136, 80]
+                    [0, 4],
+                    [744, 8],
+                    [1488, 12],
+                    [2232, 16],
+                    [2976, 20],
+                    [3720, 24],
+                    [4464, 28],
+                    [5206, 32],
+                    [5952, 36],
+                    [6696, 40],
+                    [7440, 44],
+                    [8184, 48],
+                    [8928, 52],
+                    [9672, 56],
+                    [10416, 60],
+                    [11160, 64],
+                    [11904, 68],
+                    [12648, 72],
+                    [13392, 76],
+                    [14136, 80],
                 ],
-                "output_host": [
-                    [0, "10.165.20.31"]
-                ],
-                "output_port": [
-                    [0, 14000, 1]
-                ]
+                "output_host": [[0, "10.165.20.31"]],
+                "output_port": [[0, 14000, 1]],
             }
-        ]
-    }
+        ],
+    },
 }
 
 
@@ -103,15 +119,16 @@ def check_tango(tango_fqdn: str) -> int:
         _module_logger.error("Could not read address %s : %s", tango_fqdn, e)
         return 1
     print(f"Tango host address {tango_ip}")
+    return 0
 
 
-def show_observation_status(sub_dev_name: str):
+def show_observation_status(sub_dev_name: str) -> int:
     """
 
     :param sub_dev_name: Tango device name
     :return: error condtion
     """
-    rc, dev = setup_device(sub_dev_name)
+    _rc, dev = setup_device(sub_dev_name)
     if dev is None:
         return 1
     dev_obs = dev.obsState
@@ -130,13 +147,16 @@ def start_device(dev: tango.DeviceProxy) -> int:
     print(f"Device status : {dev.Status()}")
     csp_state = dev.State()
     print(f"Device state : {csp_state}")
+    # pylint: disable-next=c-extension-no-member
     if csp_state == tango._tango.DevState.OFF:
         _module_logger.warning("Device %s is off", dev_name)
-        _csp_admin = set_tango_admin(dev, False)
+        _csp_admin = set_tango_admin(dev, False)  # noqa: F841
         csp_state = dev.State()
+        # pylint: disable-next=c-extension-no-member
         if csp_state != tango._tango.DevState.ON:
             _module_logger.error("Device %s is off", dev_name)
             return 1
+    # pylint: disable-next=c-extension-no-member
     elif csp_state == tango._tango.DevState.ON:
         _module_logger.warning("Device %s is on", dev_name)
     else:
@@ -147,7 +167,7 @@ def start_device(dev: tango.DeviceProxy) -> int:
     print(f"Command timeout is {dev.commandTimeout}")
     # Check CBF SimulationMode (this should be FALSE for real hardware control)
     if not dev.cbfSimulationMode:
-        _module_logger.error("Device is not in simulation mode", dev_name)
+        _module_logger.error("Device is not in simulation mode")
         return 1
     return 0
 
@@ -162,6 +182,7 @@ def start_ctl_device(dev: tango.DeviceProxy, subsystems: list, dry_run: bool) ->
     :return: error condition
     """
     dev_state = dev.State()
+    # pylint: disable-next=c-extension-no-member
     if dev_state == tango._tango.DevState.ON:
         print(f"Device {dev.name()} is ON")
     else:
@@ -175,13 +196,16 @@ def start_ctl_device(dev: tango.DeviceProxy, subsystems: list, dry_run: bool) ->
     # are turned on if specified in a list of subsystem FQDNs
     dev.on(subsystems)
     dev_state = dev.State()
+    # pylint: disable-next=c-extension-no-member
     if dev_state != tango._tango.DevState.ON:
         _module_logger.error("Device %s is not on", dev.name())
         return 1
     return 0
 
 
-def get_surrogate(ns_name: str, ns_sdp_name: str, dry_run: bool) -> Tuple[str, str]:
+def get_surrogate(
+    ns_name: str, ns_sdp_name: str, dry_run: bool
+) -> Tuple[Any, Any | None]:
     """
     Control the CSP subarray.
 
@@ -241,7 +265,7 @@ def init_subarray(sub_dev: tango.DeviceProxy, resources: Any) -> int:
 
 
 def control_subarray(
-        sub_dev: tango.DeviceProxy, sdp_host_ip_address: str, dry_run: bool
+    sub_dev: tango.DeviceProxy, sdp_host_ip_address: Any | None, dry_run: bool
 ) -> int:
     """
     Control the CSP subarray.
@@ -253,6 +277,7 @@ def control_subarray(
     :param dry_run: dry run flag
     :return: error conition
     """
+    # pylint: disable-next=global-variable-not-assigned
     global CONFIGUREDATA
 
     print("*** Control the CSP Subarray ***")
@@ -270,12 +295,7 @@ def control_subarray(
 
     print(f"Control subarray {sub_dev.name()}")
     # sub_dev = tango.DeviceProxy(sub_name)
-    resources = json.dumps({
-        "subarray_id": 1,
-        "dish": {
-            "receptor_ids": ["SKA001"]
-        }
-    })
+    resources = json.dumps({"subarray_id": 1, "dish": {"receptor_ids": ["SKA001"]}})
     sub_dev.AssignResources(resources)
 
     # subarray.ConfigureScan(json.dumps(CONFIGUREDATA))
@@ -288,7 +308,9 @@ def control_subarray(
     return 0
 
 
-def setup_bite_stream(ns_name: str, pod_name: str, dry_run: bool, exec_cmd: list):
+def setup_bite_stream(
+    ns_name: str, pod_name: str, dry_run: bool, exec_cmd: list
+) -> int:
     """
     Set up BITE data stream.
 
@@ -307,17 +329,18 @@ def setup_bite_stream(ns_name: str, pod_name: str, dry_run: bool, exec_cmd: list
     k8s = KubernetesControl(_module_logger)
     print(f"Run> {' '.join(exec_cmd)}")
     if dry_run:
-        return
+        return 1
     k8s.exec_command(ns_name, pod_name, exec_cmd)
+    return 0
 
 
-def upload_delay(leaf_dev_name: str, dry_run: bool):
+def upload_delay(leaf_dev_name: str, dry_run: bool) -> int:
     """
     Upload the delay model.
 
     :param leaf_dev_name: Tango device name
     :param dry_run: dry run flag
-    :return: None
+    :return: error condition
     """
     print("*** Upload the Delay model ***")
     # Generate the Delaymodel and check if it was was correctly sent:\n",
@@ -332,26 +355,22 @@ def upload_delay(leaf_dev_name: str, dry_run: bool):
         "validity_period": 400.0,
         "delay_details": [
             {
-                "receptor": "SKA001", "poly_info": [
-                    {
-                        "polarization": "X",
-                        "coeffs": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-                    },
-                    {
-                        "polarization": "Y",
-                        "coeffs": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-                    }
-                ]
+                "receptor": "SKA001",
+                "poly_info": [
+                    {"polarization": "X", "coeffs": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]},
+                    {"polarization": "Y", "coeffs": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]},
+                ],
             }
-        ]
+        ],
     }
     sub.delayModel = json.dumps(dm)
     if sub.delayModel != json.dumps(dm):
         _module_logger.error("Delay model not OK")
     print(f"Expected {dm}, got\n{sub.delayModel}")
+    return 0
 
 
-def scan_data(ns_name: str, pod_name: str, dry_run: bool):
+def scan_data(ns_name: str, pod_name: str, dry_run: bool) -> int:
     """
     Look at the output of tcpdump -i net1 in the SDP Surrogate pod and see data.
 
@@ -364,33 +383,36 @@ def scan_data(ns_name: str, pod_name: str, dry_run: bool):
     scan_cmd = ["tcpdump", "-i", "net1", "-c", "10"]
     print(f"Run> {' '.join(scan_cmd)}")
     if dry_run:
-        return
+        return 1
     k8s.exec_command(ns_name, pod_name, scan_cmd)
+    return 0
 
 
-def csp_shutdown(subarray_dev: tango.DeviceProxy):
+def csp_shutdown(subarray_dev: tango.DeviceProxy) -> int:
     """
     End Scan (CSP Subarray).
 
     :param subarray_dev: subarray Tango device
-    :return: None
+    :return: error condition
     """
     print(f"End scan on device {subarray_dev.name()}")
     subarray_dev.EndScan()
-    print("*** Go To Idle (CSP Subarray) ***",
-          subarray_dev.GoToIdle())
+    print("*** Go To Idle (CSP Subarray) ***")
+    subarray_dev.GoToIdle()
     print(f"CSP obs state: {subarray_dev.obsState}")
     print("*** Release Resources (CSP Subarray) ***")
     subarray_dev.ReleaseAllResources()
+    return 0
 
 
-def csp_teardown(csp_dev: tango.DeviceProxy):
+def csp_teardown(csp_dev: tango.DeviceProxy) -> int:
     """
     Turn off the CSP and CBF.
 
     This should only be done if you don't want to use the system again.
 
     :param csp_dev: CSP Tango device
+    :return: error condition
     """
     print(f"Shut down device {csp_dev.name()}")
     print("*** Final Teardown ***")
@@ -399,6 +421,7 @@ def csp_teardown(csp_dev: tango.DeviceProxy):
     csp_dev.cbfSimulationMode = True
     csp_dev.commandTimeout = 3
     csp_dev.adminmode = 1
+    return 0
 
 
 def usage(p_name: str) -> None:
@@ -442,7 +465,7 @@ def usage(p_name: str) -> None:
     )
 
 
-def main(y_arg: list) -> int:
+def main(y_arg: list) -> int:  # noqa: C901
     """
     Start Tango devices for MID ITF.
 
@@ -455,7 +478,7 @@ def main(y_arg: list) -> int:
     leaf_dev_name: str = LEAFNODE_DEVICE
     resource_data: str = SUBARRAY_RESOURCES
     # TODO read JSON data from file
-    resource_file: str | None = None
+    _resource_file: str | None = None  # noqa: F841
     show_tango: bool = False
     show_status: bool = False
     dry_run = False
@@ -472,7 +495,7 @@ def main(y_arg: list) -> int:
                 "help",
                 "dry-run",
                 "long-cmd",
-                "observation"
+                "observation",
                 "teardown",
                 "status",
                 "jobs=",
@@ -483,7 +506,7 @@ def main(y_arg: list) -> int:
                 "leafnode=",
                 "resource=",
             ],
-        )
+        )  # noqa: F841
     except getopt.GetoptError as opt_err:
         print(f"Could not read command line: {opt_err}")
         return 1
@@ -581,8 +604,8 @@ def main(y_arg: list) -> int:
 
     # an empty list sends the ON command to ALL the subsystems, specific subsystems
     # are turned on if specified in a list of subsystem FQDNs
-    subsystems = []
-    _rc = start_ctl_device(ctl_dev, subsystems, dry_run)
+    subsystems: List[Any] = []
+    _rc = start_ctl_device(ctl_dev, subsystems, dry_run)  # noqa: F841
 
     sdp_pod_nm, sdp_host_ip_address = get_surrogate(ns_name, ns_sdp_name, dry_run)
 

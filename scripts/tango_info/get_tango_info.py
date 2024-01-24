@@ -1,4 +1,7 @@
 #!/usr/bin/python
+"""
+Read information from Tango database.
+"""
 import getopt
 import logging
 import os
@@ -7,7 +10,6 @@ import time
 from typing import Any, Tuple
 
 import tango
-
 from ska_control_model import AdminMode
 
 logging.basicConfig(level=logging.WARNING)
@@ -19,7 +21,7 @@ CLUSTER_DOMAIN = "miditf.internal.skao.int"
 DATABASEDS_NAME = "tango-databaseds"
 
 
-def connect_device(device: str):
+def connect_device(device: str) -> Tuple[Any, int]:
     """
     Display Tango device in mark-down format
 
@@ -33,7 +35,6 @@ def connect_device(device: str):
     except Exception:
         dev_state = None
     return dev, dev_state
-    return 0
 
 
 def device_state(dev: tango.DeviceProxy) -> None:
@@ -118,7 +119,7 @@ def show_device_state(device: str) -> int:
 
     :param device: device name
     """
-    dev, dev_state = connect_device(device)
+    _dev, dev_state = connect_device(device)
     # pylint: disable-next=c-extension-no-member
     if dev_state != tango._tango.DevState.ON:
         print(f"  {device}")
@@ -127,7 +128,7 @@ def show_device_state(device: str) -> int:
     return 1
 
 
-def show_device(device: str, fforce: bool) -> int:
+def show_device(device: str, fforce: bool) -> int:  # noqa: C901
     """
     Display Tango device in text format
 
@@ -249,7 +250,7 @@ def show_device_markdown(device: str) -> int:  # noqa: C901
     return rval
 
 
-def show_devices(evrythng: int, fforce: bool, itype: str | None) -> None:
+def show_devices(evrythng: int, fforce: bool, itype: str | None) -> None:  # noqa: C901
     """
     Display information about Tango devices
 
@@ -265,7 +266,7 @@ def show_devices(evrythng: int, fforce: bool, itype: str | None) -> None:
     # Connect to database
     try:
         database = tango.Database()
-    except Exception as e:
+    except Exception:
         _module_logger.error("Could not connect to Tango database %s", tango_host)
         return
     # Read devices
@@ -309,7 +310,7 @@ def show_devices(evrythng: int, fforce: bool, itype: str | None) -> None:
         print("# Kubernetes pod\n>", end="")
 
 
-def check_command(dev: Any, c_name: str | None):
+def check_command(dev: Any, c_name: str | None) -> bool:
     try:
         cmds = sorted(dev.get_command_list())
     except Exception:
@@ -335,7 +336,7 @@ def show_attributes(evrythng: int, fforce: bool, a_name: str | None) -> None:
     # Connect to database
     try:
         database = tango.Database()
-    except Exception as e:
+    except Exception:
         _module_logger.error("Could not connect to Tango database %s", tango_host)
         return
     # Read devices
@@ -347,18 +348,13 @@ def show_attributes(evrythng: int, fforce: bool, a_name: str | None) -> None:
         print("# Tango devices")
         print("## Tango host\n```\n%s\n```" % tango_host)
         print(f"## Number of devices\n{len(device_list)}")
-    dev_count = 0
-    on_dev_count = 0
+
     for device in sorted(device_list.value_string):
         # ignore sys devices
         if device[0:4] == "sys/":
             _module_logger.info(f"Skip {device}")
             continue
-        dev, dev_state = connect_device(device)
-        # if dev_state is not None:
-        #     print(f"### State\n{dev_state}")
-        # else:
-        #     print("### State\nNONE")
+        dev, _dev_state = connect_device(device)
         try:
             attribs = sorted(dev.get_attribute_list())
         except Exception:
@@ -374,7 +370,7 @@ def show_commands(evrythng: int, fforce: bool, c_name: str | None) -> None:
 
     :param evrythng: flag for markdown output
     :param fforce: get commands and attributes regadrless of state
-    :param a_name: filter command name
+    :param c_name: filter command name
     """
 
     # Get Tango database hist
@@ -384,7 +380,7 @@ def show_commands(evrythng: int, fforce: bool, c_name: str | None) -> None:
     # Connect to database
     try:
         database = tango.Database()
-    except Exception as e:
+    except Exception:
         _module_logger.error("Could not connect to Tango database %s", tango_host)
         return
     # Read devices
@@ -393,98 +389,125 @@ def show_commands(evrythng: int, fforce: bool, c_name: str | None) -> None:
 
     _module_logger.info("Read %d devices" % (len(device_list)))
 
-    dev_count = 0
-    on_dev_count = 0
     for device in sorted(device_list.value_string):
         # ignore sys devices
         if device[0:4] == "sys/":
             _module_logger.info(f"Skip {device}")
             continue
-        dev, dev_state = connect_device(device)
+        dev, _dev_state = connect_device(device)
         chk_cmd = check_command(dev, c_name)
         if chk_cmd:
             print(f"* {dev.name()}", end="")
             print(f"\t\033[1m{c_name}\033[0m")
 
 
-def show_obs_state(obs_stat: int):
-    """Python enumerated type for observing state."""
+def show_obs_state(obs_stat: int) -> None:  # noqa: C901
+    """
+    Display Python enumerated type for observing state.
+
+    :param obs_stat: observing state numeric value
+    """
 
     if obs_stat == 0:
         # EMPTY = 0
-        print("""EMPTY: The sub-array has no resources allocated and is unconfigured.""")
+        print(
+            """EMPTY:
+        The sub-array has no resources allocated and is unconfigured.
+        """
+        )
     elif obs_stat == 1:
         # RESOURCING = 1
-        print("""RESOURCING:
+        # In normal science operations these will be the resources required
+        # for the upcoming SBI execution.
+        #
+        # This may be a complete de/allocation, or it may be incremental. In
+        # both cases it is a transient state; when the resourcing operation
+        # completes, the subarray will automatically transition to EMPTY or
+        # IDLE, according to whether the subarray ended up having resources or
+        # not.
+        #
+        # For some subsystems this may be a very brief state if resourcing is
+        # a quick activity.
+        print(
+            """RESOURCING:
         Resources are being allocated to, or deallocated from, the subarray.
-    
-        In normal science operations these will be the resources required
-        for the upcoming SBI execution.
-    
-        This may be a complete de/allocation, or it may be incremental. In
-        both cases it is a transient state; when the resourcing operation
-        completes, the subarray will automatically transition to EMPTY or
-        IDLE, according to whether the subarray ended up having resources or
-        not.
-    
-        For some subsystems this may be a very brief state if resourcing is
-        a quick activity.
-        """)
+        """
+        )
     elif obs_stat == 2:
         # IDLE = 2
-        print("""IDLE: The subarray has resources allocated but is unconfigured.""")
+        print(
+            """IDLE:
+        The subarray has resources allocated but is unconfigured.
+        """
+        )
     elif obs_stat == 3:
         # CONFIGURING = 3
-        print("""CONFIGURING:
+        print(
+            """CONFIGURING:
         The subarray is being configured for an observation.
-    
         This is a transient state; the subarray will automatically
         transition to READY when configuring completes normally.
-        """)
+        """
+        )
     elif obs_stat == 4:
         # READY = 4
-        print("""READY:
+        print(
+            """READY:
         The subarray is fully prepared to scan, but is not scanning.
-    
         It may be tracked, but it is not moving in the observed coordinate
         system, nor is it taking data.
-        """)
+        """
+        )
     elif obs_stat == 5:
         # SCANNING = 5
-        print("""SCANNING:
+        print(
+            """SCANNING:
         The subarray is scanning.
-    
         It is taking data and, if needed, all components are synchronously
         moving in the observed coordinate system.
-    
         Any changes to the sub-systems are happening automatically (this
         allows for a scan to cover the case where the phase centre is moved
         in a pre-defined pattern).
-        """)
+        """
+        )
     elif obs_stat == 6:
         # ABORTING = 6
-        print("""ABORTING: The subarray has been interrupted and is aborting what it was doing.""")
+        print(
+            """ABORTING:
+         The subarray has been interrupted and is aborting what it was doing.
+        """
+        )
     elif obs_stat == 7:
         # ABORTED = 7
         print("""ABORTED: The subarray is in an aborted state.""")
     elif obs_stat == 8:
         # RESETTING = 8
-        print("""RESETTING: The subarray device is resetting to a base (EMPTY or IDLE) state.""")
+        print(
+            """RESETTING:
+        The subarray device is resetting to a base (EMPTY or IDLE) state.
+        """
+        )
     elif obs_stat == 9:
         # FAULT = 9
-        print("""FAULT: The subarray has detected an error in its observing state.""")
+        print(
+            """FAULT:
+        The subarray has detected an error in its observing state.
+        """
+        )
     elif obs_stat == 10:
         # RESTARTING = 10
-        print("""RESTARTING:
+        print(
+            """RESTARTING:
         The subarray device is restarting.
-    
         After restarting, the subarray will return to EMPTY state, with no
         allocated resources and no configuration defined.
-        """)
+        """
+        )
     else:
         print(f"Unknown state {obs_stat}")
 
-def show_long_running_command(dev: Any):
+
+def show_long_running_command(dev: Any) -> int:
     """
     Display long-running command.
 
@@ -496,10 +519,10 @@ def show_long_running_command(dev: Any):
     print("\tCommand IDs In Queue :")
     for qcmd in dev.longRunningCommandIDsInQueue:
         print(f"\t\t{qcmd}")
-    print(f"\tCommand Progress :")
+    print("\tCommand Progress :")
     for qcmd in dev.longRunningCommandProgress:
         print(f"\t\t{qcmd}")
-    print(f"\tCommand Result :")
+    print("\tCommand Result :")
     n = 0
     lstat = len(dev.longRunningCommandResult)
     while n < lstat:
@@ -509,37 +532,29 @@ def show_long_running_command(dev: Any):
         # print(f"\t{dev.longRunningCommandResult[n+1][1]}", end="")
         print()
         n += 2
-    print(f"\tCommand Status :")
+    print("\tCommand Status :")
     n = 0
     lstat = len(dev.longRunningCommandStatus)
     while n < lstat:
         print(f"\t\t{dev.longRunningCommandStatus[n+1]:12}", end="")
         print(f"\t{dev.longRunningCommandStatus[n]}")
         n += 2
-    print(f"\tCommands In Queue :")
+    print("\tCommands In Queue :")
     for qcmd in dev.longRunningCommandsInQueue:
         print(f"\t\t{qcmd}")
     return rc
 
 
-def show_long_running_commands(dev_name: Any):
+def show_long_running_commands(dev_name: str) -> None:
     """
     Display long-running commands.
 
-    :param dev: Tango device name
+    :param dev_name: Tango device name
     :return: None
     """
     dev = tango.DeviceProxy(dev_name)
     show_long_running_command(dev)
 
-
-def show_long_cmd(sub_dev_name):
-    """
-    Display long running commands for a device
-    :param sub_dev_name:
-    :return: error condition
-    """
-    dev = setup_device()
 
 def usage(p_name: str) -> None:
     """
@@ -562,17 +577,20 @@ def usage(p_name: str) -> None:
     print("\t-e\tdisplay in markdown format")
     print("\t-q\tdisplay status and name only")
     print("\t-f\tget commands and attributes regadrless of state")
-    print("\t--device=<DEVICE>\tdevice name, e.g. 'csp' (not case sensitive, only a part is needed)")
+    print(
+        "\t--device=<DEVICE>\tdevice name, e.g. 'csp'"
+        " (not case sensitive, only a part is needed)"
+    )
     print("--attribute=<ATTRIBUTE>\tattribute name, e.g. 'obsState'")
 
 
-def main(y_arg: list) -> int:
+def main(y_arg: list) -> int:  # noqa: C901
     """
     Read and display Tango devices.
 
     :param y_arg: input arguments
     """
-    itype: bool = False
+    itype: str | None = None
     evrythng: int = 1
     fforce: bool = False
     show_host: bool = False

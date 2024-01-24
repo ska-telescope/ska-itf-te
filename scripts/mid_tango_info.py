@@ -1,30 +1,13 @@
 #!/usr/bin/python
+"""
+Read information about Tango devices.
+"""
 import getopt
 import logging
 import os
 import sys
-import time
-from typing import Any, Tuple
 
-import tango
-
-from tango_info.get_tango_info import(
-    connect_device,
-    setup_device,
-    get_tango_admin,
-    set_tango_admin,
-    show_device_state,
-    show_device,
-    show_device_markdown,
-    show_devices,
-    check_command,
-    show_attributes,
-    show_commands,
-    show_obs_state,
-    show_long_running_command,
-    show_long_cmd,
-)
-from ska_control_model import AdminMode
+from tango_info.get_tango_info import show_attributes, show_commands, show_devices
 
 logging.basicConfig(level=logging.WARNING)
 _module_logger = logging.getLogger(__name__)
@@ -56,17 +39,21 @@ def usage(p_name: str) -> None:
     print("\t-e\tdisplay in markdown format")
     print("\t-q\tdisplay status and name only")
     print("\t-f\tget commands and attributes regadrless of state")
-    print("\t--device=<DEVICE>\tdevice name, e.g. 'csp' (not case sensitive, only a part is needed)")
+    print(
+        "\t--device=<DEVICE>\tdevice name, e.g. 'csp'"
+        " (not case sensitive, only a part is needed)"
+    )
     print("--attribute=<ATTRIBUTE>\tattribute name, e.g. 'obsState'")
 
 
-def main(y_arg: list) -> int:
+def main(y_arg: list) -> int:  # noqa: C901
     """
     Read and display Tango devices.
 
     :param y_arg: input arguments
+    :return: error condition
     """
-    itype: bool = False
+    itype: str | None = None
     evrythng: int = 1
     fforce: bool = False
     show_host: bool = False
