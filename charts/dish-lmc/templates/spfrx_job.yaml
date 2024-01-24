@@ -110,7 +110,7 @@ spec:
               value: {{ .Values.spfrx.bin }}
           image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
           imagePullPolicy: IfNotPresent
-        - name: 3-enerate-config
+        - name: 3-generate-config
           volumeMounts:
             - name: {{ .Values.spfrx.local_dir }}
               mountPath: "/app/images/ska-mid-dish-spfrx-talondx-console-deploy/{{ .Values.spfrx.local_dir }}"
