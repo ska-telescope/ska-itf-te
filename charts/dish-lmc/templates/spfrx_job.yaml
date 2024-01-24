@@ -3,6 +3,7 @@ kind: Job
 metadata:
   name: spfrx-job
 spec:
+  ttlSecondsAfterFinished: 60
   backoffLimit: 2
   template:
     spec:
@@ -39,7 +40,6 @@ spec:
             cpu: 250m
             memory: 500Mi
       restartPolicy: Never
-      ttlSecondsAfterFinished: 60
       initContainers:
         - name: 0-hello
           volumeMounts:
