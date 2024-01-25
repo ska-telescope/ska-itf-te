@@ -29,6 +29,8 @@ spec:
             value: {{ .Values.spfrx.instance }}
           - name: SPFRX_TANGO_LOGGING_LEVEL
             value: "{{ .Values.spfrx.logging_level }}"
+          - name: TANGO_HOST
+            value: {{ .Values.global.tango_host }}
         image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
         imagePullPolicy: IfNotPresent
         resources:
@@ -124,6 +126,8 @@ spec:
           env:
             - name: DISH_ID
               value: {{ .Values.global.dish_id }}
+            - name: TANGO_HOST
+              value: {{ .Values.global.tango_host }}
           image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
           imagePullPolicy: IfNotPresent
         - name: 4-download-artefacts
@@ -158,6 +162,8 @@ spec:
           env:
             - name: DISH_ID
               value: {{ .Values.global.dish_id }}
+            - name: TANGO_HOST
+              value: {{ .Values.global.tango_host }}
           image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
           imagePullPolicy: IfNotPresent
         - name: 6-deploy-artefacts
@@ -196,5 +202,7 @@ spec:
               value: {{ .Values.spfrx.address }}
             - name: SPFRX_LOCAL_DIR
               value: {{ .Values.spfrx.local_dir }}
+            - name: TANGO_HOST
+              value: {{ .Values.global.tango_host }}
           image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
           imagePullPolicy: IfNotPresent
