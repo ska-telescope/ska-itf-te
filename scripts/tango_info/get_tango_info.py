@@ -37,6 +37,14 @@ def connect_device(device: str) -> Tuple[Any, int]:
     return dev, dev_state
 
 
+def check_device(dev: tango.DeviceProxy) -> bool:
+    try:
+        dev.ping()
+        return True
+    except Exception:
+        return False
+
+
 def device_state(dev: tango.DeviceProxy) -> None:
     """
     Display status information for Tango device.
@@ -46,14 +54,27 @@ def device_state(dev: tango.DeviceProxy) -> None:
     """
     dev_name = dev.name()
     print(f"Device {dev_name}")
-    print(f"\tAdmin mode : {dev.adminMode}")
-    print(f"\tDevice status : {dev.Status()}")
-    print(f"\tDevice state : {dev.State()}")
+    print(f"\tAdmin mode                     : {dev.adminMode}")
+    print(f"\tDevice status                  : {dev.Status()}")
+    print(f"\tDevice state                   : {dev.State()}")
     try:
-        print(f"\tObservation state : {repr(dev.obsState)}")
+        print(f"\tObservation state              : {repr(dev.obsState)}")
         show_obs_state(dev.obsState)
     except AttributeError:
         _module_logger.info("Device %s does not have an observation state", dev_name)
+    print(f"versionId                        : {dev.versionId}")
+    print(f"build State                      : {dev.buildState}")
+    print(f"logging level                    : {dev.loggingLevel}")
+    print(f"logging Targets                  : {dev.loggingTargets}")
+    print(f"health State                     : {dev.healthState}")
+    print(f"control Mode                     : {dev.controlMode}")
+    print(f"simulation Mode                  : {dev.simulationMode}")
+    print(f"test Mode                        : {dev.testMode}")
+    print(f"long Running Commands In Queue   : {dev.longRunningCommandsInQueue}")
+    print(f"long Running Command IDs InQueue : {dev.longRunningCommandIDsInQueue}")
+    print(f"long Running Command Status      : {dev.longRunningCommandStatus}")
+    print(f"long Running Command Progress    : {dev.longRunningCommandProgress}")
+    print(f"long Running Command Result      : {dev.longRunningCommandResult}")
 
 
 def setup_device(dev_name: str) -> Tuple[int, tango.DeviceProxy]:
@@ -528,8 +549,6 @@ def show_long_running_command(dev: Any) -> int:
     while n < lstat:
         print(f"\t\t{dev.longRunningCommandResult[n]}", end="")
         print(f"\t{dev.longRunningCommandResult[n+1]}", end="")
-        # print(f"\t{dev.longRunningCommandResult[n+1][0]}", end="")
-        # print(f"\t{dev.longRunningCommandResult[n+1][1]}", end="")
         print()
         n += 2
     print("\tCommand Status :")
