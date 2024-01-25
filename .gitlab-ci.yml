@@ -8,6 +8,7 @@ variables:
   CLEAN_UP_TEST_ENVIRONMENT: "true"
   DEPLOYMENT_CONFIGURATION: "ska-$CONFIG"
   POETRY_CONFIG_VIRTUALENVS_CREATE: "true"
+  DEPLOY_IMAGE: $CI_REGISTRY/ska-telescope/$CI_PROJECT_NAME/$CI_PROJECT_NAME:0.1.1
 
   # PYTEST_SUBSYS_MARK: (csp_startup or sdp or eda)
   # K8S_INSTALL_FROM_CAR: "false"remove redundant cache
