@@ -44,7 +44,7 @@
   before_script:
     - bash .make/resources/gitlab_section.sh vars "Print vars" make vars
   script:
-    - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart && make k8s-wait
+    - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart && make k8s-wait K8S_TIMEOUT=90
     - make itf-dish-links
   after_script:
     - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart
