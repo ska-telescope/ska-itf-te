@@ -3,7 +3,7 @@ kind: Job
 metadata:
   name: spfrx-job
 spec:
-  ttlSecondsAfterFinished: 60
+  ttlSecondsAfterFinished: 120
   backoffLimit: 0
   template:
     spec:
@@ -11,6 +11,25 @@ spec:
       - name: {{ .Values.spfrx.local_dir }}
         emptyDir: {}
       containers:
+      - name: 7-program-bitstream
+        volumeMounts:
+          - name: {{ .Values.spfrx.local_dir }}
+            mountPath: "/app/images/ska-mid-dish-spfrx-talondx-console-deploy/{{ .Values.spfrx.local_dir }}"
+        command:
+          [
+            "/bin/bash",
+            "-c",
+            "scripts/program-bitstream-remote.sh $(SPFRX_LOCAL_DIR) $(SPFRX_ADDRESS) || env",
+          ]
+        env:
+          - name: SPFRX_ADDRESS
+            value: {{ .Values.spfrx.address }}
+          - name: SPFRX_LOCAL_DIR
+            value: {{ .Values.spfrx.local_dir }}
+          - name: TANGO_HOST
+            value: {{ .Values.global.tango_host }}
+        image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
+          imagePullPolicy: IfNotPresent
       - name: remote-start
         command:
           [
@@ -120,8 +139,8 @@ spec:
             [
               "/bin/bash",
               "-c",
-              "python3 spfrx_deployer.py --generate-spfrx-config --dish_id=$(DISH_ID)",
-              # "python3 spfrx_deployer.py --generate-spfrx-config --dish_id=$(DISH_ID) || true && apt -qq update && apt -qq install tree -y && tree -L 2 && env",
+              "python3 spfrx_deployer.py --generate-spfrx-config --dish_id=$(DISH_ID) && apt -qq update && apt -qq install tree -y && tree -L 2 && env",
+              # "python3 spfrx_deployer.py --generate-spfrx-config --dish_id=$(DISH_ID) || apt -qq update && apt -qq install tree -y && tree -L 2 && env",
             ]
           env:
             - name: DISH_ID
@@ -174,7 +193,7 @@ spec:
             [
               "/bin/bash",
               "-c",
-              "scripts/spfrx-deploy-artifacts.sh $(SPFRX_ADDRESS) $(SPFRX_LOCAL_DIR) $(SPFRX_BIN) $(SPFRX_SCRIPTS_DIR)",
+              "scripts/spfrx-deploy-artifacts.sh $(SPFRX_ADDRESS) $(SPFRX_LOCAL_DIR) $(SPFRX_BIN) $(SPFRX_SCRIPTS_DIR) && apt -qq update && apt -qq install tree -y && tree -L 2 && env",
             ]
           env:
             - name: SPFRX_ADDRESS
@@ -187,22 +206,22 @@ spec:
               value: {{ .Values.spfrx.scripts_dir }}
           image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
           imagePullPolicy: IfNotPresent
-        - name: 7-program-bitstream
-          volumeMounts:
-            - name: {{ .Values.spfrx.local_dir }}
-              mountPath: "/app/images/ska-mid-dish-spfrx-talondx-console-deploy/{{ .Values.spfrx.local_dir }}"
-          command:
-            [
-              "/bin/bash",
-              "-c",
-              "scripts/program-bitstream-remote.sh $(SPFRX_LOCAL_DIR) $(SPFRX_ADDRESS)",
-            ]
-          env:
-            - name: SPFRX_ADDRESS
-              value: {{ .Values.spfrx.address }}
-            - name: SPFRX_LOCAL_DIR
-              value: {{ .Values.spfrx.local_dir }}
-            - name: TANGO_HOST
-              value: {{ .Values.global.tango_host }}
-          image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
-          imagePullPolicy: IfNotPresent
+        # - name: 7-program-bitstream
+        #   volumeMounts:
+        #     - name: {{ .Values.spfrx.local_dir }}
+        #       mountPath: "/app/images/ska-mid-dish-spfrx-talondx-console-deploy/{{ .Values.spfrx.local_dir }}"
+        #   command:
+        #     [
+        #       "/bin/bash",
+        #       "-c",
+        #       "scripts/program-bitstream-remote.sh $(SPFRX_LOCAL_DIR) $(SPFRX_ADDRESS)",
+        #     ]
+        #   env:
+        #     - name: SPFRX_ADDRESS
+        #       value: {{ .Values.spfrx.address }}
+        #     - name: SPFRX_LOCAL_DIR
+        #       value: {{ .Values.spfrx.local_dir }}
+        #     - name: TANGO_HOST
+        #       value: {{ .Values.global.tango_host }}
+        #   image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
+        #   imagePullPolicy: IfNotPresent
