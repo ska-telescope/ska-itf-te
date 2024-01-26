@@ -29,7 +29,7 @@ dishlmc:
         spfdevice:
           enabled: true
         spfrxdevice:
-          enabled: true
+          enabled: false
   ska-mid-dish-ds-manager:
     enabled: true
     ska-tango-base:
