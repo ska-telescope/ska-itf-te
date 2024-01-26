@@ -194,9 +194,11 @@ spec:
             [
               "/bin/bash",
               "-c",
-              "sed -i 's/scp/scp\ -o\ StrictHostKeyChecking=no/g' scripts/program-bitstream-remote.sh; sed -i 's/ssh/ssh\ -o\ StrictHostKeyChecking=no/g' scripts/program-bitstream-remote.sh; scripts/program-bitstream-remote.sh $(SPFRX_LOCAL_DIR) $(SPFRX_ADDRESS) || sleep infinity",
+              "sed -i '1 a set\ -eoux\ pipefail' $(PBF); sed -i 's/scp/scp\ -o\ StrictHostKeyChecking=no/g' $(PBF); sed -i 's/ssh/ssh\ -o\ StrictHostKeyChecking=no/g' $(PBF); $(PBF) $(SPFRX_LOCAL_DIR) $(SPFRX_ADDRESS) || sleep infinity",
             ]
           env:
+            - name: PBR
+              value: scripts/program-bitstream-remote.sh
             - name: SPFRX_ADDRESS
               value: {{ .Values.spfrx.address }}
             - name: SPFRX_LOCAL_DIR
