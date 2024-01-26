@@ -194,7 +194,7 @@ spec:
             [
               "/bin/bash",
               "-c",
-              "sed -i '1 a set\ -eoux\ pipefail' $(PBF); sed -i 's/scp/scp\ -o\ StrictHostKeyChecking=no/g' $(PBF); sed -i 's/ssh/ssh\ -o\ StrictHostKeyChecking=no/g' $(PBF); $(PBF) $(SPFRX_LOCAL_DIR) $(SPFRX_ADDRESS) || sleep infinity",
+              "sed -i '1 a set\ -eoux\ pipefail' $(PBR); sed -i 's/scp/scp\ -o\ StrictHostKeyChecking=no/g' $(PBR); sed -i 's/ssh/ssh\ -o\ StrictHostKeyChecking=no/g' $(PBR); $(PBR) $(SPFRX_LOCAL_DIR) $(SPFRX_ADDRESS) || sleep infinity",
             ]
           env:
             - name: PBR
