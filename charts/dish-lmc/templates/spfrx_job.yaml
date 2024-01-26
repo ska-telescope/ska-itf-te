@@ -3,7 +3,7 @@ kind: Job
 metadata:
   name: spfrx-job
 spec:
-  # ttlSecondsAfterFinished: 120
+  ttlSecondsAfterFinished: 3600
   backoffLimit: 0
   template:
     spec:
@@ -16,7 +16,7 @@ spec:
           [
             "/bin/bash",
             "-c",
-            "scripts/spfrx-remote-start.sh $(TANGO_HOSTNAME).$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN):$(TANGO_PORT) $(SPFRX_ADDRESS) $(SPFRX_BIN) $(TANGO_INSTANCE) $(SPFRX_LOGGING_LEVEL) || apt -qq update && apt -qq install tree -y && tree -L 2 && env",
+            "scripts/spfrx-remote-start.sh $(TANGO_HOSTNAME).$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN):$(TANGO_PORT) $(SPFRX_ADDRESS) $(SPFRX_BIN) $(TANGO_INSTANCE) $(SPFRX_LOGGING_LEVEL) || sleep infinity",
           ]
         env:
           - name: TANGO_DB_FQDN
