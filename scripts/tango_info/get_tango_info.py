@@ -175,6 +175,26 @@ def show_device(device: str, fforce: bool) -> int:  # noqa: C901
     except Exception:
         attribs = []
     print(f" {len(attribs)} \033[1mattributes\033[0m")
+    dev_info = dev.info()
+    print(f"Description  : {dev.description()}")
+    print(f"Device class : {dev_info.dev_class}")
+    print(f"Server host  : {dev_info.server_host}")
+    print(f"Server ID    : {dev_info.server_id}")
+    try:
+        print(f"Resources    : {dev.assignedresources}")
+    except tango.DevFailed:
+        print(f"Resources    : could not be read")
+    except AttributeError:
+        pass
+    try:
+        print(f"VCC state    : {dev.assignedVccState}")
+    except AttributeError:
+        pass
+    try:
+        dev_obs = dev.obsState
+        print(f"Observation  : {get_obs_state(dev_obs)}")
+    except Exception:
+        pass
     # Print commands in italic
     for cmd in cmds:
         print(f"\t\033[3m{cmd}\033[0m")
@@ -422,6 +442,31 @@ def show_commands(evrythng: int, fforce: bool, c_name: str | None) -> None:
             print(f"\t\033[1m{c_name}\033[0m")
 
 
+OBSERVATION_STATES = [
+    "EMPTY",
+    "RESOURCING",
+    "IDLE",
+    "CONFIGURING",
+    "READY",
+    "SCANNING",
+    "ABORTING",
+    "ABORTED",
+    "RESETTING",
+    "FAULT",
+    "RESTARTING",
+]
+
+
+def get_obs_state(obs_stat: int) -> str:
+    """
+    Display Python enumerated type for observing state.
+
+    :param obs_stat: observing state numeric value
+    :return: state description
+    """
+    return OBSERVATION_STATES[obs_stat]
+
+
 def show_obs_state(obs_stat: int) -> None:  # noqa: C901
     """
     Display Python enumerated type for observing state.
@@ -564,7 +609,7 @@ def show_long_running_command(dev: Any) -> int:
     return rc
 
 
-def show_long_running_commands(dev_name: str) -> None:
+def show_long_running_commands(dev_name: str) -> int:
     """
     Display long-running commands.
 
@@ -573,106 +618,107 @@ def show_long_running_commands(dev_name: str) -> None:
     """
     dev = tango.DeviceProxy(dev_name)
     show_long_running_command(dev)
-
-
-def usage(p_name: str) -> None:
-    """
-    Show how it is done.
-
-    :param p_name: executable name
-    """
-    print("Display device names only")
-    print(f"\t{p_name}")
-    print("Display all devices")
-    print(f"\t{p_name} [-f]")
-    print(f"\t{p_name} -e [-f]")
-    print("Filter on device name")
-    print(f"\t{p_name} [-f] --device=<DEVICE>")
-    print(f"\t{p_name} -e [-f] --device=<DEVICE>")
-    print(f"\t{p_name} -q [-f] --device=<DEVICE>")
-    print("Filter on attribute name")
-    print(f"\t{p_name} -e [-f] --attribute=<ATTRIBUTE>")
-    print("where:")
-    print("\t-e\tdisplay in markdown format")
-    print("\t-q\tdisplay status and name only")
-    print("\t-f\tget commands and attributes regadrless of state")
-    print(
-        "\t--device=<DEVICE>\tdevice name, e.g. 'csp'"
-        " (not case sensitive, only a part is needed)"
-    )
-    print("--attribute=<ATTRIBUTE>\tattribute name, e.g. 'obsState'")
-
-
-def main(y_arg: list) -> int:  # noqa: C901
-    """
-    Read and display Tango devices.
-
-    :param y_arg: input arguments
-    """
-    itype: str | None = None
-    evrythng: int = 1
-    fforce: bool = False
-    show_host: bool = False
-    tgo_attrib: str | None = None
-    tgo_cmd: str | None = None
-    try:
-        opts, _args = getopt.getopt(
-            y_arg[1:],
-            "aefhqvVA:C:I:",
-            ["help", "device=", "attribute=", "command="],
-        )
-    except getopt.GetoptError as opt_err:
-        print(f"Could not read command line: {opt_err}")
-        return 1
-
-    for opt, arg in opts:
-        if opt in ("-h", "--help"):
-            usage(os.path.basename(y_arg[0]))
-            sys.exit(1)
-        elif opt in ("-A", "--attribute"):
-            tgo_attrib = arg
-        elif opt in ("-C", "--command"):
-            tgo_cmd = arg
-        elif opt in ("-I", "--device"):
-            itype = arg.upper()
-        elif opt == "-a":
-            show_host = True
-        elif opt == "-e":
-            evrythng = 2
-        elif opt == "-f":
-            fforce = True
-        elif opt == "-q":
-            evrythng = 0
-        elif opt == "-v":
-            _module_logger.setLevel(logging.INFO)
-        elif opt == "-V":
-            _module_logger.setLevel(logging.DEBUG)
-        else:
-            _module_logger.error("Invalid option %s", opt)
-
-    tango_host = f"{DATABASEDS_NAME}.{KUBE_NAMESPACE}.svc.{CLUSTER_DOMAIN}:10000"
-    if show_host:
-        print(f"TANGO_HOST={tango_host}")
-        return 0
-
-    os.environ["TANGO_HOST"] = tango_host
-    _module_logger.info("Set TANGO_HOST to %s", tango_host)
-
-    if tgo_attrib is not None:
-        show_attributes(evrythng, fforce, tgo_attrib)
-        return 0
-
-    if tgo_cmd is not None:
-        show_commands(evrythng, fforce, tgo_cmd)
-        return 0
-
-    show_devices(evrythng, fforce, itype)
-
     return 0
 
 
-if __name__ == "__main__":
-    try:
-        main(sys.argv)
-    except KeyboardInterrupt:
-        pass
+# def usage(p_name: str) -> None:
+#     """
+#     Show how it is done.
+#
+#     :param p_name: executable name
+#     """
+#     print("Display device names only")
+#     print(f"\t{p_name}")
+#     print("Display all devices")
+#     print(f"\t{p_name} [-f]")
+#     print(f"\t{p_name} -e [-f]")
+#     print("Filter on device name")
+#     print(f"\t{p_name} [-f] --device=<DEVICE>")
+#     print(f"\t{p_name} -e [-f] --device=<DEVICE>")
+#     print(f"\t{p_name} -q [-f] --device=<DEVICE>")
+#     print("Filter on attribute name")
+#     print(f"\t{p_name} -e [-f] --attribute=<ATTRIBUTE>")
+#     print("where:")
+#     print("\t-e\tdisplay in markdown format")
+#     print("\t-q\tdisplay status and name only")
+#     print("\t-f\tget commands and attributes regadrless of state")
+#     print(
+#         "\t--device=<DEVICE>\tdevice name, e.g. 'csp'"
+#         " (not case sensitive, only a part is needed)"
+#     )
+#     print("--attribute=<ATTRIBUTE>\tattribute name, e.g. 'obsState'")
+#
+#
+# def main(y_arg: list) -> int:  # noqa: C901
+#     """
+#     Read and display Tango devices.
+#
+#     :param y_arg: input arguments
+#     """
+#     itype: str | None = None
+#     evrythng: int = 1
+#     fforce: bool = False
+#     show_host: bool = False
+#     tgo_attrib: str | None = None
+#     tgo_cmd: str | None = None
+#     try:
+#         opts, _args = getopt.getopt(
+#             y_arg[1:],
+#             "aefhqvVA:C:I:",
+#             ["help", "device=", "attribute=", "command="],
+#         )
+#     except getopt.GetoptError as opt_err:
+#         print(f"Could not read command line: {opt_err}")
+#         return 1
+#
+#     for opt, arg in opts:
+#         if opt in ("-h", "--help"):
+#             usage(os.path.basename(y_arg[0]))
+#             sys.exit(1)
+#         elif opt in ("-A", "--attribute"):
+#             tgo_attrib = arg
+#         elif opt in ("-C", "--command"):
+#             tgo_cmd = arg
+#         elif opt in ("-I", "--device"):
+#             itype = arg.upper()
+#         elif opt == "-a":
+#             show_host = True
+#         elif opt == "-e":
+#             evrythng = 2
+#         elif opt == "-f":
+#             fforce = True
+#         elif opt == "-q":
+#             evrythng = 0
+#         elif opt == "-v":
+#             _module_logger.setLevel(logging.INFO)
+#         elif opt == "-V":
+#             _module_logger.setLevel(logging.DEBUG)
+#         else:
+#             _module_logger.error("Invalid option %s", opt)
+#
+#     tango_host = f"{DATABASEDS_NAME}.{KUBE_NAMESPACE}.svc.{CLUSTER_DOMAIN}:10000"
+#     if show_host:
+#         print(f"TANGO_HOST={tango_host}")
+#         return 0
+#
+#     os.environ["TANGO_HOST"] = tango_host
+#     _module_logger.info("Set TANGO_HOST to %s", tango_host)
+#
+#     if tgo_attrib is not None:
+#         show_attributes(evrythng, fforce, tgo_attrib)
+#         return 0
+#
+#     if tgo_cmd is not None:
+#         show_commands(evrythng, fforce, tgo_cmd)
+#         return 0
+#
+#     show_devices(evrythng, fforce, itype)
+#
+#     return 0
+#
+#
+# if __name__ == "__main__":
+#     try:
+#         main(sys.argv)
+#     except KeyboardInterrupt:
+#         pass

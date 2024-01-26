@@ -199,3 +199,15 @@ IP  : 10.165.3.1
 Port: 5025
 Web : http://za-itf-signal-generator.ad.skatelescope.org/webpages/web/html/ihp.php
 
+# Tango device classes
+
+## MidCspSubarray
+
+|Class           | File                                                          |
+|:---------------|:--------------------------------------------------------------|
+|MidCspSubarray  | ska-csp-lmc-mid/src/ska_csp_lmc_mid/mid_subarray_device.py    |
+|CspSubarray     | ska-csp-lmc-common/src/ska_csp_lmc_common/subarray_device.py  |
+|SKASubarray     | ska-tango-base/src/ska_tango_base/subarray/subarray_device.py |
+|SKAObsDevice    | ska-tango-base/src/ska_tango_base/obs/obs_device.py           |
+|SKABaseDevice   | ska-tango-base/src/ska_tango_base/base/base_device.py         |
+|Device          | ska-tango-base/src/ska_tango_base/base/base_device.py         |
