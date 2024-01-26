@@ -194,7 +194,7 @@ spec:
             [
               "/bin/bash",
               "-c",
-              "scripts/program-bitstream-remote.sh $(SPFRX_LOCAL_DIR) $(SPFRX_ADDRESS) || sleep infinity",
+              "sed -i 's/scp/scp\ -o\ StrictHostKeyChecking=no/g' scripts/program-bitstream-remote.sh; sed -i 's/ssh/ssh\ -o\ StrictHostKeyChecking=no/g' scripts/program-bitstream-remote.sh; scripts/program-bitstream-remote.sh $(SPFRX_LOCAL_DIR) $(SPFRX_ADDRESS) || sleep infinity",
             ]
           env:
             - name: SPFRX_ADDRESS
