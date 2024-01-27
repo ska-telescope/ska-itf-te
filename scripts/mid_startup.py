@@ -31,27 +31,12 @@ from tango_info.get_tango_info import (
 ska_ser_logging.configure_logging(logging.DEBUG)
 _module_logger:logging.Logger = logging.getLogger(__name__)
 
-# Take the namespace name from the deployment job
-KUBE_NAMESPACE = "ci-ska-mid-itf-at-1820-tmc-test-sdp-notebook-v2"
-# KUBE_NAMESPACE = "integration"
-# KUBE_NAMESPACE_SDP = "integration-sdp"
-CLUSTER_DOMAIN = "miditf.internal.skao.int"
-# set the name of the databaseds service
-DATABASEDS_NAME = "tango-databaseds"
-CONTROL_DEVICE = "mid-csp/control/0"
-SUBARRAY_DEVICE = "mid-csp/subarray/01"
-SUBARRAY_RESOURCES = """{
-    "subarray_id": 1,
-    "dish": {
-        "receptor_ids":["SKA001", "SKA036"]
-    }
-}"""
-LONG_RUN_CMDS = 4
-
-LEAFNODE_DEVICE = "ska_mid/tm_leaf_node/csp_subarray_01"
-BITE_POD = "ec-bite"
-BITE_CMD = ["python3", "midcbf_bite.py", "--talon-bite-lstv-replay", "--boards=1"]
-TIMEOUT = 60
+# LONG_RUN_CMDS: int = 4
+#
+# LEAFNODE_DEVICE = "ska_mid/tm_leaf_node/csp_subarray_01"
+# BITE_POD = "ec-bite"
+# BITE_CMD = ["python3", "midcbf_bite.py", "--talon-bite-lstv-replay", "--boards=1"]
+# TIMEOUT = 60
 
 CONFIGUREDATA: Any = {
     "interface": "https://schema.skao.int/ska-csp-configure/2.3",
@@ -114,6 +99,48 @@ def log_prog(log_str: str) -> None:
     """
     print("_"*len(log_str))
     print(log_str)
+
+
+def read_config_json(json_name) -> Any:
+    """
+    Read configuration from JSON file.
+
+    :param json_name: configuration file name
+    :return: configuration data
+    """
+    # print(f"Read configuration file {json_name}")
+    cfg_file = open(json_name)
+    cfg_data = json.load(cfg_file)
+    return cfg_data
+
+
+def show_config_json(mid_sys: str, json_cfg: Any) -> None:
+    """
+    Display configuration from JSON file.
+
+    :param mid_sys: subsystem name,e.g. CSP
+    :param json_cfg: configuration data
+    :return: None
+    """
+    print(f"{json_cfg}")
+    log_prog("Configuration")
+    print(f"\tkube namespace  : {json_cfg['kube_namespace']}")
+    print(f"\tcluster domain  : {json_cfg['cluster_domain']}")
+    print(f"\tdatabaseds name : {json_cfg['databaseds_name']}")
+    print(f"\tsubsystem       : {mid_sys.upper()}")
+    for sub_sys in json_cfg:
+        if sub_sys in ("kube_namespace", "cluster_domain", "databaseds_name"):
+            continue
+        log_prog(f"Subsystem configuration: {sub_sys.upper()}")
+        try:
+            print(f"\tcontrol device  : {json_cfg[sub_sys]['control_device']}")
+            print(f"\tsubarray device : {json_cfg[sub_sys]['subarray_device']}")
+            print(f"\tleafnode device : {json_cfg[sub_sys]['leafnode_device']}")
+            print(f"\tbite pod        : {json_cfg[sub_sys]['bite_pod']}")
+            print(f"\tbite command    : {' '.join(json_cfg[sub_sys]['bite_cmd'])}")
+        except TypeError:
+            pass
+    # print(f"{json_cfg[mid_sys]['']}")
 
 
 def check_tango(tango_fqdn: str) -> int:
@@ -549,11 +576,13 @@ def device_teardown(csp_dev: tango.DeviceProxy) -> int:
     return 0
 
 
-def usage(p_name: str) -> None:
+def usage(p_name: str, mid_sys: str, cfg_data: Any) -> None:
     """
     Show how it is done.
 
     :param p_name: executable name
+    :param mid_sys: subsystem name
+    :param cfg_data: configuration data
     """
     print("Start CSP:")
     print(
@@ -563,6 +592,7 @@ def usage(p_name: str) -> None:
         " [--leafnode=<LEAFNODE>]"
         " [--namespace=<NAMESPACE>]"
         " [--service=<SERVICE>]"
+        " [--system=<SYSTEM>]"
     )
     print("Stop CSP:")
     print(
@@ -577,22 +607,36 @@ def usage(p_name: str) -> None:
     print("Display long running commands:")
     print(f"\t{p_name} --long-cmd [--subarray=<DEVICE]")
     print("where:")
+    sub_systems = []
+    for sub_sys in cfg_data:
+        if sub_sys in ("kube_namespace", "cluster_domain", "databaseds_name"):
+            continue
+        sub_systems.append(sub_sys.upper())
+    print(
+        f"\t--system=<SYSTEM>\tTelescope subsystem ({' or '.join(sub_systems)}),"
+        f" default is {mid_sys.upper()}"
+    )
     print(
         "\t--jobs=<JOBS>\t\tMinimum number of long running commands,"
-        f" default is {LONG_RUN_CMDS}"
+        f" default is {cfg_data[mid_sys]['long_run_cmds']}"
     )
     print("\t--teardown\t\tTear down control device at the end")
-    print(f"\t--control=<DEVICE>\tTango control device, default is {CONTROL_DEVICE}")
-    print(f"\t--subarray=<DEVICE>\tTango subarray device, default is {SUBARRAY_DEVICE}")
     print(
-        f"\t--leafnode=<LEAFNODE>\tTango leafnode device, default is {LEAFNODE_DEVICE}"
+        "\t--control=<DEVICE>\tTango control device,"
+        f"default is {cfg_data[mid_sys]['control_device']}")
+    print("\t--subarray=<DEVICE>\tTango subarray device,"
+          f"default is {cfg_data[mid_sys]['subarray_device']}")
+    print(
+        "\t--leafnode=<LEAFNODE>\tTango leafnode device,"
+        f" default is {cfg_data[mid_sys]['leafnode_device']}"
     )
     print(
-        f"\t--namespace=<NAMESPACE>\tKubernetes namespace, default is {KUBE_NAMESPACE}"
+        "\t--namespace=<NAMESPACE>\tKubernetes namespace,"
+        f" default is {cfg_data['kube_namespace']}"
     )
     print(
         "\t--service=<SERVICE>\tKubernetes service for Tango database,"
-        f"default is {DATABASEDS_NAME}"
+        f" default is {cfg_data['databaseds_name']}"
     )
 
 
@@ -602,30 +646,36 @@ def main(y_arg: list) -> int:  # noqa: C901
 
     :param y_arg: input arguments
     """
-    ns_name: str = KUBE_NAMESPACE
-    svc_name: str = DATABASEDS_NAME
-    ctl_dev_name: str = CONTROL_DEVICE
-    sub_dev_name: str = SUBARRAY_DEVICE
-    leaf_dev_name: str = LEAFNODE_DEVICE
-    resource_data: str = SUBARRAY_RESOURCES
+    cfg_data = read_config_json(f"{os.path.dirname(y_arg[0])}/mid_startup.json")
+
+    ns_name: str = cfg_data["kube_namespace"]
+    svc_name: str = cfg_data["databaseds_name"]
+    cluster_domain: str = cfg_data["cluster_domain"]
+    mid_sys = "csp"
+    ctl_dev_name: str = cfg_data[mid_sys]["control_device"]
+    sub_dev_name: str = cfg_data[mid_sys]["subarray_device"]
+    leaf_dev_name: str = cfg_data[mid_sys]["leafnode_device"]
+    resource_data: str = cfg_data[mid_sys]["subarray_resources"]
+    long_cmds: int = cfg_data[mid_sys]["long_run_cmds"]
     # TODO read JSON data from file
     _resource_file: str | None = None  # noqa: F841
     show_tango: bool = False
     show_status: bool = False
     dry_run = False
     tear_down = False
+    show_cfg = False
     show_obs = False
     show_long = False
     dev_start = False
     dev_stop = False
-    long_cmds = LONG_RUN_CMDS
 
     try:
         opts, _args = getopt.getopt(
             y_arg[1:],
-            "adefhlnopstvVC:D:J:L:N:R:S:",
+            "acdefhlnopstvVC:D:J:L:N:R:S:",
             [
                 "help",
+                "config",
                 "dry-run",
                 "long-cmd",
                 "observation",
@@ -640,6 +690,7 @@ def main(y_arg: list) -> int:  # noqa: C901
                 "subarray=",
                 "leafnode=",
                 "resource=",
+                "system=",
             ],
         )  # noqa: F841
     except getopt.GetoptError as opt_err:
@@ -648,7 +699,7 @@ def main(y_arg: list) -> int:  # noqa: C901
 
     for opt, arg in opts:
         if opt in ("-h", "--help"):
-            usage(os.path.basename(y_arg[0]))
+            usage(os.path.basename(y_arg[0]), mid_sys, cfg_data)
             sys.exit(1)
         elif opt in ("-C", "--control"):
             ctl_dev_name = arg
@@ -664,6 +715,8 @@ def main(y_arg: list) -> int:  # noqa: C901
             svc_name = arg
         elif opt in ("-n", "--dry-run"):
             dry_run = True
+        elif opt in ("-c", "--config"):
+            show_cfg = True
         elif opt == "--start":
             dev_start = True
         elif opt == "--stop":
@@ -676,6 +729,8 @@ def main(y_arg: list) -> int:  # noqa: C901
             show_long = True
         elif opt in ("-o", "--observation"):
             show_obs = True
+        elif opt == "--system":
+            mid_sys = arg.lower()
         elif opt == "-t":
             show_tango = True
         elif opt == "-v":
@@ -687,10 +742,14 @@ def main(y_arg: list) -> int:  # noqa: C901
         else:
             print("Invalid option %s" % opt)
 
+    show_config_json(mid_sys, cfg_data)
+    if show_cfg:
+        return 1
+
     ns_sdp_name = f"{ns_name}-sdp"
 
     # Set the Tango host
-    tango_fqdn = f"{svc_name}.{ns_name}.svc.{CLUSTER_DOMAIN}"
+    tango_fqdn = f"{svc_name}.{ns_name}.svc.{cluster_domain}"
     print("Tango database FQDN is %s" % tango_fqdn)
     tango_port = 10000
     tango_host = f"{tango_fqdn}:{tango_port}"
@@ -700,7 +759,6 @@ def main(y_arg: list) -> int:  # noqa: C901
     rc = check_tango(tango_fqdn)
     if rc or show_tango:
         return 1
-
     if show_obs:
         rc = show_observation_status(sub_dev_name)
     elif show_long:
