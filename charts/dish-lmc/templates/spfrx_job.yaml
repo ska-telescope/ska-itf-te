@@ -16,7 +16,7 @@ spec:
           [
             "/bin/bash",
             "-c",
-            "scripts/spfrx-remote-start.sh $(TANGO_HOSTNAME).$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN):$(TANGO_PORT) $(SPFRX_ADDRESS) $(SPFRX_BIN) $(TANGO_INSTANCE) $(SPFRX_LOGGING_LEVEL) || sleep infinity",
+            "sed -i '1 a set\ -eoux\ pipefail' scripts/spfrx-remote-start.sh; scripts/spfrx-remote-start.sh $(TANGO_HOSTNAME).$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN):$(TANGO_PORT) $(SPFRX_ADDRESS) $(SPFRX_BIN) $(TANGO_INSTANCE) $(SPFRX_LOGGING_LEVEL) || sleep infinity",
           ]
         env:
           - name: TANGO_DB_FQDN
@@ -102,8 +102,7 @@ spec:
           command: [
               "/bin/bash",
               "-c",
-              # "echo remote-stop && env && echo && echo '####################################' && echo 'remember SSH?' && echo '####################################'",
-              "scripts/spfrx-remote-stop.sh $(SPFRX_ADDRESS) $(SPFRX_BIN)",
+              "sed -i '1 a set\ -eoux\ pipefail' scripts/spfrx-remote-stop.sh; scripts/spfrx-remote-stop.sh $(SPFRX_ADDRESS) $(SPFRX_BIN)",
             ]
           env:
             - name: SPFRX_ADDRESS
@@ -173,7 +172,7 @@ spec:
             [
               "/bin/bash",
               "-c",
-              "echo '6-deploy-artefacts: scripts/spfrx-deploy-artifacts.sh $(SPFRX_ADDRESS) $(SPFRX_LOCAL_DIR) $(SPFRX_BIN) $(SPFRX_SCRIPTS_DIR)'; scripts/spfrx-deploy-artifacts.sh $(SPFRX_ADDRESS) $(SPFRX_LOCAL_DIR) $(SPFRX_BIN) $(SPFRX_SCRIPTS_DIR) || sleep infinity",
+              "sed -i '1 a set\ -eoux\ pipefail' scripts/spfrx-deploy-artifacts.sh; scripts/spfrx-deploy-artifacts.sh $(SPFRX_ADDRESS) $(SPFRX_LOCAL_DIR) $(SPFRX_BIN) $(SPFRX_SCRIPTS_DIR) || sleep infinity",
             ]
           env:
             - name: SPFRX_ADDRESS
@@ -194,7 +193,7 @@ spec:
             [
               "/bin/bash",
               "-c",
-              "sed -i '1 a set\ -eoux\ pipefail' $(PBR); sed -i 's/scp/scp\ -o\ StrictHostKeyChecking=no/g' $(PBR); sed -i 's/ssh/ssh\ -o\ StrictHostKeyChecking=no/g' $(PBR); $(PBR) $(SPFRX_LOCAL_DIR) $(SPFRX_ADDRESS) || sleep infinity",
+              "sed -i '1 a set\ -eoux\ pipefail' scripts/program-bitstream-remote.sh; sed -i 's/scp/scp\ -o\ StrictHostKeyChecking=no/g' scripts/program-bitstream-remote.sh; sed -i 's/ssh/ssh\ -o\ StrictHostKeyChecking=no/g' scripts/program-bitstream-remote.sh; scripts/program-bitstream-remote.sh $(SPFRX_LOCAL_DIR) $(SPFRX_ADDRESS) || sleep infinity",
             ]
           env:
             - name: PBR
