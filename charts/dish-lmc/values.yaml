@@ -16,24 +16,21 @@ global:
 dishlmc:
   ska-tango-base:
     enabled: false
+
   ska-mid-dish-manager:
-    legacy_compatibility: true
-    ska-mid-dish-simulators:
-      enabled: true
-      legacy_compatibility: true
-      ska-tango-base:
-        enabled: false
-      dsOpcuaSimulator:
-        enabled: true
-      deviceServers:
-        spfdevice:
-          enabled: true
-        spfrxdevice:
-          enabled: false
-  ska-mid-dish-ds-manager:
     enabled: true
-    ska-tango-base:
-      enabled: false
+    ska-mid-dish-ds-manager:
+      enabled: true
+
+  ska-mid-dish-simulators:
+    enabled: true
+    deviceServers:
+      spfdevice:
+        enabled: true
+      spfrxdevice:
+        enabled: false
+    dsOpcuaSimulator:
+      enabled: true
 
 # SPFRx
 spfrx:
