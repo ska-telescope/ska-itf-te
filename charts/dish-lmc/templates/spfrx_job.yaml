@@ -22,7 +22,7 @@ spec:
           - name: TANGO_DB_FQDN
             value: {{ .Values.global.tangodb_fqdn }}
           - name: TANGO_DB_PORT
-            value: {{ .Values.global.tangodb_port }}
+            value: "{{ .Values.global.tangodb_port }}"
           - name: SPFRX_ADDRESS
             value: {{ .Values.spfrx.address }}
           - name: SPFRX_BIN
@@ -65,7 +65,7 @@ spec:
             - name: TANGO_DB_FQDN
               value: {{ .Values.global.tangodb_fqdn }}
             - name: TANGO_DB_PORT
-              value: {{ .Values.global.tangodb_port }}
+              value: "{{ .Values.global.tangodb_port }}"
             - name: SPFRX_CONSOLE_VER
               value: {{ .Values.spfrx.console.version }}
             - name: SPFRX_ADDRESS
