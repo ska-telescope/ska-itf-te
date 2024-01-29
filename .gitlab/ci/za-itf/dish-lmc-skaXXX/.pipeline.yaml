@@ -120,9 +120,9 @@ deploy-dishlmc-ska100:
 
 include:
   - local: .gitlab/ci/za-itf/dish-lmc-skaXXX/ska001/.pipeline.yaml
-  - local: .gitlab/ci/za-itf/dish-lmc-skaXXX/ska036/.pipeline.yaml
-  - local: .gitlab/ci/za-itf/dish-lmc-skaXXX/ska063/.pipeline.yaml
-  - local: .gitlab/ci/za-itf/dish-lmc-skaXXX/ska100/.pipeline.yaml
+  # - local: .gitlab/ci/za-itf/dish-lmc-skaXXX/ska036/.pipeline.yaml
+  # - local: .gitlab/ci/za-itf/dish-lmc-skaXXX/ska063/.pipeline.yaml
+  # - local: .gitlab/ci/za-itf/dish-lmc-skaXXX/ska100/.pipeline.yaml
 
 uninstall-dishlmc-ska036:
   extends:
