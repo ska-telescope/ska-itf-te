@@ -131,7 +131,8 @@ itf-dish-links: links ## Create the URLs with which to access Taranta Dashboards
 ## VARS: KUBE_APP
 ##  make target for generating the URLs for accessing the Test Equipment deployment
 
-itf-links: k8s-info ## Create the URLs with which to access the Tango Control System if it is available
+itf-links: ## Create the URLs with which to access the Tango Control System if it is available
+	@make k8s-info || echo "Some failure with `make k8s-info` - contact the System Team"
 	@echo ${CI_JOB_NAME}
 	@echo "##############################################################################################"
 	@echo "#        Access the Taranta framework for the $(shell echo $(KUBE_APP) | tr a-z A-Z) Tango Control System here:"
