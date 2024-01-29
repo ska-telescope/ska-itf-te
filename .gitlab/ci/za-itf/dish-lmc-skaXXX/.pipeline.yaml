@@ -9,6 +9,11 @@
     K8S_CHART: dish-lmc
     KUBE_APP: dish-lmc
     DISH_ID: ska$DISH_INDEX
+    SPFRX_CONSOLE_VER: 0.1.0
+    SPFRX_BIN: /usr/local/bin
+    SPFRX_LOCAL_DIR: artifacts
+    SPFRX_SCRIPTS_DIR: scripts
+    SPFRX_TANGO_LOGGING_LEVEL: 4
 
 .dish_rules:
   rules:
@@ -65,31 +70,6 @@
     - .deploy-dish-lmc
   when: on_success
 
-deploy-dishlmc-ska001:
-  extends:
-    - .deploy-dish-lmc
-  needs:
-    - deploy-ds-sim-ska001
-  when: always # TEMPORARY COMMIT
-  # when: on_success # TEMPORARY COMMIT
-  variables:
-    DISH_INDEX: "001"
-    DISH_LMC_EXTRA_PARAMS: -f charts/dish-lmc/values-cetc.yaml --set dishlmc.ska-mid-dish-ds-manager.dishstructuremanager.dsSim.fqdn=$DS_SIM_OPCUA_FQDN
-  environment:
-    on_stop: uninstall-dishlmc-ska001
-
-redeploy-dishlmc-ska001:
-  extends:
-    - .redeploy-dish-lmc
-  needs:
-    - redeploy-ds-sim-ska001
-  when: on_success
-  variables:
-    DISH_INDEX: "001"
-    DISH_LMC_EXTRA_PARAMS: -f charts/dish-lmc/values-cetc.yaml --set dishlmc.ska-mid-dish-ds-manager.dishstructuremanager.dsSim.fqdn=$DS_SIM_OPCUA_FQDN
-  environment:
-    on_stop: uninstall-dishlmc-ska001
-
 deploy-dishlmc-ska036:
   extends:
     - .deploy-additional-lmc
@@ -119,7 +99,6 @@ deploy-dishlmc-ska100:
     - deploy-aa05-dishes
     - deploy-dishlmc-ska001
   variables:
-    DISH_LMC_INITIAL_PARAMS: -f charts/dish-lmc/values.yaml
     DISH_INDEX: "100"
   environment:
     on_stop: uninstall-dishlmc-ska100
@@ -139,13 +118,8 @@ deploy-dishlmc-ska100:
   needs:
     - uninstall-aa05-dishes
 
-uninstall-dishlmc-ska001:
-  extends:
-    - .destroy-dish-lmc
-  needs:
-    - remove-ds-sim-ska001
-  variables:
-    DISH_ID: ska001
+include:
+  - local: .ska001.yaml
 
 uninstall-dishlmc-ska036:
   extends:

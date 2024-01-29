@@ -59,7 +59,16 @@ DISH_LMC_EXTRA_PARAMS ?=
 
 ifneq ($(DISH_ID),)
 DISH_LMC_EXTRA_PARAMS = --set global.dish_id=$(DISH_ID) \
-	--set global.tangodb_fqdn=$(TANGO_DATABASE_DS).$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN)
+	--set global.tangodb_fqdn=$(TANGO_DATABASE_DS).$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN) \
+	--set global.tango_host=$(TANGO_HOST) \
+	--set global.tangodb_port=10000 \
+	--set spfrx.console.version=$(SPFRX_CONSOLE_VER) \
+	--set spfrx.address=$(SPFRX_ADDRESS) \
+	--set spfrx.bin=$(SPFRX_BIN) \
+	--set spfrx.local_dir=$(SPFRX_LOCAL_DIR) \
+	--set spfrx.scripts_dir=$(SPFRX_SCRIPTS_DIR) \
+	--set spfrx.instance=$(SPFRX_TANGO_INSTANCE) \
+	--set spfrx.logging_level=$(SPFRX_TANGO_LOGGING_LEVEL)
 endif
 
 DISH_LMC_PARAMS ?= $(DISH_LMC_INITIAL_PARAMS) $(DISH_LMC_EXTRA_PARAMS)
