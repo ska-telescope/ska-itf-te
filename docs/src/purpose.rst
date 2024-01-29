@@ -105,7 +105,7 @@ In the present repository it is possible to deploy the charts in different names
    file-browser                      For the spectrum analyser file browser
    integration                       For long-lived deployment of the SUT
    staging                           For long-lived deployment of the SUT
-   taranta                           For taranta deployment
+   taranta                           For taranta backend deployment
    test-equipment                    For Test Equipment Tango Device Servers
    ================================  ====================================================
 
