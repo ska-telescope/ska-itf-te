@@ -90,3 +90,7 @@ sdp:
 # helpers
 ska-log-consumer:
   enabled: false
+
+# SKA Tango AlarmHandler
+ska-tango-alarmhandler:
+  enabled: true
