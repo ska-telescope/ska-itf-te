@@ -9,6 +9,7 @@ global:
     ska-tango-base:
       enabled: false
   tangodb_fqdn: localhost
+  tangodb_port: 10000
   raw_user_account: bond
   raw_user_pass: jamesbond
 

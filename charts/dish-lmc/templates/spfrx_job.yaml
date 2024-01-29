@@ -16,11 +16,13 @@ spec:
           [
             "/bin/bash",
             "-c",
-            "sed -i '1 a set\ -eoux\ pipefail' scripts/spfrx-remote-start.sh; scripts/spfrx-remote-start.sh $(TANGO_HOSTNAME).$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN):$(TANGO_PORT) $(SPFRX_ADDRESS) $(SPFRX_BIN) $(TANGO_INSTANCE) $(SPFRX_LOGGING_LEVEL) || sleep infinity",
+            "sed -i '1 a set\ -eoux\ pipefail' scripts/spfrx-remote-start.sh; scripts/spfrx-remote-start.sh $(TANGO_DB_FQDN):$(TANGO_DB_PORT) $(SPFRX_ADDRESS) $(SPFRX_BIN) $(SPFRX_TANGO_INSTANCE) $(SPFRX_TANGO_LOGGING_LEVEL) || sleep infinity",
           ]
         env:
           - name: TANGO_DB_FQDN
             value: {{ .Values.global.tangodb_fqdn }}
+          - name: TANGO_DB_PORT
+            value: {{ .Values.global.tangodb_port }}
           - name: SPFRX_ADDRESS
             value: {{ .Values.spfrx.address }}
           - name: SPFRX_BIN
@@ -60,6 +62,10 @@ spec:
               value: {{ .Values.global.raw_user_pass }}
             - name: TANGO_HOST
               value: {{ .Values.global.tango_host }}
+            - name: TANGO_DB_FQDN
+              value: {{ .Values.global.tangodb_fqdn }}
+            - name: TANGO_DB_PORT
+              value: {{ .Values.global.tangodb_port }}
             - name: SPFRX_CONSOLE_VER
               value: {{ .Values.spfrx.console.version }}
             - name: SPFRX_ADDRESS
