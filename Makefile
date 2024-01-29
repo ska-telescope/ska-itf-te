@@ -71,6 +71,12 @@ DISH_LMC_EXTRA_PARAMS = --set global.dish_id=$(DISH_ID) \
 	--set spfrx.logging_level=$(SPFRX_TANGO_LOGGING_LEVEL)
 endif
 
+ifeq ($(DISH_ID), ska001)
+	DISH_LMC_EXTRA_PARAMS = $(DISH_LMC_EXTRA_PARAMS) \
+	-f charts/dish-lmc/values-cetc.yaml \
+	--set dishlmc.ska-mid-dish-ds-manager.dishstructuremanager.dsSim.fqdn=$(DS_SIM_OPCUA_FQDN)
+endif
+
 DISH_LMC_PARAMS ?= $(DISH_LMC_INITIAL_PARAMS) $(DISH_LMC_EXTRA_PARAMS)
 
 SKUID_URL ?= ska-ser-skuid-test-svc.$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN):9870
