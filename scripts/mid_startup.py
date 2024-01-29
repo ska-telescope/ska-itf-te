@@ -15,7 +15,7 @@ import sys
 import time
 from typing import Any, List, Tuple
 
-import ska_ser_logging
+import ska_ser_logging  # type: ignore[import]
 import tango
 from k8s_info.get_k8s_info import KubernetesControl
 from tango_info.get_tango_info import (
@@ -29,7 +29,7 @@ from tango_info.get_tango_info import (
 )
 
 ska_ser_logging.configure_logging(logging.DEBUG)
-_module_logger:logging.Logger = logging.getLogger(__name__)
+_module_logger: logging.Logger = logging.getLogger(__name__)
 
 # LONG_RUN_CMDS: int = 4
 #
@@ -97,11 +97,11 @@ def log_prog(log_str: str) -> None:
     :param log_str: message to display
     :return: None
     """
-    print("_"*len(log_str))
+    print("_" * len(log_str))
     print(log_str)
 
 
-def read_config_json(json_name) -> Any:
+def read_config_json(json_name: str) -> Any:
     """
     Read configuration from JSON file.
 
@@ -174,11 +174,12 @@ def show_observation_status(sub_dev_name: str) -> int:
     return 0
 
 
-def start_device(dev: tango.DeviceProxy) -> int:
+def start_device(dev: tango.DeviceProxy, timeout: int) -> int:
     """
     Set up device connection and timeouts.
 
     :param dev: Tango device handle
+    :param timeout: in seconds
     :return: error condition
     """
     dev_name = dev.name()
@@ -200,7 +201,7 @@ def start_device(dev: tango.DeviceProxy) -> int:
     else:
         print("Device %s state is %s" % (dev_name, str(csp_state)))
     # Set Timeout to 60 seconds as the ON command is a long-running command
-    dev.commandTimeout = TIMEOUT
+    dev.commandTimeout = timeout
     # check value
     print(f"Command timeout is {dev.commandTimeout}")
     # Check CBF SimulationMode (this should be FALSE for real hardware control)
@@ -242,7 +243,7 @@ def start_ctl_device(dev: tango.DeviceProxy, subsystems: list, dry_run: bool) ->
 
 
 def get_surrogate(
-    ns_name: str, ns_sdp_name: str, dry_run: bool
+    ns_name: str, ns_sdp_name: str, databaseds_name: str, dry_run: bool
 ) -> Tuple[Any, Any | None]:
     """
     Control the CSP subarray.
@@ -251,12 +252,13 @@ def get_surrogate(
 
     :param ns_name: Kubernetes namespace
     :param ns_sdp_name: Kubernetes namespace for SDP
+    :param databaseds_name: database device server
     :param dry_run: dry run flag
     :return: error conition
     """
     k8s = KubernetesControl(_module_logger)
     # Get Tango database service
-    svcs = k8s.get_services(ns_name, DATABASEDS_NAME)
+    svcs = k8s.get_services(ns_name, databaseds_name)
     for svc_nm in svcs:
         svc = svcs[svc_nm]
         svc_ns = svc[0]
@@ -449,27 +451,33 @@ def csp_shutdown(subarray_dev: tango.DeviceProxy) -> int:
 
 def do_startup(
     ctl_dev_name: str,
+    timeout: int,
     show_status: bool,
     sub_dev_name: str,
     resource_data: str,
     long_cmds: int,
     dry_run: bool,
     ns_name: str,
+    databaseds_name: str,
     ns_sdp_name: str,
     leaf_dev_name: str,
+    bite_cmd: List[str],
 ) -> int:
     """
     Start up specified Tango devices.
 
     :param ctl_dev_name: control Tango device name
+    :param timeout: in seconds
     :param show_status: flag to show status and return
     :param sub_dev_name: subarray Tango device name
     :param resource_data: resource data used to initialize device
     :param long_cmds: number of long-running commands to accept
     :param dry_run: flag to show what will be done
     :param ns_name: namespace name
+    :param databaseds_name: Tango database
     :param ns_sdp_name: surrogate namespace
     :param leaf_dev_name: leaf Tango device name
+    :param bite_cmd: command to do the BITE thing
     :return: error conition:
 
     """
@@ -486,7 +494,7 @@ def do_startup(
     if show_status:
         return 1
 
-    start_device(ctl_dev)
+    start_device(ctl_dev, timeout)
     device_state(ctl_dev)
     show_long_running_command(ctl_dev)
 
@@ -505,11 +513,11 @@ def do_startup(
         if l_count > 5:
             print(
                 "Long running commands still active after"
-                f" {(l_count*TIMEOUT)/60} minutes"
+                f" {(l_count*timeout)/60} minutes"
             )
             return 1
         print(f"Waiting for {lrc} long running commands")
-        time.sleep(TIMEOUT)
+        time.sleep(timeout)
         lrc = show_long_running_command(sub_dev)
 
     # an empty list sends the ON command to ALL the subsystems, specific subsystems
@@ -517,18 +525,22 @@ def do_startup(
     subsystems: List[Any] = []
     _rc = start_ctl_device(ctl_dev, subsystems, dry_run)  # noqa: F841
 
-    sdp_pod_nm, sdp_host_ip_address = get_surrogate(ns_name, ns_sdp_name, dry_run)
+    sdp_pod_nm, sdp_host_ip_address = get_surrogate(
+        ns_name, ns_sdp_name, databaseds_name, dry_run
+    )
 
     rc = control_subarray(sub_dev, sdp_host_ip_address, dry_run)
     if rc:
         print("Control subarray failed")
         return 1
 
-    setup_bite_stream(ns_name, sdp_pod_nm, dry_run, BITE_CMD)
+    setup_bite_stream(ns_name, sdp_pod_nm, dry_run, bite_cmd)
 
     upload_delay(leaf_dev_name, dry_run)
 
     scan_data(ns_sdp_name, sdp_pod_nm, dry_run)
+
+    return 0
 
 
 def do_shutdown(
@@ -623,9 +635,12 @@ def usage(p_name: str, mid_sys: str, cfg_data: Any) -> None:
     print("\t--teardown\t\tTear down control device at the end")
     print(
         "\t--control=<DEVICE>\tTango control device,"
-        f"default is {cfg_data[mid_sys]['control_device']}")
-    print("\t--subarray=<DEVICE>\tTango subarray device,"
-          f"default is {cfg_data[mid_sys]['subarray_device']}")
+        f"default is {cfg_data[mid_sys]['control_device']}"
+    )
+    print(
+        "\t--subarray=<DEVICE>\tTango subarray device,"
+        f"default is {cfg_data[mid_sys]['subarray_device']}"
+    )
     print(
         "\t--leafnode=<LEAFNODE>\tTango leafnode device,"
         f" default is {cfg_data[mid_sys]['leafnode_device']}"
@@ -651,12 +666,15 @@ def main(y_arg: list) -> int:  # noqa: C901
     ns_name: str = cfg_data["kube_namespace"]
     svc_name: str = cfg_data["databaseds_name"]
     cluster_domain: str = cfg_data["cluster_domain"]
+    databaseds_name: str = cfg_data["databaseds_name"]
+    timeout = cfg_data["timeout"]
     mid_sys = "csp"
     ctl_dev_name: str = cfg_data[mid_sys]["control_device"]
     sub_dev_name: str = cfg_data[mid_sys]["subarray_device"]
     leaf_dev_name: str = cfg_data[mid_sys]["leafnode_device"]
     resource_data: str = cfg_data[mid_sys]["subarray_resources"]
     long_cmds: int = cfg_data[mid_sys]["long_run_cmds"]
+    bite_cmd: List[str] = cfg_data[mid_sys]["bite_cmd"]
     # TODO read JSON data from file
     _resource_file: str | None = None  # noqa: F841
     show_tango: bool = False
@@ -766,14 +784,17 @@ def main(y_arg: list) -> int:  # noqa: C901
     elif dev_start:
         rc = do_startup(
             ctl_dev_name,
+            timeout,
             show_status,
             sub_dev_name,
             resource_data,
             long_cmds,
             dry_run,
             ns_name,
+            databaseds_name,
             ns_sdp_name,
             leaf_dev_name,
+            bite_cmd,
         )
     elif dev_stop:
         rc = do_shutdown(

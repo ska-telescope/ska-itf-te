@@ -2,10 +2,8 @@
 """
 Read information from Tango database.
 """
-import getopt
 import logging
 import os
-import sys
 import time
 from typing import Any, Tuple
 
@@ -183,7 +181,7 @@ def show_device(device: str, fforce: bool) -> int:  # noqa: C901
     try:
         print(f"Resources    : {dev.assignedresources}")
     except tango.DevFailed:
-        print(f"Resources    : could not be read")
+        print("Resources    : could not be read")
     except AttributeError:
         pass
     try:

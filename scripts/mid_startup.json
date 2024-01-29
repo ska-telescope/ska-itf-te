@@ -2,6 +2,7 @@
     "kube_namespace": "ci-ska-mid-itf-at-1820-tmc-test-sdp-notebook-v2",
     "cluster_domain": "miditf.internal.skao.int",
     "databaseds_name": "tango-databaseds",
+    "timeout": 60,
     "csp": {
         "control_device": "mid-csp/control/0",
         "subarray_device": "mid-csp/subarray/01",
