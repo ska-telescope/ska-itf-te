@@ -119,7 +119,7 @@ deploy-dishlmc-ska100:
     - uninstall-aa05-dishes
 
 include:
-  - local: .ska001.yaml
+  - local: .gitlab/ci/za-itf/dish-lmc-skaXXX/ska001/.pipeline.yaml
 
 uninstall-dishlmc-ska036:
   extends:
