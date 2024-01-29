@@ -26,7 +26,7 @@
         ]
     },
     "tmc": {
-        "control_device": "ska_mid/tm_central/central_node",
+        "control_device": "dserver/central_node_mid/01",
         "subarray_device": "ska_mid/tm_leaf_node/csp_subarray01",
         "subarray_resources": {
             "subarray_id": 1,

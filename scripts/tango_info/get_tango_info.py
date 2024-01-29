@@ -2,6 +2,7 @@
 """
 Read information from Tango database.
 """
+import json
 import logging
 import os
 import time
@@ -147,6 +148,175 @@ def show_device_state(device: str) -> int:
     return 1
 
 
+def show_device_commands(dev: tango.DeviceProxy) -> None:
+    """
+    Print commands
+    :param dev: Tango device
+    :return: None
+    """
+    try:
+        cmds = dev.get_command_config()
+    except Exception:
+        cmds = []
+    if cmds:
+        cmd = cmds[0]
+        print(f"{'Commands':17} : \033[3m{cmd.cmd_name}\033[0m", end="")
+        in_type_desc = cmd.in_type_desc
+        if in_type_desc != "Uninitialised":
+            print(f" <IN:{in_type_desc}>", end="")
+        out_type_desc = cmd.out_type_desc
+        if out_type_desc != "Uninitialised":
+            if out_type_desc != in_type_desc:
+                print(f" <OUT:{out_type_desc}>")
+        print()
+        for cmd in cmds[1:]:
+            print(f"{' ':17}   \033[3m{cmd.cmd_name}\033[0m", end="")
+            in_type_desc = cmd.in_type_desc
+            if in_type_desc != "Uninitialised":
+                print(f" <IN:{in_type_desc}>", end="")
+            out_type_desc = cmd.out_type_desc
+            if out_type_desc != "Uninitialised":
+                print(f" <OUT:{out_type_desc}>", end="")
+            print()
+
+
+def show_attribute_value_scalar(prefix: str, attrib_value: str):
+    """
+    Print attribute value
+    :param prefix: data prefix string
+    :param attrib_value: attribute value
+    """
+    try:
+        attrib_dict = json.loads(attrib_value)
+    except Exception:
+        print(f" {attrib_value}")
+        return
+    print()
+    for value in attrib_dict:
+        attr_value = attrib_dict[value]
+        if type(attr_value) is list:
+            for item in attr_value:
+                if type(item) is dict:
+                    print(f"{prefix} {value} :")
+                    for key in item:
+                        print(f"{prefix+'    '} {key} : {item[key]}")
+                else:
+                    print(f"{prefix+'    '} {item}")
+        elif type(attr_value) is dict:
+            print(f"{prefix} {value}")
+            for key in attr_value:
+                key_value = attr_value[key]
+                if not key_value:
+                    print(f"{prefix+'    '} {key} ?")
+                elif type(key_value) is str:
+                    if key_value[0] == "{":
+                        print(f"{prefix+'    '} {key} : DICT{key_value}")
+                    else:
+                        print(f"{prefix+'    '} {key} : STR{key_value}")
+                else:
+                    print(f"{prefix+'    '} {key} : {key_value}")
+        else:
+            print(f"{prefix} {value} : {attr_value}")
+
+
+def show_attribute_value_spectrum(prefix: str, attrib_value: str):
+    """
+    Print attribute value
+    :param prefix: data prefix string
+    :param attrib_value: attribute value
+    """
+    if not attrib_value:
+        print(" <EMPTY>")
+    elif type(attrib_value) is tuple:
+        print()
+        for attr in attrib_value:
+            print(f"{prefix}   {attr}")
+    elif type(attrib_value) is dict:
+        int_models = json.loads(attrib_value)
+        n = 0
+        for key in int_models:
+            if not n:
+                print(f"{'Internal models':17} : {key}")
+            else:
+                print(f"{' ':17}   {key}")
+            int_model_values = int_models[key]
+            if type(int_model_values) is dict:
+                for value in int_model_values:
+                    print(f"{' ':25} {value} : {int_model_values[value]}")
+            else:
+                print(f"{' ':25} {value} : {int_model_values}")
+            n += 1
+    else:
+        print(f" {type(attrib_value)}:{attrib_value}")
+        # print()
+        # print(f"{prefix}   {type(attrib_value)}:{attrib_value}")
+
+
+def show_attribute_value(dev: tango.DeviceProxy, attrib: str, prefix: str):
+    """
+    Print attribute value
+    :param prefix: data prefix string
+    :param attrib_value: attribute value
+    """
+    try:
+        attrib_value = dev.read_attribute(attrib).value
+    except Exception:
+        print(" <could not be read>")
+        return
+    _module_logger.debug("Attribute %s value %s", attrib, attrib_value)
+    attrib_cfg = dev.get_attribute_config(attrib)
+    data_format = attrib_cfg.data_format
+    print(f" ({data_format})", end="")
+    if data_format == tango._tango.AttrDataFormat.SCALAR:
+        show_attribute_value_scalar(prefix, attrib_value)
+    elif data_format == tango._tango.AttrDataFormat.SPECTRUM:
+        show_attribute_value_spectrum(prefix, attrib_value)
+    else:
+        print(f" {attrib_value}")
+
+
+def show_device_attributes(dev: tango.DeviceProxy) -> None:
+    """
+    Print attributes
+    :param dev: Tango device
+    :return: None
+    """
+    try:
+        attribs = sorted(dev.get_attribute_list())
+    except Exception:
+        attribs = []
+    if attribs:
+        attrib = attribs[0]
+        print(f"{'Attributes':17} : \033[1m{attrib}\033[0m", end="")
+        show_attribute_value(dev, attrib, ' ' * 25)
+        for attrib in attribs[1:]:
+            print(
+                f"{' ':17}   \033[1m{attrib}\033[0m ", end=""
+            )
+            # if attrib in ("internalModel", "transformedInternalModel"):
+            #     print()
+            #     continue
+            show_attribute_value(dev, attrib, ' ' * 25)
+    # if "internalModel" in attribs:
+    #     int_models = json.loads(dev.internalModel)
+    # if "transformedInternalModel" in attribs:
+    #     int_models = json.loads(dev.transformedInternalModel)
+    #     n = 0
+    #     for key in int_models:
+    #         if not n:
+    #             print(f"{'Internal models':17} : {key}")
+    #
+    #         else:
+    #             print(f"{' ':17}   {key}")
+    #         int_model_values = int_models[key]
+    #         if type(int_model_values) is dict:
+    #             for value in int_model_values:
+    #                 print(f"{' ':25} {value} : {int_model_values[value]}")
+    #         else:
+    #             print(f"{' ':25} {value} : {int_model_values}")
+    #         n += 1
+
+
 def show_device(device: str, fforce: bool) -> int:  # noqa: C901
     """
     Display Tango device in text format
@@ -156,55 +326,72 @@ def show_device(device: str, fforce: bool) -> int:  # noqa: C901
     """
     dev, dev_state = connect_device(device)
     # pylint: disable-next=c-extension-no-member
+    print(f"{'Device':17} : {device}", end="")
     if dev_state != tango._tango.DevState.ON:
-        print(f"  {device}", end="")
+        print(f" <OFF>", end="")
         if not fforce:
             print()
             return 0
     else:
-        print(f"* {device}", end="")
+        print(f" <ON>", end="")
     try:
-        cmds = sorted(dev.get_command_list())
+        cmds = dev.get_command_list()
     except Exception:
         cmds = []
-    print(f" : {len(cmds)} \033[3mcommands\033[0m,", end="")
+    print(f" {len(cmds)} \033[3mcommands\033[0m,", end="")
     try:
         attribs = sorted(dev.get_attribute_list())
     except Exception:
         attribs = []
     print(f" {len(attribs)} \033[1mattributes\033[0m")
     dev_info = dev.info()
-    print(f"Description  : {dev.description()}")
-    print(f"Device class : {dev_info.dev_class}")
-    print(f"Server host  : {dev_info.server_host}")
-    print(f"Server ID    : {dev_info.server_id}")
+    print(f"{'Description':17} : {dev.description()}")
+    print(f"{'Device class':17} : {dev_info.dev_class}")
+    print(f"{'Server host':17} : {dev_info.server_host}")
+    print(f"{'Server ID':17} : {dev_info.server_id}")
     try:
-        print(f"Resources    : {dev.assignedresources}")
+        print(f"{'Resources'} : {dev.assignedresources}")
     except tango.DevFailed:
-        print("Resources    : could not be read")
+        print("{'Resources':17} : could not be read")
     except AttributeError:
         pass
     try:
-        print(f"VCC state    : {dev.assignedVccState}")
+        print(f"{'VCC state':17} : {dev.assignedVccState}")
     except AttributeError:
         pass
     try:
         dev_obs = dev.obsState
-        print(f"Observation  : {get_obs_state(dev_obs)}")
+        print(f"{'Observation':17} : {get_obs_state(dev_obs)}")
     except Exception:
         pass
     # Print commands in italic
-    for cmd in cmds:
-        print(f"\t\033[3m{cmd}\033[0m")
+    show_device_commands(dev)
+    # Print query devices
+    if "QueryDevice" in cmds:
+        qdevs = dev.QueryDevice()
+        if qdevs:
+            qdev = qdevs[0]
+            print(f"{'Query devices':17} : {qdev}")
+            for qdev in qdevs[1:]:
+                print(f"{' ':17} : {qdev}")
+        else:
+            print(f"{'Query devices':17} : not found")
+    else:
+        print(f"{'Query devices':17} : N/A")
+    # Print query sub-devices
+    if "QuerySubDevice" in cmds:
+        qdevs = dev.QuerySubDevice()
+        if qdevs:
+            qdev = qdevs[0]
+            print(f"{'Query sub-devices':17} : {qdev}")
+            for qdev in qdevs[1:]:
+                print(f"{' ':17} : {qdev}")
+        else:
+            print(f"{'Query sub-devices':17} : not found")
+    else:
+        print(f"{'Query sub-devices':17} : N/A")
     # Print attributes in bold
-    for attrib in attribs:
-        print(f"\t\033[1m{attrib}\033[0m : ", end="")
-        try:
-            print(f"{dev.read_attribute(attrib).value}")
-        except Exception:
-            print("could not be read")
-    if cmds or attribs:
-        return 1
+    show_device_attributes(dev)
     return 0
 
 
