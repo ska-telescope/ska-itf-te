@@ -29,13 +29,12 @@ deploy-test-equipment:
   script:
     - make file-browser-secrets
     - make itf-te-template
-    - make spooky
     - make itf-te-install
     # The following are all needed to verify deployment and expose the issue
     - make k8s-wait SKA_TANGO_OPERATOR=true
     - kubectl logs -l job-name=signalgenerator-test-config -n $KUBE_NAMESPACE
     - make k8s-get-pods
-    - make itf-te-links
+    - make itf-links
   environment:
     name: ska-mid-itf/test-equipment
     kubernetes:
@@ -100,7 +99,6 @@ deploy-skysimctl-install:
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
-
 ## to delete?
 .deploy-test-equipment-for-verification:
   tags:
@@ -123,7 +121,7 @@ deploy-skysimctl-install:
     - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
   script:
     - make k8s-install-chart
-    - make itf-te-links
+    - make itf-links
     - make k8s-wait || true
   after_script:
     - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart-with-build-artifacts
