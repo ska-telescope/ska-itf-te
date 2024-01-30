@@ -12,15 +12,15 @@ def test_load_alarm():
     """A method to load tmc alarm for Alarm handler instance"""
     alarm_handler = DeviceProxy("alarm/handler/01")
     alarm_formula = (
-        "tag=centralNode_telescopehealthstate_unknown;formula="
+        "tag=centralnode_telescopehealthstate_unknown;formula="
         "(ska_mid/tm_central/central_node/telescopehealthState == 13);"
         "priority=log;group=none;message="
         '("alarm for central node telescopehealthstate unknown")'
     )
     alarm_handler.Load(alarm_formula)
     alarm_list = alarm_handler.alarmList
-    assert alarm_list == ("centralNode_telescopehealthstate_unknown",)
-    alarm_handler.Ack("centralNode_telescopehealthstate_unknown")
+    assert alarm_list == ("centralnode_telescopehealthstate_unknown",)
+    alarm_handler.Ack("centralnode_telescopehealthstate_unknown")
     tear_down_configured_alarms(alarm_handler, alarm_list)
 
 
