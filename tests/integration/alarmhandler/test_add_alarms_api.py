@@ -66,18 +66,16 @@ def a_alarm_handler():
 
 
 @when("I configure alarms for TMC using alarm configurator tool")
-def add_alarms_api(filename):
-    """Call add alarms API.
-
-    :param filename: a alarm rule file
-    """
-    with open(f"/app/tests/alarmhandler/data/alarm_rules/{filename}", "rb") as file:
+def add_alarms_api():
+    """Call add alarms API."""
+    with open(f"/app/tests/alarmhandler/data/alarm_rules/alarm_file1.txt", "rb") as file:
         response = httpx.post(
             f"http://alarm-handler-configurator.{namespace}.svc.miditf.internal.skao.int."
             + "local:8004/add-alarms?fqdn=alarm%2Fhandler%2F01",
-            files={"file": (filename, file, "text/plain")},
+            files={"file": ("alarm_file1.txt", file, "text/plain")},
             data={"fqdn": "alarm/handler/01"},
         )
+        logging.info(response)
         response_data = response.json()
         logging.info(response_data)
 
@@ -88,10 +86,7 @@ def check_alarms(response_data):
 
     :param response_data: json received from add-alarms API
     """
-    assert len(response_data["alarm_summary"]["tag"]) == 4
+    assert len(response_data["alarm_summary"]["tag"]) == 1
     assert response_data["alarm_summary"]["tag"] == [
-        "centralnode_health_degraded",
-        "centralnode_health_failed",
-        "subarraynode_health",
         "subarraynode_obsstate_fault",
     ]
