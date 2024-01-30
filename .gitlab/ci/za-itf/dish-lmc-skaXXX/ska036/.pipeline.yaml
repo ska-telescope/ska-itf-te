@@ -22,10 +22,8 @@ deploy-dishlmc-ska036:
 
 uninstall-dishlmc-ska036:
   extends:
-    - .destroy-dish-lmc
+    - .destroy-aa05-dishes
     - .ska036-env
-  needs:
-    - remove-ds-sim-ska036
 #######################################
 # NOT YET IMPLEMENTED
 # redeploy-dishlmc-ska036:
