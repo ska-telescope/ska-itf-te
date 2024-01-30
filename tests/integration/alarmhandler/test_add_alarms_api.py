@@ -57,7 +57,7 @@ def a_tmc():
             assert result > 0
 
 
-@given("an alarmhandler")
+@given("an alarm handler")
 def a_alarm_handler():
     """Given an alarm handler."""
     alarm_handler = con_config.get_device_proxy("alarm/handler/01")
