@@ -1,15 +1,11 @@
-"""Configure Alarm Tests"""
-import logging
-
+"""load and acknowledge the configured alarms."""
 import pytest
 from tango import DeviceProxy
-
-logger = logging.getLogger(__name__)
 
 
 @pytest.mark.skamid
 def test_load_alarm():
-    """A method to load tmc alarm for Alarm handler instance"""
+    """Configure alarms on alarm handler instance."""
     alarm_handler = DeviceProxy("alarm/handler/01")
     alarm_formula = (
         "tag=centralnode_telescopehealthstate_unknown;formula="
@@ -21,18 +17,14 @@ def test_load_alarm():
     alarm_list = alarm_handler.alarmList
     assert alarm_list == ("centralnode_telescopehealthstate_unknown",)
     alarm_handler.Ack("centralnode_telescopehealthstate_unknown")
-    tear_down_configured_alarms(alarm_handler, alarm_list)
+    tear_down(alarm_handler, alarm_list)
 
 
-def tear_down_configured_alarms(
-    alarm_handler_device: DeviceProxy, alarms_to_remove: list
-):
-    """
-    A method to remove configured alarms using the tag
-    Arg:
-        alarm_handler_device(DeviceProxy): device proxy for
-        alarm handler device
-        alarms_to_remove(list): list of alarms to remove
+def tear_down(alarm_handler_device: DeviceProxy, alarms_to_remove: list):
+    """Remove configured alarms using the tag.
+
+    :param alarm_handler_device: device proxy for alarm handler device
+    :param alarms_to_remove: list of alarms to remove
     """
     for tag in alarms_to_remove:
         alarm_handler_device.Remove(tag)
