@@ -68,7 +68,9 @@ def a_alarm_handler():
 @when("I configure alarms for TMC using alarm configurator tool")
 def add_alarms_api():
     """Call add alarms API."""
-    with open("/app/tests/alarmhandler/data/alarm_rules/alarm_file1.txt", "rb") as file:
+    with open(
+        "/app/tests/integration/alarmhandler/data/alarm_rules/alarm_file1.txt", "rb"
+    ) as file:
         response = httpx.post(
             f"http://alarm-handler-configurator.{namespace}.svc.miditf.internal.skao.int."
             + "local:8004/add-alarms?fqdn=alarm%2Fhandler%2F01",
