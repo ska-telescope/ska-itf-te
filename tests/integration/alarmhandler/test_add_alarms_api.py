@@ -73,7 +73,7 @@ def add_alarms_api(filename):
     """
     with open(f"/app/tests/alarmhandler/data/alarm_rules/{filename}", "rb") as file:
         response = httpx.post(
-            f"http://alarm-handler-configurator.{namespace}.svc.cluster."
+            f"http://alarm-handler-configurator.{namespace}.svc.miditf.internal.skao.int."
             + "local:8004/add-alarms?fqdn=alarm%2Fhandler%2F01",
             files={"file": (filename, file, "text/plain")},
             data={"fqdn": "alarm/handler/01"},
