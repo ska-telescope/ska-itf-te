@@ -70,17 +70,6 @@
     - .deploy-dish-lmc
   when: on_success
 
-deploy-dishlmc-ska036:
-  extends:
-    - .deploy-additional-lmc
-  needs:
-    - deploy-dishlmc-ska001
-    - deploy-aa05-dishes
-  variables:
-    DISH_INDEX: "036"
-  environment:
-    on_stop: uninstall-dishlmc-ska036
-
 deploy-dishlmc-ska063:
   extends:
     - .deploy-additional-lmc
@@ -120,15 +109,9 @@ deploy-dishlmc-ska100:
 
 include:
   - local: .gitlab/ci/za-itf/dish-lmc-skaXXX/ska001/.pipeline.yaml
-  # - local: .gitlab/ci/za-itf/dish-lmc-skaXXX/ska036/.pipeline.yaml
+  - local: .gitlab/ci/za-itf/dish-lmc-skaXXX/ska036/.pipeline.yaml
   # - local: .gitlab/ci/za-itf/dish-lmc-skaXXX/ska063/.pipeline.yaml
   # - local: .gitlab/ci/za-itf/dish-lmc-skaXXX/ska100/.pipeline.yaml
-
-uninstall-dishlmc-ska036:
-  extends:
-    - .destroy-aa05-dishes
-  variables:
-    DISH_ID: ska036
 
 uninstall-dishlmc-ska063:
   extends:

@@ -10,10 +10,11 @@
 
 deploy-dishlmc-ska036:
   extends:
-    - .deploy-dish-lmc
+    - .deploy-additional-lmc
     - .ska036-env
   needs:
-    - deploy-ds-sim-ska036
+    - deploy-dishlmc-ska001
+    # - deploy-aa05-dishes # TEMPORARILY COMMENTED OUT
   when: always # TEMPORARY COMMIT - DELETE WHEN DONE
   # when: on_success # TEMPORARY COMMIT - UNCOMMENT WHEN DONE
   environment:
