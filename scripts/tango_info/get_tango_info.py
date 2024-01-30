@@ -5,11 +5,13 @@ Read information from Tango database.
 import json
 import logging
 import os
+import socket
 import time
 from typing import Any, Tuple
 
 import tango
 from ska_control_model import AdminMode
+from ska_mid_itf.ska_jargon.ska_jargon import find_jargon, print_jargon
 
 logging.basicConfig(level=logging.WARNING)
 _module_logger = logging.getLogger(__name__)
@@ -18,6 +20,25 @@ _module_logger.setLevel(logging.WARNING)
 KUBE_NAMESPACE = "ci-ska-mid-itf-at-1820-tmc-test-sdp-notebook-v2"
 CLUSTER_DOMAIN = "miditf.internal.skao.int"
 DATABASEDS_NAME = "tango-databaseds"
+
+
+def check_tango(tango_fqdn: str, tango_port: int = 10000) -> int:
+    """
+    Check Tango host address.
+
+    :param tango_fqdn: fully qualified domain name
+    :param tango_port: port number
+    :return: error condition
+    """
+    try:
+        tango_addr = socket.gethostbyname_ex(tango_fqdn)
+        tango_ip = tango_addr[2][0]
+    except socket.gaierror as e:
+        print("Could not read address %s : %s" % (tango_fqdn, e))
+        return 1
+    print(f"TANGO_HOST={tango_fqdn}:{tango_port}")
+    print(f"TANGO_HOST={tango_ip}:{tango_port}")
+    return 0
 
 
 def connect_device(device: str) -> Tuple[Any, int]:
@@ -187,36 +208,43 @@ def show_attribute_value_scalar(prefix: str, attrib_value: str):
     :param attrib_value: attribute value
     """
     try:
-        attrib_dict = json.loads(attrib_value)
+        attrib_json = json.loads(attrib_value)
     except Exception:
         print(f" {attrib_value}")
         return
     print()
-    for value in attrib_dict:
-        attr_value = attrib_dict[value]
-        if type(attr_value) is list:
-            for item in attr_value:
-                if type(item) is dict:
-                    print(f"{prefix} {value} :")
-                    for key in item:
-                        print(f"{prefix+'    '} {key} : {item[key]}")
-                else:
-                    print(f"{prefix+'    '} {item}")
-        elif type(attr_value) is dict:
-            print(f"{prefix} {value}")
-            for key in attr_value:
-                key_value = attr_value[key]
-                if not key_value:
-                    print(f"{prefix+'    '} {key} ?")
-                elif type(key_value) is str:
-                    if key_value[0] == "{":
-                        print(f"{prefix+'    '} {key} : DICT{key_value}")
+    if type(attrib_json) is dict:
+        for value in attrib_json:
+            attr_value = attrib_json[value]
+            if type(attr_value) is list:
+                for item in attr_value:
+                    if type(item) is dict:
+                        print(f"{prefix} {value} :")
+                        for key in item:
+                            print(f"{prefix+'    '} {key} : {item[key]}")
                     else:
-                        print(f"{prefix+'    '} {key} : STR{key_value}")
-                else:
-                    print(f"{prefix+'    '} {key} : {key_value}")
-        else:
-            print(f"{prefix} {value} : {attr_value}")
+                        print(f"{prefix+'    '} {item}")
+            elif type(attr_value) is dict:
+                print(f"{prefix} {value}")
+                for key in attr_value:
+                    key_value = attr_value[key]
+                    if not key_value:
+                        print(f"{prefix+'    '} {key} ?")
+                    elif type(key_value) is str:
+                        if key_value[0] == "{":
+                            print(f"{prefix+'    '} {key} : DICT{key_value}")
+                        else:
+                            print(f"{prefix+'    '} {key} : STR{key_value}")
+                    else:
+                        print(f"{prefix+'    '} {key} : {key_value}")
+            else:
+                print(f"{prefix} {value} : {attr_value}")
+    elif type(attrib_json) is list:
+        for value in attrib_json:
+            print(f"{prefix} {value}")
+    else:
+        print(f" {attrib_value} {type(attrib_value)}")
+
 
 
 def show_attribute_value_spectrum(prefix: str, attrib_value: str):
@@ -233,23 +261,16 @@ def show_attribute_value_spectrum(prefix: str, attrib_value: str):
             print(f"{prefix}   {attr}")
     elif type(attrib_value) is dict:
         int_models = json.loads(attrib_value)
-        n = 0
         for key in int_models:
-            if not n:
-                print(f"{'Internal models':17} : {key}")
-            else:
-                print(f"{' ':17}   {key}")
+            print(f"{prefix}   {key}")
             int_model_values = int_models[key]
             if type(int_model_values) is dict:
                 for value in int_model_values:
-                    print(f"{' ':25} {value} : {int_model_values[value]}")
+                    print(f"{prefix+'     '} {value} : {int_model_values[value]}")
             else:
-                print(f"{' ':25} {value} : {int_model_values}")
-            n += 1
+                print(f"{prefix+'     '} {value} : {int_model_values}")
     else:
         print(f" {type(attrib_value)}:{attrib_value}")
-        # print()
-        # print(f"{prefix}   {type(attrib_value)}:{attrib_value}")
 
 
 def show_attribute_value(dev: tango.DeviceProxy, attrib: str, prefix: str):
@@ -293,28 +314,104 @@ def show_device_attributes(dev: tango.DeviceProxy) -> None:
             print(
                 f"{' ':17}   \033[1m{attrib}\033[0m ", end=""
             )
-            # if attrib in ("internalModel", "transformedInternalModel"):
-            #     print()
-            #     continue
             show_attribute_value(dev, attrib, ' ' * 25)
-    # if "internalModel" in attribs:
-    #     int_models = json.loads(dev.internalModel)
-    # if "transformedInternalModel" in attribs:
-    #     int_models = json.loads(dev.transformedInternalModel)
-    #     n = 0
-    #     for key in int_models:
-    #         if not n:
-    #             print(f"{'Internal models':17} : {key}")
-    #
-    #         else:
-    #             print(f"{' ':17}   {key}")
-    #         int_model_values = int_models[key]
-    #         if type(int_model_values) is dict:
-    #             for value in int_model_values:
-    #                 print(f"{' ':25} {value} : {int_model_values[value]}")
-    #         else:
-    #             print(f"{' ':25} {value} : {int_model_values}")
-    #         n += 1
+
+
+def show_device_query(device: str, fforce: bool) -> int:  # noqa: C901
+    """
+    Display Tango device in text format
+
+    :param device: device name
+    :param fforce: get commands and attributes regadrless of state
+    :return: one if device is on, otherwise zero
+    """
+    rv = 1
+    dev, dev_state = connect_device(device)
+    # pylint: disable-next=c-extension-no-member
+    print(f"{'Device':17} : {device}", end="")
+    if dev_state != tango._tango.DevState.ON:
+        if not fforce:
+            print(f"\n{'State':17} : OFF\n")
+            return 0
+        rv = 0
+    try:
+        cmds = dev.get_command_list()
+    except Exception:
+        cmds = []
+    dev_name = dev.name()
+    print(f" {len(cmds)} \033[3mcommands\033[0m,", end="")
+    try:
+        attribs = sorted(dev.get_attribute_list())
+    except Exception:
+        attribs = []
+    print(f" {len(attribs)} \033[1mattributes\033[0m")
+    dev_info = dev.info()
+    if "State" in cmds:
+        print(f"{'State':17} : {dev.State()}")
+    if "Status" in cmds:
+        dev_status = dev.Status().replace("\n", f"\n{' ':20}")
+        print(f"{'Status':17} : {dev_status}")
+    print(f"{'Description':17} : {dev.description()}")
+    jargon = find_jargon(dev_name)
+    if jargon:
+        print(f"{'Acronyms':17} : {jargon}")
+    print(f"{'Device class':17} : {dev_info.dev_class}")
+    print(f"{'Server host':17} : {dev_info.server_host}")
+    print(f"{'Server ID':17} : {dev_info.server_id}")
+    if "DevLockStatus" in cmds:
+        print(f"{'Lock status':17} : {dev.DevLockStatus(dev_name)}")
+    if "DevPollStatus" in cmds:
+        print(f"{'Poll status':17} : {dev.DevPollStatus(dev_name)}")
+    # Get Logging Target
+    if "GetLoggingTarget" in cmds:
+        qdevs = dev.GetLoggingTarget(dev_name)
+        if qdevs:
+            qdev = qdevs[0]
+            print(f"{'Logging target':17} : {qdev}")
+            for qdev in qdevs[1:]:
+                print(f"{' ':17} : {qdev}")
+        else:
+            print(f"{'Logging target':17} : none specified")
+    # else:
+    #     print(f"{'Logging target':17} : N/A")
+    # Print query classes
+    if "QueryClass" in cmds:
+        qdevs = dev.QueryClass()
+        if qdevs:
+            qdev = qdevs[0]
+            print(f"{'Query class':17} : {qdev}")
+            for qdev in qdevs[1:]:
+                print(f"{' ':17} : {qdev}")
+        else:
+            print(f"{'Query class':17} : none specified")
+    # else:
+    #     print(f"{'Query class':17} : N/A")
+    # Print query devices
+    if "QueryDevice" in cmds:
+        qdevs = dev.QueryDevice()
+        if qdevs:
+            qdev = qdevs[0]
+            print(f"{'Query devices':17} : {qdev}")
+            for qdev in qdevs[1:]:
+                print(f"{' ':17} : {qdev}")
+        else:
+            print(f"{'Query devices':17} : none specified")
+    # else:
+    #     print(f"{'Query devices':17} : N/A")
+    # Print query sub-devices
+    if "QuerySubDevice" in cmds:
+        qdevs = dev.QuerySubDevice()
+        if qdevs:
+            qdev = qdevs[0]
+            print(f"{'Query sub-devices':17} : {qdev}")
+            for qdev in qdevs[1:]:
+                print(f"{' ':17} : {qdev}")
+        else:
+            print(f"{'Query sub-devices':17} : none specified")
+    # else:
+    #     print(f"{'Query sub-devices':17} : N/A")
+    print("")
+    return rv
 
 
 def show_device(device: str, fforce: bool) -> int:  # noqa: C901
@@ -323,21 +420,24 @@ def show_device(device: str, fforce: bool) -> int:  # noqa: C901
 
     :param device: device name
     :param fforce: get commands and attributes regadrless of state
+    :return: one if device is on, otherwise zero
     """
+    rv = 1
     dev, dev_state = connect_device(device)
     # pylint: disable-next=c-extension-no-member
     print(f"{'Device':17} : {device}", end="")
     if dev_state != tango._tango.DevState.ON:
-        print(f" <OFF>", end="")
         if not fforce:
-            print()
+            print(f"\n{'State':17} : OFF\n")
             return 0
-    else:
-        print(f" <ON>", end="")
+        rv = 0
+    # else:
+    #     print(f" <ON>", end="")
     try:
         cmds = dev.get_command_list()
     except Exception:
         cmds = []
+    dev_name = dev.name()
     print(f" {len(cmds)} \033[3mcommands\033[0m,", end="")
     try:
         attribs = sorted(dev.get_attribute_list())
@@ -345,7 +445,15 @@ def show_device(device: str, fforce: bool) -> int:  # noqa: C901
         attribs = []
     print(f" {len(attribs)} \033[1mattributes\033[0m")
     dev_info = dev.info()
+    if "State" in cmds:
+        print(f"{'State':17} : {dev.State()}")
+    if "Status" in cmds:
+        dev_status = dev.Status().replace("\n", f"\n{' ':20}")
+        print(f"{'Status':17} : {dev_status}")
     print(f"{'Description':17} : {dev.description()}")
+    jargon = find_jargon(dev_name)
+    if jargon:
+        print(f"{'Acronyms':17} : {jargon}")
     print(f"{'Device class':17} : {dev_info.dev_class}")
     print(f"{'Server host':17} : {dev_info.server_host}")
     print(f"{'Server ID':17} : {dev_info.server_id}")
@@ -366,6 +474,34 @@ def show_device(device: str, fforce: bool) -> int:  # noqa: C901
         pass
     # Print commands in italic
     show_device_commands(dev)
+    if "DevLockStatus" in cmds:
+        print(f"{'Lock status':17} : {dev.DevLockStatus(dev_name)}")
+    if "DevPollStatus" in cmds:
+        print(f"{'Poll status':17} : {dev.DevPollStatus(dev_name)}")
+    # Get Logging Target
+    if "GetLoggingTarget" in cmds:
+        qdevs = dev.GetLoggingTarget(dev_name)
+        if qdevs:
+            qdev = qdevs[0]
+            print(f"{'Logging target':17} : {qdev}")
+            for qdev in qdevs[1:]:
+                print(f"{' ':17} : {qdev}")
+        else:
+            print(f"{'Logging target':17} : none specified")
+    else:
+        print(f"{'Logging target':17} : N/A")
+    # Print query classes
+    if "QueryClass" in cmds:
+        qdevs = dev.QueryClass()
+        if qdevs:
+            qdev = qdevs[0]
+            print(f"{'Query class':17} : {qdev}")
+            for qdev in qdevs[1:]:
+                print(f"{' ':17} : {qdev}")
+        else:
+            print(f"{'Query class':17} : none specified")
+    else:
+        print(f"{'Query class':17} : N/A")
     # Print query devices
     if "QueryDevice" in cmds:
         qdevs = dev.QueryDevice()
@@ -375,7 +511,7 @@ def show_device(device: str, fforce: bool) -> int:  # noqa: C901
             for qdev in qdevs[1:]:
                 print(f"{' ':17} : {qdev}")
         else:
-            print(f"{'Query devices':17} : not found")
+            print(f"{'Query devices':17} : none specified")
     else:
         print(f"{'Query devices':17} : N/A")
     # Print query sub-devices
@@ -387,12 +523,12 @@ def show_device(device: str, fforce: bool) -> int:  # noqa: C901
             for qdev in qdevs[1:]:
                 print(f"{' ':17} : {qdev}")
         else:
-            print(f"{'Query sub-devices':17} : not found")
+            print(f"{'Query sub-devices':17} : none specified")
     else:
         print(f"{'Query sub-devices':17} : N/A")
     # Print attributes in bold
     show_device_attributes(dev)
-    return 0
+    return rv
 
 
 def show_device_markdown(device: str) -> int:  # noqa: C901
@@ -518,7 +654,9 @@ def show_devices(evrythng: int, fforce: bool, itype: str | None) -> None:  # noq
                 _module_logger.info(f"Ignore {device}")
                 continue
         dev_count += 1
-        if evrythng == 2:
+        if evrythng == 3:
+            on_dev_count += show_device_query(device, fforce)
+        elif evrythng == 2:
             on_dev_count += show_device_markdown(device)
         elif evrythng == 1:
             on_dev_count += show_device(device, fforce)
@@ -586,8 +724,8 @@ def show_attributes(evrythng: int, fforce: bool, a_name: str | None) -> None:
         except Exception:
             attribs = []
         if a_name in attribs:
-            print(f"* {device}", end="")
-            print(f"\t\033[1m{a_name}\033[0m")
+            print(f"* {device:48}", end="")
+            print(f" \033[1m{a_name}\033[0m")
 
 
 def show_commands(evrythng: int, fforce: bool, c_name: str | None) -> None:
@@ -805,105 +943,3 @@ def show_long_running_commands(dev_name: str) -> int:
     show_long_running_command(dev)
     return 0
 
-
-# def usage(p_name: str) -> None:
-#     """
-#     Show how it is done.
-#
-#     :param p_name: executable name
-#     """
-#     print("Display device names only")
-#     print(f"\t{p_name}")
-#     print("Display all devices")
-#     print(f"\t{p_name} [-f]")
-#     print(f"\t{p_name} -e [-f]")
-#     print("Filter on device name")
-#     print(f"\t{p_name} [-f] --device=<DEVICE>")
-#     print(f"\t{p_name} -e [-f] --device=<DEVICE>")
-#     print(f"\t{p_name} -q [-f] --device=<DEVICE>")
-#     print("Filter on attribute name")
-#     print(f"\t{p_name} -e [-f] --attribute=<ATTRIBUTE>")
-#     print("where:")
-#     print("\t-e\tdisplay in markdown format")
-#     print("\t-q\tdisplay status and name only")
-#     print("\t-f\tget commands and attributes regadrless of state")
-#     print(
-#         "\t--device=<DEVICE>\tdevice name, e.g. 'csp'"
-#         " (not case sensitive, only a part is needed)"
-#     )
-#     print("--attribute=<ATTRIBUTE>\tattribute name, e.g. 'obsState'")
-#
-#
-# def main(y_arg: list) -> int:  # noqa: C901
-#     """
-#     Read and display Tango devices.
-#
-#     :param y_arg: input arguments
-#     """
-#     itype: str | None = None
-#     evrythng: int = 1
-#     fforce: bool = False
-#     show_host: bool = False
-#     tgo_attrib: str | None = None
-#     tgo_cmd: str | None = None
-#     try:
-#         opts, _args = getopt.getopt(
-#             y_arg[1:],
-#             "aefhqvVA:C:I:",
-#             ["help", "device=", "attribute=", "command="],
-#         )
-#     except getopt.GetoptError as opt_err:
-#         print(f"Could not read command line: {opt_err}")
-#         return 1
-#
-#     for opt, arg in opts:
-#         if opt in ("-h", "--help"):
-#             usage(os.path.basename(y_arg[0]))
-#             sys.exit(1)
-#         elif opt in ("-A", "--attribute"):
-#             tgo_attrib = arg
-#         elif opt in ("-C", "--command"):
-#             tgo_cmd = arg
-#         elif opt in ("-I", "--device"):
-#             itype = arg.upper()
-#         elif opt == "-a":
-#             show_host = True
-#         elif opt == "-e":
-#             evrythng = 2
-#         elif opt == "-f":
-#             fforce = True
-#         elif opt == "-q":
-#             evrythng = 0
-#         elif opt == "-v":
-#             _module_logger.setLevel(logging.INFO)
-#         elif opt == "-V":
-#             _module_logger.setLevel(logging.DEBUG)
-#         else:
-#             _module_logger.error("Invalid option %s", opt)
-#
-#     tango_host = f"{DATABASEDS_NAME}.{KUBE_NAMESPACE}.svc.{CLUSTER_DOMAIN}:10000"
-#     if show_host:
-#         print(f"TANGO_HOST={tango_host}")
-#         return 0
-#
-#     os.environ["TANGO_HOST"] = tango_host
-#     _module_logger.info("Set TANGO_HOST to %s", tango_host)
-#
-#     if tgo_attrib is not None:
-#         show_attributes(evrythng, fforce, tgo_attrib)
-#         return 0
-#
-#     if tgo_cmd is not None:
-#         show_commands(evrythng, fforce, tgo_cmd)
-#         return 0
-#
-#     show_devices(evrythng, fforce, itype)
-#
-#     return 0
-#
-#
-# if __name__ == "__main__":
-#     try:
-#         main(sys.argv)
-#     except KeyboardInterrupt:
-#         pass

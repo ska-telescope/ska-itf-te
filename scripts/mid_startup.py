@@ -33,6 +33,7 @@ import tango
 from k8s_info.get_k8s_info import KubernetesControl
 from tango_info.get_tango_info import (
     check_device,
+    check_tango,
     device_state,
     set_tango_admin,
     setup_device,
@@ -154,23 +155,6 @@ def show_config_json(sub_sys: str, json_cfg: Any) -> None:
     except TypeError:
         pass
     # print(f"{json_cfg[mid_sys]['']}")
-
-
-def check_tango(tango_fqdn: str) -> int:
-    """
-    Check Tango host address.
-
-    :param tango_fqdn:
-    :return: error condition
-    """
-    try:
-        tango_addr = socket.gethostbyname_ex(tango_fqdn)
-        tango_ip = tango_addr[2][0]
-    except socket.gaierror as e:
-        print("Could not read address %s : %s" % (tango_fqdn, e))
-        return 1
-    print(f"Tango host address {tango_ip}")
-    return 0
 
 
 def show_observation_status(sub_dev_name: str) -> int:
@@ -857,13 +841,13 @@ def main(y_arg: list) -> int:  # noqa: C901
 
     # Set the Tango host
     tango_fqdn = f"{svc_name}.{ns_name}.svc.{cluster_domain}"
-    print("Tango database FQDN is %s" % tango_fqdn)
+    # print("Tango database FQDN is %s" % tango_fqdn)
     tango_port = 10000
     tango_host = f"{tango_fqdn}:{tango_port}"
-    print("Tango host %s" % tango_host)
+    # print("Tango host %s" % tango_host)
     os.environ["TANGO_HOST"] = tango_host
 
-    rc = check_tango(tango_fqdn)
+    rc = check_tango(tango_fqdn, tango_port)
     if rc or show_tango:
         return 1
     progrs = 0
