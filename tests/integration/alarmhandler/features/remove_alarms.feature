@@ -1,5 +1,3 @@
-
-#Remove configured TMC alarms using alarm handler configurator tool
 @XTP-30175
 Scenario: Remove TMC alarms
     Given a TMC
