@@ -30,7 +30,7 @@ def test_tmc_mid_configure_alarms():
         "I configure alarms with {alarm_rule_file} for TMC using alarm configurator tool"
     )
 )
-def add_alarms_api(alarm_rule_file):
+def add_alarms_api(context, alarm_rule_file):
     """Call add-alarms API.
 
     :param alarm_rule_file: alarm rules file as input for add-alarms API
@@ -47,18 +47,18 @@ def add_alarms_api(alarm_rule_file):
             data={"fqdn": "alarm/handler/01"},
         )
         logging.info(response)
-        response_data = response.json()
-        logging.info(response_data)
+        context.response_data = response.json()
+        logging.info(context.response_data)
 
 
 @then("TMC alarms are configured successfully")
-def check_alarms(response_data):
+def check_alarms(context):
     """Check add-alarms API response.
 
     :param response_data: json received from add-alarms API
     """
-    assert len(response_data["alarm_summary"]["tag"]) == 1
-    assert response_data["alarm_summary"]["tag"] == [
+    assert len(context.response_data["alarm_summary"]["tag"]) == 1
+    assert context.response_data["alarm_summary"]["tag"] == [
         "subarraynode_obsstate_fault",
     ]
 
