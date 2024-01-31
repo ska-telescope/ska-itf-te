@@ -35,9 +35,7 @@ def add_alarms_api(alarm_rule_file):
 
     :param alarm_rule_file: alarm rules file as input for add-alarms API
     """
-    with open(
-        f"/app/tests/integration/alarmhandler/data/alarm_rules/{alarm_rule_file}", "rb"
-    ) as file:
+    with open(f"data/alarm_rules/{alarm_rule_file}", "rb") as file:
         response = httpx.post(
             f"http://alarm-handler-configurator.{namespace}.svc.miditf.internal.skao.int."
             + "local:8004/add-alarms?fqdn=alarm%2Fhandler%2F01",
