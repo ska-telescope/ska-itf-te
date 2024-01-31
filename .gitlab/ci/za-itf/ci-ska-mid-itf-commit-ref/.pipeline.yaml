@@ -115,7 +115,7 @@ k8s-test-runner:
     - make integration-test TANGO_HOST=$TANGO_DATABASE_DS.$KUBE_NAMESPACE.svc.$CLUSTER_DOMAIN:10000 || true
     - echo "Test command exit code - $(cat build/status)"
     - |
-      if [[ 0 == "$(cat build/status)" ]]; then
+      if [[ 0 == "$(cat build/status)" || "$REMOVE_FAILED_TEST_DEPLOYMENT" == "true" ]]; then
         make remove-sut-deployment
       else
         echo "#####################################################################################"
@@ -133,6 +133,7 @@ k8s-test-runner:
     SHOW_STEP_FUNCTIONS: "True"
     CAPTURE_LOGS: "True"
     EXIT_AT_FAIL: "True"
+    REMOVE_FAILED_TEST_DEPLOYMENT: "true"
 
 stop-k8s-test-runner:
   tags:
