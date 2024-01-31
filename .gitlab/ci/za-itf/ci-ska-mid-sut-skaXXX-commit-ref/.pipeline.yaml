@@ -37,6 +37,7 @@ deploy-aa05-dishes:
   extends:
     - .aa05-env
   script:
+    - poetry install
     - echo "Deploying multiple dishes in downstream dish-aiv stage - first deploy ska001 manually"
     - echo "Deploying dishes $DISH_IDS:"
     - |
