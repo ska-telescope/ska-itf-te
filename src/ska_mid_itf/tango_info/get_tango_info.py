@@ -169,10 +169,52 @@ def show_device_state(device: str) -> int:
     return 1
 
 
-def show_device_commands(dev: tango.DeviceProxy) -> None:
+def show_command_inputs(tango_host: str, tgo_in_type: str) -> None:
+    """
+    Display commands with given input type.
+    :param tango_host: Tango database host address and port
+    :param tgo_in_type: input type, e.g. Uninitialised
+    :return:
+    """
+
+    # Connect to database
+    try:
+        database = tango.Database()
+    except Exception:
+        _module_logger.error("Could not connect to Tango database %s", tango_host)
+        return
+    # Read devices
+    device_list = database.get_device_exported("*")
+    _module_logger.info(f"{len(device_list)} devices available")
+
+    _module_logger.info("Read %d devices" % (len(device_list)))
+
+    for device in sorted(device_list.value_string):
+        # ignore sys devices
+        if device[0:4] == "sys/":
+            _module_logger.info(f"Skip {device}")
+            continue
+        dev, _dev_state = connect_device(device)
+        try:
+            cmds = dev.get_command_config()
+        except Exception:
+            cmds = []
+        if cmds:
+            for cmd in cmds:
+                in_type_desc = cmd.in_type_desc.lower()
+                _module_logger.info("Command %s type %s", cmd, in_type_desc)
+                if in_type_desc == tgo_in_type:
+                    print(f"{'Commands':17} : \033[3m{cmd.cmd_name}\033[0m ({in_type_desc})")
+                else:
+                    print(f"{'Commands':17} : {cmd.cmd_name} ({in_type_desc})")
+    return
+
+
+def show_device_commands(dev: tango.DeviceProxy, fforce: bool = False) -> None:
     """
     Print commands
     :param dev: Tango device
+    :param fforce: run command where possible
     :return: None
     """
     try:
@@ -189,6 +231,8 @@ def show_device_commands(dev: tango.DeviceProxy) -> None:
         if out_type_desc != "Uninitialised":
             if out_type_desc != in_type_desc:
                 print(f" <OUT:{out_type_desc}>")
+        if fforce and in_type_desc == "Uninitialised":
+            run_cmd = dev.command_inout(cmd)
         print()
         for cmd in cmds[1:]:
             print(f"{' ':17}   \033[3m{cmd.cmd_name}\033[0m", end="")
@@ -198,6 +242,8 @@ def show_device_commands(dev: tango.DeviceProxy) -> None:
             out_type_desc = cmd.out_type_desc
             if out_type_desc != "Uninitialised":
                 print(f" <OUT:{out_type_desc}>", end="")
+            if fforce and in_type_desc == "Uninitialised":
+                run_cmd = dev.command_inout(cmd)
             print()
 
 
@@ -414,6 +460,26 @@ def show_device_query(device: str, fforce: bool) -> int:  # noqa: C901
     return rv
 
 
+SAFE_COMMANDS = ["DevLockStatus"]
+
+def run_command(dev: Any, cmd: str) -> None:
+    """
+    Run command and get output.
+    :param dev: Tango device
+    :param cmd: command name
+    :return: None
+    """
+    if cmd in SAFE_COMMANDS:
+        try:
+            inout = dev.command_inout(cmd)
+        except tango.DevFailed:
+            print(f"{cmd:17} : error")
+            return
+        print(f"{cmd:17} : {inout}")
+    else:
+        print(f"{'Query sub-devices':17} : N/A")
+
+
 def show_device(device: str, fforce: bool) -> int:  # noqa: C901
     """
     Display Tango device in text format
@@ -475,6 +541,7 @@ def show_device(device: str, fforce: bool) -> int:  # noqa: C901
     # Print commands in italic
     show_device_commands(dev)
     if "DevLockStatus" in cmds:
+        run_command(dev, "DevLockStatus")
         print(f"{'Lock status':17} : {dev.DevLockStatus(dev_name)}")
     if "DevPollStatus" in cmds:
         print(f"{'Poll status':17} : {dev.DevPollStatus(dev_name)}")
@@ -761,8 +828,8 @@ def show_commands(evrythng: int, fforce: bool, c_name: str | None) -> None:
         dev, _dev_state = connect_device(device)
         chk_cmd = check_command(dev, c_name)
         if chk_cmd:
-            print(f"* {dev.name()}", end="")
-            print(f"\t\033[1m{c_name}\033[0m")
+            print(f"* {dev.name():44}", end="")
+            print(f" \033[1m{c_name}\033[0m")
 
 
 OBSERVATION_STATES = [

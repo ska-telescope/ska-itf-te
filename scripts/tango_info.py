@@ -8,7 +8,7 @@ import os
 import sys
 
 from tango_info.get_tango_info import (
-    check_tango, show_attributes, show_commands, show_devices
+    check_tango, show_attributes, show_command_inputs, show_commands, show_devices
 )
 from ska_mid_itf.ska_jargon.ska_jargon import print_jargon
 
@@ -69,11 +69,12 @@ def main(y_arg: list) -> int:  # noqa: C901
     show_tango: bool = False
     tgo_attrib: str | None = None
     tgo_cmd: str | None = None
+    tgo_in_type: str | None = None
     try:
         opts, _args = getopt.getopt(
             y_arg[1:],
-            "aefhnqtvVA:C:I:N:",
-            ["help", "device=", "attribute=", "command=", "namespace="],
+            "aefhnqtvVA:C:I:N:T:",
+            ["help", "input", "device=", "attribute=", "command=", "namespace="],
         )
     except getopt.GetoptError as opt_err:
         print(f"Could not read command line: {opt_err}")
@@ -91,6 +92,8 @@ def main(y_arg: list) -> int:  # noqa: C901
             itype = arg.upper()
         elif opt in ("-N", "--namespace"):
             KUBE_NAMESPACE = arg
+        elif opt in ("-T", "--input"):
+            tgo_in_type = arg.lower()
         elif opt == "-a":
             show_jargon = True
         elif opt == "-t":
@@ -129,6 +132,10 @@ def main(y_arg: list) -> int:  # noqa: C901
 
     if tgo_cmd is not None:
         show_commands(evrythng, fforce, tgo_cmd)
+        return 0
+
+    if tgo_in_type is not None:
+        show_command_inputs(tango_host, tgo_in_type)
         return 0
 
     show_devices(evrythng, fforce, itype)
