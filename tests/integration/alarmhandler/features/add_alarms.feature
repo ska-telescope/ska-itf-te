@@ -1,4 +1,4 @@
-Feature: SP-3833
+Feature: Default
 
 	#Configure TMC alarms using alarm handler configurator tool
 	@XTP-30174
