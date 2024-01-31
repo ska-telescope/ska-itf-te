@@ -43,6 +43,8 @@
     paths:
       - "build/"
       - "deploy/"
+  variables:
+    SUT_CHART_DIR: charts/system-under-test
 
 .info:
   stage: deploy
