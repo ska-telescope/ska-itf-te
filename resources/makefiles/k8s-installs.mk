@@ -116,12 +116,11 @@ KUBE_NAMESPACE_POSTFIX ?=
 
 itf-dish-ids: ## Create the TMC values.yaml file needed to connect the Dishes to the TMC in the ITF
 	@pip install pyyaml==6.0.1
-	@pwd
 	@poetry run python3 -c "from src.ska_mid_itf_engineering_tools.tmc_dish_ids import tmc_values; \
 		import sys; \
 		import yaml; \
 		values = tmc_values();  \
-		file = open('${shell pwd}/charts/system-under-test/tmc_values.yml', 'w'); \
+		file = open('${shell pwd}/charts/system-under-test/tmc-values.yaml', 'w'); \
 		yaml.dump(values, file); \
 		file.close()"
 
