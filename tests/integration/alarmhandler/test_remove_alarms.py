@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 
 @pytest.mark.skamid
-@scenario("features/remove_alarms.feature", "Remove TMC alarms")
+@scenario("features/remove_alarms.feature", "Remove TMC Alarms")
 def test_tmc_mid_remove_alarms():
     """Remove tmc mid alarms."""
 
