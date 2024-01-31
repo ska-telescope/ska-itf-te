@@ -67,13 +67,14 @@ xray-publish:
   rules: !reference [publish-k8s-test-results, rules]
 
 python-build-for-publication:
-  rules:
-    - when: never
+  before_script:
+    - ""
 
 python-build-for-development:
-  rules:
-    - when: never
+  before_script:
+    - ""
 
-python-publish-to-gitlab:
+oci-image-build:
   rules:
-    - when: never
+    - changes:
+        - Dockerfile
