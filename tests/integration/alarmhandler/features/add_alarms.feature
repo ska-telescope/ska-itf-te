@@ -5,4 +5,4 @@ Scenario: Configure TMC alarms
     Then TMC alarms are configured successfully
     Examples:
     |alarm_rule_file     |
-    | alarm_file1.txt    | 
+    | alarm_file1.txt    |
