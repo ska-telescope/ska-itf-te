@@ -3,6 +3,7 @@
 # ##############################################################
 .deploy:
   stage: deploy
+  image: $DEPLOY_IMAGE
   before_script:
     - |
       if [ "$HW_IN_THE_LOOP" == "true" ]; then
