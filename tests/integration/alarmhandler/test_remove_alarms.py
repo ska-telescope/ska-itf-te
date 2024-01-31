@@ -56,8 +56,8 @@ def remove_alarms_api(response_data, tag_name):
     :param tag_name: alarm tag name to remove
     """
     remove_api_response = httpx.post(
-        f"http://alarm-handler-configurator.{namespace}.svc.miditf.internal.skao.int."
-        + f"local:8004/remove-alarm?tag={tag_name}&"
+        f"http://alarm-handler-configurator.{namespace}.svc.miditf.internal.skao.int"
+        + f":8004/remove-alarm?tag={tag_name}&"
         + "alarmhandlerfqdn=alarm%2Fhandler%2F01",
         data={
             "tag": tag_name,
