@@ -121,8 +121,7 @@ itf-dish-ids: ## Create the TMC values.yaml file needed to connect the Dishes to
 		import yaml; \
 		values = tmc_values();  \
 		file = open('charts/system-under-test/tmc_values.yml', 'w'); \
-		yaml.dump(values, file); \
-		file.close()"
+		yaml.dump(values, file)"
 
 ## TARGET: itf-dish-links
 ## SYNOPSIS: make itf-dish-links
