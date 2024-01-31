@@ -41,8 +41,8 @@ def add_alarms_api(alarm_rule_file):
     logging.info(file_path)
     with open(file_path, "rb") as file:
         response = httpx.post(
-            f"http://alarm-handler-configurator.{namespace}.svc.miditf.internal.skao.int."
-            + "local:8004/add-alarms?fqdn=alarm%2Fhandler%2F01",
+            f"http://alarm-handler-configurator.{namespace}.svc.miditf.internal.skao.int"
+            + ":8004/add-alarms?fqdn=alarm%2Fhandler%2F01",
             files={"file": (alarm_rule_file, file, "text/plain")},
             data={"fqdn": "alarm/handler/01"},
         )

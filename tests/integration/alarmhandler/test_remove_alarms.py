@@ -31,11 +31,13 @@ def check_configured_tag(tag_name):
 
     :param tag_name: alarm tag
     """
-    logging.info(os.getcwd())
-    with open("/alarmhandler/data/alarm_rules/alarm_file1.txt", "rb") as file:
+    file_path = os.path.join(
+        os.getcwd(), "tests/integration/alarmhandler/data/alarm_rules/alarm_file1.txt"
+    )
+    with open(file_path, "rb") as file:
         response = httpx.post(
-            f"http://alarm-handler-configurator.{namespace}.svc.miditf.internal.skao.int."
-            + "local:8004/add-alarms?fqdn=alarm%2Fhandler%2F01",
+            f"http://alarm-handler-configurator.{namespace}.svc.miditf.internal.skao.int"
+            + ":8004/add-alarms?fqdn=alarm%2Fhandler%2F01",
             files={"file": ("alarm_file1.txt", file, "text/plain")},
             data={"fqdn": "alarm/handler/01"},
         )
