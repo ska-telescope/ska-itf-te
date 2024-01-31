@@ -15,6 +15,7 @@ from ska_ser_skallop.mvp_control.describing.mvp_names import DeviceName
 from ska_ser_skallop.mvp_control.entry_points import types as conf_types
 from ska_ser_skallop.mvp_control.infra_mon.configuration import get_mvp_release
 from ska_ser_skallop.mvp_fixtures.fixtures import fxt_types
+from tango import DeviceProxy
 
 from .resources.models.base.states import ObsState
 from .resources.models.mvp_model.env import init_observation_config
@@ -669,3 +670,30 @@ def a_alarm_handler():
     alarm_handler = con_config.get_device_proxy("alarm/handler/01")
     result = alarm_handler.ping()
     result > 0
+
+
+class ResponseData(object):
+    """Class to have response data received."""
+
+    def __init__(self) -> None:
+        """Initialise class variables."""
+        self.response = None
+        self.alarm_handler_device = DeviceProxy("alarm/handler/01")
+
+    def tear_down(self):
+        """Tear down for configured alarms."""
+        if self.response is not None:
+            for tag in self.response["alarm_summary"]["tag"]:
+                self.alarm_handler_device.Remove(tag)
+            assert self.alarm_handler_device.alarmList == ()
+
+
+@pytest.fixture(name="response_data")
+def fixture_default_response():
+    """Set up default responce.
+
+    :yield: A class object representing default response for the system under test.
+    """
+    response_data = ResponseData()
+    yield response_data
+    response_data.tear_down()

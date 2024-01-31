@@ -11,24 +11,6 @@ namespace = os.getenv("KUBE_NAMESPACE")
 logger = logging.getLogger(__name__)
 
 
-class ResponseData(object):
-    """Class to have response data received."""
-
-    def __init__(self) -> None:
-        """Initiaise class variables."""
-        self.response = None
-
-
-@pytest.fixture(name="response_data")
-def fixture_default_response():
-    """Set up default responce.
-
-    :return: A class object representing default response for the system under test.
-    """
-    response_data = ResponseData()
-    return response_data
-
-
 @pytest.mark.skamid
 @scenario("features/add_alarms.feature", "Configure TMC Alarms")
 def test_tmc_mid_configure_alarms():
@@ -51,7 +33,7 @@ def test_tmc_mid_configure_alarms():
 def add_alarms_api(response_data, alarm_rule_file):
     """Call add-alarms API.
 
-    :param response_data: fixture for responce data
+    :param response_data: fixture for response data
     :param alarm_rule_file: alarm rules file as input for add-alarms API
     """
     file_path = os.path.join(
@@ -74,12 +56,9 @@ def add_alarms_api(response_data, alarm_rule_file):
 def check_alarms(response_data):
     """Check add-alarms API response.
 
-    :param response_data: fixture for responce data
+    :param response_data: fixture for response data
     """
     assert len(response_data.response["alarm_summary"]["tag"]) == 1
     assert response_data.response["alarm_summary"]["tag"] == [
         "subarraynode_obsstate_fault",
     ]
-
-
-# TODO: add tear down
