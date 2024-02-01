@@ -65,29 +65,20 @@ def configure_alarm_state(response_data, device_name, state_value):
 
 @when("telescope remains in STANDBY state for long")
 def check_alarms(
-    running_telescope: fxt_types.running_telescope,
-    entry_point: fxt_types.entry_point,
     context_monitoring: fxt_types.context_monitoring,
     integration_test_exec_settings: fxt_types.exec_settings,
 ):
-    """Check telescope in STANDBY.
-
-    :param running_telescope: The running telescope instance.
-    :param entry_point: The entry point to the system under test.
-    :param context_monitoring: The context monitoring configuration.
-    :param integration_test_exec_settings: The integration test execution settings.
-    """
+    """Check telescope in STANDBY."""
     tel = names.TEL()
-
-    running_telescope.disable_automatic_setdown()
-    with context_monitoring.context_monitoring():
-        with running_telescope.wait_for_shutting_down(integration_test_exec_settings):
-            entry_point.set_telescope_to_standby()
-
-    # Check telescopeState attribute of Central Node
     central_node = con_config.get_device_proxy(tel.tm.central_node)
-    result = central_node.read_attribute("telescopeState").value
-    assert_that(str(result)).is_equal_to("STANDBY")
+    central_node.command_inout("TelescopeOn")
+    context_monitoring.wait_for(central_node).for_attribute("telescopeState").to_become_equal_to(
+        "ON", ignore_first=False, settings=integration_test_exec_settings
+    )
+    central_node.command_inout("TelescopeStandby")
+    context_monitoring.wait_for(central_node).for_attribute("telescopeState").to_become_equal_to(
+        "STANDBY", ignore_first=False, settings=integration_test_exec_settings
+    )
 
 
 @then("alarm must be raised with UNACKNOWLEDGE state")
