@@ -234,6 +234,7 @@ def show_device_commands(dev: tango.DeviceProxy, fforce: bool = False) -> None:
         if fforce and in_type_desc == "Uninitialised":
             run_cmd = dev.command_inout(cmd)
         print()
+        print(f"{' ':25} Polled: {dev.is_command_polled(cmd.cmd_name)}")
         for cmd in cmds[1:]:
             print(f"{' ':17}   \033[3m{cmd.cmd_name}\033[0m", end="")
             in_type_desc = cmd.in_type_desc
@@ -245,6 +246,7 @@ def show_device_commands(dev: tango.DeviceProxy, fforce: bool = False) -> None:
             if fforce and in_type_desc == "Uninitialised":
                 run_cmd = dev.command_inout(cmd)
             print()
+            print(f"{' ':25} Polled: {dev.is_command_polled(cmd.cmd_name)}")
 
 
 def show_attribute_value_scalar(prefix: str, attrib_value: str):
@@ -342,6 +344,8 @@ def show_attribute_value(dev: tango.DeviceProxy, attrib: str, prefix: str):
         print(f" {attrib_value}")
     events = attrib_cfg.events.arch_event.archive_abs_change
     print(f"{prefix} Event change : {events}")
+    print(f"{prefix} Quality : {dev.read_attribute(attrib).quality}")
+    print(f"{prefix} Polled: {dev.is_attribute_polled(attrib)}")
 
 
 # def show_attribute_events()
@@ -525,6 +529,7 @@ def show_device(device: str, fforce: bool) -> int:  # noqa: C901
     jargon = find_jargon(dev_name)
     if jargon:
         print(f"{'Acronyms':17} : {jargon}")
+    print(f"{'Database used':17} : {dev.is_dbase_used()}")
     print(f"{'Device class':17} : {dev_info.dev_class}")
     print(f"{'Server host':17} : {dev_info.server_host}")
     print(f"{'Server ID':17} : {dev_info.server_id}")
