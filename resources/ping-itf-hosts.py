@@ -53,6 +53,8 @@ async def main():
         ["10.165.3.11", "Raspberry Pi (ITF)", "za-itf-pi.ad.skatelescope.org"],
         ["10.165.3.12", "GPS", "za-itf-gps.ad.skatelescope.org"],
         ["10.165.3.13", "NTP", "za-itf-ntp.ad.skatelescope.org"],
+        ["10.165.3.29", "TDC Talon1 LRU1 1G", ""],
+        ["10.165.3.30", "TDC Talon2 LRU1 1G", ""],
     ]
     tasks = [asyncio.create_task(ping_host(host)) for host in hosts_list]
 

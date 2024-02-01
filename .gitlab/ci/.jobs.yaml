@@ -37,6 +37,7 @@
         bash .make/resources/gitlab_section.sh mcs_config "Configure MCS" make itf-cbf-config-mcs
         bash .make/resources/gitlab_section.sh talon_download_tangocpp_ds "Download CPP Tango device server updates" make itf-cbf-tangocpp-update &> deploy/talonconfig.log
         bash .make/resources/gitlab_section.sh talon_config_tangodb "Configure TangoDB with device servers" make itf-cbf-config-tangodb
+        bash .make/resources/gitlab_section.sh talon_on "Switch ON the Talons" TANGO_HOST='tango-databaseds.$KUBE_NAMESPACE.svc.$CLUSTER_DOMAIN:10000' python3 resources/talon/talon_on.py
       fi
   after_script:
     - bash .make/resources/gitlab_section.sh template "Template Chart" make k8s-template-chart-with-build-artifacts

@@ -30,12 +30,12 @@ dependencies:
 
   # SKA Mid CBF
   - name: ska-mid-cbf-mcs
-    version: 0.12.11
+    version: 0.12.13
     repository: https://artefact.skao.int/repository/helm-internal
     alias: cbf-mcs
     condition: cbf-mcs.enabled
   - name: ska-mid-cbf-tmleafnode
-    version: 0.12.2 # Keep same as CBF-MCS - this is a TMC surrogate
+    version: 0.12.13 # Keep same as CBF-MCS - this is a TMC surrogate
     repository: https://artefact.skao.int/repository/helm-internal
     alias: cbf-tmleafnode
     condition: cbf-mcs.enabled
