@@ -2098,8 +2098,8 @@ ska-tmc-cdm = "7.3.1"
 [package.source]
 type = "git"
 url = "https://gitlab.com/ska-telescope/ska-mid-itf-engineering-tools.git"
-reference = "HEAD"
-resolved_reference = "59ad19db1dbd342676be08aaaef1a7c6a514d1ca"
+reference = "fd58a157"
+resolved_reference = "fd58a157c93952f88eb1fd8746bf9e3bfce2f2bd"
 
 [[package]]
 name = "ska-ser-logging"
@@ -2153,7 +2153,7 @@ reference = 'skao'
 
 [[package]]
 name = "ska-telmodel"
-version = "1.11.2"
+version = "1.12.0"
 description = "SKA telescope model library"
 category = "main"
 optional = false
@@ -2625,7 +2625,7 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.10,<3.11"
-content-hash = "42d9d6049e4c4a5b672fc1ce1bba275ffe23a78d48a60c2c56e2ef82a77cacdf"
+content-hash = "794a3cad723b2e19a4470ff9b27236244a435d0c2b9dad8af69813e2be818f45"
 
 [metadata.files]
 aiofiles = [
@@ -4364,8 +4364,8 @@ ska-ser-skallop = [
     {file = "ska_ser_skallop-2.29.8-py3-none-any.whl", hash = "sha256:e23b65b71b04416f043dfcef91d8d9e54b3ac0b7d7f6a78210f5f1cd05b22933"},
 ]
 ska-telmodel = [
-    {file = "ska_telmodel-1.11.2-py3-none-any.whl", hash = "sha256:7c1762c7d2eea9a739c1dd6266f7209c5ec3eccbf8673fe1bf56a81fd761f70b"},
-    {file = "ska_telmodel-1.11.2.tar.gz", hash = "sha256:e432604f84d6209de96d7ae52808991d4263b44e28aebf09f77598fb17d1f97f"},
+    {file = "ska_telmodel-1.12.0-py3-none-any.whl", hash = "sha256:245daf699468f1e820ce90786b4db1a006e81ed65679b646b8a28a49c22ed25d"},
+    {file = "ska_telmodel-1.12.0.tar.gz", hash = "sha256:cb1e06659be5d52c1ef676c0b71a6d21e2b7cada6c5ca9db27c847d1169b2c46"},
 ]
 ska-tmc-cdm = [
     {file = "ska_tmc_cdm-7.3.1-py3-none-any.whl", hash = "sha256:6096dfd4d7c0211dad2ac58cfe0c3cc88b3d5448f20405c5cb7864ec44f28757"},
