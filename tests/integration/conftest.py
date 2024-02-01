@@ -625,7 +625,7 @@ def the_subarray_should_go_into_an_aborted_state(
     result = subarray.read_attribute("obsstate").value
     assert_that(result).is_equal_to(ObsState.ABORTED)
 
-
+@given("a mid telescope")
 @given("a TMC")
 def a_tmc():
     """Given a TMC."""
