@@ -4,12 +4,15 @@ import os
 
 import httpx
 import pytest
-from assertpy import assert_that
+
+# from assertpy import assert_that
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_ser_skallop.connectors import configuration as con_config
 from ska_ser_skallop.event_handling.builders import get_message_board_builder
 from ska_ser_skallop.mvp_control.describing import mvp_names as names
-from ska_ser_skallop.mvp_fixtures.fixtures import fxt_types
+
+# from ska_ser_skallop.mvp_fixtures.fixtures import fxt_types
+from tango import DeviceProxy
 
 namespace = os.getenv("KUBE_NAMESPACE")
 
@@ -76,6 +79,8 @@ def check_alarms():
     brd.set_waiting_on(tel.tm.central_node).for_attribute("telescopeState").to_become_equal_to(
         "ON"
     )
+    on_result = central_node.read_attribute("telescopeState").value
+    logging.info(on_result)
     central_node.command_inout("TelescopeStandby")
     # context_monitoring.wait_for(central_node).for_attribute("telescopeState").to_become_equal_to(
     #     "STANDBY", ignore_first=False, settings=integration_test_exec_settings
@@ -83,6 +88,8 @@ def check_alarms():
     brd.set_waiting_on(tel.tm.central_node).for_attribute("telescopeState").to_become_equal_to(
         "STANDBY"
     )
+    standby_result = central_node.read_attribute("telescopeState").value
+    logging.info(standby_result)
 
 
 @then("alarm must be raised with UNACKNOWLEDGE state")
@@ -96,6 +103,9 @@ def check_alarm_state(response_data):
     brd.set_waiting_on("alarm/handler/01").for_attribute("alarmUnacknowledged").to_become_equal_to(
         ("centralnode_telescopestate_standby",)
     )
+    alarm_handler = DeviceProxy("alarm/handler/01")
+    ah_result = alarm_handler.read_attribute("alarmUnacknowledged").value
+    logging.info(ah_result)
     assert response_data.response["alarm_summary"]["state"] == [
         "UNACK",
     ]
