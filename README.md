@@ -2,9 +2,11 @@
 
 Welcome to the Mid ITF Tests project. Here you can find methods to connect to hosts in the Mid Integration Test Facility (ITF) network, System Under Test (SUT) and Test Equipment (TE), as well as tests (BDD and python tests) and scripts for interacting with the SUT and TE.
 
-## Gitlab Pipelines and controlling the SUT
-
 Control can be done using Taranta Dashboards and Jupyter Notebooks. Links to the Taranta Dashboards of the deployed system are available from the CI Pipeline job logs. Please refer to [Mid ITF Gitlab Pipelines](https://confluence.skatelescope.org/display/SE/Mid+ITF+Gitlab+Pipelines) in the SKAO Confluence for details on how to access and control the SUT.
+
+Check the environment variables set in the files under `.gitlab/ci/{environment_name}/`, where the `{environment_name}` _hopefully_ gives away which part of the things in the ITF repo is deployed & tested, and set them if needed.
+
+For instance, if you want the environment to keep running after the `k8s_runner` job ran, please set `REMOVE_FAILED_TEST_DEPLOYMENT` to `"false"`, in the `.gitlab/ci/za-itf/ci-ska-mid-itf-commit-ref/.pipeline.yaml` file under the `k8s-test-runner` job.
 
 ## Run Binderhub
 
@@ -186,4 +188,3 @@ FQDN: za-itf-signal-generator.ad.skatelescope.org
 IP  : 10.165.3.1
 Port: 5025
 Web : http://za-itf-signal-generator.ad.skatelescope.org/webpages/web/html/ihp.php
-

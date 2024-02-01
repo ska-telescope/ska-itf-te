@@ -44,6 +44,8 @@ deploy-aa05-dishes:
       cat charts/system-under-test/tmc-values.yaml
   environment:
     on_stop: uninstall-aa05-dishes
+  variables:
+    SUT_CHART_DIR: charts/system-under-test
 
 redeploy-aa05-dishes:
   extends:
