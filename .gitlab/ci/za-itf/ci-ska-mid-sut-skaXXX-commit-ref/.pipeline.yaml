@@ -29,7 +29,7 @@
         KUBE_NAMESPACE_PREFIX: ci-dish-lmc-
         KUBE_NAMESPACE_POSTFIX: -$CI_COMMIT_REF_NAME
         ENV_NAME: dish.itf/ci-dish-lmc-aa05-$CI_COMMIT_REF_NAME
-      allow_failure: true
+      allow_failure: false
   environment:
     name: $ENV_NAME
 
