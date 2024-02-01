@@ -65,7 +65,6 @@ def remove_alarms_api(response_data, tag_name):
         },
     )
     response_data.response = remove_api_response.json()
-    logging.info(response_data.response)
 
 
 @then(parsers.parse("TMC alarm tag {tag_name}is removed successfully"))
