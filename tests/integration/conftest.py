@@ -680,9 +680,9 @@ class ResponseData(object):
         self.response = None
         self.alarm_handler_device = DeviceProxy("alarm/handler/01")
 
-    def tear_down(self):
-        """Tear down for configured alarms."""
-        if self.response is not None:
+    def clear_alarms(self):
+        """Clear the configured alarms."""
+        if self.response["alarm_summary"]["tag"] is not None:
             for tag in self.response["alarm_summary"]["tag"]:
                 self.alarm_handler_device.Remove(tag)
             assert self.alarm_handler_device.alarmList == ()
@@ -696,4 +696,4 @@ def fixture_default_response():
     """
     response_data = ResponseData()
     yield response_data
-    response_data.tear_down()
+    response_data.clear_alarms()
