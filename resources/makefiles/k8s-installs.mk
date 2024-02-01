@@ -111,11 +111,12 @@ KUBE_NAMESPACE_POSTFIX ?=
 ##    TANGO_DATABASEDS=<TangoDB hostname>
 ##    KUBE_NAMESPACE_PREFIX=<Prefix for the Kubenamespaces for all the dishes>, default dish-lmc-
 ##    KUBE_NAMESPACE_POSTFIX?=<Postfix for the Kubenamespaces for all the dishes>, default None
+##    SUT_CHART_DIR=Location of the SUT chart. Required: errors out if not set.
 ##  make target for generating the URLs for accessing the DishLMC deployments in the Mid ITF cluster
 
 itf-dish-ids: ## Create the TMC values.yaml file needed to connect the Dishes to the TMC in the ITF
 	@pip install pyyaml==6.0.1
-	@python3 -m src.ska_mid_itf.tmc_dish_ids
+	@poetry run python3 -m src.ska_mid_itf_engineering_tools.tmc_dish_ids
 
 ## TARGET: itf-dish-links
 ## SYNOPSIS: make itf-dish-links
@@ -131,7 +132,8 @@ itf-dish-links: links ## Create the URLs with which to access Taranta Dashboards
 ## VARS: KUBE_APP
 ##  make target for generating the URLs for accessing the Test Equipment deployment
 
-itf-links: k8s-info ## Create the URLs with which to access the Tango Control System if it is available
+itf-links: ## Create the URLs with which to access the Tango Control System if it is available
+	@make k8s-info || echo "Some failure with `make k8s-info` - contact the System Team"
 	@echo ${CI_JOB_NAME}
 	@echo "##############################################################################################"
 	@echo "#        Access the Taranta framework for the $(shell echo $(KUBE_APP) | tr a-z A-Z) Tango Control System here:"

@@ -2,15 +2,16 @@
 
 Welcome to the Mid ITF Tests project. Here you can find methods to connect to hosts in the Mid Integration Test Facility (ITF) network, System Under Test (SUT) and Test Equipment (TE), as well as tests (BDD and python tests) and scripts for interacting with the SUT and TE.
 
-Control can be done using Taranta Dashboards and Jupyter Notebooks.
+Control can be done using Taranta Dashboards and Jupyter Notebooks. Links to the Taranta Dashboards of the deployed system are available from the CI Pipeline job logs. Please refer to [Mid ITF Gitlab Pipelines](https://confluence.skatelescope.org/display/SE/Mid+ITF+Gitlab+Pipelines) in the SKAO Confluence for details on how to access and control the SUT.
+
+Check the environment variables set in the files under `.gitlab/ci/{environment_name}/`, where the `{environment_name}` _hopefully_ gives away which part of the things in the ITF repo is deployed & tested, and set them if needed.
+
+For instance, if you want the environment to keep running after the `k8s_runner` job ran, please set `REMOVE_FAILED_TEST_DEPLOYMENT` to `"false"`, in the `.gitlab/ci/za-itf/ci-ska-mid-itf-commit-ref/.pipeline.yaml` file under the `k8s-test-runner` job.
 
 ## Run Binderhub
 
 Use this icon to launch a Jupyter Notebook (using Binderhub) in the ITF: [![Binder](https://k8s.miditf.internal.skao.int/binderhub/badge_logo.svg)](https://k8s.miditf.internal.skao.int/binderhub/v2/gh/ska-telescope/ska-mid-itf/HEAD)
 
-## Makefile for SW server access
-
-A subset of the makefile commands available in the [Deploy Mid ITF](https://gitlab.com/ska-telescope/sdi/ska-cicd-deploy-mid-itf) have been added to the resources folder.
 
 ***PRO TIP: ALWAYS ADD `--dry` TO THE END OF A MAKE COMMAND IF YOU WANT TO SEE WHAT IT IS GOING TO TRY TO DO.***
 
@@ -22,18 +23,7 @@ You need to be on the SKAO ITF VPN (connect via AnyConnect client) - see instruc
 
 #### Make variables
 
-You need to set one `make` variable in order to use your own access pattern. Do that with this command, substituting `<your-initials>` with your initials which are also the foldernames under `resources/users/`:
-
-```
-echo ME=<your-initials> >> resources/users/UserProfile.mak
-```
-
-Test if this worked, by verifying your name shows up when you ask that existential question:
-
-```
-$ make whoami
-    b.lunsky
-```
+Populate your `PrivateRules.mak` file with make variables if you are testing / developing from a local machine.
 
 ## Copy the KUBECONFIG file
 
