@@ -4,10 +4,10 @@ import os
 
 import httpx
 import pytest
-
 from assertpy import assert_that
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_ser_skallop.connectors import configuration as con_config
+from ska_ser_skallop.event_handling.builders import get_message_board_builder
 from ska_ser_skallop.mvp_control.describing import mvp_names as names
 
 # from ska_ser_skallop.mvp_fixtures.fixtures import fxt_types
@@ -82,9 +82,10 @@ def check_alarm_state(response_data):
     """
     logging.info(response_data.response)
     alarm_handler = DeviceProxy("alarm/handler/01")
-    ah_result = alarm_handler.read_attribute("alarmUnacknowledged")
-    logging.info(ah_result)
-    assert response_data.response["alarm_summary"]["state"] == [
-        "UNACK",
-    ]
+    brd = get_message_board_builder()
+    brd.set_waiting_on("alarm/handler/01").for_attribute("alarmUnacknowledged").to_become_equal_to(
+        ("centralnode_telescopestate_unknown",)
+    )
+    logging.info(response_data.response)
+    # acknowledge the alarm
     alarm_handler.Ack(response_data.response["alarm_summary"]["tag"])
