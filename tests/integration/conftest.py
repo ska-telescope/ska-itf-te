@@ -682,7 +682,7 @@ class ResponseData(object):
 
     def clear_alarms(self):
         """Clear the configured alarms."""
-        if self.response["alarm_summary"]["tag"] is not None:
+        if self.response is not None and self.response["alarm_summary"] is not None:
             for tag in self.response["alarm_summary"]["tag"]:
                 self.alarm_handler_device.Remove(tag)
             assert self.alarm_handler_device.alarmList == ()
