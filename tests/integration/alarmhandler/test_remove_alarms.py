@@ -76,4 +76,6 @@ def check_alarms(response_data, tag_name):
     :param tag_name: alarm tag to remove
     """
     logging.info(response_data.response)
-    assert f"Alarm with tags {tag_name} is removed" in response_data.response["message"]
+    assert (
+        f"Alarm with tags {tag_name}is removed successfully" in response_data.response["message"]
+    )
