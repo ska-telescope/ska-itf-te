@@ -17,6 +17,7 @@ from ..resources.models.mvp_model.states import ObsState
 @scenario("features/csp_scan.feature", "Run a scan on csp subarray in mid")
 def test_run_a_scan_on_csp_subarray_in_mid():
     """Run a scan on sdp subarray in mid."""
+    assert False
 
 
 @pytest.mark.csp_related

@@ -73,6 +73,7 @@ def the_cbf_subarray_must_be_in_idle_state(sut_settings: SutTestSettings):
     tel = names.TEL()
     cbf_subarray = con_config.get_device_proxy(tel.csp.cbf.subarray(sut_settings.subarray_id))
     result = cbf_subarray.read_attribute("obsstate").value
+    assert False
     assert_that(result).is_equal_to(ObsState.IDLE)
 
 
