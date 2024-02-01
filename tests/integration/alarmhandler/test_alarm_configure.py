@@ -32,8 +32,8 @@ def test_tmc_mid_standby_state_alarm():
 
 @given(
     parsers.parse(
-        "an alarm handler is configured to raise an"
-        + "alarm when the {device_name} State {state_value}"
+        "an alarm handler is configured to raise an alarm when the "
+        + "{device_name} State {state_value}"
     )
 )
 def configure_alarm_state(response_data, device_name, state_value):
@@ -90,7 +90,7 @@ def check_alarms(
     assert_that(str(result)).is_equal_to("STANDBY")
 
 
-@then("Alarm must be raised with UNACKNOWLEDGE state")
+@then("alarm must be raised with UNACKNOWLEDGE state")
 def check_alarm_state(response_data):
     """Check alarm state.
 
