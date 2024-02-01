@@ -677,15 +677,16 @@ class ResponseData(object):
 
     def __init__(self) -> None:
         """Initialise class variables."""
-        self.response = None
+        self.response = {}
         self.alarm_handler_device = DeviceProxy("alarm/handler/01")
 
     def clear_alarms(self):
         """Clear the configured alarms."""
-        if self.response is not None and self.response["alarm_summary"] is not None:
-            for tag in self.response["alarm_summary"]["tag"]:
-                self.alarm_handler_device.Remove(tag)
-            assert self.alarm_handler_device.alarmList == ()
+        if self.response:
+            if self.response.get("alarm_summary"):
+                for tag in self.response["alarm_summary"]["tag"]:
+                    self.alarm_handler_device.Remove(tag)
+                assert self.alarm_handler_device.alarmList == ()
 
 
 @pytest.fixture(name="response_data")

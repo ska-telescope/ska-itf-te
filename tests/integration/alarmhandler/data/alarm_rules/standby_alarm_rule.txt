@@ -1,0 +1,1 @@
+tag=centralnode_telescopestate_standby;formula=(ska_mid/tm_central/central_node/telescopeState == 2);priority=log;group=none;message="alarm for central node telescopeState standby"
