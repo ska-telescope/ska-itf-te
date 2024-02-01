@@ -340,6 +340,11 @@ def show_attribute_value(dev: tango.DeviceProxy, attrib: str, prefix: str):
         show_attribute_value_spectrum(prefix, attrib_value)
     else:
         print(f" {attrib_value}")
+    events = attrib_cfg.events.arch_event.archive_abs_change
+    print(f"{prefix} Event change : {events}")
+
+
+# def show_attribute_events()
 
 
 def show_device_attributes(dev: tango.DeviceProxy) -> None:
