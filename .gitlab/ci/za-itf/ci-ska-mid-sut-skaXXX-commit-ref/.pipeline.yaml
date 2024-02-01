@@ -37,6 +37,7 @@ deploy-aa05-dishes:
   extends:
     - .aa05-env
   script:
+    - poetry install
     - echo "Deploying multiple dishes in downstream dish-aiv stage - first deploy ska001 manually"
     - echo "Deploying dishes $DISH_IDS:"
     - |
@@ -44,6 +45,8 @@ deploy-aa05-dishes:
       cat charts/system-under-test/tmc-values.yaml
   environment:
     on_stop: uninstall-aa05-dishes
+  variables:
+    SUT_CHART_DIR: ${CI_PROJECT_DIR}/charts/system-under-test
 
 redeploy-aa05-dishes:
   extends:

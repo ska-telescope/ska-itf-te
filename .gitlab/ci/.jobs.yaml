@@ -10,6 +10,7 @@
         ping -c 1 $PDU_IP || (echo "Cannot reach PDU" && exit 1) #FIXME: This is the type of config data that we should ideally be putting in Vault / Config database
         nc -zv $PDU_IP 22 || (echo "Cannot reach PDU SSH interface - go to  https://za-itf-pdu3.ad.skatelescope.org and reset" && exit 1)
       fi
+    - poetry install
   script:
     - mkdir deploy
     - echo $CI_JOB_NAME - $CI_JOB_STAGE > deploy/ci_details.txt # This is just to double-check if the job output to the build folder works
@@ -44,6 +45,8 @@
     paths:
       - "build/"
       - "deploy/"
+  variables:
+    SUT_CHART_DIR: ${CI_PROJECT_DIR}/charts/system-under-test
 
 .info:
   stage: deploy
