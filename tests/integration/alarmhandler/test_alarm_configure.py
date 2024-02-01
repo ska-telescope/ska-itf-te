@@ -64,20 +64,24 @@ def configure_alarm_state(response_data, device_name, state_value):
 
 
 @when("telescope remains in STANDBY state for long")
-def check_alarms(
-    context_monitoring: fxt_types.context_monitoring,
-    integration_test_exec_settings: fxt_types.exec_settings,
-):
+def check_alarms():
     """Check telescope in STANDBY."""
     tel = names.TEL()
     central_node = con_config.get_device_proxy(tel.tm.central_node)
     central_node.command_inout("TelescopeOn")
-    context_monitoring.wait_for(central_node).for_attribute("telescopeState").to_become_equal_to(
-        "ON", ignore_first=False, settings=integration_test_exec_settings
+    brd = get_message_board_builder()
+    # context_monitoring.wait_for(central_node).for_attribute("telescopeState").to_become_equal_to(
+    #     "ON", ignore_first=False, settings=integration_test_exec_settings
+    # )
+    brd.set_waiting_on(tel.tm.central_node).for_attribute("telescopeState").to_become_equal_to(
+        "ON"
     )
     central_node.command_inout("TelescopeStandby")
-    context_monitoring.wait_for(central_node).for_attribute("telescopeState").to_become_equal_to(
-        "STANDBY", ignore_first=False, settings=integration_test_exec_settings
+    # context_monitoring.wait_for(central_node).for_attribute("telescopeState").to_become_equal_to(
+    #     "STANDBY", ignore_first=False, settings=integration_test_exec_settings
+    # )
+    brd.set_waiting_on(tel.tm.central_node).for_attribute("telescopeState").to_become_equal_to(
+        "STANDBY"
     )
 
 
