@@ -45,7 +45,7 @@
       - "build/"
       - "deploy/"
   variables:
-    SUT_CHART_DIR: charts/system-under-test
+    SUT_CHART_DIR: ${CI_PROJECT_DIR}/charts/system-under-test
 
 .info:
   stage: deploy
