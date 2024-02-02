@@ -69,7 +69,7 @@ def check_alarms():
     assert_that(str(result)).is_equal_to("UNKNOWN")
 
 
-@then("alarm for {state_value} must be raised with UNACKNOWLEDGE state")
+@then(parsers.parse("alarm for {state_value} must be raised with UNACKNOWLEDGE state"))
 def check_alarm_state(response_data, state_value):
     """Check alarm state.
 
