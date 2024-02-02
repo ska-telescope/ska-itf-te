@@ -178,6 +178,8 @@ itf-check-te-hosts-online:
 		fi;
 	@python resources/ping-itf-hosts.py
 
+check: itf-check-te-hosts-online
+
 theres-a-ghost: 
 	@kubectl get nodes -o=jsonpath="{.items[*]['metadata.name', 'status.capacity']}{'\n'}" | grep skao.int 
 

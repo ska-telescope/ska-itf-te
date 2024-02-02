@@ -78,6 +78,18 @@ itf-cbf-tangocpp-update: ## Download artefacts from CAR (Talon DeviceServer CPP 
 itf-cbf-config-tangodb: ## Configure Deviceservers in the TangoDB
 	@kubectl exec -ti -n $(KUBE_NAMESPACE) ec-deployer -- python3 midcbf_deployer.py --config-db
 
+## TARGET: itf-cbf-talon-on
+## SYNOPSIS: make itf-cbf-talon-on
+## HOOKS: none
+## VARS: 
+##	KUBE_NAMESPACE=[kubernetes namespace where MCS is deployed] (default value: integration)
+##  CLUSTER_DOMAIN=[domain of the cluster where the MCS is running] (default value: miditf.internal.skao.int)
+##  make target for switching on all the TalonDx' under control of the CSP.LMC
+
+itf-cbf-talon-on:
+	export TANGO_HOST=tango-databaseds.$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN):10000
+	python3 resources/talon/talon_on.py
+
 ## TARGET: itf-cbf-setup
 ## SYNOPSIS: make itf-cbf-setup
 ## HOOKS: none
@@ -87,5 +99,6 @@ itf-cbf-config-tangodb: ## Configure Deviceservers in the TangoDB
 ##	LRU_INDEX=[lru index paramter] (default value: lru1)
 ##	TALON_BOARD_IDX=[Talon board index number] (default value: 1)
 ##  make target for registering the deviceservers in the TangoDB.
+
 
 itf-cbf-setup: itf-cbf-talonlru-off itf-cbf-config-talon itf-cbf-config-mcs itf-cbf-tangocpp-update itf-cbf-config-tangodb
