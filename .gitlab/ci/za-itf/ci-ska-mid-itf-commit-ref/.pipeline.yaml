@@ -12,7 +12,7 @@
     CLUSTER_DOMAIN: "miditf.internal.skao.int"
     EDA_TIMESCALE_HOST: "10.164.11.33"
     EDA_SERVER_NAME: "mid"
-    K8S_EXTRA_PARAMS: "--set global.ska-tango-archiver.enabled=true  --set ska-tango-archiver.enabled=true --set ska-tango-archiver.dbpassword=${EDA_DB_PASSWORD} --set ska-tango-archiver.archviewer.instances[0].timescale_login=admin:${EDA_DB_PASSWORD} --set ska-tango-archiver.archviewer.instances[0].timescale_databases=itf_eda --set ska-tango-archiver.archviewer.instances[0].timescale_host=${EDA_TIMESCALE_HOST} --set ska-tango-archiver.archviewer.instances[0].name=${EDA_SERVER_NAME}"
+    K8S_EXTRA_PARAMS: "--set global.ska-tango-archiver.enabled=true  --set ska-tango-archiver.enabled=true --set ska-tango-archiver.dbpassword=${EDA_DB_PASSWORD} --set ska-tango-archiver.archviewer.instances[0].timescale_login=${EDA_DB_USERNAME}:${EDA_DB_PASSWORD} --set ska-tango-archiver.archviewer.instances[0].timescale_databases=itf_eda --set ska-tango-archiver.archviewer.instances[0].timescale_host=${EDA_TIMESCALE_HOST} --set ska-tango-archiver.archviewer.instances[0].name=${EDA_SERVER_NAME}"
     CLUSTER_DOMAIN_POSTFIX: miditf.internal.skao.int
     DISH_IDS: "SKA001 SKA036 SKA063 SKA100"
     KUBE_APP: ska-mid-sut
