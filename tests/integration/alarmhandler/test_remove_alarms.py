@@ -42,7 +42,6 @@ def check_configured_tag(response_data, tag_name):
             files={"file": ("alarm_rule1.txt", file, "text/plain")},
             data={"fqdn": "alarm/handler/01"},
         )
-        logging.info(add_api_response)
         response_data.response = add_api_response.json()
         assert len(response_data.response["alarm_summary"]["tag"]) == 1
         assert response_data.response["alarm_summary"]["tag"] == [tag_name]
@@ -74,7 +73,6 @@ def check_alarms(response_data, tag_name):
     :param response_data: fixture for response data
     :param tag_name: alarm tag to remove
     """
-    logging.info(response_data.response)
     assert (
         f"Alarm with tags {tag_name}is removed successfully" in response_data.response["message"]
     )

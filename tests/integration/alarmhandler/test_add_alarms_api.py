@@ -39,7 +39,6 @@ def add_alarms_api(response_data, alarm_rule_file):
     file_path = os.path.join(
         os.getcwd(), f"tests/integration/alarmhandler/data/alarm_rules/{alarm_rule_file}"
     )
-    logging.info(file_path)
     with open(file_path, "rb") as file:
         add_api_response = httpx.post(
             f"http://alarm-handler-configurator.{namespace}.svc.miditf.internal.skao.int"
@@ -47,9 +46,7 @@ def add_alarms_api(response_data, alarm_rule_file):
             files={"file": (alarm_rule_file, file, "text/plain")},
             data={"fqdn": "alarm/handler/01"},
         )
-        logging.info(add_api_response)
         response_data.response = add_api_response.json()
-        logging.info(response_data.response)
 
 
 @then("TMC alarms are configured successfully")
