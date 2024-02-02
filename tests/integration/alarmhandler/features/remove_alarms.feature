@@ -1,4 +1,4 @@
-Feature: Default
+Feature: SP-3833
 
 	#Remove configured TMC alarms using alarm handler configurator tool
 	@XTP-30175
