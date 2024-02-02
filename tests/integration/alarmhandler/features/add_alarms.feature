@@ -9,4 +9,4 @@ Feature: SP-3833
 		Then TMC alarms are configured successfully
 		Examples:
 		|alarm_rule_file     |
-		| alarm_file1.txt    |
+		| alarm_rule1.txt    |

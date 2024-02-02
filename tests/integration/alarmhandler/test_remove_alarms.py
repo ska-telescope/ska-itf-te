@@ -33,13 +33,13 @@ def check_configured_tag(response_data, tag_name):
     :param tag_name: alarm tag
     """
     file_path = os.path.join(
-        os.getcwd(), "tests/integration/alarmhandler/data/alarm_rules/alarm_file1.txt"
+        os.getcwd(), "tests/integration/alarmhandler/data/alarm_rules/alarm_rule1.txt"
     )
     with open(file_path, "rb") as file:
         add_api_response = httpx.post(
             f"http://alarm-handler-configurator.{namespace}.svc.miditf.internal.skao.int"
             + ":8004/add-alarms?fqdn=alarm%2Fhandler%2F01",
-            files={"file": ("alarm_file1.txt", file, "text/plain")},
+            files={"file": ("alarm_rule1.txt", file, "text/plain")},
             data={"fqdn": "alarm/handler/01"},
         )
         logging.info(add_api_response)
