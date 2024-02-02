@@ -706,9 +706,9 @@ def show_devices(evrythng: int, fforce: bool, itype: str | None) -> None:  # noq
     on_dev_count = 0
     for device in sorted(device_list.value_string):
         # ignore sys devices
-        if device[0:4] == "sys/":
-            _module_logger.info(f"Skip {device}")
-            continue
+        # if device[0:4] == "sys/":
+        #     _module_logger.info(f"Skip {device}")
+        #     continue
         # Check device name against mask
         if itype:
             iupp = device.upper()
@@ -777,7 +777,8 @@ def show_attributes(evrythng: int, fforce: bool, a_name: str | None) -> None:
         if device[0:4] == "sys/":
             _module_logger.info(f"Skip {device}")
             continue
-        dev, _dev_state = connect_device(device)
+        # dev, _dev_state = connect_device(device)
+        dev: tango.DeviceProxy = tango.DeviceProxy(device)
         try:
             attribs = sorted(dev.get_attribute_list())
         except Exception:
@@ -817,7 +818,8 @@ def show_commands(evrythng: int, fforce: bool, c_name: str | None) -> None:
         if device[0:4] == "sys/":
             _module_logger.info(f"Skip {device}")
             continue
-        dev, _dev_state = connect_device(device)
+        # dev, _dev_state = connect_device(device)
+        dev: tango.DeviceProxy = tango.DeviceProxy(device)
         chk_cmd = check_command(dev, c_name)
         if chk_cmd:
             print(f"* {dev.name():44}", end="")
@@ -1013,9 +1015,12 @@ def usage(p_name: str) -> None:
     print(f"\t{p_name} -n")
     print("Display Tango database address")
     print(f"\t{p_name} -t [--namespace=<NAMESPACE>|--host=<HOST>]")
+    print(f"\t{p_name} -t [-N <NAMESPACE>|-H <HOST>]")
     print("Display all devices")
     print(f"\t{p_name} -e|-m|-q|-s [-g] [--namespace=<NAMESPACE>|--host=<HOST>]")
+    print(f"\t{p_name} -e|-m|-q|-s [-g] [-N <NAMESPACE>|-H <HOST>]")
     print("Filter on device name")
+    print(f"\t{p_name} -e|-m|-q|-s [-g] -D <DEVICE> [-N <NAMESPACE>|-H <HOST>]")
     print(
         f"\t{p_name} -e|-m|-q|-s [-g] --device=<DEVICE>"
         " [--namespace=<NAMESPACE>|--host=<HOST>]"
@@ -1025,13 +1030,26 @@ def usage(p_name: str) -> None:
         f"\t{p_name} -e|-m|-q|-s [-g] --attribute=<ATTRIBUTE>"
         " [--namespace=<NAMESPACE>|--host=<HOST>]"
     )
+    print(
+        f"\t{p_name} -e|-m|-q|-s [-g] -A <ATTRIBUTE>"
+        " [-N <NAMESPACE>|-H <HOST>]"
+    )
+    print("Filter on command name")
+    print(
+        f"\t{p_name} -e|-m|-q|-s [-g] --command=<COMMAND>"
+        " [--namespace=<NAMESPACE>|--host=<HOST>]"
+    )
+    print(
+        f"\t{p_name} -e|-m|-q|-s [-g] -C <COMMAND>"
+        " [-N <NAMESPACE>|-H <HOST>]"
+    )
     print("Display known acronyms")
     print(f"\t{p_name} -a")
     print("where:")
-    print("\t-m\t\t\t\tdisplay in markdown format")
     print("\t-e\t\t\t\tdisplay in text format")
     print("\t-q\t\t\t\tdisplay device name, status and query devices")
     print("\t-d\t\t\t\tdisplay device name and status only")
+    # print("\t-m\t\t\t\tdisplay in markdown format")
     print("\t-f\t\t\t\tget commands and attributes regadrless of state")
     print(
         "\t--device=<DEVICE>\t\tdevice name, e.g. 'csp'"
@@ -1042,10 +1060,23 @@ def usage(p_name: str) -> None:
         " e.g. 'integration'"
     )
     print("\t--host=<HOST>\t\t\tTango database host and port, e.g. 10.8.13.15:10000")
-    print("\t--attribute=<ATTRIBUTE>\t\tattribute name, e.g. 'obsState' (case sensitive)")
     print(
-        f"\t--namespace=<NAMESPACE>\t\tKubernetes namespace, default is {KUBE_NAMESPACE}"
+        "\t--attribute=<ATTRIBUTE>\t\tattribute name, e.g. 'obsState' (case sensitive)"
     )
+    print("\t--command=<COMMAND>\t\tcommand name, e.g. 'Status' (case sensitive)")
+
+    print(
+        "\t-D <DEVICE>\t\t\tdevice name, e.g. 'csp'"
+        " (not case sensitive, only a part is needed)"
+    )
+    print(
+        "\t-N <NAMESPACE>\t\t\tKubernetes namespace for Tango database,"
+        " e.g. 'integration'"
+    )
+    print("\t-H <HOST>\t\t\tTango database host and port, e.g. 10.8.13.15:10000")
+    print("\t-A <ATTRIBUTE>\t\t\tattribute name, e.g. 'obsState' (case sensitive)")
+    print("\t-C <COMMAND>\t\t\tcommand name, e.g. 'Status' (case sensitive)")
+
 
 def show_command_inputs(tango_host: str, tgo_in_type: str) -> None:
     """
