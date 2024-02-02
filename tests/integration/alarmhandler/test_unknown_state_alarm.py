@@ -9,8 +9,6 @@ from pytest_bdd import given, parsers, scenario, then, when
 from ska_ser_skallop.connectors import configuration as con_config
 from ska_ser_skallop.event_handling.builders import get_message_board_builder
 from ska_ser_skallop.mvp_control.describing import mvp_names as names
-
-# from ska_ser_skallop.mvp_fixtures.fixtures import fxt_types
 from tango import DeviceProxy
 
 namespace = os.getenv("KUBE_NAMESPACE")
@@ -48,7 +46,6 @@ def configure_alarm_state(response_data, device_name, state_value):
     file_path = os.path.join(
         os.getcwd(), "tests/integration/alarmhandler/data/alarm_rules/alarm_rule_state_unknown.txt"
     )
-    logging.info(file_path)
     with open(file_path, "rb") as file:
         add_api_response = httpx.post(
             f"http://alarm-handler-configurator.{namespace}.svc.miditf.internal.skao.int"
@@ -56,9 +53,7 @@ def configure_alarm_state(response_data, device_name, state_value):
             files={"file": ("alarm_rule_state_unknown.txt", file, "text/plain")},
             data={"fqdn": "alarm/handler/01"},
         )
-        logging.info(add_api_response)
         response_data.response = add_api_response.json()
-        logging.info(response_data.response)
         assert len(response_data.response["alarm_summary"]["tag"]) == 1
         assert response_data.response["alarm_summary"]["tag"] == [
             f"{device_name.lower()}_telescopestate_{state_value.lower()}",
@@ -74,18 +69,17 @@ def check_alarms():
     assert_that(str(result)).is_equal_to("UNKNOWN")
 
 
-@then("alarm must be raised with UNACKNOWLEDGE state")
-def check_alarm_state(response_data):
+@then("alarm for {state_value} must be raised with UNACKNOWLEDGE state")
+def check_alarm_state(response_data, state_value):
     """Check alarm state.
 
     :param response_data: fixture for response data
+    :param state_value: tango device attribute value alarm condition
     """
-    logging.info(response_data.response)
     alarm_handler = DeviceProxy("alarm/handler/01")
     brd = get_message_board_builder()
     brd.set_waiting_on("alarm/handler/01").for_attribute("alarmUnacknowledged").to_become_equal_to(
-        ("centralnode_telescopestate_unknown",)
+        (f"centralnode_telescopestate_{state_value.lower()}",)
     )
-    logging.info(response_data.response)
     # acknowledge the alarm
     alarm_handler.Ack(response_data.response["alarm_summary"]["tag"])
