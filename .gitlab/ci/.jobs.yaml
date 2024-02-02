@@ -7,7 +7,7 @@
   before_script:
     - |
       if [ "$HW_IN_THE_LOOP" == "true" ]; then
-        apt-get update && apt-get install iputils-ping netcat -y
+        # apt-get update && apt-get install iputils-ping netcat -y
         ping -c 1 $PDU_IP || (echo "Cannot reach PDU" && exit 1) #FIXME: This is the type of config data that we should ideally be putting in Vault / Config database
         nc -zv $PDU_IP 22 || (echo "Cannot reach PDU SSH interface - go to  https://za-itf-pdu3.ad.skatelescope.org and reset" && exit 1)
       fi
