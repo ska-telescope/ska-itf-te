@@ -27,7 +27,7 @@ Deployment of Test Equipment
 ============================
 Deployment of Test Equipment Tango Device Servers are mainly done using the ``test-equipment`` namespace.
 We have two special makefile targets, ``make itf-te-template`` and ``make itf-te-install``, one for checking what will be deployed, and one for deploying the Helm charts under the ``ska-mid-itf`` umbrella.
-We also have a make target that gives URLs to the deployed software: ``make itf-te-links``.
+We also have a make target that gives URLs to the deployed software: ``make itf-links``.
 
 Deploying Test Equipment charts for verification
 ------------------------------------------------
@@ -87,3 +87,34 @@ The job exports connection details as an artifact which is consumed by the Dish 
 Deployment of File Browser
 ==========================
 The spectrum analyser file browser is deployed with the ``file-browser-install`` Makefile target. It is deployed to the ``file-browser`` namespace in the ITF. The configuration file lives in the ``$FILEBROWSER_CONFIG_PATH`` environment variable on Gitlab. For local deployments, an example file is provided at ``charts/file-browser/secrets/example.json``. This doesn't provide access to the Spectrum Analyser FTP server, but does allow you to verify that the deployment is working as expected.
+
+Namespaces and pipeline definitions
+===================================
+In the present repository it is possible to deploy the charts in different namespaces in the ITF cluster. In specific it is possible to deploy in the following namespaces: 
+
+.. table:: List of namespaces at December 2023
+   :widths: auto
+
+   ================================  ====================================================
+     Name                              Description
+   ================================  ====================================================
+   ci-ska-mid-itf-commit-ref         Used for testing purposes and normally not persisted
+   ci-ska-mid-sut-skaXXX-commit-ref  Used for on demand deployment in vision of AA05 
+   dish-lmc-skaXXX                   For Dish AIV related CICD jobs
+   ds-sim-skaXXX                     For Dish Strcuture Simulator related CICD jobs
+   file-browser                      For the spectrum analyser file browser
+   integration                       For long-lived deployment of the SUT
+   staging                           For long-lived deployment of the SUT
+   taranta                           For taranta backend deployment
+   test-equipment                    For Test Equipment Tango Device Servers
+   ================================  ====================================================
+
+Please note that: 
+
+* ``commit-ref`` represents the ``CI_COMMIT_REF_NAME`` environment variables of Gitlab (the branch or tag name for which project is built),
+* ``skaXXX`` represents the dish identifier (i.e. ``ska001``, ``ska002``, etc.).
+
+For each namespace, the definition of the pipeline used for deploying the various applications is available in the folder ``.gitlab/ci/za-itf/namespace``.
+
+For example, the definition for the namespace ``ci-ska-mid-itf-commit-ref`` is available in ``.gitlab/ci/za-itf/ci-ska-mid-itf-commit-ref/.pipeline.yaml``. It is important to note that every ``.pipeline.yaml`` definition contains an hidden gitlab job as first item in order to highlight the environment variables (parameters) set for it. 
+

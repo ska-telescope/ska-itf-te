@@ -2,4 +2,4 @@ ska-db-oda-umbrella:
   ska-ser-skuid:
     skuid:
       config:
-        generator_id: mid-itf-integration
+        generator_id: miditf

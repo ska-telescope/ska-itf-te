@@ -1,11 +1,11 @@
 [tool.poetry]
 name = "ska-mid-itf"
-version = "0.1.0"
+version = "0.1.1"
 description = "Integration testing and deployment project for the Mid ITF"
 authors = ["ATLAS"]
 license = "BSD 3-Clause"
 readme = "README.md"
-packages = [{ include = "src/ska_mid_itf" }, { include = "tests/integration" } ]
+packages = [{ include = "tests/integration" } ]
 
 [[tool.poetry.source]]
 name = 'skao'
@@ -13,7 +13,7 @@ url = 'https://artefact.skao.int/repository/pypi-internal/simple'
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.11"
-ska-ser-skallop = { version = "2.29.6", extras = ["bit"] }
+ska-ser-skallop = { version = "2.29.8", extras = ["bit"] }
 ska-tmc-cdm = "7.3.1"
 pytest-json-report = "^1.5.0"
 pytest-repeat = "^0.9.1"
@@ -22,6 +22,7 @@ asyncua = "^1.0.4"
 ska_ser_logging = "^0.4.1"
 ska-control-model = "^0.3.1"
 pyyaml = "^6.0.1"
+ska-mid-itf-engineering-tools = {git = "https://gitlab.com/ska-telescope/ska-mid-itf-engineering-tools.git", rev = "fd58a157"}
 
 [tool.poetry.group.docs.dependencies]
 Sphinx = "^5.1.1"

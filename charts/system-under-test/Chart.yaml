@@ -16,7 +16,7 @@ dependencies:
 
   # SKA Mid TMC
   - name: ska-tmc-mid
-    version: 0.15.0 # check latest version
+    version: 0.15.3 # check latest version
     repository: https://artefact.skao.int/repository/helm-internal
     alias: tmc
     condition: tmc.enabled
@@ -42,7 +42,7 @@ dependencies:
 
   # SKA Mid SDP
   - name: ska-sdp
-    version: 0.17.0
+    version: 0.18.1
     repository: https://artefact.skao.int/repository/helm-internal
     alias: sdp
     condition: sdp.enabled

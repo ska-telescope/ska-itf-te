@@ -96,7 +96,7 @@ remove-sut-deployment:
 itf-cluster-credentials: sut-namespaces ## PIPELINE USE ONLY - allocate credentials for deployment namespaces
 	curl -s https://gitlab.com/ska-telescope/templates-repository/-/raw/master/scripts/namespace_auth.sh | bash -s $(SERVICE_ACCOUNT) $(KUBE_NAMESPACE) $(KUBE_NAMESPACE_SDP) || true
 
-links: itf-te-links
+links: itf-links
 
 CLUSTER_DOMAIN_POSTFIX ?= miditf.internal.skao.int
 KUBE_NAMESPACE_PREFIX ?= dish-lmc-
@@ -111,11 +111,12 @@ KUBE_NAMESPACE_POSTFIX ?=
 ##    TANGO_DATABASEDS=<TangoDB hostname>
 ##    KUBE_NAMESPACE_PREFIX=<Prefix for the Kubenamespaces for all the dishes>, default dish-lmc-
 ##    KUBE_NAMESPACE_POSTFIX?=<Postfix for the Kubenamespaces for all the dishes>, default None
+##    SUT_CHART_DIR=Location of the SUT chart. Required: errors out if not set.
 ##  make target for generating the URLs for accessing the DishLMC deployments in the Mid ITF cluster
 
 itf-dish-ids: ## Create the TMC values.yaml file needed to connect the Dishes to the TMC in the ITF
 	@pip install pyyaml==6.0.1
-	@python3 -m src.ska_mid_itf.tmc_dish_ids
+	@poetry run python3 -m src.ska_mid_itf_engineering_tools.tmc_dish_ids
 
 ## TARGET: itf-dish-links
 ## SYNOPSIS: make itf-dish-links
@@ -125,18 +126,19 @@ itf-dish-ids: ## Create the TMC values.yaml file needed to connect the Dishes to
 
 itf-dish-links: links ## Create the URLs with which to access Taranta Dashboards
 
-## TARGET: itf-te-links
-## SYNOPSIS: make itf-te-links
+## TARGET: itf-links
+## SYNOPSIS: make itf-links
 ## HOOKS: none
-## VARS: none
+## VARS: KUBE_APP
 ##  make target for generating the URLs for accessing the Test Equipment deployment
 
-itf-te-links: ## Create the URLs with which to access Skampi if it is available
+itf-links: ## Create the URLs with which to access the Tango Control System if it is available
+	@make k8s-info || echo "Some failure with `make k8s-info` - contact the System Team"
 	@echo ${CI_JOB_NAME}
-	@echo "############################################################################"
-	@echo "#            Access the Test Equipment Taranta framework here:"
-	@echo "#            https://$(INGRESS_HOST)/$(KUBE_NAMESPACE)/taranta/devices"
-	@echo "############################################################################"
+	@echo "##############################################################################################"
+	@echo "#        Access the Taranta framework for the $(shell echo $(KUBE_APP) | tr a-z A-Z) Tango Control System here:"
+	@echo "#        https://$(INGRESS_HOST)/$(KUBE_NAMESPACE)/taranta/devices"
+	@echo "##############################################################################################"
 
 ## TARGET: itf-te-pass-env
 ## SYNOPSIS: make itf-te-pass-env
@@ -240,3 +242,4 @@ vars:
 	$(info KUBE_NAMESPACE_PREFIX: $(KUBE_NAMESPACE_PREFIX))
 	$(info KUBE_NAMESPACE_POSTFIX: $(KUBE_NAMESPACE_POSTFIX))
 	$(info PYTHON_SRC: $(PYTHON_SRC))
+	$(info Uppercase KUBE_APP: $(shell echo $(KUBE_APP) | tr a-z A-Z))

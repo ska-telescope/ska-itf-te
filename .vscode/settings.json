@@ -13,5 +13,8 @@
     },
     "yaml.customTags": [
         "!reference sequence"
-    ]
+    ],
+    "yaml.schemas": {
+        "https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json": "file:///Users/aragorn/code/mid-itf/.gitlab/ci/.rules.yaml"
+    }
 }
