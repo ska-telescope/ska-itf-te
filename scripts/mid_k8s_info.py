@@ -7,7 +7,7 @@ import logging
 import os
 import sys
 
-from k8s_info.get_k8s_info import KubernetesControl
+from ska_mid_itf.k8s_info.get_k8s_info import KubernetesControl
 
 logging.basicConfig(level=logging.WARNING)
 _module_logger = logging.getLogger(__name__)
