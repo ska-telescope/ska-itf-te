@@ -102,10 +102,3 @@ ska-tango-archiver:
   configuration_manager: mid-eda/cm/01
   event_subscriber: mid-eda/es/01
   archwizard_config: MyHDB=tango://tango-databaseds:10000/mid-eda/cm/01
-  archviewer:
-    instances:
-    - name: "mid"
-      timescale_host: ${EDA_TIMESCALE_HOST}
-  #     #keep below field empty if db names are unknown, app will display all dbs present
-  #     #e.g:timescale_databases: ""    
-      timescale_databases: "itf_eda"
