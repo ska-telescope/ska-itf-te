@@ -13,6 +13,7 @@ from typing import Any, Tuple
 
 import tango
 from ska_control_model import AdminMode
+
 from ska_mid_itf.k8s_info.get_k8s_info import KubernetesControl
 from ska_mid_itf.ska_jargon.ska_jargon import find_jargon, print_jargon
 
@@ -44,7 +45,10 @@ def check_tango(tango_fqdn: str, tango_port: int = 10000) -> int:
     return 0
 
 
-def show_namespaces():
+def show_namespaces() -> None:
+    """
+    Display namespace in Kubernetes cluster.
+    """
     k8s = KubernetesControl(_module_logger)
     print("Namespaces:")
     ns_list = k8s.get_namespaces()
@@ -52,7 +56,10 @@ def show_namespaces():
         print(f"{ns_name}")
 
 
-class TangoDeviceInfo():
+class TangoDeviceInfo:
+    """
+    Read and display information about Tango device.
+    """
 
     def __init__(self, device_name: str, evrythng: int, fforce: bool):
         """
@@ -118,15 +125,14 @@ class TangoDeviceInfo():
             f"long Running Commands In Queue   : {self.dev.longRunningCommandsInQueue}"
         )
         print(
-            f"long Running Command IDs InQueue : {self.dev.longRunningCommandIDsInQueue}"
+            "long Running Command IDs InQueue :"
+            f"{self.dev.longRunningCommandIDsInQueue}"
         )
         print(f"long Running Command Status      : {self.dev.longRunningCommandStatus}")
         print(
             f"long Running Command Progress    : {self.dev.longRunningCommandProgress}"
         )
-        print(
-            f"long Running Command Result      : {self.dev.longRunningCommandResult}"
-        )
+        print(f"long Running Command Result      : {self.dev.longRunningCommandResult}")
 
     def get_tango_admin(self) -> bool:
         """
@@ -176,7 +182,7 @@ class TangoDeviceInfo():
         else:
             print(f"{'Query sub-devices':17} : N/A")
 
-    def show_device_command(self, prefix, cmd) -> None:
+    def show_device_command(self, prefix: str, cmd: Any) -> None:
         lpre = "\n" + f"{' ':67}"
         print(f"{prefix:17}   \033[3m{cmd.cmd_name:30}\033[0m", end="")
         if self.dev.is_command_polled(cmd.cmd_name):
@@ -186,7 +192,7 @@ class TangoDeviceInfo():
         in_type_desc = cmd.in_type_desc
         if in_type_desc != "Uninitialised":
             if "\n" in in_type_desc:
-                in_type_desc = in_type_desc[:-1].replace('\n', lpre)
+                in_type_desc = in_type_desc[:-1].replace("\n", lpre)
             print(f" IN  {in_type_desc}")
         else:
             in_type_desc = ""
@@ -197,14 +203,14 @@ class TangoDeviceInfo():
             else:
                 print(" ", end="")
             if "\n" in out_type_desc:
-                out_type_desc = out_type_desc[:-1].replace('\n', lpre)
+                out_type_desc = out_type_desc[:-1].replace("\n", lpre)
             print(f"OUT {out_type_desc}")
         else:
             out_type_desc = ""
         if in_type_desc == "" and out_type_desc == "":
             print()
-        if self.fforce and in_type_desc == "Uninitialised":
-            run_cmd = self.dev.command_inout(cmd)
+        # if self.fforce and in_type_desc == "Uninitialised":
+        #     run_cmd = self.dev.command_inout(cmd)
 
     def show_device_commands(self) -> None:
         """
@@ -221,7 +227,9 @@ class TangoDeviceInfo():
             for cmd in cmds[1:]:
                 self.show_device_command(" ", cmd)
 
-    def show_attribute_value_scalar(self, prefix: str, attrib_value: str):
+    def show_attribute_value_scalar(  # noqa: C901
+        self, prefix: str, attrib_value: str
+    ) -> None:
         """
         Print attribute value.
         :param prefix: data prefix string
@@ -265,7 +273,7 @@ class TangoDeviceInfo():
         else:
             print(f" {attrib_value} {type(attrib_value)}")
 
-    def show_attribute_value_spectrum(self, prefix: str, attrib_value: str):
+    def show_attribute_value_spectrum(self, prefix: str, attrib_value: str) -> None:
         """
         Print attribute value
         :param prefix: data prefix string
@@ -290,7 +298,7 @@ class TangoDeviceInfo():
         else:
             print(f" {type(attrib_value)}:{attrib_value}")
 
-    def show_attribute_value(self, attrib: str, prefix: str):
+    def show_attribute_value(self, attrib: str, prefix: str) -> None:
         """
         Print attribute value
         :param attrib: attribute name
@@ -305,8 +313,10 @@ class TangoDeviceInfo():
         attrib_cfg = self.dev.get_attribute_config(attrib)
         data_format = attrib_cfg.data_format
         print(f" ({data_format})", end="")
+        # pylint: disable-next=c-extension-no-member
         if data_format == tango._tango.AttrDataFormat.SCALAR:
             self.show_attribute_value_scalar(prefix, attrib_value)
+        # pylint: disable-next=c-extension-no-member
         elif data_format == tango._tango.AttrDataFormat.SPECTRUM:
             self.show_attribute_value_spectrum(prefix, attrib_value)
         else:
@@ -328,12 +338,10 @@ class TangoDeviceInfo():
         if attribs:
             attrib = attribs[0]
             print(f"{'Attributes':17} : \033[1m{attrib}\033[0m", end="")
-            self.show_attribute_value(attrib, ' ' * 25)
+            self.show_attribute_value(attrib, " " * 25)
             for attrib in attribs[1:]:
-                print(
-                    f"{' ':17}   \033[1m{attrib}\033[0m ", end=""
-                )
-                self.show_attribute_value(attrib, ' ' * 25)
+                print(f"{' ':17}   \033[1m{attrib}\033[0m ", end="")
+                self.show_attribute_value(attrib, " " * 25)
 
     def show_device_query(self) -> int:  # noqa: C901
         """
@@ -347,6 +355,7 @@ class TangoDeviceInfo():
         if not self.online:
             print(" error")
             return 0
+        # pylint: disable-next=c-extension-no-member
         if self.dev_state != tango._tango.DevState.ON:
             if not self.fforce:
                 print(f"\n{'State':17} : OFF\n")
@@ -441,6 +450,7 @@ class TangoDeviceInfo():
             print(" error")
             return 0
         rv = 1
+        # pylint: disable-next=c-extension-no-member
         if self.dev_state != tango._tango.DevState.ON:
             if not self.fforce:
                 print(f"\n{'State':17} : OFF\n")
@@ -611,7 +621,8 @@ class TangoDeviceInfo():
                 print(f"#### Attribute *{attrib}*")
                 try:
                     print(
-                        f"##### Value\n```\n{self.dev.read_attribute(attrib).value}\n```"
+                        "##### Value\n```\n"
+                        f"{self.dev.read_attribute(attrib).value}\n```"
                     )
                 except Exception:
                     print(f"```\n{attrib} could not be read\n```")
@@ -637,18 +648,19 @@ class TangoDeviceInfo():
         print(f"[ON] {self.dev_name}")
         return 1
 
-    def show_device(self):
+    def show_device(self) -> None:
         """Print device information."""
         if self.evrythng == 4:
             self.on_dev_count += self.show_device_state()
         elif self.evrythng == 3:
             self.on_dev_count += self.show_device_query()
         elif self.evrythng == 2:
-            self. on_dev_count += self.show_device_markdown()
+            self.on_dev_count += self.show_device_markdown()
         elif self.evrythng == 1:
             self.on_dev_count += self.show_device_all()
         else:
             print("Nothing to do!")
+
 
 def setup_device(dev_name: str) -> Tuple[int, tango.DeviceProxy]:
     """
@@ -661,10 +673,11 @@ def setup_device(dev_name: str) -> Tuple[int, tango.DeviceProxy]:
     print(f"Tango device : {dev_name}")
     dev = tango.DeviceProxy(dev_name)
     # check AdminMode
-    csp_admin = get_tango_admin(dev)
+    csp_admin = dev.adminMode
     if csp_admin:
         # Set Adminmode to OFFLINE and check state
-        csp_admin = set_tango_admin(dev, False)
+        dev.adminMode = 0
+        csp_admin = dev.adminMode
         if csp_admin:
             _module_logger.error("Could not turn off admin mode")
             return 1, None
@@ -1030,19 +1043,13 @@ def usage(p_name: str) -> None:
         f"\t{p_name} -e|-m|-q|-s [-g] --attribute=<ATTRIBUTE>"
         " [--namespace=<NAMESPACE>|--host=<HOST>]"
     )
-    print(
-        f"\t{p_name} -e|-m|-q|-s [-g] -A <ATTRIBUTE>"
-        " [-N <NAMESPACE>|-H <HOST>]"
-    )
+    print(f"\t{p_name} -e|-m|-q|-s [-g] -A <ATTRIBUTE> [-N <NAMESPACE>|-H <HOST>]")
     print("Filter on command name")
     print(
         f"\t{p_name} -e|-m|-q|-s [-g] --command=<COMMAND>"
         " [--namespace=<NAMESPACE>|--host=<HOST>]"
     )
-    print(
-        f"\t{p_name} -e|-m|-q|-s [-g] -C <COMMAND>"
-        " [-N <NAMESPACE>|-H <HOST>]"
-    )
+    print(f"\t{p_name} -e|-m|-q|-s [-g] -C <COMMAND> [-N <NAMESPACE>|-H <HOST>]")
     print("Display known acronyms")
     print(f"\t{p_name} -a")
     print("where:")
@@ -1103,7 +1110,7 @@ def show_command_inputs(tango_host: str, tgo_in_type: str) -> None:
         if device[0:4] == "sys/":
             _module_logger.info(f"Skip {device}")
             continue
-        dev, _dev_state = connect_device(device)
+        dev, _dev_state = tango.DeviceProxy(device)
         try:
             cmds = dev.get_command_config()
         except Exception:
@@ -1114,10 +1121,13 @@ def show_command_inputs(tango_host: str, tgo_in_type: str) -> None:
                 _module_logger.info("Command %s type %s", cmd, in_type_desc)
                 if in_type_desc == tgo_in_type:
                     print(
-                        f"{'Commands':17} : \033[3m{cmd.cmd_name}\033[0m ({in_type_desc})")
+                        f"{'Commands':17} : \033[3m{cmd.cmd_name}\033[0m"
+                        f" ({in_type_desc})"
+                    )
                 else:
                     print(f"{'Commands':17} : {cmd.cmd_name} ({in_type_desc})")
     return
+
 
 def main(y_arg: list) -> int:  # noqa: C901
     """
@@ -1142,7 +1152,15 @@ def main(y_arg: list) -> int:  # noqa: C901
         opts, _args = getopt.getopt(
             y_arg[1:],
             "adefghmnqtvVA:C:H:D:N:T:",
-            ["help", "input", "host=", "device=", "attribute=", "command=", "namespace="],
+            [
+                "help",
+                "input",
+                "host=",
+                "device=",
+                "attribute=",
+                "command=",
+                "namespace=",
+            ],
         )
     except getopt.GetoptError as opt_err:
         print(f"Could not read command line: {opt_err}")

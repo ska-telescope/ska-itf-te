@@ -64,7 +64,7 @@ coarse channels that then can be sent to one or more Frequency Slice Processors
 }
 
 
-def print_jargon():
+def print_jargon() -> None:
     """
     Print known jargon
     """
