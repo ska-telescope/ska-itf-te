@@ -1018,7 +1018,7 @@ def show_long_running_commands(dev_name: str) -> int:
     return 0
 
 
-def usage(p_name: str) -> None:
+def usage(p_name: str, cfg_data: Any) -> None:
     """
     Show how it is done.
 
@@ -1083,6 +1083,7 @@ def usage(p_name: str) -> None:
     print("\t-H <HOST>\t\t\tTango database host and port, e.g. 10.8.13.15:10000")
     print("\t-A <ATTRIBUTE>\t\t\tattribute name, e.g. 'obsState' (case sensitive)")
     print("\t-C <COMMAND>\t\t\tcommand name, e.g. 'Status' (case sensitive)")
+    print(f"Run commands {','.join(cfg_data['commands_run'])}")
 
 
 def show_command_inputs(tango_host: str, tgo_in_type: str) -> None:
@@ -1166,9 +1167,13 @@ def main(y_arg: list) -> int:  # noqa: C901
         print(f"Could not read command line: {opt_err}")
         return 1
 
+    cfg_file = open(f"{os.path.dirname(y_arg[0])}/get_tango_info_2.json")
+    cfg_data = json.load(cfg_file)
+    cfg_file.close()
+
     for opt, arg in opts:
         if opt in ("-h", "--help"):
-            usage(os.path.basename(y_arg[0]))
+            usage(os.path.basename(y_arg[0]), cfg_data)
             sys.exit(1)
         elif opt in ("-A", "--attribute"):
             tgo_attrib = arg
