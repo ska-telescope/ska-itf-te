@@ -95,7 +95,7 @@ ska-log-consumer:
 ska-tango-archiver:
   hostname: eda.ska-tango-archiver
   dbname: itf_eda
-  dbuser: ${EDA_DB_USERNAME} 
+  dbuser: admin
   port: 5432
   telescope: SKA-mid
   telescope_environment: MID-ITF
