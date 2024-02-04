@@ -8,8 +8,7 @@ variables:
   CLEAN_UP_TEST_ENVIRONMENT: "true"
   DEPLOYMENT_CONFIGURATION: "ska-$CONFIG"
   POETRY_CONFIG_VIRTUALENVS_CREATE: "true"
-  DEPLOY_IMAGE: ska-mid-itf-engineering-tools:0.1.4-dev.c61d30454
-  # DEPLOY_IMAGE: $CI_REGISTRY/ska-telescope/$CI_PROJECT_NAME/$CI_PROJECT_NAME:0.1.1
+  DEPLOY_IMAGE: $CI_REGISTRY/ska-telescope/$CI_PROJECT_NAME/$CI_PROJECT_NAME:0.1.4
 
   # PYTEST_SUBSYS_MARK: (csp_startup or sdp or eda)
   # K8S_INSTALL_FROM_CAR: "false"remove redundant cache
@@ -50,7 +49,6 @@ include:
 
   - local: .gitlab/ci/.jobs.yaml
   - local: .gitlab/ci/.rules.yaml
-  - local: .gitlab/ci/.ansible.yml
   - local: .gitlab/ci/za-itf/ci-ska-mid-itf-commit-ref/.pipeline.yaml
   - local: .gitlab/ci/za-itf/dish-lmc-skaXXX/.pipeline.yaml
   - local: .gitlab/ci/za-itf/ci-ska-mid-sut-skaXXX-commit-ref/.pipeline.yaml
