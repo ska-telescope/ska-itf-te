@@ -26,7 +26,6 @@ async def netcat_host(host):
         )
         stdout, stderr = await process.communicate()
         nc_result = process.returncode
-        print(f"NC result code: {nc_result}, command {nc_command}")
         if nc_result != 0:
             print(f"NC result code: {nc_result}, command {nc_command}")
             print(f"IP address {host[0]} not reachable on port 22 - does {host[1]} have SSH?")

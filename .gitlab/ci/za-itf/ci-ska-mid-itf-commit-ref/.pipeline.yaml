@@ -29,6 +29,9 @@ deploy-sut-on-demand:
     K8S_AUTH_SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_PIPELINE_ID
     PDU_IP: 10.20.2.14
     SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_COMMIT_REF_NAME
+    #######################################################################
+    HW_IN_THE_LOOP: "true" # TODO: REMOVE THIS AS IT IS A TEMPORARY COMMIT!
+    #######################################################################
   extends:
     - .deploy
     - .ci-env
@@ -51,6 +54,9 @@ redeploy-sut-on-demand:
     K8S_AUTH_SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_PIPELINE_ID
     PDU_IP: 10.20.2.14
     SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_COMMIT_REF_NAME
+    #######################################################################
+    HW_IN_THE_LOOP: "true" # TODO: REMOVE THIS AS IT IS A TEMPORARY COMMIT!
+    #######################################################################
   extends:
     - .redeploy
     - .ci-env
