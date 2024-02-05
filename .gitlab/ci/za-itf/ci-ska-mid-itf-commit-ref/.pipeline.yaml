@@ -39,7 +39,7 @@ deploy-sut-on-demand:
     - .on-demand-stage
   #######################################################################
   # TODO: REMOVE THIS AS IT IS A TEMPORARY COMMIT!
-  .rules:
+  rules:
     - when: always
   #######################################################################
   environment:
