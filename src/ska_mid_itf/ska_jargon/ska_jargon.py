@@ -4,6 +4,7 @@ GLOSSARY = {
     "fs": "Frequency Slice",
     "fsp": "Frequency Slice Processor",
     "lru": "Line Replaceable Unit",
+    "oso": "Observatory Science Operations",
     "sdp": "Science Data Processing",
     "tm": "Telescope Manager",
     "tmc": "Telescope Monitor and Control",
@@ -27,6 +28,10 @@ performance digital hardware and software for real-time processing.""",
     "lru": """
 A product that may be replaced using procedures, skills, tools and facilities available
  on site, i.e. without the removal of a higher level product that incorporates it.""",
+    "oso": """A suite of software tools that performs Observation execution. This is 
+done either from a Scheduling Block or using low-level scripting functions e.g. from a
+Jupyter Notebook. This aspect of operations is relevant to both execution of PI science
+and observatory operations such as commissioning and calibration.""",
     "sdp": """
 Computing system (both hardware and software) dedicated to producing science data 
 products from observations. Housed in a Science Data Processing Facility. See 

@@ -698,7 +698,7 @@ def show_devices(evrythng: int, fforce: bool, itype: str | None) -> None:  # noq
 
     # Get Tango database hist
     tango_host = os.getenv("TANGO_HOST")
-    _module_logger.info("Tango host %s" % tango_host)
+    print("Tango host %s" % tango_host)
 
     # Connect to database
     try:
