@@ -10,15 +10,18 @@ from typing import Any, List, Tuple
 
 import tango
 from ska_mid_itf.k8s_info.get_k8s_info import KubernetesControl
+from ska_mid_itf.tango_info.check_tango_device import (
+    device_state,
+    set_tango_admin,
+    show_obs_state,
+
+)
 from ska_mid_itf.tango_info.get_tango_info import (
     check_device,
     check_tango,
-    device_state,
-    set_tango_admin,
     setup_device,
     show_long_running_command,
     show_long_running_commands,
-    show_obs_state,
 )
 import ska_ser_logging
 

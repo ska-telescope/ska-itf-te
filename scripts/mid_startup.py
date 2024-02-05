@@ -24,36 +24,18 @@ import sys
 from typing import Any, List, Tuple
 
 import ska_ser_logging  # type: ignore[import]
+
 from ska_mid_itf.tango_info.get_tango_info import (
-    check_device,
     check_tango,
-    device_state,
-    set_tango_admin,
-    setup_device,
-    show_long_running_command,
     show_long_running_commands,
-    show_obs_state,
 )
 from ska_mid_itf.ska_notebook_helper.mid_itf_control import (
-    control_subarray,
-    csp_shutdown,
-    device_teardown,
     do_control,
     do_shutdown,
     do_startup,
-    get_surrogate,
-    init_device,
-    init_subarray,
-    log_prog,
-    read_config_data,
     read_config_file,
-    scan_data,
-    setup_bite_stream,
     show_config_json,
     show_observation_status,
-    start_ctl_device,
-    start_device,
-    upload_delay,
 )
 
 from ska_mid_itf.ska_jargon.ska_jargon import get_ska_jargon
