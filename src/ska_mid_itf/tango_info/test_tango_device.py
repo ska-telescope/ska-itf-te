@@ -113,20 +113,32 @@ class TestTangoDevice:
             return
         try:
             dev_on = self.dev.On()
+            print(f"[  OK  ] {self.dev_name} turned on, now {dev_on}")
+            return
+        except tango.DevFailed:
+            print(f"[ WARN ] {self.dev_name} retry on command")
+        try:
+            dev_on = self.dev.On([])
+            print(f"[  OK  ] {self.dev_name} turned on, now {dev_on}")
+            return
         except tango.DevFailed:
             print(f"[FAILED] {self.dev_name} could not be turned on")
-            return
-        print(f"[  OK  ] {self.dev_name} turned on, now {dev_on}")
 
     def device_off(self):
         if "Off" not in self.cmds:
             print(f"[FAILED] {self.dev.dev_name} does not have Off command")
         try:
             dev_off = self.dev.Off()
+            print(f"[  OK  ] {self.dev_name} turned off, now {dev_off}")
+            return
+        except tango.DevFailed:
+            print(f"[ WARN ] {self.dev_name} retry off command")
+        try:
+            dev_off = self.dev.Off([])
+            print(f"[  OK  ] {self.dev_name} turned off, now {dev_off}")
+            return
         except tango.DevFailed:
             print(f"[FAILED] {self.dev_name} could not be turned off")
-            return
-        print(f"[  OK  ] {self.dev_name} turned off, now {dev_off}")
 
     def admin_mode_on(self):
         self.logger.info("Turn device admin mode on")
