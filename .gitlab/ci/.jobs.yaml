@@ -30,13 +30,13 @@
     - bash .make/resources/gitlab_section.sh wait-ns "Wait namespace resources" make k8s-wait
     - |
       if [ "$HW_IN_THE_LOOP" == "true" ]; then
-        # make itf-cbf-setup --dry
-        # make itf-cbf-talonlru-status
-        # bash .make/resources/gitlab_section.sh talon_off "Switch off Talon" make itf-cbf-talonlru-off
-        # bash .make/resources/gitlab_section.sh talon_config "Configure Talon(s)" make itf-cbf-config-talon
-        # bash .make/resources/gitlab_section.sh mcs_config "Configure MCS" make itf-cbf-config-mcs
-        # bash .make/resources/gitlab_section.sh talon_download_tangocpp_ds "Download CPP Tango device server updates" make itf-cbf-tangocpp-update &> deploy/talonconfig.log
-        # bash .make/resources/gitlab_section.sh talon_config_tangodb "Configure TangoDB with device servers" make itf-cbf-config-tangodb
+        make itf-cbf-setup --dry
+        make itf-cbf-talonlru-status
+        bash .make/resources/gitlab_section.sh talon_off "Switch off Talon" make itf-cbf-talonlru-off
+        bash .make/resources/gitlab_section.sh talon_config "Configure Talon(s)" make itf-cbf-config-talon
+        bash .make/resources/gitlab_section.sh mcs_config "Configure MCS" make itf-cbf-config-mcs
+        bash .make/resources/gitlab_section.sh talon_download_tangocpp_ds "Download CPP Tango device server updates" make itf-cbf-tangocpp-update &> deploy/talonconfig.log
+        bash .make/resources/gitlab_section.sh talon_config_tangodb "Configure TangoDB with device servers" make itf-cbf-config-tangodb
         bash .make/resources/gitlab_section.sh talon_on "Switch ON the Talons" make itf-cbf-talon-on
       fi
   after_script:
