@@ -20,12 +20,12 @@
     - cat charts/system-under-test/tmc-values.yaml
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
     - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
-    - |
-      if [ "$K8S_INSTALL_FROM_CAR" != "true" ]; then
-        bash .make/resources/gitlab_section.sh install "Installing $K8S_CHART Charts - not from CAR" make k8s-install-chart
-      else
-        bash .make/resources/gitlab_section.sh install "Installing $K8S_CHART Charts from CAR" make k8s-install-chart-car
-      fi
+    # - |
+    #   if [ "$K8S_INSTALL_FROM_CAR" != "true" ]; then
+    #     bash .make/resources/gitlab_section.sh install "Installing $K8S_CHART Charts - not from CAR" make k8s-install-chart
+    #   else
+    #     bash .make/resources/gitlab_section.sh install "Installing $K8S_CHART Charts from CAR" make k8s-install-chart-car
+    #   fi
     - bash .make/resources/gitlab_section.sh get-ns "Get namespace resources" make k8s-get
     - bash .make/resources/gitlab_section.sh wait-ns "Wait namespace resources" make k8s-wait
     - |
