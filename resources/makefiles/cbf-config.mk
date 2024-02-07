@@ -52,8 +52,8 @@ itf-cbf-config-mcs: ## Copy the Talon HW Config file onto a pod, copy the init s
 	@kubectl -n $(KUBE_NAMESPACE) exec ec-bite -- /bin/bash -c "mkdir -p ext_config"
 	@kubectl cp $(MCS_CONFIG_FILE_PATH)/hw_config.yaml $(KUBE_NAMESPACE)/ds-cbfcontroller-controller-0:/app/mnt/hw_config/hw_config.yaml
 	@echo "Successfully copied Talon HW config file to the CBF Controller Pod."
-	@kubectl cp $(MCS_CONFIG_FILE_PATH)/init_sys_param.json  $(KUBE_NAMESPACE)/ec-bite:/app/images/ska-mid-cbf-engineering-console-bite/ext_config/initial_system_param.json
-	@echo "Successfully copied Initial System Parameters config file to the BITE pod for source data generation. Refer to "
+	# @kubectl cp $(MCS_CONFIG_FILE_PATH)/init_sys_param.json  $(KUBE_NAMESPACE)/ec-bite:/app/images/ska-mid-cbf-engineering-console-bite/ext_config/initial_system_param.json
+	# @echo "Successfully copied Initial System Parameters config file to the BITE pod for source data generation. Refer to "
 	@kubectl cp $(MCS_CONFIG_FILE_PATH)/internal_params.json $(KUBE_NAMESPACE)/ds-vcc-vcc-001-0:/app/mnt/vcc_param/internal_params_receptor1_band1.json
 	@echo "Successfully copied VCC gain parameters to the VCC device server pod."
 
