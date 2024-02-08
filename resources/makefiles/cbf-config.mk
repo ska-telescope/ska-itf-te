@@ -13,7 +13,7 @@ TALON_BOARD_IDX ?= 1
 ##	LRU_INDEX=[lru index paramter] (default value: lru1)
 ##  make target for checking the Talon LRU status
 
-itf-cbf-talonlru-status: ## Switch off the Talon LRU specified
+itf-cbf-talonlru-status: ## Specified Talon LRU status
 	@[[ -f  $(HW_CONFIG_FILE_PATH)/talon_power_apc.sh ]] || exit 404;
 	@cd $(HW_CONFIG_FILE_PATH) && ./talon_power_apc.sh $(LRU_INDEX)
 
@@ -52,8 +52,8 @@ itf-cbf-config-mcs: ## Copy the Talon HW Config file onto a pod, copy the init s
 	@kubectl -n $(KUBE_NAMESPACE) exec ec-bite -- /bin/bash -c "mkdir -p ext_config"
 	@kubectl cp $(MCS_CONFIG_FILE_PATH)/hw_config.yaml $(KUBE_NAMESPACE)/ds-cbfcontroller-controller-0:/app/mnt/hw_config/hw_config.yaml
 	@echo "Successfully copied Talon HW config file to the CBF Controller Pod."
-	# @kubectl cp $(MCS_CONFIG_FILE_PATH)/init_sys_param.json  $(KUBE_NAMESPACE)/ec-bite:/app/images/ska-mid-cbf-engineering-console-bite/ext_config/initial_system_param.json
-	# @echo "Successfully copied Initial System Parameters config file to the BITE pod for source data generation. Refer to "
+	@kubectl cp $(MCS_CONFIG_FILE_PATH)/init_sys_param.json  $(KUBE_NAMESPACE)/ec-bite:/app/images/ska-mid-cbf-engineering-console-bite/ext_config/initial_system_param.json
+	@echo "Successfully copied Initial System Parameters config file to the BITE pod for source data generation."
 	@kubectl cp $(MCS_CONFIG_FILE_PATH)/internal_params.json $(KUBE_NAMESPACE)/ds-vcc-vcc-001-0:/app/mnt/vcc_param/internal_params_receptor1_band1.json
 	@echo "Successfully copied VCC gain parameters to the VCC device server pod."
 
@@ -101,4 +101,4 @@ itf-cbf-talon-on:
 ##  make target for registering the deviceservers in the TangoDB.
 
 
-itf-cbf-setup: itf-cbf-talonlru-off itf-cbf-config-talon itf-cbf-config-mcs itf-cbf-tangocpp-update itf-cbf-config-tangodb
+itf-cbf-setup: itf-cbf-talonlru-off itf-cbf-config-talon itf-cbf-config-mcs itf-cbf-tangocpp-update itf-cbf-config-tangodb itf-cbf-talon-on
