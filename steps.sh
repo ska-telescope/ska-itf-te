@@ -1,5 +1,10 @@
 # run the dockerfile
-docker run -it registry.gitlab.com/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools:0.1.4
+docker run -it -e CI_COMMIT_SHA=$(git rev-parse --short HEAD) registry.gitlab.com/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools:0.1.4
+
+# git clone (to mimic the pipeline start)
+mkdir /build && mkdir /build/ska-telescope && cd /build/ska-telescope 
+git clone --recurse-submodules https://gitlab.com/ska-telescope/ska-mid-itf.git && cd ska-mid-itf
+git checkout $CI_COMMIT_SHA
 
 #set up infra on the container (we might as well do this in the Dockerfile)
 wget https://github.com/infrahq/infra/releases/download/v0.21.0/infra_0.21.0_amd64.deb
