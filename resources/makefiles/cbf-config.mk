@@ -88,7 +88,7 @@ itf-cbf-config-tangodb: ## Configure Deviceservers in the TangoDB
 
 itf-cbf-talon-on:
 	@export TANGO_HOST=tango-databaseds.$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN):10000 && \
-	poetry run python3 -m src.ska_mid_itf_engineering_tools.talon_on
+	cd /app && poetry run python3 -m src.ska_mid_itf_engineering_tools.talon_on
 
 ## TARGET: itf-cbf-setup
 ## SYNOPSIS: make itf-cbf-setup
