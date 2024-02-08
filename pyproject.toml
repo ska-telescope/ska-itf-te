@@ -22,7 +22,7 @@ asyncua = "^1.0.4"
 ska_ser_logging = "^0.4.1"
 ska-control-model = "^0.3.1"
 pyyaml = "^6.0.1"
-ska-mid-itf-engineering-tools = {git = "https://gitlab.com/ska-telescope/ska-mid-itf-engineering-tools.git", rev = "145503da4650d11da56a1e59959929f6b7460cab"}
+ska-mid-itf-engineering-tools = {git = "https://gitlab.com/ska-telescope/ska-mid-itf-engineering-tools.git", rev = "57cbe58f36f6a7da522c358a24e438d8c441cf1a"}
 
 [tool.poetry.group.docs.dependencies]
 Sphinx = "^5.1.1"
