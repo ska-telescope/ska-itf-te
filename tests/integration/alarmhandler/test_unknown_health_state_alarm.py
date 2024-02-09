@@ -58,8 +58,8 @@ def configure_alarm_healthstate(response_data, device1, device2):
         )
         response_data.response = add_api_response.json()
         assert len(response_data.response["alarm_summary"]["tag"]) == 1
-        assert f"{device1}" in response_data.response["alarm_summary"]["formula"]
-        assert f"{device2}" in response_data.response["alarm_summary"]["formula"]
+        assert f"{device1}" in response_data.response["alarm_summary"]["formula"][0]
+        assert f"{device2}" in response_data.response["alarm_summary"]["formula"][0]
 
 
 @when(parsers.parse("{device1} and {device2} remain in healthState UNKNOWN for long"))
