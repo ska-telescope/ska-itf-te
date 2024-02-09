@@ -8,17 +8,8 @@ import logging
 import os
 import sys
 import tango
-from typing import Any, TextIO, Tuple
-
-from ska_mid_itf.k8s_info.get_k8s_info import KubernetesControl
-
-logging.basicConfig(level=logging.WARNING)
-_module_logger = logging.getLogger(__name__)
-_module_logger.setLevel(logging.WARNING)
-
-KUBE_NAMESPACE = "ci-ska-mid-itf-at-1820-tmc-test-sdp-notebook-v2"
-CLUSTER_DOMAIN = "miditf.internal.skao.int"
-DATABASEDS_NAME = "tango-databaseds"
+import time
+from typing import Any
 
 
 class TestTangoDevice:
@@ -33,53 +24,105 @@ class TestTangoDevice:
         self.cmds = []
         try:
             self.dev: tango.DeviceProxy = tango.DeviceProxy(device_name)
-        except tango.ConnectionFailed:
+        except tango.ConnectionFailed as terr:
             print(f"[FAILED] {device_name} connection failed")
+            print(f"[FAILED] {terr.args[0].desc.strip()}")
+            self.logger.debug(terr)
             self.dev = None
-        except tango.DevFailed:
+        except tango.DevFailed as terr:
             print(f"[FAILED] {device_name} device failed")
+            print(f"[FAILED] {terr.args[0].desc.strip()}")
+            self.logger.debug(terr)
             self.dev = None
         if self.dev is not None:
             try:
                 self.adminMode = self.dev.adminMode
                 print(f"[  OK  ] admin mode {self.adminMode}")
-            except AttributeError:
+            except AttributeError as terr:
                 self.adminMode = None
+                self.logger.debug(terr)
             self.dev_name = self.dev.name()
             self.attribs = self.dev.get_attribute_list()
             self.cmds = self.dev.get_command_list()
         self.dev_status = None
         self.dev_state = None
+        self.simMode = None
 
     def get_admin_mode(self):
+        if "adminMode" not in self.attribs:
+            print(f"[ WARN ] {self.dev_name} does not have an adminMode attribute")
+            self.adminMode = None
+            return None
         try:
             self.adminMode = self.dev.adminMode
             print(f"[  OK  ] admin mode {self.adminMode}")
-        except AttributeError:
+        except AttributeError as terr:
             print("[FAILED] could not read admin mode")
+            self.logger.debug(terr)
             self.adminMode = None
         return self.adminMode
+
+    def get_simulation_mode(self):
+        if "simulationMode" not in self.attribs:
+            print(f"[ WARN ] {self.dev_name} does not have a simulationMode attribute")
+        try:
+            self.simMode = self.dev.simulationMode
+            print(f"[  OK  ] simulation mode {self.simMode}")
+        except AttributeError as terr:
+            print("[FAILED] could not read simulation mode")
+            self.logger.debug(terr)
+            self.simMode = None
+        return self.simMode
+
+    def set_simulation_mode(self, dev_sim: int) -> int:
+        if "simulationMode" not in self.attribs:
+            print(f"[ WARN ] {self.dev_name} does not have a simulationMode attribute")
+        try:
+            self.dev.simulationMode = dev_sim
+            self.simMode = self.dev.simulationMode
+            print(f"[  OK  ] simulation mode set to {self.simMode}")
+        except AttributeError as terr:
+            print(f"[FAILED] could not set simulation mode to {dev_sim}")
+            self.logger.debug(terr)
+            self.simMode = None
+            return 1
+        if dev_sim != self.simMode:
+            print(f"[FAILED] simulation mode should be {dev_sim} but is {self.simMode}")
+        return 0
 
     def check_device(self) -> bool:
         try:
             self.dev.ping()
             print(f"[  OK  ] {self.dev_name} is online")
-        except Exception:
+        except Exception as terr:
             print("[FAILED] {self.dev_name} is not online")
+            self.logger.debug(terr)
             return False
         return True
 
-    def show_device_attributes(self):
+    def show_device_attributes(self, show: bool = False):
         print(f"[  OK  ] {self.dev_name} has {len(self.attribs)} attributes")
-        # print("Attributes")
-        # for attrib in self.attribs:
-        #     print(f"\t{attrib}")
+        if show:
+            for attrib in sorted(self.attribs):
+                print(f"\t{attrib}")
 
-    def show_device_commands(self):
+    def read_device_attributes(self):
+        print(f"[  OK  ] {self.dev_name} read {len(self.attribs)} attributes")
+        for attrib in sorted(self.attribs):
+            time.sleep(2)
+            try:
+                attrib_value = self.dev.read_attribute(attrib).value
+                print(f"[  OK  ] {self.dev_name} attribute {attrib} : {attrib_value}")
+            except tango.DevFailed as terr:
+                print(f"[FAILED] {self.dev_name} attribute {attrib} could not be read")
+                print(f"[FAILED] {terr.args[0].desc.strip()}")
+                self.logger.debug(terr)
+
+    def show_device_commands(self, show: bool = False):
         print(f"[  OK  ] {self.dev_name} has {len(self.cmds)} commands")
-        # print("Commands")
-        # for cmd in self.cmds:
-        #     print(f"\t{cmd}")
+        if show:
+            for cmd in sorted(self.cmds):
+                print(f"\t{cmd}")
 
     def admin_mode_off(self):
         if self.adminMode is None:
@@ -89,8 +132,10 @@ class TestTangoDevice:
             try:
                 self.dev.adminMode = 0
                 self.adminMode = self.dev.adminMode
-            except tango.DevFailed:
+            except tango.DevFailed as terr:
                 print(f"[FAILED] {self.dev_name} admin mode could not be turned off")
+                print(f"[FAILED] {terr.args[0].desc.strip()}")
+                self.logger.debug(terr)
                 return
             self.adminMode = self.dev.adminMode
         print(f"[  OK  ] {self.dev_name} admin mode set to off, now ({self.adminMode})")
@@ -103,244 +148,271 @@ class TestTangoDevice:
             return None
         self.dev_status = self.dev.Status()
         self.dev_state = self.dev.State()
+        print(f"[  OK  ] {self.dev_name} state : {self.dev_state} ({self.dev_state:d})")
         print(f"[  OK  ] {self.dev_name} status : {self.dev_status}")
-        # print(f"[  OK  ] {self.dev_name} state is {self.dev_state:d}")
         return self.dev_state
 
-    def device_on(self):
+    def device_on(self) -> int:
         if "On" not in self.cmds:
-            print(f"[FAILED] {self.dev.dev_name} does not have On command")
-            return
-        try:
-            dev_on = self.dev.On()
-            print(f"[  OK  ] {self.dev_name} turned on, now {dev_on}")
-            return
-        except tango.DevFailed:
-            print(f"[ WARN ] {self.dev_name} retry on command")
-        try:
-            dev_on = self.dev.On([])
-            print(f"[  OK  ] {self.dev_name} turned on, now {dev_on}")
-            return
-        except tango.DevFailed:
-            print(f"[FAILED] {self.dev_name} could not be turned on")
+            print(f"[FAILED] {self.dev_name} does not have On command")
+            return 1
+        cmd_cfg = self.dev.get_command_config("On")
+        if cmd_cfg.in_type_desc == "Uninitialised":
+            try:
+                dev_on = self.dev.On()
+                print(f"[  OK  ] {self.dev_name} turned on, now {dev_on}")
+                return 1
+            except tango.DevFailed as terr:
+                print(f"[FAILED] {self.dev_name} could not be turned on")
+                print(f"[FAILED] {terr.args[0].desc.strip()}")
+                self.logger.debug(terr)
+        else:
+            try:
+                dev_on = self.dev.On([])
+                print(f"[  OK  ] {self.dev_name} turned on, now {dev_on}")
+                return 1
+            except tango.DevFailed as terr:
+                print(
+                    f"[FAILED] {self.dev_name} could not be turned on"
+                    " (device failed)"
+                    )
+                print(f"[FAILED] {terr.args[0].desc.strip()}")
+                self.logger.debug(terr)
+                return 1
+            except TypeError as terr:
+                print(
+                    f"[FAILED] {self.dev_name} could not be turned on"
+                    f" (parameter type should be {cmd_cfg.in_type_desc})"
+                )
+                self.logger.debug(terr)
+                return 1
+        return 9
 
     def device_off(self):
         if "Off" not in self.cmds:
-            print(f"[FAILED] {self.dev.dev_name} does not have Off command")
-        try:
-            dev_off = self.dev.Off()
-            print(f"[  OK  ] {self.dev_name} turned off, now {dev_off}")
-            return
-        except tango.DevFailed:
-            print(f"[ WARN ] {self.dev_name} retry off command")
-        try:
-            dev_off = self.dev.Off([])
-            print(f"[  OK  ] {self.dev_name} turned off, now {dev_off}")
-            return
-        except tango.DevFailed:
-            print(f"[FAILED] {self.dev_name} could not be turned off")
+            print(f"[FAILED] {self.dev_name} does not have Off command")
+            return 1
+        cmd_cfg = self.dev.get_command_config("Off")
+        if cmd_cfg.in_type_desc == "Uninitialised":
+            try:
+                dev_off = self.dev.Off()
+                print(f"[  OK  ] {self.dev_name} turned off, now {dev_off}")
+                return
+            except tango.DevFailed as terr:
+                print(f"[FAILED] {self.dev_name} could not be turned off")
+                print(f"[FAILED] {terr.args[0].desc.strip()}")
+                self.logger.debug(terr)
+        else:
+            try:
+                dev_off = self.dev.Off([])
+                print(f"[  OK  ] {self.dev_name} turned off, now {dev_off}")
+                return
+            except tango.DevFailed as terr:
+                print(f"[FAILED] {self.dev_name} could not be turned off")
+                print(f"[FAILED] {terr.args[0].desc.strip()}")
+                self.logger.debug(terr)
+
+    def device_standby(self):
+        if "Standby" not in self.cmds:
+            print(f"[FAILED] {self.dev.dev_name} does not have Standby command")
+            return 1
+        cmd_cfg = self.dev.get_command_config("Standby")
+        if cmd_cfg.in_type_desc == "Uninitialised":
+            try:
+                dev_standby = self.dev.Standby()
+                print(
+                    f"[  OK  ] {self.dev_name} switched to standby, now {dev_standby}"
+                )
+                return
+            except tango.DevFailed as terr:
+                print(
+                    f"[FAILED] {self.dev_name} could not be switched to standby"
+                )
+                print(f"[FAILED] {terr.args[0].desc.strip()}")
+                self.logger.debug(terr)
+        else:
+            try:
+                dev_standby = self.dev.Standby([])
+                print(
+                    f"[  OK  ] {self.dev_name} switched to standby, now {dev_standby}"
+                )
+                return
+            except tango.DevFailed as terr:
+                print(
+                    f"[FAILED] {self.dev_name} could not be switched to standby"
+                )
+                print(f"[FAILED] {terr.args[0].desc.strip()}")
+                self.logger.debug(terr)
 
     def admin_mode_on(self):
         self.logger.info("Turn device admin mode on")
         try:
             self.dev.adminMode = 1
             self.adminMode = self.dev.adminMode
-        except tango.DevFailed:
+        except tango.DevFailed as terr:
             print(f"[FAILED] {self.dev_name} admin mode could not be turned on")
+            print(f"[FAILED] {terr.args[0].desc.strip()}")
+            self.logger.debug(terr)
             return
         print(f"[  OK  ] {self.dev_name} admin mode turned on, now ({self.adminMode})")
 
+    def set_admin_mode(self, admin_mode: int) -> int:
+        self.logger.info("Set device admin mode to %d", admin_mode)
+        try:
+            self.dev.adminMode = admin_mode
+            self.adminMode = self.dev.adminMode
+        except tango.DevFailed as terr:
+            print(f"[FAILED] {self.dev_name} admin mode could not be changed")
+            print(f"[FAILED] {terr.args[0].desc.strip()}")
+            self.logger.debug(terr)
+            return 1
+        if self.adminMode != admin_mode:
+            print(
+                f"[FAILED] {self.dev_name} admin mode is {self.adminMode}"
+                f" but should be {admin_mode}"
+            )
+            return 1
+        print(f"[  OK  ] {self.dev_name} admin mode set to ({self.adminMode})")
+        return 0
 
-def show_namespaces() -> None:
-    """
-    Display namespace in Kubernetes cluster.
-    """
-    k8s = KubernetesControl(_module_logger)
-    print("Namespaces:")
-    ns_list = k8s.get_namespaces()
-    for ns_name in ns_list:
-        print(f"{ns_name}")
+    def test_admin_mode(self, dev_admin: int):
+        self.check_device()
+        self.get_simulation_mode()
+        # Read admin mode
+        self.get_admin_mode()
+        if self.adminMode is not None:
+            self.set_admin_mode(dev_admin)
+
+    def test_off(self, dev_sim):
+        self.check_device()
+        self.get_simulation_mode()
+        if dev_sim is not None:
+            self.set_simulation_mode(dev_sim)
+        self.show_device_attributes()
+        self.show_device_commands()
+        # Read admin mode
+        self.get_admin_mode()
+        # Read state
+        self.device_status()
+        # Turn device off
+        self.device_off()
+        # Turn on admin mode
+        self.admin_mode_on()
+        # Read state
+        self.device_status()
+
+    def test_on(self, dev_sim):
+        self.check_device()
+        self.get_simulation_mode()
+        if dev_sim is not None:
+            self.set_simulation_mode(dev_sim)
+        self.show_device_attributes()
+        self.show_device_commands()
+        # Read admin mode, turn off
+        self.get_admin_mode()
+        self.admin_mode_off()
+        # Turn device on
+        init_state = self.device_status()
+        if init_state == tango._tango.DevState.ON:
+            print(f"[ WARN ] device is already on")
+        else:
+            self.device_on()
+        self.device_status()
+
+    def test_standby(self, dev_sim):
+        self.check_device()
+        self.get_simulation_mode()
+        if dev_sim is not None:
+            self.set_simulation_mode(dev_sim)
+        self.get_admin_mode()
+        self.device_standby()
+        self.device_status()
+
+    def test_status(self):
+        self.check_device()
+        self.get_simulation_mode()
+        self.get_admin_mode()
+        self.device_status()
+
+    def test_simulation_mode(self, dev_sim):
+        self.check_device()
+        self.get_simulation_mode()
+        self.set_simulation_mode(dev_sim)
+        self.get_simulation_mode()
+
+    def test_all(self, show_attrib: bool):
+        self.check_device()
+        self.get_simulation_mode()
+        self.show_device_attributes()
+        self.show_device_commands()
+        # Read admin mode, turn on ond off
+        init_admin_mode = self.get_admin_mode()
+        if self.adminMode is not None:
+            self.admin_mode_on()
+            self.admin_mode_off()
+        # Read state
+        init_state = self.device_status()
+        # Turn device on
+        if init_state == tango._tango.DevState.ON:
+            print(f"[ WARN ] device is already on")
+        else:
+            self.device_on()
+        self.device_status()
+        # Read attribute values
+        if show_attrib:
+            self.read_device_attributes()
+        else:
+            print("[ WARN ] skip reading attributes")
+        # Turn device off
+        self.device_off()
+        self.device_status()
+        if self.dev_state == tango._tango.DevState.ON:
+            print(f"[FAILED] device is still on")
+        # Turn device back on, if neccesary
+        if init_state == tango._tango.DevState.ON:
+            print(f"[ WARN ] turn device back on")
+            self.device_on()
+            self.device_status()
+        # Turn device admin mode back on, if neccesary
+        if init_admin_mode == 1:
+            print("[ WARN ] turn admin mode back to on")
+            self.admin_mode_on()
+
+    def test_subscribe(self, attrib):
+        print(f"[  OK  ] subscribe to events for {self.dev_name} {attrib}")
+        evnt_id: Any = self.dev.subscribe_event(
+            attrib, tango.EventType.CHANGE_EVENT, tango.utils.EventCallback()
+        )
+        print(f"[  OK  ] subscribed to event ID {evnt_id}")
+        time.sleep(15)
+        try:
+            events = self.dev.get_events(evnt_id)
+            print(f"[  OK  ] got events {events}")
+        except tango.EventSystemFailed as terr:
+            print(f"[ WARN ] got no events for {self.dev_name} {attrib}")
+            print(f"[FAILED] {terr.args[0].desc.strip()}")
+            self.logger.debug(terr)
+        try:
+            self.dev.devc.unsubscribe_event(evnt_id)
+            print(f"[  OK  ] unsubscribed from event ID {evnt_id}")
+        except AttributeError as terr:
+            print(f"[ WARN ] could not unsubscribe from event ID {evnt_id}")
+            self.logger.debug(terr)
 
 
-def get_devices():
+def get_devices() -> list:
     tango_devices = []
     # Connect to database
     try:
         database = tango.Database()
     except Exception:
-        _module_logger.error("Could not connect to Tango database %s", tango_host)
-        return
+        tango_host = os.getenv("TANGO_HOST")
+        print("[FAILED] Could not connect to Tango database %s", tango_host)
+        return tango_devices
     # Read devices
     device_list = database.get_device_exported("*")
-    _module_logger.info(f"{len(device_list)} devices available")
-
-    _module_logger.info("Read %d devices" % (len(device_list)))
+    print(f"[  OK  ] {len(device_list)} devices available")
 
     for device in sorted(device_list.value_string):
         tango_devices.append(device)
     return tango_devices
-
-
-def usage(p_name: str, cfg_data: Any) -> None:
-    """
-    Show how it is done.
-
-    :param p_name: executable name
-    """
-    print("Display Kubernetes namespaces")
-    print(f"\t{p_name} -n")
-
-
-def main(y_arg: list) -> int:  # noqa: C901
-    """
-    Read and display Tango devices.
-
-    :param y_arg: input arguments
-    :return: error condition
-    """
-    global KUBE_NAMESPACE
-    dev_name: str | None = None
-    disp_action: int = 0
-    evrythng: bool = False
-    show_jargon: bool = False
-    show_ns: bool = False
-    show_tango: bool = False
-    tgo_attrib: str | None = None
-    tgo_cmd: str | None = None
-    tgo_in_type: str | None = None
-    tango_host: str | None = None
-    try:
-        opts, _args = getopt.getopt(
-            y_arg[1:],
-            "adefghmnqstvVA:C:H:D:N:T:",
-            [
-                "help",
-                "input",
-                "host=",
-                "device=",
-                "attribute=",
-                "command=",
-                "namespace=",
-            ],
-        )
-    except getopt.GetoptError as opt_err:
-        print(f"Could not read command line: {opt_err}")
-        return 1
-
-    cfg_name: str | bytes = os.path.basename(y_arg[0]).replace(".py", ".json")
-    cfg_file: TextIO = open(f"{os.path.dirname(y_arg[0])}/{cfg_name}")
-    cfg_data: Any = json.load(cfg_file)
-    cfg_file.close()
-
-    for opt, arg in opts:
-        if opt in ("-h", "--help"):
-            usage(os.path.basename(y_arg[0]), cfg_data)
-            sys.exit(1)
-        elif opt in ("-A", "--attribute"):
-            tgo_attrib = arg
-        elif opt in ("-C", "--command"):
-            tgo_cmd = arg
-        elif opt in ("-H", "--host"):
-            tango_host = arg
-        elif opt in ("-D", "--device"):
-            dev_name = arg
-        elif opt in ("-N", "--namespace"):
-            KUBE_NAMESPACE = arg
-        elif opt in ("-T", "--input"):
-            tgo_in_type = arg.lower()
-        elif opt == "-a":
-            show_jargon = True
-        elif opt == "-t":
-            show_tango = True
-        elif opt == "-m":
-            disp_action = 2
-        elif opt == "-f":
-            disp_action = 1
-        elif opt == "-e":
-            evrythng = True
-        elif opt == "-n":
-            show_ns = True
-        elif opt == "-q":
-            disp_action = 3
-        elif opt == "-d":
-            disp_action = 4
-        elif opt == "-s":
-            disp_action = 5
-        elif opt == "-v":
-            _module_logger.setLevel(logging.INFO)
-        elif opt == "-V":
-            _module_logger.setLevel(logging.DEBUG)
-        else:
-            _module_logger.error("Invalid option %s", opt)
-
-    if show_ns:
-        k8s = KubernetesControl(_module_logger)
-        print("Namespaces:")
-        ns_list = k8s.get_namespaces()
-        for ns_name in ns_list:
-            print(f"{ns_name}")
-        return 0
-
-    if tango_host is None:
-        tango_fqdn = f"{DATABASEDS_NAME}.{KUBE_NAMESPACE}.svc.{CLUSTER_DOMAIN}"
-        tango_host = f"{tango_fqdn}:10000"
-    else:
-        tango_fqdn = tango_host.split(":")[0]
-
-    # if show_tango:
-    #     check_tango(tango_fqdn)
-    #     return 0
-
-    os.environ["TANGO_HOST"] = tango_host
-    _module_logger.info("Set TANGO_HOST to %s", tango_host)
-
-    print(f"[  OK  ] Namespace {KUBE_NAMESPACE}")
-
-    if dev_name is not None:
-        dev_test = TestTangoDevice(_module_logger, dev_name)
-        if dev_test.dev is None:
-            print(f"[FAILED] could not open device {dev_name}")
-            return 1
-        dev_test.check_device()
-        dev_test.show_device_attributes()
-        dev_test.show_device_commands()
-        # Read admin mode, turn on ond off
-        init_admin_mode = dev_test.get_admin_mode()
-        dev_test.admin_mode_on()
-        dev_test.admin_mode_off()
-        # Read state
-        init_state = dev_test.device_status()
-        # Turn device on
-        if init_state == tango._tango.DevState.ON:
-            print(f"[ WARN ] device is already on")
-        else:
-            dev_test.device_on()
-        dev_test.device_status()
-        # Turn device off
-        dev_test.device_off()
-        dev_test.device_status()
-        if dev_test.dev_state == tango._tango.DevState.ON:
-            print(f"[FAILED] device is still on")
-        # Turn device back on, if neccesary
-        if init_state == tango._tango.DevState.ON:
-            print(f"[ WARN ] turn device back on")
-            dev_test.device_on()
-            dev_test.device_status()
-        # Turn device admin mode back on, if neccesary
-        if init_admin_mode == 1:
-            print("[ WARN ] turn admin mode back to on")
-            dev_test.admin_mode_on()
-        return 0
-
-    devices = get_devices()
-    for device in devices:
-        print(f"\t{device}")
-
-    return 0
-
-
-if __name__ == "__main__":
-    try:
-        main(sys.argv)
-    except KeyboardInterrupt:
-        pass

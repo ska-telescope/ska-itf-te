@@ -3,51 +3,81 @@
 Read information about Tango devices.
 """
 import getopt
+import json
 import logging
 import os
 import sys
+from typing import Any, TextIO
 
-from ska_mid_itf.tango_info.get_tango_info import (
-    check_tango, show_attributes, show_command_inputs, show_commands, show_devices
-)
+from ska_mid_itf.k8s_info.get_k8s_info import KubernetesControl
 from ska_mid_itf.ska_jargon.ska_jargon import print_jargon
+from ska_mid_itf.tango_info.get_tango_info import (
+    check_tango, show_attributes, show_commands, show_command_inputs, show_devices
+)
 
 logging.basicConfig(level=logging.WARNING)
 _module_logger = logging.getLogger(__name__)
 _module_logger.setLevel(logging.WARNING)
 
-# KUBE_NAMESPACE = "ci-ska-mid-itf-at-1820-tmc-test-sdp-notebook-v2"
-KUBE_NAMESPACE = "integration"
+KUBE_NAMESPACE = "ci-ska-mid-itf-at-1820-tmc-test-sdp-notebook-v2"
 CLUSTER_DOMAIN = "miditf.internal.skao.int"
 DATABASEDS_NAME = "tango-databaseds"
 
 
-def usage(p_name: str) -> None:
+def show_namespaces() -> None:
+    """
+    Display namespace in Kubernetes cluster.
+    """
+    k8s = KubernetesControl(_module_logger)
+    ns_list = k8s.get_namespaces()
+    print(f"Namespaces : {len(ns_list)}")
+    for ns_name in ns_list:
+        print(f"\t{ns_name}")
+
+
+def usage(p_name: str, cfg_data: Any) -> None:
     """
     Show how it is done.
 
     :param p_name: executable name
+    :param cfg_data: configuration in JSON format
     """
+    print("Display Kubernetes namespaces")
+    print(f"\t{p_name} -n")
     print("Display Tango database address")
     print(f"\t{p_name} -t [--namespace=<NAMESPACE>|--host=<HOST>]")
+    print(f"\t{p_name} -t [-N <NAMESPACE>|-H <HOST>]")
+    print("Display Tango device names")
+    print(f"\t{p_name} -d [--namespace=<NAMESPACE>|--host=<HOST>]")
+    print(f"\t{p_name} -d [-N <NAMESPACE>|-H <HOST>]")
     print("Display all devices")
-    print(f"\t{p_name} -e|-q|-s [-f] [--namespace=<NAMESPACE>|--host=<HOST>]")
+    print(f"\t{p_name} -f|-q|-s [--dry-run] [--namespace=<NAMESPACE>|--host=<HOST>]")
+    print(f"\t{p_name} -f|-q|-s [-N <NAMESPACE>|-H <HOST>]")
     print("Filter on device name")
+    print(f"\t{p_name} -f|-q|-s -D <DEVICE> [-N <NAMESPACE>|-H <HOST>]")
     print(
-        f"\t{p_name} -e|-q|-s [-f] --device=<DEVICE>"
+        f"\t{p_name} -f|-q|-s --device=<DEVICE>"
         " [--namespace=<NAMESPACE>|--host=<HOST>]"
     )
     print("Filter on attribute name")
     print(
-        f"\t{p_name} -e|-q|-s [-f] --attribute=<ATTRIBUTE>"
+        f"\t{p_name} -f|-q|-s --attribute=<ATTRIBUTE>"
         " [--namespace=<NAMESPACE>|--host=<HOST>]"
     )
+    print(f"\t{p_name} -f|-q|-s -A <ATTRIBUTE> [-N <NAMESPACE>|-H <HOST>]")
+    print("Filter on command name")
+    print(
+        f"\t{p_name} -f|-q|-s --command=<COMMAND>"
+        " [--namespace=<NAMESPACE>|--host=<HOST>]"
+    )
+    print(f"\t{p_name} -f|-q|-s -C <COMMAND> [-N <NAMESPACE>|-H <HOST>]")
     print("Display known acronyms")
-    print(f"\t{p_name} -a")
+    print(f"\t{p_name} -j")
     print("where:")
-    print("\t-e\t\t\t\tdisplay in markdown format")
-    print("\t-q\t\t\t\tdisplay name, status and query devices")
-    print("\t-n\t\t\t\tdisplay name and status only")
+    print("\t-f\t\t\t\tdisplay in text format")
+    print("\t-q\t\t\t\tdisplay device name, status and query devices")
+    print("\t-s\t\t\t\tdisplay device name and status only")
+    # print("\t-m\t\t\t\tdisplay in markdown format")
     print("\t-f\t\t\t\tget commands and attributes regadrless of state")
     print(
         "\t--device=<DEVICE>\t\tdevice name, e.g. 'csp'"
@@ -58,10 +88,24 @@ def usage(p_name: str) -> None:
         " e.g. 'integration'"
     )
     print("\t--host=<HOST>\t\t\tTango database host and port, e.g. 10.8.13.15:10000")
-    print("\t--attribute=<ATTRIBUTE>\t\tattribute name, e.g. 'obsState' (case sensitive)")
     print(
-        f"\t--namespace=<NAMESPACE>\t\tKubernetes namespace, default is {KUBE_NAMESPACE}"
+        "\t--attribute=<ATTRIBUTE>\t\tattribute name, e.g. 'obsState' (case sensitive)"
     )
+    print("\t--command=<COMMAND>\t\tcommand name, e.g. 'Status' (case sensitive)")
+
+    print(
+        "\t-D <DEVICE>\t\t\tdevice name, e.g. 'csp'"
+        " (not case sensitive, only a part is needed)"
+    )
+    print(
+        "\t-N <NAMESPACE>\t\t\tKubernetes namespace for Tango database,"
+        f" default is {KUBE_NAMESPACE}"
+    )
+    print("\t-H <HOST>\t\t\tTango database host and port, e.g. 10.8.13.15:10000")
+    print("\t-A <ATTRIBUTE>\t\t\tattribute name, e.g. 'obsState' (case sensitive)")
+    print("\t-C <COMMAND>\t\t\tcommand name, e.g. 'Status' (case sensitive)")
+    print(f"Run commands : {','.join(cfg_data['run_commands'])}")
+    print(f"Run commands with name : {','.join(cfg_data['run_commands_name'])}")
 
 
 def main(y_arg: list) -> int:  # noqa: C901
@@ -73,10 +117,12 @@ def main(y_arg: list) -> int:  # noqa: C901
     """
     global KUBE_NAMESPACE
 
+    dry_run: bool = False
     itype: str | None = None
-    evrythng: int = 1
-    fforce: bool = False
+    disp_action: int = 0
+    evrythng: bool = False
     show_jargon: bool = False
+    show_ns: bool = False
     show_tango: bool = False
     tgo_attrib: str | None = None
     tgo_cmd: str | None = None
@@ -85,16 +131,30 @@ def main(y_arg: list) -> int:  # noqa: C901
     try:
         opts, _args = getopt.getopt(
             y_arg[1:],
-            "aefhnqtvVA:C:H:D:N:T:",
-            ["help", "input", "host=", "device=", "attribute=", "command=", "namespace="],
+            "defhjmnqstvVA:C:H:D:N:T:",
+            [
+                "dry-run",
+                "help",
+                "input",
+                "host=",
+                "device=",
+                "attribute=",
+                "command=",
+                "namespace=",
+            ],
         )
     except getopt.GetoptError as opt_err:
         print(f"Could not read command line: {opt_err}")
         return 1
 
+    cfg_name: str | bytes = os.path.basename(y_arg[0]).replace(".py", ".json")
+    cfg_file: TextIO = open(f"{os.path.dirname(y_arg[0])}/{cfg_name}")
+    cfg_data: Any = json.load(cfg_file)
+    cfg_file.close()
+
     for opt, arg in opts:
         if opt in ("-h", "--help"):
-            usage(os.path.basename(y_arg[0]))
+            usage(os.path.basename(y_arg[0]), cfg_data)
             sys.exit(1)
         elif opt in ("-A", "--attribute"):
             tgo_attrib = arg
@@ -108,18 +168,26 @@ def main(y_arg: list) -> int:  # noqa: C901
             KUBE_NAMESPACE = arg
         elif opt in ("-T", "--input"):
             tgo_in_type = arg.lower()
-        elif opt == "-a":
+        elif opt == "--dry-run":
+            dry_run = True
+        elif opt == "-j":
             show_jargon = True
         elif opt == "-t":
             show_tango = True
-        elif opt == "-e":
-            evrythng = 2
+        elif opt == "-m":
+            disp_action = 2
         elif opt == "-f":
-            fforce = True
-        elif opt == "-q":
-            evrythng = 3
+            disp_action = 1
+        elif opt == "-e":
+            evrythng = True
         elif opt == "-n":
-            evrythng = 0
+            show_ns = True
+        elif opt == "-q":
+            disp_action = 3
+        elif opt == "-d":
+            disp_action = 4
+        elif opt == "-s":
+            disp_action = 5
         elif opt == "-v":
             _module_logger.setLevel(logging.INFO)
         elif opt == "-V":
@@ -129,6 +197,10 @@ def main(y_arg: list) -> int:  # noqa: C901
 
     if show_jargon:
         print_jargon()
+        return 0
+
+    if show_ns:
+        show_namespaces()
         return 0
 
     if tango_host is None:
@@ -145,18 +217,22 @@ def main(y_arg: list) -> int:  # noqa: C901
     _module_logger.info("Set TANGO_HOST to %s", tango_host)
 
     if tgo_attrib is not None:
-        show_attributes(evrythng, fforce, tgo_attrib)
+        show_attributes(disp_action, evrythng, tgo_attrib)
         return 0
 
     if tgo_cmd is not None:
-        show_commands(evrythng, fforce, tgo_cmd)
+        show_commands(disp_action, evrythng, tgo_cmd)
         return 0
 
     if tgo_in_type is not None:
-        show_command_inputs(tango_host, tgo_in_type)
+        show_command_inputs(_module_logger, tango_host, tgo_in_type)
         return 0
 
-    show_devices(evrythng, fforce, itype)
+    if not disp_action:
+        print("Nothing to do!")
+        return 1
+
+    show_devices(_module_logger, cfg_data, disp_action, evrythng, itype, dry_run)
 
     return 0
 

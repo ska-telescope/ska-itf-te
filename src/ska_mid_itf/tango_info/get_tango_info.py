@@ -7,23 +7,13 @@ import json
 import logging
 import os
 import socket
-import sys
 import time
-from typing import Any, TextIO, Tuple
+from typing import Any, Tuple
 
 import tango
 from ska_control_model import AdminMode
 
-from ska_mid_itf.k8s_info.get_k8s_info import KubernetesControl
-from ska_mid_itf.ska_jargon.ska_jargon import find_jargon, print_jargon
-
-logging.basicConfig(level=logging.WARNING)
-_module_logger = logging.getLogger(__name__)
-_module_logger.setLevel(logging.WARNING)
-
-KUBE_NAMESPACE = "ci-ska-mid-itf-at-1820-tmc-test-sdp-notebook-v2"
-CLUSTER_DOMAIN = "miditf.internal.skao.int"
-DATABASEDS_NAME = "tango-databaseds"
+from ska_mid_itf.ska_jargon.ska_jargon import find_jargon
 
 
 def check_tango(tango_fqdn: str, tango_port: int = 10000) -> int:
@@ -43,17 +33,6 @@ def check_tango(tango_fqdn: str, tango_port: int = 10000) -> int:
     print(f"TANGO_HOST={tango_fqdn}:{tango_port}")
     print(f"TANGO_HOST={tango_ip}:{tango_port}")
     return 0
-
-
-def show_namespaces() -> None:
-    """
-    Display namespace in Kubernetes cluster.
-    """
-    k8s = KubernetesControl(_module_logger)
-    print("Namespaces:")
-    ns_list = k8s.get_namespaces()
-    for ns_name in ns_list:
-        print(f"{ns_name}")
 
 
 def check_device(dev: tango.DeviceProxy) -> bool:
@@ -196,6 +175,7 @@ class TangoDeviceInfo:
         """
         Run command and get output.
         :param cmd: command name
+        :param args: arguments for command
         :return: None
         """
         try:
@@ -203,8 +183,8 @@ class TangoDeviceInfo:
                 inout = self.dev.command_inout(cmd, args)
             else:
                 inout = self.dev.command_inout(cmd)
-        except tango.DevFailed:
-            print(f"{cmd:17} : <command run error>")
+        except tango.DevFailed as terr:
+            print(f"{cmd:17} : <command run error> {terr.args[0].desc.strip()}")
             return
         print(f"{cmd:17} : {inout}")
 
@@ -339,42 +319,54 @@ class TangoDeviceInfo:
         else:
             print(f" {type(attrib_value)}:{attrib_value}")
 
-    def show_attribute_value(self, attrib: str, prefix: str) -> None:
+    def show_attribute_value(self, attrib: str, prefix: str, dry_run: bool) -> None:
         """
         Print attribute value
         :param attrib: attribute name
         :param prefix: data prefix string
         """
-        try:
-            attrib_value = self.dev.read_attribute(attrib).value
-        except Exception:
-            print(" <could not be read>")
-            return
-        self.logger.debug("Attribute %s value %s", attrib, attrib_value)
+        if not dry_run:
+            try:
+                attrib_value = self.dev.read_attribute(attrib).value
+            except Exception:
+                print(" <could not be read>")
+                return
+            self.logger.debug("Attribute %s value %s", attrib, attrib_value)
+        else:
+            attrib_value = "<N/A>"
         try:
             attrib_cfg = self.dev.get_attribute_config(attrib)
         except tango.ConnectionFailed:
             print(" <connection failed>")
             return
         data_format = attrib_cfg.data_format
-        print(f" ({data_format})", end="")
-        # pylint: disable-next=c-extension-no-member
-        if data_format == tango._tango.AttrDataFormat.SCALAR:
-            self.show_attribute_value_scalar(prefix, attrib_value)
-        # pylint: disable-next=c-extension-no-member
-        elif data_format == tango._tango.AttrDataFormat.SPECTRUM:
-            self.show_attribute_value_spectrum(prefix, attrib_value)
+        # print(f" ({data_format})", end="")
+        if not dry_run:
+            # pylint: disable-next=c-extension-no-member
+            if data_format == tango._tango.AttrDataFormat.SCALAR:
+                self.show_attribute_value_scalar(prefix, attrib_value)
+            # pylint: disable-next=c-extension-no-member
+            elif data_format == tango._tango.AttrDataFormat.SPECTRUM:
+                self.show_attribute_value_spectrum(prefix, attrib_value)
+            else:
+                print(f" {attrib_value}")
         else:
-            print(f" {attrib_value}")
+            print(" <N/A>")
+        if self.dev.is_attribute_polled(attrib):
+            print(f"{prefix} Polled")
+        else:
+            print(f"{prefix} Not polled")
         events = attrib_cfg.events.arch_event.archive_abs_change
         print(f"{prefix} Event change : {events}")
-        try:
-            print(f"{prefix} Quality : {self.dev.read_attribute(attrib).quality}")
-        except tango.ConnectionFailed:
-            print(f"{prefix} Quality : <connection failed>")
-        print(f"{prefix} Polled: {self.dev.is_attribute_polled(attrib)}")
+        if not dry_run:
+            try:
+                print(f"{prefix} Quality : {self.dev.read_attribute(attrib).quality}")
+            except tango.ConnectionFailed:
+                print(f"{prefix} Quality : <connection failed>")
+        else:
+            print(f"{prefix} Quality : <N/A>")
 
-    def show_device_attributes(self) -> None:
+    def show_device_attributes(self, dry_run: bool) -> None:
         """
         Print attributes
         :return: None
@@ -385,11 +377,11 @@ class TangoDeviceInfo:
             attribs = []
         if attribs:
             attrib = attribs[0]
-            print(f"{'Attributes':17} : \033[1m{attrib}\033[0m", end="")
-            self.show_attribute_value(attrib, " " * 25)
+            print(f"{'Attributes':17} : \033[1m{attrib:30}\033[0m", end="")
+            self.show_attribute_value(attrib, " " * 50, dry_run)
             for attrib in attribs[1:]:
-                print(f"{' ':17}   \033[1m{attrib}\033[0m ", end="")
-                self.show_attribute_value(attrib, " " * 25)
+                print(f"{' ':17}   \033[1m{attrib:30}\033[0m", end="")
+                self.show_attribute_value(attrib, " " * 50, dry_run)
 
     def show_device_query(self) -> int:  # noqa: C901
         """
@@ -404,11 +396,11 @@ class TangoDeviceInfo:
             print(" <error>")
             return 0
         # pylint: disable-next=c-extension-no-member
-        if self.dev_state != tango._tango.DevState.ON:
-            if not self.evrythng:
-                print(f"\n{'State':17} : OFF\n")
-                return 0
-            rv = 0
+        # if self.dev_state != tango._tango.DevState.ON:
+        #     if not self.evrythng:
+        #         print(f"\n{'State':17} : OFF\n")
+        #         return 0
+        #     rv = 0
         try:
             cmds = self.dev.get_command_list()
         except Exception:
@@ -449,7 +441,7 @@ class TangoDeviceInfo:
             else:
                 print(f"{'Logging target':17} : none specified")
         else:
-            print(f"{'Logging target':17} : N/A")
+            print(f"{'Logging target':17} : <N/A>")
         # Print query classes
         if "QueryClass" in cmds:
             qdevs = self.dev.QueryClass()
@@ -461,7 +453,7 @@ class TangoDeviceInfo:
             else:
                 print(f"{'Query class':17} : none specified")
         # else:
-        #     print(f"{'Query class':17} : N/A")
+        #     print(f"{'Query class':17} : <N/A>")
         # Print query devices
         if "QueryDevice" in cmds:
             qdevs = self.dev.QueryDevice()
@@ -473,7 +465,7 @@ class TangoDeviceInfo:
             else:
                 print(f"{'Query devices':17} : none specified")
         # else:
-        #     print(f"{'Query devices':17} : N/A")
+        #     print(f"{'Query devices':17} : <N/A>")
         # Print query sub-devices
         if "QuerySubDevice" in cmds:
             qdevs = self.dev.QuerySubDevice()
@@ -485,7 +477,7 @@ class TangoDeviceInfo:
             else:
                 print(f"{'Query sub-devices':17} : none specified")
         else:
-            print(f"{'Query sub-devices':17} : N/A")
+            print(f"{'Query sub-devices':17} : <N/A>")
         print("")
         return rv
 
@@ -508,11 +500,11 @@ class TangoDeviceInfo:
             print(f"{'Admin mode':17} : {self.adminMode}")
         rv = 1
         # pylint: disable-next=c-extension-no-member
-        if self.dev_state != tango._tango.DevState.ON:
-            if not self.evrythng:
-                print(f"{'State':17} : OFF\n")
-                return 0
-            rv = 0
+        # if self.dev_state != tango._tango.DevState.ON:
+        #     if not self.evrythng:
+        #         print(f"{'State':17} : OFF\n")
+        #         return 0
+        #     rv = 0
         # else:
         #     print(f" <ON>", end="")
         try:
@@ -551,7 +543,7 @@ class TangoDeviceInfo:
         print()
         return rv
 
-    def show_device_all(self) -> int:  # noqa: C901
+    def show_device_all(self, dry_run: bool) -> int:  # noqa: C901
         """
         Display Tango device in text format
         :return: one if device is on, otherwise zero
@@ -571,11 +563,11 @@ class TangoDeviceInfo:
         if self.adminMode is not None:
             print(f"{'Admin mode':17} : {self.adminMode}")
         # pylint: disable-next=c-extension-no-member
-        if self.dev_state != tango._tango.DevState.ON:
-            if not self.evrythng:
-                print(f"{'State':17} : OFF\n")
-                return 0
-            rv = 0
+        # if self.dev_state != tango._tango.DevState.ON:
+        #     if not self.evrythng:
+        #         print(f"{'State':17} : OFF\n")
+        #         return 0
+        #     rv = 0
         # else:
         #     print(f" <ON>", end="")
         try:
@@ -612,8 +604,8 @@ class TangoDeviceInfo:
         print(f"{'Server ID':17} : {dev_info.server_id}")
         try:
             print(f"{'Resources'} : {self.dev.assignedresources}")
-        except tango.DevFailed:
-            print("{'Resources':17} : could not be read")
+        except tango.DevFailed as terr:
+            print(f"{'Resources':17} : {terr.args[0].desc.strip()}")
         except AttributeError:
             pass
         try:
@@ -630,7 +622,7 @@ class TangoDeviceInfo:
         # Run commands deemed to be safe
         self.run_device_commands(cmds)
         # Print attributes in bold
-        self.show_device_attributes()
+        self.show_device_attributes(dry_run)
         return rv
 
     def show_device_markdown(self) -> int:  # noqa: C901
@@ -725,7 +717,7 @@ class TangoDeviceInfo:
         print(f"[ON] {self.dev_name} ({self.adminMode})")
         return 1
 
-    def show_device(self) -> None:
+    def show_device(self, dry_run: bool) -> None:
         """Print device information."""
         if self.disp_action == 5:
             self.on_dev_count += self.show_device_short()
@@ -736,15 +728,16 @@ class TangoDeviceInfo:
         elif self.disp_action == 2:
             self.on_dev_count += self.show_device_markdown()
         elif self.disp_action == 1:
-            self.on_dev_count += self.show_device_all()
+            self.on_dev_count += self.show_device_all(dry_run)
         else:
             print("Nothing to do!")
 
 
-def setup_device(dev_name: str) -> Tuple[int, tango.DeviceProxy]:
+def setup_device(logger: logging.Logger, dev_name: str) -> Tuple[int, tango.DeviceProxy]:
     """
     Set up device connection and timeouts.
 
+    :param logger: logging handle
     :param dev_name: Tango device name
     :return: error condition and Tango device handle
     """
@@ -758,7 +751,7 @@ def setup_device(dev_name: str) -> Tuple[int, tango.DeviceProxy]:
         dev.adminMode = 0
         csp_admin = dev.adminMode
         if csp_admin:
-            _module_logger.error("Could not turn off admin mode")
+            logger.error("Could not turn off admin mode")
             return 1, None
     return 0, dev
 
@@ -766,19 +759,23 @@ def setup_device(dev_name: str) -> Tuple[int, tango.DeviceProxy]:
 SAFE_COMMANDS = ["DevLockStatus"]
 
 
-def show_devices(
-        cfg_data: Any, disp_action: int, evrythng: bool, itype: str | None
-) -> None:  # noqa: C901
+def list_devices(
+    logger: logging.Logger,
+    cfg_data: Any,
+    evrythng: bool,
+    itype: str | None,
+) -> list:
     """
-    Display information about Tango devices
-
+    Get a list of devices
+    :param logger: logging handle
     :param cfg_data: configuration data in JSON format
-    :param disp_action: flag for markdown output
     :param evrythng: get commands and attributes regadrless of state
     :param itype: filter device name
+    :return:
     """
+    devices = []
 
-    # Get Tango database hist
+    # Get Tango database host
     tango_host = os.getenv("TANGO_HOST")
     print("Tango host %s" % tango_host)
 
@@ -786,34 +783,75 @@ def show_devices(
     try:
         database = tango.Database()
     except Exception:
-        _module_logger.error("Could not connect to Tango database %s", tango_host)
-        return
+        logger.error("Could not connect to Tango database %s", tango_host)
+        return devices
     # Read devices
     device_list = database.get_device_exported("*")
-    _module_logger.info(f"{len(device_list)} devices available")
+    logger.info(f"{len(device_list)} devices available")
 
-    _module_logger.info("Read %d devices" % (len(device_list)))
-    if disp_action == 2:
-        print("# Tango devices")
-        print("## Tango host\n```\n%s\n```" % tango_host)
-        print(f"## Number of devices\n{len(device_list)}")
-    dev_count = 0
-    on_dev_count = 0
     for device in sorted(device_list.value_string):
         # Check device name against mask
+        if not evrythng:
+            chk_fail = False
+            for dev_chk in cfg_data["ignore_device"]:
+                chk_len = len(dev_chk)
+                if device[0:chk_len] == dev_chk:
+                    chk_fail = True
+                    break
+            if chk_fail:
+                logger.debug("'%s' matches '%s'", device, cfg_data["ignore_device"])
+                continue
         if itype:
             iupp = device.upper()
             if itype not in iupp:
-                _module_logger.info(f"Ignore {device}")
+                logger.info(f"Ignore {device}")
                 continue
+        logger.info("Add device %s", device)
+        devices.append(device)
+    return devices
+
+
+def show_devices(
+    logger: logging.Logger,
+    cfg_data: Any,
+    disp_action: int,
+    evrythng: bool,
+    itype: str | None,
+    dry_run: bool,
+) -> None:  # noqa: C901
+    """
+    Display information about Tango devices
+
+    :param logger: logging handle
+    :param cfg_data: configuration data in JSON format
+    :param disp_action: flag for markdown output
+    :param evrythng: get commands and attributes regadrless of state
+    :param itype: filter device name
+    :param dry_run: do not read attributes
+    """
+    # Get Tango database host
+    tango_host = os.getenv("TANGO_HOST")
+    print("Tango host %s" % tango_host)
+
+    devices = list_devices(logger, cfg_data, evrythng, itype)
+
+    logger.info("Read %d devices" % (len(devices)))
+    if disp_action == 2:
+        print("# Tango devices")
+        print("## Tango host\n```\n%s\n```" % tango_host)
+        print(f"## Number of devices\n{len(devices)}")
+    dev_count = 0
+    on_dev_count = 0
+    for device in devices:
         dev_count += 1
         try:
             tgo_info = TangoDeviceInfo(
-                _module_logger, cfg_data, device, disp_action, evrythng
+                logger, cfg_data, device, disp_action, evrythng
             )
         except tango.DevFailed as terr:
-            print(f"{device} : {terr}")
-        tgo_info.show_device()
+            print(f"{device} : {terr.args[0].desc.strip()}")
+            continue
+        tgo_info.show_device(dry_run)
 
     if disp_action == 2:
         if itype:
@@ -836,10 +874,13 @@ def check_command(dev: Any, c_name: str | None) -> bool:
     return False
 
 
-def show_attributes(disp_action: int, evrythng: bool, a_name: str | None) -> None:
+def show_attributes(
+        logger: logging.Logger, disp_action: int, evrythng: bool, a_name: str | None
+) -> None:
     """
     Display information about Tango devices
 
+    :param logger: logging handle
     :param disp_action: flag for markdown output
     :param evrythng: get commands and attributes regadrless of state
     :param a_name: filter attribute name
@@ -847,19 +888,19 @@ def show_attributes(disp_action: int, evrythng: bool, a_name: str | None) -> Non
 
     # Get Tango database hist
     tango_host = os.getenv("TANGO_HOST")
-    _module_logger.info("Tango host %s" % tango_host)
+    logger.info("Tango host %s" % tango_host)
 
     # Connect to database
     try:
         database = tango.Database()
     except Exception:
-        _module_logger.error("Could not connect to Tango database %s", tango_host)
+        logger.error("Could not connect to Tango database %s", tango_host)
         return
     # Read devices
     device_list = database.get_device_exported("*")
-    _module_logger.info(f"{len(device_list)} devices available")
+    logger.info(f"{len(device_list)} devices available")
 
-    _module_logger.info("Read %d devices" % (len(device_list)))
+    logger.info("Read %d devices" % (len(device_list)))
     if disp_action == 2:
         print("# Tango devices")
         print("## Tango host\n```\n%s\n```" % tango_host)
@@ -876,10 +917,13 @@ def show_attributes(disp_action: int, evrythng: bool, a_name: str | None) -> Non
             print(f" \033[1m{a_name}\033[0m")
 
 
-def show_commands(disp_action: int, evrythng: bool, c_name: str | None) -> None:
+def show_commands(
+        logger: logging.Logger, disp_action: int, evrythng: bool, c_name: str | None
+) -> None:
     """
     Display information about Tango devices
 
+    :param logger: logging handle
     :param disp_action: flag for markdown output
     :param evrythng: get commands and attributes regadrless of state
     :param c_name: filter command name
@@ -887,19 +931,19 @@ def show_commands(disp_action: int, evrythng: bool, c_name: str | None) -> None:
 
     # Get Tango database hist
     tango_host = os.getenv("TANGO_HOST")
-    _module_logger.info("Tango host %s" % tango_host)
+    logger.info("Tango host %s" % tango_host)
 
     # Connect to database
     try:
         database = tango.Database()
     except Exception:
-        _module_logger.error("Could not connect to Tango database %s", tango_host)
+        logger.error("Could not connect to Tango database %s", tango_host)
         return
     # Read devices
     device_list = database.get_device_exported("*")
-    _module_logger.info(f"{len(device_list)} devices available")
+    logger.info(f"{len(device_list)} devices available")
 
-    _module_logger.info("Read %d devices" % (len(device_list)))
+    logger.info("Read %d devices" % (len(device_list)))
 
     for device in sorted(device_list.value_string):
         dev: tango.DeviceProxy = tango.DeviceProxy(device)
@@ -1088,78 +1132,12 @@ def show_long_running_commands(dev_name: str) -> int:
     return 0
 
 
-def usage(p_name: str, cfg_data: Any) -> None:
-    """
-    Show how it is done.
-
-    :param p_name: executable name
-    """
-    print("Display Kubernetes namespaces")
-    print(f"\t{p_name} -n")
-    print("Display Tango database address")
-    print(f"\t{p_name} -t [--namespace=<NAMESPACE>|--host=<HOST>]")
-    print(f"\t{p_name} -t [-N <NAMESPACE>|-H <HOST>]")
-    print("Display all devices")
-    print(f"\t{p_name} -e|-m|-q|-s [-g] [--namespace=<NAMESPACE>|--host=<HOST>]")
-    print(f"\t{p_name} -e|-m|-q|-s [-g] [-N <NAMESPACE>|-H <HOST>]")
-    print("Filter on device name")
-    print(f"\t{p_name} -e|-m|-q|-s [-g] -D <DEVICE> [-N <NAMESPACE>|-H <HOST>]")
-    print(
-        f"\t{p_name} -e|-m|-q|-s [-g] --device=<DEVICE>"
-        " [--namespace=<NAMESPACE>|--host=<HOST>]"
-    )
-    print("Filter on attribute name")
-    print(
-        f"\t{p_name} -e|-m|-q|-s [-g] --attribute=<ATTRIBUTE>"
-        " [--namespace=<NAMESPACE>|--host=<HOST>]"
-    )
-    print(f"\t{p_name} -e|-m|-q|-s [-g] -A <ATTRIBUTE> [-N <NAMESPACE>|-H <HOST>]")
-    print("Filter on command name")
-    print(
-        f"\t{p_name} -e|-m|-q|-s [-g] --command=<COMMAND>"
-        " [--namespace=<NAMESPACE>|--host=<HOST>]"
-    )
-    print(f"\t{p_name} -e|-m|-q|-s [-g] -C <COMMAND> [-N <NAMESPACE>|-H <HOST>]")
-    print("Display known acronyms")
-    print(f"\t{p_name} -a")
-    print("where:")
-    print("\t-e\t\t\t\tdisplay in text format")
-    print("\t-q\t\t\t\tdisplay device name, status and query devices")
-    print("\t-d\t\t\t\tdisplay device name and status only")
-    # print("\t-m\t\t\t\tdisplay in markdown format")
-    print("\t-f\t\t\t\tget commands and attributes regadrless of state")
-    print(
-        "\t--device=<DEVICE>\t\tdevice name, e.g. 'csp'"
-        " (not case sensitive, only a part is needed)"
-    )
-    print(
-        "\t--namespace=<NAMESPACE>\t\tKubernetes namespace for Tango database,"
-        " e.g. 'integration'"
-    )
-    print("\t--host=<HOST>\t\t\tTango database host and port, e.g. 10.8.13.15:10000")
-    print(
-        "\t--attribute=<ATTRIBUTE>\t\tattribute name, e.g. 'obsState' (case sensitive)"
-    )
-    print("\t--command=<COMMAND>\t\tcommand name, e.g. 'Status' (case sensitive)")
-
-    print(
-        "\t-D <DEVICE>\t\t\tdevice name, e.g. 'csp'"
-        " (not case sensitive, only a part is needed)"
-    )
-    print(
-        "\t-N <NAMESPACE>\t\t\tKubernetes namespace for Tango database,"
-        " e.g. 'integration'"
-    )
-    print("\t-H <HOST>\t\t\tTango database host and port, e.g. 10.8.13.15:10000")
-    print("\t-A <ATTRIBUTE>\t\t\tattribute name, e.g. 'obsState' (case sensitive)")
-    print("\t-C <COMMAND>\t\t\tcommand name, e.g. 'Status' (case sensitive)")
-    print(f"Run commands : {','.join(cfg_data['run_commands'])}")
-    print(f"Run commands with name : {','.join(cfg_data['run_commands_name'])}")
-
-
-def show_command_inputs(tango_host: str, tgo_in_type: str) -> None:
+def show_command_inputs(
+    logger: logging.Logger, tango_host: str, tgo_in_type: str
+) -> None:
     """
     Display commands with given input type.
+    :param logger: logging handle
     :param tango_host: Tango database host address and port
     :param tgo_in_type: input type, e.g. Uninitialised
     :return:
@@ -1169,13 +1147,13 @@ def show_command_inputs(tango_host: str, tgo_in_type: str) -> None:
     try:
         database = tango.Database()
     except Exception:
-        _module_logger.error("Could not connect to Tango database %s", tango_host)
+        logger.error("Could not connect to Tango database %s", tango_host)
         return
     # Read devices
     device_list = database.get_device_exported("*")
-    _module_logger.info(f"{len(device_list)} devices available")
+    logger.info(f"{len(device_list)} devices available")
 
-    _module_logger.info("Read %d devices" % (len(device_list)))
+    logger.info("Read %d devices" % (len(device_list)))
 
     for device in sorted(device_list.value_string):
         dev, _dev_state = tango.DeviceProxy(device)
@@ -1186,7 +1164,7 @@ def show_command_inputs(tango_host: str, tgo_in_type: str) -> None:
         if cmds:
             for cmd in cmds:
                 in_type_desc = cmd.in_type_desc.lower()
-                _module_logger.info("Command %s type %s", cmd, in_type_desc)
+                logger.info("Command %s type %s", cmd, in_type_desc)
                 if in_type_desc == tgo_in_type:
                     print(
                         f"{'Commands':17} : \033[3m{cmd.cmd_name}\033[0m"
@@ -1197,133 +1175,4 @@ def show_command_inputs(tango_host: str, tgo_in_type: str) -> None:
     return
 
 
-def main(y_arg: list) -> int:  # noqa: C901
-    """
-    Read and display Tango devices.
 
-    :param y_arg: input arguments
-    :return: error condition
-    """
-    global KUBE_NAMESPACE
-
-    itype: str | None = None
-    disp_action: int = 0
-    evrythng: bool = False
-    show_jargon: bool = False
-    show_ns: bool = False
-    show_tango: bool = False
-    tgo_attrib: str | None = None
-    tgo_cmd: str | None = None
-    tgo_in_type: str | None = None
-    tango_host: str | None = None
-    try:
-        opts, _args = getopt.getopt(
-            y_arg[1:],
-            "adefghmnqstvVA:C:H:D:N:T:",
-            [
-                "help",
-                "input",
-                "host=",
-                "device=",
-                "attribute=",
-                "command=",
-                "namespace=",
-            ],
-        )
-    except getopt.GetoptError as opt_err:
-        print(f"Could not read command line: {opt_err}")
-        return 1
-
-    cfg_name: str | bytes = os.path.basename(y_arg[0]).replace(".py", ".json")
-    cfg_file: TextIO = open(f"{os.path.dirname(y_arg[0])}/{cfg_name}")
-    cfg_data: Any = json.load(cfg_file)
-    cfg_file.close()
-
-    for opt, arg in opts:
-        if opt in ("-h", "--help"):
-            usage(os.path.basename(y_arg[0]), cfg_data)
-            sys.exit(1)
-        elif opt in ("-A", "--attribute"):
-            tgo_attrib = arg
-        elif opt in ("-C", "--command"):
-            tgo_cmd = arg
-        elif opt in ("-H", "--host"):
-            tango_host = arg
-        elif opt in ("-D", "--device"):
-            itype = arg.upper()
-        elif opt in ("-N", "--namespace"):
-            KUBE_NAMESPACE = arg
-        elif opt in ("-T", "--input"):
-            tgo_in_type = arg.lower()
-        elif opt == "-a":
-            show_jargon = True
-        elif opt == "-t":
-            show_tango = True
-        elif opt == "-m":
-            disp_action = 2
-        elif opt == "-f":
-            disp_action = 1
-        elif opt == "-e":
-            evrythng = True
-        elif opt == "-n":
-            show_ns = True
-        elif opt == "-q":
-            disp_action = 3
-        elif opt == "-d":
-            disp_action = 4
-        elif opt == "-s":
-            disp_action = 5
-        elif opt == "-v":
-            _module_logger.setLevel(logging.INFO)
-        elif opt == "-V":
-            _module_logger.setLevel(logging.DEBUG)
-        else:
-            _module_logger.error("Invalid option %s", opt)
-
-    if show_jargon:
-        print_jargon()
-        return 0
-
-    if show_ns:
-        show_namespaces()
-        return 0
-
-    if tango_host is None:
-        tango_fqdn = f"{DATABASEDS_NAME}.{KUBE_NAMESPACE}.svc.{CLUSTER_DOMAIN}"
-        tango_host = f"{tango_fqdn}:10000"
-    else:
-        tango_fqdn = tango_host.split(":")[0]
-
-    if show_tango:
-        check_tango(tango_fqdn)
-        return 0
-
-    os.environ["TANGO_HOST"] = tango_host
-    _module_logger.info("Set TANGO_HOST to %s", tango_host)
-
-    if tgo_attrib is not None:
-        show_attributes(disp_action, evrythng, tgo_attrib)
-        return 0
-
-    if tgo_cmd is not None:
-        show_commands(disp_action, evrythng, tgo_cmd)
-        return 0
-
-    if tgo_in_type is not None:
-        show_command_inputs(tango_host, tgo_in_type)
-        return 0
-
-    if not disp_action:
-        print("Nothing to do!")
-        return 1
-
-    show_devices(cfg_data, disp_action, evrythng, itype)
-
-    return 0
-
-
-if __name__ == "__main__":
-    try:
-        main(sys.argv)
-    except KeyboardInterrupt:
-        pass

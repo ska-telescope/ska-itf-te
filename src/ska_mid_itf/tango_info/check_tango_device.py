@@ -5,6 +5,9 @@ Start and check Tango device.
 import tango
 import logging
 import socket
+import time
+
+from ska_control_model import AdminMode
 
 from typing import Any, Tuple
 # from ska_mid_itf.ska_notebook_helper.mid_itf_control import (
@@ -49,7 +52,7 @@ def device_state(dev: tango.DeviceProxy) -> None:
     print(f"\tDevice state                   : {dev.State()}")
     try:
         print(f"\tObservation state              : {repr(dev.obsState)}")
-        show_observation_status(dev.obsState)
+        show_obs_state(dev.obsState)
     except AttributeError:
         _module_logger.info("Device %s does not have an observation state", dev_name)
     print(f"versionId                        : {dev.versionId}")
@@ -189,4 +192,22 @@ def set_tango_admin(dev: Any, dev_adm: bool, sleeptime: int = 2) -> bool:
         dev.adminMode = 0
     time.sleep(sleeptime)
     return get_tango_admin(dev)
+
+
+def get_tango_admin(dev: tango.DeviceProxy) -> bool:
+    """
+    Read admin mode for a Tango device.
+
+    :param dev: Tango device handle
+    :return: True when device is in admin mode
+    """
+    csp_admin = dev.adminMode
+    if csp_admin == AdminMode.ONLINE:
+        print("Device admin mode online")
+        return False
+    if csp_admin == AdminMode.OFFLINE:
+        print("Device admin mode offline")
+    else:
+        print(f"Device admin mode {csp_admin}")
+    return True
 
