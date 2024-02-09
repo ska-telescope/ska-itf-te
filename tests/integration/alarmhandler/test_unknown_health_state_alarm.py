@@ -16,8 +16,11 @@ logger = logging.getLogger(__name__)
 
 
 @pytest.mark.skamid
-@scenario("features/configure_unknown_state_alarm.feature", "Configure Alarm for UNKNOWN State")
-def test_tmc_alarm_for_state_unknown():
+@scenario(
+    "features/configure_healthstate_unknown.feature",
+    "Configure alarm rule for healthState UNKNOWN",
+)
+def test_tmc_alarm_for_healthstate_unknown():
     """Configure and raise alarms."""
 
 
