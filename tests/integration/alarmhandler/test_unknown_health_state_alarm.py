@@ -71,9 +71,12 @@ def check_alarms(device1, device2):
     """
     tango_device1 = con_config.get_device_proxy(device1)
     tango_device2 = con_config.get_device_proxy(device2)
-    result = tango_device1.read_attribute("telescopehealthState").value
-    result = tango_device2.read_attribute("healthState").value
-    assert_that(str(result)).is_equal_to("UNKNOWN")
+    device1_result = tango_device1.read_attribute("telescopehealthState").value
+    device2_result = tango_device2.read_attribute("healthState").value
+    logging.info(device1_result)
+    logging.info(device2_result)
+    assert_that(str(device1_result)).is_equal_to("UNKNOWN")
+    assert_that(str(device2_result)).is_equal_to("UNKNOWN")
 
 
 @then("alarm for healthState UNKNOWN must be raised with UNACKNOWLEDGE state")
