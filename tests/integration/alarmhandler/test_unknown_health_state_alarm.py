@@ -6,6 +6,7 @@ import httpx
 import pytest
 from assertpy import assert_that
 from pytest_bdd import given, parsers, scenario, then, when
+from ska_control_model import HealthState
 from ska_ser_skallop.connectors import configuration as con_config
 from ska_ser_skallop.event_handling.builders import get_message_board_builder
 from tango import DeviceProxy
@@ -73,10 +74,10 @@ def check_alarms(device1, device2):
     tango_device2 = con_config.get_device_proxy(device2)
     device1_result = tango_device1.read_attribute("telescopehealthState").value
     device2_result = tango_device2.read_attribute("healthState").value
-    logging.info(str(device1_result))
-    logging.info(str(device2_result))
-    assert_that(str(device1_result)).is_equal_to("UNKNOWN")
-    assert_that(str(device2_result)).is_equal_to("UNKNOWN")
+    logging.info(device1_result)
+    logging.info(device2_result)
+    assert_that(device1_result).is_equal_to(HealthState.UNKNOWN)
+    assert_that(device2_result).is_equal_to(HealthState.UNKNOWN)
 
 
 @then("alarm for healthState UNKNOWN must be raised with UNACKNOWLEDGE state")
