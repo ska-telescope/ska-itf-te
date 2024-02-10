@@ -81,11 +81,10 @@ def check_alarms(device1, device2):
 
 
 @then("alarm for healthState UNKNOWN must be raised with UNACKNOWLEDGE state")
-def check_alarm_state(response_data, state_value):
+def check_alarm_state(response_data):
     """Check alarm state.
 
     :param response_data: fixture for response data
-    :param state_value: tango device attribute value alarm condition
     """
     alarm_handler = DeviceProxy("alarm/handler/01")
     alarm_tag = response_data.response["alarm_summary"]["tag"]
