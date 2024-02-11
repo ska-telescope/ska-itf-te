@@ -78,15 +78,27 @@ itf-cbf-tangocpp-update: ## Download artefacts from CAR (Talon DeviceServer CPP 
 itf-cbf-config-tangodb: ## Configure Deviceservers in the TangoDB
 	@kubectl exec -ti -n $(KUBE_NAMESPACE) ec-deployer -- python3 midcbf_deployer.py --config-db
 
-## TARGET: itf-cbf-talon-on
-## SYNOPSIS: make itf-cbf-talon-on
+## TARGET: itf-cbf-power-on
+## SYNOPSIS: make itf-cbf-power-on
 ## HOOKS: none
 ## VARS: 
 ##	KUBE_NAMESPACE=[kubernetes namespace where MCS is deployed] (default value: integration)
 ##  CLUSTER_DOMAIN=[domain of the cluster where the MCS is running] (default value: miditf.internal.skao.int)
 ##  make target for switching on all the TalonDx' under control of the CSP.LMC
 
-itf-cbf-talon-on:
+itf-cbf-power-on:
+	@[[ -f  $(HW_CONFIG_FILE_PATH)/talon_power_apc.sh ]] || exit 404;
+	@cd $(HW_CONFIG_FILE_PATH) && ./talon_power_apc.sh $(LRU_INDEX) on
+
+## TARGET: itf-cbf-tango-on
+## SYNOPSIS: make itf-cbf-tango-on
+## HOOKS: none
+## VARS: 
+##	KUBE_NAMESPACE=[kubernetes namespace where MCS is deployed] (default value: integration)
+##  CLUSTER_DOMAIN=[domain of the cluster where the MCS is running] (default value: miditf.internal.skao.int)
+##  make target for switching on all the TalonDx' under control of the CSP.LMC
+
+itf-cbf-tango-on:
 	@export TANGO_HOST=tango-databaseds.$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN):10000 && \
 	cd /app && poetry run python3 -m src.ska_mid_itf_engineering_tools.talon_on
 
@@ -101,4 +113,4 @@ itf-cbf-talon-on:
 ##  make target for registering the deviceservers in the TangoDB.
 
 
-itf-cbf-setup: itf-cbf-talonlru-off itf-cbf-config-talon itf-cbf-config-mcs itf-cbf-tangocpp-update itf-cbf-config-tangodb itf-cbf-talon-on
+itf-cbf-setup: itf-cbf-talonlru-off itf-cbf-config-talon itf-cbf-config-mcs itf-cbf-tangocpp-update itf-cbf-config-tangodb itf-cbf-tango-on
