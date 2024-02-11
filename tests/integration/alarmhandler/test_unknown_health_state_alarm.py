@@ -90,7 +90,7 @@ def check_alarm_state(response_data):
     alarm_tag = response_data.response["alarm_summary"]["tag"]
     brd = get_message_board_builder()
     brd.set_waiting_on("alarm/handler/01").for_attribute("alarmUnacknowledged").to_become_equal_to(
-        alarm_tag.lower(),
+        alarm_tag,
     )
     # acknowledge the alarm
-    alarm_handler.Ack(alarm_tag.lower())
+    alarm_handler.Ack(alarm_tag)
