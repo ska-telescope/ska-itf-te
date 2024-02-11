@@ -1,8 +1,10 @@
+dev-values.yaml
+charts/**/charts/*
 .DS_Store
 *.pyc
 UserProfile.mak
 PrivateRules.mak
-KUBECONFIG
+KUBECONFIG*
 OpenSSHPorts.mak
 build
 dryrun.log
@@ -181,7 +183,12 @@ cython_debug/
 PrivateRules.mak
 
 # helm stuff
+charts/system-under-test/tmc-values.yaml
 charts/test-parent/charts/*
 charts/ska-ser-test-equipment/charts/*
 Chart.lock
-manifests.yaml
+manifests.yaml*
+MANIFEST.skao.int
+pytest-logs.txt
+pytest.stdout
+results.json

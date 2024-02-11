@@ -1,0 +1,18 @@
+function gitme() {
+	echo "Input user name"
+	read -r USERNAME
+	git config user.name "$USERNAME"
+	echo "Input user email"
+	read -r USEREMAIL
+	git config user.email "$USEREMAIL"
+	echo "User name and email set"
+	echo "Remember to run gitnotme when you're done!"
+}
+function gitnotme() {
+	git config --unset user.name
+	git config --unset user.email
+}
+function gitwho() {
+	git config --get user.name
+	git config --get user.email
+}

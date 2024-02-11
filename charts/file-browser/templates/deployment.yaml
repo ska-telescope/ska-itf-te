@@ -1,0 +1,61 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{include "fileBrowser.fullname" .}}
+  labels:
+    {{- include "fileBrowser.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "fileBrowser.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "fileBrowser.selectorLabels" . | nindent 8 }}
+    spec:
+      initContainers:
+        - name: {{ .Values.containers.setupConfigs.name }}
+          image: {{ .Values.containers.setupConfigs.image.name }}:{{ .Values.containers.setupConfigs.image.version }}
+          env:
+            - name: SETUP_SCRIPT
+              value: {{ .Values.mounts.setupScript.mount }}/{{ .Values.mounts.setupScript.dest }}
+            - name: SOURCE_CONFIG
+              value: {{ .Values.mounts.configSecret.mount }}/{{ .Values.mounts.configSecret.dest }}
+            - name: DESTINATION_CONFIG
+              value: {{ .Values.mounts.appConfig.mount }}/{{ .Values.mounts.appConfig.dest }}
+          command:
+            - sh
+            - "-c"
+            - "${SETUP_SCRIPT}"
+          volumeMounts:
+            - name: {{ .Values.mounts.setupScript.name }}
+              mountPath: {{ .Values.mounts.setupScript.mount }}
+            - name: {{ .Values.mounts.configSecret.name }}
+              mountPath: {{ .Values.mounts.configSecret.mount }}
+            - name: {{ .Values.mounts.appConfig.name }}
+              mountPath: {{ .Values.mounts.appConfig.mount }}
+      containers:
+        - name: {{ .Values.containers.fileBrowser.name }}
+          image: {{ .Values.containers.fileBrowser.image.name }}:{{ .Values.containers.fileBrowser.image.version }}
+          volumeMounts:
+            - name: {{ .Values.mounts.appConfig.name }}
+              mountPath: {{ .Values.mounts.appConfig.mount }}
+          ports:
+            - containerPort: {{ .Values.containers.fileBrowser.port }}
+              name: {{ .Values.containers.fileBrowser.portName }}
+      volumes:
+        - name: {{ .Values.mounts.setupScript.name }}
+          configMap:
+            name: {{ .Values.mounts.setupScript.name }}
+            defaultMode: 0744
+        - name: {{ .Values.mounts.configSecret.name }}
+          secret:
+            secretName: {{ .Values.mounts.configSecret.name }}
+        - name: {{ .Values.mounts.appConfig.name }}
+          emptyDir: {}

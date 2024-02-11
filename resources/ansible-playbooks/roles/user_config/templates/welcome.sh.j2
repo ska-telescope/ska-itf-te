@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# Only set welcome message for the {{ team_primary_group }} group.
+if id -nG "${USER}" | grep -vqw {{ team_primary_group }}; then
+    return 0
+fi
+
+case ${USER} in
+p.jordaan | a.debeer | j.coetzer)
+    WELCOME_STR="Welkom by {{ host_identifier }},"
+    ;;
+*)
+    WELCOME_STR="Welcome to {{ host_identifier }},"
+    ;;
+esac
+echo "##############################################################################"
+figlet -f slant $WELCOME_STR ${USER^}!
+echo ""
+echo "##############################################################################"
+echo ""
+if [ -z $SSH_AUTH_SOCK ]; then
+    echo "WARNING: SSH Agent forwarding unsuccessful - you may struggle connecting to the servers."
+fi
+echo "##############################################################################"
+
+echo "Useful files and directories:"
+fmt="%-50s%-25s\n"
+printf ${fmt} "Shared team directory:" "{{ shared_team_dir }}"
+printf ${fmt} "Shared team config directory (KUBECONFIG etc.):" "{{ shared_team_config_dir }}"
+
+echo "##############################################################################"

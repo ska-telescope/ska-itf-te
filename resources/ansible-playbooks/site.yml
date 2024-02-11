@@ -1,0 +1,73 @@
+# Configure raspberry pi (Sky Simulator)
+- name: Setup raspberry_pi
+  hosts:
+    - raspberry_pi
+  roles:
+    - role: var_setup
+    - role: system_setup
+    - role: team_setup
+    - role: user_setup
+      vars:
+        createusers: true
+        removeusers: true
+    - role: ssh_keys
+      vars:
+        addkey: true
+    - role: user_config
+
+# Configure Gaia (za-itf-sw)
+- name: Setup gaia
+  hosts:
+    - gaia
+  roles:
+    - role: var_setup
+    - role: system_setup
+    - role: team_setup
+    - role: user_setup
+      vars:
+        # We don't create users on Gaia, just make sure they are in the required groups
+        add_to_groups: true
+        removeusers: true
+    - role: ssh_keys
+      vars:
+        addkey: true
+    - role: user_config
+    - role: kubectl_setup
+
+- name: Setup test
+  hosts:
+    - test
+  roles:
+    - role: var_setup
+    - role: system_setup
+      vars:
+        install_kubectl: true
+    - role: team_setup
+    - role: user_setup
+      vars:
+        createusers: true
+        removeusers: true
+        add_to_groups: true
+    - role: ssh_keys
+      vars:
+        addkey: true
+    - role: user_config
+    - role: kubectl_setup
+
+- name: Setup Talon Dx boards
+  hosts:
+    - talon
+  roles:
+    - role: update_talon
+
+- name: Install Mid ITF SSH config on localhost
+  hosts: localhost
+  roles:
+    - local_ssh
+
+# Configure raspberry pi (SPFC)
+- name: Setup raspberry_pi_spfc
+  hosts:
+    - raspberry_pi_spfc
+  roles:
+    - role: update_spfc

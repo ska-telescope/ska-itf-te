@@ -1,0 +1,53 @@
+- name: Setup variables
+  vars:
+    filtered_users: []
+    filtered_user_groups: {}
+    team_primary_group: ""
+    team_admin_group: ""
+  block:
+
+    - name: Set team primary group
+      ansible.builtin.set_fact:
+        team_primary_group: "{{ item.name }}"
+      when: item.primary
+      loop: "{{ team_groups }}"
+
+    - name: Set team admin group
+      ansible.builtin.set_fact:
+        team_admin_group: "{{ item.name }}"
+      when: item.admin
+      loop: "{{ team_groups }}"
+
+    - name: Set has_team_admin_group true
+      ansible.builtin.set_fact:
+        has_team_admin_group: '{{ team_admin_group != "" }}'
+
+    - name: Set team shared dir
+      ansible.builtin.set_fact:
+        shared_team_dir: "{{ shared_dir }}/{{ team_name }}"
+
+    - name: Set team shared config dir
+      ansible.builtin.set_fact:
+        shared_team_config_dir: "{{ shared_team_dir }}/config"
+
+    - name: Filter users
+      loop: "{{ team_users }}"
+      loop_control:
+        loop_var: current_user
+      ansible.builtin.set_fact:
+        filtered_users: "{{ filtered_users + [current_user] }}"
+      when: (filter_users|length==0) or current_user['name'] in filter_users
+
+    - name: Set users
+      ansible.builtin.set_fact:
+        users: "{{ filtered_users | map(attribute='name') }}"
+
+    - name: Set user groups
+      ansible.builtin.include_tasks: "user_groups.yml"
+      loop: "{{ users }}"
+      loop_control:
+        loop_var: current_user
+
+    - name: Set user ssh keys
+      ansible.builtin.set_fact:
+        ssh_keys: "{{ filtered_users }}"

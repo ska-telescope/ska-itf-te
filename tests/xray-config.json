@@ -1,71 +1,72 @@
 {
-    "test_plans": [
-        {
-            "select_from_tag": {
-                "XTP-9052": "XTP-9052",
-                "default": "XTP-9052"
-            }
-        }
-    ],
-    "name": {
-        "env": "CI_COMMIT_BRANCH",
-        "maps_to": {
-            "main": "Test Equipment main branch Test Execution",
-            "default": "Test Equipment branch Test Execution"
-        }
-    },
-    "chart_info": {
-        "env": "DEPLOYMENT_CONFIGURATION",
-        "maps_to": {
-            "ska-ser-test-equipment": "charts/ska-ser-test-equipment/Chart.yaml",
-            "default": "charts/ska-ser-test-equipment/Chart.yaml"
-        }
-    },
-    "test_report": "build/reports/report.json",
-    "project_id": "XTP",
-    "test_environments": [
-        {
-            "env": "TEST_ENV",
-            "maps_to": {
-                "dev": "dev-testing",
-                "PSI-LOW": "PSI-LOW",
-                "PSI-MID-MDA": "PSI-MID-MDA",
-                "PSI-LOW-TOPIC": "PSI-LOW-TOPIC",
-                "ITF-LOW": "ITF-LOW",
-                "ITF-MID": "ITF-MID",
-                "default": "STFC-CI"
-            }
-        }
-    ],
-    "labels": [
-        {
-            "env": "CI_COMMIT_BRANCH",
-            "maps_to": {
-                "default": "branch",
-                "main": "main"
-            }
-        },
-        {
-            "env": "REALHW_OR_SIMULATED",
-            "maps_to": {
-                "default": "Simulated-HW",
-                "real": "Real-HW"
-            }
-        }
-    ],
-    "description": "Test execution results as generated from https://gitlab.com/ska-telescope/ska-ser-test-equipment\n",
-    "versions": [
-         {
-            "env": "CI_COMMIT_BRANCH",
-            "maps_to": {
-                "default": "",
-                "main": "PI15"
-            }
-        }
-    ],
-    "environmental_variables": [
-        "CI_JOB_URL",
-        "CI_COMMIT_TITLE",
-        "CI_JOB_STARTED_AT"
-    ]
+  "test_plans": [
+    {
+      "select_from_tag": {
+        "AT-1305": "AT-1305",
+        "default": "AT-1305"
+      }
+    }
+  ],
+  "name": {
+    "env": "CI_COMMIT_BRANCH",
+    "maps_to": {
+      "default": "SKA Mid ITF SUT CI tests branch execution",
+      "main": "SKA Mid ITF SUT CI tests main branch execution"
+    }
+  },
+  "chart_info": {
+    "env": "DEPLOYMENT_CONFIGURATION",
+    "maps_to": {
+      "default": "charts/system-under-test/Chart.yaml"
+    }
+  },
+  "test_report": "build/reports/report.json",
+  "jira_url": "https://jira.skatelescope.org",
+  "project": {
+    "id": "AT",
+    "issuetype_id": 11602,
+    "customfield_mapping": {
+      "start_date": "customfield_11918",
+      "end_date": "customfield_11917",
+      "test_plans": "customfield_11927",
+      "test_environments": "customfield_11925"
+    }
+  },
+  "description": "Test execution results as generated from git@gitlab.com:ska-telescope/ska-mid-itf\n",
+  "test_environments": [
+    {
+      "env": "TEST_ENV",
+      "maps_to": {
+        "default": "ITF-MID",
+        "ITF-MID": "ITF-MID",
+        "dev": "dev-testing",
+        "PSI-MID-MDA": "PSI-MID-MDA"
+      }
+    }
+  ],
+  "labels": [
+    {
+      "env": "CI_COMMIT_BRANCH",
+      "maps_to": {
+        "default": "branch",
+        "master": "master",
+        "main": "main"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "env": "CI_COMMIT_BRANCH",
+      "maps_to": {
+        "default": "",
+        "master": "PI19",
+        "main": "PI19"
+      }
+    }
+  ],
+  "environment_variables": [
+    "CI_JOB_URL",
+    "CI_COMMIT_TITLE",
+    "CI_JOB_STARTED_AT"
+  ]
 }

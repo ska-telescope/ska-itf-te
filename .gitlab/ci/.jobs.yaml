@@ -1,0 +1,109 @@
+# ##############################################################
+# # Common deployment templates (Copied from Skampi Deployments)
+# ##############################################################
+.deploy:
+  stage: deploy
+  before_script:
+    - |
+      if [ "$HW_IN_THE_LOOP" == "true" ]; then
+        ping -c 1 $PDU_IP || (echo "Cannot reach PDU" && exit 1) #FIXME: This is the type of config data that we should ideally be putting in Vault / Config database
+        nc -zv $PDU_IP 22 || (echo "Cannot reach PDU SSH interface - go to  https://za-itf-pdu3.ad.skatelescope.org and reset" && exit 1)
+      fi
+    - bash .make/resources/gitlab_section.sh poetry "Install Python dependencies" poetry install
+  script:
+    - mkdir deploy
+    - echo $CI_JOB_NAME - $CI_JOB_STAGE > deploy/ci_details.txt # This is just to double-check if the job output to the build folder works
+    - echo $CI_JOB_NAME - $CI_JOB_STAGE
+    - bash .make/resources/gitlab_section.sh tmc-values "Generate tmc-values.yaml file from Dish IDs" make itf-dish-ids
+    - cat charts/system-under-test/tmc-values.yaml
+    - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+    - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
+    - |
+      if [ "$K8S_INSTALL_FROM_CAR" != "true" ]; then
+        bash .make/resources/gitlab_section.sh install "Installing $K8S_CHART Charts - not from CAR" make k8s-install-chart
+      else
+        bash .make/resources/gitlab_section.sh install "Installing $K8S_CHART Charts from CAR" make k8s-install-chart-car
+      fi
+    - bash .make/resources/gitlab_section.sh get-ns "Get namespace resources" make k8s-get
+    - bash .make/resources/gitlab_section.sh wait-ns "Wait namespace resources" make k8s-wait
+    - |
+      if [ "$HW_IN_THE_LOOP" == "true" ]; then
+        make itf-cbf-setup --dry
+        make itf-cbf-talonlru-status
+        bash .make/resources/gitlab_section.sh talon_off "Switch off Talon" make itf-cbf-talonlru-off
+        bash .make/resources/gitlab_section.sh talon_config "Configure Talon(s)" make itf-cbf-config-talon
+        bash .make/resources/gitlab_section.sh mcs_config "Configure MCS" make itf-cbf-config-mcs
+        bash .make/resources/gitlab_section.sh talon_download_tangocpp_ds "Download CPP Tango device server updates" make itf-cbf-tangocpp-update &> deploy/talonconfig.log
+        bash .make/resources/gitlab_section.sh talon_config_tangodb "Configure TangoDB with device servers" make itf-cbf-config-tangodb
+      fi
+  after_script:
+    - bash .make/resources/gitlab_section.sh template "Template Chart" make k8s-template-chart-with-build-artifacts
+    - make links
+  artifacts:
+    name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID-$CI_JOB_STAGE-$CI_JOB_NAME"
+    paths:
+      - "build/"
+      - "deploy/"
+  variables:
+    SUT_CHART_DIR: ${CI_PROJECT_DIR}/charts/system-under-test
+
+.info:
+  stage: deploy
+  script:
+    - bash .make/resources/gitlab_section.sh get-ns "Get namespace resources" make k8s-get
+    - bash .make/resources/gitlab_section.sh get-ns-dp "Get SDP namespace resources" make k8s-get KUBE_NAMESPACE=${KUBE_NAMESPACE}-sdp
+    - make k8s-info
+    - make k8s-info KUBE_NAMESPACE=${KUBE_NAMESPACE}-sdp
+
+.cleanup:
+  stage: cleanup
+  script: &cleanup_script
+    - echo $CI_JOB_NAME - $CI_JOB_STAGE
+    - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+    - make k8s-uninstall-chart || true
+    - |
+      if [ "$KEEP_NAMESPACE" != "true" ]; then
+        make k8s-delete-namespace
+        if [ "$KUBE_NAMESPACE_SDP" != "" ]; then
+          make k8s-delete-namespace KUBE_NAMESPACE=$KUBE_NAMESPACE_SDP
+        fi
+      fi
+
+.redeploy:
+  extends:
+    - .deploy
+  before_script: *cleanup_script
+
+.uninstall-chart:
+  script:
+    - echo $CI_JOB_NAME - $CI_JOB_STAGE
+    - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
+    - bash .make/resources/gitlab_section.sh env "Environment dump" env
+    - make k8s-uninstall-chart || true
+    - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all --ignore-not-found
+    - make k8s-delete-namespace
+
+# If the pipeline is being exectued as a downstream, do not lint
+# or build
+helm-chart-lint:
+  after_script:
+    - make helm-check-deps
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "pipeline"
+      when: never
+    - exists:
+        - charts/**/*
+
+helm-chart-build:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "pipeline"
+      when: never
+    - exists:
+        - charts/**/*
+
+docs-build:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "pipeline"
+      when: never
+    - exists:
+        - charts/**/*

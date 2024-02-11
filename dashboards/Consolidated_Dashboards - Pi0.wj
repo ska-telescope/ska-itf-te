@@ -1,0 +1,1573 @@
+{
+  "id": "64eba61dce252e0019c5cd1a",
+  "name": "Consolidated_Dashboards - Pi0",
+  "version": "2.5.0",
+  "user": "ATLAS",
+  "insertTime": "2023-08-27T19:38:06.118Z",
+  "updateTime": "2023-11-21T05:39:55.945Z",
+  "group": null,
+  "groupWriteAccess": false,
+  "lastUpdatedBy": "ATLAS",
+  "widget": [
+    {
+      "valid": 1,
+      "id": "22",
+      "x": 55,
+      "y": 26,
+      "canvas": "0",
+      "width": 169,
+      "height": 73,
+      "type": "LABEL",
+      "inputs": {
+        "text": ".",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "border: 3px solid black;\nborder-radius: 25px;\n",
+        "automaticResize": "Disabled"
+      },
+      "order": 3
+    },
+    {
+      "valid": 1,
+      "id": "23",
+      "x": 58,
+      "y": 37,
+      "canvas": "0",
+      "width": 61,
+      "height": 59,
+      "type": "LABEL",
+      "inputs": {
+        "text": "",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "border: 3px solid #070068;",
+        "automaticResize": "Disabled"
+      },
+      "order": 4
+    },
+    {
+      "valid": 1,
+      "id": "42",
+      "x": 170,
+      "y": 37,
+      "canvas": "0",
+      "width": 51,
+      "height": 41,
+      "type": "LABEL",
+      "inputs": {
+        "text": "",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "border: 3px solid #070068;",
+        "automaticResize": "Disabled"
+      },
+      "order": 5
+    },
+    {
+      "valid": 1,
+      "id": "43",
+      "x": 171,
+      "y": 39,
+      "canvas": "0",
+      "width": 49,
+      "height": 6,
+      "type": "LABEL",
+      "inputs": {
+        "text": "Signal Generator",
+        "textColor": "#ffffff",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "border: 1px solid #070068;\ncolor: #FFFFFF;\nbackground:  #070068;\nfont-weight: bold;\nfont-size: 26px;\ntext-align: center;\npadding-top: 10px;",
+        "automaticResize": "Disabled"
+      },
+      "order": 6
+    },
+    {
+      "valid": 1,
+      "id": "46",
+      "x": 198,
+      "y": 52,
+      "canvas": "0",
+      "width": 22,
+      "height": 6,
+      "type": "ATTRIBUTE_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "mid-itf/siggen/1",
+          "attribute": "power_dbm",
+          "label": "power_dbm"
+        },
+        "precision": 2,
+        "showDevice": false,
+        "showAttribute": "Label",
+        "scientificNotation": false,
+        "showEnumLabels": false,
+        "showAttrQuality": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "widgetCss": "border: 1px solid black;\nfontWeight: bold;\npadding-top: 20px;\ntext-align:center;",
+        "format": "",
+        "alignTextCenter": false,
+        "alignValueRight": true
+      },
+      "order": 8
+    },
+    {
+      "valid": 1,
+      "id": "47",
+      "x": 171,
+      "y": 46,
+      "canvas": "0",
+      "width": 18,
+      "height": 4,
+      "type": "DEVICE_STATUS",
+      "inputs": {
+        "device": "mid-itf/siggen/1",
+        "state": {
+          "device": null,
+          "attribute": null
+        },
+        "showDeviceName": false,
+        "showStateString": true,
+        "showStateLED": true,
+        "LEDSize": 1,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "textSize": 1,
+        "widgetCss": "border: 1px solid black;\nfontWeight: bold;\ntext-align:center;"
+      },
+      "order": 9
+    },
+    {
+      "valid": 1,
+      "id": "48",
+      "x": 171,
+      "y": 66,
+      "canvas": "0",
+      "width": 49,
+      "height": 4,
+      "type": "LED_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "mid-itf/siggen/1",
+          "attribute": "rf_output_on",
+          "label": "rf_output_on"
+        },
+        "relation": ">",
+        "compare": 0,
+        "trueColor": "#3ac73a",
+        "falseColor": "#ff0000",
+        "ledSize": 1,
+        "textSize": 1,
+        "showAttributeValue": false,
+        "showDeviceName": false,
+        "showAttribute": "Label",
+        "customCss": "border: 1px solid black;\nfontWeight: bold;\ntext-align:center\nheight: 100%;\npadding-top: 7px;\npadding-right: 10px",
+        "alignTextCenter": false,
+        "alignValueRight": true
+      },
+      "order": 10
+    },
+    {
+      "valid": 1,
+      "id": "49",
+      "x": 198,
+      "y": 59,
+      "canvas": "0",
+      "width": 22,
+      "height": 6,
+      "type": "ATTRIBUTE_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "mid-itf/siggen/1",
+          "attribute": "frequency",
+          "label": "frequency"
+        },
+        "precision": 2,
+        "showDevice": false,
+        "showAttribute": "Label",
+        "scientificNotation": true,
+        "showEnumLabels": false,
+        "showAttrQuality": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "widgetCss": "border: 1px solid black;\nfontWeight: bold;\npadding-top: 20px;\ntext-align:center;",
+        "format": "",
+        "alignTextCenter": false,
+        "alignValueRight": true
+      },
+      "order": 11
+    },
+    {
+      "valid": 1,
+      "id": "62",
+      "x": 58,
+      "y": 29,
+      "canvas": "0",
+      "width": 163,
+      "height": 8,
+      "type": "LABEL",
+      "inputs": {
+        "text": "SKA Mid Sky Simulator",
+        "textColor": "#fafafa",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "border: 1px solid #070068;\ncolor: #FFFFFF;\nbackground:  #070068;\nfont-weight: bold;\nfont-size: 30px;\ntext-align: center;\nborder-radius: 25px 25px 0 0;\npadding-top: 15px;",
+        "automaticResize": "Disabled"
+      },
+      "order": 13
+    },
+    {
+      "valid": 1,
+      "id": "67",
+      "x": 121,
+      "y": 37,
+      "canvas": "0",
+      "width": 47,
+      "height": 22,
+      "type": "LABEL",
+      "inputs": {
+        "text": "",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "border: 3px solid #070068;\n",
+        "automaticResize": "Disabled"
+      },
+      "order": 12
+    },
+    {
+      "valid": 1,
+      "id": "68",
+      "x": 122,
+      "y": 39,
+      "canvas": "0",
+      "width": 45,
+      "height": 6,
+      "type": "LABEL",
+      "inputs": {
+        "text": "Programmable Attenuator",
+        "textColor": "#ffffff",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "border: 1px solid #070068;\ncolor: #FFFFFF;\nbackground:  #070068;\nfont-weight: bold;\nfont-size: 26px;\ntext-align: center;\npadding-top: 10px;",
+        "automaticResize": "Disabled"
+      },
+      "order": 14
+    },
+    {
+      "valid": 1,
+      "id": "69",
+      "x": 59,
+      "y": 38,
+      "canvas": "0",
+      "width": 59,
+      "height": 20,
+      "type": "LABEL",
+      "inputs": {
+        "text": "",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "border: 2px solid #070068;\nborder-radius: 10px;",
+        "automaticResize": "Disabled"
+      },
+      "order": 15
+    },
+    {
+      "valid": 1,
+      "id": "70",
+      "x": 60,
+      "y": 39,
+      "canvas": "0",
+      "width": 57,
+      "height": 6,
+      "type": "LABEL",
+      "inputs": {
+        "text": "Band Selector",
+        "textColor": "#ffffff",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "border: 1px solid #070068;\ncolor: #FFFFFF;\nbackground:  #070068;\nfont-weight: bold;\nfont-size: 26px;\ntext-align: center;\npadding-top: 10px;",
+        "automaticResize": "Disabled"
+      },
+      "order": 16
+    },
+    {
+      "valid": 1,
+      "id": "71",
+      "x": 60,
+      "y": 46,
+      "canvas": "0",
+      "width": 57,
+      "height": 17,
+      "type": "ATTRIBUTE WRITER DROPDOWN",
+      "inputs": {
+        "attribute": {
+          "device": "mid-itf/skysimctl/0",
+          "attribute": "band",
+          "label": "Band"
+        },
+        "submitButtonTitle": "Update",
+        "dropdownTitle": "Change Band",
+        "writeValues": [
+          {
+            "title": "Band1",
+            "value": "1"
+          },
+          {
+            "title": "Band2",
+            "value": "2"
+          },
+          {
+            "title": "Band3",
+            "value": "3"
+          }
+        ],
+        "writeValuesSpectrum": {
+          "device": null,
+          "attribute": null
+        },
+        "showDevice": false,
+        "showAttribute": "Label",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "customCss": "height: 30px;\nfont-weight: bold;\nmargin-top: 10px"
+      },
+      "order": 17
+    },
+    {
+      "valid": 1,
+      "id": "72",
+      "x": 63,
+      "y": 52,
+      "canvas": "0",
+      "width": 8,
+      "height": 4,
+      "type": "LABEL",
+      "inputs": {
+        "text": "Band 1",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "font-weight: bold;\nborder: 1px solid black;\ntext-align: center;\npadding-top: 6px",
+        "automaticResize": "Disabled"
+      },
+      "order": 18
+    },
+    {
+      "valid": 1,
+      "id": "73",
+      "x": 71,
+      "y": 52,
+      "canvas": "0",
+      "width": 4,
+      "height": 4,
+      "type": "LED_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "mid-itf/skysimctl/0",
+          "attribute": "band",
+          "label": "Band"
+        },
+        "relation": "=",
+        "compare": 1,
+        "trueColor": "#3ac73a",
+        "falseColor": "#ff0000",
+        "ledSize": 1,
+        "textSize": 1,
+        "showAttributeValue": false,
+        "showDeviceName": false,
+        "showAttribute": "None",
+        "customCss": "padding-top: 5px;\nborder: 1px solid black;\nheight: 40px;\npadding-right: 11px",
+        "alignTextCenter": false,
+        "alignValueRight": true
+      },
+      "order": 19
+    },
+    {
+      "valid": 1,
+      "id": "74",
+      "x": 82,
+      "y": 52,
+      "canvas": "0",
+      "width": 8,
+      "height": 4,
+      "type": "LABEL",
+      "inputs": {
+        "text": "Band 2",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "font-weight: bold;\nborder: 1px solid black\ntext-align: center;\npadding-top: 6px",
+        "automaticResize": "Disabled"
+      },
+      "order": 20
+    },
+    {
+      "valid": 1,
+      "id": "75",
+      "x": 90,
+      "y": 52,
+      "canvas": "0",
+      "width": 4,
+      "height": 4,
+      "type": "LED_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "mid-itf/skysimctl/0",
+          "attribute": "band",
+          "label": "Band"
+        },
+        "relation": "=",
+        "compare": 2,
+        "trueColor": "#3ac73a",
+        "falseColor": "#ff0000",
+        "ledSize": 1,
+        "textSize": 1,
+        "showAttributeValue": false,
+        "showDeviceName": false,
+        "showAttribute": "None",
+        "customCss": "padding-top: 5px;\nborder: 1px solid black;\nheight: 40px;\npadding-right: 11px",
+        "alignTextCenter": false,
+        "alignValueRight": true
+      },
+      "order": 21
+    },
+    {
+      "valid": 1,
+      "id": "76",
+      "x": 100,
+      "y": 52,
+      "canvas": "0",
+      "width": 8,
+      "height": 4,
+      "type": "LABEL",
+      "inputs": {
+        "text": "Band  3",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "font-weight: bold;\nborder: 1px solid black;\ntext-align: center;\npadding-top: 6px",
+        "automaticResize": "Disabled"
+      },
+      "order": 22
+    },
+    {
+      "valid": 1,
+      "id": "77",
+      "x": 108,
+      "y": 52,
+      "canvas": "0",
+      "width": 4,
+      "height": 4,
+      "type": "LED_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "mid-itf/skysimctl/0",
+          "attribute": "band",
+          "label": "Band"
+        },
+        "relation": "=",
+        "compare": 3,
+        "trueColor": "#3ac73a",
+        "falseColor": "#ff0000",
+        "ledSize": 1,
+        "textSize": 1,
+        "showAttributeValue": false,
+        "showDeviceName": false,
+        "showAttribute": "None",
+        "customCss": "padding-top: 5px;\nborder: 1px solid black;\nheight: 40px;\npadding-right: 11px",
+        "alignTextCenter": false,
+        "alignValueRight": true
+      },
+      "order": 23
+    },
+    {
+      "valid": 1,
+      "id": "78",
+      "x": 59,
+      "y": 61,
+      "canvas": "0",
+      "width": 59,
+      "height": 14,
+      "type": "LABEL",
+      "inputs": {
+        "text": "",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "border: 2px solid #070068;\nborder-radius: 10px;",
+        "automaticResize": "Disabled"
+      },
+      "order": 24
+    },
+    {
+      "valid": 1,
+      "id": "79",
+      "x": 60,
+      "y": 62,
+      "canvas": "0",
+      "width": 57,
+      "height": 6,
+      "type": "LABEL",
+      "inputs": {
+        "text": "Polarization",
+        "textColor": "#ffffff",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "border: 1px solid #070068;\ncolor: #FFFFFF;\nbackground:  #070068;\nfont-weight: bold;\nfont-size: 26px;\ntext-align: center;\npadding-top: 10px;",
+        "automaticResize": "Disabled"
+      },
+      "order": 25
+    },
+    {
+      "valid": 1,
+      "id": "81",
+      "x": 89,
+      "y": 69,
+      "canvas": "0",
+      "width": 22,
+      "height": 4,
+      "type": "BOOLEAN_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "mid-itf/skysimctl/0",
+          "attribute": "v_channel",
+          "label": "V_Channel"
+        },
+        "showAttribute": "Label",
+        "showDevice": false,
+        "alignSwitchRight": true,
+        "widgetCSS": "font-weight: bold;\npadding-top: 6px;\npadding-left:25px",
+        "OnCSS": "background-color: green;",
+        "OffCSS": "background-color: red;"
+      },
+      "order": 26
+    },
+    {
+      "valid": 1,
+      "id": "83",
+      "x": 59,
+      "y": 77,
+      "canvas": "0",
+      "width": 59,
+      "height": 18,
+      "type": "LABEL",
+      "inputs": {
+        "text": "",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "border: 2px solid #070068;\nborder-radius: 10px;",
+        "automaticResize": "Disabled"
+      },
+      "order": 28
+    },
+    {
+      "valid": 1,
+      "id": "84",
+      "x": 60,
+      "y": 78,
+      "canvas": "0",
+      "width": 57,
+      "height": 6,
+      "type": "LABEL",
+      "inputs": {
+        "text": "Noise Sources",
+        "textColor": "#ffffff",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "border: 1px solid #070068;\ncolor: #FFFFFF;\nbackground:  #070068;\nfont-weight: bold;\nfont-size: 26px;\ntext-align: center;\npadding-top: 10px;",
+        "automaticResize": "Disabled"
+      },
+      "order": 29
+    },
+    {
+      "valid": 1,
+      "id": "85",
+      "x": 60,
+      "y": 85,
+      "canvas": "0",
+      "width": 37,
+      "height": 4,
+      "type": "BOOLEAN_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "mid-itf/skysimctl/0",
+          "attribute": "correlated_noise_source",
+          "label": "Correlated_Noise_Source"
+        },
+        "showAttribute": "Label",
+        "showDevice": false,
+        "alignSwitchRight": true,
+        "widgetCSS": "font-weight: bold;\npadding-left: 42px;\npadding-top: 6px;",
+        "OnCSS": "background-color: green;",
+        "OffCSS": "background-color: red;"
+      },
+      "order": 30
+    },
+    {
+      "valid": 1,
+      "id": "86",
+      "x": 60,
+      "y": 89,
+      "canvas": "0",
+      "width": 37,
+      "height": 4,
+      "type": "BOOLEAN_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "mid-itf/skysimctl/0",
+          "attribute": "uncorrelated_noise_sources",
+          "label": "Uncorrelated_Noise_Sources"
+        },
+        "showAttribute": "Label",
+        "showDevice": false,
+        "alignSwitchRight": true,
+        "widgetCSS": "font-weight: bold;\npadding-left: 15px;\npadding-top: 6px;",
+        "OnCSS": "background-color: green;",
+        "OffCSS": "background-color: red;"
+      },
+      "order": 31
+    },
+    {
+      "valid": 1,
+      "id": "88",
+      "x": 151,
+      "y": 52,
+      "canvas": "0",
+      "width": 16,
+      "height": 6,
+      "type": "ATTRIBUTE_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "mid-itf/progattenuator/1",
+          "attribute": "channel_1",
+          "label": "channel_1"
+        },
+        "precision": 2,
+        "showDevice": false,
+        "showAttribute": "Label",
+        "scientificNotation": false,
+        "showEnumLabels": false,
+        "showAttrQuality": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "widgetCss": "border: 1px solid black;\nfont-weight: bold;\npadding-top: 15px;",
+        "format": "",
+        "alignTextCenter": false,
+        "alignValueRight": true
+      },
+      "order": 33
+    },
+    {
+      "valid": 1,
+      "id": "89",
+      "x": 122,
+      "y": 52,
+      "canvas": "0",
+      "width": 28,
+      "height": 6,
+      "type": "ATTRIBUTE_WRITER",
+      "inputs": {
+        "title": "Attenuation",
+        "attribute": {
+          "device": "mid-itf/progattenuator/1",
+          "attribute": "channel_1",
+          "label": "channel_1"
+        },
+        "showDevice": false,
+        "showAttribute": "None",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "widgetCss": "border: 1px solid black;\nfont-weight: bold;\ntext-align:center;\npadding-top: 15px;",
+        "alignValueRight": true
+      },
+      "order": 34
+    },
+    {
+      "valid": 1,
+      "id": "90",
+      "x": 122,
+      "y": 46,
+      "canvas": "0",
+      "width": 13,
+      "height": 4,
+      "type": "DEVICE_STATUS",
+      "inputs": {
+        "device": "mid-itf/progattenuator/1",
+        "state": {
+          "device": null,
+          "attribute": null
+        },
+        "showDeviceName": false,
+        "showStateString": true,
+        "showStateLED": true,
+        "LEDSize": 1,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "textSize": 1,
+        "widgetCss": "border: 1px solid black;\nfont-weight: bold;"
+      },
+      "order": 35
+    },
+    {
+      "valid": 1,
+      "id": "91",
+      "x": 135,
+      "y": 46,
+      "canvas": "0",
+      "width": 32,
+      "height": 12,
+      "type": "ATTRIBUTE WRITER DROPDOWN",
+      "inputs": {
+        "attribute": {
+          "device": "mid-itf/progattenuator/1",
+          "attribute": "adminmode",
+          "label": "adminMode"
+        },
+        "submitButtonTitle": "Update",
+        "dropdownTitle": "HW Connection",
+        "writeValues": [
+          {
+            "title": "Connect",
+            "value": "0"
+          },
+          {
+            "title": "Disconnect",
+            "value": "1"
+          }
+        ],
+        "writeValuesSpectrum": {
+          "device": null,
+          "attribute": null
+        },
+        "showDevice": false,
+        "showAttribute": "None",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "dropdownButtonCss": "fontWeight: bold;",
+        "submitButtonCss": "fontWeight: bold;",
+        "customCss": "border: 1px solid black;\nfontWeight: bold;"
+      },
+      "order": 32
+    },
+    {
+      "valid": 1,
+      "id": "92",
+      "x": 190,
+      "y": 46,
+      "canvas": "0",
+      "width": 30,
+      "height": 12,
+      "type": "ATTRIBUTE WRITER DROPDOWN",
+      "inputs": {
+        "attribute": {
+          "device": "mid-itf/siggen/1",
+          "attribute": "adminmode",
+          "label": "adminMode"
+        },
+        "submitButtonTitle": "Update",
+        "dropdownTitle": "HW Connection",
+        "writeValues": [
+          {
+            "title": "Connect",
+            "value": "0"
+          },
+          {
+            "title": "Disconnect",
+            "value": "1"
+          }
+        ],
+        "writeValuesSpectrum": {
+          "device": null,
+          "attribute": null
+        },
+        "showDevice": false,
+        "showAttribute": "None",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "dropdownButtonCss": "fontWeight: bold;",
+        "submitButtonCss": "fontWeight: bold;",
+        "customCss": "border: 1px solid black;\nfontWeight: bold;"
+      },
+      "order": 7
+    },
+    {
+      "valid": 1,
+      "id": "93",
+      "x": 153,
+      "y": 47,
+      "canvas": "0",
+      "width": 6,
+      "height": 2,
+      "type": "ATTRIBUTE_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "mid-itf/progattenuator/1",
+          "attribute": "state",
+          "label": "State"
+        },
+        "precision": 2,
+        "showDevice": false,
+        "showAttribute": "None",
+        "scientificNotation": false,
+        "showEnumLabels": false,
+        "showAttrQuality": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 0,
+        "font": "Helvetica",
+        "widgetCss": "",
+        "format": "",
+        "alignTextCenter": false,
+        "alignValueRight": true
+      },
+      "order": 1
+    },
+    {
+      "valid": 1,
+      "id": "94",
+      "x": 205,
+      "y": 47,
+      "canvas": "0",
+      "width": 6,
+      "height": 2,
+      "type": "ATTRIBUTE_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "mid-itf/siggen/1",
+          "attribute": "state",
+          "label": "State"
+        },
+        "precision": 2,
+        "showDevice": false,
+        "showAttribute": "None",
+        "scientificNotation": false,
+        "showEnumLabels": false,
+        "showAttrQuality": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 0,
+        "font": "Helvetica",
+        "widgetCss": "",
+        "format": "",
+        "alignTextCenter": false,
+        "alignValueRight": true
+      },
+      "order": 2
+    },
+    {
+      "valid": 1,
+      "id": "95",
+      "x": 171,
+      "y": 59,
+      "canvas": "0",
+      "width": 26,
+      "height": 6,
+      "type": "ATTRIBUTE_WRITER",
+      "inputs": {
+        "title": "Frequency",
+        "attribute": {
+          "device": "mid-itf/siggen/1",
+          "attribute": "frequency",
+          "label": "frequency"
+        },
+        "showDevice": false,
+        "showAttribute": "None",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "widgetCss": "border: 1px solid black;\nfont-weight: bold;\ntext-align:center;\npadding-top: 20px;",
+        "alignValueRight": true
+      },
+      "order": 36
+    },
+    {
+      "valid": 1,
+      "id": "96",
+      "x": 171,
+      "y": 52,
+      "canvas": "0",
+      "width": 26,
+      "height": 6,
+      "type": "ATTRIBUTE_WRITER",
+      "inputs": {
+        "title": "Power",
+        "attribute": {
+          "device": "mid-itf/siggen/1",
+          "attribute": "power_dbm",
+          "label": "power_dbm"
+        },
+        "showDevice": false,
+        "showAttribute": "None",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "widgetCss": "border: 1px solid black;\nfont-weight: bold;\ntext-align:center;\npadding-top: 20px;",
+        "alignValueRight": true
+      },
+      "order": 37
+    },
+    {
+      "valid": 1,
+      "id": "98",
+      "x": 84,
+      "y": 69,
+      "canvas": "0",
+      "width": 5,
+      "height": 4,
+      "type": "LABEL",
+      "inputs": {
+        "text": "ON",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "font-weight: bold;\nborder: 1px solid black;\npadding-top: 6px;\npadding-left: 10px;",
+        "automaticResize": "Disabled"
+      },
+      "order": 38
+    },
+    {
+      "valid": 1,
+      "id": "99",
+      "x": 100,
+      "y": 69,
+      "canvas": "0",
+      "width": 5,
+      "height": 4,
+      "type": "LABEL",
+      "inputs": {
+        "text": "OFF",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "font-weight: bold;\nborder: 1px solid black;\npadding-top: 6px;\npadding-left: 10px;",
+        "automaticResize": "Disabled"
+      },
+      "order": 39
+    },
+    {
+      "valid": 1,
+      "id": "100",
+      "x": 112,
+      "y": 69,
+      "canvas": "0",
+      "width": 5,
+      "height": 4,
+      "type": "LABEL",
+      "inputs": {
+        "text": "ON",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "font-weight: bold;\nborder: 1px solid black;\npadding-top: 6px;\npadding-left: 10px;",
+        "automaticResize": "Disabled"
+      },
+      "order": 40
+    },
+    {
+      "valid": 1,
+      "id": "101",
+      "x": 60,
+      "y": 69,
+      "canvas": "0",
+      "width": 23,
+      "height": 4,
+      "type": "BOOLEAN_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "mid-itf/skysimctl/0",
+          "attribute": "h_channel",
+          "label": "H_Channel"
+        },
+        "showAttribute": "Label",
+        "showDevice": false,
+        "alignSwitchRight": true,
+        "widgetCSS": "font-weight: bold;\npadding-left: 31px;\npadding-top: 6px;",
+        "OnCSS": "background-color: green;",
+        "OffCSS": "background-color: red;"
+      },
+      "order": 27
+    },
+    {
+      "valid": 1,
+      "id": "102",
+      "x": 72,
+      "y": 69,
+      "canvas": "0",
+      "width": 5,
+      "height": 4,
+      "type": "LABEL",
+      "inputs": {
+        "text": "OFF",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "font-weight: bold;\nborder: 1px solid black;\npadding-top: 6px;\npadding-left: 10px;",
+        "automaticResize": "Disabled"
+      },
+      "order": 41
+    },
+    {
+      "valid": 1,
+      "id": "105",
+      "x": 98,
+      "y": 89,
+      "canvas": "0",
+      "width": 5,
+      "height": 4,
+      "type": "LABEL",
+      "inputs": {
+        "text": "ON",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "font-weight: bold;\nborder: 1px solid black;\npadding-top: 6px;\npadding-left: 10px;",
+        "automaticResize": "Disabled"
+      },
+      "order": 42
+    },
+    {
+      "valid": 1,
+      "id": "106",
+      "x": 85,
+      "y": 89,
+      "canvas": "0",
+      "width": 6,
+      "height": 4,
+      "type": "LABEL",
+      "inputs": {
+        "text": "OFF",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "font-weight: bold;\nborder: 1px solid black;\npadding-top: 6px;\npadding-left: 10px;",
+        "automaticResize": "Disabled"
+      },
+      "order": 43
+    },
+    {
+      "valid": 1,
+      "id": "107",
+      "x": 98,
+      "y": 85,
+      "canvas": "0",
+      "width": 5,
+      "height": 4,
+      "type": "LABEL",
+      "inputs": {
+        "text": "ON",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "font-weight: bold;\nborder: 1px solid black;\npadding-top: 6px;\npadding-left: 10px;",
+        "automaticResize": "Disabled"
+      },
+      "order": 44
+    },
+    {
+      "valid": 1,
+      "id": "108",
+      "x": 85,
+      "y": 85,
+      "canvas": "0",
+      "width": 6,
+      "height": 4,
+      "type": "LABEL",
+      "inputs": {
+        "text": "OFF",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "font-weight: bold;\nborder: 1px solid black;\npadding-top: 6px;\npadding-left: 10px;",
+        "automaticResize": "Disabled"
+      },
+      "order": 45
+    },
+    {
+      "valid": 1,
+      "id": "109",
+      "x": 122,
+      "y": 69,
+      "canvas": "0",
+      "width": 14,
+      "height": 4,
+      "type": "DEVICE_STATUS",
+      "inputs": {
+        "device": "mid-itf/spectana/1",
+        "state": {
+          "device": null,
+          "attribute": null
+        },
+        "showDeviceName": false,
+        "showStateString": true,
+        "showStateLED": true,
+        "LEDSize": 1,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "textSize": 1,
+        "widgetCss": "border: 1px solid black;\nfontWeight: bold;\ntext-align:center;"
+      },
+      "order": 47
+    },
+    {
+      "valid": 1,
+      "id": "110",
+      "x": 122,
+      "y": 75,
+      "canvas": "0",
+      "width": 23,
+      "height": 6,
+      "type": "ATTRIBUTE_WRITER",
+      "inputs": {
+        "title": "StartFreq",
+        "attribute": {
+          "device": "mid-itf/spectana/1",
+          "attribute": "frequency_start",
+          "label": "frequency_start"
+        },
+        "showDevice": false,
+        "showAttribute": "None",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "widgetCss": "border: 1px solid black;\nfont-weight: bold;\ntext-align:center;\npadding-top: 20px;",
+        "alignValueRight": true
+      },
+      "order": 49
+    },
+    {
+      "valid": 1,
+      "id": "111",
+      "x": 146,
+      "y": 75,
+      "canvas": "0",
+      "width": 21,
+      "height": 6,
+      "type": "ATTRIBUTE_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "mid-itf/spectana/1",
+          "attribute": "frequency_start",
+          "label": "frequency_start"
+        },
+        "precision": 2,
+        "showDevice": false,
+        "showAttribute": "Label",
+        "scientificNotation": true,
+        "showEnumLabels": false,
+        "showAttrQuality": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "widgetCss": "border: 1px solid black;\nfont-weight: bold;\npadding-top: 20px;\ntext-align:center;",
+        "format": "",
+        "alignTextCenter": false,
+        "alignValueRight": true
+      },
+      "order": 50
+    },
+    {
+      "valid": 1,
+      "id": "112",
+      "x": 136,
+      "y": 69,
+      "canvas": "0",
+      "width": 31,
+      "height": 12,
+      "type": "ATTRIBUTE WRITER DROPDOWN",
+      "inputs": {
+        "attribute": {
+          "device": "mid-itf/spectana/1",
+          "attribute": "adminmode",
+          "label": "adminMode"
+        },
+        "submitButtonTitle": "Update",
+        "dropdownTitle": "HW Connection",
+        "writeValues": [
+          {
+            "title": "Connect",
+            "value": "False"
+          },
+          {
+            "title": "Disconnect",
+            "value": "True"
+          }
+        ],
+        "writeValuesSpectrum": {
+          "device": null,
+          "attribute": null
+        },
+        "showDevice": false,
+        "showAttribute": "None",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "dropdownButtonCss": "fontWeight: bold;",
+        "submitButtonCss": "fontWeight: bold;",
+        "customCss": "border: 1px solid black;\nfontWeight: bold;"
+      },
+      "order": 48
+    },
+    {
+      "valid": 1,
+      "id": "113",
+      "x": 122,
+      "y": 82,
+      "canvas": "0",
+      "width": 23,
+      "height": 6,
+      "type": "ATTRIBUTE_WRITER",
+      "inputs": {
+        "title": "StopFreq",
+        "attribute": {
+          "device": "mid-itf/spectana/1",
+          "attribute": "frequency_stop",
+          "label": "frequency_stop"
+        },
+        "showDevice": false,
+        "showAttribute": "None",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "widgetCss": "border: 1px solid black;\nfontWeight: bold;\ntext-align:center;\npadding-top: 20px;",
+        "alignValueRight": true
+      },
+      "order": 51
+    },
+    {
+      "valid": 1,
+      "id": "114",
+      "x": 146,
+      "y": 82,
+      "canvas": "0",
+      "width": 21,
+      "height": 6,
+      "type": "ATTRIBUTE_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "mid-itf/spectana/1",
+          "attribute": "frequency_stop",
+          "label": "frequency_stop"
+        },
+        "precision": 2,
+        "showDevice": false,
+        "showAttribute": "Label",
+        "scientificNotation": true,
+        "showEnumLabels": false,
+        "showAttrQuality": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "widgetCss": "border: 1px solid black;\nfontWeight: bold;\npadding-top: 20px;\ntext-align:center;",
+        "format": "",
+        "alignTextCenter": false,
+        "alignValueRight": true
+      },
+      "order": 52
+    },
+    {
+      "valid": 1,
+      "id": "115",
+      "x": 122,
+      "y": 61,
+      "canvas": "0",
+      "width": 45,
+      "height": 6,
+      "type": "LABEL",
+      "inputs": {
+        "text": "Spectrum Analyser",
+        "textColor": "#ffffff",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "border: 1px solid #070068;\ncolor: #FFFFFF;\nbackground:  #070068;\nfont-weight: bold;\nfont-size: 26px;\ntext-align: center;\npadding-top: 10px;",
+        "automaticResize": "Disabled"
+      },
+      "order": 53
+    },
+    {
+      "valid": 1,
+      "id": "116",
+      "x": 121,
+      "y": 60,
+      "canvas": "0",
+      "width": 47,
+      "height": 37,
+      "type": "LABEL",
+      "inputs": {
+        "text": "",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "border: 3px solid #070068;",
+        "automaticResize": "Disabled"
+      },
+      "order": 46
+    },
+    {
+      "valid": 1,
+      "id": "117",
+      "x": 150,
+      "y": 70,
+      "canvas": "0",
+      "width": 6,
+      "height": 2,
+      "type": "ATTRIBUTE_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "mid-itf/spectana/1",
+          "attribute": "state",
+          "label": "State"
+        },
+        "precision": 2,
+        "showDevice": false,
+        "showAttribute": "None",
+        "scientificNotation": false,
+        "showEnumLabels": false,
+        "showAttrQuality": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 0,
+        "font": "Helvetica",
+        "widgetCss": "",
+        "format": "",
+        "alignTextCenter": false,
+        "alignValueRight": true
+      },
+      "order": 0
+    },
+    {
+      "valid": 1,
+      "id": "118",
+      "x": 146,
+      "y": 89,
+      "canvas": "0",
+      "width": 21,
+      "height": 6,
+      "type": "ATTRIBUTE_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "mid-itf/spectana/1",
+          "attribute": "attenuation",
+          "label": "attenuation"
+        },
+        "precision": 2,
+        "showDevice": false,
+        "showAttribute": "Label",
+        "scientificNotation": false,
+        "showEnumLabels": false,
+        "showAttrQuality": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "widgetCss": "border: 1px solid black;\nfontWeight: bold;\npadding-top: 15px;\ntext-align:center;",
+        "format": "",
+        "alignTextCenter": false,
+        "alignValueRight": true
+      },
+      "order": 54
+    },
+    {
+      "valid": 1,
+      "id": "119",
+      "x": 122,
+      "y": 89,
+      "canvas": "0",
+      "width": 23,
+      "height": 6,
+      "type": "ATTRIBUTE_WRITER",
+      "inputs": {
+        "title": "Attenuation",
+        "attribute": {
+          "device": "mid-itf/spectana/1",
+          "attribute": "attenuation",
+          "label": "attenuation"
+        },
+        "showDevice": false,
+        "showAttribute": "None",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "widgetCss": "border: 1px solid black;\nfontWeight: bold;\ntext-align:center;\npadding-top: 15px;",
+        "alignValueRight": true
+      },
+      "order": 55
+    },
+    {
+      "valid": 1,
+      "id": "120",
+      "x": 198,
+      "y": 71,
+      "canvas": "0",
+      "width": 22,
+      "height": 6,
+      "type": "COMMAND",
+      "inputs": {
+        "title": "Reset",
+        "buttonText": "Reset",
+        "command": {
+          "device": "mid-itf/siggen/1",
+          "command": "Reset",
+          "acceptedType": "DevVoid",
+          "intypedesc": "Uninitialised",
+          "outtypedesc": "Uninitialised",
+          "outtype": "DevVarLongStringArray",
+          "tag": "0"
+        },
+        "commandArgs": [
+          {
+            "name": "Reset",
+            "value": "Reset",
+            "isDefault": false
+          }
+        ],
+        "showDevice": false,
+        "showCommand": false,
+        "requireConfirmation": true,
+        "displayOutput": true,
+        "alignButtonRight": false,
+        "placeholder": "intype",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "btnCss": "font-weight: bold;",
+        "widgetCss": "font-weight: bold;\nfloat: right;\npadding-top: 15px;\npadding-right: 10px;\n"
+      },
+      "order": 56
+    }
+  ],
+  "variables": []
+}

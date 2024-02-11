@@ -1,0 +1,25 @@
+{
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string"
+        },
+        "version": {
+            "type": "string"
+        },
+        "parts": {
+            "type": "object",
+            "properties": {},
+            "required": [],
+            "additionalProperties": true
+        }
+    },
+    "required": [
+        "name",
+        "version",
+        "parts"
+    ],
+    "additionalProperties": false,
+    "$id": "https://ska-ser-skallop/confluence-config.json",
+    "$schema": "http://json-schema.org/draft-07/schema#"
+}

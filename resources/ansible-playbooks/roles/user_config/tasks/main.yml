@@ -1,0 +1,26 @@
+- name: Install ASCII art generators
+  become: true
+  ansible.builtin.apt:
+    pkg: [figlet, toilet]
+
+- name: Add Bash Aliases
+  become: true
+  ansible.builtin.template:
+    src: bash_aliases.j2
+    dest: /etc/profile.d/99-bash-aliases.sh
+    mode: "755"
+
+- name: Install generic welcome message
+  become: true
+  ansible.builtin.template:
+    src: welcome.sh.j2
+    dest: /etc/profile.d/99-{{ team_name }}-0-welcome.sh
+    mode: "755"
+    owner: "root"
+    group: "root"
+
+- name: Setup user configuration
+  ansible.builtin.include_tasks: "user_config.yml"
+  loop: "{{ users }}"
+  loop_control:
+    loop_var: current_user

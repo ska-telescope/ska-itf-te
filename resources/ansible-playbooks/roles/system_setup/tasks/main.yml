@@ -1,0 +1,66 @@
+# Installation
+- name: Install kubectl
+  when: install_kubectl
+  become: true
+  block:
+    - name: Install dependencies
+      ansible.builtin.apt:
+        pkg:
+          - ca-certificates
+          - curl
+
+    - name: Install signing key
+      block:
+        - name: Add kubectl apt key
+          ansible.builtin.get_url:
+            url: https://dl.k8s.io/apt/doc/apt-key.gpg
+            dest: /etc/apt/keyrings/kubernetes-archive-keyring.gpg
+            mode: "644"
+
+
+        - name: Add kubectl apt source
+          ansible.builtin.apt_repository:
+            repo: "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main"
+            state: present
+
+    - name: Install kubectl
+      ansible.builtin.apt:
+        pkg:
+          - kubectl
+
+# Directories
+- name: Ensure shared directory exists
+  ansible.builtin.file:
+    path: "{{ shared_dir }}"
+    state: directory
+    owner: "root"
+    group: "root"
+    mode: "755"
+  become: true
+
+- name: Ensure shared common directory exists
+  become: true
+  ansible.builtin.file:
+    path: "{{ shared_common_dir }}"
+    state: directory
+    owner: "root"
+    group: "root"
+    mode: "777"
+
+- name: Add gitlab-runner to sudoers
+  when: inventory_hostname in groups['raspberry_pi']
+  block:
+    - name: Gather available local users
+      ansible.builtin.getent:
+        database: passwd
+    - name: Add gitlab-runner to sudoers if they exist
+      become: true
+      ansible.builtin.lineinfile:
+        line: "gitlab-runner ALL=(ALL) NOPASSWD:ALL"
+        path: "/etc/sudoers.d/99-atlas-team"
+        regex: "gitlab-runner"
+        create: true
+        owner: "root"
+        group: "root"
+        mode: "440"
+      when: '"gitlab-runner" in getent_passwd.keys()'

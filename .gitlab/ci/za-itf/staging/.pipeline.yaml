@@ -1,0 +1,87 @@
+
+.staging-env:
+  stage: staging
+  tags:
+    - ska-k8srunner-za-itf
+  extends:
+    - .staging_rules
+  variables:
+    CONFIG: mid
+    HELM_RELEASE: "staging-$CI_COMMIT_REF_SLUG"
+    KUBE_NAMESPACE: "staging"
+    KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+    SERVICE_ACCOUNT: "ci-svc-staging"
+    ARCHIVER_DBNAME: "staging_archiver_db"
+    KEEP_NAMESPACE: "true"
+    K8S_CHART: "system-under-test"
+    CLUSTER_DOMAIN_POSTFIX: miditf.internal.skao.int
+    DISH_IDS: "SKA001 SKA036 SKA063 SKA100"
+    KUBE_APP: ska-mid-sut
+    INGRESS_HOST: "k8s.miditf.internal.skao.int"
+    CLUSTER_DOMAIN: "miditf.internal.skao.int"
+    K8S_EXTRA_PARAMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
+    TANGO_DATABASE_DS: tango-databaseds
+
+.staging_rules:
+  variables:
+    K8S_INSTALL_FROM_CAR: "true"
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "pipeline"
+      when: never
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+      when: manual
+      allow_failure: true
+    - when: never
+
+deploy-sut-staging:
+  variables:
+    HW_IN_THE_LOOP: "false"
+    PDU_IP: "10.20.2.14"
+    K8S_AUTH_NAMESPACES: "$KUBE_NAMESPACE $KUBE_NAMESPACE_SDP"
+    K8S_AUTH_SERVICE_ACCOUNT: "ci-svc-ska-miditf-$CI_PIPELINE_ID"
+  extends:
+    - .deploy
+    - .staging-env
+  needs:
+    - deploy-sut-integration
+  environment:
+    name: mid-itf/ska-$CONFIG-staging
+    kubernetes:
+      # This repetition is needed for gitlab to parse the namespace correctly
+      namespace: $KUBE_NAMESPACE
+    url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
+    on_stop: destroy-sut-staging
+
+redeploy-sut-staging:
+  variables:
+    HW_IN_THE_LOOP: "false"
+    PDU_IP: "10.20.2.14"
+    K8S_AUTH_NAMESPACES: "$KUBE_NAMESPACE $KUBE_NAMESPACE_SDP"
+    K8S_AUTH_SERVICE_ACCOUNT: "ci-svc-ska-miditf-$CI_PIPELINE_ID"
+  extends:
+    - .redeploy
+    - .staging-env
+  environment:
+    name: mid-itf/ska-$CONFIG-staging
+    kubernetes:
+      # This repetition is needed for gitlab to parse the namespace correctly
+      namespace: $KUBE_NAMESPACE
+    url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
+    on_stop: destroy-sut-staging
+
+info-sut-staging:
+  extends:
+    - .info
+    - .staging-env
+
+destroy-sut-staging:
+  extends:
+    - .cleanup
+    - .staging-env
+  environment:
+    name: mid-itf/ska-$CONFIG-staging
+    kubernetes:
+      # This repetition is needed for gitlab to parse the namespace correctly
+      namespace: $KUBE_NAMESPACE
+    url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
+    action: stop

@@ -1,0 +1,5 @@
+- name: Add team SSH keys
+  ansible.builtin.include_tasks: "setup_ssh_key.yml"
+  loop: "{{ ssh_keys }}"
+  loop_control:
+    loop_var: ssh_key_config

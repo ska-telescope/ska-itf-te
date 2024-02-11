@@ -1,0 +1,25 @@
+- name: Create team groups
+  become: true
+  ansible.builtin.group:
+    name: "{{ item.name }}"
+    state: present
+  loop: "{{ team_groups }}"
+  when: item.create
+
+- name: Ensure shared team directories exist
+  become: true
+  ansible.builtin.file:
+    path: "{{ shared_team_dir }}"
+    state: directory
+    owner: "root"
+    group: "{{ team_primary_group }}"
+    mode: "770"
+
+- name: Ensure team config directories exist
+  become: true
+  ansible.builtin.file:
+    path: "{{ shared_team_config_dir }}"
+    state: directory
+    owner: "root"
+    group: "{{ team_primary_group }}"
+    mode: "770"

@@ -1,0 +1,29 @@
+- name: Find network files
+  ansible.builtin.find:
+    paths: "{{ network_dir }}"
+    patterns:
+      - '*.network'
+  register: find_result
+
+- name: Map network paths
+  ansible.builtin.set_fact:
+    network_paths: "{{ find_result.files | map(attribute='path') | list }}"
+
+- name: Create backup dir
+  ansible.builtin.file:
+    path: "{{ backup_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Update DNS
+  ansible.builtin.include_tasks: "network.yml"
+  loop: "{{ network_paths }}"
+  loop_control:
+    loop_var: network_path
+
+- name: Restart networking
+  ansible.builtin.systemd:
+    state: restarted
+    daemon_reload: true
+    name: systemd-networkd.service
+  become: true

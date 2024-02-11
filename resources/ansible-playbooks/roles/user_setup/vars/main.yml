@@ -1,0 +1,1 @@
+sudoers_file: "/etc/sudoers.d/99-{{ team_name }}-team"

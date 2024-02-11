@@ -1,0 +1,51 @@
+# ##############################################################
+# # Common deployment templates (Copied from Skampi Deployments)
+# ##############################################################
+.on_demand_rules:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "pipeline"
+      when: never
+    - if: $CI_COMMIT_REF_NAME != $CI_DEFAULT_BRANCH
+      when: manual
+      variables:
+        KUBE_NAMESPACE_PREFIX: ci-dish-lmc-
+        KUBE_NAMESPACE_POSTFIX: -$CI_COMMIT_REF_NAME
+      allow_failure: true
+    - when: never
+
+.integration_rules:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "pipeline"
+      when: never
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+      when: manual
+      variables:
+        KUBE_NAMESPACE_PREFIX: dish-lmc-
+      allow_failure: true
+    - when: never
+
+# If the pipeline is being exectued as a downstream, do not lint
+# or build
+
+helm-chart-lint:
+  after_script:
+    - make helm-check-deps
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "pipeline"
+      when: never
+    - exists:
+        - charts/**/*
+
+helm-chart-build:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "pipeline"
+      when: never
+    - exists:
+        - charts/**/*
+
+docs-build:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "pipeline"
+      when: never
+    - exists:
+        - charts/**/*

@@ -18,7 +18,7 @@ import numpy as np
 # Change this to connect to your AWG as needed
 """#################SEARCH/CONNECT#################"""
 rm = pyvisa.ResourceManager('@py')
-awg = rm.open_resource('TCPIP::10.20.7.3::INSTR')
+awg = rm.open_resource('TCPIP::10.165.3.3::INSTR')
 awg.timeout = 25000
 awg.encoding = 'latin_1'
 awg.write_termination = '\n'

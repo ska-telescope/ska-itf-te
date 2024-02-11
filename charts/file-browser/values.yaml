@@ -1,0 +1,50 @@
+---
+# Default values for filestash file browser.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+env:
+  type: dev
+
+nameOverride: ""
+fullnameOverride: ""
+
+imagePullPolicy: IfNotPresent
+
+mounts:
+  configSecret:
+    name: file-browser-config-secret
+    mount: /configSecret
+    dest: config.json
+  appConfig:
+    name: app-config
+    mount: /app/data/state/config
+    dest: config.json
+  setupScript:
+    name: setup-script
+    mount: /scripts
+    source: scripts/setup_config.sh
+    dest: setup_config.sh
+
+fileBrowserPort: &fileBrowserPort 8334
+
+containers:
+  setupConfigs:
+    name: setup-configs
+    image: 
+      name: busybox
+      version: latest
+  fileBrowser:
+    name: file-browser
+    image:
+      name: machines/filestash
+      version: latest
+    port: *fileBrowserPort
+    portName: fp-http
+
+# this file browser service is for the spectrum analyser.
+service:
+  name: spectrum-analyser
+  port: 80
+  targetPort: *fileBrowserPort
+  nodePort: 32003

@@ -1,0 +1,53 @@
+# SPOOKD
+# TODO: We only have a single host defined here because spookd gives
+# validation errors if we have multiple. We need to determine why this
+# is the case so that we don't have a single POF.
+spookd:
+  enabled: true
+  deviceMapping:
+    # TEST EQUIPMENT HARDWARE
+    - hosts:
+        - za-itf-k8s-worker01
+      devices:
+        - resourceName: skao.int/signal-generator-01
+          instanceID: "0001"
+          env:
+            IP: 10.165.3.1
+        - resourceName: skao.int/spectrum-analyser-01
+          instanceID: "0001"
+          env:
+            IP: 10.165.3.4
+            HOSTNAME: "za-itf-spectrum-analyser.ad.skatelescope.org"
+        - resourceName: skao.int/attenuator-01
+          instanceID: "0001"
+          env:
+            IP: 10.165.3.6
+            HOSTNAME: "za-itf-attenuator.ad.skatelescope.org"
+
+    # SUT DEVICES (CORRELATOR)
+    - hosts:
+        - za-itf-cloud03
+      devices:
+        - resourceName: miditf/talondx-1
+          instanceID: "0001"
+          env:
+            IP: 10.165.3.29
+        - resourceName: miditf/talondx-2
+          instanceID: "0001"
+          env:
+            IP: 10.165.3.30
+    # DISH LMC DEVICES
+    - hosts:
+        - za-itf-k8s-worker01 #randomly chosen
+      devices:
+        - resourceName: miditf/spfrx-20
+          instanceID: "0001"
+          env:
+            IP: 10.165.3.20
+    - hosts:
+        - za-itf-cloud03 #randomly chosen
+      devices:
+        - resourceName: miditf/spfrx-21
+          instanceID: "0001"
+          env:
+            IP: 10.165.3.21

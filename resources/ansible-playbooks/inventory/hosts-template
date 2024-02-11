@@ -1,0 +1,26 @@
+# dev server
+[gaia]
+gaia-0 ansible_host=10.165.3.7 host_identifier="Gaia"
+
+# Raspberry Pi
+[raspberry_pi]
+raspberry_pi-4 ansible_host=10.165.3.15 host_identifier="Raspberry Pi"
+
+[talon]
+talon-1 ansible_host=10.165.3.29 host_identifier="Talon 1"
+talon-2 ansible_host=10.165.3.30 host_identifier="Talon 2"
+
+[talon:vars]
+ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p -q <AD_USER>@10.165.3.7"'
+ansible_user=root
+
+[localhost]
+localhost-0 ansible_host=localhost ansible_connection=local host_identifier=Localhost ansible_user="<USER>"
+
+[all:vars]
+ansible_python_interpreter=python3
+ansible_user="<AD_USER>"
+
+# Raspberry Pi SPFC
+[raspberry_pi_spfc]
+raspberry_pi-4-spfc ansible_host=10.165.3.35 host_identifier="Raspberry Pi SPFC"

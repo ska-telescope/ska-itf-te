@@ -1,0 +1,79 @@
+global:
+  facility: mid-itf
+  sub-system:
+    ska-tango-base:
+      enabled: false
+
+ska-tango-base:
+  itango:
+    enabled: true
+
+test-equipment:
+  legacy_compatibility: true
+  enabled: true
+  simulators:
+    enabled: false
+  deviceServers:
+    signalgenerator:
+      devices:
+        - name: smb100a
+          model: SMB100A
+          host: 10.165.3.1
+          port: 5025
+          resources:
+            limits:
+              skao.int/signal-generator-01: "1"
+    progattenuator:
+      devices:
+        - name: rc1dat800030
+          model: RC1DAT800030
+          host: 10.165.3.6
+          port: 45451
+          protocol: telnet
+          resources:
+            limits:
+              skao.int/attenuator-01: "1"
+          # logging_level_default: 4
+    spectrumanalyser:
+      devices: []
+    spectrumanalyseranritsu:
+      devices:
+        - name: ms2090a
+          model: MS2090A
+          host: 10.165.3.4
+          port: 9001
+          protocol: tcp
+          resources:
+            limits:
+              skao.int/spectrum-analyser-01: "1"
+    awg:
+      devices: []
+    sp6t:
+      devices: []
+    spdt:
+      devices: []
+
+# SKYSIMCONTROLLER
+skysimctl:
+  image:
+    registry: registry.gitlab.com/ska-telescope/ska-te-mid-skysimctl
+    image: ska-te-mid-skysimctl
+    tag: 0.1.0
+    pullPolicy: Always
+
+# TARANTA SUITE
+ska-taranta:
+  enabled: true
+  ingress:
+    enabled: true
+    nginx: true
+    # hostname: k8s.stfc.skao.int
+  tangogql:
+    replicas: 1
+    resources:
+      requests:
+        cpu: 600m # 600m = 0.6 CPU
+        memory: 512Mi # 512Mi = 0.5 GB mem
+      limits:
+        cpu: 1000m # 1000m = 1 CPU
+        memory: 1024Mi # 1024Mi = 1 GB mem

@@ -1,0 +1,27 @@
+team_name: karoo
+team_groups:
+  - name: karoo
+    primary: true
+    all: true
+    admin: false
+    create: true
+
+users_dir: ../../../../users/karoo
+
+team_users:
+  - name: a.lethole
+    ssh_key_path: "{{ users_dir }}/a.lethole/.ssh/id_rsa.pub"
+  - name: b.ojur
+    ssh_key_path: "{{ users_dir }}/b.ojur/.ssh/id_rsa.pub"
+  - name: d.petrie
+    ssh_key_path: "{{ users_dir }}/d.petrie/.ssh/id_rsa.pub"
+  - name: j.venter
+    ssh_key_path: "{{ users_dir }}/j.venter/.ssh/id_rsa.pub"
+  - name: p.dube
+    ssh_key_path: "{{ users_dir }}/p.dube/.ssh/id_rsa.pub"
+  - name: s.twum
+    ssh_key_path: "{{ users_dir }}/s.twum/.ssh/id_rsa.pub"
+  - name: u.silere
+    ssh_key_path: "{{ users_dir }}/u.silere/.ssh/id_rsa.pub"
+
+kube_context: karoo-kubernetes

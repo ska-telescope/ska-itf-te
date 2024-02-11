@@ -1,0 +1,199 @@
+# ############################################
+# # System Under Test Deployment and Test jobs
+# ############################################
+.ci-env:
+  tags:
+  - ska-k8srunner-za-itf
+  variables:
+    CONFIG: mid
+    K8S_CHART: "system-under-test"
+    KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
+    KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+    CLUSTER_DOMAIN: "miditf.internal.skao.int"
+    K8S_EXTRA_PARAMS: "--set global.ska-tango-archiver.enabled=true --set ska-tango-archiver.enabled=true --set ska-tango-archiver.dbuser=admin --set ska-tango-archiver.dbpassword=${EDA_DB_PASSWORD} --set ska-tango-archiver.archviewer.instances[0].timescale_login=admin:${EDA_DB_PASSWORD} --set ska-tango-archiver.archviewer.instances[0].timescale_databases=itf_eda --set ska-tango-archiver.archviewer.instances[0].timescale_host=10.164.11.33 --set ska-tango-archiver.archviewer.instances[0].name=mid"
+    CLUSTER_DOMAIN_POSTFIX: miditf.internal.skao.int
+    DISH_IDS: "SKA001 SKA036 SKA063 SKA100"
+    KUBE_APP: ska-mid-sut
+    INGRESS_HOST: "k8s.miditf.internal.skao.int"
+    TANGO_DATABASE_DS: tango-databaseds
+
+.on-demand-stage:
+  stage: on_demand_itf_sut
+
+deploy-sut-on-demand:
+  variables:
+    ARCHIVER_DBNAME: '${CONFIG}_archiver_db_${CI_COMMIT_REF_SLUG}'
+    HELM_RELEASE: sut
+    HW_IN_THE_LOOP: 'false'
+    K8S_AUTH_NAMESPACES: $KUBE_NAMESPACE $KUBE_NAMESPACE_SDP
+    K8S_AUTH_SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_PIPELINE_ID
+    PDU_IP: 10.20.2.14
+    SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_COMMIT_REF_NAME
+  extends:
+    - .deploy
+    - .ci-env
+    - .on_demand_rules
+    - .on-demand-stage
+  environment:
+    name: mid-itf/ska-$CONFIG-$CI_COMMIT_REF_SLUG
+    kubernetes:
+      # This repetition is needed for gitlab to parse the namespace correctly
+      namespace: $KUBE_NAMESPACE
+    url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
+    on_stop: destroy-sut-on-demand
+
+redeploy-sut-on-demand:
+  variables:
+    ARCHIVER_DBNAME: '${CONFIG}_archiver_db_${CI_COMMIT_REF_SLUG}'
+    HELM_RELEASE: sut
+    HW_IN_THE_LOOP: 'false'
+    K8S_AUTH_NAMESPACES: $KUBE_NAMESPACE $KUBE_NAMESPACE_SDP
+    K8S_AUTH_SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_PIPELINE_ID
+    PDU_IP: 10.20.2.14
+    SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_COMMIT_REF_NAME
+  extends:
+    - .redeploy
+    - .ci-env
+    - .on_demand_rules
+    - .on-demand-stage
+  environment:
+    name: mid-itf/ska-$CONFIG-$CI_COMMIT_REF_SLUG
+    kubernetes:
+      # This repetition is needed for gitlab to parse the namespace correctly
+      namespace: $KUBE_NAMESPACE
+    url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
+    on_stop: destroy-sut-on-demand
+
+info-sut-on-demand:
+  variables:
+    HELM_RELEASE: sut
+    SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_COMMIT_REF_NAME
+  extends:
+    - .info
+    - .ci-env
+    - .on_demand_rules
+    - .on-demand-stage
+
+destroy-sut-on-demand:
+  variables:
+    HELM_RELEASE: sut
+    SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_COMMIT_REF_NAME
+  extends:
+    - .cleanup
+    - .ci-env
+    - .on_demand_rules
+    - .on-demand-stage
+  environment:
+    name: mid-itf/ska-$CONFIG-$CI_COMMIT_REF_SLUG
+    kubernetes:
+      # This repetition is needed for gitlab to parse the namespace correctly
+      namespace: $KUBE_NAMESPACE
+    url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
+    action: stop
+
+k8s-test-runner:
+  tags:
+    - ska-k8srunner-za-itf
+  allow_failure: false
+  artifacts:
+    name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID"
+    paths:
+      - "build/"
+  extends:
+    - .ci-env
+  before_script:
+    - make vars
+    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
+    - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
+    - "make help | grep k8s-test"
+    - bash .make/resources/gitlab_section.sh poetry "Poetry Install" poetry install
+    - bash .make/resources/gitlab_section.sh namespaces "Create namespaces" make sut-namespaces
+    - bash .make/resources/gitlab_section.sh install "K8S Install" make k8s-install-chart
+    - bash .make/resources/gitlab_section.sh wait "K8S wait" make k8s-wait
+    - make itf-cbf-setup --dry
+  script:
+    - make integration-test TANGO_HOST=$TANGO_DATABASE_DS.$KUBE_NAMESPACE.svc.$CLUSTER_DOMAIN:10000 || true
+    - echo "Test command exit code - $(cat build/status)"
+    - |
+      if [[ 0 == "$(cat build/status)" || "$REMOVE_FAILED_TEST_DEPLOYMENT" == "true" ]]; then
+        make remove-sut-deployment
+      else
+        echo "#####################################################################################"
+        echo "# NOTE: this deployment will persist for about 2 hours, for investigation purposes. #"
+        echo "#####################################################################################"
+        bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
+        make links
+      fi
+    - '[ -f build/status ] || (echo "Something went wrong with the test (no build/status file); exit 1")'
+    - exit $(cat build/status)
+  variables:
+    DEBUG_ENTRYPOINT: "True"
+    DEBUG_ENTRYPOINT_EXTENDED: "True"
+    LIVE_LOGGING_EXTENDED: "True"
+    SHOW_STEP_FUNCTIONS: "True"
+    CAPTURE_LOGS: "True"
+    EXIT_AT_FAIL: "True"
+    REMOVE_FAILED_TEST_DEPLOYMENT: "true"
+
+stop-k8s-test-runner:
+  tags:
+    - ska-k8srunner-za-itf
+  script:
+    - make remove-sut-deployment
+  extends:
+    - .ci-env
+  when: manual
+  variables:
+    KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+
+publish-k8s-test-results:
+  stage: publish
+  needs:
+    - k8s-test-runner
+    - xray-publish
+  tags:
+    - ska-k8srunner-za-itf
+  artifacts:
+    name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID"
+    paths:
+      - "build/"
+  extends:
+    - .ci-env
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "pipeline"
+      when: never
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+      when: always
+    - when: never
+  script:
+    - echo "Test result code from k8s-test-runner job was $(cat build/status)"
+    - poetry install
+    - make upload-to-confluence
+
+
+# ############################################
+# # Dish Strcuture Simulator related CICD jobs
+# ############################################
+deploy-aa05-ds-sim:
+  extends:
+    - .ci-env
+    - .on-demand-stage
+  script:
+    - echo "Deploying multiple dish structure simulators in downstream dish-aiv stage - first deploy ska001 manually"
+    - echo "Deploying 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
+  environment:
+    name: mid-itf/integration/dish-structure-simulator-aa05
+    on_stop: remove-aa05-ds-sim
+  when: manual
+
+remove-aa05-ds-sim:
+  extends:
+    - .ci-env
+    - .on-demand-stage
+  script:
+    - echo "Uninstalling all dish structure simulators in downstream dish-aiv stage"
+    - echo "Uninstalling 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
+  environment:
+    name: mid-itf/integration/dish-structure-simulator-aa05
+    action: stop
+  when: manual

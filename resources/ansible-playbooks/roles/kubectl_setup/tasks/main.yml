@@ -1,0 +1,28 @@
+- name: Upload & install kubectl aliases
+  become: true
+  ansible.builtin.template:
+    src: kubectl_aliases.sh.j2
+    dest: /etc/profile.d/99-kubectl-aliases.sh
+    owner: "root"
+    group: "root"
+    mode: "755"
+
+- name: Upload & install kubeconfig admin script
+  become: true
+  ansible.builtin.template:
+    src: kubeconfig_setup_admin.sh.j2
+    dest: /etc/profile.d/99-{{ team_name }}-1-kubeconfig.sh
+    owner: "root"
+    group: "root"
+    mode: "755"
+  when: has_team_admin_group
+
+- name: Upload & install kubeconfig script
+  become: true
+  ansible.builtin.template:
+    src: kubeconfig_setup.sh.j2
+    dest: /etc/profile.d/99-{{ team_name }}-1-kubeconfig.sh
+    owner: "root"
+    group: "root"
+    mode: "755"
+  when: not has_team_admin_group

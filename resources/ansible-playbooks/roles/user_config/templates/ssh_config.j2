@@ -1,0 +1,9 @@
+{% for item in all_hosts %}
+    {% if item.name not in group_names %}
+Host {{ item.name }}
+    HostName {{ item.ip }}   
+    User {{ current_user }}
+    ForwardAgent yes
+    {% endif %}
+
+{% endfor %}

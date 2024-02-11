@@ -23,12 +23,12 @@ def setup(app):
 
 # -- Project information -----------------------------------------------------
 
-project = "ska-cicd-deploy-mid-itf"
-copyright = "SKAO"
-author = "Adriaan de Beer, adebeer@sarao.ac.za"
+project = "SKA Mid ITF Tests"
+copyright = "Adriaan de Beer, adebeer@sarao.ac.za"
+author = "ATLAS Team"
 
 # The full version, including alpha/beta/rc tags
-release = "0.1.0"
+release = '0.1.1'
 
 # -- General configuration ---------------------------------------------------
 
@@ -47,6 +47,7 @@ extensions = [
     "sphinx.ext.viewcode",
     "sphinx.ext.githubpages",
     "recommonmark",
+    "sphinx.ext.autosectionlabel",
 ]
 
 
