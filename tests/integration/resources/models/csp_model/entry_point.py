@@ -83,6 +83,32 @@ class StartUpStep(base.StartUpStep, LogEnabled, WithCommandID):
         :raises CommandException: when the command returned as failed
         """
         assert self.long_running_command_subscriber
+        dish_cfg = {
+            "interface": "https://schema.skao.int/ska-mid-cbf-initsysparam/1.0",
+            "dish_parameters": {
+                "SKA001": {
+                    "vcc": 1,
+                    "k": 11,
+                },
+                "SKA036": {
+                    "vcc": 2,
+                    "k": 101,
+                },
+                "SKA063": {
+                    "vcc": 3,
+                    "k": 1127,
+                },
+                "SKA100": {
+                    "vcc": 4,
+                    "k": 620,
+                },
+            },
+        }
+        load_cfg_id = self.csp_controller.command_inout("loadDishCfg", json.dumps(dish_cfg))
+        if not command_success(load_cfg_id):
+            self.long_running_command_subscriber.unsubscribe_all()
+            raise CommandException(load_cfg_id)
+
         command_id = self.csp_controller.command_inout("On", [])
         if command_success(command_id):
             self.long_running_command_subscriber.set_command_id(command_id)
