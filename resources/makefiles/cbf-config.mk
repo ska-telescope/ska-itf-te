@@ -82,11 +82,11 @@ itf-cbf-config-tangodb: ## Configure Deviceservers in the TangoDB
 ## SYNOPSIS: make itf-cbf-power-on
 ## HOOKS: none
 ## VARS: 
-##	KUBE_NAMESPACE=[kubernetes namespace where MCS is deployed] (default value: integration)
-##  CLUSTER_DOMAIN=[domain of the cluster where the MCS is running] (default value: miditf.internal.skao.int)
-##  make target for switching on all the TalonDx' under control of the CSP.LMC
+##	HW_CONFIG_FILE_PATH=[scripts path] (default value: resources/talon)
+##	LRU_INDEX=[lru index paramter] (default value: lru1)
+##  make target for switching on the TalonDx using the PDU's SSH terminal via the APC bash script from CIPA Team
 
-itf-cbf-power-on:
+itf-cbf-power-on: # APC scripts to power on the TalonDx
 	@[[ -f  $(HW_CONFIG_FILE_PATH)/talon_power_apc.sh ]] || exit 404;
 	@cd $(HW_CONFIG_FILE_PATH) && ./talon_power_apc.sh $(LRU_INDEX) on
 
