@@ -11,12 +11,12 @@ dependencies:
     version: 0.4.9
     repository: https://artefact.skao.int/repository/helm-internal
   - name: ska-tango-util
-    version: 0.4.9
+    version: 0.4.10
     repository: https://artefact.skao.int/repository/helm-internal
 
   # SKA Mid TMC
   - name: ska-tmc-mid
-    version: 0.15.3 # check latest version
+    version: 0.15.6 # check latest version
     repository: https://artefact.skao.int/repository/helm-internal
     alias: tmc
     condition: tmc.enabled
@@ -40,8 +40,8 @@ dependencies:
     alias: cbf-tmleafnode
     condition: cbf-mcs.enabled
 
-  # SKA Mid SDP 
-  # 
+  # SKA Mid SDP
+  #
   - name: ska-sdp
     version: 0.18.1
     repository: https://artefact.skao.int/repository/helm-internal
