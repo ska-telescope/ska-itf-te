@@ -74,8 +74,6 @@ def check_alarms(device1, device2):
     tango_device2 = con_config.get_device_proxy(device2)
     device1_result = tango_device1.read_attribute("telescopehealthState").value
     device2_result = tango_device2.read_attribute("healthState").value
-    logging.info(device1_result)
-    logging.info(device2_result)
     assert_that(device1_result).is_equal_to(HealthState.UNKNOWN)
     assert_that(device2_result).is_equal_to(HealthState.UNKNOWN)
 

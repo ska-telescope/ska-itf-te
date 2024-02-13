@@ -43,6 +43,7 @@ def check_configured_tag(response_data, tag_name):
             data={"fqdn": "alarm/handler/01"},
         )
         response_data.response = add_api_response.json()
+        logging.info(response_data.response)
         assert len(response_data.response["alarm_summary"]["tag"]) == 1
         assert response_data.response["alarm_summary"]["tag"] == [tag_name]
 
