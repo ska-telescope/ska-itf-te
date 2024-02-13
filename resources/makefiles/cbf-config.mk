@@ -100,7 +100,7 @@ itf-cbf-power-on: # APC scripts to power on the TalonDx
 
 itf-cbf-tango-on:
 	@export TANGO_HOST=tango-databaseds.$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN):10000 && \
-	cd /app && poetry run python3 -m src.ska_mid_itf_engineering_tools.talon_on
+	talon_on
 
 ## TARGET: itf-cbf-setup
 ## SYNOPSIS: make itf-cbf-setup

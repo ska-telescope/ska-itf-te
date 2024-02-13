@@ -1,5 +1,5 @@
 # run the dockerfile
-docker run -it -e CI_COMMIT_SHA=$(git rev-parse --short HEAD) --env-file PrivateRules.mak registry.gitlab.com/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools:0.1.5
+docker run test -it -e CI_COMMIT_SHA=$(git rev-parse --short HEAD) --env-file PrivateRules.mak registry.gitlab.com/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools:0.1.6
 
 # git clone (to mimic the pipeline start)
 mkdir /build && mkdir /build/ska-telescope && cd /build/ska-telescope 
