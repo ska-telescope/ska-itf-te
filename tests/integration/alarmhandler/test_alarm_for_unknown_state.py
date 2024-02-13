@@ -1,4 +1,4 @@
-"""load and acknowledge the configured alarms."""
+"""Configure and raise alarm."""
 import logging
 import os
 
@@ -19,7 +19,12 @@ logger = logging.getLogger(__name__)
 @pytest.mark.skamid
 @scenario("features/configure_unknown_state_alarm.feature", "Configure Alarm for UNKNOWN State")
 def test_tmc_alarm_for_state_unknown():
-    """Configure and raise alarms."""
+    """Configure and raise alarms.
+
+    This test case is based on real scenario when some devices are not present
+    in this case its DishMasters.
+    when all are available this scenario might not be the case.
+    """
 
 
 # given
@@ -60,12 +65,16 @@ def configure_alarm_state(response_data, device_name, state_value):
         ]
 
 
+# This test case is based on real scenario when some devices are not present
+# in this case its Dish Masters.
+# when all devices are available this scenario might not be the same.
 @when("telescope remains in UNKNOWN state for long")
 def check_alarms():
     """Check telescope in UNKNOWN."""
     tel = names.TEL()
     central_node = con_config.get_device_proxy(tel.tm.central_node)
     result = central_node.read_attribute("telescopeState").value
+    # If the dish is deployed the value will not be UNKNOWN
     assert_that(str(result)).is_equal_to("UNKNOWN")
 
 
@@ -78,6 +87,7 @@ def check_alarm_state(response_data, state_value):
     """
     alarm_handler = DeviceProxy("alarm/handler/01")
     brd = get_message_board_builder()
+    # If the dish is deployed the alarm will not be raised
     brd.set_waiting_on("alarm/handler/01").for_attribute("alarmUnacknowledged").to_become_equal_to(
         (f"centralnode_telescopestate_{state_value.lower()}",)
     )
