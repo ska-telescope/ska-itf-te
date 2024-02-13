@@ -2,7 +2,8 @@
 deploy-taranta:
   stage: platform
   tags:
-    - ska-k8srunner-za-itf
+    - k8srunner-za-itf-dishlmc-ska001
+#    - ska-k8srunner-za-itf
   variables:
     KUBE_NAMESPACE: taranta
     KUBE_APP: ska-taranta-backend
