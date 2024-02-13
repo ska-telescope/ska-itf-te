@@ -91,6 +91,10 @@ sdp:
 ska-log-consumer:
   enabled: false
 
+# SKA Tango AlarmHandler
+ska-tango-alarmhandler:
+  enabled: true
+
 # EDA
 ska-tango-archiver:
   hostname: eda.ska-tango-archiver
