@@ -38,9 +38,9 @@ def check_configured_tag(response_data, tag_name):
     with open(file_path, "rb") as file:
         add_api_response = httpx.post(
             f"http://alarm-handler-configurator.{namespace}.svc.miditf.internal.skao.int"
-            + ":8004/add-alarms?fqdn=alarm%2Fhandler%2F01",
+            + ":8004/add-alarms?trl=alarm%2Fhandler%2F01",
             files={"file": ("alarm_rule1.txt", file, "text/plain")},
-            data={"fqdn": "alarm/handler/01"},
+            data={"trl": "alarm/handler/01"},
         )
         response_data.response = add_api_response.json()
         logging.info(response_data.response)
@@ -58,10 +58,10 @@ def remove_alarms_api(response_data, tag_name):
     remove_api_response = httpx.post(
         f"http://alarm-handler-configurator.{namespace}.svc.miditf.internal.skao.int"
         + f":8004/remove-alarm?tag={tag_name}&"
-        + "alarmhandlerfqdn=alarm%2Fhandler%2F01",
+        + "alarm_handler_trl=alarm%2Fhandler%2F01",
         data={
             "tag": tag_name,
-            "alarmhandlerfqdn": "alarm/handler/01",
+            "alarm_handler_trl": "alarm/handler/01",
         },
     )
     response_data.response = remove_api_response.json()

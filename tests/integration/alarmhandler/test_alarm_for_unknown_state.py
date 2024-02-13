@@ -49,9 +49,9 @@ def configure_alarm_state(response_data, device_name, state_value):
     with open(file_path, "rb") as file:
         add_api_response = httpx.post(
             f"http://alarm-handler-configurator.{namespace}.svc.miditf.internal.skao.int"
-            + ":8004/add-alarms?fqdn=alarm%2Fhandler%2F01",
+            + ":8004/add-alarms?trl=alarm%2Fhandler%2F01",
             files={"file": ("alarm_rule_state_unknown.txt", file, "text/plain")},
-            data={"fqdn": "alarm/handler/01"},
+            data={"trl": "alarm/handler/01"},
         )
         response_data.response = add_api_response.json()
         assert len(response_data.response["alarm_summary"]["tag"]) == 1

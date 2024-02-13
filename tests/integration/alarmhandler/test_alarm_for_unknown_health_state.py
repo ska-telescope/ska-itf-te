@@ -53,9 +53,9 @@ def configure_alarm_healthstate(response_data, device1, device2):
     with open(file_path, "rb") as file:
         add_api_response = httpx.post(
             f"http://alarm-handler-configurator.{namespace}.svc.miditf.internal.skao.int"
-            + ":8004/add-alarms?fqdn=alarm%2Fhandler%2F01",
+            + ":8004/add-alarms?trl=alarm%2Fhandler%2F01",
             files={"file": ("alarm_rule_healthstate_unknown.txt", file, "text/plain")},
-            data={"fqdn": "alarm/handler/01"},
+            data={"trl": "alarm/handler/01"},
         )
         response_data.response = add_api_response.json()
         assert len(response_data.response["alarm_summary"]["tag"]) == 1
@@ -90,5 +90,7 @@ def check_alarm_state(response_data):
     brd.set_waiting_on("alarm/handler/01").for_attribute("alarmUnacknowledged").to_become_equal_to(
         alarm_tag,
     )
+    device_val = alarm_handler.read_attribute("alarmUnacknowledged").value
+    logging.info(device_val)
     # acknowledge the alarm
     alarm_handler.Ack(alarm_tag)

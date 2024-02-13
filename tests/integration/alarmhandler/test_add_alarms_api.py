@@ -42,9 +42,9 @@ def add_alarms_api(response_data, alarm_rule_file):
     with open(file_path, "rb") as file:
         add_api_response = httpx.post(
             f"http://alarm-handler-configurator.{namespace}.svc.miditf.internal.skao.int"
-            + ":8004/add-alarms?fqdn=alarm%2Fhandler%2F01",
+            + ":8004/add-alarms?trl=alarm%2Fhandler%2F01",
             files={"file": (alarm_rule_file, file, "text/plain")},
-            data={"fqdn": "alarm/handler/01"},
+            data={"trl": "alarm/handler/01"},
         )
         response_data.response = add_api_response.json()
 
