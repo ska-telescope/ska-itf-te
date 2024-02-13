@@ -12,4 +12,4 @@ deploy-taranta:
   script:
     - make k8s-install-chart
   extends:
-    - .integration_rules
+    - .on_demand_rules
