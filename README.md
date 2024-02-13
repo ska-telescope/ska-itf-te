@@ -188,3 +188,9 @@ FQDN: za-itf-signal-generator.ad.skatelescope.org
 IP  : 10.165.3.1
 Port: 5025
 Web : http://za-itf-signal-generator.ad.skatelescope.org/webpages/web/html/ihp.php
+
+## Alarm Handler in ITF
+
+### Alarm Configurator tool 
+
+For alarm handler user guide documentation refer this [user guide](https://confluence.skatelescope.org/display/UD/Alarm+Configuration/) 
