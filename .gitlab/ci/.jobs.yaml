@@ -30,16 +30,16 @@
     - bash .make/resources/gitlab_section.sh wait-ns "Wait namespace resources" make k8s-wait
     - |
       if [ "$HW_IN_THE_LOOP" == "true" ]; then
-        make itf-cbf-setup --dry
-        make itf-cbf-talonlru-status
-        bash .make/resources/gitlab_section.sh talon_off "Switch off Talon" make itf-cbf-talonlru-off
-        bash .make/resources/gitlab_section.sh talon_config "Configure Talon(s)" make itf-cbf-config-talon
-        bash .make/resources/gitlab_section.sh mcs_config "Configure MCS" make itf-cbf-config-mcs
-        bash .make/resources/gitlab_section.sh talon_download_tangocpp_ds "Download CPP Tango device server updates" make itf-cbf-tangocpp-update &> deploy/talonconfig.log
-        bash .make/resources/gitlab_section.sh talon_config_tangodb "Configure TangoDB with device servers" make itf-cbf-config-tangodb
-        bash .make/resources/gitlab_section.sh talon_on "Switch ON the Talons" make itf-cbf-tango-on || cat /app/src/ska_mid_itf_engineering_tools/talon_on.py && make itf-cbf-power-on && echo "###############\n# Failed to deploy Talon Demonstrator Correlator\n###############" >> deploy/status
-        if [ -f deploy/status ]; then cat deploy/status; fi
+        make itf-cbf-setup --dry && sleep 3;
+        make itf-cbf-talonlru-status && sleep 3;
+        bash .make/resources/gitlab_section.sh talon_off "Switch off Talon" make itf-cbf-talonlru-off && sleep 3;
+        bash .make/resources/gitlab_section.sh talon_config "Configure Talon(s)" make itf-cbf-config-talon && sleep 3;
+        bash .make/resources/gitlab_section.sh mcs_config "Configure MCS" make itf-cbf-config-mcs && sleep 3;
+        bash .make/resources/gitlab_section.sh talon_download_tangocpp_ds "Download CPP Tango device server updates" make itf-cbf-tangocpp-update &> deploy/talonconfig.log && sleep 3;
+        bash .make/resources/gitlab_section.sh talon_config_tangodb "Configure TangoDB with device servers" make itf-cbf-config-tangodb && sleep 3;
+        bash .make/resources/gitlab_section.sh talon_on "Switch ON the Talons" make itf-cbf-tango-on || cat /app/src/ska_mid_itf_engineering_tools/cbf_config/talon_on.py && make itf-cbf-power-on && echo "###############\n# Failed to deploy Talon Demonstrator Correlator\n###############" > deploy/status
       fi
+    - if [ -f deploy/status ]; then cat deploy/status; fi
   after_script:
     - bash .make/resources/gitlab_section.sh template "Template Chart" make k8s-template-chart-with-build-artifacts
     - make links
