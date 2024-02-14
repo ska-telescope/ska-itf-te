@@ -31,6 +31,8 @@ poetry run python3 -m src.ska_mid_itf_engineering_tools.talon_on
 kubectl cp ${MCS_CONFIG_FILE_PATH}/hw_config.yaml ${KUBE_NAMESPACE}/ds-cbfcontroller-controller-0:/app/mnt/hw_config/hw_config.yaml
 
 # Gitlab steps for local container execution
+make k8s-install-chart
+make k8s-wait
 make itf-cbf-talonlru-off && sleep 3
 make itf-cbf-config-talon && sleep 3
 make itf-cbf-config-mcs && sleep 3
