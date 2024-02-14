@@ -12,7 +12,7 @@ global:
   facility: mid-itf
   operator: true
   exposeAllDS: true
-  data-product-pvc-name: shared-mnl
+  data-product-pvc-name: test-pvc
   sub-system:
     ska-tango-base:
       enabled: false
@@ -81,8 +81,8 @@ sdp:
     nsubarray: 3
   data-pvc:
     create:
-      enabled: false
-      size: 2Ti
+      enabled: true
+      size: 20Gi
       storageClassName: nfss1
   ska-tango-base:
     enabled: false
@@ -90,10 +90,6 @@ sdp:
 # helpers
 ska-log-consumer:
   enabled: false
-
-# SKA Tango AlarmHandler
-ska-tango-alarmhandler:
-  enabled: true
 
 # EDA
 ska-tango-archiver:
