@@ -1,9 +1,6 @@
-ska-tango-archiver: # FIXME: also see global section
-  enabled: false
-
 global:
   ska-tango-archiver:
-    enabled: false
+    enabled: true
   # Used by TMC dishleafnode for Dish LMC device identifier triplet.
   # The TMC centralnode's values are hardocoded at the moment.
   dish_suffix: "elt/master"
@@ -12,7 +9,7 @@ global:
   facility: mid-itf
   operator: true
   exposeAllDS: true
-  data-product-pvc-name: test-pvc
+  data-product-pvc-name: shared-mnl
   sub-system:
     ska-tango-base:
       enabled: false
@@ -81,9 +78,7 @@ sdp:
     nsubarray: 3
   data-pvc:
     create:
-      enabled: true
-      size: 20Gi
-      storageClassName: nfss1
+      enabled: false
   ska-tango-base:
     enabled: false
 
@@ -93,6 +88,7 @@ ska-log-consumer:
 
 # EDA
 ska-tango-archiver:
+  enabled: true
   hostname: eda.ska-tango-archiver
   dbname: itf_eda
   dbuser: admin
