@@ -14,6 +14,10 @@
       namespace: $KUBE_NAMESPACE
     url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
   when: manual
+  artifacts:
+    name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID"
+    paths:
+      - "build/"
 
 .dpd-on-demand:
   extends:
