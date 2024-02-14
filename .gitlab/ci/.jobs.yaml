@@ -37,7 +37,6 @@
         bash .make/resources/gitlab_section.sh mcs_config "Configure MCS" make itf-cbf-config-mcs
         bash .make/resources/gitlab_section.sh talon_download_tangocpp_ds "Download CPP Tango device server updates" make itf-cbf-tangocpp-update &> deploy/talonconfig.log
         bash .make/resources/gitlab_section.sh talon_config_tangodb "Configure TangoDB with device servers" make itf-cbf-config-tangodb
-        bash .make/resources/gitlab_section.sh talon_on "Switch ON the Talons" make itf-cbf-talon-on || cat /app/src/ska_mid_itf_engineering_tools/talon_on.py || ll && exit 1
       fi
   after_script:
     - bash .make/resources/gitlab_section.sh template "Template Chart" make k8s-template-chart-with-build-artifacts
