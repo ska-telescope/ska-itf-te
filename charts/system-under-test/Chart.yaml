@@ -8,15 +8,15 @@ icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_201
 dependencies:
   # Tango Base & Deployment Charts: TangoDB, iTango, Tango Operator Utils
   - name: ska-tango-base
-    version: 0.4.7
+    version: 0.4.9
     repository: https://artefact.skao.int/repository/helm-internal
   - name: ska-tango-util
-    version: 0.4.7
+    version: 0.4.9
     repository: https://artefact.skao.int/repository/helm-internal
 
   # SKA Mid TMC
   - name: ska-tmc-mid
-    version: 0.15.5 # check latest version
+    version: 0.15.7 # check latest version
     repository: https://artefact.skao.int/repository/helm-internal
     alias: tmc
     condition: tmc.enabled
