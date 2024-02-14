@@ -14,6 +14,18 @@ dependencies:
     version: 0.4.9
     repository: https://artefact.skao.int/repository/helm-internal
 
+  # SKA Mid CBF
+  - name: ska-mid-cbf-mcs
+    version: 0.12.18
+    repository: https://artefact.skao.int/repository/helm-internal
+    alias: cbf-mcs
+    condition: cbf-mcs.enabled
+  - name: ska-mid-cbf-tmleafnode
+    version: 0.12.15 # Keep same as CBF-MCS - this is a TMC surrogate
+    repository: https://artefact.skao.int/repository/helm-internal
+    alias: cbf-tmleafnode
+    condition: cbf-tmleafnode.enabled
+
   # SKA Mid TMC
   - name: ska-tmc-mid
     version: 0.15.7 # check latest version
@@ -27,18 +39,6 @@ dependencies:
     repository: https://artefact.skao.int/repository/helm-internal
     alias: csp-lmc
     condition: csp-lmc.enabled
-
-  # SKA Mid CBF
-  - name: ska-mid-cbf-mcs
-    version: 0.12.18
-    repository: https://artefact.skao.int/repository/helm-internal
-    alias: cbf-mcs
-    condition: cbf-mcs.enabled
-  - name: ska-mid-cbf-tmleafnode
-    version: 0.12.15 # Keep same as CBF-MCS - this is a TMC surrogate
-    repository: https://artefact.skao.int/repository/helm-internal
-    alias: cbf-tmleafnode
-    condition: cbf-tmleafnode.enabled
 
   # SKA Mid SDP
   - name: ska-sdp
