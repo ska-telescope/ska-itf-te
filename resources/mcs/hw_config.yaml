@@ -11,7 +11,7 @@ talon_lru:
     TalonDxBoard2: "002"
 power_switch:
   "001":
-    PowerSwitchModel: "APC AP8681"
+    PowerSwitchModel: "APC AP8681 SNMP"
     PowerSwitchIp: "10.20.2.14"
-    PowerSwitchLogin: "apc"
-    PowerSwitchPassword: "apc"
+    PowerSwitchLogin: "apcsnmp"
+    PowerSwitchPassword: "itfapcsnmp"
