@@ -1,6 +1,6 @@
 ### TARANTA DEPLOYMENT
 deploy-taranta:
-  stage: platform
+  stage: on_demand_itf_sut
   tags:
     - k8srunner-za-itf-dishlmc-ska001
 #    - ska-k8srunner-za-itf
@@ -9,7 +9,15 @@ deploy-taranta:
     KUBE_APP: ska-taranta-backend
     HELM_RELEASE: taranta
     K8S_CHART: taranta-itf
+    CLUSTER_DOMAIN: za-dish-lmc.skao.int
   script:
     - make k8s-install-chart
+    - make k8s-wait
+  after_script:
+    - bash .make/resources/gitlab_section.sh template "Template Chart" make k8s-template-chart-with-build-artifacts
+  artifacts:
+    name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID"
+    paths:
+      - "build/"
   extends:
     - .on_demand_rules
