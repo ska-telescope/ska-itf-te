@@ -9,7 +9,7 @@ global:
   facility: mid-itf
   operator: true
   exposeAllDS: true
-  data-product-pvc-name: shared-mnl
+  data-product-pvc-name: test-pvc
   sub-system:
     ska-tango-base:
       enabled: false

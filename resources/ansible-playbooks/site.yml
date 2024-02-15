@@ -26,7 +26,6 @@
     - role: user_setup
       vars:
         # We don't create users on Gaia, just make sure they are in the required groups
-        createusers: true
         add_to_groups: true
         removeusers: true
     - role: ssh_keys

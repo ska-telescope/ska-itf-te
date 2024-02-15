@@ -6,4 +6,4 @@ ska-sdp-dataproduct-dashboard:
     create:
       enabled: true
       size: 2Ti
-      storageClassName: nfss1
+      storageClassName: ceph-cephfs
