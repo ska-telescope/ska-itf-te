@@ -9,6 +9,7 @@ variables:
   DEPLOYMENT_CONFIGURATION: "ska-$CONFIG"
   POETRY_CONFIG_VIRTUALENVS_CREATE: "true"
   DEPLOY_IMAGE: $CI_REGISTRY/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools:0.1.9
+  MCS_CONFIG_FILE_PATH: resources/mcs
 
   # PYTEST_SUBSYS_MARK: (csp_startup or sdp or eda)
   # K8S_INSTALL_FROM_CAR: "false"remove redundant cache
