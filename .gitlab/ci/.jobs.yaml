@@ -37,7 +37,7 @@
         bash .make/resources/gitlab_section.sh mcs_config "Configure MCS" make itf-cbf-config-mcs && sleep 3;
         bash .make/resources/gitlab_section.sh talon_download_tangocpp_ds "Download CPP Tango device server updates" make itf-cbf-tangocpp-update &> deploy/talonconfig.log && sleep 3;
         bash .make/resources/gitlab_section.sh talon_config_tangodb "Configure TangoDB with device servers" make itf-cbf-config-tangodb && sleep 3;
-        bash .make/resources/gitlab_section.sh talon_on "Switch ON the Talons" make itf-cbf-tango-on || cat /app/src/ska_mid_itf_engineering_tools/cbf_config/talon_on.py && make itf-cbf-power-on && echo "###############\n# Failed to deploy Talon Demonstrator Correlator\n###############" > deploy/status
+        bash .make/resources/gitlab_section.sh talon_on "Switch ON the Talons" make itf-cbf-tango-on || (cat /app/src/ska_mid_itf_engineering_tools/cbf_config/talon_on.py && make itf-cbf-power-on && echo "###############\n# Failed to deploy Talon Demonstrator Correlator\n###############" > deploy/status)
       fi
     - if [ -f deploy/status ]; then cat deploy/status; fi
   after_script:
