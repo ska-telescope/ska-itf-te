@@ -1,4 +1,5 @@
 """Domain logic for the csp."""
+
 import json
 import logging
 import os
@@ -83,6 +84,39 @@ class StartUpStep(base.StartUpStep, LogEnabled, WithCommandID):
         :raises CommandException: when the command returned as failed
         """
         assert self.long_running_command_subscriber
+        # dish_cfg = {
+        #    "interface": "https://schema.skao.int/ska-mid-cbf-initsysparam/1.0",
+        #    "tm_data_sources":
+        # ["car://gitlab.com/ska-telescope/ska-telmodel-data?ska-sdp-tmlite-repository-1.0.0#tmdata"],
+        #    "tm_data_filepath": "instrument/ska1_mid_itf/ska-mid-cbf-system-parameters.json",
+        # }
+        dish_cfg = {
+            "interface": "https://schema.skao.int/ska-mid-cbf-initsysparam/1.0",
+            "dish_parameters": {
+                "SKA001": {
+                    "vcc": 1,
+                    "k": 111,
+                },
+                "SKA036": {
+                    "vcc": 2,
+                    "k": 222,
+                },
+                "SKA063": {
+                    "vcc": 3,
+                    "k": 333,
+                },
+                "SKA100": {
+                    "vcc": 4,
+                    "k": 444,
+                },
+            },
+        }
+
+        load_cfg_id = self.csp_controller.command_inout("loadDishCfg", json.dumps(dish_cfg))
+        if not command_success(load_cfg_id):
+            self.long_running_command_subscriber.unsubscribe_all()
+            raise CommandException(load_cfg_id)
+
         command_id = self.csp_controller.command_inout("On", [])
         if command_success(command_id):
             self.long_running_command_subscriber.set_command_id(command_id)
