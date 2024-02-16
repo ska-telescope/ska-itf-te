@@ -48,7 +48,7 @@ itf-cbf-config-talon: ## generate talondx-config.json
 ##      KUBE_NAMESPACE=[kubernetes namespace where MCS is deployed] (default value: integration)
 ##  make target for configuring the MCS
 
-itf-cbf-config-mcs: ## Copy the init sys params into the bite pod, copy the vcc gains json for band1 into the pod
+itf-cbf-config-mcs: itf-cbf-copy-hw-config ## Copy the init sys params into the bite pod, copy the vcc gains json for band1 into the pod
 	@kubectl -n $(KUBE_NAMESPACE) exec ec-bite -- /bin/bash -c "mkdir -p ext_config"
 	@kubectl cp $(MCS_CONFIG_FILE_PATH)/init_sys_param.json  $(KUBE_NAMESPACE)/ec-bite:/app/images/ska-mid-cbf-engineering-console-bite/ext_config/initial_system_param.json
 	@echo "Successfully copied Initial System Parameters config file to the BITE pod for source data generation."
