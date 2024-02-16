@@ -1,0 +1,1 @@
+tag=device_health_state_unknown;formula=(ska_mid/tm_central/central_node/telescopeHealthState == 3 && ska_mid/tm_subarray_node/1/healthState == 3);priority=log;group=none;message="alarm for devices with healthstate unknown"

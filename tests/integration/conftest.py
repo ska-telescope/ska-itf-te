@@ -15,6 +15,7 @@ from ska_ser_skallop.mvp_control.describing.mvp_names import DeviceName
 from ska_ser_skallop.mvp_control.entry_points import types as conf_types
 from ska_ser_skallop.mvp_control.infra_mon.configuration import get_mvp_release
 from ska_ser_skallop.mvp_fixtures.fixtures import fxt_types
+from tango import DeviceProxy
 
 from .resources.models.base.states import ObsState
 from .resources.models.mvp_model.env import init_observation_config
@@ -623,3 +624,78 @@ def the_subarray_should_go_into_an_aborted_state(
     subarray = con_config.get_device_proxy(sut_settings.default_subarray_name)
     result = subarray.read_attribute("obsstate").value
     assert_that(result).is_equal_to(ObsState.ABORTED)
+
+
+@given("a mid telescope")
+@given("a TMC")
+def a_tmc():
+    """Given a TMC."""
+    tel = names.TEL()
+    nr_of_subarrays = 1
+
+    central_node_name = tel.tm.central_node
+    central_node = con_config.get_device_proxy(central_node_name)
+    result = central_node.ping()
+    assert result > 0
+
+    subarray_node = con_config.get_device_proxy(tel.tm.subarray(1))
+    result = subarray_node.ping()
+    assert result > 0
+
+    csp_master_leaf_node = con_config.get_device_proxy(tel.tm.csp_leaf_node)
+    result = csp_master_leaf_node.ping()
+    assert result > 0
+
+    sdp_master_leaf_node = con_config.get_device_proxy(tel.tm.sdp_leaf_node)
+    result = sdp_master_leaf_node.ping()
+    assert result > 0
+
+    csp_subarray_leaf_node = con_config.get_device_proxy(tel.tm.subarray(1).csp_leaf_node)
+    result = csp_subarray_leaf_node.ping()
+    assert result > 0
+
+    sdp_subarray_leaf_node = con_config.get_device_proxy(tel.tm.subarray(1).sdp_leaf_node)
+    result = sdp_subarray_leaf_node.ping()
+    assert result > 0
+
+    if tel.skamid:
+        for index in range(1, nr_of_subarrays + 1):
+            dish_leaf_nodes = con_config.get_device_proxy(tel.tm.dish_leafnode(index))
+            result = dish_leaf_nodes.ping()
+            assert result > 0
+
+
+@given("an alarm handler")
+def a_alarm_handler():
+    """Given an alarm handler."""
+    alarm_handler = con_config.get_device_proxy("alarm/handler/01")
+    result = alarm_handler.ping()
+    result > 0
+
+
+class ResponseData(object):
+    """Class to have response data received."""
+
+    def __init__(self) -> None:
+        """Initialise class variables."""
+        self.response = {}
+        self.alarm_handler_device = DeviceProxy("alarm/handler/01")
+
+    def clear_alarms(self):
+        """Clear the configured alarms."""
+        if self.response:
+            if self.response.get("alarm_summary"):
+                for tag in self.response["alarm_summary"]["tag"]:
+                    self.alarm_handler_device.Remove(tag)
+                assert self.alarm_handler_device.alarmList == ()
+
+
+@pytest.fixture(name="response_data")
+def fixture_default_response():
+    """Set up default responce.
+
+    :yield: A class object representing default response for the system under test.
+    """
+    response_data = ResponseData()
+    yield response_data
+    response_data.clear_alarms()
