@@ -34,11 +34,11 @@ dependencies:
     repository: https://artefact.skao.int/repository/helm-internal
     alias: cbf-mcs
     condition: cbf-mcs.enabled
-  - name: ska-mid-cbf-tmleafnode
-    version: 0.12.15 # Keep same as CBF-MCS - this is a TMC surrogate
-    repository: https://artefact.skao.int/repository/helm-internal
-    alias: cbf-tmleafnode
-    condition: cbf-tmleafnode.enabled
+  # - name: ska-mid-cbf-tmleafnode
+  #   version: 0.12.15 # Keep same as CBF-MCS - this is a TMC surrogate
+  #   repository: https://artefact.skao.int/repository/helm-internal
+  #   alias: cbf-tmleafnode
+  #   condition: cbf-tmleafnode.enabled
 
   # SKA Mid SDP
   - name: ska-sdp
@@ -71,7 +71,7 @@ dependencies:
     version: 0.1.6
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-log-consumer.enabled
-  
+
   # SKA Tango AlarmHandler
   - name: ska-tango-alarmhandler
     version: 0.4.0
