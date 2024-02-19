@@ -168,6 +168,13 @@ itf-skysimctl-links:
 	@echo "UPSTREAM_CI_JOB_ID=$(CI_JOB_ID)" >> build/deploy.env
 	@cat build/deploy.env
 
+eda-links:
+	@echo "##############################################################################################"
+	@echo "#        Access the Engineering Data Archiever(configurator, archviewer and arhcwizard) here:
+	@echo "#                                                                                             "
+	@echo "#        http://configurator.{KUBE_NAMESPACE}.svc.cluster.local:8003
+	@echo "##############################################################################################"
+
 # File browser vars
 FILEBROWSER_ENV ?= dev
 FILEBROWSER_CONFIG_SECRET_FILE := config.json
