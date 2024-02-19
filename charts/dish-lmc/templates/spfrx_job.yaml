@@ -16,7 +16,7 @@ spec:
           [
             "/bin/bash",
             "-c",
-            "sed -i '1 a set\ -eoux\ pipefail' scripts/spfrx-remote-start.sh; scripts/spfrx-remote-start.sh $(TANGO_DB_FQDN):$(TANGO_DB_PORT) $(SPFRX_ADDRESS) $(SPFRX_BIN) $(SPFRX_TANGO_INSTANCE) $(SPFRX_TANGO_LOGGING_LEVEL) &",
+            "sed -i '1 a set\ -eoux\ pipefail' scripts/spfrx-remote-start.sh; scripts/spfrx-remote-start.sh $(TANGO_DB_FQDN):$(TANGO_DB_PORT) $(SPFRX_ADDRESS) $(SPFRX_BIN) $(SPFRX_TANGO_INSTANCE) $(SPFRX_TANGO_LOGGING_LEVEL) || echo 'Deployment finished'",
           ]
         env:
           - name: TANGO_DB_FQDN
