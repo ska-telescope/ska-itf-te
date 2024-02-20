@@ -12,7 +12,7 @@
     name: sut/dpd/$KUBE_NAMESPACE
     kubernetes:
       namespace: $KUBE_NAMESPACE
-    url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
+    url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/dashboard/"
   when: manual
   artifacts:
     name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID"
@@ -27,21 +27,29 @@
   variables:
     KUBE_NAMESPACE: ci-ska-mid-itf-dpd-$CI_COMMIT_REF_NAME
 
-deploy-dpd-on-demand:
-  extends:
-    - .dpd-on-demand
+.dpd-install:
   script:
-    - make k8s-install-chart
+    - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart
+    - bash .make/resources/gitlab_section.sh wait "Wait for installation" make k8s-wait
   after_script:
     - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart-with-build-artifacts
+    - make dpd-links
 
-destroy-dpd-on-demand:
-  extends:
-    - .dpd-on-demand
+.dpd-destroy:
   script:
     - - !reference [.cleanup, script]
   environment:
     action: stop
+
+deploy-dpd-on-demand:
+  extends:
+    - .dpd-on-demand
+    - .dpd-install
+
+destroy-dpd-on-demand:
+  extends:
+    - .dpd-on-demand
+    - .dpd-destroy
 
 .dpd-integration:
   extends:
@@ -54,15 +62,9 @@ destroy-dpd-on-demand:
 deploy-dpd-integration:
   extends:
     - .dpd-integration
-  script:
-    - make k8s-install-chart
-  after_script:
-    - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart-with-build-artifacts
+    - .dpd-install
 
 destroy-dpd-integration:
   extends:
     - .dpd-integration
-  script:
-    - !reference [.cleanup, script]
-  environment:
-    action: stop
+    - .dpd-destroy
