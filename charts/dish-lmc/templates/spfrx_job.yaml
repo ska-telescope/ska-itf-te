@@ -1,11 +1,29 @@
-apiVersion: batch/v1
-kind: Job
+apiVersion: v1
+kind: Service
 metadata:
-  name: spfrx-job
+  name: {{ .Values.spfrx.instance }}
 spec:
-  ttlSecondsAfterFinished: 3600
-  backoffLimit: 0
+  selector:
+    app: {{ .Values.spfrx.instance }}
+  ports:
+    - port: 80
+      targetPort: 9876
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: spfrx-sfs
+spec:
+  serviceName: {{ .Values.spfrx.instance }}
+  selector:
+    matchLabels:
+      app: spfrx
+  replicas: 1
   template:
+    metadata:
+      labels:
+        app: spfrx
     spec:
       volumes:
       - name: {{ .Values.spfrx.local_dir }}
@@ -16,7 +34,7 @@ spec:
           [
             "/bin/bash",
             "-c",
-            "sed -i '1 a set\ -eoux\ pipefail' scripts/spfrx-remote-start.sh; scripts/spfrx-remote-start.sh $(TANGO_DB_FQDN):$(TANGO_DB_PORT) $(SPFRX_ADDRESS) $(SPFRX_BIN) $(SPFRX_TANGO_INSTANCE) $(SPFRX_TANGO_LOGGING_LEVEL) || echo 'Deployment finished'",
+            "sed -i '1 a set\ -eoux\ pipefail' scripts/spfrx-remote-start.sh; scripts/spfrx-remote-start.sh $(TANGO_DB_FQDN):$(TANGO_DB_PORT) $(SPFRX_ADDRESS) $(SPFRX_BIN) $(SPFRX_TANGO_INSTANCE) $(SPFRX_TANGO_LOGGING_LEVEL)",
           ]
         env:
           - name: TANGO_DB_FQDN
