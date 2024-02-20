@@ -34,7 +34,7 @@ spec:
           [
             "/bin/bash",
             "-c",
-            "sed -i '1 a set\ -eoux\ pipefail' scripts/spfrx-remote-start.sh; scripts/spfrx-remote-start.sh $(TANGO_DB_FQDN):$(TANGO_DB_PORT) $(SPFRX_ADDRESS) $(SPFRX_BIN) $(SPFRX_TANGO_INSTANCE) $(SPFRX_TANGO_LOGGING_LEVEL)",
+            "sed -i '1 a set\ -eoux\ pipefail' scripts/spfrx-remote-start.sh; nohup scripts/spfrx-remote-start.sh $(TANGO_DB_FQDN):$(TANGO_DB_PORT) $(SPFRX_ADDRESS) $(SPFRX_BIN) $(SPFRX_TANGO_INSTANCE) $(SPFRX_TANGO_LOGGING_LEVEL)",
           ]
         env:
           - name: TANGO_DB_FQDN
@@ -207,8 +207,9 @@ spec:
               value: {{ .Values.spfrx.local_dir }}
             - name: SPFRX_SCRIPTS_DIR
               value: {{ .Values.spfrx.scripts_dir }}
-          image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
-          imagePullPolicy: IfNotPresent
+          # image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
+          image: registry.gitlab.com/ska-telescope/ska-mid-dish-spfrx-talondx-console/ska-mid-dish-spfrx-talondx-console-deploy:0.1.0 # TEMPORARY COMMIT - DELETE AND UNCOMMENT ABOVE LINE WHEN DONE
+          imagePullPolicy: Always
         - name: 7-program-bitstream
           volumeMounts:
             - name: {{ .Values.spfrx.local_dir }}
@@ -217,7 +218,7 @@ spec:
             [
               "/bin/bash",
               "-c",
-              "sed -i '1 a set\ -eoux\ pipefail' scripts/program-bitstream-remote.sh; sed -i 's/scp/scp\ -o\ StrictHostKeyChecking=no/g' scripts/program-bitstream-remote.sh; sed -i 's/ssh/ssh -vvv\ -o\ StrictHostKeyChecking=no/g' scripts/program-bitstream-remote.sh; scripts/program-bitstream-remote.sh $(SPFRX_LOCAL_DIR) $(SPFRX_ADDRESS) || sleep infinity",
+              "sed -i '1 a set\ -eoux\ pipefail' scripts/program-bitstream-remote.sh; sed -i 's/ssh/ssh -vvvg' scripts/program-bitstream-remote.sh; scripts/program-bitstream-remote.sh $(SPFRX_LOCAL_DIR) $(SPFRX_ADDRESS) || sleep infinity",
             ]
           env:
             - name: PBR

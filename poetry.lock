@@ -3629,31 +3629,32 @@ reference = "skao"
 
 [[package]]
 name = "ska-mid-itf-engineering-tools"
-version = "0.3.2"
+version = "0.3.4"
 description = "SKA MID ITF Engineering tools"
 optional = false
 python-versions = ">=3.10,<3.11"
-files = []
-develop = false
+files = [
+    {file = "ska_mid_itf_engineering_tools-0.3.4-py3-none-any.whl", hash = "sha256:49f6cef8d56660f7706aeab36a363dfb1de40d6e2c28fffc1b482f77cce78da3"},
+    {file = "ska_mid_itf_engineering_tools-0.3.4.tar.gz", hash = "sha256:85b204d4824f3a1db9ea4fcd2716dd224bf0eac29ace4b750684fdcb80f0410a"},
+]
 
 [package.dependencies]
-asyncua = "^1.0.4"
-kubernetes = "^21.7.0"
-nbqa = "^1.7.1"
-nbsphinx = "^0.9.3"
-pytest-json-report = "^1.5.0"
-pytest-repeat = "^0.9.1"
-pyyaml = "^6.0.1"
-ska-control-model = "^0.3.1"
-ska_ser_logging = "^0.4.1"
+asyncua = ">=1.0.4,<2.0.0"
+kubernetes = ">=21.7.0,<22.0.0"
+nbqa = ">=1.7.1,<2.0.0"
+nbsphinx = ">=0.9.3,<0.10.0"
+pytest-json-report = ">=1.5.0,<2.0.0"
+pytest-repeat = ">=0.9.1,<0.10.0"
+pyyaml = ">=6.0.1,<7.0.0"
+ska-control-model = ">=0.3.1,<0.4.0"
+ska_ser_logging = ">=0.4.1,<0.5.0"
 ska-ser-skallop = {version = "2.29.8", extras = ["bit"]}
 ska-tmc-cdm = "7.3.1"
 
 [package.source]
-type = "git"
-url = "https://gitlab.com/ska-telescope/ska-mid-itf-engineering-tools.git"
-reference = "2b68b678e15dc7b264d156595c8e9c9586ff84f4"
-resolved_reference = "2b68b678e15dc7b264d156595c8e9c9586ff84f4"
+type = "legacy"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
+reference = "skao"
 
 [[package]]
 name = "ska-ser-logging"
@@ -4576,4 +4577,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.11"
-content-hash = "efd9575a2fe08dc3957f091b55960355110c0a6fc3c04b32ceff4aeb18e96cf5"
+content-hash = "84e54263c3cc16574f874aa738881252986f3c90176a81a8e3468a316372b889"
