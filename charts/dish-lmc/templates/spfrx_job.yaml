@@ -196,7 +196,7 @@ spec:
             [
               "/bin/bash",
               "-c",
-              "sed -i '1 a set\ -eoux\ pipefail' scripts/spfrx-deploy-artifacts.sh; scripts/spfrx-deploy-artifacts.sh $(SPFRX_ADDRESS) $(SPFRX_LOCAL_DIR) $(SPFRX_BIN) $(SPFRX_SCRIPTS_DIR) || sleep infinity",
+              "sed -i '1 a set\ -eoux\ pipefail' scripts/spfrx-deploy-artifacts.sh; nohup scripts/spfrx-deploy-artifacts.sh $(SPFRX_ADDRESS) $(SPFRX_LOCAL_DIR) $(SPFRX_BIN) $(SPFRX_SCRIPTS_DIR) || sleep infinity",
             ]
           env:
             - name: SPFRX_ADDRESS
@@ -207,8 +207,7 @@ spec:
               value: {{ .Values.spfrx.local_dir }}
             - name: SPFRX_SCRIPTS_DIR
               value: {{ .Values.spfrx.scripts_dir }}
-          # image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
-          image: registry.gitlab.com/ska-telescope/ska-mid-dish-spfrx-talondx-console/ska-mid-dish-spfrx-talondx-console-deploy:0.1.0 # TEMPORARY COMMIT - DELETE AND UNCOMMENT ABOVE LINE WHEN DONE
+          image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
           imagePullPolicy: Always
         - name: 7-program-bitstream
           volumeMounts:
@@ -229,5 +228,6 @@ spec:
               value: {{ .Values.spfrx.local_dir }}
             - name: TANGO_HOST
               value: {{ .Values.global.tango_host }}
-          image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
-          imagePullPolicy: IfNotPresent
+          image: registry.gitlab.com/ska-telescope/ska-mid-dish-spfrx-talondx-console/ska-mid-dish-spfrx-talondx-console-deploy:0.1.0
+          # image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
+          imagePullPolicy: Always
