@@ -1,0 +1,70 @@
+.dpd:
+  tags:
+    - ska-k8srunner-za-itf
+  variables:
+    CONFIG: mid
+    K8S_CHART: ska-mid-itf-dpd
+    KUBE_APP: ska-mid-itf-dpd
+    INGRESS_HOST: "k8s.miditf.internal.skao.int"
+    CLUSTER_DOMAIN: "miditf.internal.skao.int"
+    MINIKUBE: "false"
+  environment:
+    name: sut/dpd/$KUBE_NAMESPACE
+    kubernetes:
+      namespace: $KUBE_NAMESPACE
+    url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/dashboard/"
+  when: manual
+  artifacts:
+    name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID"
+    paths:
+      - "build/"
+
+.dpd-on-demand:
+  extends:
+    - .dpd
+    - .on_demand_rules
+  stage: on_demand_itf_sut
+  variables:
+    KUBE_NAMESPACE: ci-ska-mid-itf-dpd-$CI_COMMIT_REF_NAME
+
+.dpd-install:
+  script:
+    - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart
+    - bash .make/resources/gitlab_section.sh wait "Wait for installation" make k8s-wait
+  after_script:
+    - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart-with-build-artifacts
+    - make dpd-links
+
+.dpd-destroy:
+  script:
+    - - !reference [.cleanup, script]
+  environment:
+    action: stop
+
+deploy-dpd-on-demand:
+  extends:
+    - .dpd-on-demand
+    - .dpd-install
+
+destroy-dpd-on-demand:
+  extends:
+    - .dpd-on-demand
+    - .dpd-destroy
+
+.dpd-integration:
+  extends:
+    - .dpd
+    - .integration_rules
+  stage: integration
+  variables:
+    KUBE_NAMESPACE: ska-dpd
+
+deploy-dpd-integration:
+  extends:
+    - .dpd-integration
+    - .dpd-install
+
+destroy-dpd-integration:
+  extends:
+    - .dpd-integration
+    - .dpd-destroy

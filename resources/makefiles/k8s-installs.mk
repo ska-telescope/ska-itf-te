@@ -166,6 +166,24 @@ itf-skysimctl-links:
 	@echo "UPSTREAM_CI_JOB_ID=$(CI_JOB_ID)" >> build/deploy.env
 	@cat build/deploy.env
 
+## TARGET: dpd-links
+## SYNOPSIS: make dpd-links
+## HOOKS: none
+## VARS:
+##   CI_JOB_NAME
+##   KUBE_NAMESPACE
+##   INGRESS_HOST
+##  make target for generating the URLs for accessing the Data Product Dashboard in the Mid ITF.
+
+dpd-links: ## Create the URLs with which to access the Data Product Dashboard
+	@make k8s-info || echo "Some failure with `make k8s-info` - contact the System Team"
+	@echo ${CI_JOB_NAME}
+	@echo "##############################################################################################"
+	@echo "#        Access the Data Product Dashboard here:"
+	@echo "#        https://$(INGRESS_HOST)/$(KUBE_NAMESPACE)/dashboard/"
+	@echo "##############################################################################################"
+
+
 # File browser vars
 FILEBROWSER_ENV ?= dev
 FILEBROWSER_CONFIG_SECRET_FILE := config.json
