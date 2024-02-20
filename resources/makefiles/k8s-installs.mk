@@ -181,7 +181,7 @@ dpd-links: ## Create the URLs with which to access the Data Product Dashboard
 	@make k8s-info || echo "Some failure with `make k8s-info` - contact the System Team"
 	@echo ${CI_JOB_NAME}
 	@echo "##############################################################################################"
-	@echo "#        Access the Data Product Dashboard for the $(KUBE_NAMESPACE) namespace here:"
+	@echo "#        Access the Data Product Dashboard here:"
 	@echo "#        https://$(INGRESS_HOST)/$(KUBE_NAMESPACE)/dashboard/"
 	@echo "##############################################################################################"
 
