@@ -14,10 +14,9 @@ deploy-dishlmc-ska001:
     - .ska001-env
   needs:
     - deploy-ds-sim-ska001
-  when: always # TEMPORARY COMMIT - DELETE WHEN DONE
-  # when: on_success # TEMPORARY COMMIT - UNCOMMENT WHEN DONE
-  # variables:
-  # DISH_LMC_EXTRA_PARAMS: -f charts/dish-lmc/values-cetc.yaml --set dishlmc.ska-mid-dish-ds-manager.dishstructuremanager.dsSim.fqdn=$DS_SIM_OPCUA_FQDN
+  when: on_success
+  variables:
+    DISH_LMC_EXTRA_PARAMS: -f charts/dish-lmc/values-cetc.yaml --set dishlmc.ska-mid-dish-ds-manager.dishstructuremanager.dsSim.fqdn=$DS_SIM_OPCUA_FQDN
   environment:
     on_stop: uninstall-dishlmc-ska001
 
@@ -28,8 +27,8 @@ redeploy-dishlmc-ska001:
   needs:
     - redeploy-ds-sim-ska001
   when: on_success
-  # variables:
-  #   DISH_LMC_EXTRA_PARAMS: -f charts/dish-lmc/values-cetc.yaml --set dishlmc.ska-mid-dish-ds-manager.dishstructuremanager.dsSim.fqdn=$DS_SIM_OPCUA_FQDN
+  variables:
+    DISH_LMC_EXTRA_PARAMS: -f charts/dish-lmc/values-cetc.yaml --set dishlmc.ska-mid-dish-ds-manager.dishstructuremanager.dsSim.fqdn=$DS_SIM_OPCUA_FQDN
   environment:
     on_stop: uninstall-dishlmc-ska001
 

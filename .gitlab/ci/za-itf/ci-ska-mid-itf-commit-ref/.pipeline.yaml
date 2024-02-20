@@ -3,7 +3,7 @@
 # ############################################
 .ci-env:
   tags:
-  - ska-k8srunner-za-itf
+    - ska-k8srunner-za-itf
   variables:
     CONFIG: mid
     K8S_CHART: "system-under-test"
@@ -22,26 +22,18 @@
 
 deploy-sut-on-demand:
   variables:
-    ARCHIVER_DBNAME: '${CONFIG}_archiver_db_${CI_COMMIT_REF_SLUG}'
+    ARCHIVER_DBNAME: "${CONFIG}_archiver_db_${CI_COMMIT_REF_SLUG}"
     HELM_RELEASE: sut
-    HW_IN_THE_LOOP: 'false'
+    HW_IN_THE_LOOP: "false"
     K8S_AUTH_NAMESPACES: $KUBE_NAMESPACE $KUBE_NAMESPACE_SDP
     K8S_AUTH_SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_PIPELINE_ID
     PDU_IP: 10.20.2.14
     SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_COMMIT_REF_NAME
-    #######################################################################
-    HW_IN_THE_LOOP: "true" # TODO: REMOVE THIS AS IT IS A TEMPORARY COMMIT!
-    #######################################################################
   extends:
     - .deploy
     - .ci-env
     - .on_demand_rules
     - .on-demand-stage
-  #######################################################################
-  # TODO: REMOVE THIS AS IT IS A TEMPORARY COMMIT!
-  rules:
-    - when: always
-  #######################################################################
   environment:
     name: mid-itf/ska-$CONFIG-$CI_COMMIT_REF_SLUG
     kubernetes:
@@ -52,16 +44,13 @@ deploy-sut-on-demand:
 
 redeploy-sut-on-demand:
   variables:
-    ARCHIVER_DBNAME: '${CONFIG}_archiver_db_${CI_COMMIT_REF_SLUG}'
+    ARCHIVER_DBNAME: "${CONFIG}_archiver_db_${CI_COMMIT_REF_SLUG}"
     HELM_RELEASE: sut
-    HW_IN_THE_LOOP: 'false'
+    HW_IN_THE_LOOP: "false"
     K8S_AUTH_NAMESPACES: $KUBE_NAMESPACE $KUBE_NAMESPACE_SDP
     K8S_AUTH_SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_PIPELINE_ID
     PDU_IP: 10.20.2.14
     SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_COMMIT_REF_NAME
-    #######################################################################
-    HW_IN_THE_LOOP: "true" # TODO: REMOVE THIS AS IT IS A TEMPORARY COMMIT!
-    #######################################################################
   extends:
     - .redeploy
     - .ci-env
@@ -180,7 +169,6 @@ publish-k8s-test-results:
     - echo "Test result code from k8s-test-runner job was $(cat build/status)"
     - poetry install
     - make upload-to-confluence
-
 
 # ############################################
 # # Dish Strcuture Simulator related CICD jobs
