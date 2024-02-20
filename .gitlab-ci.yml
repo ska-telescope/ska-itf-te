@@ -8,7 +8,7 @@ variables:
   CLEAN_UP_TEST_ENVIRONMENT: "true"
   DEPLOYMENT_CONFIGURATION: "ska-$CONFIG"
   POETRY_CONFIG_VIRTUALENVS_CREATE: "true"
-  DEPLOY_IMAGE: $CI_REGISTRY/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools:0.3.3-dev.c1b5a09f0
+  DEPLOY_IMAGE: $CI_REGISTRY/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools:0.3.4
   MCS_CONFIG_FILE_PATH: resources/mcs
 
   # PYTEST_SUBSYS_MARK: (csp_startup or sdp or eda)

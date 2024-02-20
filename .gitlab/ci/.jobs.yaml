@@ -39,6 +39,7 @@
         bash .make/resources/gitlab_section.sh talon_config_tangodb "Configure TangoDB with device servers" make itf-cbf-config-tangodb && sleep 3;
         bash .make/resources/gitlab_section.sh talon_on "Switch ON the Talons" make itf-cbf-tango-on || (cat /app/src/ska_mid_itf_engineering_tools/cbf_config/talon_on.py && make itf-cbf-power-on && echo "###############\n# Failed to deploy Talon Demonstrator Correlator\n###############" > deploy/status)
       fi
+    - sleep 1
     - if [ -f deploy/status ]; then cat deploy/status; fi
   after_script:
     - bash .make/resources/gitlab_section.sh template "Template Chart" make k8s-template-chart-with-build-artifacts

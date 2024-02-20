@@ -3629,7 +3629,7 @@ reference = "skao"
 
 [[package]]
 name = "ska-mid-itf-engineering-tools"
-version = "0.1.0"
+version = "0.3.2"
 description = "SKA MID ITF Engineering tools"
 optional = false
 python-versions = ">=3.10,<3.11"
@@ -3652,8 +3652,8 @@ ska-tmc-cdm = "7.3.1"
 [package.source]
 type = "git"
 url = "https://gitlab.com/ska-telescope/ska-mid-itf-engineering-tools.git"
-reference = "57cbe58f36f6a7da522c358a24e438d8c441cf1a"
-resolved_reference = "57cbe58f36f6a7da522c358a24e438d8c441cf1a"
+reference = "2b68b678e15dc7b264d156595c8e9c9586ff84f4"
+resolved_reference = "2b68b678e15dc7b264d156595c8e9c9586ff84f4"
 
 [[package]]
 name = "ska-ser-logging"
@@ -4576,4 +4576,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.11"
-content-hash = "de0dd50b36a4173733567e0f2045102240206b7e60034a357122129c162133ad"
+content-hash = "efd9575a2fe08dc3957f091b55960355110c0a6fc3c04b32ceff4aeb18e96cf5"

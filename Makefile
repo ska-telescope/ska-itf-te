@@ -27,7 +27,6 @@ PYTHON_RUNNER = poetry run python3 -m
 PYTHON_LINE_LENGTH = 99
 DOCS_SPHINXBUILD = poetry run python3 -msphinx
 PYTHON_TEST_FILE = tests/unit/ tests/functional/
-PYTHON_LINT_TARGET ?= tests
 ifneq ($(COUNT),)
 # Dashcount is a synthesis of testcount as input user variable and is used to
 # run a paricular test/s multiple times. If no testcount is set then the entire
@@ -129,11 +128,6 @@ PYTHON_VARS_AFTER_PYTEST ?= -v
 
 # Assume the project root is the directory of the top-level Makefile
 PROJECT_ROOT := $(dir $(abspath $(firstword $(MAKEFILE_LIST))))
-
-python-post-lint:
-	poetry run mypy --install-types --non-interactive --config-file mypy.ini tests/
-
-.PHONY: python-post-lint
 
 DOCS_SPHINXOPTS=-n -W --keep-going
 

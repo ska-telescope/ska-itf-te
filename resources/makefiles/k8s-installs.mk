@@ -123,7 +123,7 @@ itf-dish-ids: ## Create the TMC values.yaml file needed to connect the Dishes to
 ## VARS: none
 ##  make target for generating the URLs for accessing the DishLMC deployments in the Mid ITF cluster
 
-itf-dish-links: links ## Create the URLs with which to access Taranta Dashboards
+itf-dish-links: itf-links ## Create the URLs with which to access Taranta Dashboards
 
 ## TARGET: itf-links
 ## SYNOPSIS: make itf-links

@@ -51,11 +51,9 @@
   script:
     - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart;
     - bash .make/resources/gitlab_section.sh wait "Wait for completion" make k8s-wait K8S_TIMEOUT=180s
-    - make itf-dish-links
   after_script:
+    - make itf-dish-links
     - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart
-    # - env
-    # - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart-with-build-artifacts # TEMPORARY COMMIT
   extends:
     - .dish-lmc
 
