@@ -105,3 +105,9 @@ ska-tango-archiver:
   #     #keep below field empty if db names are unknown, app will display all dbs present
   #     #e.g:timescale_databases: ""  
       timescale_databases: "itf_eda"
+
+# Temporary configuration for PVC
+# See templates/pvc.yaml
+temp_sdp_pvc:
+  dpd_namespace: ska-dpd
+  dpd_pvc: shared-mnl
