@@ -10,7 +10,6 @@ deploy-taranta:
     HELM_RELEASE: taranta
     K8S_CHART: taranta-itf
     CLUSTER_DOMAIN: za-dish-lmc.skao.int
-    MINIKUBE: "true"
   script:
     - make k8s-install-chart
     - make k8s-wait

@@ -15,3 +15,7 @@ ska-taranta:
   enabled: true
   # tangogql:
   # replicas: 1
+
+ska-tango-taranta-dashboard:
+  mongodb:
+    enabled: true
