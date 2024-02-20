@@ -1,3 +1,5 @@
+# NOTE: this is a temporary workaround until this problem is resolved:
+# https://jira.skatelescope.org/browse/SKB-294
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
