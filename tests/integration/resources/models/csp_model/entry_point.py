@@ -85,7 +85,8 @@ class StartUpStep(base.StartUpStep, LogEnabled, WithCommandID):
         assert self.long_running_command_subscriber
         # dish_cfg = {
         #    "interface": "https://schema.skao.int/ska-mid-cbf-initsysparam/1.0",
-        #    "tm_data_sources": ["car://gitlab.com/ska-telescope/ska-telmodel-data?ska-sdp-tmlite-repository-1.0.0#tmdata"],
+        #    "tm_data_sources": ["car://gitlab.com/ska-telescope/
+        # ska-telmodel-data?ska-sdp-tmlite-repository-1.0.0#tmdata"],
         #    "tm_data_filepath": "instrument/ska1_mid_itf/ska-mid-cbf-system-parameters.json",
         # }
         dish_cfg = {
