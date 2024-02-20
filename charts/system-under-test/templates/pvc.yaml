@@ -6,8 +6,8 @@ metadata:
     name: {{ index .Values.global "data-product-pvc-name" }}
     namespace: {{ .Release.Namespace }}
     labels:
-        skao.int/clone-pvc: shared-mnl
-        skao.int/clone-pvc-namespace: ci-ska-mid-itf-dpd-at-1916
+        skao.int/clone-pvc: {{ .Values.temp_sdp_pvc.dpd_pvc }}
+        skao.int/clone-pvc-namespace: {{ .Values.temp_sdp_pvc.dpd_namespace }}
 spec:
     accessModes:
         - ReadWriteMany
