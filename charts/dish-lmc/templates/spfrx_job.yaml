@@ -1,11 +1,29 @@
-apiVersion: batch/v1
-kind: Job
+apiVersion: v1
+kind: Service
 metadata:
-  name: spfrx-job
+  name: {{ .Values.spfrx.instance }}
 spec:
-  ttlSecondsAfterFinished: 3600
-  backoffLimit: 0
+  selector:
+    app: {{ .Values.spfrx.instance }}
+  ports:
+    - port: 80
+      targetPort: 9876
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: spfrx-sfs
+spec:
+  serviceName: {{ .Values.spfrx.instance }}
+  selector:
+    matchLabels:
+      app: spfrx
+  replicas: 1
   template:
+    metadata:
+      labels:
+        app: spfrx
     spec:
       volumes:
       - name: {{ .Values.spfrx.local_dir }}
@@ -43,7 +61,7 @@ spec:
           requests:
             cpu: 250m
             memory: 500Mi
-      restartPolicy: Never
+      # restartPolicy: Never
       initContainers:
         - name: 0-hello
           volumeMounts:
