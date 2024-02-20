@@ -217,7 +217,7 @@ spec:
             [
               "/bin/bash",
               "-c",
-              "sed -i '1 a set\ -eoux\ pipefail' scripts/program-bitstream-remote.sh; sed -i 's/ssh/ssh -vvvg' scripts/program-bitstream-remote.sh; scripts/program-bitstream-remote.sh $(SPFRX_LOCAL_DIR) $(SPFRX_ADDRESS) || sleep infinity",
+              "sed -i '1 a set\ -eoux\ pipefail' scripts/program-bitstream-remote.sh; sed -i 's/ssh/ssh -vvv/g' scripts/program-bitstream-remote.sh; scripts/program-bitstream-remote.sh $(SPFRX_LOCAL_DIR) $(SPFRX_ADDRESS) || sleep infinity",
             ]
           env:
             - name: PBR
