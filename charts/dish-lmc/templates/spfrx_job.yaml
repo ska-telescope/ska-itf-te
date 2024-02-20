@@ -16,7 +16,7 @@ spec:
           [
             "/bin/bash",
             "-c",
-            "sed -i '1 a set\ -eoux\ pipefail' scripts/spfrx-remote-start.sh; scripts/spfrx-remote-start.sh $(TANGO_DB_FQDN):$(TANGO_DB_PORT) $(SPFRX_ADDRESS) $(SPFRX_BIN) $(SPFRX_TANGO_INSTANCE) $(SPFRX_TANGO_LOGGING_LEVEL) || echo 'Deployment finished'",
+            "sed -i '1 a set\ -eoux\ pipefail' scripts/spfrx-remote-start.sh; scripts/spfrx-remote-start.sh $(TANGO_DB_FQDN):$(TANGO_DB_PORT) $(SPFRX_ADDRESS) $(SPFRX_BIN) $(SPFRX_TANGO_INSTANCE) $(SPFRX_TANGO_LOGGING_LEVEL)",
           ]
         env:
           - name: TANGO_DB_FQDN
@@ -199,7 +199,7 @@ spec:
             [
               "/bin/bash",
               "-c",
-              "sed -i '1 a set\ -eoux\ pipefail' scripts/program-bitstream-remote.sh; sed -i 's/scp/scp\ -o\ StrictHostKeyChecking=no/g' scripts/program-bitstream-remote.sh; sed -i 's/ssh/ssh\ -o\ StrictHostKeyChecking=no/g' scripts/program-bitstream-remote.sh; scripts/program-bitstream-remote.sh $(SPFRX_LOCAL_DIR) $(SPFRX_ADDRESS) || sleep infinity",
+              "sed -i '1 a set\ -eoux\ pipefail' scripts/program-bitstream-remote.sh; sed -i 's/scp/scp\ -o\ StrictHostKeyChecking=no/g' scripts/program-bitstream-remote.sh; sed -i 's/ssh/ssh -vvv\ -o\ StrictHostKeyChecking=no/g' scripts/program-bitstream-remote.sh; scripts/program-bitstream-remote.sh $(SPFRX_LOCAL_DIR) $(SPFRX_ADDRESS) || sleep infinity",
             ]
           env:
             - name: PBR
