@@ -1,62 +1,17 @@
-display: ":0"
-xauthority: "~/.Xauthority"
-minikube: true
-
 global:
+  taranta_auth_enabled: true
+  taranta_dashboard_enabled: true
   minikube: true
+  tango_host: databaseds-tango-base-test:10000
+  facility: test-itf
+  exposeAllDS: true
   use_aws: false
   sub-system:
     ska-tango-base:
       enabled: false
-    taranta:
-      enabled: false
-    archiver:
-      enabled: false
-  tango_host: databaseds-tango-base-test:10000
 
-ska-tango-base:
-  enabled: true
-  vnc:
-    enabled: false
-  tangorest:
-    enabled: true
-
+# TARANTA
 ska-taranta:
   enabled: true
-  tangogql:
-    replicas: 1
-    resources:
-      requests:
-        cpu: 600m # 600m = 0.6 CPU
-        memory: 512Mi # 512Mi = 0.5 GB mem
-      limits:
-        cpu: 1000m # 1000m = 1 CPU
-        memory: 1024Mi # 1024Mi = 1 GB mem
-
-ska-tango-taranta-dashboard:
-  enabled: false
-
-ska-tango-taranta-auth:
-  enabled: true
-
-
-
-
-#global:
-#  taranta_auth_enabled: true
-#  taranta_dashboard_enabled: true
-#  minikube: true
-#  tango_host: databaseds-tango-base-test:10000
-#  facility: test-itf
-#  exposeAllDS: true
-#  use_aws: false
-#  sub-system:
-#    ska-tango-base:
-#      enabled: false
-#
-## TARANTA
-#ska-taranta:
-#  enabled: true
-#  # tangogql:
-#  # replicas: 1
-#
+  # tangogql:
+  # replicas: 1
