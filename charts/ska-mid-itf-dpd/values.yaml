@@ -1,0 +1,9 @@
+ska-sdp-dataproduct-dashboard:
+  ingress:
+    hostname: https://k8s.miditf.internal.skao.int
+  dataProductPVC:
+    name: shared-mnl
+    create:
+      enabled: true
+      size: 2Ti
+      storageClassName: ceph-cephfs
