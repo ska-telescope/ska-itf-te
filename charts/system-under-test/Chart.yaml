@@ -16,11 +16,7 @@ dependencies:
 
   # SKA Mid TMC
   - name: ska-tmc-mid
-<<<<<<< charts/system-under-test/Chart.yaml
     version: 0.15.7 # check latest version
-=======
-    version: 0.15.5 # check latest version
->>>>>>> charts/system-under-test/Chart.yaml
     repository: https://artefact.skao.int/repository/helm-internal
     alias: tmc
     condition: tmc.enabled
