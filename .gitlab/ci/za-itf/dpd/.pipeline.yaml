@@ -37,14 +37,25 @@
 
 .dpd-destroy:
   script:
-    - - !reference [.cleanup, script]
+    - !reference [.cleanup, script]
   environment:
     action: stop
+
+.dpd-redeploy:
+  extends:
+    - .dpd-install
+  before_script:
+    - !reference [.cleanup, script]
 
 deploy-dpd-on-demand:
   extends:
     - .dpd-on-demand
     - .dpd-install
+
+redeploy-dpd-on-demand:
+  extends:
+    - .dpd-on-demand
+    - .dpd-redeploy
 
 destroy-dpd-on-demand:
   extends:
@@ -68,3 +79,8 @@ destroy-dpd-integration:
   extends:
     - .dpd-integration
     - .dpd-destroy
+
+redeploy-dpd-integration:
+  extends:
+    - .dpd-integration
+    - .dpd-redeploy
