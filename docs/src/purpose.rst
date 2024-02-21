@@ -19,6 +19,11 @@ Spectrum Analyser File Access
 =============================
 The Ansritsu MS2090A Spectrum Analyser in the ITF hosts an FTP server. This allows users to access recordings made on the device remotely. In order to make this access more user friendly, we run `filestash <https://www.filestash.app/>`_. This provides a file browser web frontend to various backends, among them FTP. This is deployed with the ``file-browser`` helm chart.
 
+Data Product Dashboard
+======================
+The Data Product Dashboard for the integration deployment can be accessed at <https://k8s.miditf.internal.skao.int/integration/dashboard/>. 
+Documentation for the Data Product Dashboard can be found on the developer portal at <https://developer.skao.int/projects/ska-sdp-dataproduct-dashboard/en/latest/index.html>.
+
 ==========
 Deployment
 ==========
@@ -92,19 +97,22 @@ Namespaces and pipeline definitions
 ===================================
 In the present repository it is possible to deploy the charts in different namespaces in the ITF cluster. In specific it is possible to deploy in the following namespaces: 
 
-.. table:: List of namespaces at December 2023
+.. table:: List of namespaces at February 2024
    :widths: auto
 
    ================================  ====================================================
      Name                              Description
    ================================  ====================================================
-   ci-ska-mid-itf-commit-ref         Used for testing purposes and normally not persisted
-   ci-ska-mid-sut-skaXXX-commit-ref  Used for on demand deployment in vision of AA05 
-   dish-lmc-skaXXX                   For Dish AIV related CICD jobs
-   ds-sim-skaXXX                     For Dish Strcuture Simulator related CICD jobs
+   ci-ska-mid-itf-commit-ref         Used for on-demand deployment of SUT and not persisted
+   ci-dish-lmc-skaXXX-commit-ref     Used for on-demand deployment of Dish LMC
+   ci-ska-mid-itf-dpd-commit-ref     Used for on-demand deployment of the Data Product Dashboard
+   ci-ska-db-oda-commit-ref          Used for on-demand deployment of the ODA
+   dish-lmc-skaXXX                   For long-lived deployment of Dish LMC
+   ds-sim-skaXXX                     For long-lived deployment of Dish Strcuture Simulator
    file-browser                      For the spectrum analyser file browser
    integration                       For long-lived deployment of the SUT
-   staging                           For long-lived deployment of the SUT
+   ska-db-oda                        For long-lived deployment of the ODA
+   ska-dpd                           For long-lived deployment of the Data Product Dashboard
    taranta                           For taranta backend deployment
    test-equipment                    For Test Equipment Tango Device Servers
    ================================  ====================================================

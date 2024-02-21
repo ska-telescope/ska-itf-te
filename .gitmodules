@@ -1,3 +1,6 @@
 [submodule ".make"]
 	path = .make
 	url = https://gitlab.com/ska-telescope/sdi/ska-cicd-makefile.git
+[submodule ".engineering-tools"]
+	path = .engineering-tools
+	url = https://gitlab.com/ska-telescope/ska-mid-itf-engineering-tools.git

@@ -115,8 +115,7 @@ KUBE_NAMESPACE_POSTFIX ?=
 ##  make target for generating the URLs for accessing the DishLMC deployments in the Mid ITF cluster
 
 itf-dish-ids: ## Create the TMC values.yaml file needed to connect the Dishes to the TMC in the ITF
-	@pip install pyyaml==6.0.1
-	@poetry run python3 -m src.ska_mid_itf_engineering_tools.tmc_dish_ids
+	@tmc_dish_ids
 
 ## TARGET: itf-dish-links
 ## SYNOPSIS: make itf-dish-links
@@ -124,7 +123,7 @@ itf-dish-ids: ## Create the TMC values.yaml file needed to connect the Dishes to
 ## VARS: none
 ##  make target for generating the URLs for accessing the DishLMC deployments in the Mid ITF cluster
 
-itf-dish-links: links ## Create the URLs with which to access Taranta Dashboards
+itf-dish-links: itf-links ## Create the URLs with which to access Taranta Dashboards
 
 ## TARGET: itf-links
 ## SYNOPSIS: make itf-links
@@ -133,7 +132,6 @@ itf-dish-links: links ## Create the URLs with which to access Taranta Dashboards
 ##  make target for generating the URLs for accessing the Test Equipment deployment
 
 itf-links: ## Create the URLs with which to access the Tango Control System if it is available
-	@make k8s-info || echo "Some failure with `make k8s-info` - contact the System Team"
 	@echo ${CI_JOB_NAME}
 	@echo "##############################################################################################"
 	@echo "#        Access the Taranta framework for the $(shell echo $(KUBE_APP) | tr a-z A-Z) Tango Control System here:"
@@ -167,6 +165,24 @@ itf-skysimctl-links:
 	@echo "UPSTREAM_CI_COMMIT_REF_NAME=$(CI_COMMIT_REF_NAME)" >> build/deploy.env # This is a workaround - see https://gitlab.com/gitlab-org/gitlab/-/issues/331596
 	@echo "UPSTREAM_CI_JOB_ID=$(CI_JOB_ID)" >> build/deploy.env
 	@cat build/deploy.env
+
+## TARGET: dpd-links
+## SYNOPSIS: make dpd-links
+## HOOKS: none
+## VARS:
+##   CI_JOB_NAME
+##   KUBE_NAMESPACE
+##   INGRESS_HOST
+##  make target for generating the URLs for accessing the Data Product Dashboard in the Mid ITF.
+
+dpd-links: ## Create the URLs with which to access the Data Product Dashboard
+	@make k8s-info || echo "Some failure with `make k8s-info` - contact the System Team"
+	@echo ${CI_JOB_NAME}
+	@echo "##############################################################################################"
+	@echo "#        Access the Data Product Dashboard here:"
+	@echo "#        https://$(INGRESS_HOST)/$(KUBE_NAMESPACE)/dashboard/"
+	@echo "##############################################################################################"
+
 
 # File browser vars
 FILEBROWSER_ENV ?= dev
@@ -242,4 +258,9 @@ vars:
 	$(info KUBE_NAMESPACE_PREFIX: $(KUBE_NAMESPACE_PREFIX))
 	$(info KUBE_NAMESPACE_POSTFIX: $(KUBE_NAMESPACE_POSTFIX))
 	$(info PYTHON_SRC: $(PYTHON_SRC))
+	$(info DISH_LMC_INITIAL_PARAMS: $(DISH_LMC_INITIAL_PARAMS))
+	$(info DISH_LMC_EXTRA_PARAMS: $(DISH_LMC_EXTRA_PARAMS))
+	$(info DISH_LMC_PARAMS: $(DISH_LMC_PARAMS))
 	$(info Uppercase KUBE_APP: $(shell echo $(KUBE_APP) | tr a-z A-Z))
+	$(info PROJECT_ROOT: $(PROJECT_ROOT))
+	$(info DS_SIM_OPCUA_FQDN: $(DS_SIM_OPCUA_FQDN))

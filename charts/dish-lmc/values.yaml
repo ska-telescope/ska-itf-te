@@ -1,4 +1,5 @@
 global:
+  tango_host: tango-databaseds:10000
   dishes: ["100"]
   exposeDatabaseDS: true
   exposeAllDS: true
@@ -7,6 +8,10 @@ global:
   sub-system:
     ska-tango-base:
       enabled: false
+  tangodb_fqdn: localhost
+  tangodb_port: 10000
+  raw_user_account: bond
+  raw_user_pass: jamesbond
 
 # DISH LMC
 dishlmc:
@@ -24,9 +29,20 @@ dishlmc:
       spfdevice:
         enabled: true
       spfrxdevice:
-        enabled: true
+        enabled: false
     dsOpcuaSimulator:
       enabled: true
+
+# SPFRx
+spfrx:
+  console:
+    version: 0.1.0
+  address: 10.165.3.20
+  bin: /usr/local/bin
+  local_dir: artifacts
+  scripts_dir: scripts
+  instance: spfrx-20
+  logging_level: 4
 
 # TARANTA SUITE
 ska-taranta:
