@@ -1,4 +1,3 @@
-
 ### TARANTA DEPLOYMENT
 deploy-taranta:
   stage: platform

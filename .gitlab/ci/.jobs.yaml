@@ -3,13 +3,15 @@
 # ##############################################################
 .deploy:
   stage: deploy
+  image: $DEPLOY_IMAGE
   before_script:
     - |
       if [ "$HW_IN_THE_LOOP" == "true" ]; then
-        ping -c 1 $PDU_IP || (echo "Cannot reach PDU" && exit 1) #FIXME: This is the type of config data that we should ideally be putting in Vault / Config database
+        # apt-get update && apt-get install iputils-ping netcat -y
+        ping -c 1 $PDU_IP || (echo "Cannot reach PDU") #FIXME: This is the type of config data that we should ideally be putting in Vault / Config database
         nc -zv $PDU_IP 22 || (echo "Cannot reach PDU SSH interface - go to  https://za-itf-pdu3.ad.skatelescope.org and reset" && exit 1)
       fi
-    - bash .make/resources/gitlab_section.sh poetry "Install Python dependencies" poetry install
+    # - bash .make/resources/gitlab_section.sh poetry "Install Python dependencies" poetry install
   script:
     - mkdir deploy
     - echo $CI_JOB_NAME - $CI_JOB_STAGE > deploy/ci_details.txt # This is just to double-check if the job output to the build folder works
@@ -28,14 +30,17 @@
     - bash .make/resources/gitlab_section.sh wait-ns "Wait namespace resources" make k8s-wait
     - |
       if [ "$HW_IN_THE_LOOP" == "true" ]; then
-        make itf-cbf-setup --dry
-        make itf-cbf-talonlru-status
-        bash .make/resources/gitlab_section.sh talon_off "Switch off Talon" make itf-cbf-talonlru-off
-        bash .make/resources/gitlab_section.sh talon_config "Configure Talon(s)" make itf-cbf-config-talon
-        bash .make/resources/gitlab_section.sh mcs_config "Configure MCS" make itf-cbf-config-mcs
-        bash .make/resources/gitlab_section.sh talon_download_tangocpp_ds "Download CPP Tango device server updates" make itf-cbf-tangocpp-update &> deploy/talonconfig.log
-        bash .make/resources/gitlab_section.sh talon_config_tangodb "Configure TangoDB with device servers" make itf-cbf-config-tangodb
+        make itf-cbf-setup --dry && sleep 3;
+        make itf-cbf-talonlru-status && sleep 3;
+        bash .make/resources/gitlab_section.sh talon_off "Switch off Talon" make itf-cbf-talonlru-off && sleep 3;
+        bash .make/resources/gitlab_section.sh talon_config "Configure Talon(s)" make itf-cbf-config-talon && sleep 3;
+        bash .make/resources/gitlab_section.sh mcs_config "Configure MCS" make itf-cbf-config-mcs && sleep 3;
+        bash .make/resources/gitlab_section.sh talon_download_tangocpp_ds "Download CPP Tango device server updates" make itf-cbf-tangocpp-update &> deploy/talonconfig.log && sleep 3;
+        bash .make/resources/gitlab_section.sh talon_config_tangodb "Configure TangoDB with device servers" make itf-cbf-config-tangodb && sleep 3;
+        bash .make/resources/gitlab_section.sh talon_on "Switch ON the Talons" make itf-cbf-tango-on || (cat /app/src/ska_mid_itf_engineering_tools/cbf_config/talon_on.py && make itf-cbf-power-on && echo "###############\n# Failed to deploy Talon Demonstrator Correlator\n###############" > deploy/status)
       fi
+    - sleep 1
+    - if [ -f deploy/status ]; then cat deploy/status; fi
   after_script:
     - bash .make/resources/gitlab_section.sh template "Template Chart" make k8s-template-chart-with-build-artifacts
     - make links
