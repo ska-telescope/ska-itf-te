@@ -13,6 +13,7 @@
     INGRESS_HOST: "k8s.miditf.internal.skao.int"
     K8S_EXTRA_PARAMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
     TANGO_DATABASE_DS: tango-databaseds
+  image: $DEPLOY_IMAGE
   rules:
     - if: $CI_PIPELINE_SOURCE == "pipeline"
       when: never
