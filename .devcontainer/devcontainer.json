@@ -1,6 +1,6 @@
 {
     "name": "ska-mid-itf devcontainer",
-    "dockerFile": "../Dockerfile",
+    "dockerFile": "../.engineering-tools/Dockerfile",
     "context": "..",
     // Set *default* container specific settings.json values on container create.
     "customizations": {
@@ -64,10 +64,10 @@
         }
     },
     "runArgs": [
-        // "--dns",
-        //"10.164.0.11",
         "--dns",
-        "1.1.1.1"
+        "10.164.0.11"
+        // "--dns",
+        // "1.1.1.1"
     ],
     //this may break if you are attempting to do this from a non debian host
     // therefore manualy uncomment it in your branch if you want to use K8s

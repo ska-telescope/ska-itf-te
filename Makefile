@@ -1,3 +1,5 @@
+# include your own private variables for custom deployment configuration
+-include PrivateRules.mak
 
 OCI_BUILD_ADDITIONAL_ARGS += --cache-from registry.gitlab.com/ska-telescope/ska-mid-itf/ska-mid-itf-base:0.1.4
 
@@ -25,7 +27,7 @@ PYTHON_RUNNER = poetry run python3 -m
 PYTHON_LINE_LENGTH = 99
 DOCS_SPHINXBUILD = poetry run python3 -msphinx
 PYTHON_TEST_FILE = tests/unit/ tests/functional/
-PYTHON_LINT_TARGET ?= tests
+PYTHON_LINT_TARGET ?= tests/
 ifneq ($(COUNT),)
 # Dashcount is a synthesis of testcount as input user variable and is used to
 # run a paricular test/s multiple times. If no testcount is set then the entire
@@ -52,6 +54,34 @@ endif
 
 INTEGRATION_TEST_SOURCE ?= tests/integration
 INTEGRATION_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(_MARKS) $(_COUNTS) $(EXIT) $(PYTEST_ADDOPTS)
+
+DISH_LMC_INITIAL_PARAMS ?=
+DISH_LMC_EXTRA_PARAMS ?=
+
+ifneq ($(DISH_ID),)
+DISH_LMC_EXTRA_PARAMS = --set global.dish_id=$(DISH_ID) \
+	--set global.tangodb_fqdn=$(TANGO_DATABASE_DS).$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN) \
+	--set global.tango_host=$(TANGO_HOST) \
+	--set global.tangodb_port=10000
+endif
+
+SPFRX_IN_THE_LOOP ?= #Boolean flag to control deployment of the device described in SPFRX_TANGO_INSTANCE, SPFRX_ADDRESS variables
+
+ifneq ($(SPFRX_IN_THE_LOOP),)
+	DISH_LMC_EXTRA_PARAMS += \
+	--set spfrx.console.version=$(SPFRX_CONSOLE_VER) \
+	--set spfrx.address=$(SPFRX_ADDRESS) \
+	--set spfrx.bin=$(SPFRX_BIN) \
+	--set spfrx.local_dir=$(SPFRX_LOCAL_DIR) \
+	--set spfrx.scripts_dir=$(SPFRX_SCRIPTS_DIR) \
+	--set spfrx.instance=$(SPFRX_TANGO_INSTANCE) \
+	--set spfrx.logging_level=$(SPFRX_TANGO_LOGGING_LEVEL)
+endif
+
+ifeq ($(DISH_ID), ska001)
+	DISH_LMC_EXTRA_PARAMS += -f charts/dish-lmc/values-cetc.yaml \
+	--set dishlmc.ska-mid-dish-ds-manager.dishstructuremanager.dsSim.fqdn=$(DS_SIM_OPCUA_FQDN)
+endif
 
 DISH_LMC_PARAMS ?= $(DISH_LMC_INITIAL_PARAMS) $(DISH_LMC_EXTRA_PARAMS)
 
@@ -100,11 +130,6 @@ PYTHON_VARS_AFTER_PYTEST ?= -v
 # Assume the project root is the directory of the top-level Makefile
 PROJECT_ROOT := $(dir $(abspath $(firstword $(MAKEFILE_LIST))))
 
-python-post-lint:
-	poetry run mypy --install-types --non-interactive --config-file mypy.ini tests/
-
-.PHONY: python-post-lint
-
 DOCS_SPHINXOPTS=-n -W --keep-going
 
 # Use the previously built image when running in the pipeline
@@ -148,6 +173,8 @@ itf-check-te-hosts-online:
 		fi;
 	@python resources/ping-itf-hosts.py
 
+check: itf-check-te-hosts-online
+
 theres-a-ghost: 
 	@kubectl get nodes -o=jsonpath="{.items[*]['metadata.name', 'status.capacity']}{'\n'}" | grep skao.int 
 
@@ -172,9 +199,6 @@ include .make/raw.mk
 
 # include core make support
 include .make/base.mk
-
-# include your own private variables for custom deployment configuration
--include PrivateRules.mak
 
 # include namespace-specific targets
 -include resources/makefiles/k8s-installs.mk
@@ -205,3 +229,6 @@ k8s-template-chart-with-build-artifacts:
 	@echo "Find the chart template used to deploy all the things in the job artefacts - look for manifests.yaml."
 
 .PHONY: k8s-template-chart-with-build-artifacts
+
+env:
+	env

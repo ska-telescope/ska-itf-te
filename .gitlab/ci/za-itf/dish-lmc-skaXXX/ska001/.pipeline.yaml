@@ -1,0 +1,40 @@
+# DISH SKA001 SPECIFIC CI
+
+.ska001-env:
+  variables:
+    DISH_INDEX: "001"
+    SPFRX_TANGO_INSTANCE: spfrx-20
+    SPFRX_ADDRESS: 10.165.3.20
+    DISH_ID: ska001
+    SPFRX_IN_THE_LOOP: "true"
+
+deploy-dishlmc-ska001:
+  extends:
+    - .deploy-dish-lmc
+    - .ska001-env
+  needs:
+    - deploy-ds-sim-ska001
+  when: on_success
+  variables:
+    DISH_LMC_EXTRA_PARAMS: -f charts/dish-lmc/values-cetc.yaml --set dishlmc.ska-mid-dish-ds-manager.dishstructuremanager.dsSim.fqdn=$DS_SIM_OPCUA_FQDN
+  environment:
+    on_stop: uninstall-dishlmc-ska001
+
+redeploy-dishlmc-ska001:
+  extends:
+    - .redeploy-dish-lmc
+    - .ska001-env
+  needs:
+    - redeploy-ds-sim-ska001
+  when: on_success
+  variables:
+    DISH_LMC_EXTRA_PARAMS: -f charts/dish-lmc/values-cetc.yaml --set dishlmc.ska-mid-dish-ds-manager.dishstructuremanager.dsSim.fqdn=$DS_SIM_OPCUA_FQDN
+  environment:
+    on_stop: uninstall-dishlmc-ska001
+
+uninstall-dishlmc-ska001:
+  extends:
+    - .destroy-dish-lmc
+    - .ska001-env
+  needs:
+    - remove-ds-sim-ska001
