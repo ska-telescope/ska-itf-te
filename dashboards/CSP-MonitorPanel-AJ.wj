@@ -1,0 +1,610 @@
+{
+  "id": "655cf65172024f001940b2a7",
+  "name": "CSP-MonitorPanel-AJ",
+  "version": "2.5.0",
+  "user": "ATLAS",
+  "insertTime": "2023-11-21T18:26:25.936Z",
+  "updateTime": "2024-02-12T14:02:45.716Z",
+  "group": null,
+  "groupWriteAccess": false,
+  "lastUpdatedBy": "ATLAS",
+  "widget": [
+    {
+      "valid": 1,
+      "id": "18",
+      "x": 81.4,
+      "y": 6.799999999999997,
+      "canvas": "0",
+      "width": 84.2,
+      "height": 26.400000000000006,
+      "type": "LABEL",
+      "inputs": {
+        "text": " ",
+        "textColor": "#342d67",
+        "backgroundColor": "#f5f5f5",
+        "size": 1.5,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "border:1px solid #b3b3b3;\n",
+        "automaticResize": "Disabled"
+      },
+      "order": 5
+    },
+    {
+      "valid": 1,
+      "id": "128",
+      "x": 18,
+      "y": 1,
+      "canvas": "0",
+      "width": 142,
+      "height": 4,
+      "type": "LABEL",
+      "inputs": {
+        "text": "Mid Telescope - CSP Local Monitoring and Control - Monitor Panel",
+        "textColor": "#ffffff",
+        "backgroundColor": "#070068",
+        "size": 1.3,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "text-align: center;\npadding-top:5px",
+        "automaticResize": "Disabled"
+      },
+      "order": 8
+    },
+    {
+      "valid": 1,
+      "id": "322",
+      "x": 2,
+      "y": 1,
+      "canvas": "0",
+      "width": 15,
+      "height": 4,
+      "type": "LABEL",
+      "inputs": {
+        "text": " ",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "background-image: url('https://www.skao.int/themes/custom/ska/assets/images/logo-color.svg');\nbackground-repeat: no-repeat;\nbackground-size: cover;",
+        "automaticResize": "Disabled"
+      },
+      "order": 10
+    },
+    {
+      "valid": 1,
+      "id": "348",
+      "x": 83.39999999999998,
+      "y": 14.799999999999997,
+      "canvas": "0",
+      "width": 81.2,
+      "height": 17.4,
+      "type": "TABULAR_VIEW",
+      "inputs": {
+        "devices": [
+          {
+            "device": "mid_csp_cbf/sub_elt/controller"
+          },
+          {
+            "device": "mid_csp_cbf/sub_elt/subarray_01"
+          },
+          {
+            "device": "mid_csp_cbf/sub_elt/subarray_02"
+          },
+          {
+            "device": "mid_csp_cbf/sub_elt/subarray_03"
+          }
+        ],
+        "showDefaultAttribute": true,
+        "customAttributes": [
+          {
+            "attribute": {
+              "device": "mid_csp_cbf/sub_elt/controller,mid_csp_cbf/sub_elt/subarray_01,mid_csp_cbf/sub_elt/subarray_02,mid_csp_cbf/sub_elt/subarray_03",
+              "attribute": "receptors",
+              "label": "receptor_ids"
+            }
+          },
+          {
+            "attribute": {
+              "device": "mid_csp_cbf/sub_elt/controller,mid_csp_cbf/sub_elt/subarray_01,mid_csp_cbf/sub_elt/subarray_02,mid_csp_cbf/sub_elt/subarray_03",
+              "attribute": "state",
+              "label": "state",
+              "hideList": true
+            }
+          },
+          {
+            "attribute": {
+              "device": "mid_csp_cbf/sub_elt/controller,mid_csp_cbf/sub_elt/subarray_01,mid_csp_cbf/sub_elt/subarray_02,mid_csp_cbf/sub_elt/subarray_03",
+              "attribute": "adminmode",
+              "label": "adminmode",
+              "hideList": true
+            }
+          },
+          {
+            "attribute": {
+              "device": "mid_csp_cbf/sub_elt/controller,mid_csp_cbf/sub_elt/subarray_01,mid_csp_cbf/sub_elt/subarray_02,mid_csp_cbf/sub_elt/subarray_03",
+              "attribute": "healthstate",
+              "label": "healthstate",
+              "hideList": true
+            }
+          },
+          {
+            "attribute": {
+              "device": "mid_csp_cbf/sub_elt/controller,mid_csp_cbf/sub_elt/subarray_01,mid_csp_cbf/sub_elt/subarray_02,mid_csp_cbf/sub_elt/subarray_03",
+              "attribute": "simulationmode",
+              "label": "simulationMode"
+            }
+          },
+          {
+            "attribute": {
+              "device": "mid_csp_cbf/sub_elt/controller,mid_csp_cbf/sub_elt/subarray_01,mid_csp_cbf/sub_elt/subarray_02,mid_csp_cbf/sub_elt/subarray_03",
+              "attribute": "obsstate",
+              "label": "obsState"
+            }
+          }
+        ],
+        "compactTable": true,
+        "borderedTable": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 0.7,
+        "font": "Courier new",
+        "widgetCss": "",
+        "precision": 2,
+        "scientificNotation": false,
+        "showEnumLabels": true
+      },
+      "percentage": -1,
+      "order": 9
+    },
+    {
+      "valid": 1,
+      "id": "358",
+      "x": 2,
+      "y": 7,
+      "canvas": "0",
+      "width": 79,
+      "height": 34,
+      "type": "LABEL",
+      "inputs": {
+        "text": "",
+        "textColor": "#070a68",
+        "backgroundColor": "#f5f5f5",
+        "size": 1.5,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "border:1px solid #b3b3b3;\npadding-top:5px;\npadding-left:20px;\n",
+        "automaticResize": "Disabled"
+      },
+      "order": 7
+    },
+    {
+      "valid": 1,
+      "id": "359",
+      "x": 3,
+      "y": 9,
+      "canvas": "0",
+      "width": 76,
+      "height": 4,
+      "type": "LABEL",
+      "inputs": {
+        "text": "CSP.LMC",
+        "textColor": "#070a68",
+        "backgroundColor": "#dcdcdc",
+        "size": 1.2,
+        "borderWidth": 0,
+        "borderColor": "#dcdcdc",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "padding-top:5px;\ntext-align: center;\nborder: 1px solid gray;",
+        "automaticResize": "Disabled"
+      },
+      "order": 11
+    },
+    {
+      "valid": 1,
+      "id": "362",
+      "x": 83,
+      "y": 9,
+      "canvas": "0",
+      "width": 76,
+      "height": 4,
+      "type": "LABEL",
+      "inputs": {
+        "text": "Correlator and Beam Former (CBF)",
+        "textColor": "#070a68",
+        "backgroundColor": "#dcdcdc",
+        "size": 1.2,
+        "borderWidth": 0,
+        "borderColor": "#dcdcdc",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "padding-top:5px;\ntext-align: center;\nborder: 1px solid gray;",
+        "automaticResize": "Disabled"
+      },
+      "order": 12
+    },
+    {
+      "valid": 1,
+      "id": "369",
+      "x": 43,
+      "y": 48,
+      "canvas": "0",
+      "width": 36,
+      "height": 4,
+      "type": "LABEL",
+      "inputs": {
+        "text": "CSP.LMC Capabilities",
+        "textColor": "#070a68",
+        "backgroundColor": "#f9f9fa",
+        "size": 1.2,
+        "borderWidth": 0,
+        "borderColor": "#dcdcdc",
+        "font": "Helvetica",
+        "linkTo": "http://localhost:8081/mid-csp/taranta/dashboard?id=64b6811ad5eda80019582176&mode=run",
+        "customCss": "padding-top:5px;\ntext-align:center;\n",
+        "automaticResize": "Disabled"
+      },
+      "order": 15
+    },
+    {
+      "valid": 1,
+      "id": "374",
+      "x": 3,
+      "y": 15,
+      "canvas": "0",
+      "width": 76,
+      "height": 24,
+      "type": "TABULAR_VIEW",
+      "inputs": {
+        "devices": [
+          {
+            "device": "mid-csp/control/0"
+          },
+          {
+            "device": "mid-csp/subarray/01"
+          },
+          {
+            "device": "mid-csp/subarray/02"
+          },
+          {
+            "device": "mid-csp/subarray/03"
+          },
+          {
+            "device": "mid-csp/capability-fsp/0"
+          },
+          {
+            "device": "mid-csp/capability-vcc/0"
+          }
+        ],
+        "showDefaultAttribute": true,
+        "customAttributes": [
+          {
+            "attribute": {
+              "device": "mid-csp/control/0,mid-csp/subarray/01,mid-csp/subarray/02,mid-csp/subarray/03,mid-csp/capability-fsp/0,mid-csp/capability-vcc/0",
+              "attribute": "commandtimeout",
+              "label": "Command timeout"
+            }
+          },
+          {
+            "attribute": {
+              "device": "mid-csp/control/0,mid-csp/subarray/01,mid-csp/subarray/02,mid-csp/subarray/03,mid-csp/capability-fsp/0,mid-csp/capability-vcc/0",
+              "attribute": "obsstate",
+              "label": "obsState"
+            }
+          },
+          {
+            "attribute": {
+              "device": "mid-csp/control/0,mid-csp/subarray/01,mid-csp/subarray/02,mid-csp/subarray/03,mid-csp/capability-fsp/0,mid-csp/capability-vcc/0",
+              "attribute": "state",
+              "label": "state",
+              "hideList": true
+            }
+          },
+          {
+            "attribute": {
+              "device": "mid-csp/control/0,mid-csp/subarray/01,mid-csp/subarray/02,mid-csp/subarray/03,mid-csp/capability-fsp/0,mid-csp/capability-vcc/0",
+              "attribute": "adminmode",
+              "label": "adminmode",
+              "hideList": true
+            }
+          },
+          {
+            "attribute": {
+              "device": "mid-csp/control/0,mid-csp/subarray/01,mid-csp/subarray/02,mid-csp/subarray/03,mid-csp/capability-fsp/0,mid-csp/capability-vcc/0",
+              "attribute": "healthstate",
+              "label": "healthstate",
+              "hideList": true
+            }
+          }
+        ],
+        "compactTable": true,
+        "borderedTable": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 0.8,
+        "font": "Courier new",
+        "widgetCss": "",
+        "precision": 2,
+        "scientificNotation": false,
+        "showEnumLabels": true
+      },
+      "order": 13
+    },
+    {
+      "valid": 1,
+      "id": "375",
+      "x": 4,
+      "y": 48,
+      "canvas": "0",
+      "width": 35,
+      "height": 4,
+      "type": "LABEL",
+      "inputs": {
+        "text": "CSP.LMC Subarrays",
+        "textColor": "#070a68",
+        "backgroundColor": "#f9f9fa",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#dcdcdc",
+        "font": "Helvetica",
+        "linkTo": "http://localhost:8081/mid-csp/taranta/dashboard?id=64b6811fd5eda80019582183&mode=run",
+        "customCss": "padding-top:5px;\ntext-align:center;\n\n",
+        "automaticResize": "Disabled"
+      },
+      "order": 16
+    },
+    {
+      "valid": 1,
+      "id": "379",
+      "x": 81,
+      "y": 32,
+      "canvas": "0",
+      "width": 79,
+      "height": 3,
+      "type": "LABEL",
+      "inputs": {
+        "text": " ",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "",
+        "automaticResize": "Disabled"
+      },
+      "order": 4
+    },
+    {
+      "valid": 1,
+      "id": "383",
+      "x": 3,
+      "y": 43,
+      "canvas": "0",
+      "width": 76,
+      "height": 4,
+      "type": "LABEL",
+      "inputs": {
+        "text": "navigate to more dashboards",
+        "textColor": "#070a68",
+        "backgroundColor": "#dcdcdc",
+        "size": 1.2,
+        "borderWidth": 0,
+        "borderColor": "#dcdcdc",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "padding-top:5px;\ntext-align: center;\nborder: 1px solid gray;",
+        "automaticResize": "Disabled"
+      },
+      "order": 17
+    },
+    {
+      "valid": 1,
+      "id": "386",
+      "x": 2,
+      "y": 42,
+      "canvas": "0",
+      "width": 79,
+      "height": 11,
+      "type": "LABEL",
+      "inputs": {
+        "text": "",
+        "textColor": "#070a68",
+        "backgroundColor": "#f5f5f5",
+        "size": 1.5,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "border:1px solid #b3b3b3;\npadding-top:5px;\npadding-left:20px;\n",
+        "automaticResize": "Disabled"
+      },
+      "order": 14
+    },
+    {
+      "valid": 1,
+      "id": "387",
+      "x": 2,
+      "y": 39,
+      "canvas": "0",
+      "width": 79,
+      "height": 3,
+      "type": "LABEL",
+      "inputs": {
+        "text": " ",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "",
+        "automaticResize": "Disabled"
+      },
+      "order": 6
+    },
+    {
+      "valid": 1,
+      "id": "389",
+      "x": 2,
+      "y": 55,
+      "canvas": "0",
+      "width": 158,
+      "height": 46,
+      "type": "TIMELINE",
+      "inputs": {
+        "timeWindow": 120,
+        "overflow": false,
+        "groupAttributes": true,
+        "attributes": [
+          {
+            "attribute": {
+              "device": "mid-csp/control/0",
+              "attribute": "adminmode",
+              "label": "adminMode"
+            },
+            "yAxisDisplay": "Label",
+            "showAttribute": "Label",
+            "yAxis": "left"
+          },
+          {
+            "attribute": {
+              "device": "mid_csp_cbf/sub_elt/controller",
+              "attribute": "adminmode",
+              "label": "adminMode"
+            },
+            "yAxisDisplay": "Label",
+            "showAttribute": "Label",
+            "yAxis": "left"
+          },
+          {
+            "attribute": {
+              "device": "mid-csp/control/0",
+              "attribute": "state",
+              "label": "State"
+            },
+            "yAxisDisplay": "Label",
+            "showAttribute": "Label",
+            "yAxis": "left"
+          },
+          {
+            "attribute": {
+              "device": "mid_csp_cbf/sub_elt/controller",
+              "attribute": "state",
+              "label": "State"
+            },
+            "yAxisDisplay": "Label",
+            "showAttribute": "Label",
+            "yAxis": "left"
+          }
+        ]
+      },
+      "order": 18
+    },
+    {
+      "valid": 1,
+      "id": "390",
+      "x": 83,
+      "y": 11,
+      "canvas": "0",
+      "width": 156,
+      "height": 60,
+      "type": "LABEL",
+      "inputs": {
+        "text": "",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "background-image: url('https://www.skao.int/sites/default/files/styles/background/public/2022-06/SKA%20at%20daytime.jpg');\nbackground-repeat: no-repeat;\nbackground-size: cover;",
+        "automaticResize": "Disabled"
+      },
+      "order": 0
+    },
+    {
+      "valid": 1,
+      "id": "391",
+      "x": 160,
+      "y": 3,
+      "canvas": "0",
+      "width": 88,
+      "height": 85,
+      "type": "LABEL",
+      "inputs": {
+        "text": " ",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "",
+        "automaticResize": "Disabled"
+      },
+      "order": 1
+    },
+    {
+      "valid": 1,
+      "id": "392",
+      "x": 1,
+      "y": 54,
+      "canvas": "0",
+      "width": 160,
+      "height": 48,
+      "type": "LABEL",
+      "inputs": {
+        "text": " ",
+        "textColor": "#070a68",
+        "backgroundColor": "#f5f5f5",
+        "size": 1.5,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "border:1px solid #b3b3b3;\npadding-top:5px;\npadding-left:20px;\n",
+        "automaticResize": "Disabled"
+      },
+      "order": 3
+    },
+    {
+      "valid": 1,
+      "id": "393",
+      "x": 81,
+      "y": 52,
+      "canvas": "0",
+      "width": 79,
+      "height": 4,
+      "type": "LABEL",
+      "inputs": {
+        "text": " ",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "",
+        "automaticResize": "Disabled"
+      },
+      "order": 2
+    }
+  ],
+  "variables": []
+}
