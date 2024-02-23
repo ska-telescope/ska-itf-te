@@ -1,15 +1,13 @@
 ### TARANTA DEPLOYMENT
 deploy-taranta:
-  stage: on_demand_itf_sut
+  stage: platform
   tags:
-    - k8srunner-za-itf-dishlmc-ska001
-#    - ska-k8srunner-za-itf
+    - ska-k8srunner-za-itf
   variables:
     KUBE_NAMESPACE: taranta
     KUBE_APP: ska-taranta-backend
     HELM_RELEASE: taranta
     K8S_CHART: taranta-itf
-    CLUSTER_DOMAIN: za-dish-lmc.skao.int
   script:
     - make k8s-install-chart
     - make k8s-wait
@@ -20,4 +18,4 @@ deploy-taranta:
     paths:
       - "build/"
   extends:
-    - .on_demand_rules
+    - .integration_rules

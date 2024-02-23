@@ -37,7 +37,7 @@ cia:
   enabled: false
 
 cbf-mcs:
-  enabled: false
+  enabled: true
   engineeringConsoleVersion: 0.9.1
   signalVerificationVersion: 0.2.4
   hostInfo:
@@ -49,7 +49,7 @@ cbf-tmleafnode:
 
 csp-lmc:
   legacy_compatibility: true
-  enabled: false
+  enabled: true
 
 ### tmc - also see tmc-values for DishIDs!
 tmc:
@@ -76,7 +76,7 @@ sdp:
   helmdeploy:
     enableNADClusterRole: true
   legacy_compatibility: true
-  enabled: false
+  enabled: true
   lmc:
     prefix: mid
     nsubarray: 3
