@@ -1,0 +1,15 @@
+db: tango-databaseds.integration.svc.miditf.internal.skao.int:10000
+manager: mid-eda/cm/01
+archiver: mid-eda/es/01
+ 
+configuration:
+- class: TangoTest
+  attributes:
+    short_scalar_ro:
+      archive_period: 6000
+      polling_period: 3000
+      archive_strategy: SERVICE
+    double_image:
+      archive_period: 7000
+      polling_period: 3000
+      archive_rel_change: 5
