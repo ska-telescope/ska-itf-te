@@ -5,6 +5,7 @@ global:
   exposeAllDS: true
   facility: mid-itf
   minikube: false
+  use_aws: false
   sub-system:
     ska-tango-base:
       enabled: false
