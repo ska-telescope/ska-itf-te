@@ -36,7 +36,7 @@ dishlmc:
 # SPFRx
 spfrx:
   console:
-    version: 0.1.0
+    version: 0.0.1 # Edit in Gitlab Environment
   address: 10.165.3.20
   bin: /usr/local/bin
   local_dir: artifacts

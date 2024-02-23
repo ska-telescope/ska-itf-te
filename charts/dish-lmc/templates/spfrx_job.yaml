@@ -228,6 +228,5 @@ spec:
               value: {{ .Values.spfrx.local_dir }}
             - name: TANGO_HOST
               value: {{ .Values.global.tango_host }}
-          image: registry.gitlab.com/ska-telescope/ska-mid-dish-spfrx-talondx-console/ska-mid-dish-spfrx-talondx-console-deploy:0.1.0
-          # image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
-          imagePullPolicy: Always
+          image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
+          imagePullPolicy: IfNotPresent

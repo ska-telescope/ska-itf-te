@@ -28,6 +28,7 @@ PYTHON_LINE_LENGTH = 99
 DOCS_SPHINXBUILD = poetry run python3 -msphinx
 PYTHON_TEST_FILE = tests/unit/ tests/functional/
 PYTHON_LINT_TARGET ?= tests/
+SPFRX_CONSOLE_VER ?= 0.0.1 # Set this value in the Gitlab Environment - this value should fail
 ifneq ($(COUNT),)
 # Dashcount is a synthesis of testcount as input user variable and is used to
 # run a paricular test/s multiple times. If no testcount is set then the entire
