@@ -1,7 +1,7 @@
 db: tango-databaseds.integration.svc.miditf.internal.skao.int:10000
 manager: mid-eda/cm/01
 archiver: mid-eda/es/01
- 
+
 configuration:
 - class: TangoTest
   attributes:

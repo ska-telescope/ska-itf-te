@@ -52,7 +52,7 @@ dependencies:
 
   # TARANTA SUITE
   - name: ska-tango-taranta
-    version: 2.6.0
+    version: 2.7.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-taranta.enabled
 
@@ -75,6 +75,6 @@ dependencies:
 
   # EDA
   - name: ska-tango-archiver
-    version: 2.6.0
+    version: 2.7.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tango-archiver.enabled
