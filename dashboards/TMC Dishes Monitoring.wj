@@ -1,0 +1,75 @@
+{
+  "id": "6573366da542ea0019307a6b",
+  "name": "TMC Dishes Monitoring",
+  "version": "2.5.0",
+  "user": "ATLAS",
+  "insertTime": "2023-12-08T15:29:49.754Z",
+  "updateTime": "2024-01-24T11:56:53.087Z",
+  "group": null,
+  "groupWriteAccess": false,
+  "lastUpdatedBy": "ATLAS",
+  "widget": [
+    {
+      "valid": 1,
+      "id": "1",
+      "x": 2,
+      "y": 1,
+      "canvas": "0",
+      "width": 171,
+      "height": 87,
+      "type": "TABULAR_VIEW",
+      "inputs": {
+        "devices": [
+          {
+            "device": "ska_mid/tm_leaf_node/d0001"
+          },
+          {
+            "device": "ska_mid/tm_leaf_node/d0036"
+          },
+          {
+            "device": "ska_mid/tm_leaf_node/d0063"
+          },
+          {
+            "device": "ska_mid/tm_leaf_node/d0100"
+          }
+        ],
+        "precision": 2,
+        "scientificNotation": false,
+        "showDefaultAttribute": false,
+        "showEnumLabels": true,
+        "customAttributes": [
+          {
+            "attribute": {
+              "device": "ska_mid/tm_leaf_node/d0001,ska_mid/tm_leaf_node/d0036,ska_mid/tm_leaf_node/d0063,ska_mid/tm_leaf_node/d0100",
+              "attribute": "dishmasterdevname",
+              "label": "dishMasterDevName"
+            }
+          },
+          {
+            "attribute": {
+              "device": "ska_mid/tm_leaf_node/d0001,ska_mid/tm_leaf_node/d0036,ska_mid/tm_leaf_node/d0063,ska_mid/tm_leaf_node/d0100",
+              "attribute": "buildstate",
+              "label": "buildState"
+            }
+          },
+          {
+            "attribute": {
+              "device": "ska_mid/tm_leaf_node/d0001,ska_mid/tm_leaf_node/d0036,ska_mid/tm_leaf_node/d0063,ska_mid/tm_leaf_node/d0100",
+              "attribute": "issubsystemavailable",
+              "label": "isSubsystemAvailable"
+            }
+          }
+        ],
+        "compactTable": true,
+        "borderedTable": true,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Courier new",
+        "widgetCss": ""
+      },
+      "order": 0
+    }
+  ],
+  "variables": []
+}

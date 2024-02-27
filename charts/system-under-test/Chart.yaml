@@ -23,7 +23,7 @@ dependencies:
 
   # SKA Mid CSP LMC
   - name: ska-csp-lmc-mid
-    version: 0.18.1 # check latest version
+    version: 0.18.2 # check latest version
     repository: https://artefact.skao.int/repository/helm-internal
     alias: csp-lmc
     condition: csp-lmc.enabled
@@ -52,7 +52,7 @@ dependencies:
 
   # TARANTA SUITE
   - name: ska-tango-taranta
-    version: 2.5.0
+    version: 2.7.1
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-taranta.enabled
 
@@ -75,5 +75,6 @@ dependencies:
 
   # EDA
   - name: ska-tango-archiver
-    version: 2.6.0
+    version: 2.7.0
     repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-tango-archiver.enabled

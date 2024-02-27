@@ -10,6 +10,7 @@ global:
   operator: true
   exposeAllDS: true
   data-product-pvc-name: test-pvc
+  use_aws: true
   sub-system:
     ska-tango-base:
       enabled: false

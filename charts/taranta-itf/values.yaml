@@ -5,6 +5,7 @@ global:
   tango_host: databaseds-tango-base-test:10000
   facility: test-itf
   exposeAllDS: true
+  use_aws: true
   sub-system:
     ska-tango-base:
       enabled: false
@@ -14,3 +15,7 @@ ska-taranta:
   enabled: true
   # tangogql:
   # replicas: 1
+
+ska-tango-taranta-dashboard:
+  mongodb:
+    enabled: true
