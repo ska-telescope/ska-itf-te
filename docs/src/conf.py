@@ -78,6 +78,4 @@ html_context = {
     "theme_logo_only": True,
 }
 
-intersphinx_mapping = {
-    "https://docs.python.org/3.7/": None,
-}
+intersphinx_mapping = {'python': ('https://docs.python.org/3', None)}
