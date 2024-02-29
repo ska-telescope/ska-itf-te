@@ -31,6 +31,7 @@
   script:
     - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart
     - bash .make/resources/gitlab_section.sh wait "Wait for installation" make k8s-wait
+    - make k8s-info
   after_script:
     - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart-with-build-artifacts
     - make dpd-links
