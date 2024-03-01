@@ -1,4 +1,5 @@
 """Validation utility."""
+
 from ska_control_model import ResultCode
 
 

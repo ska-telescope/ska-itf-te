@@ -1,4 +1,5 @@
 """pytest global settings, fixtures and global bdd step implementations for integration tests."""
+
 import logging
 import os
 from types import SimpleNamespace

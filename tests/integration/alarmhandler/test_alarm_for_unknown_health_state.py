@@ -1,4 +1,5 @@
 """Configure and raise alarm."""
+
 import logging
 import os
 

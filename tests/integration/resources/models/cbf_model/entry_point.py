@@ -1,4 +1,5 @@
 """Domain logic for the cbf."""
+
 import json
 import logging
 import os
