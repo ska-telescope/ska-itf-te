@@ -1,4 +1,5 @@
 """This module is used for testing Alarm-Handler configurator add-alarms API."""
+
 import logging
 import os
 

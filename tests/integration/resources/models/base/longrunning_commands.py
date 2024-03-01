@@ -1,4 +1,5 @@
 """."""
+
 from ska_ser_skallop.event_handling.handlers import WaitForLRCComplete
 from ska_ser_skallop.utils.singleton import Memo
 
