@@ -194,3 +194,4 @@ Web : http://za-itf-signal-generator.ad.skatelescope.org/webpages/web/html/ihp.p
 ### Alarm Configurator tool 
 
 The Alarm Handler user guide can be found [here] (https://confluence.skatelescope.org/display/UD/Alarm+Configuration/)
+
