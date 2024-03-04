@@ -1,5 +1,6 @@
 global:
   facility: mid-itf
+  use_aws: true
   sub-system:
     ska-tango-base:
       enabled: false

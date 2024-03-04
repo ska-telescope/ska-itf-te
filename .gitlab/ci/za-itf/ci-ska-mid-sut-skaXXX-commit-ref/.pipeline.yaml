@@ -1,7 +1,7 @@
 .aa05-env:
   stage: on_demand_itf_sut
   tags:
-  - ska-k8srunner-za-itf
+    - ska-k8srunner-za-itf
   variables:
     CONFIG: mid
     K8S_CHART: system-under-test
@@ -13,6 +13,7 @@
     INGRESS_HOST: "k8s.miditf.internal.skao.int"
     K8S_EXTRA_PARAMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
     TANGO_DATABASE_DS: tango-databaseds
+  image: $DEPLOY_IMAGE
   rules:
     - if: $CI_PIPELINE_SOURCE == "pipeline"
       when: never
@@ -65,4 +66,3 @@ uninstall-aa05-dishes:
     - echo "Uninstalling 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
   environment:
     action: stop
-

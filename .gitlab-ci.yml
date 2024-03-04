@@ -8,7 +8,8 @@ variables:
   CLEAN_UP_TEST_ENVIRONMENT: "true"
   DEPLOYMENT_CONFIGURATION: "ska-$CONFIG"
   POETRY_CONFIG_VIRTUALENVS_CREATE: "true"
-  DEPLOY_IMAGE: $CI_REGISTRY/ska-telescope/$CI_PROJECT_NAME/$CI_PROJECT_NAME:0.1.1
+  DEPLOY_IMAGE: $CI_REGISTRY/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools:0.4.0
+  MCS_CONFIG_FILE_PATH: resources/mcs
 
   # PYTEST_SUBSYS_MARK: (csp_startup or sdp or eda)
   # K8S_INSTALL_FROM_CAR: "false"remove redundant cache
@@ -46,10 +47,11 @@ include:
     file: "gitlab-ci/includes/changelog.gitlab-ci.yml"
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/xray-publish.gitlab-ci.yml"
+  - project: "ska-telescope/ska-mid-itf-engineering-tools"
+    file: .gitlab/ci/check-dependencies/.pipeline.yaml
 
   - local: .gitlab/ci/.jobs.yaml
   - local: .gitlab/ci/.rules.yaml
-  - local: .gitlab/ci/.ansible.yml
   - local: .gitlab/ci/za-itf/ci-ska-mid-itf-commit-ref/.pipeline.yaml
   - local: .gitlab/ci/za-itf/dish-lmc-skaXXX/.pipeline.yaml
   - local: .gitlab/ci/za-itf/ci-ska-mid-sut-skaXXX-commit-ref/.pipeline.yaml
@@ -61,9 +63,10 @@ include:
   - local: .gitlab/ci/za-itf/taranta/.pipeline.yaml
   - local: .gitlab/ci/za-itf/test-equipment/.pipeline.yaml
   - local: .gitlab/ci/za-itf/ci-ska-db-oda-commit-ref/.pipeline.yaml
+  - local: .gitlab/ci/za-itf/dpd/.pipeline.yaml
 
 xray-publish:
-  when: always #### TODO: Remove this and uncomment line just above this one!
+  when: always
   rules: !reference [publish-k8s-test-results, rules]
 
 python-build-for-publication:

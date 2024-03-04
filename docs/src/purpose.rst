@@ -19,6 +19,37 @@ Spectrum Analyser File Access
 =============================
 The Ansritsu MS2090A Spectrum Analyser in the ITF hosts an FTP server. This allows users to access recordings made on the device remotely. In order to make this access more user friendly, we run `filestash <https://www.filestash.app/>`_. This provides a file browser web frontend to various backends, among them FTP. This is deployed with the ``file-browser`` helm chart.
 
+Data Product Dashboard
+======================
+The Data Product Dashboard for the integration deployment can be accessed.
+
+Useful Links:
+
+1. `Developer Portal Documentation <https://developer.skao.int/projects/ska-sdp-dataproduct-dashboard/en/latest/index.html>`_.
+2. `Dashboard <https://k8s.miditf.internal.skao.int/ska-dpd/dashboard/>`_
+3. `API <https://k8s.miditf.internal.skao.int/ska-dpd/api/>`_
+
+Alarm Handler
+=============
+
+The Alarm Handler Solution is based on Elettra Alarm Handler provided by the Tango community. For more details see the User Guide.
+
+Useful links:
+
+1. `Alarm Handler User Guide <https://confluence.skatelescope.org/display/UD/Alarm+Handler+User+Guide>`_
+2. `Alarm Handler Confurator <https://k8s.miditf.internal.skao.int/integration/alarm-configurator/>`_
+
+Engineering Data Archiver (EDA)
+===============================
+
+The SKA EDA solution is based on HDB++ (Historical Data Base++), which is a standard archiver tool in Tango ecosystem used for archiving tango attributes. For more details see the user guide.
+
+Useful links:
+
+1. `EDA User Guide <https://confluence.skatelescope.org/display/UD/EDA+User+Guide>`_
+2. `Configuration Page <https://k8s.miditf.internal.skao.int/integration/configurator/configuration-page>`_
+3. `Archviewer <http://archviewer.integration.svc.miditf.internal.skao.int:8082>`_
+
 ==========
 Deployment
 ==========
@@ -92,19 +123,22 @@ Namespaces and pipeline definitions
 ===================================
 In the present repository it is possible to deploy the charts in different namespaces in the ITF cluster. In specific it is possible to deploy in the following namespaces: 
 
-.. table:: List of namespaces at December 2023
+.. table:: List of namespaces at February 2024
    :widths: auto
 
    ================================  ====================================================
      Name                              Description
    ================================  ====================================================
-   ci-ska-mid-itf-commit-ref         Used for testing purposes and normally not persisted
-   ci-ska-mid-sut-skaXXX-commit-ref  Used for on demand deployment in vision of AA05 
-   dish-lmc-skaXXX                   For Dish AIV related CICD jobs
-   ds-sim-skaXXX                     For Dish Strcuture Simulator related CICD jobs
+   ci-ska-mid-itf-commit-ref         Used for on-demand deployment of SUT and not persisted
+   ci-dish-lmc-skaXXX-commit-ref     Used for on-demand deployment of Dish LMC
+   ci-ska-mid-itf-dpd-commit-ref     Used for on-demand deployment of the Data Product Dashboard
+   ci-ska-db-oda-commit-ref          Used for on-demand deployment of the ODA
+   dish-lmc-skaXXX                   For long-lived deployment of Dish LMC
+   ds-sim-skaXXX                     For long-lived deployment of Dish Strcuture Simulator
    file-browser                      For the spectrum analyser file browser
    integration                       For long-lived deployment of the SUT
-   staging                           For long-lived deployment of the SUT
+   ska-db-oda                        For long-lived deployment of the ODA
+   ska-dpd                           For long-lived deployment of the Data Product Dashboard
    taranta                           For taranta backend deployment
    test-equipment                    For Test Equipment Tango Device Servers
    ================================  ====================================================

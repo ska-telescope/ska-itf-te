@@ -1,0 +1,361 @@
+{
+  "id": "65c51b614fb2ff001905ec5b",
+  "name": "CSP & CBF basic ON/OFF",
+  "version": "2.5.0",
+  "user": "ATLAS",
+  "insertTime": "2024-02-08T18:20:17.517Z",
+  "updateTime": "2024-02-09T04:39:44.489Z",
+  "group": null,
+  "groupWriteAccess": false,
+  "lastUpdatedBy": "ATLAS",
+  "widget": [
+    {
+      "valid": 1,
+      "id": "1",
+      "x": 2,
+      "y": 0,
+      "canvas": "0",
+      "width": 25,
+      "height": 37,
+      "type": "BOX",
+      "inputs": {
+        "title": "CSP Controller",
+        "bigWidget": 4,
+        "smallWidget": 1,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "borderColor": "#0d0c0c",
+        "borderWidth": 0,
+        "borderStyle": "solid",
+        "textSize": 1,
+        "fontFamily": "Helvetica",
+        "layout": "vertical",
+        "alignment": "Center",
+        "padding": 0,
+        "customCss": ""
+      },
+      "order": 0,
+      "innerWidgets": [
+        {
+          "id": "4",
+          "x": 2.4,
+          "y": 5.359999999999999,
+          "canvas": "0",
+          "width": 24.2,
+          "height": 10.5,
+          "type": "ATTRIBUTE WRITER DROPDOWN",
+          "inputs": {
+            "attribute": {
+              "device": "mid-csp/control/0",
+              "attribute": "adminmode",
+              "label": "adminMode"
+            },
+            "submitButtonTitle": "Set",
+            "writeValues": [
+              {
+                "title": "OFFLINE",
+                "value": "1"
+              },
+              {
+                "title": "ONLINE",
+                "value": "0"
+              }
+            ],
+            "writeValuesSpectrum": {
+              "device": null,
+              "attribute": null
+            },
+            "showDevice": false,
+            "showAttribute": "None",
+            "textColor": "#000000",
+            "backgroundColor": "#ffffff",
+            "size": 1,
+            "font": "Helvetica",
+            "customCss": "",
+            "dropdownTitle": "AdminMode"
+          },
+          "valid": 1,
+          "order": 3
+        },
+        {
+          "id": "11",
+          "x": 2.4,
+          "y": 15.86,
+          "canvas": "0",
+          "width": 24.2,
+          "height": 10.5,
+          "type": "COMMAND",
+          "inputs": {
+            "title": "DishCfg",
+            "buttonText": "Load",
+            "command": {
+              "device": "mid-csp/control/0",
+              "command": "LoadDishCfg",
+              "acceptedType": "DevString",
+              "intypedesc": "The input argument can be either a json containing the DishID-VCC Mapping or a json with the URI where this mapping can be obtained from.",
+              "outtypedesc": "(ReturnType, 'informational message')",
+              "outtype": "DevVarLongStringArray",
+              "tag": "0"
+            },
+            "commandArgs": [],
+            "showDevice": false,
+            "showCommand": false,
+            "requireConfirmation": true,
+            "displayOutput": true,
+            "alignButtonRight": false,
+            "placeholder": "intype",
+            "textColor": "#000000",
+            "backgroundColor": "#ffffff",
+            "size": 1,
+            "font": "Helvetica",
+            "btnCss": "",
+            "widgetCss": ""
+          },
+          "valid": 1,
+          "order": 6
+        },
+        {
+          "id": "5",
+          "x": 2.4,
+          "y": 26.36,
+          "canvas": "0",
+          "width": 24.2,
+          "height": 10.5,
+          "type": "COMMAND",
+          "inputs": {
+            "title": "",
+            "buttonText": "ON Cmd",
+            "command": {
+              "device": "mid-csp/control/0",
+              "command": "On",
+              "acceptedType": "DevVarStringArray",
+              "intypedesc": "If the array length is 0, the command applies to the whole CSP Element. If the array length is > 1, each array element specifies the FQDN of the CSP SubElement to switch ON.",
+              "outtypedesc": "(ReturnType, 'informational message')",
+              "outtype": "DevVarLongStringArray",
+              "tag": "0"
+            },
+            "commandArgs": [
+              {
+                "name": "All",
+                "value": "[]",
+                "isDefault": true
+              }
+            ],
+            "showDevice": false,
+            "showCommand": false,
+            "requireConfirmation": true,
+            "displayOutput": false,
+            "alignButtonRight": true,
+            "placeholder": "intype",
+            "textColor": "#000000",
+            "backgroundColor": "#ffffff",
+            "size": 1,
+            "font": "Helvetica",
+            "btnCss": "",
+            "widgetCss": ""
+          },
+          "valid": 1,
+          "order": 7
+        }
+      ]
+    },
+    {
+      "valid": 1,
+      "id": "6",
+      "x": 30,
+      "y": 0,
+      "canvas": "0",
+      "width": 25,
+      "height": 37,
+      "type": "BOX",
+      "inputs": {
+        "title": "CBF Controller",
+        "bigWidget": 4,
+        "smallWidget": 1,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "borderColor": "#0d0c0c",
+        "borderWidth": 0,
+        "borderStyle": "solid",
+        "textSize": 1,
+        "fontFamily": "Helvetica",
+        "layout": "vertical",
+        "alignment": "Center",
+        "padding": 0,
+        "customCss": ""
+      },
+      "order": 1,
+      "innerWidgets": [
+        {
+          "id": "7",
+          "x": 30.4,
+          "y": 5.359999999999999,
+          "canvas": "0",
+          "width": 24.2,
+          "height": 10.5,
+          "type": "ATTRIBUTE WRITER DROPDOWN",
+          "inputs": {
+            "attribute": {
+              "device": "mid_csp_cbf/sub_elt/controller",
+              "attribute": "adminmode",
+              "label": "adminMode"
+            },
+            "submitButtonTitle": "Set",
+            "writeValues": [
+              {
+                "title": "OFFLINE",
+                "value": "1"
+              },
+              {
+                "title": "ONLINE",
+                "value": "0"
+              }
+            ],
+            "writeValuesSpectrum": {
+              "device": null,
+              "attribute": null
+            },
+            "showDevice": false,
+            "showAttribute": "None",
+            "textColor": "#000000",
+            "backgroundColor": "#ffffff",
+            "size": 1,
+            "font": "Helvetica",
+            "customCss": "",
+            "dropdownTitle": "AdminMode"
+          },
+          "valid": 1,
+          "order": 3
+        },
+        {
+          "id": "9",
+          "x": 30.4,
+          "y": 15.86,
+          "canvas": "0",
+          "width": 24.2,
+          "height": 10.5,
+          "type": "ATTRIBUTE WRITER DROPDOWN",
+          "inputs": {
+            "attribute": {
+              "device": "mid_csp_cbf/sub_elt/controller",
+              "attribute": "simulationmode",
+              "label": "simulationMode"
+            },
+            "submitButtonTitle": "Set",
+            "writeValues": [
+              {
+                "title": "YES",
+                "value": "0"
+              },
+              {
+                "title": "NO",
+                "value": "1"
+              }
+            ],
+            "writeValuesSpectrum": {
+              "device": null,
+              "attribute": null
+            },
+            "showDevice": false,
+            "showAttribute": "None",
+            "textColor": "#000000",
+            "backgroundColor": "#ffffff",
+            "size": 1,
+            "font": "Helvetica",
+            "customCss": "",
+            "dropdownTitle": "HW IN THE LOOP?"
+          },
+          "valid": 1,
+          "order": 4
+        },
+        {
+          "id": "8",
+          "x": 30.4,
+          "y": 26.36,
+          "canvas": "0",
+          "width": 24.2,
+          "height": 10.5,
+          "type": "COMMAND",
+          "inputs": {
+            "title": "",
+            "buttonText": "ON Cmd",
+            "command": {
+              "device": "mid_csp_cbf/sub_elt/controller",
+              "command": "On",
+              "acceptedType": "DevVoid",
+              "intypedesc": "Uninitialised",
+              "outtypedesc": "(ReturnType, 'informational message')",
+              "outtype": "DevVarLongStringArray",
+              "tag": "0"
+            },
+            "commandArgs": [
+              {
+                "name": "All",
+                "value": "[]",
+                "isDefault": true
+              }
+            ],
+            "showDevice": false,
+            "showCommand": false,
+            "requireConfirmation": false,
+            "displayOutput": false,
+            "alignButtonRight": true,
+            "placeholder": "intype",
+            "textColor": "#000000",
+            "backgroundColor": "#ffffff",
+            "size": 1,
+            "font": "Helvetica",
+            "btnCss": "",
+            "widgetCss": ""
+          },
+          "valid": 1,
+          "order": 5
+        }
+      ]
+    },
+    {
+      "valid": 1,
+      "id": "10",
+      "x": 1.9000000000000057,
+      "y": 39.05,
+      "canvas": "0",
+      "width": 24.2,
+      "height": 7.9,
+      "type": "COMMAND",
+      "inputs": {
+        "title": "DishCfg",
+        "buttonText": "Load",
+        "command": {
+          "device": "mid-csp/control/0",
+          "command": "LoadDishCfg",
+          "acceptedType": "DevString",
+          "intypedesc": "The input argument can be either a json containing the DishID-VCC Mapping or a json with the URI where this mapping can be obtained from.",
+          "outtypedesc": "(ReturnType, 'informational message')",
+          "outtype": "DevVarLongStringArray",
+          "tag": "0"
+        },
+        "commandArgs": [
+          {
+            "name": "",
+            "value": "         \"interface\": \"https://schema.skao.int/ska-mid-cbf-initsysparam/1.0\",         \"dish_parameters\": {             \"SKA001\": {\"vcc\": 1, \"k\": 11},             \"SKA036\": {\"vcc\": 2, \"k\": 101},             \"SKA063\": {\"vcc\": 3, \"k\": 1127},             \"SKA100\": {\"vcc\": 4, \"k\": 620},         },     }",
+            "isDefault": true
+          }
+        ],
+        "showDevice": false,
+        "showCommand": false,
+        "requireConfirmation": true,
+        "displayOutput": true,
+        "alignButtonRight": false,
+        "placeholder": "intype",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "btnCss": "",
+        "widgetCss": ""
+      },
+      "order": 5
+    }
+  ],
+  "variables": []
+}

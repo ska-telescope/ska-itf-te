@@ -1,9 +1,6 @@
-ska-tango-archiver: # FIXME: also see global section
-  enabled: false
-
 global:
   ska-tango-archiver:
-    enabled: false
+    enabled: true
   # Used by TMC dishleafnode for Dish LMC device identifier triplet.
   # The TMC centralnode's values are hardocoded at the moment.
   dish_suffix: "elt/master"
@@ -13,6 +10,7 @@ global:
   operator: true
   exposeAllDS: true
   data-product-pvc-name: test-pvc
+  use_aws: true
   sub-system:
     ska-tango-base:
       enabled: false
@@ -45,6 +43,9 @@ cbf-mcs:
   hostInfo:
     environment: "mid-itf"
     clusterDomain: "miditf.internal.skao.int"
+
+cbf-tmleafnode:
+  enabled: false
 
 csp-lmc:
   legacy_compatibility: true
@@ -81,12 +82,36 @@ sdp:
     nsubarray: 3
   data-pvc:
     create:
-      enabled: true
-      size: 20Gi
-      storageClassName: nfss1
+      enabled: false
   ska-tango-base:
     enabled: false
 
 # helpers
 ska-log-consumer:
   enabled: false
+
+# EDA
+ska-tango-archiver:
+  enabled: true
+  hostname: eda.ska-tango-archiver
+  dbname: itf_eda
+  dbuser: admin
+  port: 5432
+  telescope: SKA-mid
+  telescope_environment: MID-ITF
+  configuration_manager: mid-eda/cm/01
+  event_subscriber: mid-eda/es/01
+  archwizard_config: MyHDB=tango://tango-databaseds:10000/mid-eda/cm/01
+  archviewer:
+    instances:
+    - name: "mid"
+      timescale_host: "10.164.11.33"
+  #     #keep below field empty if db names are unknown, app will display all dbs present
+  #     #e.g:timescale_databases: ""  
+      timescale_databases: "itf_eda"
+
+# Temporary configuration for PVC
+# See templates/pvc.yaml
+temp_sdp_pvc:
+  dpd_namespace: ska-dpd
+  dpd_pvc: shared-mnl

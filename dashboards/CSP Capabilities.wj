@@ -1,0 +1,855 @@
+{
+  "id": "6543b3f6f6d53e0019b95d06",
+  "name": "CSP Capabilities",
+  "version": "2.5.0",
+  "user": "ATLAS",
+  "insertTime": "2023-11-02T14:36:38.635Z",
+  "updateTime": "2023-11-02T14:36:38.630Z",
+  "group": null,
+  "groupWriteAccess": false,
+  "lastUpdatedBy": "ATLAS",
+  "widget": [
+    {
+      "valid": 1,
+      "id": "21",
+      "x": 4,
+      "y": 12.6,
+      "canvas": "0",
+      "width": 50,
+      "height": 73.8,
+      "type": "BOX",
+      "inputs": {
+        "title": "",
+        "bigWidget": 4,
+        "smallWidget": 1,
+        "textColor": "#000000",
+        "backgroundColor": "#f9f9fa",
+        "borderColor": "",
+        "borderWidth": 0,
+        "borderStyle": "solid",
+        "textSize": 1,
+        "fontFamily": "Helvetica",
+        "layout": "vertical",
+        "alignment": "Center",
+        "padding": 0,
+        "customCss": ""
+      },
+      "innerWidgets": [
+        {
+          "id": "56",
+          "x": 4.4,
+          "y": 18.904,
+          "canvas": "0",
+          "width": 49.2,
+          "height": 6.1,
+          "type": "ATTRIBUTE_DISPLAY",
+          "inputs": {
+            "attribute": {
+              "device": "mid-csp/capability-fsp/0",
+              "attribute": "state",
+              "label": "State"
+            },
+            "precision": 2,
+            "showDevice": false,
+            "showAttribute": "Label",
+            "scientificNotation": false,
+            "showEnumLabels": false,
+            "showAttrQuality": false,
+            "textColor": "#000000",
+            "backgroundColor": "#f9f9fa",
+            "size": 1,
+            "font": "Helvetica",
+            "widgetCss": ""
+          },
+          "valid": true,
+          "order": 11
+        },
+        {
+          "id": "6",
+          "x": 4.4,
+          "y": 25.003999999999998,
+          "canvas": "0",
+          "width": 49.2,
+          "height": 6.1,
+          "type": "ATTRIBUTE_DISPLAY",
+          "inputs": {
+            "attribute": {
+              "device": "mid-csp/capability-fsp/0",
+              "attribute": "fspsdeployed",
+              "label": "Num. FSPs"
+            },
+            "precision": 2,
+            "showDevice": false,
+            "showAttribute": "Label",
+            "scientificNotation": false,
+            "showEnumLabels": false,
+            "textColor": "#000000",
+            "backgroundColor": "#f9f9fa",
+            "size": 1,
+            "font": "Helvetica"
+          },
+          "valid": true,
+          "order": 12
+        },
+        {
+          "id": "47",
+          "x": 4.4,
+          "y": 31.104,
+          "canvas": "0",
+          "width": 49.2,
+          "height": 6.1,
+          "type": "SPECTRUM_TABLE",
+          "inputs": {
+            "attribute": {
+              "device": "mid-csp/capability-fsp/0",
+              "attribute": "fspstate",
+              "label": "FSP State"
+            },
+            "precision": 3,
+            "layout": "horizontal",
+            "showDevice": false,
+            "showAttribute": "Label",
+            "showIndex": false,
+            "showLabel": false,
+            "fontSize": 16
+          },
+          "valid": true,
+          "order": 22
+        },
+        {
+          "id": "49",
+          "x": 4.4,
+          "y": 37.204,
+          "canvas": "0",
+          "width": 49.2,
+          "height": 6.1,
+          "type": "SPECTRUM_TABLE",
+          "inputs": {
+            "attribute": {
+              "device": "mid-csp/capability-fsp/0",
+              "attribute": "fsphealthstate",
+              "label": "FSP HealthState"
+            },
+            "precision": 3,
+            "layout": "horizontal",
+            "showDevice": false,
+            "showAttribute": "Label",
+            "showIndex": false,
+            "showLabel": false,
+            "fontSize": 16
+          },
+          "valid": true,
+          "order": 23
+        },
+        {
+          "id": "50",
+          "x": 4.4,
+          "y": 43.304,
+          "canvas": "0",
+          "width": 49.2,
+          "height": 6.1,
+          "type": "SPECTRUM_TABLE",
+          "inputs": {
+            "attribute": {
+              "device": "mid-csp/capability-fsp/0",
+              "attribute": "fspadminmode",
+              "label": "FSP Admin mode"
+            },
+            "precision": 3,
+            "layout": "horizontal",
+            "showDevice": false,
+            "showAttribute": "Label",
+            "showIndex": false,
+            "showLabel": false,
+            "fontSize": 16
+          },
+          "valid": true,
+          "order": 27
+        },
+        {
+          "id": "48",
+          "x": 4.4,
+          "y": 49.404,
+          "canvas": "0",
+          "width": 49.2,
+          "height": 6.1,
+          "type": "SPECTRUM_TABLE",
+          "inputs": {
+            "attribute": {
+              "device": "mid-csp/capability-fsp/0",
+              "attribute": "fspfunctionmode",
+              "label": "FSP Function mode"
+            },
+            "precision": 3,
+            "layout": "horizontal",
+            "showDevice": false,
+            "showAttribute": "Label",
+            "showIndex": false,
+            "showLabel": false,
+            "fontSize": 16
+          },
+          "valid": true,
+          "order": 32
+        },
+        {
+          "id": "1",
+          "x": 4.4,
+          "y": 55.504000000000005,
+          "canvas": "0",
+          "width": 49.2,
+          "height": 6.1,
+          "type": "SPECTRUM_TABLE",
+          "inputs": {
+            "attribute": {
+              "device": "mid-csp/capability-fsp/0",
+              "attribute": "fspavailable",
+              "label": "IDs of FSPs available"
+            },
+            "precision": 3,
+            "layout": "horizontal",
+            "showDevice": false,
+            "showAttribute": "Label",
+            "showIndex": false,
+            "showLabel": false,
+            "fontSize": 16
+          },
+          "valid": true,
+          "order": 33
+        },
+        {
+          "id": "5",
+          "x": 4.4,
+          "y": 61.604000000000006,
+          "canvas": "0",
+          "width": 49.2,
+          "height": 6.1,
+          "type": "SPECTRUM_TABLE",
+          "inputs": {
+            "attribute": {
+              "device": "mid-csp/capability-fsp/0",
+              "attribute": "fspunavailable",
+              "label": "IDs of FSPs unavailable"
+            },
+            "precision": 3,
+            "layout": "horizontal",
+            "showDevice": false,
+            "showAttribute": "Label",
+            "showIndex": false,
+            "showLabel": false,
+            "fontSize": 16
+          },
+          "valid": true,
+          "order": 34
+        },
+        {
+          "id": "2",
+          "x": 4.4,
+          "y": 67.70400000000001,
+          "canvas": "0",
+          "width": 49.2,
+          "height": 6.1,
+          "type": "SPECTRUM_TABLE",
+          "inputs": {
+            "attribute": {
+              "device": "mid-csp/capability-fsp/0",
+              "attribute": "fspcorrelation",
+              "label": "IDs of FSPs in correlation function mode"
+            },
+            "precision": 3,
+            "layout": "horizontal",
+            "showDevice": false,
+            "showAttribute": "Label",
+            "showIndex": false,
+            "showLabel": false,
+            "fontSize": 16
+          },
+          "valid": true,
+          "order": 35
+        },
+        {
+          "id": "3",
+          "x": 4.4,
+          "y": 73.804,
+          "canvas": "0",
+          "width": 49.2,
+          "height": 6.1,
+          "type": "SPECTRUM_TABLE",
+          "inputs": {
+            "attribute": {
+              "device": "mid-csp/capability-fsp/0",
+              "attribute": "fsppss",
+              "label": "IDs of FSPs in PSS Functio nmode"
+            },
+            "precision": 3,
+            "layout": "horizontal",
+            "showDevice": false,
+            "showAttribute": "Label",
+            "showIndex": false,
+            "showLabel": false,
+            "fontSize": 16
+          },
+          "valid": true,
+          "order": 36
+        },
+        {
+          "id": "4",
+          "x": 4.4,
+          "y": 79.904,
+          "canvas": "0",
+          "width": 49.2,
+          "height": 6.1,
+          "type": "SPECTRUM_TABLE",
+          "inputs": {
+            "attribute": {
+              "device": "mid-csp/capability-fsp/0",
+              "attribute": "fsppst",
+              "label": "IDs of FSPs in PST Function mode"
+            },
+            "precision": 3,
+            "layout": "horizontal",
+            "showDevice": false,
+            "showAttribute": "Label",
+            "showIndex": false,
+            "showLabel": false,
+            "fontSize": 16
+          },
+          "valid": true,
+          "order": 37
+        }
+      ],
+      "order": 4
+    },
+    {
+      "valid": 1,
+      "id": "54",
+      "x": 4,
+      "y": 9,
+      "canvas": "0",
+      "width": 50,
+      "height": 4,
+      "type": "LABEL",
+      "inputs": {
+        "text": "CSP.Mid Capability FSP",
+        "textColor": "#070a68",
+        "backgroundColor": "#dcdcdc",
+        "size": 1.5,
+        "borderWidth": 0,
+        "borderColor": "#dcdcdc",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "padding-top:5px;\ntext-align: center;\nborder: 1px solid gray;",
+        "automaticResize": "Disabled"
+      },
+      "order": 5
+    },
+    {
+      "valid": 1,
+      "id": "55",
+      "x": 2,
+      "y": 8,
+      "canvas": "0",
+      "width": 54,
+      "height": 91,
+      "type": "LABEL",
+      "inputs": {
+        "text": "",
+        "textColor": "#070a68",
+        "backgroundColor": "#f5f5f5",
+        "size": 1.5,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "border:1px solid #b3b3b3;\npadding-top:5px;\npadding-left:20px;\n",
+        "automaticResize": "Disabled"
+      },
+      "order": 3
+    },
+    {
+      "valid": 1,
+      "id": "57",
+      "x": 3,
+      "y": 1,
+      "canvas": "0",
+      "width": 15,
+      "height": 4,
+      "type": "LABEL",
+      "inputs": {
+        "text": " ",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "background-image: url('https://www.skao.int/themes/custom/ska/assets/images/logo-color.svg');\nbackground-repeat: no-repeat;\nbackground-size: cover;",
+        "automaticResize": "Disabled"
+      },
+      "order": 6
+    },
+    {
+      "valid": 1,
+      "id": "58",
+      "x": 19,
+      "y": 1,
+      "canvas": "0",
+      "width": 142,
+      "height": 4,
+      "type": "LABEL",
+      "inputs": {
+        "text": "Mid Telescope - CSP Local Monitoring and Control - Capabilities",
+        "textColor": "#ffffff",
+        "backgroundColor": "#070068",
+        "size": 1.7,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "text-align: center;\npadding-top:5px",
+        "automaticResize": "Disabled"
+      },
+      "order": 7
+    },
+    {
+      "valid": 1,
+      "id": "59",
+      "x": 60,
+      "y": 9,
+      "canvas": "0",
+      "width": 50,
+      "height": 4,
+      "type": "LABEL",
+      "inputs": {
+        "text": "CSP.Mid Capability VCC",
+        "textColor": "#070a68",
+        "backgroundColor": "#dcdcdc",
+        "size": 1.5,
+        "borderWidth": 0,
+        "borderColor": "#dcdcdc",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "padding-top:5px;\ntext-align: center;\nborder: 1px solid gray;",
+        "automaticResize": "Disabled"
+      },
+      "order": 8
+    },
+    {
+      "valid": 1,
+      "id": "60",
+      "x": 59,
+      "y": 8,
+      "canvas": "0",
+      "width": 53,
+      "height": 91,
+      "type": "LABEL",
+      "inputs": {
+        "text": "",
+        "textColor": "#070a68",
+        "backgroundColor": "#f9f9fa",
+        "size": 1.5,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "border:1px solid #b3b3b3;\npadding-top:5px;\npadding-left:20px;\n",
+        "automaticResize": "Disabled"
+      },
+      "order": 2
+    },
+    {
+      "valid": 1,
+      "id": "61",
+      "x": 60,
+      "y": 13,
+      "canvas": "0",
+      "width": 50,
+      "height": 55,
+      "type": "BOX",
+      "inputs": {
+        "title": "",
+        "bigWidget": 4,
+        "smallWidget": 1,
+        "textColor": "#000000",
+        "backgroundColor": "#f9f9fa",
+        "borderColor": "",
+        "borderWidth": 0,
+        "borderStyle": "solid",
+        "textSize": 1,
+        "fontFamily": "Helvetica",
+        "layout": "vertical",
+        "alignment": "Center",
+        "padding": 0,
+        "customCss": ""
+      },
+      "order": 9,
+      "innerWidgets": [
+        {
+          "id": "62",
+          "x": 60.4,
+          "y": 17.8,
+          "canvas": "0",
+          "width": 49.2,
+          "height": 5.5,
+          "type": "ATTRIBUTE_DISPLAY",
+          "inputs": {
+            "attribute": {
+              "device": "mid-csp/capability-vcc/0",
+              "attribute": "state",
+              "label": "State"
+            },
+            "precision": 2,
+            "showDevice": false,
+            "showAttribute": "Label",
+            "scientificNotation": false,
+            "showEnumLabels": false,
+            "showAttrQuality": false,
+            "textColor": "#000000",
+            "backgroundColor": "#f9f9fa",
+            "size": 1,
+            "font": "Helvetica",
+            "widgetCss": ""
+          },
+          "valid": true,
+          "order": 1
+        },
+        {
+          "id": "63",
+          "x": 60.4,
+          "y": 23.3,
+          "canvas": "0",
+          "width": 49.2,
+          "height": 5.5,
+          "type": "ATTRIBUTE_DISPLAY",
+          "inputs": {
+            "attribute": {
+              "device": "mid-csp/capability-vcc/0",
+              "attribute": "vccsdeployed",
+              "label": "Num. VCCs"
+            },
+            "precision": 2,
+            "showDevice": false,
+            "showAttribute": "Label",
+            "scientificNotation": false,
+            "showEnumLabels": false,
+            "showAttrQuality": false,
+            "textColor": "#000000",
+            "backgroundColor": "#f9f9fa",
+            "size": 1,
+            "font": "Helvetica",
+            "widgetCss": ""
+          },
+          "valid": true,
+          "order": 2
+        },
+        {
+          "id": "65",
+          "x": 60.4,
+          "y": 28.8,
+          "canvas": "0",
+          "width": 49.2,
+          "height": 5.5,
+          "type": "SPECTRUM_TABLE",
+          "inputs": {
+            "attribute": {
+              "device": "mid-csp/capability-vcc/0",
+              "attribute": "vccstate",
+              "label": "VCC State"
+            },
+            "precision": 3,
+            "layout": "horizontal",
+            "showDevice": false,
+            "showAttribute": "Label",
+            "showIndex": false,
+            "showLabel": false,
+            "fontSize": 16,
+            "customCss": ""
+          },
+          "valid": true,
+          "order": 6
+        },
+        {
+          "id": "64",
+          "x": 60.4,
+          "y": 34.3,
+          "canvas": "0",
+          "width": 49.2,
+          "height": 5.5,
+          "type": "SPECTRUM_TABLE",
+          "inputs": {
+            "attribute": {
+              "device": "mid-csp/capability-vcc/0",
+              "attribute": "vcchealthstate",
+              "label": "VCC HealthState"
+            },
+            "precision": 3,
+            "layout": "horizontal",
+            "showDevice": false,
+            "showAttribute": "Label",
+            "showIndex": false,
+            "showLabel": false,
+            "fontSize": 16,
+            "customCss": ""
+          },
+          "valid": true,
+          "order": 7
+        },
+        {
+          "id": "66",
+          "x": 60.4,
+          "y": 39.8,
+          "canvas": "0",
+          "width": 49.2,
+          "height": 5.5,
+          "type": "SPECTRUM_TABLE",
+          "inputs": {
+            "attribute": {
+              "device": "mid-csp/capability-vcc/0",
+              "attribute": "vccreceptorid",
+              "label": "vccReceptorId"
+            },
+            "precision": 3,
+            "layout": "horizontal",
+            "showDevice": false,
+            "showAttribute": "Label",
+            "showIndex": false,
+            "showLabel": false,
+            "fontSize": 16,
+            "customCss": ""
+          },
+          "valid": true,
+          "order": 8
+        },
+        {
+          "id": "67",
+          "x": 60.4,
+          "y": 45.3,
+          "canvas": "0",
+          "width": 49.2,
+          "height": 5.5,
+          "type": "SPECTRUM_TABLE",
+          "inputs": {
+            "attribute": {
+              "device": "mid-csp/capability-vcc/0",
+              "attribute": "vccbandactive",
+              "label": "vccBandActive"
+            },
+            "precision": 3,
+            "layout": "horizontal",
+            "showDevice": false,
+            "showAttribute": "Label",
+            "showIndex": false,
+            "showLabel": false,
+            "fontSize": 16,
+            "customCss": ""
+          },
+          "valid": true,
+          "order": 10
+        },
+        {
+          "id": "69",
+          "x": 60.4,
+          "y": 50.8,
+          "canvas": "0",
+          "width": 49.2,
+          "height": 5.5,
+          "type": "SPECTRUM_TABLE",
+          "inputs": {
+            "attribute": {
+              "device": "mid-csp/capability-vcc/0",
+              "attribute": "vccsfwversion",
+              "label": "vccsFwVersion"
+            },
+            "precision": 3,
+            "layout": "horizontal",
+            "showDevice": false,
+            "showAttribute": "Label",
+            "showIndex": false,
+            "showLabel": false,
+            "fontSize": 16,
+            "customCss": ""
+          },
+          "valid": true,
+          "order": 11
+        },
+        {
+          "id": "70",
+          "x": 60.4,
+          "y": 56.3,
+          "canvas": "0",
+          "width": 49.2,
+          "height": 5.5,
+          "type": "SPECTRUM_TABLE",
+          "inputs": {
+            "attribute": {
+              "device": "mid-csp/capability-vcc/0",
+              "attribute": "vccshwversion",
+              "label": "vccsHwVersion"
+            },
+            "precision": 3,
+            "layout": "horizontal",
+            "showDevice": false,
+            "showAttribute": "Label",
+            "showIndex": false,
+            "showLabel": false,
+            "fontSize": 16,
+            "customCss": ""
+          },
+          "valid": true,
+          "order": 12
+        },
+        {
+          "id": "68",
+          "x": 60.4,
+          "y": 61.8,
+          "canvas": "0",
+          "width": 49.2,
+          "height": 5.5,
+          "type": "SPECTRUM_TABLE",
+          "inputs": {
+            "attribute": {
+              "device": "mid-csp/capability-vcc/0",
+              "attribute": "vccsswversion",
+              "label": "vccsSwVersion"
+            },
+            "precision": 3,
+            "layout": "horizontal",
+            "showDevice": false,
+            "showAttribute": "Label",
+            "showIndex": false,
+            "showLabel": false,
+            "fontSize": 16,
+            "customCss": ""
+          },
+          "valid": true,
+          "order": 18
+        }
+      ]
+    },
+    {
+      "valid": 1,
+      "id": "71",
+      "x": 2,
+      "y": 7,
+      "canvas": "0",
+      "width": 219,
+      "height": 87,
+      "type": "LABEL",
+      "inputs": {
+        "text": " ",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "background-image: url('https://www.skao.int/sites/default/files/styles/background/public/2022-06/Supercomputer.jpeg');\nbackground-repeat: no-repeat;\nbackground-size: cover;",
+        "automaticResize": "Disabled"
+      },
+      "order": 0
+    },
+    {
+      "valid": 1,
+      "id": "72",
+      "x": 161,
+      "y": 5,
+      "canvas": "0",
+      "width": 90,
+      "height": 91,
+      "type": "LABEL",
+      "inputs": {
+        "text": "",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "",
+        "automaticResize": "Disabled"
+      },
+      "order": 10
+    },
+    {
+      "valid": 1,
+      "id": "73",
+      "x": 2,
+      "y": 7,
+      "canvas": "0",
+      "width": 113,
+      "height": 91,
+      "type": "LABEL",
+      "inputs": {
+        "text": "",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "",
+        "automaticResize": "Disabled"
+      },
+      "order": 1
+    },
+    {
+      "valid": 1,
+      "id": "74",
+      "x": 145,
+      "y": 2,
+      "canvas": "0",
+      "width": 14,
+      "height": 3,
+      "type": "LABEL",
+      "inputs": {
+        "text": "<- Monitor panel",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "http://localhost:8081/mid-csp/taranta/dashboard?id=64b68045d5eda8001958214b&mode=run",
+        "customCss": "",
+        "automaticResize": "Disabled"
+      },
+      "order": 11
+    },
+    {
+      "valid": 1,
+      "id": "75",
+      "x": 60.5,
+      "y": 70.15,
+      "canvas": "0",
+      "width": 49,
+      "height": 28.7,
+      "type": "ATTRIBUTE_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "mid-csp/capability-vcc/0",
+          "attribute": "vccjson",
+          "label": "Json with all VCC info"
+        },
+        "precision": 2,
+        "showDevice": false,
+        "showAttribute": "Label",
+        "scientificNotation": false,
+        "showEnumLabels": false,
+        "showAttrQuality": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "widgetCss": "",
+        "alignTextCenter": false,
+        "alignValueRight": true,
+        "format": ""
+      },
+      "order": 12
+    }
+  ],
+  "variables": []
+}

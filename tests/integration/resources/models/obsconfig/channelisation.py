@@ -1,4 +1,5 @@
 """."""
+
 from ska_tmc_cdm.messages.central_node.sdp import Channel, ChannelConfiguration
 
 from .target_spec import ArraySpec, BaseTargetSpec, TargetSpecs

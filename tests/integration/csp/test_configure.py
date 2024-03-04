@@ -1,4 +1,5 @@
 """Configure subarray feature tests."""
+
 import logging
 
 import pytest
