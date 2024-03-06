@@ -1,0 +1,21 @@
+links_to_fsp1:
+  - talondx-001/slim-tx-rx/fs-tx0 -> talondx-001/slim-tx-rx/fs-rx0
+  - talondx-002/slim-tx-rx/fs-tx0 -> talondx-001/slim-tx-rx/fs-rx1
+  - talondx-003/slim-tx-rx/fs-tx0 -> talondx-001/slim-tx-rx/fs-rx2
+  - talondx-004/slim-tx-rx/fs-tx0 -> talondx-001/slim-tx-rx/fs-rx3
+links_to_fsp2:
+  - talondx-001/slim-tx-rx/fs-tx1 -> talondx-002/slim-tx-rx/fs-rx0
+  - talondx-002/slim-tx-rx/fs-tx1 -> talondx-002/slim-tx-rx/fs-rx1
+  - talondx-003/slim-tx-rx/fs-tx1 -> talondx-002/slim-tx-rx/fs-rx2
+  - talondx-004/slim-tx-rx/fs-tx1 -> talondx-002/slim-tx-rx/fs-rx3
+links_to_fsp3:
+  - talondx-001/slim-tx-rx/fs-tx2 -> talondx-003/slim-tx-rx/fs-rx0
+  - talondx-002/slim-tx-rx/fs-tx2 -> talondx-003/slim-tx-rx/fs-rx1
+  - talondx-003/slim-tx-rx/fs-tx2 -> talondx-003/slim-tx-rx/fs-rx2
+  - talondx-004/slim-tx-rx/fs-tx2 -> talondx-003/slim-tx-rx/fs-rx3
+links_to_fsp4:
+  - talondx-001/slim-tx-rx/fs-tx3 -> talondx-004/slim-tx-rx/fs-rx0
+  - talondx-002/slim-tx-rx/fs-tx3 -> talondx-004/slim-tx-rx/fs-rx1
+  - talondx-003/slim-tx-rx/fs-tx3 -> talondx-004/slim-tx-rx/fs-rx2
+  - talondx-004/slim-tx-rx/fs-tx3 -> talondx-004/slim-tx-rx/fs-rx3
+
