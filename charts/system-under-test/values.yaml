@@ -38,8 +38,8 @@ cia:
 
 cbf-mcs:
   enabled: true
-  engineeringConsoleVersion: 0.9.1
-  signalVerificationVersion: 0.2.4
+  engineeringConsoleVersion: 0.9.16
+  signalVerificationVersion: 0.2.16
   hostInfo:
     environment: "mid-itf"
     clusterDomain: "miditf.internal.skao.int"
