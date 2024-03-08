@@ -55,7 +55,7 @@ spec:
         imagePullPolicy: IfNotPresent
         resources:
           limits: 
-            miditf/spfrx-20: "1"
+            {{ .Values.spfrx.instance }}: "1"
             cpu: 750m
             memory: 1024Mi
           requests:
