@@ -34,6 +34,13 @@ dependencies:
     repository: https://artefact.skao.int/repository/helm-internal
     alias: cbf-mcs
     condition: cbf-mcs.enabled
+
+  ## TEMP COMMIT ADDING TM SIMULATOR FOR TESTING
+  - name: ska-mid-cbf-tmleafnode
+    version: 0.12.23
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: true
+
   # SKA Mid SDP
   #
   - name: ska-sdp
