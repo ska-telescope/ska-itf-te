@@ -13,7 +13,7 @@ spec:
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: spfrx-sts
+  name: spfrx-sts-{{ .Values.spfrx.instance }}
 spec:
   serviceName: {{ .Values.spfrx.instance }}
   selector:
