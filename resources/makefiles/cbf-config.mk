@@ -3,7 +3,6 @@ HW_CONFIG_FILE_PATH ?= $(PROJECT_ROOT)resources/talon
 MCS_CONFIG_FILE_PATH ?= $(PROJECT_ROOT)resources/mcs
 SLIM_CONFIG_FILE_PATH ?= $(PROJECT_ROOT)resources/mcs
 KUBE_NAMESPACE ?= $(KUBE_NAMESPACE)
-LRU_INDEX ?= lru1
 TALON_BOARD_IDX ?= "1,2,3,4"
 
 ## TARGET: itf-cbf-talonlru-status
@@ -11,24 +10,26 @@ TALON_BOARD_IDX ?= "1,2,3,4"
 ## HOOKS: none
 ## VARS: 
 ##	HW_CONFIG_FILE_PATH=[scripts path] (default value: resources/talon)
-##	LRU_INDEX=[lru index paramter] (default value: lru1)
 ##  make target for checking the Talon LRU status
 
 itf-cbf-talonlru-status: ## Specified Talon LRU status
 	@[[ -f  $(HW_CONFIG_FILE_PATH)/talon_power_apc.sh ]] || exit 404;
-	@cd $(HW_CONFIG_FILE_PATH) && ./talon_power_apc.sh $(LRU_INDEX)
+	@cd $(HW_CONFIG_FILE_PATH) && \
+	./talon_power_apc.sh lru1 && \
+	./talon_power_apc.sh lru2
 
 ## TARGET: itf-cbf-talonlru-off
 ## SYNOPSIS: make itf-cbf-talonlru-off
 ## HOOKS: none
 ## VARS: 
 ##	HW_CONFIG_FILE_PATH=[scripts path] (default value: resources/talon)
-##	LRU_INDEX=[lru index paramter] (default value: lru1)
 ##  make target for switching off the Talon LRU
 
 itf-cbf-talonlru-off: ## Switch off the Talon LRU specified
 	@[[ -f  $(HW_CONFIG_FILE_PATH)/talon_power_apc.sh ]] || exit 404;
-	@cd $(HW_CONFIG_FILE_PATH) && ./talon_power_apc.sh $(LRU_INDEX) off
+	@cd $(HW_CONFIG_FILE_PATH) && \
+	./talon_power_apc.sh lru1 off && \
+	./talon_power_apc.sh lru2 off
 
 ## TARGET: itf-cbf-config-talon
 ## SYNOPSIS: make itf-cbf-config-talon
@@ -107,12 +108,13 @@ itf-cbf-config-tangodb: ## Configure Deviceservers in the TangoDB
 ## HOOKS: none
 ## VARS: 
 ##	HW_CONFIG_FILE_PATH=[scripts path] (default value: resources/talon)
-##	LRU_INDEX=[lru index paramter] (default value: lru1)
 ##  make target for switching on the TalonDx using the PDU's SSH terminal via the APC bash script from CIPA Team
 
 itf-cbf-power-on: # APC scripts to power on the TalonDx
 	@[[ -f  $(HW_CONFIG_FILE_PATH)/talon_power_apc.sh ]] || exit 404;
-	@cd $(HW_CONFIG_FILE_PATH) && ./talon_power_apc.sh $(LRU_INDEX) on
+	@cd $(HW_CONFIG_FILE_PATH) && \
+	./talon_power_apc.sh lru1 on && \
+	./talon_power_apc.sh lru2 on
 
 ## TARGET: itf-cbf-tango-on
 ## SYNOPSIS: make itf-cbf-tango-on
@@ -132,7 +134,6 @@ itf-cbf-tango-on:
 ## VARS: 
 ##	KUBE_NAMESPACE=[kubernetes namespace where MCS is deployed] (default value: integration)
 ##	HW_CONFIG_FILE_PATH=[scripts path] (default value: resources/talon)
-##	LRU_INDEX=[lru index paramter] (default value: lru1)
 ##	TALON_BOARD_IDX=[Talon board index number] (default value: 1)
 ##  make target for registering the deviceservers in the TangoDB.
 
