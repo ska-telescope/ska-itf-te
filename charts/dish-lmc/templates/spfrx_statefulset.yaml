@@ -13,7 +13,7 @@ spec:
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: spfrx-sts
+  name: spfrx-sts-{{ .Values.spfrx.instance }}
 spec:
   serviceName: {{ .Values.spfrx.instance }}
   selector:
@@ -55,7 +55,7 @@ spec:
         imagePullPolicy: IfNotPresent
         resources:
           limits: 
-            miditf/spfrx-20: "1"
+            miditf/{{ .Values.spfrx.instance }}: "1"
             cpu: 750m
             memory: 1024Mi
           requests:
