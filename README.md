@@ -17,7 +17,7 @@ Use this icon to launch a Jupyter Notebook (using Binderhub) in the ITF: [![Bind
 
 ### Prerequisites
 
-#### VPN.
+#### VPN
 
 You need to be on the SKAO ITF VPN (connect via AnyConnect client) - see instructions in <https://confluence.skatelescope.org/display/SE/Connect+to+the+Mid+ITF+VPN>.
 
