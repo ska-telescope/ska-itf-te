@@ -8,12 +8,12 @@ DIR_PATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 APC_PDU_SCRIPT=./apc_pdu.expect
 
 USAGE_BANNER="Usage: ./talon_power_lru.sh LRU [STATE]
-  LRU: lru1
+  LRU: lru1 or lru2
 
   Options:
     [STATE]: on|On|ON|off|Off|OFF (sets the lru to the STATE; if no STATE is provided, the LRU status is returned)"
 
-if ! [[ "$LRU" =~ lru1 ]]; then
+if ! [[ "$LRU" =~ lru1 || "$LRU" =~ lru2 ]]; then
 	echo "ERROR: Unrecognized LRU \"$LRU\" provided."
         echo "$USAGE_BANNER"
         exit 1
@@ -23,6 +23,9 @@ fi
 # - for APC, valid range is 1 to 24
 
 if [[ "$LRU" == "lru1" ]]; then
+	OUTLET1="17"
+	OUTLET2="18"
+elif [[ "$LRU" == "lru2" ]]; then
 	OUTLET1="12"
 	OUTLET2="13"
 else

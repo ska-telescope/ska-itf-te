@@ -1,4 +1,5 @@
 """."""
+
 from typing import Any, NamedTuple, Tuple, Union, cast
 
 from ska_tmc_cdm.messages.central_node.sdp import (

@@ -1,4 +1,5 @@
 """."""
+
 from typing import TypedDict, cast
 
 from ska_tmc_cdm.messages.central_node.csp import CSPConfiguration as CSPAssignConfiguration
@@ -142,7 +143,7 @@ class CSPconfig(Dishes, TargetSpecs):
         return {
             "interface": self.csp_assign_resources_schema,
             "subarray_id": subarray_id,
-            "dish": {"receptor_ids": self.dish_allocation.receptor_ids},
+            "dish": {"receptor_ids": list(self.dish_allocation.receptor_ids)},
         }
 
     def generate_csp_run_scan_config(

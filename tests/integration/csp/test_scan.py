@@ -1,4 +1,5 @@
 """Configure scan on subarray feature tests."""
+
 import pytest
 from assertpy import assert_that
 from pytest_bdd import given, scenario, then
