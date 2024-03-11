@@ -19,19 +19,17 @@ deploy-dishlmc-ska036:
   environment:
     on_stop: uninstall-dishlmc-ska036
 
+redeploy-dishlmc-ska036:
+  extends:
+    - .redeploy-dish-lmc
+    - .ska036-env
+  #   needs:
+  #     - redeploy-ds-sim-ska036
+  when: manual
+  environment:
+    on_stop: uninstall-dishlmc-ska036
+
 uninstall-dishlmc-ska036:
   extends:
     - .destroy-aa05-dishes
     - .ska036-env
-#######################################
-# NOT YET IMPLEMENTED
-# redeploy-dishlmc-ska036:
-#   extends:
-#     - .redeploy-dish-lmc
-#     - .ska036-env
-#   needs:
-#     - redeploy-ds-sim-ska036
-#   when: on_success
-#   environment:
-#     on_stop: uninstall-dishlmc-ska036
-#######################################
