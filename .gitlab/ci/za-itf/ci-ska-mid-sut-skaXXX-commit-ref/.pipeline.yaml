@@ -1,5 +1,6 @@
 .aa05-env:
   stage: on_demand_itf_sut
+  image: $DEPLOY_IMAGE
   tags:
     - ska-k8srunner-za-itf
   variables:
