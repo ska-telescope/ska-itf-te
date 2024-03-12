@@ -71,6 +71,12 @@ tmc:
       enabled: true
   ska-tango-base:
     enabled: false
+  resources:
+    limits:
+      cpu: 800m
+    requests:
+      cpu: 400m
+
 
 sdp:
   helmdeploy:

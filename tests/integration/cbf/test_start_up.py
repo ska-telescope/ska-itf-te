@@ -1,4 +1,5 @@
 """Start up the cbf feature tests."""
+
 import logging
 import os
 from typing import List, cast

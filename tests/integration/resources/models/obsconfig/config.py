@@ -1,4 +1,5 @@
 """."""
+
 import json
 from typing import Any, cast
 
@@ -76,7 +77,7 @@ class Observation(SdpConfig, CSPconfig, Dishes, TmcConfig):
     def _generate_assign_resources_config(self, subarray_id: int = 1):
         assign_request = AssignResourcesRequest(
             subarray_id=subarray_id,
-            dish_allocation=self.dish_allocation,
+            dish=self.dish_allocation,
             sdp_config=self.generate_sdp_assign_resources_config().as_object,
             interface=self.assign_resources_schema,
         )
@@ -91,7 +92,6 @@ class Observation(SdpConfig, CSPconfig, Dishes, TmcConfig):
             transaction_id=transaction_id,
             subarray_id=subarray_id,
             sdp_config=self.generate_sdp_assign_resources_config().as_object,
-            csp_config=self.generate_low_csp_assign_resources_config().as_object,  # noqa: E501
         )
         return assign_request
 

@@ -1,4 +1,5 @@
 """Assign resources to subarray feature tests."""
+
 import logging
 
 import pytest
