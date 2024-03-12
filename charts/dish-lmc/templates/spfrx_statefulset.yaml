@@ -34,7 +34,7 @@ spec:
           [
             "/bin/bash",
             "-c",
-            "sed -i '1 a set\ -eoux\ pipefail' scripts/spfrx-remote-start.sh; nohup scripts/spfrx-remote-start.sh $(TANGO_DB_FQDN):$(TANGO_DB_PORT) $(SPFRX_ADDRESS) $(SPFRX_BIN) $(SPFRX_TANGO_INSTANCE) $(SPFRX_TANGO_LOGGING_LEVEL)",
+            "sed -i '1 a set\ -eoux\ pipefail' scripts/spfrx-remote-start.sh; scripts/spfrx-remote-start.sh $(TANGO_DB_FQDN):$(TANGO_DB_PORT) $(SPFRX_ADDRESS) $(SPFRX_BIN) $(SPFRX_TANGO_INSTANCE) $(SPFRX_TANGO_LOGGING_LEVEL)",
           ]
         env:
           - name: TANGO_DB_FQDN
@@ -143,7 +143,7 @@ spec:
             [
               "/bin/bash",
               "-c",
-              "echo 'python3 spfrx_deployer.py --generate-spfrx-config --dish_id=$(DISH_ID)'; python3 spfrx_deployer.py --generate-spfrx-config --dish_id=$(DISH_ID) && apt -qq update && apt -qq install tree -y && tree -L 2 && env",
+              "echo 'python3 spfrx_deployer.py --generate-spfrx-config --dish_id=$(DISH_ID) --spfrx_instance=$(SPFRX_TANGO_INSTANCE)'; python3 spfrx_deployer.py --generate-spfrx-config --dish_id=$(DISH_ID) && apt -qq update && apt -qq install tree -y && tree -L 2 && env",
             ]
           env:
             - name: DISH_ID

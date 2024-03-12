@@ -10,11 +10,11 @@
     K8S_CHART: dish-lmc
     KUBE_APP: dish-lmc
     DISH_ID: ska$DISH_INDEX
-    SPFRX_CONSOLE_VER: 0.1.1
+    SPFRX_CONSOLE_VER: 0.1.2
     SPFRX_BIN: /usr/local/bin
     SPFRX_LOCAL_DIR: artifacts
     SPFRX_SCRIPTS_DIR: scripts
-    SPFRX_TANGO_LOGGING_LEVEL: 4
+    SPFRX_TANGO_LOGGING_LEVEL: 5
 
 .dish_rules:
   rules:
