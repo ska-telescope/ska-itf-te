@@ -67,6 +67,9 @@ DISH_LMC_EXTRA_PARAMS = --set global.dish_id=$(DISH_ID) \
 endif
 
 SPFRX_IN_THE_LOOP ?= #Boolean flag to control deployment of the device described in SPFRX_TANGO_INSTANCE, SPFRX_ADDRESS variables
+SPFRX_FAMILY_NAME ?= spfrxpu
+SPFRX_MEMBER_NAME ?= controller
+SPFRX_SIM_ENABLE ?= false
 
 ifneq ($(SPFRX_IN_THE_LOOP),)
 	DISH_LMC_EXTRA_PARAMS += \
@@ -76,7 +79,10 @@ ifneq ($(SPFRX_IN_THE_LOOP),)
 	--set spfrx.local_dir=$(SPFRX_LOCAL_DIR) \
 	--set spfrx.scripts_dir=$(SPFRX_SCRIPTS_DIR) \
 	--set spfrx.instance=$(SPFRX_TANGO_INSTANCE) \
-	--set spfrx.logging_level=$(SPFRX_TANGO_LOGGING_LEVEL)
+	--set spfrx.logging_level=$(SPFRX_TANGO_LOGGING_LEVEL) \
+	--set dishlmc.ska-mid-dish-manager.dishmanager.spfrx.family_name=$(SPFRX_FAMILY_NAME) \
+	--set dishlmc.ska-mid-dish-manager.dishmanager.spfrx.member_name=$(SPFRX_MEMBER_NAME) \
+	--set dishlmc.ska-mid-dish-simulators.deviceServers.spfrxdevice.enabled=$(SPFRX_SIM_ENABLE)
 endif
 
 ifeq ($(DISH_ID), ska001)
