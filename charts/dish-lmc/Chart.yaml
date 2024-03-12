@@ -16,7 +16,7 @@ dependencies:
 
   # TARANTA APPLICATION
   - name: ska-tango-taranta
-    version: 2.7.2
+    version: 2.7.3
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-taranta.enabled
   - name: ska-tango-tangogql
