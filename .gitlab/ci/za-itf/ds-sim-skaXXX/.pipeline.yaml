@@ -59,7 +59,7 @@
   extends:
     - .uninstall-chart
     - .dish-sim-env
-  stage: remove-dish-aiv
+  stage: deploy-dish-aiv
   environment:
     action: stop
 
