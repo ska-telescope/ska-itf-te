@@ -70,6 +70,10 @@ SPFRX_IN_THE_LOOP ?= #Boolean flag to control deployment of the device described
 
 ifneq ($(SPFRX_IN_THE_LOOP),)
 	DISH_LMC_EXTRA_PARAMS += \
+	--set spfrx.dish_id=$(DISH_ID) \
+	--set spfrx.tangodb_fqdn=$(TANGO_DATABASE_DS).$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN) \
+	--set spfrx.tango_host=$(TANGO_HOST) \
+	--set spfrx.tangodb_port=10000 \
 	--set spfrx.console.version=$(SPFRX_CONSOLE_VER) \
 	--set spfrx.address=$(SPFRX_ADDRESS) \
 	--set spfrx.bin=$(SPFRX_BIN) \
