@@ -70,6 +70,7 @@ SPFRX_IN_THE_LOOP ?= #Boolean flag to control deployment of the device described
 SPFRX_FAMILY_NAME ?= spfrxpu
 SPFRX_MEMBER_NAME ?= controller
 SPFRX_SIM_ENABLE ?= false
+SPFRX_FQDN ?= ska$(DISH_ID)/$(SPFRX_FAMILY_NAME)/$(SPFRX_MEMBER_NAME)
 
 ifneq ($(SPFRX_IN_THE_LOOP),)
 	DISH_LMC_EXTRA_PARAMS += \
@@ -80,8 +81,7 @@ ifneq ($(SPFRX_IN_THE_LOOP),)
 	--set spfrx.scripts_dir=$(SPFRX_SCRIPTS_DIR) \
 	--set spfrx.instance=$(SPFRX_TANGO_INSTANCE) \
 	--set spfrx.logging_level=$(SPFRX_TANGO_LOGGING_LEVEL) \
-	--set dishlmc.ska-mid-dish-manager.dishmanager.spfrx.family_name=$(SPFRX_FAMILY_NAME) \
-	--set dishlmc.ska-mid-dish-manager.dishmanager.spfrx.member_name=$(SPFRX_MEMBER_NAME) \
+	--set dishlmc.ska-mid-dish-manager.dishmanager.spfrx.fqdn=$(SPFRX_FQDN) \
 	--set dishlmc.ska-mid-dish-simulators.deviceServers.spfrxdevice.enabled=$(SPFRX_SIM_ENABLE)
 endif
 
