@@ -20,6 +20,9 @@
   rules:
     - if: $CI_PIPELINE_SOURCE == "pipeline"
       when: never
+    - if: $CI_COMMIT_TAG
+      variables:
+        SPFRX_IN_THE_LOOP: "true"
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
       variables:
         KUBE_NAMESPACE: $KUBE_APP-$DISH_ID

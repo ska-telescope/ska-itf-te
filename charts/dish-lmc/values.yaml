@@ -30,12 +30,13 @@ dishlmc:
       spfdevice:
         enabled: true
       spfrxdevice:
-        enabled: false
+        enabled: true
     dsOpcuaSimulator:
       enabled: true
 
 # SPFRx
 spfrx:
+  enabled: false
   console:
     version: 0.0.1 # Edit in Gitlab Environment
   address: 10.165.3.20

@@ -264,3 +264,6 @@ vars:
 	$(info Uppercase KUBE_APP: $(shell echo $(KUBE_APP) | tr a-z A-Z))
 	$(info PROJECT_ROOT: $(PROJECT_ROOT))
 	$(info DS_SIM_OPCUA_FQDN: $(DS_SIM_OPCUA_FQDN))
+	$(info SPFRX_SIM_ENABLE: $(SPFRX_SIM_ENABLE))
+	$(info SPFRX_IN_THE_LOOP: $(SPFRX_IN_THE_LOOP))
+	$(info HW_IN_THE_LOOP: $(HW_IN_THE_LOOP))
