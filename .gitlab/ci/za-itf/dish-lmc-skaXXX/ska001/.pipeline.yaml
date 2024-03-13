@@ -36,5 +36,3 @@ uninstall-dishlmc-ska001:
   extends:
     - .destroy-dish-lmc
     - .ska001-env
-  needs:
-    - remove-ds-sim-ska001

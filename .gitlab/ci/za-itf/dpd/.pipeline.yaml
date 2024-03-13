@@ -51,11 +51,15 @@ deploy-dpd-on-demand:
   extends:
     - .dpd-on-demand
     - .dpd-install
+  environment:
+    on_stop: destroy-dpd-on-demand
 
 redeploy-dpd-on-demand:
   extends:
     - .dpd-on-demand
     - .dpd-redeploy
+  environment:
+    on_stop: destroy-dpd-on-demand
 
 destroy-dpd-on-demand:
   extends:
@@ -74,6 +78,8 @@ deploy-dpd-integration:
   extends:
     - .dpd-integration
     - .dpd-install
+  environment:
+    on_stop: destroy-dpd-integration
 
 destroy-dpd-integration:
   extends:
@@ -84,3 +90,5 @@ redeploy-dpd-integration:
   extends:
     - .dpd-integration
     - .dpd-redeploy
+  environment:
+    on_stop: destroy-dpd-integration
