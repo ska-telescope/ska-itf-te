@@ -78,6 +78,7 @@ SPFRX_TRL ?= ska$(DISH_ID)/$(SPFRX_FAMILY_NAME)/$(SPFRX_MEMBER_NAME)
 
 ifeq ($(SPFRX_IN_THE_LOOP), true)
 	DISH_LMC_EXTRA_PARAMS += \
+	--set spfrx.enabled=true \
 	--set spfrx.console.version=$(SPFRX_CONSOLE_VER) \
 	--set spfrx.address=$(SPFRX_ADDRESS) \
 	--set spfrx.bin=$(SPFRX_BIN) \
