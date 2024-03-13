@@ -69,10 +69,14 @@ endif
 SPFRX_IN_THE_LOOP ?= #Boolean flag to control deployment of the device described in SPFRX_TANGO_INSTANCE, SPFRX_ADDRESS variables
 SPFRX_FAMILY_NAME ?= spfrxpu
 SPFRX_MEMBER_NAME ?= controller
-SPFRX_SIM_ENABLE ?= false
+ifeq ($(SPFRX_IN_THE_LOOP), true)
+	SPFRX_SIM_ENABLE := false
+else
+	SPFRX_SIM_ENABLE := true
+endif
 SPFRX_TRL ?= ska$(DISH_ID)/$(SPFRX_FAMILY_NAME)/$(SPFRX_MEMBER_NAME)
 
-ifneq ($(SPFRX_IN_THE_LOOP),)
+ifeq ($(SPFRX_IN_THE_LOOP), true)
 	DISH_LMC_EXTRA_PARAMS += \
 	--set spfrx.console.version=$(SPFRX_CONSOLE_VER) \
 	--set spfrx.address=$(SPFRX_ADDRESS) \
