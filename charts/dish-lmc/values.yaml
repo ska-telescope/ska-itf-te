@@ -30,7 +30,7 @@ dishlmc:
       spfdevice:
         enabled: true
       spfrxdevice:
-        enabled: false
+        enabled: true
     dsOpcuaSimulator:
       enabled: true
 
