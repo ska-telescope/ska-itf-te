@@ -144,7 +144,9 @@ spec:
             [
               "/bin/bash",
               "-c",
-              "echo 'python3 spfrx_deployer.py --generate-spfrx-config --dish_id=$(DISH_ID) --spfrx_instance=$(SPFRX_TANGO_INSTANCE)'; python3 spfrx_deployer.py --generate-spfrx-config --dish_id=$(DISH_ID) && apt -qq update && apt -qq install tree -y && tree -L 2 && env",
+              "echo 'python3 spfrx_deployer.py --generate-spfrx-config --dish_id=$(DISH_ID) --spfrx_instance=$(SPFRX_TANGO_INSTANCE)'; \
+              python3 spfrx_deployer.py --generate-spfrx-config --dish_id=$(DISH_ID) --spfrx_instance=$(SPFRX_TANGO_INSTANCE) \
+              && apt -qq update && apt -qq install tree -y && tree -L 2 && env",
             ]
           env:
             - name: DISH_ID
