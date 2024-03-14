@@ -151,6 +151,8 @@ spec:
               value: {{ .Values.global.dish_id }}
             - name: TANGO_HOST
               value: {{ .Values.global.tango_host }}
+            - name: SPFRX_TANGO_INSTANCE
+              value: {{ .Values.spfrx.instance }}
           image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
           imagePullPolicy: IfNotPresent
         - name: 4-download-artefacts
@@ -180,13 +182,15 @@ spec:
             [
               "/bin/bash",
               "-c",
-              "python3 spfrx_deployer.py --config-db --dish_id=$(DISH_ID)",
+              "python3 spfrx_deployer.py --config-db --dish_id=$(DISH_ID) --spfrx_instance=$(SPFRX_TANGO_INSTANCE)",
             ]
           env:
             - name: DISH_ID
               value: {{ .Values.global.dish_id }}
             - name: TANGO_HOST
               value: {{ .Values.global.tango_host }}
+            - name: SPFRX_TANGO_INSTANCE
+              value: {{ .Values.spfrx.instance }}
           image: artefact.skao.int/ska-mid-dish-spfrx-talondx-console-deploy:{{ .Values.spfrx.console.version }}
           imagePullPolicy: IfNotPresent
         - name: 6-deploy-artefacts
