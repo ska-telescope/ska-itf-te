@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cia-lb
+metadata:
+  labels:
+    app: cia
+    app.kubernetes.io/instance: sut
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: config-inspector
+    app.kubernetes.io/version: 0.1.0
+    helm.sh/chart: cia-0.1.0
+  name: cia-lb
+spec:
+  selector:
+    app.kubernetes.io/instance: sut
+    app.kubernetes.io/name: config-inspector
+  ports:
+    - port: 8765
+      targetPort: 80
+  type: LoadBalancer
