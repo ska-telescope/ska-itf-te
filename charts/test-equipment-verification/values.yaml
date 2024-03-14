@@ -8,6 +8,8 @@ global:
 ska-tango-base:
   itango:
     enabled: true
+  tangodb:
+    use_pv: true
 
 test-equipment:
   legacy_compatibility: true
