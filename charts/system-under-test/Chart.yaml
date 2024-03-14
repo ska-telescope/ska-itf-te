@@ -52,10 +52,11 @@ dependencies:
   # SKA Configuration Inspector API
   # Gitlab Location: https://gitlab.com/ska-telescope/ska-ser-config-inspector
   # Releases: https://gitlab.com/ska-telescope/ska-ser-config-inspector/-/releases
-  # - name: ska-k8s-exporter
-  #   version: 0.1.0 # check latest version
-  #   repository: https://artefact.skao.int/repository/helm-internal
-  #   condition: cia.enabled
+  - name: ska-ser-config-inspector
+    version: 0.1.0 # check latest version
+    repository: https://artefact.skao.int/repository/helm-internal
+    alias: cia
+    condition: cia.enabled
 
   # TARANTA SUITE
   - name: ska-tango-taranta
