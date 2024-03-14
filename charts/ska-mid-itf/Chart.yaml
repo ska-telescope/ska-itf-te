@@ -8,11 +8,11 @@ icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_201
 dependencies:
   # Tango
   - name: ska-tango-base
-    version: 0.4.7 # Check latest version
+    version: 0.4.9 # Check latest version
     repository: https://artefact.skao.int/repository/helm-internal
 
   - name: ska-tango-util
-    version: 0.4.9 # Check latest version
+    version: 0.4.10 # Check latest version
     repository: https://artefact.skao.int/repository/helm-internal
 
   # SKA Test Equipment
@@ -24,7 +24,7 @@ dependencies:
 
   # TARANTA SUITE
   - name: ska-tango-taranta
-    version: 2.7.2
+    version: 2.7.3
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-taranta.enabled
   - name: ska-tango-tangogql

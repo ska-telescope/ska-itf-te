@@ -44,7 +44,7 @@ dependencies:
   # SKA Mid SDP
   #
   - name: ska-sdp
-    version: 0.18.1
+    version: 0.19.0
     repository: https://artefact.skao.int/repository/helm-internal
     alias: sdp
     condition: sdp.enabled
@@ -59,7 +59,7 @@ dependencies:
 
   # TARANTA SUITE
   - name: ska-tango-taranta
-    version: 2.7.2
+    version: 2.7.3
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-taranta.enabled
 

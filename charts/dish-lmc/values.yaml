@@ -34,12 +34,13 @@ ska-tango-base:
       spfdevice:
         enabled: true
       spfrxdevice:
-        enabled: false
+        enabled: true
     dsOpcuaSimulator:
       enabled: true
 
 # SPFRx
 spfrx:
+  enabled: false
   console:
     version: 0.0.1 # Edit in Gitlab Environment
   address: 10.165.3.20
@@ -64,3 +65,7 @@ ska-taranta:
       limits:
         cpu: 1000m # 1000m = 1 CPU
         memory: 1024Mi # 1024Mi = 1 GB mem
+
+ska-tango-base:
+  tangodb:
+    use_pv: true
