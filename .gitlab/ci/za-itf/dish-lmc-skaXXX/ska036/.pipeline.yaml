@@ -23,8 +23,6 @@ redeploy-dishlmc-ska036:
   extends:
     - .redeploy-dish-lmc
     - .ska036-env
-  #   needs:
-  #     - redeploy-ds-sim-ska036
   when: manual
   environment:
     on_stop: uninstall-dishlmc-ska036

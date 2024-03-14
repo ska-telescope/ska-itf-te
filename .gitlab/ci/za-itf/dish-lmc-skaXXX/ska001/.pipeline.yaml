@@ -24,9 +24,7 @@ redeploy-dishlmc-ska001:
   extends:
     - .redeploy-dish-lmc
     - .ska001-env
-  needs:
-    - redeploy-ds-sim-ska001
-  when: on_success
+  when: manual
   variables:
     DISH_LMC_EXTRA_PARAMS: -f charts/dish-lmc/values-cetc.yaml --set dishlmc.ska-mid-dish-ds-manager.dishstructuremanager.dsSim.fqdn=$DS_SIM_OPCUA_FQDN
   environment:
