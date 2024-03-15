@@ -26,6 +26,6 @@ dependencies:
 
   # DISH LMC CHART
   - name: ska-dish-lmc
-    version: 3.0.0
+    version: 2.6.3
     repository: https://artefact.skao.int/repository/helm-internal
     alias: dishlmc
