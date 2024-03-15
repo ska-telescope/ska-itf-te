@@ -1,8 +1,9 @@
 # Makefile targets for deploying and configuring the Talon HW
 HW_CONFIG_FILE_PATH ?= $(PROJECT_ROOT)resources/talon
 MCS_CONFIG_FILE_PATH ?= $(PROJECT_ROOT)resources/mcs
+SLIM_CONFIG_FILE_PATH ?= $(PROJECT_ROOT)resources/mcs
 KUBE_NAMESPACE ?= $(KUBE_NAMESPACE)
-TALON_BOARD_IDX ?= 1
+TALON_BOARD_IDX ?= "1,2,3,4" #Set the index of all the boards that should be deployed.
 
 ## TARGET: itf-cbf-talonlru-status
 ## SYNOPSIS: make itf-cbf-talonlru-status
@@ -49,12 +50,26 @@ itf-cbf-config-talon: ## generate talondx-config.json
 ##      KUBE_NAMESPACE=[kubernetes namespace where MCS is deployed] (default value: integration)
 ##  make target for configuring the MCS
 
-itf-cbf-config-mcs: itf-cbf-copy-hw-config ## Copy the init sys params into the bite pod, copy the vcc gains json for band1 into the pod
+itf-cbf-config-mcs: itf-cbf-copy-slim-config itf-cbf-copy-hw-config ## Copy the init sys params into the bite pod, copy the vcc gains json for band1 into the pod
 	@kubectl -n $(KUBE_NAMESPACE) exec ec-bite -- /bin/bash -c "mkdir -p ext_config"
 	@kubectl cp $(MCS_CONFIG_FILE_PATH)/init_sys_param.json  $(KUBE_NAMESPACE)/ec-bite:/app/images/ska-mid-cbf-engineering-console-bite/ext_config/initial_system_param.json
 	@echo "Successfully copied Initial System Parameters config file to the BITE pod for source data generation."
 	@kubectl cp $(MCS_CONFIG_FILE_PATH)/internal_params.json $(KUBE_NAMESPACE)/ds-vcc-vcc-001-0:/app/mnt/vcc_param/internal_params_receptor1_band1.json
 	@echo "Successfully copied VCC gain parameters to the VCC device server pod."
+
+## TARGET: itf-cbf-copy-slim-config
+## SYNOPSIS: make itf-cbf-copy-config
+## HOOKS: none
+## VARS:
+##      MCS_CONFIG_FILE_PATH=[hw_config.yaml init_sys_param.json internal_params.json fs_slim_config.yaml vis_slim_config.yaml folder path] (default value: resources/mcs)
+##      KUBE_NAMESPACE=[kubernetes namespace where MCS is deployed] (default value: integration)
+##  make target for configuring the MCS - specifically HW config
+
+itf-cbf-copy-slim-config: ## Copy the Talon HW Config file onto a pod
+	@kubectl cp $(SLIM_CONFIG_FILE_PATH)/fs_slim_config.yaml $(KUBE_NAMESPACE)/ds-cbfcontroller-controller-0:/app/mnt/slim/fs_slim_config.yaml
+	@kubectl cp $(SLIM_CONFIG_FILE_PATH)/vis_slim_config.yaml $(KUBE_NAMESPACE)/ds-cbfcontroller-controller-0:/app/mnt/slim/vis_slim_config.yaml
+	@echo "Successfully copied Talon HW config file to the CBF Controller Pod."
+
 
 ## TARGET: itf-cbf-copy-hw-config
 ## SYNOPSIS: make itf-cbf-copy-config

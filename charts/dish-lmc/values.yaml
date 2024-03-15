@@ -19,6 +19,10 @@ dishlmc:
   ska-tango-base:
     enabled: false
 
+ska-tango-base:
+  itango:
+    enabled: true
+
   ska-mid-dish-manager:
     enabled: true
     ska-mid-dish-ds-manager:
