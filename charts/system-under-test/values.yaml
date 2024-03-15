@@ -45,7 +45,12 @@ cbf-mcs:
   hostInfo:
     environment: "mid-itf"
     clusterDomain: "miditf.internal.skao.int"
-
+  midcbf:
+    image:
+      registry: registry.gitlab.com/ska-telescope/ska-mid-cbf-mcs
+      image: ska-mid-cbf-mcs
+      tag: 0.12.28-dev.c15a4ec86
+      pullPolicy: IfNotPresent
 
 cbf-tmleafnode:
   enabled: false
