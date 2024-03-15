@@ -48,7 +48,7 @@ cbf-mcs:
 
 
 cbf-tmleafnode:
-  enabled: false
+  enabled: true
 
 csp-lmc:
   legacy_compatibility: true

@@ -3,7 +3,7 @@ HW_CONFIG_FILE_PATH ?= $(PROJECT_ROOT)resources/talon
 MCS_CONFIG_FILE_PATH ?= $(PROJECT_ROOT)resources/mcs
 SLIM_CONFIG_FILE_PATH ?= $(PROJECT_ROOT)resources/mcs
 KUBE_NAMESPACE ?= $(KUBE_NAMESPACE)
-TALON_BOARD_IDX ?= "1,2,3,4"
+TALON_BOARD_IDX ?= "1,2,3,4" #Set the index of all the boards that should be deployed.
 
 ## TARGET: itf-cbf-talonlru-status
 ## SYNOPSIS: make itf-cbf-talonlru-status

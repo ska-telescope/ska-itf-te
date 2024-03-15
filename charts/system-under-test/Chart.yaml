@@ -30,16 +30,16 @@ dependencies:
 
   # SKA Mid CBF
   - name: ska-mid-cbf-mcs
-    version: 0.12.23
+    version: 0.12.28
     repository: https://artefact.skao.int/repository/helm-internal
     alias: cbf-mcs
     condition: cbf-mcs.enabled
 
-  ## TEMP COMMIT ADDING TM SIMULATOR FOR TESTING
+  ## THIS SHOULDN'T BE HERE, BUT WE NEED AN SPFRx THAT SUPPORTS SKA EPOCHS - SEE SKB-TBD (AJ)
   - name: ska-mid-cbf-tmleafnode
     version: 0.12.23
     repository: https://artefact.skao.int/repository/helm-internal
-    condition: true
+    condition: cbf-tmleafnode.enabled
 
   # SKA Mid SDP
   #
