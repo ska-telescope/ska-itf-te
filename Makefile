@@ -67,9 +67,16 @@ DISH_LMC_EXTRA_PARAMS = --set global.dish_id=$(DISH_ID) \
 endif
 
 SPFRX_IN_THE_LOOP ?= #Boolean flag to control deployment of the device described in SPFRX_TANGO_INSTANCE, SPFRX_ADDRESS variables
+SPFRX_ADDRESS ?=localhost
+SPFRX_BIN ?=/usr/local/bin 
+SPFRX_LOCAL_DIR ?=artifacts
+SPFRX_SCRIPTS_DIR ?=scripts
+SPFRX_TANGO_INSTANCE ?=this-one
+SPFRX_TANGO_LOGGING_LEVEL ?=4
 
 ifneq ($(SPFRX_IN_THE_LOOP),)
 	DISH_LMC_EXTRA_PARAMS += \
+	--set spfrx.enabled=true \
 	--set spfrx.dish_id=$(DISH_ID) \
 	--set spfrx.tangodb_fqdn=$(TANGO_DATABASE_DS).$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN) \
 	--set spfrx.tango_host=$(TANGO_HOST) \
