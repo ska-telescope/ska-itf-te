@@ -76,9 +76,19 @@ else
 endif
 SPFRX_TRL ?= $(DISH_ID)/$(SPFRX_FAMILY_NAME)/$(SPFRX_MEMBER_NAME)
 
+SPFRX_ADDRESS ?=localhost
+SPFRX_BIN ?=/usr/local/bin 
+SPFRX_LOCAL_DIR ?=artifacts
+SPFRX_SCRIPTS_DIR ?=scripts
+SPFRX_TANGO_INSTANCE ?=this-one
+SPFRX_TANGO_LOGGING_LEVEL ?=4
+
 ifeq ($(SPFRX_IN_THE_LOOP), true)
 	DISH_LMC_EXTRA_PARAMS += \
 	--set spfrx.enabled=true \
+	--set spfrx.dish_id=$(DISH_ID) \
+	--set spfrx.tango_host=$(TANGO_HOST) \
+	--set spfrx.tangodb_port=10000 \
 	--set spfrx.console.version=$(SPFRX_CONSOLE_VER) \
 	--set spfrx.address=$(SPFRX_ADDRESS) \
 	--set spfrx.bin=$(SPFRX_BIN) \
