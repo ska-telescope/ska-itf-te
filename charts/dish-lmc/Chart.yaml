@@ -31,7 +31,7 @@ dependencies:
     alias: dishlmc
 
   - name: ska-mid-dish-spfrx-talondx-console
-    version: 0.1.2-dev.cb286f92b
+    version: 0.1.2-dev.c4391d313
     repository: https://gitlab.com/api/v4/projects/45166302/packages/helm/dev
     alias: spfrx
     condition: spfrx.enabled
