@@ -38,6 +38,7 @@ ska-taranta:
 cia:
   enabled: true
   createChartInfo: false
+  devmode: true
 
 cbf-mcs:
   enabled: true
