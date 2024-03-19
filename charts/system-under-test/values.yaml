@@ -39,6 +39,9 @@ cia:
   enabled: true
   createChartInfo: false
   devmode: true
+  image:
+    repository: registry.gitlab.com/ska-telescope/ska-ser-config-inspector
+    tag: "0.2.0-dev.c3af763b2"
 
 cbf-mcs:
   enabled: true
