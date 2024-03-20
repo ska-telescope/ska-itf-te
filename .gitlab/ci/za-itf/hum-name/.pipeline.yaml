@@ -1,0 +1,53 @@
+.hum:
+  tags:
+    - ska-k8srunner-za-itf
+  variables:
+    CONFIG: mid
+    K8S_CHART: hardware-under-maintenance
+    KUBE_APP: hardware-under-maintenance
+    INGRESS_HOST: "k8s.miditf.internal.skao.int"
+    CLUSTER_DOMAIN: "miditf.internal.skao.int"
+    KUBE_NAMESPACE: hardware-under-maintenance
+    K8S_EXTRA_PARAMS: --set resources.limits.$DEVICE_NAME=1
+  environment:
+    name: mid-itf/hw-under-maintenance/$DEVICE_NAME
+  when: manual
+
+.hum-on-demand:
+  extends:
+    - .hum
+    - .on_demand_rules
+  stage: hardware-maintenance-mode
+
+.hum-install:
+  script:
+    - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart
+    - bash .make/resources/gitlab_section.sh wait "Wait for installation" make k8s-wait
+  after_script:
+    - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart-with-build-artifacts
+
+.hum-destroy:
+  variables:
+    KEEP_NAMESPACE: "true"
+  script:
+    - !reference [.cleanup, script]
+  environment:
+    action: stop
+
+.hum-redeploy:
+  extends:
+    - .hum-install
+  before_script:
+    - !reference [.cleanup, script]
+
+.hum-integration:
+  extends:
+    - .hum
+    - .integration_rules
+  stage: integration
+  variables:
+    KUBE_NAMESPACE: ska-hum
+
+include:
+  - local: .gitlab/ci/za-itf/hum-name/spfrx-20/.pipeline.yaml
+  # - local: .gitlab/ci/za-itf/hum-name/spfrx-20/.pipeline.yaml

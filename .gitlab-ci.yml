@@ -22,6 +22,7 @@ stages:
   - test
   - lint
   - platform
+  - hardware-maintenance-mode
   - test-equipment-setup
   - integration
   - staging
@@ -50,20 +51,21 @@ include:
   - project: "ska-telescope/ska-mid-itf-engineering-tools"
     file: .gitlab/ci/check-dependencies/.pipeline.yaml
 
-  - local: .gitlab/ci/.jobs.yaml
-  - local: .gitlab/ci/.rules.yaml
+  - local: .gitlab/ci/za-itf/ci-ska-db-oda-commit-ref/.pipeline.yaml
   - local: .gitlab/ci/za-itf/ci-ska-mid-itf-commit-ref/.pipeline.yaml
-  - local: .gitlab/ci/za-itf/dish-lmc-skaXXX/.pipeline.yaml
   - local: .gitlab/ci/za-itf/ci-ska-mid-sut-skaXXX-commit-ref/.pipeline.yaml
+  - local: .gitlab/ci/za-itf/dish-lmc-skaXXX/.pipeline.yaml
+  - local: .gitlab/ci/za-itf/dpd/.pipeline.yaml
   - local: .gitlab/ci/za-itf/ds-sim-skaXXX/.pipeline.yaml
   - local: .gitlab/ci/za-itf/file-browser/.pipeline.yaml
+  - local: .gitlab/ci/za-itf/hum-name/.pipeline.yaml
   - local: .gitlab/ci/za-itf/integration/.pipeline.yaml
   - local: .gitlab/ci/za-itf/spookd/.pipeline.yaml
   - local: .gitlab/ci/za-itf/staging/.pipeline.yaml
   - local: .gitlab/ci/za-itf/taranta/.pipeline.yaml
   - local: .gitlab/ci/za-itf/test-equipment/.pipeline.yaml
-  - local: .gitlab/ci/za-itf/ci-ska-db-oda-commit-ref/.pipeline.yaml
-  - local: .gitlab/ci/za-itf/dpd/.pipeline.yaml
+  - local: .gitlab/ci/.jobs.yaml
+  - local: .gitlab/ci/.rules.yaml
 
 xray-publish:
   when: always

@@ -1,0 +1,31 @@
+.spfrx-20-env:
+  variables:
+    DEVICE_NAME: spfrx-20 # device name copied from charts/ska-mid-itf-ghosts/values.yaml
+
+spfrx-20-maintenance:
+  extends:
+    - .spfrx-20-env
+    - .hum-integration
+    - .hum-install
+  environment:
+    on_stop: spfrx-20-usable
+
+spfrx-20-usable:
+  extends:
+    - .spfrx-20-env
+    - .hum-integration
+    - .hum-destroy
+
+spfrx-20-maintenance-od:
+  extends:
+    - .spfrx-20-env
+    - .hum-on-demand
+    - .hum-install
+  environment:
+    on_stop: spfrx-20-usable-od
+
+spfrx-20-usable-od:
+  extends:
+    - .spfrx-20-env
+    - .hum-on-demand
+    - .hum-destroy
