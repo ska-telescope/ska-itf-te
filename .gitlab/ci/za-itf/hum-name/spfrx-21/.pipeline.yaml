@@ -1,5 +1,6 @@
 .spfrx-21-env:
   variables:
+    DEVICE: spfrx-21
     DEVICE_NAME: miditf/spfrx-21 # device name copied from charts/ska-mid-itf-ghosts/values.yaml
 
 spfrx-21-maintenance:
