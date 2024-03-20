@@ -52,4 +52,4 @@
 
 include:
   - local: .gitlab/ci/za-itf/hum-name/spfrx-20/.pipeline.yaml
-  # - local: .gitlab/ci/za-itf/hum-name/spfrx-20/.pipeline.yaml
+  - local: .gitlab/ci/za-itf/hum-name/spfrx-21/.pipeline.yaml
