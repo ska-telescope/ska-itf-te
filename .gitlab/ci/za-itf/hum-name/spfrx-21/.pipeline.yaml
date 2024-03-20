@@ -1,0 +1,31 @@
+.spfrx-21-env:
+  variables:
+    DEVICE_NAME: miditf/spfrx-21 # device name copied from charts/ska-mid-itf-ghosts/values.yaml
+
+spfrx-21-maintenance:
+  extends:
+    - .spfrx-21-env
+    - .hum-integration
+    - .hum-install
+  environment:
+    on_stop: spfrx-21-usable
+
+spfrx-21-usable:
+  extends:
+    - .spfrx-21-env
+    - .hum-integration
+    - .hum-destroy
+
+spfrx-21-maintenance-od:
+  extends:
+    - .spfrx-21-env
+    - .hum-on-demand
+    - .hum-install
+  environment:
+    on_stop: spfrx-21-usable-od
+
+spfrx-21-usable-od:
+  extends:
+    - .spfrx-21-env
+    - .hum-on-demand
+    - .hum-destroy
