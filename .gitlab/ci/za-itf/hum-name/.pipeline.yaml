@@ -8,7 +8,7 @@
     INGRESS_HOST: "k8s.miditf.internal.skao.int"
     CLUSTER_DOMAIN: "miditf.internal.skao.int"
     KUBE_NAMESPACE: hardware-under-maintenance
-    K8S_EXTRA_PARAMS: --set resources.limits.$DEVICE_NAME=1
+    K8S_EXTRA_PARAMS: --set resources.limits.$DEVICE_NAME=1 --set device_name=$DEVICE_NAME
   environment:
     name: hw-under-maintenance/$DEVICE_NAME
   when: manual

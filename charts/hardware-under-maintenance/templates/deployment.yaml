@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "hardware-under-maintenance.fullname" . }}
+  name: hum-{{ .Values.device_name }}
   labels:
     {{- include "hardware-under-maintenance.labels" . | nindent 4 }}
 spec:
