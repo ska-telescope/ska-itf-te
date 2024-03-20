@@ -10,7 +10,7 @@
     KUBE_NAMESPACE: hardware-under-maintenance
     K8S_EXTRA_PARAMS: --set resources.limits.$DEVICE_NAME=1
   environment:
-    name: mid-itf/hw-under-maintenance/$DEVICE_NAME
+    name: hw-under-maintenance/$DEVICE_NAME
   when: manual
   needs:
     - helm-chart-build
