@@ -12,6 +12,8 @@
   environment:
     name: mid-itf/hw-under-maintenance/$DEVICE_NAME
   when: manual
+  needs:
+    - helm-chart-build
 
 .hum-on-demand:
   extends:
