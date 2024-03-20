@@ -26,7 +26,7 @@ serviceAccount:
   name: ""
 
 podAnnotations: {}
-podLabels: { app=hardware-under-maintenance }
+podLabels: {}
 
 podSecurityContext:
   {}
