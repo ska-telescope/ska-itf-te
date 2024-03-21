@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "{{ include "hardware-under-maintenance.fullname" . }}-test-connection"
+  name: "{{ .Values.device_name }}-test-connection"
   labels:
-    {{- include "hardware-under-maintenance.labels" . | nindent 4 }}
+    app.kubernetes.io/name: hardware-under-maintenance
   annotations:
     "helm.sh/hook": test
 spec:
@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "hardware-under-maintenance.fullname" . }}:{{ .Values.service.port }}']
+      args: ['{{ .Values.device_name }}:{{ .Values.service.port }}']
   restartPolicy: Never
