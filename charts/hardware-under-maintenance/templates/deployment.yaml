@@ -15,9 +15,7 @@ spec:
       labels:
         app.kubernetes.io/name: hardware-under-maintenance
     spec:
-      serviceAccountName: test-hardware-under-maintenance
-      securityContext:
-        {}
+      # serviceAccountName: test-hardware-under-maintenance
       containers:
         - name: hardware-under-maintenance
           securityContext:
