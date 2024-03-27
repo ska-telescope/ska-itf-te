@@ -6,7 +6,7 @@
     SPFRX_TANGO_INSTANCE: spfrx-21
     SPFRX_ADDRESS: 10.165.3.21
     DISH_ID: ska036
-    SPFRX_IN_THE_LOOP: "false"
+    SPFRX_IN_THE_LOOP: "true"
 
 deploy-dishlmc-ska036:
   extends:
