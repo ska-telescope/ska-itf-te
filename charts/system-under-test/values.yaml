@@ -91,7 +91,8 @@ sdp:
     nsubarray: 3
   data-pvc:
     create:
-      enabled: false
+      enabled: true
+      storageClassName: nfss1
   ska-tango-base:
     enabled: false
 
