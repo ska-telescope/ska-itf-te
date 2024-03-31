@@ -60,10 +60,10 @@ DISH_LMC_INITIAL_PARAMS ?=
 DISH_LMC_EXTRA_PARAMS ?=
 
 ifneq ($(DISH_ID),)
-DISH_LMC_EXTRA_PARAMS = --set global.dish_id=$(DISH_ID) \
-	--set global.tangodb_fqdn=$(TANGO_DATABASE_DS).$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN) \
-	--set global.tango_host=$(TANGO_HOST) \
-	--set global.tangodb_port=10000
+DISH_LMC_EXTRA_PARAMS = --set spfrx.dish_id=$(DISH_ID) \
+	--set spfrx.tangodb_fqdn=$(TANGO_DATABASE_DS).$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN) \
+	--set spfrx.tango_host=$(TANGO_HOST) \
+	--set spfrx.tangodb_port=10000
 endif
 
 SPFRX_IN_THE_LOOP ?= #Boolean flag to control deployment of the device described in SPFRX_TANGO_INSTANCE, SPFRX_ADDRESS variables
