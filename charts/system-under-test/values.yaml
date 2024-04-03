@@ -38,10 +38,6 @@ ska-taranta:
 ska-ser-config-inspector:
   enabled: true
   createChartInfo: false
-  devmode: true
-  image:
-    repository: registry.gitlab.com/ska-telescope/ska-ser-config-inspector
-    tag: "0.2.0-dev.c4c4c898c"
 
 ska-mid-cbf-mcs:
   enabled: true
