@@ -3,13 +3,15 @@ apiVersion: v1
 metadata:
   name: chartinfo-{{ .Release.Name }}
 data:
-  chartinfo.js: |-
-    const CHARTINFO = {
-        name: '{{ .Chart.Name }}',
-        version: '{{ .Chart.Version }}',
-        dependencies: [
-        {{- range  .Chart.Dependencies }}
-        { name: '{{ .Name }}' , version: '{{ .Version }}' },
+  chartinfo.json: |-
+    {
+        "name": "{{ .Chart.Name }}",
+        "version": "{{ .Chart.Version }}",
+        "release": "{{ .Release.Name }}",
+        "dependencies": [
+        {{- $last := sub (len .Chart.Dependencies) 1 }}
+        {{- range $index, $item := .Chart.Dependencies }}
+        { "name": "{{ $item.Name }}" , "version": "{{ $item.Version }}" }{{ if ne $index $last }},{{ end }}
         {{- end }}
         ]
     }
