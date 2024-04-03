@@ -35,7 +35,7 @@ ska-taranta:
         memory: 1024Mi # 1024Mi = 1 GB mem
 
 # CIA
-cia:
+ska-ser-config-inspector:
   enabled: true
   createChartInfo: false
   devmode: true
@@ -43,7 +43,7 @@ cia:
     repository: registry.gitlab.com/ska-telescope/ska-ser-config-inspector
     tag: "0.2.0-dev.c4c4c898c"
 
-cbf-mcs:
+ska-mid-cbf-mcs:
   enabled: true
   engineeringConsoleVersion: 0.9.16
   signalVerificationVersion: 0.2.16
@@ -52,15 +52,15 @@ cbf-mcs:
     clusterDomain: "miditf.internal.skao.int"
 
 
-cbf-tmleafnode:
+ska-mid-cbf-tmleafnode:
   enabled: true
 
-csp-lmc:
+ska-csp-lmc-mid:
   legacy_compatibility: true
   enabled: true
 
 ### tmc - also see tmc-values for DishIDs!
-tmc:
+ska-tmc-mid:
   legacy_compatibility: true
   enabled: true
   telescope: SKA-mid
@@ -86,7 +86,7 @@ tmc:
       cpu: 400m
 
 
-sdp:
+ska-sdp:
   helmdeploy:
     enableNADClusterRole: true
   legacy_compatibility: true
