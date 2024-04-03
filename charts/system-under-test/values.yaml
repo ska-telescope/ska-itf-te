@@ -40,7 +40,7 @@ cia:
 
 cbf-mcs:
   enabled: true
-  engineeringConsoleVersion: 0.9.24
+  engineeringConsoleVersion: 0.10.1
   signalVerificationVersion: 0.2.16
   hostInfo:
     environment: "mid-itf"
