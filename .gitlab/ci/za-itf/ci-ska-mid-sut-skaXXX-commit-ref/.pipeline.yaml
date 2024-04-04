@@ -14,7 +14,6 @@
     INGRESS_HOST: "k8s.miditf.internal.skao.int"
     K8S_EXTRA_PARAMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
     TANGO_DATABASE_DS: tango-databaseds
-  image: $DEPLOY_IMAGE
   rules:
     - if: $CI_PIPELINE_SOURCE == "pipeline"
       when: never
@@ -50,14 +49,14 @@ deploy-aa05-dishes:
   variables:
     SUT_CHART_DIR: ${CI_PROJECT_DIR}/charts/system-under-test
 
-redeploy-aa05-dishes:
-  extends:
-    - .aa05-env
-  script:
-    - echo "Redeploying multiple dishes in downstream dish-aiv stage - first deploy ska001 manually"
-    - echo "Redeploying 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
-  environment:
-    on_stop: uninstall-aa05-dishes
+# redeploy-aa05-dishes:
+#   extends:
+#     - .aa05-env
+#   script:
+#     - echo "Redeploying multiple dishes in downstream dish-aiv stage - first deploy ska001 manually"
+#     - echo "Redeploying dishes $DISH_IDS:"
+#   environment:
+#     on_stop: uninstall-aa05-dishes
 
 uninstall-aa05-dishes:
   extends:

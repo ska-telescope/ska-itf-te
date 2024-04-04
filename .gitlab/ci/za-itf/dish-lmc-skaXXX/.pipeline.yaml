@@ -89,14 +89,14 @@
 .deploy-additional-lmc:
   extends:
     - .deploy-dish-lmc
+  needs:
+    - deploy-aa05-dishes
+    - deploy-dishlmc-ska001
   when: on_success
 
 .deploy-dishlmc-ska063:
   extends:
     - .deploy-additional-lmc
-  needs:
-    - deploy-aa05-dishes
-    - deploy-dishlmc-ska001
   variables:
     DISH_INDEX: "063"
   environment:
@@ -105,9 +105,6 @@
 .deploy-dishlmc-ska100:
   extends:
     - .deploy-additional-lmc
-  needs:
-    - deploy-aa05-dishes
-    - deploy-dishlmc-ska001
   variables:
     DISH_INDEX: "100"
   environment:
