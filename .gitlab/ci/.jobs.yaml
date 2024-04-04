@@ -39,8 +39,6 @@
         bash .make/resources/gitlab_section.sh talon_config_tangodb "Configure TangoDB with device servers" make itf-cbf-config-tangodb && sleep 3;
         if [ "SWITCH_CSP_ON" == "true" ] ; then
           bash .make/resources/gitlab_section.sh talon_on "Switch ON the CSP" make itf-cbf-tango-on || (cat /app/src/ska_mid_itf_engineering_tools/cbf_config/talon_on.py && make itf-cbf-power-on && echo "###############\n# Failed to deploy Talon Demonstrator Correlator\n###############" > deploy/status)
-        else
-          bash .make/resources/gitlab_section.sh talon_power_on "Swith on the Talon LRUs" make itf-cbf-power-on
         fi
       fi
     - sleep 1
