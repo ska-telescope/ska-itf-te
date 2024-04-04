@@ -29,6 +29,7 @@ deploy-sut-on-demand:
     K8S_AUTH_SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_PIPELINE_ID
     PDU_IP: 10.20.2.14
     SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_COMMIT_REF_NAME
+    SWITCH_CBF_ON: "false"
   extends:
     - .deploy
     - .ci-env
