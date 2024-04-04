@@ -38,7 +38,6 @@ dependencies:
   # Gitlab Location: https://gitlab.com/ska-telescope/ska-ser-config-inspector
   # Releases: https://gitlab.com/ska-telescope/ska-ser-config-inspector/-/releases
   - name: ska-ser-config-inspector
-    version: 0.2.1-dev.c792118ec # check latest version
-    repository: https://gitlab.com/api/v4/projects/36977998/packages/helm/dev
-#    repository: https://artefact.skao.int/repository/helm-internal
+    version: 0.2.2 # check latest version
+    repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-ser-config-inspector.enabled
