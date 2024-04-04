@@ -85,21 +85,21 @@ SPFRX_TANGO_LOGGING_LEVEL ?=4
 
 ifeq ($(SPFRX_IN_THE_LOOP), true)
 	DISH_LMC_EXTRA_PARAMS += \
-	--set spfrx.enabled=true \
-	--set spfrx.console.version=$(SPFRX_CONSOLE_VER) \
-	--set spfrx.address=$(SPFRX_ADDRESS) \
-	--set spfrx.bin=$(SPFRX_BIN) \
-	--set spfrx.local_dir=$(SPFRX_LOCAL_DIR) \
-	--set spfrx.scripts_dir=$(SPFRX_SCRIPTS_DIR) \
-	--set spfrx.instance=$(SPFRX_TANGO_INSTANCE) \
-	--set spfrx.logging_level=$(SPFRX_TANGO_LOGGING_LEVEL) \
-	--set dishlmc.ska-mid-dish-manager.dishmanager.spfrx.fqdn=$(SPFRX_TRL) \
-	--set dishlmc.ska-mid-dish-simulators.deviceServers.spfrxdevice.enabled=$(SPFRX_SIM_ENABLE)
+	--set ska-mid-dish-spfrx-talondx-console.enabled=true \
+	--set ska-mid-dish-spfrx-talondx-console.console.version=$(SPFRX_CONSOLE_VER) \
+	--set ska-mid-dish-spfrx-talondx-console.address=$(SPFRX_ADDRESS) \
+	--set ska-mid-dish-spfrx-talondx-console.bin=$(SPFRX_BIN) \
+	--set ska-mid-dish-spfrx-talondx-console.local_dir=$(SPFRX_LOCAL_DIR) \
+	--set ska-mid-dish-spfrx-talondx-console.scripts_dir=$(SPFRX_SCRIPTS_DIR) \
+	--set ska-mid-dish-spfrx-talondx-console.instance=$(SPFRX_TANGO_INSTANCE) \
+	--set ska-mid-dish-spfrx-talondx-console.logging_level=$(SPFRX_TANGO_LOGGING_LEVEL) \
+	--set ska-dish-lmc.ska-mid-dish-manager.dishmanager.spfrx.fqdn=$(SPFRX_TRL) \
+	--set ska-dish-lmc.ska-mid-dish-simulators.deviceServers.spfrxdevice.enabled=$(SPFRX_SIM_ENABLE)
 endif
 
 ifeq ($(DISH_ID), ska001)
 	DISH_LMC_EXTRA_PARAMS += -f charts/dish-lmc/values-cetc.yaml \
-	--set dishlmc.ska-mid-dish-ds-manager.dishstructuremanager.dsSim.fqdn=$(DS_SIM_OPCUA_FQDN)
+	--set ska-dish-lmc.ska-mid-dish-ds-manager.dishstructuremanager.dsSim.fqdn=$(DS_SIM_OPCUA_FQDN)
 endif
 
 DISH_LMC_PARAMS ?= $(DISH_LMC_INITIAL_PARAMS) $(DISH_LMC_EXTRA_PARAMS)

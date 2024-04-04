@@ -10,7 +10,7 @@ ska-tango-base:
   tangodb:
     use_pv: true
 
-test-equipment:
+ska-ser-test-equipment:
   legacy_compatibility: true
   enabled: true
   simulators:
@@ -80,3 +80,7 @@ ska-taranta:
         cpu: 1000m # 1000m = 1 CPU
         memory: 1024Mi # 1024Mi = 1 GB mem
 
+# CIA
+ska-ser-config-inspector:
+  enabled: true
+  createChartInfo: false
