@@ -9,6 +9,7 @@
     CLUSTER_DOMAIN: "miditf.internal.skao.int"
     KUBE_NAMESPACE: hardware-under-maintenance-$DEVICE
     K8S_EXTRA_PARAMS: --set resources.limits.$DEVICE_NAME=1 --set device_name=$DEVICE
+    HELM_RELEASE: hum-$DEVICE
   environment:
     name: hw-under-maintenance/$DEVICE_NAME
   when: manual
