@@ -37,7 +37,6 @@ ska-taranta:
 # CIA
 ska-ser-config-inspector:
   enabled: true
-  createChartInfo: false
 
 ska-mid-cbf-mcs:
   enabled: true
