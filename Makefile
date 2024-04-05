@@ -113,6 +113,8 @@ SDP_PARAMS ?= --set ska-sdp.helmdeploy.namespace=$(KUBE_NAMESPACE_SDP) \
 	--set ska-sdp.ska-sdp-qa.redis.clusterDomain=$(CLUSTER_DOMAIN) \
 	--set global.sdp.processingNamespace=$(KUBE_NAMESPACE_SDP)
 
+K8S_TEST_RUNNER_PARAMS ?=
+
 K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	--set global.exposeAllDS=$(EXPOSE_All_DS) \
 	--set global.exposeDatabaseDS=$(EXPOSE_DATABASE_DS) \
@@ -131,7 +133,8 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	$(TARANTA_PARAMS) \
 	${K8S_TEST_TANGO_IMAGE_PARAMS} \
 	${SKIP_TANGO_EXAMPLES_PARAMS} \
-	$(K8S_EXTRA_PARAMS)
+	$(K8S_EXTRA_PARAMS) \
+	$(K8S_TEST_RUNNER_PARAMS)
 
 TMC_VALUES_PATH=charts/system-under-test/tmc-values.yaml
 ifneq ("$(wildcard $(TMC_VALUES_PATH))","")

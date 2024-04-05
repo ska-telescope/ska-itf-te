@@ -134,6 +134,7 @@ k8s-test-runner:
     CAPTURE_LOGS: "True"
     EXIT_AT_FAIL: "True"
     REMOVE_FAILED_TEST_DEPLOYMENT: "true"
+    K8S_TEST_RUNNER_PARAMS: --set tmc.deviceServers.mocks.dish=true --set tmc.deviceServers.mocks.enabled=true
 
 stop-k8s-test-runner:
   tags:
