@@ -64,10 +64,9 @@ ska-tmc-mid:
   deviceServers:
     mocks:
       enabled: false
-      is_simulated:
-        csp: false
-        sdp: false
-        dish: false
+      csp: false
+      sdp: false
+      dish: false
     centralnode:
       subarray_count: 1
     dishleafnode:
