@@ -18,44 +18,40 @@ dependencies:
   - name: ska-tmc-mid
     version: 0.15.7 # check latest version
     repository: https://artefact.skao.int/repository/helm-internal
-    alias: tmc
-    condition: tmc.enabled
+    condition: ska-tmc-mid.enabled
 
   # SKA Mid CSP LMC
   - name: ska-csp-lmc-mid
     version: 0.18.2 # check latest version
     repository: https://artefact.skao.int/repository/helm-internal
-    alias: csp-lmc
-    condition: csp-lmc.enabled
+    condition: ska-csp-lmc-mid.enabled
 
   # SKA Mid CBF
   - name: ska-mid-cbf-mcs
     version: 0.12.28
     repository: https://artefact.skao.int/repository/helm-internal
-    alias: cbf-mcs
-    condition: cbf-mcs.enabled
+    condition: ska-mid-cbf-mcs.enabled
 
   ## THIS SHOULDN'T BE HERE, BUT WE NEED AN SPFRx THAT SUPPORTS SKA EPOCHS - SEE SKB-TBD (AJ)
   - name: ska-mid-cbf-tmleafnode
     version: 0.12.23
     repository: https://artefact.skao.int/repository/helm-internal
-    condition: cbf-tmleafnode.enabled
+    condition: ska-mid-cbf-tmleafnode.enabled
 
   # SKA Mid SDP
   #
   - name: ska-sdp
     version: 0.19.0
     repository: https://artefact.skao.int/repository/helm-internal
-    alias: sdp
-    condition: sdp.enabled
+    condition: ska-sdp.enabled
 
   # SKA Configuration Inspector API
   # Gitlab Location: https://gitlab.com/ska-telescope/ska-ser-config-inspector
   # Releases: https://gitlab.com/ska-telescope/ska-ser-config-inspector/-/releases
-  # - name: ska-k8s-exporter
-  #   version: 0.1.0 # check latest version
-  #   repository: https://artefact.skao.int/repository/helm-internal
-  #   condition: cia.enabled
+  - name: ska-ser-config-inspector
+    version: 0.2.2 # check latest version
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-ser-config-inspector.enabled
 
   # TARANTA SUITE
   - name: ska-tango-taranta
