@@ -15,9 +15,15 @@ global:
   raw_user_pass: jamesbond
 
 # DISH LMC
-dishlmc:
+ska-dish-lmc:
   ska-tango-base:
     enabled: false
+
+ska-tango-base:
+  tangodb:
+    use_pv: true
+  itango:
+    enabled: true
 
   ska-mid-dish-manager:
     enabled: true
@@ -35,7 +41,7 @@ dishlmc:
       enabled: true
 
 # SPFRx
-spfrx:
+ska-mid-dish-spfrx-talondx-console:
   enabled: false
   console:
     version: 0.0.1 # Edit in Gitlab Environment
@@ -62,6 +68,6 @@ ska-taranta:
         cpu: 1000m # 1000m = 1 CPU
         memory: 1024Mi # 1024Mi = 1 GB mem
 
-ska-tango-base:
-  tangodb:
-    use_pv: true
+# CIA
+ska-ser-config-inspector:
+  enabled: true

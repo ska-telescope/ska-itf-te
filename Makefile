@@ -76,23 +76,30 @@ else
 endif
 SPFRX_TRL ?= $(DISH_ID)/$(SPFRX_FAMILY_NAME)/$(SPFRX_MEMBER_NAME)
 
+SPFRX_ADDRESS ?=localhost
+SPFRX_BIN ?=/usr/local/bin 
+SPFRX_LOCAL_DIR ?=artifacts
+SPFRX_SCRIPTS_DIR ?=scripts
+SPFRX_TANGO_INSTANCE ?=this-one
+SPFRX_TANGO_LOGGING_LEVEL ?=4
+
 ifeq ($(SPFRX_IN_THE_LOOP), true)
 	DISH_LMC_EXTRA_PARAMS += \
-	--set spfrx.enabled=true \
-	--set spfrx.console.version=$(SPFRX_CONSOLE_VER) \
-	--set spfrx.address=$(SPFRX_ADDRESS) \
-	--set spfrx.bin=$(SPFRX_BIN) \
-	--set spfrx.local_dir=$(SPFRX_LOCAL_DIR) \
-	--set spfrx.scripts_dir=$(SPFRX_SCRIPTS_DIR) \
-	--set spfrx.instance=$(SPFRX_TANGO_INSTANCE) \
-	--set spfrx.logging_level=$(SPFRX_TANGO_LOGGING_LEVEL) \
-	--set dishlmc.ska-mid-dish-manager.dishmanager.spfrx.fqdn=$(SPFRX_TRL) \
-	--set dishlmc.ska-mid-dish-simulators.deviceServers.spfrxdevice.enabled=$(SPFRX_SIM_ENABLE)
+	--set ska-mid-dish-spfrx-talondx-console.enabled=true \
+	--set ska-mid-dish-spfrx-talondx-console.console.version=$(SPFRX_CONSOLE_VER) \
+	--set ska-mid-dish-spfrx-talondx-console.address=$(SPFRX_ADDRESS) \
+	--set ska-mid-dish-spfrx-talondx-console.bin=$(SPFRX_BIN) \
+	--set ska-mid-dish-spfrx-talondx-console.local_dir=$(SPFRX_LOCAL_DIR) \
+	--set ska-mid-dish-spfrx-talondx-console.scripts_dir=$(SPFRX_SCRIPTS_DIR) \
+	--set ska-mid-dish-spfrx-talondx-console.instance=$(SPFRX_TANGO_INSTANCE) \
+	--set ska-mid-dish-spfrx-talondx-console.logging_level=$(SPFRX_TANGO_LOGGING_LEVEL) \
+	--set ska-dish-lmc.ska-mid-dish-manager.dishmanager.spfrx.fqdn=$(SPFRX_TRL) \
+	--set ska-dish-lmc.ska-mid-dish-simulators.deviceServers.spfrxdevice.enabled=$(SPFRX_SIM_ENABLE)
 endif
 
 ifeq ($(DISH_ID), ska001)
 	DISH_LMC_EXTRA_PARAMS += -f charts/dish-lmc/values-cetc.yaml \
-	--set dishlmc.ska-mid-dish-ds-manager.dishstructuremanager.dsSim.fqdn=$(DS_SIM_OPCUA_FQDN)
+	--set ska-dish-lmc.ska-mid-dish-ds-manager.dishstructuremanager.dsSim.fqdn=$(DS_SIM_OPCUA_FQDN)
 endif
 
 DISH_LMC_PARAMS ?= $(DISH_LMC_INITIAL_PARAMS) $(DISH_LMC_EXTRA_PARAMS)
@@ -100,11 +107,13 @@ DISH_LMC_PARAMS ?= $(DISH_LMC_INITIAL_PARAMS) $(DISH_LMC_EXTRA_PARAMS)
 SKUID_URL ?= ska-ser-skuid-test-svc.$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN):9870
 ODA_PARAMS ?= --set ska-db-oda-umbrella.ska-db-oda.rest.skuid.url=$(SKUID_URL)
 
-SDP_PARAMS ?= --set sdp.helmdeploy.namespace=$(KUBE_NAMESPACE_SDP) \
-	--set sdp.ska-sdp-qa.zookeeper.clusterDomain=$(CLUSTER_DOMAIN) \
-	--set sdp.kafka.clusterDomain=$(CLUSTER_DOMAIN) \
-	--set sdp.ska-sdp-qa.redis.clusterDomain=$(CLUSTER_DOMAIN) \
+SDP_PARAMS ?= --set ska-sdp.helmdeploy.namespace=$(KUBE_NAMESPACE_SDP) \
+	--set ska-sdp.ska-sdp-qa.zookeeper.clusterDomain=$(CLUSTER_DOMAIN) \
+	--set ska-sdp.kafka.clusterDomain=$(CLUSTER_DOMAIN) \
+	--set ska-sdp.ska-sdp-qa.redis.clusterDomain=$(CLUSTER_DOMAIN) \
 	--set global.sdp.processingNamespace=$(KUBE_NAMESPACE_SDP)
+
+K8S_TEST_RUNNER_PARAMS ?=
 
 K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	--set global.exposeAllDS=$(EXPOSE_All_DS) \
@@ -124,7 +133,8 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	$(TARANTA_PARAMS) \
 	${K8S_TEST_TANGO_IMAGE_PARAMS} \
 	${SKIP_TANGO_EXAMPLES_PARAMS} \
-	$(K8S_EXTRA_PARAMS)
+	$(K8S_EXTRA_PARAMS) \
+	$(K8S_TEST_RUNNER_PARAMS)
 
 TMC_VALUES_PATH=charts/system-under-test/tmc-values.yaml
 ifneq ("$(wildcard $(TMC_VALUES_PATH))","")

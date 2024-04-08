@@ -35,26 +35,27 @@ ska-taranta:
         memory: 1024Mi # 1024Mi = 1 GB mem
 
 # CIA
-cia:
-  enabled: false
-
-cbf-mcs:
+ska-ser-config-inspector:
   enabled: true
-  engineeringConsoleVersion: 0.9.1
-  signalVerificationVersion: 0.2.4
+
+ska-mid-cbf-mcs:
+  enabled: true
+  engineeringConsoleVersion: 0.9.16
+  signalVerificationVersion: 0.2.16
   hostInfo:
     environment: "mid-itf"
     clusterDomain: "miditf.internal.skao.int"
 
-cbf-tmleafnode:
-  enabled: false
 
-csp-lmc:
+ska-mid-cbf-tmleafnode:
+  enabled: true
+
+ska-csp-lmc-mid:
   legacy_compatibility: true
   enabled: true
 
 ### tmc - also see tmc-values for DishIDs!
-tmc:
+ska-tmc-mid:
   legacy_compatibility: true
   enabled: true
   telescope: SKA-mid
@@ -63,10 +64,9 @@ tmc:
   deviceServers:
     mocks:
       enabled: false
-      is_simulated:
-        csp: false
-        sdp: false
-        dish: false
+      csp: false
+      sdp: false
+      dish: false
     centralnode:
       subarray_count: 1
     dishleafnode:
@@ -80,7 +80,7 @@ tmc:
       cpu: 400m
 
 
-sdp:
+ska-sdp:
   helmdeploy:
     enableNADClusterRole: true
   legacy_compatibility: true
