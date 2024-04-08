@@ -4,6 +4,8 @@
 .deploy:
   stage: deploy
   image: $DEPLOY_IMAGE
+  # variables:
+  # RUNNER_AFTER_SCRIPT_TIMEOUT: 6m
   before_script:
     - |
       if [ "$HW_IN_THE_LOOP" == "true" ]; then
@@ -43,8 +45,9 @@
     - sleep 1
     - if [ -f deploy/status ]; then cat deploy/status; fi
   after_script:
-    - bash .make/resources/gitlab_section.sh template "Template Chart" make k8s-template-chart-with-build-artifacts
     - make links
+    - env | grep RUNNER_AFTER_SCRIPT_TIMEOUT
+    - bash .make/resources/gitlab_section.sh template "Template Chart" make k8s-template-chart-with-build-artifacts
   artifacts:
     name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID-$CI_JOB_STAGE-$CI_JOB_NAME"
     paths:
