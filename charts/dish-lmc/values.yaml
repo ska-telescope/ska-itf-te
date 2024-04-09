@@ -44,7 +44,7 @@ ska-tango-base:
 ska-mid-dish-spfrx-talondx-console:
   enabled: false
   console:
-    version: 0.0.1 # Edit in Gitlab Environment
+    version: 0.2.1 # Edit in Gitlab Environment
   address: 10.165.3.20
   bin: /usr/local/bin
   local_dir: artifacts
