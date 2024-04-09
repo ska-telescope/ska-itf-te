@@ -45,7 +45,9 @@ ska-mid-cbf-mcs:
   hostInfo:
     environment: "mid-itf"
     clusterDomain: "miditf.internal.skao.int"
-
+  resources:
+    limits:
+      miditf/talondx-1: 1
 
 ska-mid-cbf-tmleafnode:
   enabled: true
@@ -79,7 +81,6 @@ ska-tmc-mid:
     requests:
       cpu: 400m
 
-
 ska-sdp:
   helmdeploy:
     enableNADClusterRole: true
@@ -112,11 +113,11 @@ ska-tango-archiver:
   archwizard_config: MyHDB=tango://tango-databaseds:10000/mid-eda/cm/01
   archviewer:
     instances:
-    - name: "mid"
-      timescale_host: "10.164.11.33"
-  #     #keep below field empty if db names are unknown, app will display all dbs present
-  #     #e.g:timescale_databases: ""  
-      timescale_databases: "itf_eda"
+      - name: "mid"
+        timescale_host: "10.164.11.33"
+        # keep below field empty if db names are unknown, app will display all dbs present
+        # e.g:timescale_databases: ""
+        timescale_databases: "itf_eda"
 
 # Temporary configuration for PVC
 # See templates/pvc.yaml
