@@ -14,7 +14,7 @@
     KEEP_NAMESPACE: "true"
     K8S_CHART: "system-under-test"
     CLUSTER_DOMAIN_POSTFIX: miditf.internal.skao.int
-    DISH_IDS: "SKA001 SKA036 SKA063 SKA100"
+    DISH_IDS: "SKA001 SKA036" # Add additional Dishes back when adding their pipelines: SKA063 SKA100"
     KUBE_APP: ska-mid-sut
     INGRESS_HOST: "k8s.miditf.internal.skao.int"
     CLUSTER_DOMAIN: "miditf.internal.skao.int"

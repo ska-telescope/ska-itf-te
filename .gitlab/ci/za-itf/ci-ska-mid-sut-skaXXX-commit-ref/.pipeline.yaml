@@ -9,12 +9,11 @@
     KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
     CLUSTER_DOMAIN: "miditf.internal.skao.int"
     CLUSTER_DOMAIN_POSTFIX: miditf.internal.skao.int
-    DISH_IDS: "SKA001 SKA036 SKA063 SKA100"
+    DISH_IDS: "SKA001 SKA036" # Add additional Dishes back when adding their pipelines: SKA063 SKA100"
     KUBE_APP: ska-mid-sut
     INGRESS_HOST: "k8s.miditf.internal.skao.int"
     K8S_EXTRA_PARAMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
     TANGO_DATABASE_DS: tango-databaseds
-  image: $DEPLOY_IMAGE
   rules:
     - if: $CI_PIPELINE_SOURCE == "pipeline"
       when: never
