@@ -4,8 +4,6 @@
 .deploy:
   stage: deploy
   image: $DEPLOY_IMAGE
-  # variables:
-  # RUNNER_AFTER_SCRIPT_TIMEOUT: 6m
   before_script:
     - |
       if [ "$HW_IN_THE_LOOP" == "true" ]; then
@@ -55,6 +53,7 @@
       - "deploy/"
   variables:
     SUT_CHART_DIR: ${CI_PROJECT_DIR}/charts/system-under-test
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 6m
 
 .info:
   stage: deploy
