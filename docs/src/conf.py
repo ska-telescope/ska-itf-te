@@ -74,7 +74,7 @@ html_static_path = ["ska-ser-sphinx-templates/_static"]
 
 html_context = {
     "favicon": "ska-ser-sphinx-templates/_static/img/favicon_mono.ico",
-    "logo": "ska-ser-sphinx-templates/_static/img/logo.png",
+    "logo": "https://developer.skao.int/en/latest/_static/logo.png",
     "theme_logo_only": True,
 }
 
