@@ -4,12 +4,12 @@ Purpose and general documentation
 
 Purpose of the Mid ITF Tests repository
 =======================================
-This project contains tests, deployment infrastructure and Helm charts for the remote control software for the Mid ITF Test Equipment to be used to test the SKAO products as they arrive in the SKA MID ITF facility. 
+This project contains tests, deployment infrastructure and Helm charts for the remote control software for the Mid ITF Test Equipment to be used to test the SKAO products as they arrive in the SKA MID ITF facility.
 Test results are automatically uploaded to Jira using the Xray plugin. The test results can then be used for Requirement coverage reports.
 
 Mid ITF Control Interface
 =========================
-Documentation on accessing the ITF Control Interface is maintained in Confluence, mainly under `Accessing ITF network based Test Equipment and SUT <https://confluence.skatelescope.org/x/cdY_Cw>`_.
+Documentation on accessing the ITF Control Interface is maintained in Confluence, mainly under `Accessing ITF network based Test Equipment and SUT <https://confluence.skatelescope.org/x/cdY_Cw>`_. The System Under Test (SUT) as defined in this repository comprises most of the centrally deployed software products, and should not be confused with the SUT that is depicted in the block diagram showing the full system-under-test. The main difference is that the DishLMC, ODA, EDA and other items are deployed in namespaces (or clusters) separate from the one where the central monitoring and control software such as TMC, CSP.LMC, CBF.MCS, SDP, Taranta (Web GUI) and others are deployed.
 
 DishLMC Integration at the Mid ITF
 ==================================
@@ -92,7 +92,7 @@ The completed deployments will look as follows:
 3. Dish LMC connected to the physical SPFC and software simulators for Dish Structure and SPFRx.
 4. Dish LMC connected to the physical SPFRx and software simulators for Dish Structure and SPFC.
 
-Currently, only 2 is fully implemented.
+Currently, only (2.) above is fully implemented.
 This is deployed with the `deploy-dishlmc-ska001` job. When running in development branches, this will deploy into a `ci-dish-lmc-ska001-$BRANCH` namespace.
 In the main branch, it is deployed to the `dish-lmc-ska001` namespace.
 This deployment is triggered by deploying the dish structure simulator with the `deploy-ds-sim-ska001` job.
@@ -126,22 +126,23 @@ In the present repository it is possible to deploy the charts in different names
 .. table:: List of namespaces at February 2024
    :widths: auto
 
-   ================================  ====================================================
+   ================================  ============================================================================================
      Name                              Description
-   ================================  ====================================================
-   ci-ska-mid-itf-commit-ref         Used for on-demand deployment of SUT and not persisted
+   ================================  ============================================================================================
+   ci-ska-mid-itf-commit-ref         Used for on-demand deployment of SUT and not persisted, optionally with hardware in the loop
    ci-dish-lmc-skaXXX-commit-ref     Used for on-demand deployment of Dish LMC
    ci-ska-mid-itf-dpd-commit-ref     Used for on-demand deployment of the Data Product Dashboard
    ci-ska-db-oda-commit-ref          Used for on-demand deployment of the ODA
    dish-lmc-skaXXX                   For long-lived deployment of Dish LMC
    ds-sim-skaXXX                     For long-lived deployment of Dish Strcuture Simulator
    file-browser                      For the spectrum analyser file browser
-   integration                       For long-lived deployment of the SUT
+   integration                       For long-lived deployment of the SUT but in general without hardware in the loop
+   staging                           For demonstration purposes, a hardware-in-the-loop deployment from the main branch.
    ska-db-oda                        For long-lived deployment of the ODA
    ska-dpd                           For long-lived deployment of the Data Product Dashboard
    taranta                           For taranta backend deployment
    test-equipment                    For Test Equipment Tango Device Servers
-   ================================  ====================================================
+   ================================  ============================================================================================
 
 Please note that: 
 
@@ -152,3 +153,34 @@ For each namespace, the definition of the pipeline used for deploying the variou
 
 For example, the definition for the namespace ``ci-ska-mid-itf-commit-ref`` is available in ``.gitlab/ci/za-itf/ci-ska-mid-itf-commit-ref/.pipeline.yaml``. It is important to note that every ``.pipeline.yaml`` definition contains an hidden gitlab job as first item in order to highlight the environment variables (parameters) set for it. 
 
+===================================
+Demonstrations and Hardware testing
+===================================
+In order to enable exclusive usage of the hardware in the Mid ITF, the spookd ghost device plugin is used. This is a Kubernetes custom resource definition, with which arbitrary devices can be defined and made available to the cluster. The control software deployed in the cluster then claims these devices, and by using limits on each device, we can control where or how many instances of software that can actually control this hardware can be deployed. The limit is usually one, and the first one that was deployed while the hardware was available claims the resource. These settings are all done in the Helm Charts.
+
+In the pipelines for the DishLMC and the SUT, we have flags that control whether or not hardware is to be controlled or not, with the deployed software. In the case of the SUT, we are currently (April 2024) concerned mainly with the Correlator hardware (TalonDx LRUs), whereas the DishLMC can or cannot claim and control the SPFRx by way of the spookd mechanism explained above.
+
+TalonDx hardware-in-the-loop flags
+==================================
+Currently, only one flag is used to switch on only one TalonDx LRU. This will change soon. The flag is ``HW_IN_THE_LOOP`` and is set to ``false`` by default in the pipeline environment. When set to true, a set of complex ``make`` targets are required for downloading firmware artefacts, switching off and then on the hardware, etc. This is currently being modified but is still WIP.
+
+SPFRx hardware-in-the-loop flags
+================================
+In each of the DishLMC pipeline jobs, the correct IP addressable hardware items are targeted for deployment `if` they need to be controlled. For each of the pipeline jobs, the flag ``SPFRX_IN_THE_LOOP`` should can be set, or it can be set globally for the pipeline, in which case all instances of the DishLMC will have hardware enabled. This flag is also set to ``false`` by default.
+
+We mainly have three use cases for hardware-in-the-loop choices:
+
+Feature testing and development branches
+========================================
+These branches can typically contain hardware-in-the-loop if necessary, but this is optional. Flags listed above should be set as per requirement.
+
+Integration namespace (main branch)
+========================================
+This deployment should always be without hardware-in-the-loop, as multiple Jupyter Notebooks may at any given time aim to command or control the SUT in that namespace.
+
+Staging namespace (main branch)
+========================================
+This is a special, non-long-living namespace, with typically hardware-in-the-loop deployments by default. The namespace must be destroyed after demonstrations, in order for others to be able to work against branched deployments instead.
+
+**NOTE**
+In all cases where hardware-in-the-loop tests are to be done, it should be announced beforehand in the [#team-mid-itf-support](https://skao.slack.com/archives/C03PC2M2VGA) Slack channel that the hardware is to be used.
