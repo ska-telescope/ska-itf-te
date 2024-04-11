@@ -65,7 +65,7 @@ ska-tmc-mid:
       enabled: false
       csp: false
       sdp: false
-      dish: true
+      dish: false
     centralnode:
       subarray_count: 1
     dishleafnode:
