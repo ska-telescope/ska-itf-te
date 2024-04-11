@@ -9,7 +9,7 @@ global:
   facility: mid-itf
   operator: true
   exposeAllDS: true
-  data-product-pvc-name: test-pvc
+  data-product-pvc-name: test-sdp-pvc
   use_aws: true
   sub-system:
     ska-tango-base:
@@ -82,14 +82,13 @@ ska-tmc-mid:
 ska-sdp:
   helmdeploy:
     enableNADClusterRole: true
-  legacy_compatibility: true
   enabled: true
   lmc:
     prefix: mid
     nsubarray: 3
   data-pvc:
     create:
-      enabled: false
+      enabled: true
       size: 5Gi
       storageClassName: nfss1
   ska-tango-base:
