@@ -8,6 +8,10 @@ readme = "README.md"
 packages = [{ include = "tests/integration" } ]
 
 [[tool.poetry.source]]
+name = "PyPI-public"
+url = 'https://pypi.org/simple'
+
+[[tool.poetry.source]]
 name = 'skao'
 url = 'https://artefact.skao.int/repository/pypi-internal/simple'
 
