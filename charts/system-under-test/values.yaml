@@ -89,7 +89,7 @@ ska-sdp:
     nsubarray: 3
   data-pvc:
     create:
-      enabled: true
+      enabled: false
       size: 5Gi
       storageClassName: nfss1
   ska-tango-base:
