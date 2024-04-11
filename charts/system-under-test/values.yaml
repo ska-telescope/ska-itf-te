@@ -40,6 +40,7 @@ ska-ser-config-inspector:
 
 ska-mid-cbf-mcs:
   enabled: true
+  engineeringConsoleVersion: 0.10.2
   hostInfo:
     environment: "mid-itf"
     clusterDomain: "miditf.internal.skao.int"
@@ -64,7 +65,7 @@ ska-tmc-mid:
       enabled: false
       csp: false
       sdp: false
-      dish: false
+      dish: true
     centralnode:
       subarray_count: 1
     dishleafnode:
