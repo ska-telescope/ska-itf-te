@@ -96,7 +96,7 @@ ifeq ($(SPFRX_IN_THE_LOOP), true)
 	--set ska-mid-dish-spfrx-talondx-console.dish_id=$(DISH_ID) \
 	--set ska-mid-dish-spfrx-talondx-console.tangodb_fqdn=$(TANGO_DATABASE_DS).$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN) \
 	--set ska-mid-dish-spfrx-talondx-console.tango_host=$(TANGO_HOST) \
-	--set ska-mid-dish-spfrx-talondx-console.tangodb_port=10000
+	--set ska-mid-dish-spfrx-talondx-console.tangodb_port=10000 \
 	--set ska-dish-lmc.ska-mid-dish-manager.dishmanager.spfrx.fqdn=$(SPFRX_TRL) \
 	--set ska-dish-lmc.ska-mid-dish-simulators.deviceServers.spfrxdevice.enabled=$(SPFRX_SIM_ENABLE)
 endif
