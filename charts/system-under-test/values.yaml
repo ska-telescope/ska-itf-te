@@ -65,11 +65,11 @@ ska-tmc-mid:
       enabled: false
       csp: false
       sdp: false
-      dish: false
+      dish: true
     centralnode:
       subarray_count: 1
     dishleafnode:
-      enabled: true
+      enabled: false
   ska-tango-base:
     enabled: false
   resources:
