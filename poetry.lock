@@ -4649,26 +4649,6 @@ url = "https://artefact.skao.int/repository/pypi-internal/simple"
 reference = "skao"
 
 [[package]]
-name = "ska-ser-sphinx-theme"
-version = "0.1.2"
-description = "A Sphinx ReadTheDocs theme for SKA"
-optional = false
-python-versions = ">=3.8.1,<4.0.0"
-files = [
-    {file = "ska_ser_sphinx_theme-0.1.2-py3-none-any.whl", hash = "sha256:d8c457026d70caeea9c9529b472a2068ed236075fa422f47566afd33afeb8a67"},
-    {file = "ska_ser_sphinx_theme-0.1.2.tar.gz", hash = "sha256:9f2e0479cfaa0b0c1ee2349f182cbfdb12212bbe35baffde59878bc4724473ac"},
-]
-
-[package.dependencies]
-sphinx = ">4"
-sphinx-rtd-theme = ">=1.2.2,<2.0.0"
-
-[package.source]
-type = "legacy"
-url = "https://artefact.skao.int/repository/pypi-internal/simple"
-reference = "skao"
-
-[[package]]
 name = "ska-telmodel"
 version = "1.14.0"
 description = "SKA telescope model library"
@@ -4842,94 +4822,6 @@ url = "https://pypi.org/simple"
 reference = "PyPI-public"
 
 [[package]]
-name = "sphinx-autodoc-typehints"
-version = "2.0.1"
-description = ""
-optional = false
-python-versions = "*"
-files = [
-    {file = "sphinx_autodoc_typehints-2.0.1-py3-none-any.whl", hash = "sha256:f73ae89b43a799e587e39266672c1075b2ef783aeb382d3ebed77c38a3fc0149"},
-    {file = "sphinx_autodoc_typehints-2.0.1.tar.gz", hash = "sha256:60ed1e3b2c970acc0aa6e877be42d48029a9faec7378a17838716cacd8c10b12"},
-]
-
-[package.source]
-type = "legacy"
-url = "https://pypi.org/simple"
-reference = "PyPI-public"
-
-[[package]]
-name = "sphinx-copybutton"
-version = "0.5.2"
-description = "Add a copy button to each of your code cells."
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "sphinx-copybutton-0.5.2.tar.gz", hash = "sha256:4cf17c82fb9646d1bc9ca92ac280813a3b605d8c421225fd9913154103ee1fbd"},
-    {file = "sphinx_copybutton-0.5.2-py3-none-any.whl", hash = "sha256:fb543fd386d917746c9a2c50360c7905b605726b9355cd26e9974857afeae06e"},
-]
-
-[package.dependencies]
-sphinx = ">=1.8"
-
-[package.extras]
-code-style = ["pre-commit (==2.12.1)"]
-rtd = ["ipython", "myst-nb", "sphinx", "sphinx-book-theme", "sphinx-examples"]
-
-[package.source]
-type = "legacy"
-url = "https://pypi.org/simple"
-reference = "PyPI-public"
-
-[[package]]
-name = "sphinx-rtd-theme"
-version = "1.3.0"
-description = "Read the Docs theme for Sphinx"
-optional = false
-python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,>=2.7"
-files = [
-    {file = "sphinx_rtd_theme-1.3.0-py2.py3-none-any.whl", hash = "sha256:46ddef89cc2416a81ecfbeaceab1881948c014b1b6e4450b815311a89fb977b0"},
-    {file = "sphinx_rtd_theme-1.3.0.tar.gz", hash = "sha256:590b030c7abb9cf038ec053b95e5380b5c70d61591eb0b552063fbe7c41f0931"},
-]
-
-[package.dependencies]
-docutils = "<0.19"
-sphinx = ">=1.6,<8"
-sphinxcontrib-jquery = ">=4,<5"
-
-[package.extras]
-dev = ["bump2version", "sphinxcontrib-httpdomain", "transifex-client", "wheel"]
-
-[package.source]
-type = "legacy"
-url = "https://pypi.org/simple"
-reference = "PyPI-public"
-
-[[package]]
-name = "sphinx-tabs"
-version = "3.4.5"
-description = "Tabbed views for Sphinx"
-optional = false
-python-versions = "~=3.7"
-files = [
-    {file = "sphinx-tabs-3.4.5.tar.gz", hash = "sha256:ba9d0c1e3e37aaadd4b5678449eb08176770e0fc227e769b6ce747df3ceea531"},
-    {file = "sphinx_tabs-3.4.5-py3-none-any.whl", hash = "sha256:92cc9473e2ecf1828ca3f6617d0efc0aa8acb06b08c56ba29d1413f2f0f6cf09"},
-]
-
-[package.dependencies]
-docutils = "*"
-pygments = "*"
-sphinx = "*"
-
-[package.extras]
-code-style = ["pre-commit (==2.13.0)"]
-testing = ["bs4", "coverage", "pygments", "pytest (>=7.1,<8)", "pytest-cov", "pytest-regressions", "rinohtype"]
-
-[package.source]
-type = "legacy"
-url = "https://pypi.org/simple"
-reference = "PyPI-public"
-
-[[package]]
 name = "sphinxcontrib-applehelp"
 version = "1.0.8"
 description = "sphinxcontrib-applehelp is a Sphinx extension which outputs Apple help books"
@@ -4993,25 +4885,6 @@ url = "https://pypi.org/simple"
 reference = "PyPI-public"
 
 [[package]]
-name = "sphinxcontrib-jquery"
-version = "4.1"
-description = "Extension to include jQuery on newer Sphinx releases"
-optional = false
-python-versions = ">=2.7"
-files = [
-    {file = "sphinxcontrib-jquery-4.1.tar.gz", hash = "sha256:1620739f04e36a2c779f1a131a2dfd49b2fd07351bf1968ced074365933abc7a"},
-    {file = "sphinxcontrib_jquery-4.1-py2.py3-none-any.whl", hash = "sha256:f936030d7d0147dd026a4f2b5a57343d233f1fc7b363f68b3d4f1cb0993878ae"},
-]
-
-[package.dependencies]
-Sphinx = ">=1.8"
-
-[package.source]
-type = "legacy"
-url = "https://pypi.org/simple"
-reference = "PyPI-public"
-
-[[package]]
 name = "sphinxcontrib-jsmath"
 version = "1.0.1"
 description = "A sphinx extension which renders display math in HTML via JavaScript"
@@ -5024,27 +4897,6 @@ files = [
 
 [package.extras]
 test = ["flake8", "mypy", "pytest"]
-
-[package.source]
-type = "legacy"
-url = "https://pypi.org/simple"
-reference = "PyPI-public"
-
-[[package]]
-name = "sphinxcontrib-plantuml"
-version = "0.29"
-description = "Sphinx \"plantuml\" extension"
-optional = false
-python-versions = "*"
-files = [
-    {file = "sphinxcontrib-plantuml-0.29.tar.gz", hash = "sha256:97a4f2a26af91db88770ccf8a3b2e03305bcda7ec41a7f969fc8cb27b84a3c44"},
-]
-
-[package.dependencies]
-Sphinx = ">=1.6"
-
-[package.extras]
-test = ["Pillow", "flake8", "pytest"]
 
 [package.source]
 type = "legacy"
@@ -5739,4 +5591,4 @@ reference = "PyPI-public"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.11"
-content-hash = "8a7bf3ac465fea0d22b2cec055c637cb9a1b80589623f5a43ed67eceea2e4137"
+content-hash = "7397b40cff94f79254bc8578240c844e455ff3d77a89dcc76a13b3525e027ec9"
