@@ -69,7 +69,7 @@ ska-tmc-mid:
     centralnode:
       subarray_count: 1
     dishleafnode:
-      enabled: false
+      enabled: true
   ska-tango-base:
     enabled: false
   resources:
