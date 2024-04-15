@@ -152,6 +152,8 @@ PYTHON_VARS_AFTER_PYTEST ?= -v
 # Assume the project root is the directory of the top-level Makefile
 PROJECT_ROOT := $(dir $(abspath $(firstword $(MAKEFILE_LIST))))
 
+DOCS_SPHINXOPTS=-n -W --keep-going
+
 # Use the previously built image when running in the pipeline
 # ifneq ($(CI_JOB_ID),)
 # # OCI_TAG = $(VERSION)-dev.c$(CI_COMMIT_SHORT_SHA)
@@ -241,6 +243,19 @@ integration-test:
 upload-to-confluence:
 	@poetry run upload-to-confluence sut_config.yaml build/reports/cucumber.json
 	@echo "##### Results uploaded to https://confluence.skatelescope.org/x/arzVDQ #####"
+
+
+#############################
+# Docs
+#############################
+
+DOCS_SPHINXOPTS=-W --keep-going
+
+docs-pre-build:
+	poetry config virtualenvs.create false
+	poetry install
+
+.PHONY: docs-pre-build
 
 k8s-template-chart-with-build-artifacts:
 	@make k8s-template-chart > template.log
