@@ -256,7 +256,6 @@ env:
 #############################
 # Docs
 #############################
-include .make/docs.mk
 
 DOCS_SPHINXOPTS=-W --keep-going
 
