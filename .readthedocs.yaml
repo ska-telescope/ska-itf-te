@@ -7,17 +7,11 @@ build:
   # apt_packages:
   # - plantuml # Add apt packages that you need present in the container here, for example plantuml
   jobs:
-    # https://docs.readthedocs.io/en/stable/build-customization.html#install-dependencies-with-poetry
     post_create_environment:
-      # TODO (ST 18-03-2024): Await published uniform approach to resolving
-      # build errors resulting from poetry versions 1.8.0 and higher
-      - pip install poetry==1.7.1
-      # Tell poetry to not use a virtual environment
+      - pip install poetry
       - poetry config virtualenvs.create false
     post_install:
-      # Install dependencies with 'docs' dependency group. If you do not have docs group, please omit it
-      # https://python-poetry.org/docs/managing-dependencies/#dependency-groups
-      - poetry install --only docs
+      - poetry install
 
 sphinx:
   configuration: docs/src/conf.py
