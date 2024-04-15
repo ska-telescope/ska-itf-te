@@ -21,13 +21,12 @@ ska-ser-skallop = { version = "2.29.8", extras = ["bit"] }
 ska-tmc-cdm = "8.3.0"
 pytest-json-report = "^1.5.0"
 pytest-repeat = "^0.9.1"
-kubernetes = "^21.7.0"
-asyncua = "^1.0.4"
 ska_ser_logging = "^0.4.1"
 ska-control-model = "^0.3.4"
 pyyaml = "^6.0.1"
-ska-mid-itf-engineering-tools = "^0.6.1"
+ska-mid-itf-engineering-tools = "^0.7.1"
 httpx = "^0.27.0"
+h11 = "^0.14.0"
 
 [tool.poetry.group.docs.dependencies]
 Sphinx = "^7.2.6"
