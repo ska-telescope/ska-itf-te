@@ -28,6 +28,7 @@ ska-control-model = "^0.3.4"
 pyyaml = "^6.0.1"
 ska-mid-itf-engineering-tools = "^0.7.1"
 httpx = "^0.27.0"
+h11 = "^0.14.0"
 
 [tool.poetry.group.docs.dependencies]
 Sphinx = "^7.2.6"
