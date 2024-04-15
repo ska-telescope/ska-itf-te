@@ -14,12 +14,18 @@
     KEEP_NAMESPACE: "true"
     K8S_CHART: "system-under-test"
     CLUSTER_DOMAIN_POSTFIX: miditf.internal.skao.int
-    DISH_IDS: "SKA001 SKA036 SKA063 SKA100"
     KUBE_APP: ska-mid-sut
     INGRESS_HOST: "k8s.miditf.internal.skao.int"
     CLUSTER_DOMAIN: "miditf.internal.skao.int"
     K8S_EXTRA_PARAMS: "--set global.ska-tango-archiver.enabled=false  --set ska-tango-archiver.enabled=false"
     TANGO_DATABASE_DS: tango-databaseds
+    PDU_IP: "10.20.2.14"
+    K8S_AUTH_NAMESPACES: "$KUBE_NAMESPACE $KUBE_NAMESPACE_SDP"
+    K8S_AUTH_SERVICE_ACCOUNT: "ci-svc-ska-miditf-$CI_PIPELINE_ID"
+    # HARDWARE AND DISH IN THE LOOP SETTINGS
+    CBF_HW_IN_THE_LOOP: "true"
+    DISH_LMC_IN_THE_LOOP: "true" # TEMPORARY COMMIT - SET TO TRUE FOR FULL SYSTEM ONCE CONNECTION BUGS ARE SORTED - SEE SKB-309 AND FRIENDS
+    DISH_IDS: "SKA001 SKA036" # Add additional dishes when pipelines are available: SKA063 SKA100
 
 .staging_rules:
   variables:
@@ -33,11 +39,6 @@
     - when: never
 
 deploy-sut-staging:
-  variables:
-    HW_IN_THE_LOOP: "true"
-    PDU_IP: "10.20.2.14"
-    K8S_AUTH_NAMESPACES: "$KUBE_NAMESPACE $KUBE_NAMESPACE_SDP"
-    K8S_AUTH_SERVICE_ACCOUNT: "ci-svc-ska-miditf-$CI_PIPELINE_ID"
   extends:
     - .deploy
     - .staging-env
@@ -53,7 +54,7 @@ deploy-sut-staging:
 
 redeploy-sut-staging:
   variables:
-    HW_IN_THE_LOOP: "true"
+    CBF_HW_IN_THE_LOOP: "true"
     PDU_IP: "10.20.2.14"
     K8S_AUTH_NAMESPACES: "$KUBE_NAMESPACE $KUBE_NAMESPACE_SDP"
     K8S_AUTH_SERVICE_ACCOUNT: "ci-svc-ska-miditf-$CI_PIPELINE_ID"

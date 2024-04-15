@@ -136,7 +136,7 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	$(K8S_EXTRA_PARAMS) \
 	$(K8S_TEST_RUNNER_PARAMS)
 
-TMC_VALUES_PATH=charts/system-under-test/tmc-values.yaml
+TMC_VALUES_PATH?=charts/system-under-test/tmc-values.yaml
 ifneq ("$(wildcard $(TMC_VALUES_PATH))","")
 	K8S_EXTRA_PARAMS+=-f $(TMC_VALUES_PATH)
 endif
