@@ -80,6 +80,7 @@ destroy-sut-on-demand:
 k8s-test-runner:
   tags:
     - ska-k8srunner-za-itf
+  image: $DEPLOY_IMAGE
   allow_failure: false
   artifacts:
     name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID"
