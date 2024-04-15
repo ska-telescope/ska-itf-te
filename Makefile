@@ -252,15 +252,3 @@ k8s-template-chart-with-build-artifacts:
 
 env:
 	env
-
-#############################
-# Docs
-#############################
-
-DOCS_SPHINXOPTS=-W --keep-going
-
-docs-pre-build:
-	poetry config virtualenvs.create false
-	poetry install
-
-.PHONY: docs-pre-build
