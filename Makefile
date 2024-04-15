@@ -152,8 +152,6 @@ PYTHON_VARS_AFTER_PYTEST ?= -v
 # Assume the project root is the directory of the top-level Makefile
 PROJECT_ROOT := $(dir $(abspath $(firstword $(MAKEFILE_LIST))))
 
-DOCS_SPHINXOPTS=-n -W --keep-going
-
 # Use the previously built image when running in the pipeline
 # ifneq ($(CI_JOB_ID),)
 # # OCI_TAG = $(VERSION)-dev.c$(CI_COMMIT_SHORT_SHA)
@@ -254,3 +252,16 @@ k8s-template-chart-with-build-artifacts:
 
 env:
 	env
+
+#############################
+# Docs
+#############################
+include .make/docs.mk
+
+DOCS_SPHINXOPTS=-W --keep-going
+
+docs-pre-build:
+	poetry config virtualenvs.create false
+	poetry install
+
+.PHONY: docs-pre-build

@@ -19,7 +19,7 @@ Welcome to SKA CICD Deploy Mid ITF documentation!
    :maxdepth: 2
    :caption: Readme
    
-   README
+README
 .. Ansible Playbook README =============================================================
 
 .. README for Ansible Playbooks.
@@ -28,11 +28,14 @@ Welcome to SKA CICD Deploy Mid ITF documentation!
    :maxdepth: 2
    :caption: Ansible Playbook Readme
 
-   README.ansible-playbooks.md
-..
-   Indices and tables
-   ==================
+README.ansible-playbooks.md
 
-   * :ref:`genindex`
-   * :ref:`modindex`
-   * :ref:`search`
+.. _SKA: https://skao.int/
+.. _sphinx-rtd-theme: https://sphinx-rtd-theme.readthedocs.io/en/stable/
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
