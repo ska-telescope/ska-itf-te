@@ -18,9 +18,9 @@ sys.path.insert(0, os.path.abspath('../../src'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'ska-mid-itf'
-copyright = '2024, SKAO'
-author = 'Atlas Team'
+project = "SKA Mid ITF Tests"
+copyright = "Adriaan de Beer, adebeer@sarao.ac.za"
+author = "ATLAS Team"
 
 # The full version, including alpha/beta/rc tags
 release = '0.1.1'
