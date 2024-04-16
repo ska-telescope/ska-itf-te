@@ -53,23 +53,25 @@ ska-csp-lmc-mid:
 
 ### tmc - also see tmc-values for DishIDs!
 ska-tmc-mid:
-  legacy_compatibility: true
   enabled: true
+
+## tmc-mid
+tmc-mid:
+  enabled: true
+  legacy_compatibility: true
   telescope: SKA-mid
-  global:
-    subarray_count: 1
+  ska-tango-base:
+    enabled: false
   deviceServers:
     mocks:
-      enabled: false
+      enabled: true
+      dish: true
       csp: false
       sdp: false
-      dish: true
     centralnode:
       subarray_count: 1
     dishleafnode:
       enabled: true
-  ska-tango-base:
-    enabled: false
   resources:
     limits:
       cpu: 800m
