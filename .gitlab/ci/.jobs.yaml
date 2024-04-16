@@ -21,7 +21,6 @@
         export TMC_VALUES_PATH=charts/system-under-test/values.yaml
       else
         bash .make/resources/gitlab_section.sh tmc-values "Generate tmc-values.yaml file from Dish IDs" make itf-dish-ids
-        cat charts/system-under-test/tmc-values.yaml
       fi
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
     - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials

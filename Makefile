@@ -66,6 +66,12 @@ DISH_LMC_EXTRA_PARAMS = --set global.dish_id=$(DISH_ID) \
 	--set global.tangodb_port=10000
 endif
 
+TMC_PARAMS ?=
+ifeq ($(DISH_LMC_IN_THE_LOOP),true)
+TMC_PARAMS += --set ska-tmc-mid.deviceServers.mocks.enabled=false \
+	--set ska-tmc-mid.deviceServers.mocks.dish=false
+endif
+
 SPFRX_IN_THE_LOOP ?= #Boolean flag to control deployment of the device described in SPFRX_TANGO_INSTANCE, SPFRX_ADDRESS variables
 SPFRX_FAMILY_NAME ?= spfrxpu
 SPFRX_MEMBER_NAME ?= controller
@@ -134,7 +140,8 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	${K8S_TEST_TANGO_IMAGE_PARAMS} \
 	${SKIP_TANGO_EXAMPLES_PARAMS} \
 	$(K8S_EXTRA_PARAMS) \
-	$(K8S_TEST_RUNNER_PARAMS)
+	$(K8S_TEST_RUNNER_PARAMS) \
+	$(TMC_PARAMS)
 
 TMC_VALUES_PATH?=charts/system-under-test/tmc-values.yaml
 ifneq ("$(wildcard $(TMC_VALUES_PATH))","")

@@ -116,6 +116,8 @@ KUBE_NAMESPACE_POSTFIX ?=
 
 itf-dish-ids: ## Create the TMC values.yaml file needed to connect the Dishes to the TMC in the ITF
 	@tmc_dish_ids
+	@echo "Generated TMC values file: $(SUT_CHART_DIR)/tmc-values.yaml"
+	@cat $(SUT_CHART_DIR)/tmc-values.yaml
 
 ## TARGET: itf-dish-links
 ## SYNOPSIS: make itf-dish-links
@@ -253,6 +255,7 @@ vars:
 	$(info K8S_TEST_RUNNER_PARAMS: $(K8S_TEST_RUNNER_PARAMS))
 	$(info SDP_PARAMS: $(SDP_PARAMS))
 	$(info ODA_PARAMS: $(ODA_PARAMS))
+	$(info TMC_PARAMS: $(TMC_PARAMS))
 	$(info SKA_TANGO_OPERATOR_DEPLOYED: $(SKA_TANGO_OPERATOR_DEPLOYED))
 	$(info DISH_ID: $(DISH_ID))
 	$(info HELM_RELEASE: $(HELM_RELEASE))
@@ -261,6 +264,7 @@ vars:
 	$(info KUBE_NAMESPACE_PREFIX: $(KUBE_NAMESPACE_PREFIX))
 	$(info KUBE_NAMESPACE_POSTFIX: $(KUBE_NAMESPACE_POSTFIX))
 	$(info PYTHON_SRC: $(PYTHON_SRC))
+	$(info DISH_LMC_IN_THE_LOOP: $(DISH_LMC_IN_THE_LOOP))
 	$(info DISH_LMC_INITIAL_PARAMS: $(DISH_LMC_INITIAL_PARAMS))
 	$(info DISH_LMC_EXTRA_PARAMS: $(DISH_LMC_EXTRA_PARAMS))
 	$(info DISH_LMC_PARAMS: $(DISH_LMC_PARAMS))
