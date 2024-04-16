@@ -54,10 +54,6 @@ ska-csp-lmc-mid:
 ### tmc - also see tmc-values for DishIDs!
 ska-tmc-mid:
   enabled: true
-
-## tmc-mid
-tmc-mid:
-  enabled: true
   legacy_compatibility: true
   telescope: SKA-mid
   ska-tango-base:
