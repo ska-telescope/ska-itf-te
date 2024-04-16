@@ -18,7 +18,7 @@
     - echo $CI_JOB_NAME - $CI_JOB_STAGE
     - |
       if [ "$DISH_LMC_IN_THE_LOOP" != "true" ]; then
-        bash .make/resources/gitlab_section.sh tmc-values-path "Use charts/sut/values.yaml" TMC_VALUES_PATH=charts/system-under-test/values.yaml
+        export TMC_VALUES_PATH=charts/system-under-test/values.yaml
       else
         bash .make/resources/gitlab_section.sh tmc-values "Generate tmc-values.yaml file from Dish IDs" make itf-dish-ids
       fi
