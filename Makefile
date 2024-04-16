@@ -254,3 +254,10 @@ k8s-template-chart-with-build-artifacts:
 
 env:
 	env
+
+python-pre-lint:
+	@echo "Running pre-lint checks"
+	@poetry env info
+	@poetry check
+	@poetry run python -V
+	@poetry show --tree
