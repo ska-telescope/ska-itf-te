@@ -211,6 +211,9 @@ spooky: itf-spookd-install theres-a-ghost
 
 ghostbusters: itf-spookd-uninstall
 
+# include core make support
+include .make/base.mk
+
 # include makefile targets from the submodule
 include .make/oci.mk
 
@@ -225,9 +228,6 @@ include .make/python.mk
 
 # include raw support
 include .make/raw.mk
-
-# include core make support
-include .make/base.mk
 
 # include namespace-specific targets
 -include resources/makefiles/k8s-installs.mk
