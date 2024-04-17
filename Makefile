@@ -248,7 +248,7 @@ integration-test:
 	echo $$? > build/status
 
 upload-to-confluence:
-	@poetry run upload-to-confluence sut_config.yaml build/reports/cucumber.json
+	@poetry run upload-to-confluence sut_config.yaml build/reports/cucumber.json || echo "##### ERROR: UPLOADS DID NOT SUCCEED - IGNORE NEXT LINE #####"
 	@echo "##### Results uploaded to https://confluence.skatelescope.org/x/arzVDQ #####"
 
 k8s-template-chart-with-build-artifacts:
