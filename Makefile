@@ -3,7 +3,7 @@
 
 OCI_BUILD_ADDITIONAL_ARGS += --cache-from registry.gitlab.com/ska-telescope/ska-mid-itf/ska-mid-itf-base:0.1.4
 
-HELM_CHARTS_TO_PUBLISH=ska-mid-itf
+HELM_CHARTS_TO_PUBLISH=ska-mid-itf dish-lmc ska-db-oda-mid-itf ska-mid-itf-ghosts system-under-test
 PYTHON_VARS_AFTER_PYTEST= --disable-pytest-warnings
 POETRY_CONFIG_VIRTUALENVS_CREATE = true
 
@@ -64,6 +64,12 @@ DISH_LMC_EXTRA_PARAMS = --set global.dish_id=$(DISH_ID) \
 	--set global.tangodb_fqdn=$(TANGO_DATABASE_DS).$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN) \
 	--set global.tango_host=$(TANGO_HOST) \
 	--set global.tangodb_port=10000
+endif
+
+TMC_PARAMS ?=
+ifeq ($(DISH_LMC_IN_THE_LOOP),true)
+TMC_PARAMS += --set ska-tmc-mid.deviceServers.mocks.enabled=false \
+	--set ska-tmc-mid.deviceServers.mocks.dish=false
 endif
 
 SPFRX_IN_THE_LOOP ?= #Boolean flag to control deployment of the device described in SPFRX_TANGO_INSTANCE, SPFRX_ADDRESS variables
@@ -134,9 +140,10 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	${K8S_TEST_TANGO_IMAGE_PARAMS} \
 	${SKIP_TANGO_EXAMPLES_PARAMS} \
 	$(K8S_EXTRA_PARAMS) \
-	$(K8S_TEST_RUNNER_PARAMS)
+	$(K8S_TEST_RUNNER_PARAMS) \
+	$(TMC_PARAMS)
 
-TMC_VALUES_PATH=charts/system-under-test/tmc-values.yaml
+TMC_VALUES_PATH?=charts/system-under-test/tmc-values.yaml
 ifneq ("$(wildcard $(TMC_VALUES_PATH))","")
 	K8S_EXTRA_PARAMS+=-f $(TMC_VALUES_PATH)
 endif
@@ -204,6 +211,9 @@ spooky: itf-spookd-install theres-a-ghost
 
 ghostbusters: itf-spookd-uninstall
 
+# include core make support
+include .make/base.mk
+
 # include makefile targets from the submodule
 include .make/oci.mk
 
@@ -218,9 +228,6 @@ include .make/python.mk
 
 # include raw support
 include .make/raw.mk
-
-# include core make support
-include .make/base.mk
 
 # include namespace-specific targets
 -include resources/makefiles/k8s-installs.mk
