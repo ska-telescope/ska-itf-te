@@ -244,19 +244,6 @@ upload-to-confluence:
 	@poetry run upload-to-confluence sut_config.yaml build/reports/cucumber.json
 	@echo "##### Results uploaded to https://confluence.skatelescope.org/x/arzVDQ #####"
 
-
-#############################
-# Docs
-#############################
-
-DOCS_SPHINXOPTS=-W --keep-going
-
-docs-pre-build:
-	poetry config virtualenvs.create false
-	poetry install
-
-.PHONY: docs-pre-build
-
 k8s-template-chart-with-build-artifacts:
 	@make k8s-template-chart > template.log
 	@mkdir -p build
