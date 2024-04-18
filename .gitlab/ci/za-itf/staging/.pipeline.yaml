@@ -42,8 +42,6 @@ deploy-sut-staging:
   extends:
     - .deploy
     - .staging-env
-  needs:
-    - deploy-sut-integration
   environment:
     name: mid-itf/ska-$CONFIG-staging
     kubernetes:
