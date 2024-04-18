@@ -66,33 +66,6 @@ destroy-dpd-on-demand:
     - .dpd-on-demand
     - .dpd-destroy
 
-.dpd-integration:
-  extends:
-    - .dpd
-    - .integration_rules
-  stage: integration
-  variables:
-    KUBE_NAMESPACE: ska-dpd
-
-deploy-dpd-integration:
-  extends:
-    - .dpd-integration
-    - .dpd-install
-  environment:
-    on_stop: destroy-dpd-integration
-
-destroy-dpd-integration:
-  extends:
-    - .dpd-integration
-    - .dpd-destroy
-
-redeploy-dpd-integration:
-  extends:
-    - .dpd-integration
-    - .dpd-redeploy
-  environment:
-    on_stop: destroy-dpd-integration
-
 .dpd-staging:
   extends:
     - .dpd
