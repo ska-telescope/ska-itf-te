@@ -124,7 +124,7 @@ deploy-skysimctl-install:
     - make itf-links
     - make k8s-wait || true
   after_script:
-    - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart-with-build-artifacts
+    - bash .make/resources/gitlab_section.sh deployment-config "Output deployment config information" make get-deployment-config-info
   environment:
     name: ska-mid-itf/te-verification
     kubernetes:

@@ -251,13 +251,14 @@ upload-to-confluence:
 	@poetry run upload-to-confluence sut_config.yaml build/reports/cucumber.json
 	@echo "##### Results uploaded to https://confluence.skatelescope.org/x/arzVDQ #####"
 
-k8s-template-chart-with-build-artifacts:
+get-deployment-config-info:
+	@helm -n $(KUBE_NAMESPACE) get values $(HELM_RELEASE)
 	@make k8s-template-chart > template.log
 	@mkdir -p build
 	@mv manifests.yaml build/manifests.yaml
 	@echo "Find the chart template used to deploy all the things in the job artefacts - look for manifests.yaml."
 
-.PHONY: k8s-template-chart-with-build-artifacts
+.PHONY: get-deployment-config-info
 
 env:
 	env
