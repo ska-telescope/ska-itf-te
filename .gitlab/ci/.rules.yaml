@@ -5,7 +5,7 @@
   rules:
     - if: $CI_PIPELINE_SOURCE == "pipeline"
       when: never
-    - if: $CI_COMMIT_REF_NAME != $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
       when: manual
       variables:
         KUBE_NAMESPACE_PREFIX: ci-dish-lmc-
@@ -17,7 +17,7 @@
   rules:
     - if: $CI_PIPELINE_SOURCE == "pipeline"
       when: never
-    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       when: manual
       variables:
         KUBE_NAMESPACE_PREFIX: dish-lmc-
