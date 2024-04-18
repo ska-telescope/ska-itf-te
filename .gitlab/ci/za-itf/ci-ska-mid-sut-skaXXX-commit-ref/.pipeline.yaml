@@ -22,13 +22,14 @@
         SPFRX_IN_THE_LOOP: "true"
         KUBE_NAMESPACE: staging-$KUBE_APP-$DISH_ID
         KUBE_NAMESPACE_PREFIX: staging-dish-lmc-
+        ENV_NAME: dish.itf/dish-lmc-aa05/staging
       when: manual
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       when: manual
       variables:
         KUBE_NAMESPACE: integration-$KUBE_APP-$DISH_ID
         KUBE_NAMESPACE_PREFIX: integration-dish-lmc-
-        ENV_NAME: dish.itf/dish-lmc-aa05
+        ENV_NAME: dish.itf/dish-lmc-aa05/integration
       allow_failure: true
     - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
       when: manual
