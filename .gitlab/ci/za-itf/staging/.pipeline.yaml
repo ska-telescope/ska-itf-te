@@ -44,6 +44,7 @@ deploy-sut-staging:
   extends:
     - .deploy
     - .staging-env
+  when: on_success
   environment:
     name: mid-itf/ska-$CONFIG-staging
     kubernetes:
