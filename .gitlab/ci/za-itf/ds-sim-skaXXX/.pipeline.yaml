@@ -63,14 +63,17 @@
   environment:
     action: stop
 
-deploy-ds-sim-ska001:
+###########################################
+# TEMPORARILY DISABLED DUE TO ONGOING WORK
+# REQUIRED BY KAROO
+.deploy-ds-sim-ska001:
   extends: .deploy-dish-structure-simulator
   variables:
     DISH_INDEX: "001"
   environment:
     on_stop: remove-ds-sim-ska001
 
-redeploy-ds-sim-ska001:
+.redeploy-ds-sim-ska001:
   extends:
     - .redeploy-dish-structure-simulator
   variables:
@@ -78,7 +81,8 @@ redeploy-ds-sim-ska001:
   environment:
     on_stop: remove-ds-sim-ska001
 
-remove-ds-sim-ska001:
+.remove-ds-sim-ska001:
   extends: .remove-dish-structure-simulator
   variables:
     DISH_INDEX: "001"
+###########################################
