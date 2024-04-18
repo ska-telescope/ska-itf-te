@@ -24,12 +24,10 @@ ska-tango-base:
 ska-dish-lmc:
   ska-tango-base:
     enabled: false
-
   ska-mid-dish-manager:
     enabled: true
     ska-mid-dish-ds-manager:
       enabled: true
-
   ska-mid-dish-simulators:
     enabled: true
     deviceServers:
