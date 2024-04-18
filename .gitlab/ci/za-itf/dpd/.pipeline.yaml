@@ -33,7 +33,7 @@
     - bash .make/resources/gitlab_section.sh wait "Wait for installation" make k8s-wait
   after_script:
     - make dpd-links
-    - bash .make/resources/gitlab_section.sh deployment-config "Output deployment config information" make get-deployment-config-info
+    - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart-with-build-artifacts
 
 .dpd-destroy:
   script:
@@ -66,29 +66,29 @@ destroy-dpd-on-demand:
     - .dpd-on-demand
     - .dpd-destroy
 
-.dpd-integration:
+.dpd-staging:
   extends:
     - .dpd
-    - .integration_rules
-  stage: integration
+    - .staging_rules
+  stage: staging
   variables:
     KUBE_NAMESPACE: ska-dpd
 
-deploy-dpd-integration:
+deploy-dpd-staging:
   extends:
-    - .dpd-integration
+    - .dpd-staging
     - .dpd-install
   environment:
-    on_stop: destroy-dpd-integration
+    on_stop: destroy-dpd-staging
 
-destroy-dpd-integration:
+destroy-dpd-staging:
   extends:
-    - .dpd-integration
+    - .dpd-staging
     - .dpd-destroy
 
-redeploy-dpd-integration:
+redeploy-dpd-staging:
   extends:
-    - .dpd-integration
+    - .dpd-staging
     - .dpd-redeploy
   environment:
-    on_stop: destroy-dpd-integration
+    on_stop: destroy-dpd-staging
