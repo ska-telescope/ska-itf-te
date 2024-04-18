@@ -2,8 +2,8 @@ apiVersion: v2
 name: ska-mid-itf
 description: An umbrella Helm chart so that Helm Charts of Test Equipment (SigGen and SpectrAna), SkySimCtl can be deployed to a kubernetes cluster
 type: application
-version: 21.0.1-dirty
-appVersion: 21.0.1-dirty
+version: 21.0.2-dirty
+appVersion: 21.0.2-dirty
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
   # Tango
