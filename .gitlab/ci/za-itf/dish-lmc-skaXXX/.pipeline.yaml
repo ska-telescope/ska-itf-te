@@ -56,7 +56,7 @@
     - bash .make/resources/gitlab_section.sh wait "Wait for completion" make k8s-wait
   after_script:
     - make itf-dish-links
-    - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart
+    - bash .make/resources/gitlab_section.sh deployment-config "Output deployment config information" make k8s-template-chart
   extends:
     - .dish-lmc
     - .dish_rules
@@ -107,6 +107,7 @@
     - .dish_rules
   environment:
     action: stop
+  when: manual
 
 .destroy-aa05-dishes:
   extends:

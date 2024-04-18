@@ -32,7 +32,7 @@
   before_script:
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
   script:
-    # - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart
+    # - bash .make/resources/gitlab_section.sh deployment-config "Output deployment config information" make k8s-template-chart
     - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
     - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart
     - mkdir -p build
@@ -40,7 +40,7 @@
     - bash .make/resources/gitlab_section.sh ds-sim-env "Export DS Sim service configuration" make itf-ds-sim-env
     - make itf-ds-sim-links
   after_script:
-    - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart-with-build-artifacts
+    - bash .make/resources/gitlab_section.sh deployment-config "Output deployment config information" make get-deployment-config-info
   artifacts:
     reports:
       dotenv: build/itf-ds-sim.env
@@ -63,14 +63,17 @@
   environment:
     action: stop
 
-deploy-ds-sim-ska001:
+###########################################
+# TEMPORARILY DISABLED DUE TO ONGOING WORK
+# REQUIRED BY KAROO
+.deploy-ds-sim-ska001:
   extends: .deploy-dish-structure-simulator
   variables:
     DISH_INDEX: "001"
   environment:
     on_stop: remove-ds-sim-ska001
 
-redeploy-ds-sim-ska001:
+.redeploy-ds-sim-ska001:
   extends:
     - .redeploy-dish-structure-simulator
   variables:
@@ -78,7 +81,8 @@ redeploy-ds-sim-ska001:
   environment:
     on_stop: remove-ds-sim-ska001
 
-remove-ds-sim-ska001:
+.remove-ds-sim-ska001:
   extends: .remove-dish-structure-simulator
   variables:
     DISH_INDEX: "001"
+###########################################
