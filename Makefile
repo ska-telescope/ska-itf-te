@@ -256,19 +256,8 @@ k8s-template-chart-with-build-artifacts:
 	@mkdir -p build
 	@mv manifests.yaml build/manifests.yaml
 	@echo "Find the chart template used to deploy all the things in the job artefacts - look for manifests.yaml."
-.PHONY: k8s-template-chart-with-build-artifacts
 
-namespace ?= integration
-log-subsystem:
-	@echo "Collecting Logs for $(subsystem) in $(namespace)\n\n"
-	@echo "POD\t\tLOG FILE"
-	pods="$(shell kubectl get pods --namespace $(namespace) --selector subsystem=$(subsystem) -o custom-columns=':metadata.name')"; \
-	@echo "PODS: $(pods)"; \
-	for pod in $(pods); do \
-		log_file = $(pod).log
-		@kubectl logs --namespace $(namespace) $(pod) > $(log_file) \
-		@echo "$(pod)\t\t$(log_file)" \
-	done
+.PHONY: k8s-template-chart-with-build-artifacts
 
 env:
 	env
