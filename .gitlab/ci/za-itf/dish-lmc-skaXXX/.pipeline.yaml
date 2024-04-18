@@ -20,7 +20,12 @@
   rules:
     - if: $CI_PIPELINE_SOURCE == "pipeline"
       when: never
-    - if: $CI_COMMIT_REF_NAME != $CI_DEFAULT_BRANCH
+    - if: "$CI_COMMIT_TAG != null"
+      variables:
+        SPFRX_IN_THE_LOOP: "true"
+        KUBE_NAMESPACE: staging-$KUBE_APP-$DISH_ID
+        KUBE_NAMESPACE_PREFIX: staging-dish-lmc-
+    - if: $CI_COMMIT_REF_NAME != $CI_DEFAULT_BRANCH && CI_COMMIT_TAG == null
       variables:
         KUBE_NAMESPACE: "ci-$KUBE_APP-$DISH_ID-$CI_COMMIT_REF_NAME"
         KUBE_NAMESPACE_PREFIX: ci-dish-lmc-
@@ -29,11 +34,6 @@
       variables:
         KUBE_NAMESPACE: integration-$KUBE_APP-$DISH_ID
         KUBE_NAMESPACE_PREFIX: integration-dish-lmc-
-    - if: "$CI_COMMIT_TAG != null"
-      variables:
-        SPFRX_IN_THE_LOOP: "true"
-        KUBE_NAMESPACE: staging-$KUBE_APP-$DISH_ID
-        KUBE_NAMESPACE_PREFIX: staging-dish-lmc-
 
 .dish-lmc:
   tags:
@@ -44,7 +44,7 @@
     - helm-chart-build
   allow_failure: true # need to keep this to unlock the pipeline
   environment:
-    name: mid-itf/integration/$KUBE_NAMESPACE
+    name: mid-itf/$KUBE_NAMESPACE
 
 .deploy-dish-lmc:
   stage: deploy-dish-aiv
