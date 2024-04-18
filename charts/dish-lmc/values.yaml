@@ -14,16 +14,16 @@ global:
   raw_user_account: bond
   raw_user_pass: jamesbond
 
-# DISH LMC
-ska-dish-lmc:
-  ska-tango-base:
-    enabled: false
-
 ska-tango-base:
   tangodb:
     use_pv: true
   itango:
     enabled: true
+
+# DISH LMC
+ska-dish-lmc:
+  ska-tango-base:
+    enabled: false
 
   ska-mid-dish-manager:
     enabled: true
