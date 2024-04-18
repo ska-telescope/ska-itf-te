@@ -37,7 +37,7 @@ deploy-oda-on-demand:
   script:
     - make k8s-install-chart
   after_script:
-    - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart-with-build-artifacts
+    - bash .make/resources/gitlab_section.sh deployment-config "Output deployment config information" make get-deployment-config-info
   environment:
     on_stop: destroy-oda-on-demand
 
@@ -65,7 +65,7 @@ deploy-oda-integration:
   script:
     - make k8s-install-chart
   after_script:
-    - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart-with-build-artifacts
+    - bash .make/resources/gitlab_section.sh deployment-config "Output deployment config information" make get-deployment-config-info
   environment:
     on_stop: destroy-oda-integration
 

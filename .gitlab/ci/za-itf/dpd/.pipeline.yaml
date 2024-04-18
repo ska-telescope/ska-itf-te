@@ -33,7 +33,7 @@
     - bash .make/resources/gitlab_section.sh wait "Wait for installation" make k8s-wait
   after_script:
     - make dpd-links
-    - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart-with-build-artifacts
+    - bash .make/resources/gitlab_section.sh deployment-config "Output deployment config information" make get-deployment-config-info
 
 .dpd-destroy:
   script:

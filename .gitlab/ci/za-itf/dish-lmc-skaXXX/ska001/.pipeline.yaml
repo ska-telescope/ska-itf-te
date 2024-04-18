@@ -12,11 +12,13 @@ deploy-dishlmc-ska001:
   extends:
     - .deploy-dish-lmc
     - .ska001-env
-  needs:
-    - deploy-ds-sim-ska001
-  when: on_success
-  variables:
-    DISH_LMC_EXTRA_PARAMS: -f charts/dish-lmc/values-cetc.yaml --set ska-dish-lmc.ska-mid-dish-ds-manager.dishstructuremanager.dsSim.fqdn=$DS_SIM_OPCUA_FQDN
+  ### TEMPORARILY DISABLED DEPLOYMENT OF DS-SIM - SEE .gitlab/ci/za-itf/ds-sim-skaXXX/.pipeline.yaml
+  # needs:
+  #   - deploy-ds-sim-ska001
+  # when: on_success
+  # variables:
+  #   DISH_LMC_EXTRA_PARAMS: -f charts/dish-lmc/values-cetc.yaml --set ska-dish-lmc.ska-mid-dish-ds-manager.dishstructuremanager.dsSim.fqdn=$DS_SIM_OPCUA_FQDN
+  when: manual
   environment:
     on_stop: uninstall-dishlmc-ska001
 
@@ -25,8 +27,8 @@ redeploy-dishlmc-ska001:
     - .redeploy-dish-lmc
     - .ska001-env
   when: manual
-  variables:
-    DISH_LMC_EXTRA_PARAMS: -f charts/dish-lmc/values-cetc.yaml --set ska-dish-lmc.ska-mid-dish-ds-manager.dishstructuremanager.dsSim.fqdn=$DS_SIM_OPCUA_FQDN
+  # variables:
+  #   DISH_LMC_EXTRA_PARAMS: -f charts/dish-lmc/values-cetc.yaml --set ska-dish-lmc.ska-mid-dish-ds-manager.dishstructuremanager.dsSim.fqdn=$DS_SIM_OPCUA_FQDN
   environment:
     on_stop: uninstall-dishlmc-ska001
 
