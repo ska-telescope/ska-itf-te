@@ -28,7 +28,7 @@ copyright = "Adriaan de Beer, adebeer@sarao.ac.za"
 author = "ATLAS Team"
 
 # The full version, including alpha/beta/rc tags
-release = '0.1.1'
+release = '21.0.2'
 
 # -- General configuration ---------------------------------------------------
 
@@ -78,4 +78,4 @@ html_context = {
     "theme_logo_only": True,
 }
 
-intersphinx_mapping = {'python': ('https://docs.python.org/3', None)}
+intersphinx_mapping = {"python": ("https://docs.python.org/3", None)}

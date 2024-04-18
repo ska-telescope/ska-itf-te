@@ -12,23 +12,23 @@
     CLUSTER_DOMAIN: "miditf.internal.skao.int"
     K8S_EXTRA_PARAMS: "--set global.ska-tango-archiver.enabled=true --set ska-tango-archiver.enabled=true --set ska-tango-archiver.dbuser=admin --set ska-tango-archiver.dbpassword=${EDA_DB_PASSWORD} --set ska-tango-archiver.archviewer.instances[0].timescale_login=admin:${EDA_DB_PASSWORD} --set ska-tango-archiver.archviewer.instances[0].timescale_databases=itf_eda --set ska-tango-archiver.archviewer.instances[0].timescale_host=10.164.11.33 --set ska-tango-archiver.archviewer.instances[0].name=mid"
     CLUSTER_DOMAIN_POSTFIX: miditf.internal.skao.int
-    DISH_IDS: "SKA001 SKA036" # Add additional Dishes back when adding their pipelines: SKA063 SKA100"
     KUBE_APP: ska-mid-sut
     INGRESS_HOST: "k8s.miditf.internal.skao.int"
     TANGO_DATABASE_DS: tango-databaseds
+    ARCHIVER_DBNAME: "${CONFIG}_archiver_db_${CI_COMMIT_REF_SLUG}"
+    HELM_RELEASE: sut
+    K8S_AUTH_NAMESPACES: $KUBE_NAMESPACE $KUBE_NAMESPACE_SDP
+    K8S_AUTH_SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_PIPELINE_ID
+    PDU_IP: 10.20.2.14
+    SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_COMMIT_REF_NAME
+    CBF_HW_IN_THE_LOOP: "false"
+    DISH_LMC_IN_THE_LOOP: "true"
+    DISH_IDS: "SKA001 SKA036" # Add additional Dishes back when adding their pipelines: SKA063 SKA100"
 
 .on-demand-stage:
   stage: on_demand_itf_sut
 
 deploy-sut-on-demand:
-  variables:
-    ARCHIVER_DBNAME: "${CONFIG}_archiver_db_${CI_COMMIT_REF_SLUG}"
-    HELM_RELEASE: sut
-    HW_IN_THE_LOOP: "false"
-    K8S_AUTH_NAMESPACES: $KUBE_NAMESPACE $KUBE_NAMESPACE_SDP
-    K8S_AUTH_SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_PIPELINE_ID
-    PDU_IP: 10.20.2.14
-    SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_COMMIT_REF_NAME
   extends:
     - .deploy
     - .ci-env
@@ -43,14 +43,6 @@ deploy-sut-on-demand:
     on_stop: destroy-sut-on-demand
 
 redeploy-sut-on-demand:
-  variables:
-    ARCHIVER_DBNAME: "${CONFIG}_archiver_db_${CI_COMMIT_REF_SLUG}"
-    HELM_RELEASE: sut
-    HW_IN_THE_LOOP: "false"
-    K8S_AUTH_NAMESPACES: $KUBE_NAMESPACE $KUBE_NAMESPACE_SDP
-    K8S_AUTH_SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_PIPELINE_ID
-    PDU_IP: 10.20.2.14
-    SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_COMMIT_REF_NAME
   extends:
     - .redeploy
     - .ci-env
@@ -65,9 +57,6 @@ redeploy-sut-on-demand:
     on_stop: destroy-sut-on-demand
 
 info-sut-on-demand:
-  variables:
-    HELM_RELEASE: sut
-    SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_COMMIT_REF_NAME
   extends:
     - .info
     - .ci-env
@@ -75,9 +64,6 @@ info-sut-on-demand:
     - .on-demand-stage
 
 destroy-sut-on-demand:
-  variables:
-    HELM_RELEASE: sut
-    SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_COMMIT_REF_NAME
   extends:
     - .cleanup
     - .ci-env
@@ -135,6 +121,7 @@ k8s-test-runner:
     EXIT_AT_FAIL: "True"
     REMOVE_FAILED_TEST_DEPLOYMENT: "true"
     K8S_TEST_RUNNER_PARAMS: --set ska-tmc-mid.deviceServers.mocks.dish=true --set ska-tmc-mid.deviceServers.mocks.enabled=true
+    DISH_LMC_IN_THE_LOOP: "false"
 
 stop-k8s-test-runner:
   tags:

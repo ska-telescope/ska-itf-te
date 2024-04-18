@@ -44,7 +44,6 @@ ska-mid-cbf-mcs:
     environment: "mid-itf"
     clusterDomain: "miditf.internal.skao.int"
 
-
 ska-mid-cbf-tmleafnode:
   enabled: true
 
@@ -54,29 +53,26 @@ ska-csp-lmc-mid:
 
 ### tmc - also see tmc-values for DishIDs!
 ska-tmc-mid:
-  legacy_compatibility: true
   enabled: true
+  legacy_compatibility: true
   telescope: SKA-mid
-  global:
-    subarray_count: 1
+  ska-tango-base:
+    enabled: false
   deviceServers:
     mocks:
-      enabled: false
+      enabled: true
+      dish: true
       csp: false
       sdp: false
-      dish: false
     centralnode:
       subarray_count: 1
     dishleafnode:
       enabled: true
-  ska-tango-base:
-    enabled: false
   resources:
     limits:
       cpu: 800m
     requests:
       cpu: 400m
-
 
 ska-sdp:
   helmdeploy:
@@ -112,11 +108,11 @@ ska-tango-archiver:
   archwizard_config: MyHDB=tango://tango-databaseds:10000/mid-eda/cm/01
   archviewer:
     instances:
-    - name: "mid"
-      timescale_host: "10.164.11.33"
-  #     #keep below field empty if db names are unknown, app will display all dbs present
-  #     #e.g:timescale_databases: ""  
-      timescale_databases: "itf_eda"
+      - name: "mid"
+        timescale_host: "10.164.11.33"
+        #     #keep below field empty if db names are unknown, app will display all dbs present
+        #     #e.g:timescale_databases: ""
+        timescale_databases: "itf_eda"
 
 # Temporary configuration for PVC
 # See templates/pvc.yaml

@@ -43,7 +43,6 @@ deploy-aa05-dishes:
     - echo "Deploying dishes $DISH_IDS:"
     - |
       make itf-dish-ids
-      cat charts/system-under-test/tmc-values.yaml
   environment:
     on_stop: uninstall-aa05-dishes
   variables:

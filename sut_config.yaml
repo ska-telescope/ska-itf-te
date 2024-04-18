@@ -12,6 +12,25 @@ parts:
     platformDependents:
       - ska-mid-cbf-mcs
       - ska-csp-lmc-mid
+  ska-tmc-mid:
+    version: "file://charts/system-under-test/Chart.yaml"
+    dependencies:
+      - "ska-csp-lmc-mid"
+      - "ska-dish-lmc"
+      - "ska-sdp"
+  ska-sdp:
+    version: "file://charts/system-under-test/Chart.yaml"
+    dependencies:
+    root:
+  ska-dish-lmc:
+    version: "file://charts/dish-lmc/Chart.yaml"
+    dependencies:
+      - "ska-mid-dish-spfrx-talondx-console"
+      - "ska-te-dish-structure-simulator"
+  ska-te-dish-structure-simulator:
+    version: "file://charts/dish-structure-simulators/Chart.yaml"
+    dependencies: []
+    root:
   ska-csp-lmc-mid:
     version: "file://charts/system-under-test/Chart.yaml"
     dependencies: ["ska-mid-cbf-mcs"]

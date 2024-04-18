@@ -37,7 +37,7 @@ deploy-oda-on-demand:
   script:
     - make k8s-install-chart
   after_script:
-    - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart-with-build-artifacts
+    - bash .make/resources/gitlab_section.sh deployment-config "Output deployment config information" make get-deployment-config-info
   environment:
     on_stop: destroy-oda-on-demand
 
@@ -49,29 +49,29 @@ destroy-oda-on-demand:
   environment:
     action: stop
 
-.oda-integration:
+.oda-staging:
   extends:
     - .oda
-    - .integration_rules
-  stage: integration
+    - .staging_rules
+  stage: staging
   variables:
     KUBE_NAMESPACE: ska-db-oda
 
-deploy-oda-integration:
+deploy-oda-staging:
   extends:
-    - .oda-integration
+    - .oda-staging
   variables:
-    K8S_EXTRA_PARAMS: "-f charts/ska-db-oda-mid-itf/values-integration.yaml"
+    K8S_EXTRA_PARAMS: "-f charts/ska-db-oda-mid-itf/values-staging.yaml"
   script:
     - make k8s-install-chart
   after_script:
-    - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart-with-build-artifacts
+    - bash .make/resources/gitlab_section.sh deployment-config "Output deployment config information" make get-deployment-config-info
   environment:
-    on_stop: destroy-oda-integration
+    on_stop: destroy-oda-staging
 
-destroy-oda-integration:
+destroy-oda-staging:
   extends:
-    - .oda-integration
+    - .oda-staging
   script:
     - !reference [.cleanup, script]
   environment:

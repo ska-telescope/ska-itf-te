@@ -14,19 +14,20 @@
     KEEP_NAMESPACE: "true"
     K8S_CHART: "system-under-test"
     CLUSTER_DOMAIN_POSTFIX: miditf.internal.skao.int
-    DISH_IDS: "SKA001 SKA036" # Add additional Dishes back when adding their pipelines: SKA063 SKA100"
     KUBE_APP: ska-mid-sut
     INGRESS_HOST: "k8s.miditf.internal.skao.int"
     CLUSTER_DOMAIN: "miditf.internal.skao.int"
     K8S_EXTRA_PARAMS: "--set global.ska-tango-archiver.enabled=true --set ska-tango-archiver.enabled=true --set ska-tango-archiver.dbuser=admin --set ska-tango-archiver.dbpassword=${EDA_DB_PASSWORD} --set ska-tango-archiver.archviewer.instances[0].timescale_login=admin:${EDA_DB_PASSWORD} --set ska-tango-archiver.archviewer.instances[0].timescale_databases=itf_eda --set ska-tango-archiver.archviewer.instances[0].timescale_host=10.164.11.33 --set ska-tango-archiver.archviewer.instances[0].name=mid"
     TANGO_DATABASE_DS: tango-databaseds
-
-deploy-sut-integration:
-  variables:
-    HW_IN_THE_LOOP: "false"
     K8S_AUTH_NAMESPACES: "$KUBE_NAMESPACE $KUBE_NAMESPACE_SDP"
     K8S_AUTH_SERVICE_ACCOUNT: "ci-svc-ska-miditf-$CI_PIPELINE_ID"
     PDU_IP: "10.20.2.14"
+    # HARDWARE AND DISH IN THE LOOP SETTINGS
+    CBF_HW_IN_THE_LOOP: "false"
+    DISH_LMC_IN_THE_LOOP: "false" # TEMPORARY COMMIT - SET TO TRUE FOR FULL SYSTEM ONCE CONNECTION BUGS ARE SORTED - SEE SKB-309 AND FRIENDS
+    DISH_IDS: "SKA001 SKA036" # Add additional Dishes back when adding their pipelines: SKA063 SKA100"
+
+deploy-sut-integration:
   extends:
     - .deploy
     - .integration-env
@@ -40,11 +41,6 @@ deploy-sut-integration:
     on_stop: destroy-sut-integration
 
 redeploy-sut-integration:
-  variables:
-    HW_IN_THE_LOOP: "false"
-    K8S_AUTH_NAMESPACES: "$KUBE_NAMESPACE $KUBE_NAMESPACE_SDP"
-    K8S_AUTH_SERVICE_ACCOUNT: "ci-svc-ska-miditf-$CI_PIPELINE_ID"
-    PDU_IP: "10.20.2.14"
   extends:
     - .redeploy
     - .integration-env
