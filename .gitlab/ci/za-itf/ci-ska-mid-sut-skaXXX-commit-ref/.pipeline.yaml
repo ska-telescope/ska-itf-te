@@ -24,6 +24,7 @@
         KUBE_NAMESPACE_PREFIX: staging-dish-lmc-
         ENV_NAME: dish.itf/dish-lmc-aa05/staging
       when: manual
+      allow_failure: true
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       when: manual
       variables:
