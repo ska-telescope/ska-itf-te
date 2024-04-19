@@ -37,7 +37,7 @@
       when: manual
       variables:
         KUBE_NAMESPACE_PREFIX: staging-dish-lmc-
-      allow_failure: false
+      allow_failure: true
     - when: never
 
 deploy-sut-staging:
