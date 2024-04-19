@@ -130,14 +130,15 @@ In the present repository it is possible to deploy the charts in different names
      Name                              Description
    ================================  ============================================================================================
    ci-ska-mid-itf-commit-ref         Used for on-demand deployment of SUT and not persisted, optionally with hardware in the loop
-   ci-dish-lmc-skaXXX-commit-ref     Used for on-demand deployment of Dish LMC
+   ci-dish-lmc-skaXXX-commit-ref     Used for on-demand deployment of Dish LMC controlled by on-demand SUT (TMC etc)
    ci-ska-mid-itf-dpd-commit-ref     Used for on-demand deployment of the Data Product Dashboard
    ci-ska-db-oda-commit-ref          Used for on-demand deployment of the ODA
-   dish-lmc-skaXXX                   For long-lived deployment of Dish LMC
+   integration-dish-lmc-skaXXX       For testing TMC in integration namespace with Dish LMC in separate namespaces
    ds-sim-skaXXX                     For long-lived deployment of Dish Strcuture Simulator
    file-browser                      For the spectrum analyser file browser
    integration                       For long-lived deployment of the SUT but in general without hardware in the loop
    staging                           For demonstration purposes, a hardware-in-the-loop deployment from the main branch.
+   staging-dish-lmc-skaXXX           For demonstration purposes, using TMC in staging namespace with Dish LMC in separate namespaces. Default with hardware-in-the-loop.
    ska-db-oda                        For long-lived deployment of the ODA
    ska-dpd                           For long-lived deployment of the Data Product Dashboard
    taranta                           For taranta backend deployment
@@ -184,3 +185,7 @@ This is a special, non-long-living namespace, with typically hardware-in-the-loo
 
 **NOTE**
 In all cases where hardware-in-the-loop tests are to be done, it should be announced beforehand in the [#team-mid-itf-support](https://skao.slack.com/archives/C03PC2M2VGA) Slack channel that the hardware is to be used.
+
+Other subsystems in the loop
+============================
+DishLMC can also be controlled with the flag ``DISH_LMC_IN_THE_LOOP``, similarly to how the deployments for hardware-in-the-loop are controlled. By default, the DishLMC is mocked out in the ``integration`` namespace, by the TMC.

@@ -28,13 +28,15 @@
     DISH_IDS: "SKA001 SKA036" # Add additional dishes when pipelines are available: SKA063 SKA100
 
 .staging_rules:
-  variables:
-    K8S_INSTALL_FROM_CAR: "true"
+  # variables:
+  #   K8S_INSTALL_FROM_CAR: "true" ### TEMPORARY COMMIT: NOT WORKING ###
   rules:
     - if: $CI_PIPELINE_SOURCE == "pipeline"
       when: never
     - if: "$CI_COMMIT_TAG != null"
       when: manual
+      variables:
+        KUBE_NAMESPACE_PREFIX: staging-dish-lmc-
       allow_failure: true
     - when: never
 
@@ -42,6 +44,7 @@ deploy-sut-staging:
   extends:
     - .deploy
     - .staging-env
+  when: on_success
   environment:
     name: mid-itf/ska-$CONFIG-staging
     kubernetes:

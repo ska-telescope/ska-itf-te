@@ -17,13 +17,22 @@
   rules:
     - if: $CI_PIPELINE_SOURCE == "pipeline"
       when: never
-    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+    - if: "$CI_COMMIT_TAG"
+      variables:
+        SPFRX_IN_THE_LOOP: "true"
+        KUBE_NAMESPACE: staging-$KUBE_APP-$DISH_ID
+        KUBE_NAMESPACE_PREFIX: staging-dish-lmc-
+        ENV_NAME: dish.itf/dish-lmc-aa05/staging
+      when: manual
+      allow_failure: true
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       when: manual
       variables:
-        KUBE_NAMESPACE_PREFIX: dish-lmc-
-        ENV_NAME: dish.itf/dish-lmc-aa05
+        KUBE_NAMESPACE: integration-$KUBE_APP-$DISH_ID
+        KUBE_NAMESPACE_PREFIX: integration-dish-lmc-
+        ENV_NAME: dish.itf/dish-lmc-aa05/integration
       allow_failure: true
-    - if: $CI_COMMIT_REF_NAME != $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
       when: manual
       variables:
         KUBE_NAMESPACE: "ci-$KUBE_APP-$DISH_ID-$CI_COMMIT_REF_NAME"
