@@ -28,7 +28,6 @@ PYTHON_LINE_LENGTH = 99
 DOCS_SPHINXBUILD = poetry run python3 -msphinx
 PYTHON_TEST_FILE = tests/unit/ tests/functional/
 PYTHON_LINT_TARGET ?= tests/
-SPFRX_CONSOLE_VER ?= 0.0.1 # Set this value in the Gitlab Environment - this value should fail
 ifneq ($(COUNT),)
 # Dashcount is a synthesis of testcount as input user variable and is used to
 # run a paricular test/s multiple times. If no testcount is set then the entire
@@ -92,7 +91,6 @@ SPFRX_TANGO_LOGGING_LEVEL ?=4
 ifeq ($(SPFRX_IN_THE_LOOP), true)
 	DISH_LMC_EXTRA_PARAMS += \
 	--set ska-mid-dish-spfrx-talondx-console.enabled=true \
-	--set ska-mid-dish-spfrx-talondx-console.console.version=$(SPFRX_CONSOLE_VER) \
 	--set ska-mid-dish-spfrx-talondx-console.address=$(SPFRX_ADDRESS) \
 	--set ska-mid-dish-spfrx-talondx-console.bin=$(SPFRX_BIN) \
 	--set ska-mid-dish-spfrx-talondx-console.local_dir=$(SPFRX_LOCAL_DIR) \
