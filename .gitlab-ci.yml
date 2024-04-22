@@ -31,8 +31,10 @@ stages:
   - scan
 
 include:
+  # - project: "ska-telescope/templates-repository" TEMPORARY COMMIT: NOT PUBLISHING TO CAR FOR THE MOMENT - POSSIBLY NEED TO RELOOK THIS IN FUTURE
+  #   file: "gitlab-ci/includes/python.gitlab-ci.yml"
   - project: "ska-telescope/templates-repository"
-    file: "gitlab-ci/includes/python.gitlab-ci.yml"
+    file: "gitlab-ci/includes/python-lint.gitlab-ci.yml"
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/docs.gitlab-ci.yml"
   - project: "ska-telescope/templates-repository"
