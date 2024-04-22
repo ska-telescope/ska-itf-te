@@ -70,15 +70,14 @@ include:
 xray-publish:
   when: always
   rules: !reference [publish-k8s-test-results, rules]
+# python-build-for-publication:
+#   rules:
+#     - when: never
 
-python-build-for-publication:
-  rules:
-    - when: never
+# python-build-for-development:
+#   rules:
+#     - when: never
 
-python-build-for-development:
-  rules:
-    - when: never
-
-python-publish-to-gitlab:
-  rules:
-    - when: never
+# python-publish-to-gitlab:
+#   rules:
+#     - when: never
