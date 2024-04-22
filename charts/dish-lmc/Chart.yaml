@@ -16,7 +16,7 @@ dependencies:
 
   # TARANTA APPLICATION
   - name: ska-tango-taranta
-    version: 2.7.3
+    version: 2.8.1
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-taranta.enabled
   - name: ska-tango-tangogql
@@ -26,11 +26,11 @@ dependencies:
 
   # DISH LMC CHART
   - name: ska-dish-lmc
-    version: 3.1.0
+    version: 3.2.0
     repository: https://artefact.skao.int/repository/helm-internal
 
   - name: ska-mid-dish-spfrx-talondx-console
-    version: 0.2.2
+    version: 0.2.3
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-mid-dish-spfrx-talondx-console.enabled
 

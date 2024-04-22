@@ -31,8 +31,10 @@ stages:
   - scan
 
 include:
+  # - project: "ska-telescope/templates-repository" TEMPORARY COMMIT: NOT PUBLISHING TO CAR FOR THE MOMENT - POSSIBLY NEED TO RELOOK THIS IN FUTURE
+  #   file: "gitlab-ci/includes/python.gitlab-ci.yml"
   - project: "ska-telescope/templates-repository"
-    file: "gitlab-ci/includes/python.gitlab-ci.yml"
+    file: "gitlab-ci/includes/python-lint.gitlab-ci.yml"
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/docs.gitlab-ci.yml"
   - project: "ska-telescope/templates-repository"
@@ -68,15 +70,14 @@ include:
 xray-publish:
   when: always
   rules: !reference [publish-k8s-test-results, rules]
+# python-build-for-publication:
+#   rules:
+#     - when: never
 
-python-build-for-publication:
-  rules:
-    - when: never
+# python-build-for-development:
+#   rules:
+#     - when: never
 
-python-build-for-development:
-  rules:
-    - when: never
-
-python-publish-to-gitlab:
-  rules:
-    - when: never
+# python-publish-to-gitlab:
+#   rules:
+#     - when: never
