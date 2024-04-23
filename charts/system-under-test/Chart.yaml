@@ -32,11 +32,6 @@ dependencies:
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-mid-cbf-mcs.enabled
 
-  # ## THIS SHOULDN'T BE HERE, BUT WE NEED AN SPFRx THAT SUPPORTS SKA EPOCHS - SEE SKB-TBD (AJ)
-  # - name: ska-mid-cbf-tmleafnode
-  #   version: 0.13.2
-  #   repository: https://artefact.skao.int/repository/helm-internal
-  #   condition: ska-mid-cbf-tmleafnode.enabled
 
   # SKA Mid SDP
   - name: ska-sdp
