@@ -9,7 +9,7 @@ from pytest_bdd import given, scenario, then, when
 from ska_ser_skallop.connectors import configuration as con_config
 from ska_ser_skallop.mvp_control.base import AbstractDeviceProxy
 from ska_ser_skallop.mvp_control.describing import mvp_names as names
-
+from ska_control_model import HealthState
 
 @pytest.fixture(name="online_csp_controller")
 def fxt_online_csp_controller() -> Iterator[AbstractDeviceProxy]:
@@ -39,6 +39,8 @@ def fxt_tmc_central_node() -> Iterator[AbstractDeviceProxy]:
     tel = names.TEL()
     tmc = con_config.get_device_proxy(tel.tm.central_node)
     yield tmc
+    tmc.Reset()
+    wait_for_healthstate(tmc, HealthState.UNKNOWN)
 
 
 @pytest.fixture(name="cbf_initsysparam")
@@ -161,5 +163,29 @@ def wait_for_state(device_proxy: AbstractDeviceProxy, state: str, max_sleep=60):
             raise TimeoutError(
                 f"{device_proxy.dev_name()} failed to reach state '{state}' "
                 f"after {total_sleep} seconds; current state={device_proxy.State()}"
+            )
+        sleep_interval = min(2 * sleep_interval, max_sleep - total_sleep)
+
+def wait_for_healthstate(device_proxy: AbstractDeviceProxy, state: HealthState, max_sleep=60):
+    """
+    Wait for the DeviceProxy to reach the expected state.
+
+    :param device_proxy: the DeviceProxy
+    :type device_proxy: AbstractDeviceProxy
+    :param state: the DevState to reach
+    :type state: str
+    :param max_sleep: the maximum time to sleep in seconds.
+    :type max_sleep: int
+    :raises TimeoutError: if the DeviceProxy does not reach the expected state
+    """
+    sleep_interval = 1
+    total_sleep = 0
+    while HealthState(device_proxy.healthState) != state:
+        time.sleep(sleep_interval)
+        total_sleep += sleep_interval
+        if total_sleep >= max_sleep:
+            raise TimeoutError(
+                f"{device_proxy.dev_name()} failed to reach state '{state}' "
+                f"after {total_sleep} seconds; current state={HealthState(device_proxy.healthState)}"
             )
         sleep_interval = min(2 * sleep_interval, max_sleep - total_sleep)
