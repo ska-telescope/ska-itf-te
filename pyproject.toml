@@ -30,6 +30,7 @@ h11 = "^0.14.0"
 annotated-types = "^0.6.0"
 pydantic-core = "^2.18.1"
 black = "24.3.0"
+pytest-order = "^1.2.1"
 
 [tool.poetry.group.docs.dependencies]
 Sphinx = "^7.2.6"
