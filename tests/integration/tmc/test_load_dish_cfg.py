@@ -2,14 +2,15 @@
 
 import json
 import time
-from typing import Iterator
+from typing import Callable, Iterator
 
 import pytest
 from pytest_bdd import given, scenario, then, when
+from ska_control_model import HealthState
 from ska_ser_skallop.connectors import configuration as con_config
 from ska_ser_skallop.mvp_control.base import AbstractDeviceProxy
 from ska_ser_skallop.mvp_control.describing import mvp_names as names
-from ska_control_model import HealthState
+
 
 @pytest.fixture(name="online_csp_controller")
 def fxt_online_csp_controller() -> Iterator[AbstractDeviceProxy]:
@@ -22,10 +23,18 @@ def fxt_online_csp_controller() -> Iterator[AbstractDeviceProxy]:
     tel = names.TEL()
     csp = con_config.get_device_proxy(tel.csp.controller)
     csp.adminMode = 0
-    wait_for_state(csp, "OFF")
+
+    def csp_off(total_sleep: int) -> bool:
+        return str(csp.State()) == "OFF"
+
+    wait_for(csp_off)
     yield csp
     csp.adminMode = 1
-    wait_for_state(csp, "DISABLE")
+
+    def csp_disable(total_sleep: int) -> bool:
+        return str(csp.State()) == "DISABLE"
+
+    wait_for(csp_disable)
 
 
 @pytest.fixture(name="tmc_central_node")
@@ -38,9 +47,18 @@ def fxt_tmc_central_node() -> Iterator[AbstractDeviceProxy]:
     """
     tel = names.TEL()
     tmc = con_config.get_device_proxy(tel.tm.central_node)
+
+    def tmc_is_dish_vcc_config_set(total_sleep: int) -> bool:
+        return bool(tmc.isDishVccConfigSet)
+
+    wait_for(tmc_is_dish_vcc_config_set)
     yield tmc
     tmc.Reset()
-    wait_for_healthstate(tmc, HealthState.UNKNOWN)
+
+    def tmc_unknown(total_sleep: int) -> bool:
+        return HealthState(tmc.healthState) == HealthState.UNKNOWN
+
+    wait_for(tmc_unknown)
 
 
 @pytest.fixture(name="cbf_initsysparam")
@@ -76,7 +94,6 @@ def fxt_expected_dish_vcc_validation_status() -> Iterator[str]:
     yield json.dumps(expected)
 
 
-@pytest.mark.xfail(reason="See SKB-338")
 @pytest.mark.order(1)
 @pytest.mark.tmc
 @pytest.mark.skamid
@@ -90,18 +107,6 @@ def test_load_dish_cfg_from_tmc():
     """
 
 
-@given("a TMC central node in adminMode OFFLINE and ON state")
-def a_tmc_central_node_in_adminmode_offline_and_on_state(tmc_central_node: AbstractDeviceProxy):
-    """
-    Assert that the TMC central node is in adminMode OFFLINE and ON state.
-
-    :param tmc_central_node: The TMC central node DeviceProxy
-    :type tmc_central_node: AbstractDeviceProxy
-    """
-    assert str(tmc_central_node.State()) == "ON"
-    assert str(tmc_central_node.adminMode) == "adminMode.OFFLINE"
-
-
 @given("a CSP LMC in ONLINE adminMode and OFF state")
 def a_csp_lmc_in_online_adminmode_and_off_state(online_csp_controller: AbstractDeviceProxy):
     """
@@ -112,6 +117,19 @@ def a_csp_lmc_in_online_adminmode_and_off_state(online_csp_controller: AbstractD
     """
     assert str(online_csp_controller.State()) == "OFF"
     assert str(online_csp_controller.adminMode) == "adminMode.ONLINE"
+
+
+@given("a TMC central node in adminMode OFFLINE and ON state")
+def a_tmc_central_node_in_adminmode_offline_and_on_state(tmc_central_node: AbstractDeviceProxy):
+    """
+    Assert that the TMC central node is in adminMode OFFLINE and ON state.
+
+    :param tmc_central_node: The TMC central node DeviceProxy
+    :type tmc_central_node: AbstractDeviceProxy
+    """
+    assert str(tmc_central_node.State()) == "ON"
+    assert str(tmc_central_node.adminMode) == "adminMode.OFFLINE"
+    assert bool(tmc_central_node.isDishVccConfigSet)
 
 
 @when("I command it to LoadDishCfg")
@@ -142,50 +160,21 @@ def the_dishvccvalidationstatus_attribute_command_must_be_in_the_ok_state(
     assert tmc_central_node.DishVccValidationStatus == expected_dish_vcc_validation_status
 
 
-def wait_for_state(device_proxy: AbstractDeviceProxy, state: str, max_sleep=60):
+def wait_for(check: Callable[[int], bool], max_sleep=60):
     """
-    Wait for the DeviceProxy to reach the expected state.
+    Wait for check to reach the expected state.
 
-    :param device_proxy: the DeviceProxy
-    :type device_proxy: AbstractDeviceProxy
-    :param state: the DevState to reach
-    :type state: str
+    :param check: the method to check
+    :type check: Callable[[int], bool]
     :param max_sleep: the maximum time to sleep in seconds.
     :type max_sleep: int
     :raises TimeoutError: if the DeviceProxy does not reach the expected state
     """
     sleep_interval = 1
     total_sleep = 0
-    while str(device_proxy.State()) != state:
+    while not check(total_sleep):
         time.sleep(sleep_interval)
         total_sleep += sleep_interval
         if total_sleep >= max_sleep:
-            raise TimeoutError(
-                f"{device_proxy.dev_name()} failed to reach state '{state}' "
-                f"after {total_sleep} seconds; current state={device_proxy.State()}"
-            )
-        sleep_interval = min(2 * sleep_interval, max_sleep - total_sleep)
-
-def wait_for_healthstate(device_proxy: AbstractDeviceProxy, state: HealthState, max_sleep=60):
-    """
-    Wait for the DeviceProxy to reach the expected state.
-
-    :param device_proxy: the DeviceProxy
-    :type device_proxy: AbstractDeviceProxy
-    :param state: the DevState to reach
-    :type state: str
-    :param max_sleep: the maximum time to sleep in seconds.
-    :type max_sleep: int
-    :raises TimeoutError: if the DeviceProxy does not reach the expected state
-    """
-    sleep_interval = 1
-    total_sleep = 0
-    while HealthState(device_proxy.healthState) != state:
-        time.sleep(sleep_interval)
-        total_sleep += sleep_interval
-        if total_sleep >= max_sleep:
-            raise TimeoutError(
-                f"{device_proxy.dev_name()} failed to reach state '{state}' "
-                f"after {total_sleep} seconds; current state={HealthState(device_proxy.healthState)}"
-            )
+            raise TimeoutError(f"Timed out after {total_sleep} seconds.")
         sleep_interval = min(2 * sleep_interval, max_sleep - total_sleep)
