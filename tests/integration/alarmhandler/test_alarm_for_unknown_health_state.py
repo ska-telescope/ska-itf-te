@@ -5,12 +5,9 @@ import os
 
 import httpx
 import pytest
-from assertpy import assert_that
-from pytest_bdd import given, parsers, scenario, then, when
-from ska_control_model import HealthState
-from ska_ser_skallop.connectors import configuration as con_config
-from ska_ser_skallop.event_handling.builders import get_message_board_builder
-from tango import DeviceProxy
+from pytest_bdd import parsers, scenario, then, when
+
+from tests.integration.conftest import ResponseData
 
 namespace = os.getenv("KUBE_NAMESPACE")
 
@@ -45,7 +42,7 @@ def test_tmc_alarm_for_healthstate_unknown():
         + "alarm when the {device1} {device2} healthState"
     )
 )
-def configure_alarm_healthstate(response_data, device1, device2):
+def configure_alarm_healthstate(response_data: ResponseData, device1: str, device2: str):
     """Alarm is configured for UNKNOWN healthstate.
 
     :param response_data: fixture for response data
@@ -66,13 +63,17 @@ def configure_alarm_healthstate(response_data, device1, device2):
         response_data.response = add_api_response.json()
 
 
-@then(parsers.parse("Alarms are configured succesfully for {device1} and {device1}"))
-def check_alarms(response_data, device1, device2):
-    """Check alarms are configured
-    for the devices.
+@then(parsers.parse("Alarms are configured succesfully for {device1} and {device2}"))
+def check_alarms(response_data: ResponseData, device1: str, device2: str):
+    """
+    Check alarms are configured for the devices.
 
+    :param response_data: fixture for response data
+    :type response_data: ResponseData
     :param device1: tango device1 with healthState UNKNOWN
+    :type device1: str
     :param device2: tango device2 with healthState UNKNOWN
+    :type device2: str
     """
     assert len(response_data.response["alarm_summary"]["tag"]) == 1
     assert f"{device1}" in response_data.response["alarm_summary"]["formula"][0]

@@ -7,6 +7,8 @@ import httpx
 import pytest
 from pytest_bdd import parsers, scenario, then, when
 
+from tests.integration.conftest import ResponseData
+
 namespace = os.getenv("KUBE_NAMESPACE")
 
 logger = logging.getLogger(__name__)
@@ -31,7 +33,7 @@ def test_tmc_mid_configure_alarms():
         "I configure alarms with {alarm_rule_file} for TMC using alarm configurator tool"
     )
 )
-def add_alarms_api(response_data, alarm_rule_file):
+def add_alarms_api(response_data: ResponseData, alarm_rule_file: str):
     """Call add-alarms API.
 
     :param response_data: fixture for response data
@@ -51,7 +53,7 @@ def add_alarms_api(response_data, alarm_rule_file):
 
 
 @then("TMC alarms are configured successfully")
-def check_alarms(response_data):
+def check_alarms(response_data: ResponseData):
     """Check add-alarms API response.
 
     :param response_data: fixture for response data

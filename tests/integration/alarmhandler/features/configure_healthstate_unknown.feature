@@ -2,7 +2,7 @@ Feature: SP-3833
 
 	#Verify configured alarm for multiple devices in healthState UNKNOWN
 	@XTP-30405
-	Scenario: Configure alarm rule for healthState UNKNOWN
+	Scenario Outline: Configure alarm rule for healthState UNKNOWN
 		Given a mid telescope
 		Given an alarm handler
 		When an alarm handler is configured to raise an alarm when the <device1> <device2> healthState 

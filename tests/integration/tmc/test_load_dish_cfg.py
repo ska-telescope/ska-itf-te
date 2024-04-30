@@ -6,7 +6,7 @@ from typing import Callable, Iterator
 
 import pytest
 from pytest_bdd import given, scenario, then, when
-from ska_control_model import HealthState, AdminMode
+from ska_control_model import AdminMode
 from ska_ser_skallop.connectors import configuration as con_config
 from ska_ser_skallop.mvp_control.base import AbstractDeviceProxy
 from ska_ser_skallop.mvp_control.describing import mvp_names as names
@@ -55,6 +55,7 @@ def fxt_tmc_central_node() -> Iterator[AbstractDeviceProxy]:
 
     wait_for(tmc_is_dish_vcc_config_set, max_sleep=360)
     yield tmc
+
 
 @pytest.fixture(name="cbf_initsysparam")
 def fxt_cbf_initsysparam() -> Iterator[str]:
@@ -115,21 +116,29 @@ def a_csp_lmc_in_online_adminmode_and_off_state(csp_lmc_controller: AbstractDevi
 
 
 @given("a TMC central node in adminMode OFFLINE and ON state")
-def a_tmc_central_node_in_adminmode_offline_and_on_state(tmc_central_node: AbstractDeviceProxy, csp_lmc_controller: AbstractDeviceProxy):
+def a_tmc_central_node_in_adminmode_offline_and_on_state(
+    tmc_central_node: AbstractDeviceProxy, csp_lmc_controller: AbstractDeviceProxy
+):
     """
     Assert that the TMC central node is in adminMode OFFLINE and ON state.
 
     :param tmc_central_node: The TMC central node DeviceProxy
     :type tmc_central_node: AbstractDeviceProxy
     """
-    print(f"a_tmc_central_node_in_adminmode_offline_and_on_state CSP CONTROLLER {str(AdminMode(csp_lmc_controller.adminMode))}")
+    print(
+        f"a_tmc_central_node_in_adminmode_offline_and_on_state CSP CONTROLLER {str(AdminMode(csp_lmc_controller.adminMode))}"
+    )
     assert str(tmc_central_node.State()) == "ON"
     assert AdminMode(tmc_central_node.adminMode) == AdminMode.OFFLINE
     assert bool(tmc_central_node.isDishVccConfigSet)
 
 
 @when("I command it to LoadDishCfg")
-def i_command_it_to_loaddishcfg(tmc_central_node: AbstractDeviceProxy, cbf_initsysparam: str, csp_lmc_controller: AbstractDeviceProxy):
+def i_command_it_to_loaddishcfg(
+    tmc_central_node: AbstractDeviceProxy,
+    cbf_initsysparam: str,
+    csp_lmc_controller: AbstractDeviceProxy,
+):
     """
     Run the LoadDishCfg command.
 
@@ -138,15 +147,17 @@ def i_command_it_to_loaddishcfg(tmc_central_node: AbstractDeviceProxy, cbf_inits
     :param cbf_initsysparam: the CBF MCS initsysparams
     :type cbf_initsysparam: str
     """
-    print(f"i_command_it_to_loaddishcfg CSP CONTROLLER {str(AdminMode(csp_lmc_controller.adminMode))}")
+    print(
+        f"i_command_it_to_loaddishcfg CSP CONTROLLER {str(AdminMode(csp_lmc_controller.adminMode))}"
+    )
     tmc_central_node.LoadDishCfg(cbf_initsysparam)
 
 
 @then("the DishVccValidationStatus attribute command must be in the OK state")
 def the_dishvccvalidationstatus_attribute_command_must_be_in_the_ok_state(
     csp_lmc_controller: AbstractDeviceProxy,
-    tmc_central_node: AbstractDeviceProxy, expected_dish_vcc_validation_status: str
-    
+    tmc_central_node: AbstractDeviceProxy,
+    expected_dish_vcc_validation_status: str,
 ):
     """
     Verify that the DishVccValidationStatus reaches the expected state.
@@ -156,7 +167,9 @@ def the_dishvccvalidationstatus_attribute_command_must_be_in_the_ok_state(
     :param expected_dish_vcc_validation_status: The expected dish vcc validation status.
     :type expected_dish_vcc_validation_status: str
     """
-    print(f"the_dishvccvalidationstatus_attribute_command_must_be_in_the_ok_state CSP CONTROLLER {str(AdminMode(csp_lmc_controller.adminMode))}")
+    print(
+        f"the_dishvccvalidationstatus_attribute_command_must_be_in_the_ok_state CSP CONTROLLER {str(AdminMode(csp_lmc_controller.adminMode))}"
+    )
     assert str(csp_lmc_controller.State()) == "OFF"
     assert AdminMode(csp_lmc_controller.adminMode) == AdminMode.ONLINE
     assert bool(tmc_central_node.isDishVccConfigSet)
