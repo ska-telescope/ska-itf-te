@@ -17,6 +17,7 @@ namespace = os.getenv("KUBE_NAMESPACE")
 logger = logging.getLogger(__name__)
 
 
+@pytest.mark.order(1)
 @pytest.mark.skamid
 @scenario("features/configure_unknown_state_alarm.feature", "Configure Alarm for UNKNOWN State")
 def test_tmc_alarm_for_state_unknown():
