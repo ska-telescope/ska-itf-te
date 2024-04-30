@@ -78,7 +78,7 @@ def fxt_cbf_initsysparam() -> Iterator[str]:
     yield json.dumps(params)
 
 
-@pytest.mark.order(2)
+@pytest.mark.order(1)
 @pytest.mark.tmc
 @pytest.mark.load_dish_cfg
 @scenario("features/tmc_load_dish_cfg.feature", "Load dish cfg from the TMC")
