@@ -30,7 +30,7 @@ dependencies:
     repository: https://artefact.skao.int/repository/helm-internal
 
   - name: ska-mid-dish-spfrx-talondx-console
-    version: 0.2.4
+    version: 0.2.5
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-mid-dish-spfrx-talondx-console.enabled
 
