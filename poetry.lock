@@ -4524,17 +4524,16 @@ reference = "skao"
 
 [[package]]
 name = "ska-mid-itf-engineering-tools"
-version = "0.8.1"
+version = "0.7.1"
 description = "SKA MID ITF Engineering tools"
 optional = false
 python-versions = ">=3.10,<3.11"
 files = [
-    {file = "ska_mid_itf_engineering_tools-0.8.1-py3-none-any.whl", hash = "sha256:b2588539ec02dc334f3dfa50e5ee4fc4a4042633efc72631e1ef9e6cc7458f9c"},
-    {file = "ska_mid_itf_engineering_tools-0.8.1.tar.gz", hash = "sha256:c33f073ebfe1a2f97acb0cfac4cd5061a7cc549a71e1b61b55e389d71b4010c4"},
+    {file = "ska_mid_itf_engineering_tools-0.7.1-py3-none-any.whl", hash = "sha256:71e18d1d6b966903fa540fba28566ce8d9993bafbe93b01fbe0044cc7630e0a2"},
+    {file = "ska_mid_itf_engineering_tools-0.7.1.tar.gz", hash = "sha256:bafd997205c466b996eece5cad137dc3a06ca32834420960aa35f4d429af032e"},
 ]
 
 [package.dependencies]
-black = "24.3.0"
 kubernetes = ">=21.7.0,<22.0.0"
 nbqa = ">=1.7.1,<2.0.0"
 nbsphinx = ">=0.9.3,<0.10.0"
@@ -4613,13 +4612,13 @@ reference = "skao"
 
 [[package]]
 name = "ska-telmodel"
-version = "1.16.0"
+version = "1.13.0"
 description = "SKA telescope model library"
 optional = false
 python-versions = ">=3.10.0,<4.0.0"
 files = [
-    {file = "ska_telmodel-1.16.0-py3-none-any.whl", hash = "sha256:48587883cea9fb159e50f8440451e8a25b5ce0062d9f6c759434df2e58a259df"},
-    {file = "ska_telmodel-1.16.0.tar.gz", hash = "sha256:067e3e95ef4322f616af62539fa5e83c5f29f57840ef922ade159b7cc570f75b"},
+    {file = "ska_telmodel-1.13.0-py3-none-any.whl", hash = "sha256:f84e7d713c83871b7722248a390f35303edb7356b8f5bc5e94dc419ae57fe8c0"},
+    {file = "ska_telmodel-1.13.0.tar.gz", hash = "sha256:ae6df573438dfe989a6d2221e796d66c5c218210553b00666024e7f2490dfc45"},
 ]
 
 [package.dependencies]
@@ -5582,4 +5581,4 @@ reference = "PyPI-public"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.11"
-content-hash = "6bcd44299ec4312eb065b58700a7739eee4043d20454e4b8649558d11bb4d149"
+content-hash = "387b01084171d600c9c99c1f01775e5ab5dfb8e9290b7f52c3bfa73186244ae2"
