@@ -122,6 +122,8 @@ k8s-test-runner:
     REMOVE_FAILED_TEST_DEPLOYMENT: "false" # TEMPORARY COMMIT
     K8S_TEST_RUNNER_PARAMS: --set ska-tmc-mid.deviceServers.mocks.dish=true --set ska-tmc-mid.deviceServers.mocks.enabled=true
     DISH_LMC_IN_THE_LOOP: "false"
+  environment:
+    auto_stop_in: 120 minutes
 
 stop-k8s-test-runner:
   tags:
