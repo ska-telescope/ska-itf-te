@@ -28,7 +28,7 @@ dependencies:
 
   # SKA Mid CBF
   - name: ska-mid-cbf-mcs
-    version: 0.14.1
+    version: 0.14.2
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-mid-cbf-mcs.enabled
 
