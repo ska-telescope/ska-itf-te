@@ -33,12 +33,12 @@ def fxt_csp_lmc_controller() -> Iterator[AbstractDeviceProxy]:
     wait_for(csp_off)
     print("CSP CONTROLLER SETUP")
     yield csp
-    csp.adminMode = 1
+    #csp.adminMode = 1
 
-    def csp_disable(total_sleep: int) -> bool:
-        return str(csp.State()) == "DISABLE"
+    #def csp_disable(total_sleep: int) -> bool:
+    #    return str(csp.State()) == "DISABLE"
 
-    wait_for(csp_disable)
+    #wait_for(csp_disable)
     print("CSP CONTROLLER TEARDOWN")
 
 
