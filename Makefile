@@ -265,7 +265,7 @@ get-deployment-config-info:
 ##	namespace=[Namespace in which to look for TMC logs]
 ##  make target for downloading all TMC logs in a given namespace.
 tmc-logs:
-	@scripts/kubernetes/log_subsystem.sh ska-tmc-mid ${namespace} 
+	@scripts/kubernetes/log_subsystem.sh ska-tmc-mid ${namespace}
 .PHONY: tmc-logs
 
 ## TARGET: cbf-logs
@@ -275,7 +275,7 @@ tmc-logs:
 ##	namespace=[Namespace in which to look for CBF logs]
 ##  make target for downloading all CBF logs in a given namespace.
 cbf-logs:
-	@scripts/kubernetes/log_subsystem.sh cbfmcs-mid ${namespace} 
+	@scripts/kubernetes/log_subsystem.sh cbfmcs-mid ${namespace}
 .PHONY: cbf-logs
 
 ## TARGET: csp-logs
@@ -285,7 +285,7 @@ cbf-logs:
 ##	namespace=[Namespace in which to look for CSP logs]
 ##  make target for downloading all CSP logs in a given namespace.
 csp-logs:
-	@scripts/kubernetes/log_subsystem.sh csp-lmc ${namespace} 
+	@scripts/kubernetes/log_subsystem.sh csp-lmc ${namespace}
 .PHONY: csp-logs
 
 
@@ -296,7 +296,7 @@ csp-logs:
 ##	namespace=[Namespace in which to look for SDP logs]
 ##  make target for downloading all SDP logs in a given namespace.
 sdp-logs:
-	@scripts/kubernetes/log_system.sh sdp ${namespace} 
+	@scripts/kubernetes/log_system.sh sdp ${namespace}
 .PHONY: sdp-logs
 
 ## TARGET: dish-logs
@@ -306,7 +306,7 @@ sdp-logs:
 ##	namespace=[Namespace in which to look for Dish LMC logs]
 ##  make target for downloading all Dish LMC logs in a given namespace.
 dish-logs:
-	@scripts/kubernetes/log_subsystem.sh ska-dish-lmc ${namespace} 
+	@scripts/kubernetes/log_subsystem.sh ska-dish-lmc ${namespace}
 .PHONY: dish-logs
 
 env:

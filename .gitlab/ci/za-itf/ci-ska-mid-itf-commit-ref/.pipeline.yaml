@@ -92,6 +92,7 @@ k8s-test-runner:
     - make vars
     - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
     - "make help | grep k8s-test"
+    - bash .make/resources/gitlab_section.sh poetry "Poetry Install" poetry install
     - bash .make/resources/gitlab_section.sh namespaces "Create namespaces" make sut-namespaces
     - bash .make/resources/gitlab_section.sh install "K8S Install" make k8s-install-chart
     - bash .make/resources/gitlab_section.sh wait "K8S wait" make k8s-wait
