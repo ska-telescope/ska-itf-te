@@ -39,6 +39,7 @@ ska-ser-config-inspector:
   enabled: true
 
 ska-mid-cbf-mcs:
+  engineeringConsoleVersion: 0.10.6
   enabled: true
   hostInfo:
     environment: "mid-itf"
