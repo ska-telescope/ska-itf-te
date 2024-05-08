@@ -9,7 +9,7 @@ set -o pipefail
 #   namespace: the Kubernetes namespace within which to look for the pods.
 log_by_selector () {
     value=${selector#*=}
-    output_dir=${value}-logs-$(date +%Y%m%d-%H%M)
+    output_dir=sut-logs/${value}-logs/$(date +%Y%m%d-%H%M)
     mkdir -p ${output_dir}
     printf "%-40s | %-40s\n" "POD" "LOG_FILE"
     pods=$(kubectl get pods --namespace ${namespace} --selector ${selector} -o custom-columns=':metadata.name')

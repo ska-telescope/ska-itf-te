@@ -1161,13 +1161,13 @@ reference = "PyPI-public"
 
 [[package]]
 name = "docutils"
-version = "0.20.1"
+version = "0.18.1"
 description = "Docutils -- Python Documentation Utilities"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 files = [
-    {file = "docutils-0.20.1-py3-none-any.whl", hash = "sha256:96f387a2c5562db4476f09f13bbab2192e764cac08ebbf3a34a95d9b1e4a59d6"},
-    {file = "docutils-0.20.1.tar.gz", hash = "sha256:f08a4e276c3a1583a86dce3e34aba3fe04d02bba2dd51ed16106244e8a923e3b"},
+    {file = "docutils-0.18.1-py2.py3-none-any.whl", hash = "sha256:23010f129180089fbcd3bc08cfefccb3b890b0050e1ca00c867036e9d161b98c"},
+    {file = "docutils-0.18.1.tar.gz", hash = "sha256:679987caf361a7539d76e584cbeddc311e3aee937877c87346f31debc63e9d06"},
 ]
 
 [package.source]
@@ -4613,13 +4613,13 @@ reference = "skao"
 
 [[package]]
 name = "ska-telmodel"
-version = "1.16.0"
+version = "1.13.0"
 description = "SKA telescope model library"
 optional = false
 python-versions = ">=3.10.0,<4.0.0"
 files = [
-    {file = "ska_telmodel-1.16.0-py3-none-any.whl", hash = "sha256:48587883cea9fb159e50f8440451e8a25b5ce0062d9f6c759434df2e58a259df"},
-    {file = "ska_telmodel-1.16.0.tar.gz", hash = "sha256:067e3e95ef4322f616af62539fa5e83c5f29f57840ef922ade159b7cc570f75b"},
+    {file = "ska_telmodel-1.13.0-py3-none-any.whl", hash = "sha256:f84e7d713c83871b7722248a390f35303edb7356b8f5bc5e94dc419ae57fe8c0"},
+    {file = "ska_telmodel-1.13.0.tar.gz", hash = "sha256:ae6df573438dfe989a6d2221e796d66c5c218210553b00666024e7f2490dfc45"},
 ]
 
 [package.dependencies]
@@ -4771,18 +4771,18 @@ reference = "PyPI-public"
 
 [[package]]
 name = "sphinx-rtd-theme"
-version = "2.0.0"
+version = "1.3.0"
 description = "Read the Docs theme for Sphinx"
 optional = false
-python-versions = ">=3.6"
+python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,>=2.7"
 files = [
-    {file = "sphinx_rtd_theme-2.0.0-py2.py3-none-any.whl", hash = "sha256:ec93d0856dc280cf3aee9a4c9807c60e027c7f7b461b77aeffed682e68f0e586"},
-    {file = "sphinx_rtd_theme-2.0.0.tar.gz", hash = "sha256:bd5d7b80622406762073a04ef8fadc5f9151261563d47027de09910ce03afe6b"},
+    {file = "sphinx_rtd_theme-1.3.0-py2.py3-none-any.whl", hash = "sha256:46ddef89cc2416a81ecfbeaceab1881948c014b1b6e4450b815311a89fb977b0"},
+    {file = "sphinx_rtd_theme-1.3.0.tar.gz", hash = "sha256:590b030c7abb9cf038ec053b95e5380b5c70d61591eb0b552063fbe7c41f0931"},
 ]
 
 [package.dependencies]
-docutils = "<0.21"
-sphinx = ">=5,<8"
+docutils = "<0.19"
+sphinx = ">=1.6,<8"
 sphinxcontrib-jquery = ">=4,<5"
 
 [package.extras]
@@ -5036,13 +5036,13 @@ reference = "PyPI-public"
 
 [[package]]
 name = "tomlkit"
-version = "0.12.4"
+version = "0.12.5"
 description = "Style preserving TOML library"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "tomlkit-0.12.4-py3-none-any.whl", hash = "sha256:5cd82d48a3dd89dee1f9d64420aa20ae65cfbd00668d6f094d7578a78efbb77b"},
-    {file = "tomlkit-0.12.4.tar.gz", hash = "sha256:7ca1cfc12232806517a8515047ba66a19369e71edf2439d0f5824f91032b6cc3"},
+    {file = "tomlkit-0.12.5-py3-none-any.whl", hash = "sha256:af914f5a9c59ed9d0762c7b64d3b5d5df007448eb9cd2edc8a46b1eafead172f"},
+    {file = "tomlkit-0.12.5.tar.gz", hash = "sha256:eef34fba39834d4d6b73c9ba7f3e4d1c417a4e56f89a7e96e090dd0d24b8fb3c"},
 ]
 
 [package.source]
@@ -5566,8 +5566,4 @@ reference = "PyPI-public"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.11"
-<<<<<<< HEAD
-content-hash = "1e2eb566d906aaaf82057297b82d5a7f56c777fd629b1172ad50a91124e717bb"
-=======
-content-hash = "4409395b3a0c5ab85ec19b3dde00486ce6533e4c766ed38e2d89c42beb52311b"
->>>>>>> 91172408 (AT-2008 - Try updated eng tools version.)
+content-hash = "63865b64ef21a04681342d60d47d6192c5eab8e97acb2792a17bce764242ce10"
