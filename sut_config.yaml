@@ -20,7 +20,7 @@ parts:
       - "ska-sdp"
   ska-sdp:
     version: "file://charts/system-under-test/Chart.yaml"
-    dependencies:
+    dependencies: []
     root:
   ska-dish-lmc:
     version: "file://charts/dish-lmc/Chart.yaml"
