@@ -65,7 +65,7 @@
     }
   ],
   "environment_variables": [
-    "CI_JOB_URL",
+    "CI_PIPELINE_URL",
     "CI_COMMIT_TITLE",
     "CI_JOB_STARTED_AT"
   ]
