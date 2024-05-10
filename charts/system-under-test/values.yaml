@@ -74,6 +74,9 @@ ska-tmc-mid:
       cpu: 800m
     requests:
       cpu: 400m
+  subarraynode:
+    image:
+      tag: 0.17.5
 
 ska-sdp:
   helmdeploy:
