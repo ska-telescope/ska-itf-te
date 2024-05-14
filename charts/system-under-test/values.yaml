@@ -37,6 +37,7 @@ ska-taranta:
 # CIA
 ska-ser-config-inspector:
   enabled: true
+  devmode: true
 
 ska-mid-cbf-mcs:
   engineeringConsoleVersion: 0.10.6 # TODO: remove this when new release of ska-mid-cbf-mcs arrives
@@ -114,9 +115,3 @@ ska-tango-archiver:
         #     #keep below field empty if db names are unknown, app will display all dbs present
         #     #e.g:timescale_databases: ""
         timescale_databases: "itf_eda"
-
-# Temporary configuration for PVC
-# See templates/pvc.yaml
-temp_sdp_pvc:
-  dpd_namespace: ska-dpd
-  dpd_pvc: shared-mnl
