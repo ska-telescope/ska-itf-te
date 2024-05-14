@@ -17,7 +17,7 @@ url = 'https://pypi.org/simple'
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.11"
-ska-ser-skallop = { version = "2.29.8", extras = ["bit"] }
+ska-ser-skallop = { version = "^2.31.0", extras = ["bit"] }
 ska-tmc-cdm = "8.3.0"
 pytest-json-report = "^1.5.0"
 pytest-repeat = "^0.9.1"
@@ -40,7 +40,7 @@ markupsafe = "^2.1.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.2.0"
-flake8 = "^6.0.0"
+flake8 = "^7.0.0"
 isort = "^5.12.0"
 pylint = "^3.1.0"
 pylint-junit = "^0.3.2"
