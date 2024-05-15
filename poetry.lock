@@ -1214,6 +1214,25 @@ url = "https://pypi.org/simple"
 reference = "PyPI-public"
 
 [[package]]
+name = "fastjsonschema"
+version = "2.19.1"
+description = "Fastest Python implementation of JSON schema"
+optional = false
+python-versions = "*"
+files = [
+    {file = "fastjsonschema-2.19.1-py3-none-any.whl", hash = "sha256:3672b47bc94178c9f23dbb654bf47440155d4db9df5f7bc47643315f9c405cd0"},
+    {file = "fastjsonschema-2.19.1.tar.gz", hash = "sha256:e3126a94bdc4623d3de4485f8d468a12f02a67921315ddc87836d6e456dc789d"},
+]
+
+[package.extras]
+devel = ["colorama", "json-spec", "jsonschema", "pylint", "pytest", "pytest-benchmark", "pytest-cache", "validictory"]
+
+[package.source]
+type = "legacy"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
+
+[[package]]
 name = "filelock"
 version = "3.14.0"
 description = "A platform independent file lock."
@@ -1391,6 +1410,48 @@ url = "https://pypi.org/simple"
 reference = "PyPI-public"
 
 [[package]]
+name = "gitdb"
+version = "4.0.11"
+description = "Git Object Database"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "gitdb-4.0.11-py3-none-any.whl", hash = "sha256:81a3407ddd2ee8df444cbacea00e2d038e40150acfa3001696fe0dcf1d3adfa4"},
+    {file = "gitdb-4.0.11.tar.gz", hash = "sha256:bf5421126136d6d0af55bc1e7c1af1c397a34f5b7bd79e776cd3e89785c2b04b"},
+]
+
+[package.dependencies]
+smmap = ">=3.0.1,<6"
+
+[package.source]
+type = "legacy"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
+
+[[package]]
+name = "gitpython"
+version = "3.1.43"
+description = "GitPython is a Python library used to interact with Git repositories"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "GitPython-3.1.43-py3-none-any.whl", hash = "sha256:eec7ec56b92aad751f9912a73404bc02ba212a23adb2c7098ee668417051a1ff"},
+    {file = "GitPython-3.1.43.tar.gz", hash = "sha256:35f314a9f878467f5453cc1fee295c3e18e52f1b99f10f6cf5b1682e968a9e7c"},
+]
+
+[package.dependencies]
+gitdb = ">=4.0.1,<5"
+
+[package.extras]
+doc = ["sphinx (==4.3.2)", "sphinx-autodoc-typehints", "sphinx-rtd-theme", "sphinxcontrib-applehelp (>=1.0.2,<=1.0.4)", "sphinxcontrib-devhelp (==1.0.2)", "sphinxcontrib-htmlhelp (>=2.0.0,<=2.0.1)", "sphinxcontrib-qthelp (==1.0.3)", "sphinxcontrib-serializinghtml (==1.1.5)"]
+test = ["coverage[toml]", "ddt (>=1.1.1,!=1.4.3)", "mock", "mypy", "pre-commit", "pytest (>=7.3.1)", "pytest-cov", "pytest-instafail", "pytest-mock", "pytest-sugar", "typing-extensions"]
+
+[package.source]
+type = "legacy"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
+
+[[package]]
 name = "google-auth"
 version = "2.29.0"
 description = "Google Authentication Library"
@@ -1458,13 +1519,23 @@ reference = "PyPI-public"
 [[package]]
 name = "httpcore"
 version = "1.0.5"
-description = ""
+description = "A minimal low-level HTTP client."
 optional = false
-python-versions = "*"
+python-versions = ">=3.8"
 files = [
     {file = "httpcore-1.0.5-py3-none-any.whl", hash = "sha256:421f18bac248b25d310f3cacd198d55b8e6125c107797b609ff9b7a6ba7991b5"},
     {file = "httpcore-1.0.5.tar.gz", hash = "sha256:34a38e2f9291467ee3b44e89dd52615370e152954ba21721378a87b2960f7a61"},
 ]
+
+[package.dependencies]
+certifi = "*"
+h11 = ">=0.13,<0.15"
+
+[package.extras]
+asyncio = ["anyio (>=4.0,<5.0)"]
+http2 = ["h2 (>=3,<5)"]
+socks = ["socksio (==1.*)"]
+trio = ["trio (>=0.22.0,<0.26.0)"]
 
 [package.source]
 type = "legacy"
@@ -2060,7 +2131,6 @@ files = [
     {file = "lxml-5.2.1-cp37-cp37m-musllinux_1_2_x86_64.whl", hash = "sha256:9e2addd2d1866fe112bc6f80117bcc6bc25191c5ed1bfbcf9f1386a884252ae8"},
     {file = "lxml-5.2.1-cp37-cp37m-win32.whl", hash = "sha256:f51969bac61441fd31f028d7b3b45962f3ecebf691a510495e5d2cd8c8092dbd"},
     {file = "lxml-5.2.1-cp37-cp37m-win_amd64.whl", hash = "sha256:b0b58fbfa1bf7367dde8a557994e3b1637294be6cf2169810375caf8571a085c"},
-    {file = "lxml-5.2.1-cp38-cp38-macosx_10_9_universal2.whl", hash = "sha256:3e183c6e3298a2ed5af9d7a356ea823bccaab4ec2349dc9ed83999fd289d14d5"},
     {file = "lxml-5.2.1-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:804f74efe22b6a227306dd890eecc4f8c59ff25ca35f1f14e7482bbce96ef10b"},
     {file = "lxml-5.2.1-cp38-cp38-manylinux_2_12_i686.manylinux2010_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:08802f0c56ed150cc6885ae0788a321b73505d2263ee56dad84d200cab11c07a"},
     {file = "lxml-5.2.1-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:0f8c09ed18ecb4ebf23e02b8e7a22a05d6411911e6fabef3a36e4f371f4f2585"},
@@ -2678,13 +2748,23 @@ reference = "PyPI-public"
 [[package]]
 name = "nbformat"
 version = "5.10.4"
-description = ""
+description = "The Jupyter Notebook format"
 optional = false
-python-versions = "*"
+python-versions = ">=3.8"
 files = [
     {file = "nbformat-5.10.4-py3-none-any.whl", hash = "sha256:3b48d6c8fbca4b299bf3982ea7db1af21580e4fec269ad087b9e81588891200b"},
     {file = "nbformat-5.10.4.tar.gz", hash = "sha256:322168b14f937a5d11362988ecac2a4952d3d8e3a2cbeb2319584631226d5b3a"},
 ]
+
+[package.dependencies]
+fastjsonschema = ">=2.15"
+jsonschema = ">=2.6"
+jupyter-core = ">=4.12,<5.0.dev0 || >=5.1.dev0"
+traitlets = ">=5.1"
+
+[package.extras]
+docs = ["myst-parser", "pydata-sphinx-theme", "sphinx", "sphinxcontrib-github-alt", "sphinxcontrib-spelling"]
+test = ["pep440", "pre-commit", "pytest", "testpath"]
 
 [package.source]
 type = "legacy"
@@ -4526,17 +4606,18 @@ reference = "skao"
 
 [[package]]
 name = "ska-mid-itf-engineering-tools"
-version = "0.8.2"
+version = "0.8.3"
 description = "SKA MID ITF Engineering tools"
 optional = false
 python-versions = ">=3.10,<3.11"
 files = [
-    {file = "ska_mid_itf_engineering_tools-0.8.2-py3-none-any.whl", hash = "sha256:9523c492c06d2df995e97f8bfe104c7eb7fdc3117f184670e08eee6ab227767c"},
-    {file = "ska_mid_itf_engineering_tools-0.8.2.tar.gz", hash = "sha256:c9106ef708f761ee310b2f2b2576404201c73554702168bbf287fb493b3dec8a"},
+    {file = "ska_mid_itf_engineering_tools-0.8.3-py3-none-any.whl", hash = "sha256:1a9d83fd41134158803361629c732abf3d63de419adf5f360e39a9fdb76be96d"},
+    {file = "ska_mid_itf_engineering_tools-0.8.3.tar.gz", hash = "sha256:2992ff6017e563d37e4c0526fc9618b658c3c596fa289f627403da3da19811e0"},
 ]
 
 [package.dependencies]
 black = "24.3.0"
+gitpython = ">=3.1.43,<4.0.0"
 nbqa = ">=1.7.1,<2.0.0"
 nbsphinx = ">=0.9.3,<0.10.0"
 pytango = ">=9.5.1,<10.0.0"
@@ -4549,7 +4630,7 @@ requests-mock = ">=1.11.0,<2.0.0"
 semver = ">=3.0.2,<4.0.0"
 ska-control-model = ">=0.3.4,<0.4.0"
 ska_ser_logging = ">=0.4.1,<0.5.0"
-ska-ser-skallop = {version = "2.30.1", extras = ["bit"]}
+ska-ser-skallop = {version = ">=2.31.0,<3.0.0", extras = ["bit"]}
 ska-tmc-cdm = "8.3.0"
 slack-sdk = ">=3.27.1,<4.0.0"
 
@@ -4576,13 +4657,13 @@ reference = "skao"
 
 [[package]]
 name = "ska-ser-skallop"
-version = "2.30.1"
+version = "2.31.0"
 description = "Testing helpers and modules for running end to end tests against SKAO Software, deployed using SKAO Gitlab CI/CD pipelines."
 optional = false
 python-versions = ">=3.10,<4.0"
 files = [
-    {file = "ska-ser-skallop-2.30.1.tar.gz", hash = "sha256:333bce73a362460050b70bc098c0539aa357cedc99b523ed752b5f9c9e1e920f"},
-    {file = "ska_ser_skallop-2.30.1-py3-none-any.whl", hash = "sha256:31f1a83e59ce8005eb621fa89f6b28ee366b34337da8439b9bafebe606035a23"},
+    {file = "ska-ser-skallop-2.31.0.tar.gz", hash = "sha256:192b6169342b28d45100113f3460ca2cbbc3ec307db1a3eb78b25cf5c0233c30"},
+    {file = "ska_ser_skallop-2.31.0-py3-none-any.whl", hash = "sha256:3703789b542422a01d6e188e16479da23a98dc21dbf50be93dc6d7caee8be2d2"},
 ]
 
 [package.dependencies]
@@ -4675,6 +4756,22 @@ files = [
 
 [package.extras]
 optional = ["SQLAlchemy (>=1.4,<3)", "aiodns (>1.0)", "aiohttp (>=3.7.3,<4)", "boto3 (<=2)", "websocket-client (>=1,<2)", "websockets (>=10,<11)", "websockets (>=9.1,<10)"]
+
+[package.source]
+type = "legacy"
+url = "https://pypi.org/simple"
+reference = "PyPI-public"
+
+[[package]]
+name = "smmap"
+version = "5.0.1"
+description = "A pure Python implementation of a sliding window memory map manager"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "smmap-5.0.1-py3-none-any.whl", hash = "sha256:e6d8668fa5f93e706934a62d7b4db19c8d9eb8cf2adbb75ef1b675aa332b69da"},
+    {file = "smmap-5.0.1.tar.gz", hash = "sha256:dceeb6c0028fdb6734471eb07c0cd2aae706ccaecab45965ee83f11c8d3b1f62"},
+]
 
 [package.source]
 type = "legacy"
@@ -5566,4 +5663,4 @@ reference = "PyPI-public"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.11"
-content-hash = "63865b64ef21a04681342d60d47d6192c5eab8e97acb2792a17bce764242ce10"
+content-hash = "8cd7b4688bee8aabc348b5a5e3d1277687376607e996371962467d791ab8f0d8"
