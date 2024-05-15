@@ -2,7 +2,7 @@ Feature: SP-3833
 
 	#Verify  configured Alarm for unknown State
 	@XTP-30236
-	Scenario:  Configure Alarm for UNKNOWN State
+	Scenario Outline:  Configure Alarm for UNKNOWN State
 		Given a mid telescope
 		Given an alarm handler
 		Given an alarm handler is configured to raise an alarm when the <device_name> State <state_value>

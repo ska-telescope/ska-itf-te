@@ -24,7 +24,7 @@ pytest-repeat = "^0.9.1"
 ska_ser_logging = "^0.4.1"
 ska-control-model = "^0.3.4"
 pyyaml = "^6.0.1"
-ska-mid-itf-engineering-tools = "^0.7.1"
+ska-mid-itf-engineering-tools = "0.8.2"
 httpx = "^0.27.0"
 h11 = "^0.14.0"
 annotated-types = "^0.6.0"
@@ -50,7 +50,6 @@ flake8-rst-docstrings = "^0.3.0"
 darglint = "^1.8.1"
 mypy = "^1.8.0"
 twine = "^5.0.0"
-
 
 [tool.poetry.group.ansible.dependencies]
 ansible = "^9.3.0"
