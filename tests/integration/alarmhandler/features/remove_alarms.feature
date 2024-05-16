@@ -2,7 +2,7 @@ Feature: SP-3833
 
 	#Remove configured TMC alarms using alarm handler configurator tool
 	@XTP-30175
-	Scenario: Remove TMC Alarms
+	Scenario Outline: Remove TMC Alarms
 		Given a TMC
 		Given an alarm handler
 		Given TMC alarm is configured with tag <tag_name>
