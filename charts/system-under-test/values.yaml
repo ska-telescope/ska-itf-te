@@ -46,7 +46,7 @@ ska-mid-cbf-mcs:
     clusterDomain: "miditf.internal.skao.int"
 
 ska-mid-cbf-tmleafnode:
-  enabled: true
+  enabled: false
 
 ska-csp-lmc-mid:
   legacy_compatibility: true
@@ -74,9 +74,6 @@ ska-tmc-mid:
       cpu: 800m
     requests:
       cpu: 400m
-  subarraynode:
-    image:
-      tag: 0.17.5
 
 ska-sdp:
   helmdeploy:
