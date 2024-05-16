@@ -41,7 +41,6 @@ ska-ser-config-inspector:
 ska-mid-cbf-mcs:
   engineeringConsoleVersion: 0.10.6 # TODO: remove this when new release of ska-mid-cbf-mcs arrives
   enabled: true
-  engineeringConsoleVersion: 0.10.6
   hostInfo:
     environment: "mid-itf"
     clusterDomain: "miditf.internal.skao.int"
