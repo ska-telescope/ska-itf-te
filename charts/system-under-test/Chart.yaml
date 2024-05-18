@@ -30,7 +30,7 @@ dependencies:
   # TODO: when the new release ska-mid-cbf-mcs arrives, with SKB-352 fix,
   # remove the engineeringConsoleVersion in values.yaml.
   - name: ska-mid-cbf-mcs
-    version: 0.15.0
+    version: 0.14.1  # change from 0.15.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-mid-cbf-mcs.enabled
 
