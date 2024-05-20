@@ -12,10 +12,10 @@ dependencies:
     repository: https://artefact.skao.int/repository/helm-internal
     condition: global.taranta_auth_enabled
   - name: ska-tango-taranta-dashboard
-    version: 1.5.0 # change to 1.6.1
+    version: 1.6.1 # change from 1.5.0 to 1.6.1
     repository: https://artefact.skao.int/repository/helm-internal
     condition: global.taranta_dashboard_enabled
   - name: ska-tango-taranta-dashboard-pvc
-    version: 1.5.0 # change to 1.6.1
+    version: 1.6.1 # change from 1.5.0 to 1.6.1
     repository: https://artefact.skao.int/repository/helm-internal
     condition: global.taranta_dashboard_enabled
