@@ -22,7 +22,7 @@ dependencies:
 
   # SKA Mid CSP LMC
   - name: ska-csp-lmc-mid
-    version: 0.18.2 # change to 0.20.1
+    version: 0.20.1 # change from 0.18.2 to 0.20.1
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-csp-lmc-mid.enabled
 
@@ -30,13 +30,13 @@ dependencies:
   # TODO: when the new release ska-mid-cbf-mcs arrives, with SKB-352 fix,
   # remove the engineeringConsoleVersion in values.yaml.
   - name: ska-mid-cbf-mcs
-    version: 0.14.1  # change to 0.15.0
+    version: 0.15.0  # change from 0.14.1 to 0.15.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-mid-cbf-mcs.enabled
 
   # SKA Mid SDP
   - name: ska-sdp
-    version: 0.19.1 # change to 0.20.0
+    version: 0.20.0 # change from 0.19.1 to 0.20.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-sdp.enabled
 
