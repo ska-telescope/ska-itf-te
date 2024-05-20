@@ -11,7 +11,7 @@ dependencies:
     version: 0.4.10 # Change from 0.4.9 to 0.4.10
     repository: https://artefact.skao.int/repository/helm-internal
   - name: ska-tango-util
-    version: 0.4.10
+    version: 0.4.11 # Change from 0.4.10 to 0.4.11
     repository: https://artefact.skao.int/repository/helm-internal
 
   # SKA Mid TMC
