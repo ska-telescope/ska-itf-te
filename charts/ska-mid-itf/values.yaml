@@ -83,3 +83,12 @@ ska-taranta:
 # CIA
 ska-ser-config-inspector:
   enabled: true
+
+# SKA-tango-examples and SKA-tango-base don't support multiple deployments on the same namespace
+# See SDR-1152
+ska-tango-tangogql:
+  enabled: true
+  ska-tango-base:
+    enabled: false
+  ska-tango-examples:
+    enabled: false
