@@ -69,3 +69,10 @@ ska-taranta:
 # CIA
 ska-ser-config-inspector:
   enabled: true
+
+ska-tango-tangogql:
+  enabled: true
+  ska-tango-base:
+    enabled: false
+  ska-tango-examples:
+    enabled: false
