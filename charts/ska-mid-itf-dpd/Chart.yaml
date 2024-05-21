@@ -7,5 +7,5 @@ appVersion: 0.1.0
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
   - name: ska-sdp-dataproduct-dashboard
-    version: 0.8.0 # change from 0.7.0 to 0.8.0
+    version: 0.8.0
     repository: https://artefact.skao.int/repository/helm-internal
