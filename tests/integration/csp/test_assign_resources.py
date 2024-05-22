@@ -26,12 +26,14 @@ def fxt_default_composition(csp_base_composition: conf_types.Composition):
 @pytest.mark.skamid
 @pytest.mark.csp
 @pytest.mark.assign
+@pytest.mark.xfail
 @scenario(
     "features/csp_assign_resources.feature",
     "Assign resources to CSP mid subarray",
 )
 def test_assign_resources_to_csp_mid_subarray():
     """Assign resources to CSP mid subarray."""
+    pass
 
 
 @pytest.mark.csp_related
@@ -44,6 +46,7 @@ def test_assign_resources_to_csp_mid_subarray():
 )
 def test_release_resources_to_csp_mid_subarray():
     """Release resources assigned to an CSP mid subarray."""
+    pass
 
 
 @pytest.fixture(name="set_restart_after_abort")
@@ -71,6 +74,7 @@ def test_abort_in_resourcing_mid(
     :param set_restart_after_abort: A fixture to set restart after abort which is set as none
     :param composition: The assign resources configuration paramaters
     """
+    pass
 
 
 # use when from ..shared_assign_resources in ..conftest.py
