@@ -69,3 +69,12 @@ ska-taranta:
       limits:
         cpu: 1000m # 1000m = 1 CPU
         memory: 1024Mi # 1024Mi = 1 GB mem
+
+# SKA-tango-examples and SKA-tango-base don't support multiple deployments on the same namespace
+# See SDR-1152
+ska-tango-tangogql:
+  enabled: true
+  ska-tango-base:
+    enabled: false
+  ska-tango-examples:
+    enabled: false

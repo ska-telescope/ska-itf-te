@@ -18,10 +18,11 @@ parts:
       - "ska-csp-lmc-mid"
       - "ska-dish-lmc"
       - "ska-sdp"
+    root:
   ska-sdp:
     version: "file://charts/system-under-test/Chart.yaml"
-    dependencies:
-    root:
+    dependencies: []
+    # root:
   ska-dish-lmc:
     version: "file://charts/dish-lmc/Chart.yaml"
     dependencies:
@@ -30,7 +31,7 @@ parts:
   ska-te-dish-structure-simulator:
     version: "file://charts/dish-structure-simulators/Chart.yaml"
     dependencies: []
-    root:
+    # root:
   ska-csp-lmc-mid:
     version: "file://charts/system-under-test/Chart.yaml"
     dependencies: ["ska-mid-cbf-mcs"]
@@ -38,7 +39,7 @@ parts:
   ska-mid-cbf-mcs:
     version: "file://charts/system-under-test/Chart.yaml"
     dependencies: []
-    root:
+    # root:
   ska-tango-taranta:
     version: "file://charts/system-under-test/Chart.yaml"
     dependencies: ["ska-tango-tangogql"]

@@ -120,3 +120,12 @@ ska-tango-archiver:
 temp_sdp_pvc:
   dpd_namespace: ska-dpd
   dpd_pvc: shared-mnl
+
+# SKA-tango-examples and SKA-tango-base don't support multiple deployments on the same namespace
+# See SDR-1152
+ska-tango-tangogql:
+  enabled: true
+  ska-tango-base:
+    enabled: false
+  ska-tango-examples:
+    enabled: false

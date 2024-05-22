@@ -8,11 +8,10 @@ icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_201
 dependencies:
   # Tango
   - name: ska-tango-base
-    version: 0.4.9 # Check latest version
+    version: 0.4.10
     repository: https://artefact.skao.int/repository/helm-internal
-
   - name: ska-tango-util
-    version: 0.4.10 # Check latest version
+    version: 0.4.11
     repository: https://artefact.skao.int/repository/helm-internal
 
   # SKA Test Equipment
@@ -27,7 +26,7 @@ dependencies:
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-taranta.enabled
   - name: ska-tango-tangogql
-    version: 1.3.10
+    version: 1.3.12
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-taranta.enabled
 
@@ -35,6 +34,6 @@ dependencies:
   # Gitlab Location: https://gitlab.com/ska-telescope/ska-ser-config-inspector
   # Releases: https://gitlab.com/ska-telescope/ska-ser-config-inspector/-/releases
   - name: ska-ser-config-inspector
-    version: 0.2.2 # check latest version
+    version: 0.2.3 # check latest version
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-ser-config-inspector.enabled
