@@ -8,7 +8,9 @@ variables:
   CLEAN_UP_TEST_ENVIRONMENT: "true"
   DEPLOYMENT_CONFIGURATION: "ska-$CONFIG"
   POETRY_CONFIG_VIRTUALENVS_CREATE: "true"
-  DEPLOY_IMAGE: $CI_REGISTRY/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools:0.8.1
+  # Don't update this to 0.8.1 or 0.8.2 - it breaks the tests
+  # see https://gitlab.com/ska-telescope/ska-mid-itf/-/jobs/6807963899
+  DEPLOY_IMAGE: $CI_REGISTRY/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools:0.8.3
   MCS_CONFIG_FILE_PATH: resources/mcs
 
   # PYTEST_SUBSYS_MARK: (csp_startup or sdp or eda)

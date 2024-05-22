@@ -28,7 +28,7 @@ copyright = "Adriaan de Beer, adebeer@sarao.ac.za"
 author = "ATLAS Team"
 
 # The full version, including alpha/beta/rc tags
-release = '21.0.11'
+release = '22.0.1'
 
 # -- General configuration ---------------------------------------------------
 
