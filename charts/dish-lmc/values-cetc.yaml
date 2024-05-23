@@ -1,9 +1,1 @@
-ska-dish-lmc:
-  ska-mid-dish-manager:
-    ska-mid-dish-simulators:
-      dsOpcuaSimulator:
-        enabled: false
 
-  ska-mid-dish-ds-manager:
-    dishstructuremanager:
-      ds_opcua_namespace: "CETC54"
