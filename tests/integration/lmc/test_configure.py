@@ -1,6 +1,7 @@
 """features/test_configure_scan.feature feature tests."""
 
-from pytest_bdd import given, pytest, scenario, then, when
+from pytest_bdd import given, scenario, then, when
+import pytest
 
 
 @scenario("features/test_configure_scan.feature", "Test ConfigureScan")
