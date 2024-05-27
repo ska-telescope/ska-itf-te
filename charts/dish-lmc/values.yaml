@@ -26,8 +26,8 @@ ska-dish-lmc:
     enabled: false
   ska-mid-dish-manager:
     enabled: true
-    ska-mid-dish-ds-manager:
-      enabled: true
+  ska-mid-dish-ds-manager:
+    enabled: true
   ska-mid-dish-simulators:
     enabled: true
     deviceServers:

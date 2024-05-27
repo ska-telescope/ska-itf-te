@@ -101,11 +101,6 @@ ifeq ($(SPFRX_IN_THE_LOOP), true)
 	--set ska-dish-lmc.ska-mid-dish-simulators.deviceServers.spfrxdevice.enabled=$(SPFRX_SIM_ENABLE)
 endif
 
-ifeq ($(DISH_ID), ska001)
-	DISH_LMC_EXTRA_PARAMS += -f charts/dish-lmc/values-cetc.yaml \
-	--set ska-dish-lmc.ska-mid-dish-ds-manager.dishstructuremanager.dsSim.fqdn=$(DS_SIM_OPCUA_FQDN)
-endif
-
 DISH_LMC_PARAMS ?= $(DISH_LMC_INITIAL_PARAMS) $(DISH_LMC_EXTRA_PARAMS)
 
 SKUID_URL ?= ska-ser-skuid-test-svc.$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN):9870
