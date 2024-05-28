@@ -8,8 +8,13 @@ from ska_ser_skallop.mvp_control.entry_points import types as conf_types
 from ska_ser_skallop.mvp_control.describing import mvp_names as names
 from ska_ser_skallop.connectors import configuration as con_config
 from ska_ser_skallop.mvp_control.infra_mon.configuration import get_mvp_release
+from ska_ser_skallop.mvp_fixtures.fixtures import fxt_types
+from ska_ser_skallop.mvp_control.describing.mvp_names import DeviceName
+from ..resources.models.mvp_model.env import init_observation_config
+from ..resources.models.csp_model.entry_point import CSPEntryPoint
 from typing import Any, Callable, Concatenate, ParamSpec, TypeVar, cast
 from assertpy import assert_that
+from types import SimpleNamespace
 
 from ..conftest import SutTestSettings
 from .. import conftest
@@ -200,8 +205,54 @@ def i_command_it_to_loaddishcfg():
     return csp_base_configuration
     # raise NotImplementedError
 
-def i_assign_resources_to_it():
+# pylint: disable=eval-used
+
+
+@pytest.fixture(name="nr_of_subarrays", autouse=True, scope="session")
+def fxt_nr_of_subarrays() -> int:
+    """_summary_.
+
+    :return: _description_
+    :rtype: int
+    """
+    # we only work with 1 subarray as CBF low currently limits
+    # deployment of only 1
+    # cbf mid only controls the state of subarray 1
+    # so will also limit to 1
+    tel = names.TEL()
+    if tel.skalow:
+        return 1
+    return 2
+
+
+@pytest.fixture(name="set_nr_of_subarray", autouse=True)
+def fxt_set_nr_of_subarray(
+    sut_settings: conftest.SutTestSettings,
+    exec_settings: fxt_types.exec_settings,
+    nr_of_subarrays: int,
+):
+    """_summary_.
+
+    :param nr_of_subarrays: _description_
+    :type nr_of_subarrays: int
+    :param sut_settings: _description_
+    :type sut_settings: conftest.SutTestSettings
+    :param exec_settings: A fixture that returns the execution settings of the test
+    :type exec_settings: fxt_types.exec_settings
+    """
+    CSPEntryPoint.nr_of_subarrays = nr_of_subarrays
+    sut_settings.nr_of_subarrays = nr_of_subarrays
+
 #Assign Resources
+def i_assign_resources_to_it(
+    running_telescope: fxt_types.running_telescope,
+    context_monitoring: fxt_types.context_monitoring,
+    entry_point: fxt_types.entry_point,
+    sb_config: fxt_types.sb_config,
+    composition: conf_types.Composition,
+    integration_test_exec_settings: fxt_types.exec_settings,
+    sut_settings: SutTestSettings,
+):
     subarray_id = sut_settings.subarray_id
     receptors = sut_settings.receptors
     with context_monitoring.context_monitoring():
@@ -211,6 +262,34 @@ def i_assign_resources_to_it():
             entry_point.compose_subarray(
                 subarray_id, receptors, composition, sb_config.sbid  # type: ignore
             )
+
+# scan configuration
+@when("I configure it for a scan")
+def i_configure_it_for_a_scan(
+    allocated_subarray: fxt_types.allocated_subarray,
+    context_monitoring: fxt_types.context_monitoring,
+    entry_point: fxt_types.entry_point,
+    configuration: conf_types.ScanConfiguration,
+    integration_test_exec_settings: fxt_types.exec_settings,
+    sut_settings: SutTestSettings,
+):
+    """
+    I configure it for a scan.
+
+    :param allocated_subarray: The allocated subarray to be configured.
+    :param context_monitoring: Context monitoring object.
+    :param entry_point: The entry point to be used for the configuration.
+    :param configuration: The scan configuration to be used for the scan.
+    :param integration_test_exec_settings: The integration test execution settings.
+    :param sut_settings: SUT settings object.
+    """
+    sub_array_id = allocated_subarray.id
+    sb_id = allocated_subarray.sb_config.sbid
+    scan_duration = sut_settings.scan_duration
+
+    with context_monitoring.context_monitoring():
+        with allocated_subarray.wait_for_configuring_a_subarray(integration_test_exec_settings):
+            entry_point.configure_subarray(sub_array_id, configuration, sb_id, scan_duration)
 
 
 @pytest.mark.xfail(reason="Not implemented")
