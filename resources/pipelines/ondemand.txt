@@ -1,0 +1,32 @@
+On Demand - https://gitlab.com/ska-telescope/ska-mid-itf/-/jobs/6946061077
+
+helm upgrade --install sut \
+--set global.minikube=false
+--set global.exposeAllDS=true
+--set global.exposeDatabaseDS=true
+--set global.tango_host=tango-databaseds:10000
+--set global.device_server_port=45450
+--set global.cluster_domain=miditf.internal.skao.int
+--set global.labels.app=ska-mid-sut
+--set global.operator=true
+--set ska-tango-base.display=:0
+--set ska-tango-base.xauthority=/root/.Xauthority
+--set ska-tango-base.jive.enabled=false
+--set ska-tango-base.itango.enabled=true
+--set ska-sdp.helmdeploy.namespace=ci-ska-mid-itf-skb-376-revert-sdp-sdp
+--set ska-sdp.ska-sdp-qa.zookeeper.clusterDomain=miditf.internal.skao.int
+--set ska-sdp.kafka.clusterDomain=miditf.internal.skao.int
+--set ska-sdp.ska-sdp-qa.redis.clusterDomain=miditf.internal.skao.int
+--set global.sdp.processingNamespace=ci-ska-mid-itf-skb-376-revert-sdp-sdp
+--set ska-db-oda-umbrella.ska-db-oda.rest.skuid.url=ska-ser-skuid-test-svc.ci-ska-mid-itf-skb-376-revert-sdp.svc.miditf.internal.skao.int:9870     
+--set global.ska-tango-archiver.enabled=true
+--set ska-tango-archiver.enabled=true
+--set ska-tango-archiver.dbuser=admin
+--set ska-tango-archiver.dbpassword=[MASKED]
+--set ska-tango-archiver.archviewer.instances[0].timescale_login=admin:[MASKED]
+--set ska-tango-archiver.archviewer.instances[0].timescale_databases=itf_eda
+--set ska-tango-archiver.archviewer.instances[0].timescale_host=10.164.11.33
+--set ska-tango-archiver.archviewer.instances[0].name=mid -f charts/system-under-test/tmc-values.yaml -f charts/system-under-test/values.yaml 
+--set ska-tmc-mid.deviceServers.mocks.enabled=false
+--set ska-tmc-mid.deviceServers.mocks.dish=false \
+ ./charts/system-under-test/ --namespace ci-ska-mid-itf-skb-376-revert-sdp
