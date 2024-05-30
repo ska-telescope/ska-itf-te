@@ -297,7 +297,7 @@ def i_configure_it_for_a_scan(
 def ds_operating_mode_attribute_must_be_in_standby_operate():
     """DS Operating mode attribute must be in STANDBY_OPERATE."""
     tel = names.TEL()
-    csp_master = con_config.get_device_proxy(tel.csp.controller)
+    csp_master = con_config.get_device_proxy(tel.skamid.controller)
     result = csp_master.read_attribute("state").value
     assert_that(str(result)).is_equal_to("OPERATE")
     sut_settings: conftest.SutTestSettings
