@@ -141,6 +141,9 @@ TMC_VALUES_PATH?=charts/system-under-test/tmc-values.yaml
 ifneq ("$(wildcard $(TMC_VALUES_PATH))","")
 	K8S_EXTRA_PARAMS+=-f $(TMC_VALUES_PATH)
 endif
+ifneq ("$(wildcard $(SUT_CHART_DIR))","")
+	K8S_EXTRA_PARAMS+=-f charts/system-under-test/values.yaml
+endif
 
 
 # # TODO: remove if no longer needed.
