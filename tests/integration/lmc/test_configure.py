@@ -2,7 +2,12 @@
 
 import logging
 import pytest
+import json
+import logging
 import os
+import pathlib
+import time
+from typing import List
 from pytest_bdd import given, scenario, then, when
 from ska_ser_skallop.mvp_control.entry_points import types as conf_types
 from ska_ser_skallop.mvp_control.describing import mvp_names as names
@@ -10,17 +15,47 @@ from ska_ser_skallop.connectors import configuration as con_config
 from ska_ser_skallop.mvp_control.infra_mon.configuration import get_mvp_release
 from ska_ser_skallop.mvp_fixtures.fixtures import fxt_types
 from ska_ser_skallop.mvp_control.describing.mvp_names import DeviceName
-from ..resources.models.mvp_model.env import init_observation_config
-from ..resources.models.csp_model.entry_point import CSPEntryPoint
-from typing import Any, Callable, Concatenate, ParamSpec, TypeVar, cast
+from typing import Any
 from assertpy import assert_that
-from types import SimpleNamespace
-
+from ska_oso_pdm.entities.common.target import (
+    CrossScanParameters,
+    FivePointParameters,
+    RasterParameters,
+    SinglePointParameters,
+    StarRasterParameters,
+)
+from ska_oso_pdm.entities.sdp import BeamMapping
+from ska_oso_scripting import oda_helper
+from ska_oso_scripting.functions.devicecontrol.resource_control import get_request_json
+from ska_oso_scripting.objects import SubArray, Telescope
+from ska_mid_jupyter_notebooks.cluster.cluster import Environment, TangoDeployment
+from ska_mid_jupyter_notebooks.dish.dish import TangoDishDeployment
+from ska_mid_jupyter_notebooks.helpers.path import project_root
+from ska_mid_jupyter_notebooks.obsconfig.config import ObservationSB
+from ska_mid_jupyter_notebooks.obsconfig.target_spec import TargetSpec, get_default_target_specs_sb
+from ska_mid_jupyter_notebooks.sut.rendering import TelescopeMononitorPlot
+from ska_mid_jupyter_notebooks.obsconfig.config import ObservationSB
+from ska_mid_jupyter_notebooks.sut.state import TelescopeDeviceModel, get_telescope_state
+from ska_tmc_cdm.messages.subarray_node.configure.core import ReceiverBand
+from ska_tmc_cdm.messages.subarray_node.configure import ConfigureRequest
+from ska_mid_jupyter_notebooks.sut.sut import TangoSUTDeployment, disable_qa
+from ska_mid_jupyter_notebooks.test_equipment.rendering import get_test_equipment_monitor_plot
+from ska_mid_jupyter_notebooks.test_equipment.state import get_equipment_model
+from ska_mid_jupyter_notebooks.test_equipment.test_equipment import TangoTestEquipment
+from ska_tmc_cdm.messages.central_node.sdp import Channel
+from ska_tmc_cdm.messages.central_node.assign_resources import AssignResourcesRequest
+import ska_ser_logging
 from ..conftest import SutTestSettings
 from .. import conftest
 
-logger = logging.getLogger(__name__)
 
+logger = logging.getLogger(__name__)
+dish_ids = None
+observation = None
+target_specs = None
+debug_mode = None
+sub = None
+scan_def_id = None
 @pytest.fixture(name="check_infra_per_test", autouse=True)
 def fxt_check_infra_per_test(check_infra_per_session: Any) -> Any:
     """Set a fixture to automatically check infra per test.
@@ -38,151 +73,6 @@ def fxt_check_infra_per_test(check_infra_per_session: Any) -> Any:
             logger.exception(f"the following devices are not ready:\n: {devices}")
 
 
-
-class SutTestSettings(SimpleNamespace):
-    """Object representing env like SUT settings for fixtures in conftest."""
-
-    mock_sut: bool = False
-    nr_of_subarrays = 3
-    subarray_id = 1
-    scan_duration = 4
-    _receptors = [1, 2, 3, 4]
-    _nr_of_receptors = 4
-    # specify if a specific test case needs running
-    # for SDP visibility receive test: test_case = "vis-receive"
-    test_case = None
-
-    def __init__(self, **kwargs: Any) -> None:
-        """_summary_.
-
-        :param kwargs: _summary_.
-
-        """
-        super().__init__(**kwargs)
-        self.tel = names.TEL()
-        logger.info("initialising sut settings")
-        self.observation = init_observation_config()
-        self.default_subarray_name: DeviceName = self.tel.tm.subarray(self.subarray_id)
-        self.disable_subarray_teardown = False
-        self.restart_after_abort = False
-
-    @property
-    def nr_of_receptors(self):
-        """_summary_.
-
-        :return: _description_
-        :rtype: _type_
-        """
-        return self._nr_of_receptors
-
-    @nr_of_receptors.setter
-    def nr_of_receptors(self, value: int):
-        """_summary_.
-
-        :param value: _description_
-        :type value: int
-        """
-        self._nr_of_receptors = value
-        self._receptors = [  # pylint: disable=unnecessary-comprehension
-            i for i in range(1, value + 1)
-        ]
-
-    @property
-    def receptors(self):
-        """_summary_.
-
-        :return: _description_
-        :rtype: _type_
-        """
-        return self._receptors
-
-    @receptors.setter
-    def receptors(self, receptor: list[int]):
-        """_summary_.
-
-        :param receptor: _description_
-        :type receptor: list[int]
-        """
-        self._receptors = receptor
-
-
-@pytest.fixture(name="disable_clear")
-def fxt_disable_abort(configured_subarray: fxt_types.configured_subarray):
-    """_summary_.
-
-    :param configured_subarray: _description_
-    :type configured_subarray: fxt_types.configured_subarray
-    """
-    configured_subarray.disable_automatic_clear()
-
-
-@pytest.fixture(name="sut_settings", scope="function", autouse=True)
-def fxt_conftest_settings() -> SutTestSettings:
-    """Fixture to use for setting env like  SUT settings for fixtures in conftest.
-
-    :return: sut test settings
-    """
-    return SutTestSettings()
-
-
-class _OnlineFlag:
-    value: bool = False
-
-    def __bool__(self):
-        return self.value
-
-    def set_true(self):
-        """_summary_."""
-        self.value = True
-
-
-# setting systems online
-@pytest.fixture(name="online", autouse=True, scope="session")
-def fxt_online():
-    """Set all systems online.
-
-    :return: Flag representing the online status of all systems.
-    :rtype: _type_
-    """
-    return _OnlineFlag()
-
-
-@pytest.fixture(name="set_session_exec_settings", autouse=True, scope="session")
-def fxt_set_session_exec_settings(
-    session_exec_settings: fxt_types.session_exec_settings,
-):
-    """_summary_.
-
-    :param session_exec_settings: _description_
-    :type session_exec_settings: fxt_types.session_exec_settings
-    :return: _description_
-    :rtype: _type_
-    """
-    if os.getenv("ATTR_SYNCH_ENABLED_GLOBALLY"):
-        # logger.warning("disabled attribute synchronization globally")
-        session_exec_settings.attr_synching = True
-    if os.getenv("LIVE_LOGGING_EXTENDED"):
-        session_exec_settings.run_with_live_logging()
-    return session_exec_settings
-
-
-@pytest.fixture(name="set_exec_settings_from_env", autouse=True)
-def fxt_set_exec_settings_from_env(exec_settings: fxt_types.exec_settings):
-    """Set up general execution settings during setup and teardown.
-
-    :param exec_settings: The global test execution settings as a fixture.
-    """
-    if os.getenv("LIVE_LOGGING_EXTENDED"):
-        logger.info("running live logs globally")
-        exec_settings.run_with_live_logging()
-    if os.getenv("ATTR_SYNCH_ENABLED_GLOBALLY"):
-        logger.warning("enabled attribute synchronization globally")
-        exec_settings.attr_synching = True
-    exec_settings.time_out = 150
-
-
-
-
 @scenario("features/test_configure_scan.feature", "Test ConfigureScan")
 def test_test_configurescan():
     """Test ConfigureScan."""
@@ -195,8 +85,258 @@ def test_test_configurescan():
 def ds_operating_mode_dsoperatingmode_standby_lp():
     """DS Operating mode DSOperatingMode STANDBY_LP."""
     # raise NotImplementedError
+    #/*****************************************************************************************************/
+    global debug_mode
+    enable_logging = True  # This enables logging and sets the global log_level to debug
+    dishlmc_enabled = True  # Set this to true if you have a dish LMC deployment
+    global observation
+    global dish_ids
+    global target_specs
+    global sub
+    global scan_def_id
+    debug_mode = True  # This setting enables printing of diagnostics
+    executon_environment = Environment.CI
+    branch_name = (
+        "at-1952-comm"  # Set this if you are using an on-demand deployment (i.e. Environment.CI)
+    )
+    if enable_logging:
+        ska_ser_logging.configure_logging(logging.DEBUG)
+    test_equipment = TangoTestEquipment()
+    print(f"Test Equipment Configured: {test_equipment}")
+    # namespace_override parameter can be used to override auto-configured SUT namespace
+    sut_namespace_override = ""
+    subarray_count = 1
+    subarray_id = 1
+    sut = TangoSUTDeployment(
+        branch_name,
+        executon_environment,
+        namespace_override=sut_namespace_override,
+        subarray_index=subarray_id,
+    )
+    print(f"SUT configured: {str(sut)}")
+    dish_ids = ["001"] #, "036"]
+    # namespace_override parameter can be used to override auto-configured dish namespace
+    dish_namespace_overrides = ["", ""]
+    dish_deployments: List[TangoDishDeployment] = []
+    if dishlmc_enabled:
+        for i, d in enumerate(dish_ids):
+            dish = TangoDishDeployment(
+                f"ska{d}",
+                branch_name=branch_name,
+                environment=executon_environment,
+                namespace_override=dish_namespace_overrides[i],
+            )
+            print(f"Dish {d} configured: {dish}")
+            dish_deployments.append(dish)
+
+    timestr = time.strftime("%Y%m%d-%H%M")
+    notebook_output_dir = pathlib.Path(
+        project_root(), f"notebook-execution-data/configure_scan_for_commissioning/execution-{timestr}"
+    )
+    os.makedirs(notebook_output_dir, exist_ok=True)
+    # we disable qa as it is not been properly verified
+    disable_qa()
+    #/*****************************************************************************************************/
+    #****************************
+    test_equipment.turn_online()
+    #*************Configure telescope monitoring*****************
+    # setup monitoring
+    # use telescope state object for state monitoring
+    device_model = TelescopeDeviceModel(dish_ids, subarray_count)
+    telescope_state = get_telescope_state(device_model, sut)
+    # use monitor plot as a dashboard
+    telescope_monitor_plot = TelescopeMononitorPlot(plot_width=900, plot_height=200)
+    # set up events to monitor
+    telescope_state.subscribe_to_on_off(telescope_monitor_plot.observe_telescope_on_off)
+    telescope_state.subscribe_to_subarray_resource_state(
+        telescope_monitor_plot.observe_subarray_resources_state
+    )
+    telescope_state.subscribe_to_subarray_configurational_state(
+        telescope_monitor_plot.observe_subarray_configuration_state
+    )
+    telescope_state.subscribe_to_subarray_scanning_state(
+        telescope_monitor_plot.observe_subarray_scanning_state
+    )
+    #/*****************************************************************************************************/
+    #*****************************Print Dish-LMC Diagnostics***********************************************
+    for dish_deployment in dish_deployments:
+        print(f"Dish {dish_deployment.dish_id} - {dish_deployment.namespace}: Diagnostics")
+    dish_deployment.print_diagnostics()
+    #/*******************************************************************************************************/
+    sub = SubArray(subarray_id)
+    tel = Telescope()
+
+    #Load VCC Configuration in TMC
+    # This should only be executed for a fresh deployment (i.e. Telescope is OFF.
+    # If you have restarted the subarray, you should not run this command
+    sut.load_dish_vcc_config()
+
+    # set Telescope to ON only if OFF
+    # If you have restarted the subarray, you should not run this command (Telescope is already ON)
+    # dish_lmc mode must be in LP_standby and before trying to turn the telescope ON
+    # Takes about 1m20s
+    if telescope_monitor_plot.on_off_state == "OFF":  # e.g. purple
+        tel.on()
+    else:
+        assert (
+            telescope_monitor_plot.on_off_state == "ON"
+        ), f"Cant continue with telescope in {telescope_monitor_plot.on_off_state}"
+
+#Observation definition***********************************************************************************
+    dish_ids = [d.dish_id.upper() for d in dish_deployments]
+    default_target_specs = get_default_target_specs_sb(dish_ids)
+    observation = ObservationSB(target_specs=default_target_specs)
+    target_specs = {
+        "flux calibrator": TargetSpec(
+            target_sb_detail={
+                "co_ordinate_type": "Equatorial",
+                "ra": "19:24:51.05 degrees",
+                "dec": "-29:14:30.12 degrees",
+                "reference_frame": "ICRS",
+                "unit": ("hourangle", "deg"),
+                "pointing_pattern_type": {
+                    "single_pointing_parameters": SinglePointParameters(
+                        offset_x_arcsec=0.0, offset_y_arcsec=0.0
+                    ),
+                    "raster_parameters": RasterParameters(
+                        row_length_arcsec=0.0,
+                        row_offset_arcsec=0.0,
+                        n_rows=1,
+                        pa=0.0,
+                        unidirectional=False,
+                    ),
+                    "star_raster_parameters": StarRasterParameters(
+                        row_length_arcsec=0.0,
+                        n_rows=1,
+                        row_offset_angle=0.0,
+                        unidirectional=False,
+                    ),
+                    "five_point_parameters": FivePointParameters(offset_arcsec=0.0),
+                    "cross_scan_parameters": CrossScanParameters(offset_arcsec=0.0),
+                    "active_pointing_pattern_type": "single_pointing_parameters",
+                },
+            },
+            scan_type="flux calibrator",
+            band=ReceiverBand.BAND_2,
+            channelisation="vis_channels9",
+            polarisation="all",
+            processing="test-receive-addresses",
+            dish_ids=dish_ids,
+            target=None,
+        ),
+        "M87": TargetSpec(
+            target_sb_detail={
+                "co_ordinate_type": "Equatorial",
+                "ra": "19:24:51.05 degrees",
+                "dec": "-29:14:30.12 degrees",
+                "reference_frame": "ICRS",
+                "unit": ("hourangle", "deg"),
+                "pointing_pattern_type": {
+                    "single_pointing_parameters": SinglePointParameters(
+                        offset_x_arcsec=0.0, offset_y_arcsec=0.0
+                    ),
+                    "raster_parameters": RasterParameters(
+                        row_length_arcsec=0.0,
+                        row_offset_arcsec=0.0,
+                        n_rows=1,
+                        pa=0.0,
+                        unidirectional=False,
+                    ),
+                    "star_raster_parameters": StarRasterParameters(
+                        row_length_arcsec=0.0,
+                        n_rows=1,
+                        row_offset_angle=0.0,
+                        unidirectional=False,
+                    ),
+                    "five_point_parameters": FivePointParameters(offset_arcsec=0.0),
+                    "cross_scan_parameters": CrossScanParameters(offset_arcsec=0.0),
+                    "active_pointing_pattern_type": "single_pointing_parameters",
+                },
+            },
+            scan_type="M87",
+            band=ReceiverBand.BAND_2,
+            channelisation="vis_channels10",
+            polarisation="all",
+            processing="test-receive-addresses",
+            dish_ids=dish_ids,
+            target=None,
+        ),
+    }
 
 
+    channel_configuration = [
+        Channel(
+            spectral_window_id="fsp_1_channels",
+            count=14880,
+            start=0,
+            stride=2,
+            freq_min=0.35e9,
+            freq_max=0.368e9,
+            link_map=[[0, 0], [200, 1], [744, 2], [944, 3]],
+        )
+    ]
+
+    for key, value in target_specs.items():
+        observation.add_channel_configuration(value.channelisation, channel_configuration)
+
+    observation.add_target_specs(target_specs)
+
+    for target_id, target in target_specs.items():
+        observation.add_scan_type_configuration(
+            config_name=target_id,
+            beams={"vis0": BeamMapping(beam_id="vis0", field_id="M83")},
+            derive_from=".default",
+        )
+    scan_def_id = "flux calibrator"
+    observation.add_scan_sequence([scan_def_id])
+#*************Create scheduling block definition instance and save it to ODA***********************
+
+os.environ["ODA_URI"] = (
+    "http://ingress-nginx-controller-lb-default.ingress-nginx.svc.miditf.internal.skao.int/ska-db-oda/api/v1/"
+)
+
+eb_id = oda_helper.create_eb()
+print(f"Execution Block ID: {eb_id}")
+observation.eb_id = eb_id
+pdm_allocation = observation.generate_pdm_object_for_sbd_save(target_specs)
+
+sbd = oda_helper.save(pdm_allocation)
+sbd_id = sbd.sbd_id
+pdm_allocation.sbd_id = sbd_id
+print(f"Saved Scheduling Block Definition Instance in ODA: SBD_ID={sbd_id}")
+#**************************************************************************
+
+#*******************Assign resources***************************************
+assign_request = observation.generate_allocate_config_sb(pdm_allocation).as_object
+
+if debug_mode:
+    request_json = get_request_json(assign_request, AssignResourcesRequest, True)
+    print("AssignResourcesRequest:", json.dumps(json.loads(request_json), indent=2))
+
+sub.assign_from_cdm(assign_request, timeout=120)
+#*****************************************************************************
+
+#*****************************Configure Scan**********************************
+configure_object = observation.generate_scan_config_sb(
+    pdm_observation_request=pdm_allocation,
+    scan_definition_id=scan_def_id,
+    scan_duration=10.0,
+).as_object
+
+if debug_mode:
+    cfg_json = get_request_json(configure_object, ConfigureRequest)
+    print(f"ConfigureRequest={cfg_json}")
+
+sub.configure_from_cdm(configure_object, timeout=120)
+time.sleep(2)
+#****************************************************************************
+
+#****************************Tear down***************************************
+sub.end()
+#telescope_monitor_plot.show()
+sub.release()
+#telescope_monitor_plot.show()
+#****************************************************************************
 @pytest.mark.xfail(reason="Not implemented")
 @when("I command it to LoadDishCfg")
 def i_command_it_to_loaddishcfg():
@@ -204,64 +344,6 @@ def i_command_it_to_loaddishcfg():
     csp_base_configuration: conf_types.ScanConfiguration
     return csp_base_configuration
     # raise NotImplementedError
-
-# pylint: disable=eval-used
-
-
-@pytest.fixture(name="nr_of_subarrays", autouse=True, scope="session")
-def fxt_nr_of_subarrays() -> int:
-    """_summary_.
-
-    :return: _description_
-    :rtype: int
-    """
-    # we only work with 1 subarray as CBF low currently limits
-    # deployment of only 1
-    # cbf mid only controls the state of subarray 1
-    # so will also limit to 1
-    tel = names.TEL()
-    if tel.skalow:
-        return 1
-    return 2
-
-
-@pytest.fixture(name="set_nr_of_subarray", autouse=True)
-def fxt_set_nr_of_subarray(
-    sut_settings: conftest.SutTestSettings,
-    exec_settings: fxt_types.exec_settings,
-    nr_of_subarrays: int,
-):
-    """_summary_.
-
-    :param nr_of_subarrays: _description_
-    :type nr_of_subarrays: int
-    :param sut_settings: _description_
-    :type sut_settings: conftest.SutTestSettings
-    :param exec_settings: A fixture that returns the execution settings of the test
-    :type exec_settings: fxt_types.exec_settings
-    """
-    CSPEntryPoint.nr_of_subarrays = nr_of_subarrays
-    sut_settings.nr_of_subarrays = nr_of_subarrays
-
-#Assign Resources
-def i_assign_resources_to_it(
-    running_telescope: fxt_types.running_telescope,
-    context_monitoring: fxt_types.context_monitoring,
-    entry_point: fxt_types.entry_point,
-    sb_config: fxt_types.sb_config,
-    composition: conf_types.Composition,
-    integration_test_exec_settings: fxt_types.exec_settings,
-    sut_settings: SutTestSettings,
-):
-    subarray_id = sut_settings.subarray_id
-    receptors = sut_settings.receptors
-    with context_monitoring.context_monitoring():
-        with running_telescope.wait_for_allocating_a_subarray(
-            subarray_id, receptors, integration_test_exec_settings
-        ):
-            entry_point.compose_subarray(
-                subarray_id, receptors, composition, sb_config.sbid  # type: ignore
-            )
 
 # scan configuration
 @when("I configure it for a scan")

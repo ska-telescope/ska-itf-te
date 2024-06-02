@@ -19,6 +19,7 @@ url = 'https://pypi.org/simple'
 python = ">=3.10,<3.11"
 ska-ser-skallop = { version = "^2.31.0", extras = ["bit"] }
 ska-tmc-cdm = "8.3.0"
+ska-oso-pdm = "^11.4.0"
 pytest-json-report = "^1.5.0"
 pytest-repeat = "^0.9.1"
 ska_ser_logging = "^0.4.1"
