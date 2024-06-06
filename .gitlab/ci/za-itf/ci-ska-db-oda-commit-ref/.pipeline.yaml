@@ -13,7 +13,7 @@
   environment:
     name: sut/oda/$KUBE_NAMESPACE
     kubernetes:
-      namespace: $KUBE_NAMESPACE
+      namespace: ${KUBE_NAMESPACE}_v3
     url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
   when: manual
   artifacts:
