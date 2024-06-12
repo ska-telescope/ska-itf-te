@@ -29,7 +29,7 @@ ska-dish-lmc:
     dishmanager:
       image:
         registry: registry.gitlab.com/ska-telescope/ska-mid-dish-manager
-        tag: 2.6.1-dev.cab66aeca
+        tag: 2.6.1-dev.cca2cde08
   ska-mid-dish-ds-manager:
     enabled: true
   ska-mid-dish-simulators:
