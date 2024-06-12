@@ -26,6 +26,10 @@ ska-dish-lmc:
     enabled: false
   ska-mid-dish-manager:
     enabled: true
+    dishmanager:
+      image:
+        registry: registry.gitlab.com/ska-telescope/ska-mid-dish-manager
+        tag: 2.6.1-dev.cab66aeca
   ska-mid-dish-ds-manager:
     enabled: true
   ska-mid-dish-simulators:
@@ -37,6 +41,7 @@ ska-dish-lmc:
         enabled: true
     dsOpcuaSimulator:
       enabled: true
+
 
 # SPFRx
 ska-mid-dish-spfrx-talondx-console:
