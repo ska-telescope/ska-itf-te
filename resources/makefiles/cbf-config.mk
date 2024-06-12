@@ -39,8 +39,8 @@ itf-cbf-talonlru-off: ## Switch off the Talon LRU specified
 ##	TALON_BOARD_IDX=[Talon board index number] (default value: 1)
 ##  make target for configuring the Talon
 
-itf-cbf-config-talon: ## generate talondx-config.json
-	@kubectl exec -ti -n $(KUBE_NAMESPACE) ec-deployer -- python3 midcbf_deployer.py --generate-talondx-config --boards=$(TALON_BOARD_IDX)
+# itf-cbf-config-talon: ## generate talondx-config.json
+# 	@kubectl exec -ti -n $(KUBE_NAMESPACE) ec-deployer -- python3 midcbf_deployer.py --generate-talondx-config --boards=$(TALON_BOARD_IDX)
 
 ## TARGET: itf-cbf-config-mcs
 ## SYNOPSIS: make itf-cbf-config-mcs
@@ -51,7 +51,6 @@ itf-cbf-config-talon: ## generate talondx-config.json
 ##  make target for configuring the MCS
 
 itf-cbf-config-mcs: itf-cbf-copy-slim-config itf-cbf-copy-hw-config ## Copy the init sys params into the bite pod, copy the vcc gains json for band1 into the pod
-	@kubectl -n $(KUBE_NAMESPACE) exec ec-bite -- /bin/bash -c "mkdir -p ext_config"
 	@kubectl cp $(MCS_CONFIG_FILE_PATH)/init_sys_param.json  $(KUBE_NAMESPACE)/ec-bite:/app/images/ska-mid-cbf-engineering-console-bite/ext_config/initial_system_param.json
 	@echo "Successfully copied Initial System Parameters config file to the BITE pod for source data generation."
 	@kubectl cp $(MCS_CONFIG_FILE_PATH)/internal_params.json $(KUBE_NAMESPACE)/ds-vcc-vcc-001-0:/app/mnt/vcc_param/internal_params_receptor1_band1.json
@@ -90,8 +89,8 @@ itf-cbf-copy-hw-config: ## Copy the Talon HW Config file onto a pod
 ##	KUBE_NAMESPACE=[kubernetes namespace where MCS is deployed] (default value: integration)
 ##  make target for downloading all the CPP binaries from the CAR
 
-itf-cbf-tangocpp-update: ## Download artefacts from CAR (Talon DeviceServer CPP binaries)
-	@kubectl exec -ti -n $(KUBE_NAMESPACE) ec-deployer -- python3 midcbf_deployer.py --download-artifacts
+# itf-cbf-tangocpp-update: ## Download artefacts from CAR (Talon DeviceServer CPP binaries)
+# 	@kubectl exec -ti -n $(KUBE_NAMESPACE) ec-deployer -- python3 midcbf_deployer.py --download-artifacts
 
 ## TARGET: itf-cbf-config-tangodb
 ## SYNOPSIS: make itf-cbf-tconfig-tangodb
@@ -100,8 +99,8 @@ itf-cbf-tangocpp-update: ## Download artefacts from CAR (Talon DeviceServer CPP 
 ##	KUBE_NAMESPACE=[kubernetes namespace where MCS is deployed] (default value: integration)
 ##  make target for registering the deviceservers in the TangoDB.
 
-itf-cbf-config-tangodb: ## Configure Deviceservers in the TangoDB
-	@kubectl exec -ti -n $(KUBE_NAMESPACE) ec-deployer -- python3 midcbf_deployer.py --config-db
+# itf-cbf-config-tangodb: ## Configure Deviceservers in the TangoDB
+# 	@kubectl exec -ti -n $(KUBE_NAMESPACE) ec-deployer -- python3 midcbf_deployer.py --config-db
 
 ## TARGET: itf-cbf-power-on
 ## SYNOPSIS: make itf-cbf-power-on

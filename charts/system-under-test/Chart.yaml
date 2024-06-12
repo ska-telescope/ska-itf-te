@@ -27,12 +27,14 @@ dependencies:
     condition: ska-csp-lmc-mid.enabled
 
   # SKA Mid CBF
-  # TODO: when the new release ska-mid-cbf-mcs arrives, with SKB-352 fix,
-  # remove the engineeringConsoleVersion in values.yaml.
   - name: ska-mid-cbf-mcs
-    version: 0.14.2
+    version: 0.15.1
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-mid-cbf-mcs.enabled
+
+  - name: ska-mid-cbf-engineering-console
+    version: 0.10.8
+    repository: https://artefact.skao.int/repository/helm-internal
 
   # SKA Mid SDP
   - name: ska-sdp
