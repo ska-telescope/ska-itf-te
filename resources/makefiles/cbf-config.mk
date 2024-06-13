@@ -51,8 +51,6 @@ itf-cbf-talonlru-off: ## Switch off the Talon LRU specified
 ##  make target for configuring the MCS
 
 itf-cbf-config-mcs: itf-cbf-copy-slim-config itf-cbf-copy-hw-config ## Copy the init sys params into the bite pod, copy the vcc gains json for band1 into the pod
-	@kubectl cp $(MCS_CONFIG_FILE_PATH)/init_sys_param.json  $(KUBE_NAMESPACE)/ec-bite:/app/images/ska-mid-cbf-engineering-console-bite/ext_config/initial_system_param.json
-	@echo "Successfully copied Initial System Parameters config file to the BITE pod for source data generation."
 	@kubectl cp $(MCS_CONFIG_FILE_PATH)/internal_params.json $(KUBE_NAMESPACE)/ds-vcc-vcc-001-0:/app/mnt/vcc_param/internal_params_receptor1_band1.json
 	@echo "Successfully copied VCC gain parameters to the VCC device server pod."
 
