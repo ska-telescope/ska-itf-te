@@ -106,11 +106,18 @@ DISH_LMC_PARAMS ?= $(DISH_LMC_INITIAL_PARAMS) $(DISH_LMC_EXTRA_PARAMS)
 SKUID_URL ?= ska-ser-skuid-test-svc.$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN):9870
 ODA_PARAMS ?= --set ska-db-oda-umbrella.ska-db-oda.rest.skuid.url=$(SKUID_URL)
 
+SDP_EXTRA_PARAMS ?=
+
+ifneq ($(DPD_PVC_NAME),)
+	SDP_EXTRA_PARAMS+=--set ska-sdp-dataproduct-dashboard.dataProductPVC.name=$(DPD_PVC_NAME)
+endif
+
 SDP_PARAMS ?= --set ska-sdp.helmdeploy.namespace=$(KUBE_NAMESPACE_SDP) \
 	--set ska-sdp.ska-sdp-qa.zookeeper.clusterDomain=$(CLUSTER_DOMAIN) \
 	--set ska-sdp.kafka.clusterDomain=$(CLUSTER_DOMAIN) \
 	--set ska-sdp.ska-sdp-qa.redis.clusterDomain=$(CLUSTER_DOMAIN) \
-	--set global.sdp.processingNamespace=$(KUBE_NAMESPACE_SDP)
+	--set global.sdp.processingNamespace=$(KUBE_NAMESPACE_SDP) \
+	$(SDP_EXTRA_PARAMS)
 
 K8S_TEST_RUNNER_PARAMS ?=
 
