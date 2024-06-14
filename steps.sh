@@ -40,10 +40,10 @@ kubectl cp ${MCS_CONFIG_FILE_PATH}/hw_config.yaml ${KUBE_NAMESPACE}/ds-cbfcontro
 make k8s-install-chart
 make k8s-wait
 make itf-cbf-talonlru-off && sleep 3
-make itf-cbf-config-talon && sleep 3
+# make itf-cbf-config-talon && sleep 3
 make itf-cbf-config-mcs && sleep 3
-make itf-cbf-tangocpp-update &> deploy/talonconfig.log && sleep 3
-make itf-cbf-config-tangodb && sleep 3
+# make itf-cbf-tangocpp-update &> deploy/talonconfig.log && sleep 3
+# make itf-cbf-config-tangodb && sleep 3
 make itf-cbf-tango-on || cat /app/src/ska_mid_itf_engineering_tools/cbf_config/talon_on.py && make itf-cbf-power-on && echo "###############\n# Failed to deploy Talon Demonstrator Correlator\n###############" > deploy/status
 
 # Run integration test
