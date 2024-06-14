@@ -26,6 +26,8 @@
     CBF_HW_IN_THE_LOOP: "true"
     DISH_LMC_IN_THE_LOOP: "true" # TEMPORARY COMMIT - SET TO TRUE FOR FULL SYSTEM ONCE CONNECTION BUGS ARE SORTED - SEE SKB-309 AND FRIENDS
     DISH_IDS: "SKA001 SKA036" # Add additional dishes when pipelines are available: SKA063 SKA100
+    # SDP CONFIGURATION FOR PERSISTENT DATA
+    DPD_PVC_NAME: shared-mnl
 
 .staging_rules:
   # variables:
