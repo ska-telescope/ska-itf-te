@@ -51,3 +51,6 @@ parts:
     version: "file://charts/system-under-test/Chart.yaml"
     dependencies: []
     platformDependents: []
+  ska-mid-dish-spfrx-talondx-console:
+    version: "file://charts/dish-lmc/Chart.yaml"
+    dependencies: []
