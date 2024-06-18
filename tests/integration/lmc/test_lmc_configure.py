@@ -12,8 +12,6 @@ from ska_ser_skallop.mvp_control.describing import mvp_names as names
 from ska_ser_skallop.mvp_control.entry_points import types as conf_types
 from ska_ser_skallop.mvp_control.entry_points.base import EntryPoint
 from ska_ser_skallop.mvp_fixtures.fixtures import fxt_types
-
-from .. import conftest
 from ..conftest import SutTestSettings
 from ..resources.models.csp_model.entry_point import CSPEntryPoint
 
@@ -23,7 +21,7 @@ logger = logging.getLogger(__name__)
 
 # Set the number of subarray i.e. execution settings of the test.
 CSPEntryPoint.nr_of_subarrays = 2
-sut_settings = conftest.SutTestSettings
+sut_settings = SutTestSettings
 sut_settings.nr_of_subarrays = CSPEntryPoint.nr_of_subarrays
 
 
@@ -65,7 +63,7 @@ def fxt_set_csp_entry_point(
     set_nr_of_subarray,
     set_session_exec_env: fxt_types.set_session_exec_env,
     exec_settings: fxt_types.exec_settings,
-    sut_settings: conftest.SutTestSettings,
+    sut_settings: SutTestSettings,
 ):
     """_summary_.
 
@@ -76,7 +74,7 @@ def fxt_set_csp_entry_point(
     :param exec_settings: _description_
     :type exec_settings: fxt_types.exec_settings
     :param sut_settings: _description_
-    :type sut_settings: conftest.SutTestSettings
+    :type sut_settings: SutTestSettings
     """
     exec_env = set_session_exec_env
     if not sut_settings.mock_sut:
@@ -92,7 +90,7 @@ def fxt_set_csp_entry_point(
 @pytest.mark.usefixtures("set_csp_entry_point")
 def fxt_set_up_log_checking_for_csp(
     log_checking: fxt_types.log_checking,
-    sut_settings: conftest.SutTestSettings,
+    sut_settings: SutTestSettings,
 ):
     """Set up log capturing (if enabled by CATPURE_LOGS).
 
@@ -200,7 +198,7 @@ def dish_structure_in_standby_mode():
     tmc = con_config.get_device_proxy(tel.skamid.controller)
     result = tmc.read_attribute("state").value
     assert_that(str(result)).is_equal_to("OPERATE")
-    sut_settings: conftest.SutTestSettings
+    sut_settings: SutTestSettings
     nr_of_subarrays = sut_settings.nr_of_subarrays
     for index in range(1, nr_of_subarrays + 1):
         subarray = con_config.get_device_proxy(tel.csp.subarray(index))
