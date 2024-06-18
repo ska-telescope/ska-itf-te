@@ -39,7 +39,6 @@ ska-ser-config-inspector:
   enabled: true
 
 ska-mid-cbf-mcs:
-  engineeringConsoleVersion: 0.10.6 # TODO: remove this when new release of ska-mid-cbf-mcs arrives
   enabled: true
   hostInfo:
     environment: "mid-itf"
@@ -54,6 +53,9 @@ ska-csp-lmc-mid:
 
 ### tmc - also see tmc-values for DishIDs!
 ska-tmc-mid:
+  sdpleafnodes:
+    image:
+      tag: 0.15.1 ### TEMPORARY COMMIT: This is a patch waiting for integration of the image into the TMC chart!!!
   enabled: true
   legacy_compatibility: true
   telescope: SKA-mid
@@ -120,3 +122,12 @@ ska-tango-archiver:
 temp_sdp_pvc:
   dpd_namespace: ska-dpd
   dpd_pvc: shared-mnl
+
+# SKA-tango-examples and SKA-tango-base don't support multiple deployments on the same namespace
+# See SDR-1152
+ska-tango-tangogql:
+  enabled: true
+  ska-tango-base:
+    enabled: false
+  ska-tango-examples:
+    enabled: false

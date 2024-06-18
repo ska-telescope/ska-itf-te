@@ -2,41 +2,43 @@ apiVersion: v2
 name: ska-mid-itf
 description: An umbrella Helm chart for deployment of the System Under Test at the Mid ITF
 type: application
-version: 22.0.1
-appVersion: 22.0.1
+version: 23.0.1
+appVersion: 23.0.1
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
   # Tango Base & Deployment Charts: TangoDB, iTango, Tango Operator Utils
   - name: ska-tango-base
-    version: 0.4.9
+    version: 0.4.10
     repository: https://artefact.skao.int/repository/helm-internal
   - name: ska-tango-util
-    version: 0.4.10
+    version: 0.4.11
     repository: https://artefact.skao.int/repository/helm-internal
 
   # SKA Mid TMC
   - name: ska-tmc-mid
-    version: 0.19.1 # check latest version
+    version: 0.20.0 # check latest version
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tmc-mid.enabled
 
   # SKA Mid CSP LMC
   - name: ska-csp-lmc-mid
-    version: 0.18.2 # check latest version
+    version: 0.20.1
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-csp-lmc-mid.enabled
 
   # SKA Mid CBF
-  # TODO: when the new release ska-mid-cbf-mcs arrives, with SKB-352 fix,
-  # remove the engineeringConsoleVersion in values.yaml.
   - name: ska-mid-cbf-mcs
-    version: 0.14.1
+    version: 0.15.1
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-mid-cbf-mcs.enabled
 
+  - name: ska-mid-cbf-engineering-console
+    version: 0.10.8
+    repository: https://artefact.skao.int/repository/helm-internal
+
   # SKA Mid SDP
   - name: ska-sdp
-    version: 0.19.1
+    version: 0.20.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-sdp.enabled
 
@@ -54,7 +56,7 @@ dependencies:
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-taranta.enabled
   - name: ska-tango-tangogql
-    version: 1.3.10
+    version: 1.3.12
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-taranta.enabled
 
@@ -72,7 +74,7 @@ dependencies:
 
   # EDA
   - name: ska-tango-archiver
-    version: 2.7.0
+    version: 2.7.1
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tango-archiver.enabled
 

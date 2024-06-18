@@ -1,0 +1,26 @@
+Staging - https://gitlab.com/ska-telescope/ska-mid-itf/-/jobs/6924314513
+
+helm upgrade --install staging \
+--set global.minikube=false
+--set global.exposeAllDS=true
+--set global.exposeDatabaseDS=true
+--set global.tango_host=tango-databaseds:10000
+--set global.device_server_port=45450
+--set global.cluster_domain=miditf.internal.skao.int
+--set global.labels.app=ska-mid-sut
+--set global.operator=true
+--set ska-tango-base.display=:0
+--set ska-tango-base.xauthority=/root/.Xauthority
+--set ska-tango-base.jive.enabled=false
+--set ska-tango-base.itango.enabled=true
+--set ska-sdp.helmdeploy.namespace=staging-sdp
+--set ska-sdp.ska-sdp-qa.zookeeper.clusterDomain=miditf.internal.skao.int
+--set ska-sdp.kafka.clusterDomain=miditf.internal.skao.int
+--set ska-sdp.ska-sdp-qa.redis.clusterDomain=miditf.internal.skao.int
+--set global.sdp.processingNamespace=staging-sdp
+--set ska-db-oda-umbrella.ska-db-oda.rest.skuid.url=ska-ser-skuid-test-svc.staging.svc.miditf.internal.skao.int:9870     
+--set global.ska-tango-archiver.enabled=false 
+--set ska-tango-archiver.enabled=false -f charts/system-under-test/tmc-values.yaml 
+--set ska-tmc-mid.deviceServers.mocks.enabled=false
+--set ska-tmc-mid.deviceServers.mocks.dish=false \
+ ./charts/system-under-test/ --namespace staging
