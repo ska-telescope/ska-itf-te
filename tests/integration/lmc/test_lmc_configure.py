@@ -12,6 +12,7 @@ from ska_ser_skallop.mvp_control.describing import mvp_names as names
 from ska_ser_skallop.mvp_control.entry_points import types as conf_types
 from ska_ser_skallop.mvp_control.entry_points.base import EntryPoint
 from ska_ser_skallop.mvp_fixtures.fixtures import fxt_types
+from .. import conftest
 from ..conftest import SutTestSettings
 from ..resources.models.csp_model.entry_point import CSPEntryPoint
 
@@ -39,6 +40,18 @@ def fxt_nr_of_subarrays() -> int:
     if tel.skalow:
         return 1
     return 2
+
+@pytest.fixture(name="set_nr_of_subarray", autouse=True)
+def fxt_set_nr_of_subarray(sut_settings: conftest.SutTestSettings, nr_of_subarrays: int):
+    """
+    Set the number of subarrays in the SUT settings.
+
+    :param sut_settings: _description_
+    :type sut_settings: conftest.SutTestSettings
+    :param nr_of_subarrays: The number of subarrays to set in the SUT settings.
+    :type nr_of_subarrays: int
+    """
+    sut_settings.nr_of_subarrays = nr_of_subarrays
 
 @pytest.fixture(autouse=True, scope="session")
 def fxt_set_csp_online_from_csp(
