@@ -24,6 +24,21 @@ CSPEntryPoint.nr_of_subarrays = 2
 sut_settings = SutTestSettings
 sut_settings.nr_of_subarrays = CSPEntryPoint.nr_of_subarrays
 
+@pytest.fixture(name="nr_of_subarrays", autouse=True, scope="session")
+def fxt_nr_of_subarrays() -> int:
+    """_summary_.
+
+    :return: _description_
+    :rtype: int
+    """
+    # we only work with 1 subarray as CBF low currently limits
+    # deployment of only 1
+    # cbf mid only controls the state of subarray 1
+    # so will also limit to 1
+    tel = names.TEL()
+    if tel.skalow:
+        return 1
+    return 2
 
 @pytest.fixture(autouse=True, scope="session")
 def fxt_set_csp_online_from_csp(
