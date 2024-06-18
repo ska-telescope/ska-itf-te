@@ -85,7 +85,6 @@ def fxt_set_csp_online_from_csp(
     entry_point = CSPEntryPoint()
     set_subsystem_online(entry_point)
 
-
 @pytest.fixture(name="set_csp_entry_point", autouse=True)
 def fxt_set_csp_entry_point(
     set_nr_of_subarray,
