@@ -1,24 +1,4 @@
-include ./resources/makefiles/test-equipment-dev.mk
-
-PROJECT_ROOT ?= ../../
-
-## TARGET: itf-te-install
-## SYNOPSIS: make itf-te-install
-## HOOKS: none
-## VARS: none
-##  make target for generating the URLs for accessing the Test Equipment deployment
-
-itf-te-install:
-	@make vars;
-	@make k8s-install-chart
-
-itf-te-template:
-	@make vars;
-	@make k8s-template-chart
-	@mkdir -p build
-	@mv manifests.yaml build/
-
-	
+PROJECT_ROOT ?= ../../	
 
 ## TARGET: itf-ds-sim-links
 ## SYNOPSIS: make itf-ds-sim-links
@@ -140,33 +120,9 @@ itf-links: ## Create the URLs with which to access the Tango Control System if i
 	@echo "#        https://$(INGRESS_HOST)/$(KUBE_NAMESPACE)/taranta/devices"
 	@echo "##############################################################################################"
 
-## TARGET: itf-te-pass-env
-## SYNOPSIS: make itf-te-pass-env
-## HOOKS: none
-## VARS: 
-##	CI_COMMIT_REF_NAME=[branch-name] (default value: none)
-##  make target for generating Gitlab CI configuration for SkySimCtl device server deployment
-
 CI_COMMIT_REF_NAME?=
 
 DISH_ID?=
-
-itf-te-pass-env: KUBE_NAMESPACE := test-equipment
-itf-te-pass-env: itf-skysimctl-links## Generate Gitlab CI configuration for SkySimCtl device server deployment
-
-itf-skysimctl-links:
-	@echo "KUBE_NAMESPACE=$(KUBE_NAMESPACE)"
-	@mkdir -p build
-	echo "TANGO_HOST=$(shell kubectl get -n $(KUBE_NAMESPACE) svc tango-databaseds -o jsonpath={'.status.loadBalancer.ingress[0].ip'}):10000" > build/deploy.env
-	@echo "######################################################################"
-	@echo "# THIS PIPELINE IS RUNNING FOR THE $(CI_COMMIT_REF_NAME) BRANCH"
-	@echo "######################################################################"
-	@if [[ -z "$(CI_COMMIT_REF_NAME)" ]]; then exit 1; fi
-	@echo
-	@echo "Exporting CI variables"
-	@echo "UPSTREAM_CI_COMMIT_REF_NAME=$(CI_COMMIT_REF_NAME)" >> build/deploy.env # This is a workaround - see https://gitlab.com/gitlab-org/gitlab/-/issues/331596
-	@echo "UPSTREAM_CI_JOB_ID=$(CI_JOB_ID)" >> build/deploy.env
-	@cat build/deploy.env
 
 ## TARGET: dpd-links
 ## SYNOPSIS: make dpd-links
@@ -183,43 +139,6 @@ dpd-links: ## Create the URLs with which to access the Data Product Dashboard
 	@echo "#        Access the Data Product Dashboard here:"
 	@echo "#        https://$(INGRESS_HOST)/$(KUBE_NAMESPACE)/dashboard/"
 	@echo "##############################################################################################"
-
-
-# File browser vars
-FILEBROWSER_ENV ?= dev
-FILEBROWSER_CONFIG_SECRET_FILE := config.json
-# This is overwritten in CI/CD
-FILEBROWSER_CONFIG_PATH ?= ./charts/file-browser/secrets/example.json
-FILEBROWSER_CONFIG_SECRET_NAME := file-browser-config-secret
-
-## TARGET: file-browser-install
-## SYNOPSIS: make file-browser-install
-## HOOKS: none
-## VARS:
-##	FILEBROWSER_ENV=[environment-name] (default value: dev)
-##	FILEBROWSER_CONFIG_SECRET_FILE=[name of file containing secrets (not path)] (default value: config.json)
-##	FILEBROWSER_CONFIG_SECRET_NAME=[name of k8s secret created by file-browser-secrets] (default value: file-browser-config-secret)
-##  make target for deploying the spectrum analyser file browser.
-
-file-browser-install: K8S_CHART_PARAMS := $(K8S_CHART_PARAMS) --set mounts.configSecret.name=$(FILEBROWSER_CONFIG_SECRET_NAME) \
-	--set mounts.configSecret.dest=$(FILEBROWSER_CONFIG_SECRET_FILE) \
-	--set env.type=$(FILEBROWSER_ENV)
-file-browser-install: K8S_CHART := file-browser
-file-browser-install: KUBE_NAMESPACE := file-browser
-file-browser-install: k8s-uninstall-chart file-browser-secrets k8s-install-chart
-
-## TARGET: file-browser-secrets
-## SYNOPSIS: make file-browser-secrets
-## HOOKS: none
-## VARS:
-##	FILEBROWSER_CONFIG_PATH=[path to json config file with secrets. Overriden in CI/CD.] (default value: ../charts/file-browser/secrets/config.json)
-##	FILEBROWSER_CONFIG_SECRET_FILE=[name of file containing secrets (not path).] (default value: config.json)
-##	FILEBROWSER_CONFIG_SECRET_NAME=[name of k8s secret created by file-browser-secrets] (default value: file-browser-config-secret)
-##  make target for creating k8s secret from JSON file located at $(FILEBROWSER_CONFIG_PATH)
-
-file-browser-secrets: k8s-namespace
-	kubectl delete secret -n $(KUBE_NAMESPACE) --ignore-not-found=true file-browser-config-secret
-	kubectl create secret -n $(KUBE_NAMESPACE) generic $(FILEBROWSER_CONFIG_SECRET_NAME) --from-file=$(FILEBROWSER_CONFIG_SECRET_FILE)=$(FILEBROWSER_CONFIG_PATH)
 
 vars:
 	$(info KUBE_NAMESPACE: $(KUBE_NAMESPACE))

@@ -15,10 +15,6 @@ DishLMC Integration at the Mid ITF
 ==================================
 We use an OPC UA server in the K8s Cluster in the Mid ITF to simulate the Dish Structure (DS)for DishLMC integration. Details for connecting to the DS Simulator are available in `Confluence <https://confluence.skatelescope.org/x/Jz6KDQ>`_. For assistance, please reach out in `#team-itf-support <https://skao.slack.com/archives/C03PC2M2VGA>`_.
 
-Spectrum Analyser File Access
-=============================
-The Ansritsu MS2090A Spectrum Analyser in the ITF hosts an FTP server. This allows users to access recordings made on the device remotely. In order to make this access more user friendly, we run `filestash <https://www.filestash.app/>`_. This provides a file browser web frontend to various backends, among them FTP. This is deployed with the ``file-browser`` helm chart.
-
 Data Product Dashboard
 ======================
 The Data Product Dashboard for the integration deployment can be accessed.
@@ -53,22 +49,6 @@ Useful links:
 ==========
 Deployment
 ==========
-
-Deployment of Test Equipment
-============================
-Deployment of Test Equipment Tango Device Servers are mainly done using the ``test-equipment`` namespace.
-We have two special makefile targets, ``make itf-te-template`` and ``make itf-te-install``, one for checking what will be deployed, and one for deploying the Helm charts under the ``ska-mid-itf`` umbrella.
-We also have a make target that gives URLs to the deployed software: ``make itf-links``.
-
-Deploying Test Equipment charts for verification
-------------------------------------------------
-Use the umbrella chart under `charts/test-equipment-verification` to deploy charts that were publihsed to the `Test Equipment Helm Package Registry <https://gitlab.com/ska-telescope/ska-ser-test-equipment/-/packages>`_. Note that these packages are deployed in the Helm Build job and the version number is outputted in the Job logs - example of this can be seen `here <https://gitlab.com/ska-telescope/ska-ser-test-equipment/-/jobs/4768261311>`_.
-
-If you want to change the container image version, you can do so by editing the ``$TE_VERSION`` variable in ``/resources/makefiles/test-equipment-dev.mk``.
-
-Sky Simulator
-=============
-Deployment of the Sky Simulator Control Tango Device (the RPi-hosted device that switches on and off noise sources, filters and U and V signals) follows directly (but manually) from this deployment, as the SkySimCtl Tango Device needs to be registered on the same Test Equipment namespace. This is achieved by using a triggered pipeline - see `this Confluence page <https://confluence.skatelescope.org/x/0RWKDQ>`_ for details.
 
 Deployment of the SUT
 =====================
@@ -115,10 +95,6 @@ The dish structure simulator can be deployed using the `deploy-ds-sim-ska001` jo
 There is also a `redeploy-ds-sim-ska001` job which does an uninstall of the dish structure simulator prior to installing it.
 The job exports connection details as an artifact which is consumed by the Dish LMC SKA001 deployment job.
 
-Deployment of File Browser
-==========================
-The spectrum analyser file browser is deployed with the ``file-browser-install`` Makefile target. It is deployed to the ``file-browser`` namespace in the ITF. The configuration file lives in the ``$FILEBROWSER_CONFIG_PATH`` environment variable on Gitlab. For local deployments, an example file is provided at ``charts/file-browser/secrets/example.json``. This doesn't provide access to the Spectrum Analyser FTP server, but does allow you to verify that the deployment is working as expected.
-
 Namespaces and pipeline definitions
 ===================================
 In the present repository it is possible to deploy the charts in different namespaces in the ITF cluster. In specific it is possible to deploy in the following namespaces: 
@@ -135,14 +111,12 @@ In the present repository it is possible to deploy the charts in different names
    ci-ska-db-oda-commit-ref          Used for on-demand deployment of the ODA
    integration-dish-lmc-skaXXX       For testing TMC in integration namespace with Dish LMC in separate namespaces
    ds-sim-skaXXX                     For long-lived deployment of Dish Strcuture Simulator
-   file-browser                      For the spectrum analyser file browser
    integration                       For long-lived deployment of the SUT but in general without hardware in the loop
    staging                           For demonstration purposes, a hardware-in-the-loop deployment from the main branch.
    staging-dish-lmc-skaXXX           For demonstration purposes, using TMC in staging namespace with Dish LMC in separate namespaces. Default with hardware-in-the-loop.
    ska-db-oda                        For long-lived deployment of the ODA
    ska-dpd                           For long-lived deployment of the Data Product Dashboard
    taranta                           For taranta backend deployment
-   test-equipment                    For Test Equipment Tango Device Servers
    ================================  ============================================================================================
 
 Please note that: 
