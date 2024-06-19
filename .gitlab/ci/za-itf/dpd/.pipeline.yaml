@@ -5,6 +5,7 @@
     CONFIG: mid
     K8S_CHART: ska-mid-itf-dpd
     KUBE_APP: ska-mid-itf-dpd
+    KUBE_NAMESPACE_SDP: "ci-ska-mid-itf-$CI_COMMIT_REF_NAME-sdp"
     INGRESS_HOST: "k8s.miditf.internal.skao.int"
     CLUSTER_DOMAIN: "miditf.internal.skao.int"
     MINIKUBE: "false"
