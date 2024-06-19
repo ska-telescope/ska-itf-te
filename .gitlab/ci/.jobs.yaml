@@ -37,10 +37,8 @@
         make itf-cbf-setup --dry && sleep 3;
         make itf-cbf-talonlru-status && sleep 3;
         bash .make/resources/gitlab_section.sh talon_off "Switch off Talon" make itf-cbf-talonlru-off && sleep 3;
-        bash .make/resources/gitlab_section.sh talon_config "Configure Talon(s)" make itf-cbf-config-talon && sleep 3;
         bash .make/resources/gitlab_section.sh mcs_config "Configure MCS" make itf-cbf-config-mcs && sleep 3;
-        bash .make/resources/gitlab_section.sh talon_download_tangocpp_ds "Download CPP Tango device server updates" make itf-cbf-tangocpp-update &> deploy/talonconfig.log && sleep 3;
-        bash .make/resources/gitlab_section.sh talon_config_tangodb "Configure TangoDB with device servers" make itf-cbf-config-tangodb && sleep 3;
+        bash .make/resources/gitlab_section.sh talon_on "Talon Tango ON" make itf-cbf-tango-on && sleep 3;
       fi
     - env | grep RUNNER_AFTER_SCRIPT_TIMEOUT
     - bash .make/resources/gitlab_section.sh template "Template Chart" make get-deployment-config-info

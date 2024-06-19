@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ska-mid-itf"
-version = "22.6.0"
+version = "23.0.1"
 description = "Integration testing and deployment project for the Mid ITF"
 authors = ["ATLAS"]
 license = "BSD 3-Clause"
@@ -24,7 +24,7 @@ pytest-repeat = "^0.9.1"
 ska_ser_logging = "^0.4.1"
 ska-control-model = "^0.3.4"
 pyyaml = "^6.0.1"
-ska-mid-itf-engineering-tools = "0.8.3"
+ska-mid-itf-engineering-tools = "^0.8.3"
 httpx = "^0.27.0"
 h11 = "^0.14.0"
 annotated-types = "^0.6.0"

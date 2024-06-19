@@ -10,13 +10,12 @@ variables:
   POETRY_CONFIG_VIRTUALENVS_CREATE: "true"
   # Don't update this to 0.8.1 or 0.8.2 - it breaks the tests
   # see https://gitlab.com/ska-telescope/ska-mid-itf/-/jobs/6807963899
-  DEPLOY_IMAGE: $CI_REGISTRY/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools:0.8.3
+  DEPLOY_IMAGE: $CI_REGISTRY/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools:0.9.1
   MCS_CONFIG_FILE_PATH: resources/mcs
 
   # PYTEST_SUBSYS_MARK: (csp_startup or sdp or eda)
   # K8S_INSTALL_FROM_CAR: "false"remove redundant cache
 stages:
-  - verify-test-equipment
   - on_demand_itf_sut
   - build
   - deploy-dish-aiv
@@ -24,7 +23,6 @@ stages:
   - test
   - lint
   - platform
-  - test-equipment-setup
   - integration
   - staging
   - upload
@@ -60,12 +58,10 @@ include:
   - local: .gitlab/ci/za-itf/dish-lmc-skaXXX/.pipeline.yaml
   - local: .gitlab/ci/za-itf/ci-ska-mid-sut-skaXXX-commit-ref/.pipeline.yaml
   - local: .gitlab/ci/za-itf/ds-sim-skaXXX/.pipeline.yaml
-  - local: .gitlab/ci/za-itf/file-browser/.pipeline.yaml
   - local: .gitlab/ci/za-itf/integration/.pipeline.yaml
   - local: .gitlab/ci/za-itf/spookd/.pipeline.yaml
   - local: .gitlab/ci/za-itf/staging/.pipeline.yaml
   - local: .gitlab/ci/za-itf/taranta/.pipeline.yaml
-  - local: .gitlab/ci/za-itf/test-equipment/.pipeline.yaml
   - local: .gitlab/ci/za-itf/ci-ska-db-oda-commit-ref/.pipeline.yaml
   - local: .gitlab/ci/za-itf/dpd/.pipeline.yaml
 
