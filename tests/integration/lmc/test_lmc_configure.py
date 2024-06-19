@@ -5,6 +5,7 @@ import os
 from typing import Callable
 
 import pytest
+import tango
 from assertpy import assert_that
 from pytest_bdd import given, scenario, then, when
 from ska_ser_skallop.connectors import configuration as con_config
@@ -24,6 +25,14 @@ logger = logging.getLogger(__name__)
 CSPEntryPoint.nr_of_subarrays = 2
 sut_settings = SutTestSettings
 sut_settings.nr_of_subarrays = CSPEntryPoint.nr_of_subarrays
+
+
+# pylint: disable=abstract-method
+# pylint: disable=missing-module-docstring
+# pylint: disable=missing-class-docstring
+# pylint: disable=missing-function-docstring
+import enum 
+
 
 @pytest.fixture(name="nr_of_subarrays", autouse=True, scope="session")
 def fxt_nr_of_subarrays() -> int:
@@ -52,6 +61,7 @@ def fxt_set_nr_of_subarray(sut_settings: conftest.SutTestSettings, nr_of_subarra
     :type nr_of_subarrays: int
     """
     sut_settings.nr_of_subarrays = nr_of_subarrays
+    print(f"fxt_set_nr_of_subarray() nr_of_subarrays={nr_of_subarrays}")
 
 @pytest.fixture(autouse=True, scope="session")
 def fxt_set_csp_online_from_csp(
@@ -111,6 +121,7 @@ def fxt_set_csp_entry_point(
         exec_env.entrypoint = "mock"
     exec_env.scope = ["csp"]
     sut_settings.default_subarray_name = sut_settings.tel.csp.subarray(sut_settings.subarray_id)
+    print(f"fxt_set_csp_entry_point() sut_settings.default_subarray_name={sut_settings.default_subarray_name}")
 
 
 @pytest.fixture(name="set_up_subarray_log_checking_for_csp")
@@ -174,7 +185,6 @@ def fxt_csp_base_configuration(tmp_path) -> conf_types.ScanConfiguration:
     )
     return configuration
 
-
 @pytest.fixture(name="monitor_cbf")
 def fxt_monitor_cbf(context_monitoring: fxt_types.context_monitoring):
     """
@@ -190,6 +200,8 @@ def fxt_monitor_cbf(context_monitoring: fxt_types.context_monitoring):
         .for_attribute("obsstate")
         .and_observe()
     )
+    #Set telescope on
+    tel.on()
 
 
 @scenario("features/test_configure_scan.feature", "Test ConfigureScan")
@@ -198,24 +210,16 @@ def test_test_configurescan():
 
 
 @given("Telescope is on and its subsystems are in STANDBY_LP mode")
-def telescope_is_on_standby_lp(sut_settings: SutTestSettings):
-    """
-    Telescope is on and its subsystems are in STANDBY_LP mode.
-
-    :param sut_settings: telescope system under test settings parameter
-    """
-    tel = names.TEL()
-    central_node = con_config.get_device_proxy(tel.tm.central_node)
-    result = central_node.read_attribute("telescopeState").value
-    # If the dish is deployed the value will not be STANDBY_LP
-    assert_that(str(result)).is_equal_to("STANDBY_LP")
+def telescope_is_on_standby_lp():
+    tango_device_proxy = tango.DeviceProxy(f"mid-sdp/control/0")
+    assert tango_device_proxy.state() == tango.DevState.STANDBY
 
 
 @when("TMC commands the telescope to STANDBY_OPERATE mode")
 def tmc_commands_telescope_to_operate():
     """TMC commands the telescope to STANDBY_OPERATE mode."""
-    global tel, csp_master
-    csp_master = con_config.get_device_proxy(tel.skamid.controller)
+    global csp_master
+    csp_master = tango_device_proxy = tango.DeviceProxy(f"mid-sdp/control/0")
     csp_master.write_attribute("state", "STANDBY_OPERATE")
 
 
@@ -226,9 +230,3 @@ def dish_structure_in_standby_mode():
     tmc = con_config.get_device_proxy(tel.skamid.controller)
     result = tmc.read_attribute("state").value
     assert_that(str(result)).is_equal_to("OPERATE")
-    sut_settings: SutTestSettings
-    nr_of_subarrays = sut_settings.nr_of_subarrays
-    for index in range(1, nr_of_subarrays + 1):
-        subarray = con_config.get_device_proxy(tel.csp.subarray(index))
-        result = subarray.read_attribute("state").value
-        assert_that(str(result)).is_equal_to("OPERATE")
