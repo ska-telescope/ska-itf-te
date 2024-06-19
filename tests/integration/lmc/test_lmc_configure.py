@@ -204,6 +204,7 @@ def telescope_is_on_standby_lp(sut_settings: SutTestSettings):
 
     :param sut_settings: telescope system under test settings parameter
     """
+    tel = names.TEL()
     central_node = con_config.get_device_proxy(tel.tm.central_node)
     result = central_node.read_attribute("telescopeState").value
     # If the dish is deployed the value will not be STANDBY_LP
