@@ -116,15 +116,18 @@ SDP_EXTRA_PARAMS ?=
 DPD_PARAMS ?= 
 
 ifeq ($(KUBE_APP),ska-mid-itf-dpd)
-	DPD_PARAMS+=--set global.sdp.processingNamespace=$(KUBE_NAMESPACE_SDP) \
+	DPD_PARAMS += \
+	--set global.sdp.processingNamespace=$(KUBE_NAMESPACE_SDP)
 endif
 
 ifneq ($(DPD_PVC_NAME),)
-	SDP_EXTRA_PARAMS+=--set ska-sdp-dataproduct-dashboard.dataProductPVC.name=$(DPD_PVC_NAME) \
+	SDP_EXTRA_PARAMS += \
+	--set ska-sdp-dataproduct-dashboard.dataProductPVC.name=$(DPD_PVC_NAME)
 endif
 
 ifeq ($(KUBE_NAMESPACE),staging)
-	SDP_EXTRA_PARAMS+=--set global.data-product-pvc-name=$(DPD_PVC_NAME) \
+	SDP_EXTRA_PARAMS += \
+	--set global.data-product-pvc-name=$(DPD_PVC_NAME)
 endif
 
 SDP_PARAMS ?= --set ska-sdp.helmdeploy.namespace=$(KUBE_NAMESPACE_SDP) \
