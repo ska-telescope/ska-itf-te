@@ -34,11 +34,11 @@
     - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart
     - bash .make/resources/gitlab_section.sh wait "Wait for installation" make k8s-wait
     - helm version
-    - helm get all $HELM_RELEASE || true
+    - helm get all test
   after_script:
     - make dpd-links
     - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart-with-build-artifacts
-    - bash .make/resources/gitlab_section.sh helmget "Get all Helm configuration data" helm get all $HELM_RELEASE
+    - bash .make/resources/gitlab_section.sh helmget "Get all Helm configuration data" helm get all test
 
 .dpd-destroy:
   script:
