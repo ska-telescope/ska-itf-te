@@ -25,6 +25,7 @@
     - .dpd
     - .on_demand_rules
   stage: on_demand_itf_sut
+  when: always # TEMPORARY COMMIT
   variables:
     KUBE_NAMESPACE: ci-ska-mid-itf-dpd-$CI_COMMIT_REF_NAME
 
