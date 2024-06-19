@@ -27,18 +27,18 @@
   stage: on_demand_itf_sut
   variables:
     KUBE_NAMESPACE: ci-ska-mid-itf-dpd-$CI_COMMIT_REF_NAME
+    HELM_RELEASE: test
 
 .dpd-install:
   script:
     - make vars
     - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart
     - bash .make/resources/gitlab_section.sh wait "Wait for installation" make k8s-wait
-    - helm version
-    - helm get all test -n $KUBE_NAMESPACE
+    - bash .make/resources/gitlab_section.sh helmget "Get all Helm configuration data" helm get all -n $KUBE_NAMESPACE $HELM_RELEASE
   after_script:
     - make dpd-links
-    - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart-with-build-artifacts
-    - bash .make/resources/gitlab_section.sh helmget "Get all Helm configuration data" helm get all test
+    # - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart-with-build-artifacts
+    - bash .make/resources/gitlab_section.sh helmget "Get all Helm configuration data" helm get all -n $KUBE_NAMESPACE $HELM_RELEASE
 
 .dpd-destroy:
   script:
@@ -80,6 +80,7 @@ destroy-dpd-on-demand:
     KUBE_NAMESPACE: ska-dpd-staging
     KUBE_NAMESPACE_SDP: staging-sdp
     DPD_PVC_NAME: staging-pvc
+    HELM_RELEASE: staging
 
 deploy-dpd-staging:
   extends:
