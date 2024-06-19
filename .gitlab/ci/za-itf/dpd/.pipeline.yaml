@@ -73,6 +73,7 @@ destroy-dpd-on-demand:
   stage: staging
   variables:
     KUBE_NAMESPACE: ska-dpd-staging
+    KUBE_NAMESPACE_SDP: staging-sdp
     DPD_PVC_NAME: staging-pvc
 
 deploy-dpd-staging:
