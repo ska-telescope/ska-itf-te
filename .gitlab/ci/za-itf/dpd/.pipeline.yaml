@@ -27,6 +27,7 @@
   stage: on_demand_itf_sut
   variables:
     KUBE_NAMESPACE: ci-ska-mid-itf-dpd-$CI_COMMIT_REF_NAME
+    DPD_PVC_NAME: test-pvc
     HELM_RELEASE: test
 
 .dpd-install:

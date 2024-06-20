@@ -119,13 +119,15 @@ endif
 
 ifneq ($(DPD_PVC_NAME),)
 	SDP_EXTRA_PARAMS += \
-	--set ska-sdp-dataproduct-dashboard.dataProductPVC.name=$(DPD_PVC_NAME)
-endif
-
-ifeq ($(KUBE_NAMESPACE),staging)
-	SDP_EXTRA_PARAMS += \
+	--set ska-sdp-dataproduct-dashboard.dataProductPVC.name=$(DPD_PVC_NAME) \
 	--set global.data-product-pvc-name=$(DPD_PVC_NAME)
 endif
+
+# ifeq (wildcard($(KUBE_NAMESPACE),"ci-*")) # This will break - fix before push! block to be used in automated testing
+# 	SDP_EXTRA_PARAMS += \
+# 	--set global.data-product-pvc-name=$(DPD_PVC_NAME)
+#   --set ska-sdp.data-pvc.create=true # check syntax for this one
+# endif
 
 SDP_PARAMS ?= --set ska-sdp.helmdeploy.namespace=$(KUBE_NAMESPACE_SDP) \
 	--set ska-sdp.ska-sdp-qa.zookeeper.clusterDomain=$(CLUSTER_DOMAIN) \
