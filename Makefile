@@ -123,6 +123,22 @@ ifneq ($(DPD_PVC_NAME),)
 	--set global.data-product-pvc-name=$(DPD_PVC_NAME)
 endif
 
+ifeq ($(KUBE_NAMESPACE),staging)
+	# Note that this create.enabled, should use the shared volume and link to
+	# that one, and not create a new PVC on the storage layer.
+	# Values are based on:
+	# - https://developer.skao.int/en/latest/howto/shared-storage.html
+	# - https://gitlab.com/ska-telescope/sdp/ska-sdp-integration/-/blob/0.21.0/charts/ska-sdp/templates/pvc.yaml
+	SDP_EXTRA_PARAMS += \
+		--set global.data-product-pvc-name=staging-pvc \
+		--set ska-sdp-dataproduct-dashboard.dataProductPVC.name=staging-pvc \
+		--set ska-sdp.data-pvc.create.clone-pvc=staging-pvc \
+		--set ska-sdp.data-pvc.create.clone-pvc-namespace=shared-ska-dataproducts \
+		--set ska-sdp.data-pvc.create.enabled=true \
+		--set ska-sdp.data-pvc.create.size=2Ti \
+		--set ska-sdp.data-pvc.create.storageClassName=ceph-cephfs
+endif
+
 # ifeq (wildcard($(KUBE_NAMESPACE),"ci-*")) # This will break - fix before push! block to be used in automated testing
 # 	SDP_EXTRA_PARAMS += \
 # 	--set global.data-product-pvc-name=$(DPD_PVC_NAME)
