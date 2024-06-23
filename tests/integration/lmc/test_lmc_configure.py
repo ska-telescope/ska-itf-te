@@ -40,7 +40,7 @@ def telescope_is_on_standby_lp():
 def tmc_commands_telescope_to_operate():
     """TMC commands the telescope to STANDBY_OPERATE mode."""
     tango_device_proxy = tango.DeviceProxy(f"ska001/elt/master")
-    tango_device_proxy.dishMode = DishMode.OPERATE
+    tango_device_proxy.SetOperateMode()
     
 
 
