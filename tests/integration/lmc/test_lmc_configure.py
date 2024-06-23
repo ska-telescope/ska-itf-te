@@ -33,7 +33,7 @@ def test_configurescan():
 @given("Telescope is on and its subsystems are in STANDBY_LP mode")
 def telescope_is_on_standby_lp():
     tango_device_proxy = tango.DeviceProxy(f"ska001/elt/master")
-    result = tango_device_proxy.read_attribute("operatingMode").value
+    result = tango_device_proxy.read_attribute("dishMode").value
     assert DishMode(result) == DishMode.STANDBY_LP
 
 @when("TMC commands the telescope to STANDBY_OPERATE mode")
