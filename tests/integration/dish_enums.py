@@ -1,11 +1,11 @@
-# pylint: disable=abstract-method
-# pylint: disable=missing-module-docstring
-# pylint: disable=missing-class-docstring
-# pylint: disable=missing-function-docstring
+"""tests/integration/dish_enums.py."""
+
 import enum
 
 
 class DishMode(enum.IntEnum):
+    """DishMode enumerations."""
+
     STARTUP = 0
     SHUTDOWN = 1
     STANDBY_LP = 2
@@ -18,6 +18,8 @@ class DishMode(enum.IntEnum):
 
 
 class SPFOperatingMode(enum.IntEnum):
+    """SPFOperatingMode  enumerations."""
+
     UNKNOWN = 0
     STARTUP = 1
     STANDBY_LP = 2
@@ -27,7 +29,8 @@ class SPFOperatingMode(enum.IntEnum):
 
 
 class SPFRxOperatingMode(enum.IntEnum):
-    # enums are from ICD
+    """SPFRxOperatingMode enumerations."""
+
     UNKNOWN = 0
     STARTUP = 1
     STANDBY = 2
@@ -37,7 +40,8 @@ class SPFRxOperatingMode(enum.IntEnum):
 
 
 class DSOperatingMode(enum.IntEnum):
-    # enums are from dish lmc
+    """DSOperatingMode enumerations."""
+
     UNKNOWN = 0
     STARTUP = 1
     STANDBY_LP = 2
@@ -49,6 +53,8 @@ class DSOperatingMode(enum.IntEnum):
 
 
 class PointingState(enum.IntEnum):
+    """PointingState enumerations."""
+
     READY = 0
     SLEW = 1
     TRACK = 2
@@ -57,6 +63,8 @@ class PointingState(enum.IntEnum):
 
 
 class Band(enum.IntEnum):
+    """Band enumerations."""
+
     NONE = 0
     B1 = 1
     B2 = 2
@@ -68,6 +76,8 @@ class Band(enum.IntEnum):
 
 
 class IndexerPosition(enum.IntEnum):
+    """IndexerPosition enumerations."""
+
     UNKNOWN = 0
     B1 = 1
     B2 = 2
@@ -79,6 +89,8 @@ class IndexerPosition(enum.IntEnum):
 
 
 class BandInFocus(enum.IntEnum):
+    """BandInFocus enumerations."""
+
     UNKNOWN = 0
     B1 = 1
     B2 = 2
@@ -88,6 +100,8 @@ class BandInFocus(enum.IntEnum):
 
 
 class SPFBandInFocus(enum.IntEnum):
+    """SPFBandInFocus enumerations."""
+
     UNKNOWN = 0
     B1 = 1
     B2 = 2
@@ -98,29 +112,39 @@ class SPFBandInFocus(enum.IntEnum):
 
 
 class TrackInterpolationMode(enum.IntEnum):
+    """TrackInterpolationMode enumerations."""
+
     NEWTON = 0
     SPLINE = 1
 
 
 class TrackProgramMode(enum.IntEnum):
+    """TrackProgramMode enumerations."""
+
     TABLEA = 0
     TABLEB = 1
     POLY = 2
 
 
 class TrackTableLoadMode(enum.IntEnum):
+    """TrackTableLoadMode enumerations."""
+
     NEW = 0
     APPEND = 1
     RESET = 2
 
 
 class PowerState(enum.IntEnum):
+    """PowerState enumerations."""
+
     UPS = 0
     LOW = 1
     FULL = 2
 
 
 class SPFPowerState(enum.IntEnum):
+    """SPFPowerState enumerations."""
+
     # enums are from ICD
     UNKNOWN = 0
     LOW_POWER = 1
@@ -128,6 +152,8 @@ class SPFPowerState(enum.IntEnum):
 
 
 class DSPowerState(enum.IntEnum):
+    """DSPowerState enumerations."""
+
     # enums are from ICD
     OFF = 0
     UPS = 1
@@ -137,6 +163,8 @@ class DSPowerState(enum.IntEnum):
 
 
 class CapabilityStates(enum.IntEnum):
+    """CapabilityStates enumerations."""
+
     UNAVAILABLE = 0
     STANDBY = 1
     CONFIGURING = 2
@@ -146,6 +174,8 @@ class CapabilityStates(enum.IntEnum):
 
 
 class SPFCapabilityStates(enum.IntEnum):
+    """SPFCapabilityStates enumerations."""
+
     UNAVAILABLE = 0
     STANDBY = 1
     OPERATE_DEGRADED = 2
@@ -153,6 +183,8 @@ class SPFCapabilityStates(enum.IntEnum):
 
 
 class SPFRxCapabilityStates(enum.IntEnum):
+    """SPFRxCapabilityStates enumerations."""
+
     UNKNOWN = 0
     UNAVAILABLE = 1
     STANDBY = 2
