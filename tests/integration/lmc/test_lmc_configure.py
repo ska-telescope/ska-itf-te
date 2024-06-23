@@ -15,7 +15,7 @@ from ska_ser_skallop.mvp_control.entry_points.base import EntryPoint
 from ska_ser_skallop.mvp_fixtures.fixtures import fxt_types
 from .. import conftest
 from ..conftest import SutTestSettings
-from ..dish_enums import SPFOperatingMode
+from ..dish_enums import DishMode
 from ..resources.models.csp_model.entry_point import CSPEntryPoint
 from ska_ser_skallop.event_handling.builders import get_message_board_builder
 
@@ -32,21 +32,21 @@ def test_configurescan():
 
 @given("Telescope is on and its subsystems are in STANDBY_LP mode")
 def telescope_is_on_standby_lp():
-    tango_device_proxy = tango.DeviceProxy(f"mid-dish/simulator-spfc/ska001")
+    tango_device_proxy = tango.DeviceProxy(f"ska001/elt/master")
     result = tango_device_proxy.read_attribute("operatingMode").value
-    assert SPFOperatingMode(result) == SPFOperatingMode.STANDBY_LP
+    assert DishMode(result) == DishMode.STANDBY_LP
 
 @when("TMC commands the telescope to STANDBY_OPERATE mode")
 def tmc_commands_telescope_to_operate():
     """TMC commands the telescope to STANDBY_OPERATE mode."""
-    tango_device_proxy = tango.DeviceProxy(f"mid-dish/simulator-spfc/ska001")
-    tango_device_proxy.operatingMode = SPFOperatingMode.OPERATE
+    tango_device_proxy = tango.DeviceProxy(f"ska001/elt/master")
+    tango_device_proxy.dishMode = DishMode.OPERATE
     
 
 
 @then("Telescope subsystems must be in STANDBY_OPERATE mode")
 def dish_structure_in_standby_mode():
     """Telescope subsystems must be in STANDBY_OPERATE mode."""
-    tango_device_proxy = tango.DeviceProxy(f"mid-dish/simulator-spfc/ska001")
-    result = tango_device_proxy.read_attribute("operatingMode").value
-    assert SPFOperatingMode(result) == SPFOperatingMode.OPERATE
+    tango_device_proxy = tango.DeviceProxy(f"ska001/elt/master")
+    result = tango_device_proxy.read_attribute("dishMode").value
+    assert DishMode(result) == DishMode.OPERATE
