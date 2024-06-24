@@ -53,12 +53,6 @@ ska-csp-lmc-mid:
 
 ### tmc - also see tmc-values for DishIDs!
 ska-tmc-mid:
-  sdpleafnodes:
-    image:
-      tag: 0.15.1 ### TEMPORARY COMMIT: This is a patch waiting for integration of the image into the TMC chart!!!
-  dishleafnode:
-    image:
-      tag: 0.13.3 ### TEMPORARY COMMIT
   enabled: true
   legacy_compatibility: true
   telescope: SKA-mid
