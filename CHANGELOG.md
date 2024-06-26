@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+## 23.1.1
+* [AT-2130] - Bumped Taranta and TangoGQL versions to 2.10.2 and 1.4.3 respectively 
+
 ## 23.1.0
 * [AT-2127] - Added k8s-wait in dish-lmc deployment to wait for spfrx pods in the namespace to be ready
   [AT-2130] - Bumped Taranta and TangoGQL versions to 2.10.1 and 1.4.1 respectively

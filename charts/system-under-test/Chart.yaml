@@ -2,8 +2,8 @@ apiVersion: v2
 name: ska-mid-itf
 description: An umbrella Helm chart for deployment of the System Under Test at the Mid ITF
 type: application
-version: 23.1.0
-appVersion: 23.1.0
+version: 23.1.1
+appVersion: 23.1.1
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
   # Tango Base & Deployment Charts: TangoDB, iTango, Tango Operator Utils
