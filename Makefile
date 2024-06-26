@@ -124,11 +124,11 @@ ifneq ($(DPD_PVC_NAME),)
 endif
 
 ifeq ($(KUBE_NAMESPACE),staging)
-	# Note that this create.enabled, should use the shared volume and link to
-	# that one, and not create a new PVC on the storage layer.
-	# Values are based on:
-	# - https://developer.skao.int/en/latest/howto/shared-storage.html
-	# - https://gitlab.com/ska-telescope/sdp/ska-sdp-integration/-/blob/0.21.0/charts/ska-sdp/templates/pvc.yaml
+# Note that this create.enabled, should use the shared volume and link to
+# that one, and not create a new PVC on the storage layer.
+# Values are based on:
+# - https://developer.skao.int/en/latest/howto/shared-storage.html
+# - https://gitlab.com/ska-telescope/sdp/ska-sdp-integration/-/blob/0.21.0/charts/ska-sdp/templates/pvc.yaml
 	SDP_EXTRA_PARAMS += \
 		--set global.data-product-pvc-name=staging-pvc \
 		--set ska-sdp-dataproduct-dashboard.dataProductPVC.name=staging-pvc \
