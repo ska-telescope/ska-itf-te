@@ -101,6 +101,12 @@ ifeq ($(SPFRX_IN_THE_LOOP), true)
 	--set ska-dish-lmc.ska-mid-dish-simulators.deviceServers.spfrxdevice.enabled=$(SPFRX_SIM_ENABLE)
 endif
 
+CBF_HW_IN_THE_LOOP ?= 
+CSP_PARAMS ?=
+ifeq ($(CBF_HW_IN_THE_LOOP),true)
+	CSP_PARAMS += --set ska-mid-cbf-engineering-console.enabled=true
+endif
+
 DISH_LMC_PARAMS ?= $(DISH_LMC_INITIAL_PARAMS) $(DISH_LMC_EXTRA_PARAMS)
 
 SKUID_URL ?= ska-ser-skuid-test-svc.$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN):9870
@@ -134,7 +140,8 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	${SKIP_TANGO_EXAMPLES_PARAMS} \
 	$(K8S_EXTRA_PARAMS) \
 	$(K8S_TEST_RUNNER_PARAMS) \
-	$(TMC_PARAMS)
+	$(TMC_PARAMS) \
+	$(CSP_PARAMS)
 
 
 TMC_VALUES_PATH?=charts/system-under-test/tmc-values.yaml

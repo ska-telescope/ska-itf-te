@@ -44,6 +44,9 @@ ska-mid-cbf-mcs:
     environment: "mid-itf"
     clusterDomain: "miditf.internal.skao.int"
 
+ska-mid-cbf-engineering-console:
+  enabled: false
+
 ska-mid-cbf-tmleafnode:
   enabled: true
 
