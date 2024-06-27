@@ -102,9 +102,9 @@ ifeq ($(SPFRX_IN_THE_LOOP), true)
 endif
 
 CBF_HW_IN_THE_LOOP ?= 
-CBF_PARAMS ?=
+CSP_PARAMS ?=
 ifeq ($(CBF_HW_IN_THE_LOOP),true)
-	CBF_PARAMS += --set ska-mid-cbf-engineering-console.enabled=true
+	CSP_PARAMS += --set ska-mid-cbf-engineering-console.enabled=true
 endif
 
 DISH_LMC_PARAMS ?= $(DISH_LMC_INITIAL_PARAMS) $(DISH_LMC_EXTRA_PARAMS)
@@ -141,7 +141,7 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	$(K8S_EXTRA_PARAMS) \
 	$(K8S_TEST_RUNNER_PARAMS) \
 	$(TMC_PARAMS) \
-	$(CBF_PARAMS)
+	$(CSP_PARAMS)
 
 
 TMC_VALUES_PATH?=charts/system-under-test/tmc-values.yaml
