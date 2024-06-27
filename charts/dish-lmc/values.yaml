@@ -26,10 +26,10 @@ ska-dish-lmc:
     enabled: false
   ska-mid-dish-manager:
     enabled: true
-    dishmanager:
+    dishmanager: ### TEMPORARY COMMIT: REMOVE ONCE DISHLMC WAS RELEASED
       image:
         registry: registry.gitlab.com/ska-telescope/ska-mid-dish-manager
-        tag: 2.6.1-dev.cca2cde08
+        tag: 2.6.1-dev.c4df4eb82
   ska-mid-dish-ds-manager:
     enabled: true
   ska-mid-dish-simulators:
@@ -41,7 +41,6 @@ ska-dish-lmc:
         enabled: true
     dsOpcuaSimulator:
       enabled: true
-
 
 # SPFRx
 ska-mid-dish-spfrx-talondx-console:
