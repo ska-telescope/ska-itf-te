@@ -22,14 +22,14 @@ ska-tango-base:
 
 # DISH LMC
 ska-dish-lmc:
+  dshlmc:
+    image:
+      registry: registry.gitlab.com/ska-telescope/ska-dish-lmc
+      tag: 3.3.0-dev.cb1b7f947
   ska-tango-base:
     enabled: false
   ska-mid-dish-manager:
     enabled: true
-    dishmanager: ### TEMPORARY COMMIT: REMOVE ONCE DISHLMC WAS RELEASED
-      image:
-        registry: registry.gitlab.com/ska-telescope/ska-mid-dish-manager
-        tag: 2.6.1-dev.c4df4eb82
   ska-mid-dish-ds-manager:
     enabled: true
   ska-mid-dish-simulators:
