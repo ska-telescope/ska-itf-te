@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 23.2.0
+* [AT-2122] - DPD is deployed with the correct PVC name and can therefore correctly access the shared data products volume
+* [AT-2158] - Bumped mid-dish-spfrx-talondx-console version to 0.3.1
+* [AT-2142] - ska-mid-cbf-engineering-console deployment is disabled by default and is only deployed when the CBF_HW_IN_THE_LOOP environment variable is set to true
+
 ## 23.1.1
 * [AT-2130] - Bumped Taranta and TangoGQL versions to 2.10.2 and 1.4.3 respectively 
 
