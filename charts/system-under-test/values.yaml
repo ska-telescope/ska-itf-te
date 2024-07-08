@@ -56,6 +56,12 @@ ska-csp-lmc-mid:
 
 ### tmc - also see tmc-values for DishIDs!
 ska-tmc-mid:
+  dishleafnode:
+    image:
+      # TEMPORARY COMMIT - SEE https://skao.slack.com/archives/C06H6ESMQNP/p1720420072263979?thread_ts=1719960254.960609&cid=C06H6ESMQNP
+      # PULLING registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-dishleafnode/ska-tmc-dishleafnode:
+      registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-dishleafnode
+      tag: ska-tmc-dishleafnode:0.14.2-dev.c10183b1c
   sdpleafnodes:
     image:
       tag: 0.15.1 ### TEMPORARY COMMIT: This is a patch waiting for integration of the image into the TMC chart!!!
