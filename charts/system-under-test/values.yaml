@@ -57,8 +57,8 @@ ska-tmc-mid:
     image:
       # TEMPORARY COMMIT - SEE https://skao.slack.com/archives/C06H6ESMQNP/p1719498698255899
       # PULLING registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-dishleafnode/ska-tmc-dishleafnode:
-      registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-dishleafnode
-      tag: 0.14.2-dev.c2f54f24a
+      registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-dishleafnode/ska-tmc-dishleafnode
+      tag: 0.14.2-dev.c10183b1c
   # sdpleafnodes:
   #   image:
   #     tag: 0.15.1
