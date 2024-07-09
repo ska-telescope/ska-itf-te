@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+## 23.2.1
+* [AT-2139] - Added TMC Mid patch image and DishLMC upgrade for TrackTable delay fix (SKB-419).
+  
 ## 23.2.0
 * [AT-2122] - DPD is deployed with the correct PVC name and can therefore correctly access the shared data products volume
 * [AT-2158] - Bumped mid-dish-spfrx-talondx-console version to 0.3.1
