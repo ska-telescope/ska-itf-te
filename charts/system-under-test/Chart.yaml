@@ -2,8 +2,8 @@ apiVersion: v2
 name: ska-mid-itf
 description: An umbrella Helm chart for deployment of the System Under Test at the Mid ITF
 type: application
-version: 23.1.0
-appVersion: 23.1.0
+version: 23.2.0
+appVersion: 23.2.0
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
   # Tango Base & Deployment Charts: TangoDB, iTango, Tango Operator Utils
@@ -35,10 +35,11 @@ dependencies:
   - name: ska-mid-cbf-engineering-console
     version: 0.10.8
     repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-mid-cbf-engineering-console.enabled
 
   # SKA Mid SDP
   - name: ska-sdp
-    version: 0.20.0
+    version: 0.21.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-sdp.enabled
 
@@ -52,11 +53,11 @@ dependencies:
 
   # TARANTA SUITE
   - name: ska-tango-taranta
-    version: 2.10.1
+    version: 2.10.2
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-taranta.enabled
   - name: ska-tango-tangogql
-    version: 1.4.1
+    version: 1.4.3
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-taranta.enabled
 

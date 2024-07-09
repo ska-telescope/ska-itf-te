@@ -5,6 +5,7 @@
     CONFIG: mid
     K8S_CHART: ska-mid-itf-dpd
     KUBE_APP: ska-mid-itf-dpd
+    KUBE_NAMESPACE_SDP: "ci-ska-mid-itf-$CI_COMMIT_REF_NAME-sdp"
     INGRESS_HOST: "k8s.miditf.internal.skao.int"
     CLUSTER_DOMAIN: "miditf.internal.skao.int"
     MINIKUBE: "false"
@@ -26,14 +27,18 @@
   stage: on_demand_itf_sut
   variables:
     KUBE_NAMESPACE: ci-ska-mid-itf-dpd-$CI_COMMIT_REF_NAME
+    DPD_PVC_NAME: test-pvc
+    HELM_RELEASE: test
 
 .dpd-install:
   script:
+    - make vars
     - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart
     - bash .make/resources/gitlab_section.sh wait "Wait for installation" make k8s-wait
   after_script:
     - make dpd-links
-    - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart-with-build-artifacts
+    # - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart-with-build-artifacts
+    - bash .make/resources/gitlab_section.sh helmget "Get all Helm configuration data" helm get all -n $KUBE_NAMESPACE $HELM_RELEASE
 
 .dpd-destroy:
   script:
@@ -72,7 +77,10 @@ destroy-dpd-on-demand:
     - .staging_rules
   stage: staging
   variables:
-    KUBE_NAMESPACE: ska-dpd
+    KUBE_NAMESPACE: shared-ska-dataproducts
+    KUBE_NAMESPACE_SDP: staging-sdp
+    DPD_PVC_NAME: staging-pvc
+    HELM_RELEASE: staging
 
 deploy-dpd-staging:
   extends:
