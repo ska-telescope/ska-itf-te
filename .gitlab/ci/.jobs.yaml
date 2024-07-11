@@ -41,7 +41,7 @@
         bash .make/resources/gitlab_section.sh talon_on "Talon Tango ON" make itf-cbf-tango-on && sleep 3;
       fi
     - env | grep RUNNER_AFTER_SCRIPT_TIMEOUT
-    - bash .make/resources/gitlab_section.sh template "Template Chart" make get-deployment-config-info
+    - bash .make/resources/gitlab_section.sh template "Output deployment config information" make get-deployment-config-info
   after_script:
     - make links
   artifacts:
