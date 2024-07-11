@@ -3,7 +3,7 @@
 
 OCI_BUILD_ADDITIONAL_ARGS += --cache-from registry.gitlab.com/ska-telescope/ska-mid-itf/ska-mid-itf-base:0.1.4
 
-HELM_CHARTS_TO_PUBLISH=dish-lmc ska-db-oda-mid-itf ska-mid-itf-ghosts system-under-test
+HELM_CHARTS_TO_PUBLISH=dish-lmc ska-db-oda-mid-itf ska-mid-itf-ghosts system-under-test ska-mid-itf-dpd
 PYTHON_VARS_AFTER_PYTEST= --disable-pytest-warnings
 POETRY_CONFIG_VIRTUALENVS_CREATE = true
 
