@@ -40,12 +40,12 @@ ska-ser-config-inspector:
 
 ska-mid-cbf-mcs:
   enabled: true
-  midcbf:
-    image:
-      registry: registry.gitlab.com/ska-telescope/ska-mid-cbf-mcs
-      image: ska-mid-cbf-mcs
-      tag: 0.15.1-dev.c9ff96cc0
-      pullPolicy: IfNotPresent
+  # midcbf:
+  #   image:
+  #     registry: registry.gitlab.com/ska-telescope/ska-mid-cbf-mcs
+  #     image: ska-mid-cbf-mcs
+  #     tag: 0.15.1-dev.c9ff96cc0
+  #     pullPolicy: IfNotPresent
   hostInfo:
     environment: "mid-itf"
     clusterDomain: "miditf.internal.skao.int"
@@ -55,12 +55,12 @@ ska-mid-cbf-engineering-console:
   enabled: true
   # Comment section below to use engineering-console image from CAR
   # Uncomment section below to use engineering-console image from gitlab
-  engineeringconsole:
-    image:
-      registry: registry.gitlab.com/ska-telescope/ska-mid-cbf-engineering-console
-      image: ska-mid-cbf-engineering-console
-      tag: 0.10.8-dev.c9206d147
-      pullPolicy: IfNotPresent
+  # engineeringconsole:
+  #   image:
+  #     registry: registry.gitlab.com/ska-telescope/ska-mid-cbf-engineering-console
+  #     image: ska-mid-cbf-engineering-console
+  #     tag: 0.10.8-dev.c9206d147
+  #     pullPolicy: IfNotPresent
 
 
 ska-mid-cbf-tmleafnode:
