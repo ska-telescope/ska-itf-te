@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ska-mid-itf"
-version = "23.1.0"
+version = "23.2.1"
 description = "Integration testing and deployment project for the Mid ITF"
 authors = ["ATLAS"]
 license = "BSD 3-Clause"

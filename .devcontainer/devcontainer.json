@@ -1,6 +1,6 @@
 {
     "name": "ska-mid-itf devcontainer",
-    "dockerFile": "../.engineering-tools/Dockerfile",
+    "dockerFile": "Dockerfile",
     "context": "..",
     // Set *default* container specific settings.json values on container create.
     "customizations": {
@@ -59,13 +59,14 @@
                 "ms-python.black-formatter",
                 "ms-python.flake8",
                 "ms-python.isort",
-                "tamasfe.even-better-toml"
+                "tamasfe.even-better-toml",
+                "ms-toolsai.jupyter"
             ]
         }
     },
     "runArgs": [
-        "--dns",
-        "10.164.0.11"
+        // "--dns",
+        // "10.164.0.11"
         // "--dns",
         // "1.1.1.1"
     ],
@@ -80,7 +81,7 @@
     // Use 'forwardPorts' to make a list of ports inside the container available locally.
     // "forwardPorts": [],
     // Use 'postCreateCommand' to run commands after the container is created.
-    "postCreateCommand": "poetry config virtualenvs.in-project true"
+    "postCreateCommand": "poetry config virtualenvs.in-project true",
     // if you want to work with k8 and helm directly from this container:
     /*
     "features": {
@@ -93,4 +94,5 @@
             "moby": true
         }
     },*/
+    "remoteUser": "tango"
 }

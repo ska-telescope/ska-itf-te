@@ -2,8 +2,8 @@ apiVersion: v2
 name: ska-mid-itf-dish-lmc
 description: An umbrella Helm chart for deploying the Dish LMC and necessary peripherals
 type: application
-version: 23.1.0
-appVersion: 23.1.0
+version: 23.2.1
+appVersion: 23.2.1
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
   # TANGO DEPENDENCIES
@@ -16,19 +16,18 @@ dependencies:
 
   # TARANTA APPLICATION
   - name: ska-tango-taranta
-    version: 2.10.1
+    version: 2.10.2
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-taranta.enabled
   - name: ska-tango-tangogql
-    version: 1.4.1
+    version: 1.4.3
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-taranta.enabled
 
   # DISH LMC CHART
   - name: ska-dish-lmc
-    version: 3.3.0-dev.cb1b7f947
-    repository: https://gitlab.com/api/v4/projects/15858077/packages/helm/dev
-    # repository: https://artefact.skao.int/repository/helm-internal
+    version: 3.4.0
+    repository: https://artefact.skao.int/repository/helm-internal
 
   - name: ska-mid-dish-spfrx-talondx-console
     version: 0.3.2

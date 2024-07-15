@@ -31,17 +31,6 @@ itf-cbf-talonlru-off: ## Switch off the Talon LRU specified
 	./talon_power_apc.sh lru1 off && \
 	./talon_power_apc.sh lru2 off
 
-## TARGET: itf-cbf-config-talon
-## SYNOPSIS: make itf-cbf-config-talon
-## HOOKS: none
-## VARS: 
-##	KUBE_NAMESPACE=[kubernetes namespace where MCS is deployed] (default value: integration)
-##	TALON_BOARD_IDX=[Talon board index number] (default value: 1)
-##  make target for configuring the Talon
-
-# itf-cbf-config-talon: ## generate talondx-config.json
-# 	@kubectl exec -ti -n $(KUBE_NAMESPACE) ec-deployer -- python3 midcbf_deployer.py --generate-talondx-config --boards=$(TALON_BOARD_IDX)
-
 ## TARGET: itf-cbf-config-mcs
 ## SYNOPSIS: make itf-cbf-config-mcs
 ## HOOKS: none
@@ -67,7 +56,6 @@ itf-cbf-copy-slim-config: ## Copy the Talon HW Config file onto a pod
 	@kubectl cp $(SLIM_CONFIG_FILE_PATH)/vis_slim_config.yaml $(KUBE_NAMESPACE)/ds-cbfcontroller-controller-0:/app/mnt/slim/vis_slim_config.yaml
 	@echo "Successfully copied Talon HW config file to the CBF Controller Pod."
 
-
 ## TARGET: itf-cbf-copy-hw-config
 ## SYNOPSIS: make itf-cbf-copy-config
 ## HOOKS: none
@@ -79,26 +67,6 @@ itf-cbf-copy-slim-config: ## Copy the Talon HW Config file onto a pod
 itf-cbf-copy-hw-config: ## Copy the Talon HW Config file onto a pod
 	@kubectl cp $(MCS_CONFIG_FILE_PATH)/hw_config.yaml $(KUBE_NAMESPACE)/ds-cbfcontroller-controller-0:/app/mnt/hw_config/hw_config.yaml
 	@echo "Successfully copied Talon HW config file to the CBF Controller Pod."
-
-## TARGET: itf-cbf-tangocpp-update
-## SYNOPSIS: make itf-cbf-tangocpp-update
-## HOOKS: none
-## VARS: 
-##	KUBE_NAMESPACE=[kubernetes namespace where MCS is deployed] (default value: integration)
-##  make target for downloading all the CPP binaries from the CAR
-
-# itf-cbf-tangocpp-update: ## Download artefacts from CAR (Talon DeviceServer CPP binaries)
-# 	@kubectl exec -ti -n $(KUBE_NAMESPACE) ec-deployer -- python3 midcbf_deployer.py --download-artifacts
-
-## TARGET: itf-cbf-config-tangodb
-## SYNOPSIS: make itf-cbf-tconfig-tangodb
-## HOOKS: none
-## VARS: 
-##	KUBE_NAMESPACE=[kubernetes namespace where MCS is deployed] (default value: integration)
-##  make target for registering the deviceservers in the TangoDB.
-
-# itf-cbf-config-tangodb: ## Configure Deviceservers in the TangoDB
-# 	@kubectl exec -ti -n $(KUBE_NAMESPACE) ec-deployer -- python3 midcbf_deployer.py --config-db
 
 ## TARGET: itf-cbf-power-on
 ## SYNOPSIS: make itf-cbf-power-on
