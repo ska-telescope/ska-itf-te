@@ -29,12 +29,12 @@ dependencies:
   # SKA Mid CBF
   - name: ska-mid-cbf-mcs
     version: 0.15.2
-    repository: https://gitlab.com/api/v4/projects/12488466/packages/helm/dev
+    repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-mid-cbf-mcs.enabled
 
   - name: ska-mid-cbf-engineering-console
     version: 0.10.9
-    repository: https://gitlab.com/api/v4/projects/29657133/packages/helm/dev
+    repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-mid-cbf-engineering-console.enabled
 
   # SKA Mid SDP
