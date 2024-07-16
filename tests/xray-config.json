@@ -17,7 +17,7 @@
   "chart_info": {
     "env": "DEPLOYMENT_CONFIGURATION",
     "maps_to": {
-      "default": "charts/system-under-test/Chart.yaml"
+      "default": "charts/ska-mid-itf-sut/Chart.yaml"
     }
   },
   "test_report": "build/reports/report.json",

@@ -5,7 +5,7 @@
     - ska-k8srunner-za-itf
   variables:
     CONFIG: mid
-    K8S_CHART: system-under-test
+    K8S_CHART: ska-mid-itf-sut
     KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
     CLUSTER_DOMAIN: "miditf.internal.skao.int"
     CLUSTER_DOMAIN_POSTFIX: miditf.internal.skao.int
@@ -55,7 +55,7 @@ deploy-aa05-dishes:
   environment:
     on_stop: uninstall-aa05-dishes
   variables:
-    SUT_CHART_DIR: ${CI_PROJECT_DIR}/charts/system-under-test
+    SUT_CHART_DIR: ${CI_PROJECT_DIR}/charts/ska-mid-itf-sut
 
 redeploy-aa05-dishes:
   extends:
