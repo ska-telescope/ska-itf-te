@@ -6,7 +6,7 @@
     - ska-k8srunner-za-itf
   variables:
     CONFIG: mid
-    K8S_CHART: "system-under-test"
+    K8S_CHART: "ska-mid-itf-sut"
     KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
     CLUSTER_DOMAIN: "miditf.internal.skao.int"

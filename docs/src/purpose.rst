@@ -9,7 +9,7 @@ Test results are automatically uploaded to Jira using the Xray plugin. The test 
 
 Mid ITF Control Interface
 =========================
-Documentation on accessing the ITF Control Interface is maintained in Confluence, mainly under `Accessing ITF network based Test Equipment and SUT <https://confluence.skatelescope.org/x/cdY_Cw>`_. The System Under Test (SUT) as defined in this repository comprises most of the centrally deployed software products, and should not be confused with the SUT that is depicted in the block diagram showing the full system-under-test. The main difference is that the DishLMC, ODA, EDA and other items are deployed in namespaces (or clusters) separate from the one where the central monitoring and control software such as TMC, CSP.LMC, CBF.MCS, SDP, Taranta (Web GUI) and others are deployed.
+Documentation on accessing the ITF Control Interface is maintained in Confluence, mainly under `Accessing ITF network based Test Equipment and SUT <https://confluence.skatelescope.org/x/cdY_Cw>`_. The System Under Test (SUT) as defined in this repository comprises most of the centrally deployed software products, and should not be confused with the SUT that is depicted in the block diagram showing the full SUT. The main difference is that the DishLMC, ODA, EDA and other items are deployed in namespaces (or clusters) separate from the one where the central monitoring and control software such as TMC, CSP.LMC, CBF.MCS, SDP, Taranta (Web GUI) and others are deployed.
 
 DishLMC Integration at the Mid ITF
 ==================================
@@ -53,7 +53,7 @@ Deployment
 Deployment of the SUT
 =====================
 The deployment repository for the SKA Mid Software used to be Skampi. This has now been replaced by the machinery present in this repo.
-The SUT is defined in the `system-under-test` chart and can be deployed using the following jobs:
+The SUT is defined in the `ska-mid-itf-sut` chart and can be deployed using the following jobs:
 
 1. `deploy-sut-on-demand` (manual): creates a short-lived deployment to a `ci-ska-mid-itf-$CI_COMMIT_REF_NAME` namespace. This is intended for testing and debugging and can be deployed from any branch.
 2. `deploy-sut-integration` (manual): creates a long-lived deployment to the `integration` namespace. This can only be deployed from the main branch.

@@ -12,7 +12,7 @@
     SERVICE_ACCOUNT: "ci-svc-staging"
     ARCHIVER_DBNAME: "staging_archiver_db"
     KEEP_NAMESPACE: "true"
-    K8S_CHART: "system-under-test"
+    K8S_CHART: "ska-mid-itf-sut"
     CLUSTER_DOMAIN_POSTFIX: miditf.internal.skao.int
     KUBE_APP: ska-mid-sut
     INGRESS_HOST: "k8s.miditf.internal.skao.int"
