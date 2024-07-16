@@ -50,7 +50,6 @@ ska-mid-cbf-mcs:
     environment: "mid-itf"
     clusterDomain: "miditf.internal.skao.int"
 
-
 ska-mid-cbf-engineering-console:
   enabled: true
   # Comment section below to use engineering-console image from CAR
@@ -62,7 +61,6 @@ ska-mid-cbf-engineering-console:
   #     tag: 0.10.8-dev.c9206d147
   #     pullPolicy: IfNotPresent
 
-
 ska-mid-cbf-tmleafnode:
   enabled: true
 
@@ -72,12 +70,12 @@ ska-csp-lmc-mid:
 
 ### tmc - also see tmc-values for DishIDs!
 ska-tmc-mid:
-  dishleafnode:
-    image:
-      # TEMPORARY COMMIT - SEE https://skao.slack.com/archives/C06H6ESMQNP/p1719498698255899
-      # PULLING registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-dishleafnode/ska-tmc-dishleafnode:
-      registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-dishleafnode
-      tag: 0.14.2-dev.c10183b1c
+  # dishleafnode:
+  #   image:
+  # TEMPORARY COMMIT - SEE https://skao.slack.com/archives/C06H6ESMQNP/p1719498698255899
+  # PULLING registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-dishleafnode/ska-tmc-dishleafnode:
+  # registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-dishleafnode
+  # tag: 0.14.2-dev.c10183b1c
   # sdpleafnodes:
   #   image:
   #     tag: 0.15.1
