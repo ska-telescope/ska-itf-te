@@ -7,31 +7,31 @@ parts:
     platformDependents:
       - ska-mid-cbf-mcs
       - ska-csp-lmc-mid
-    alias: "Tango Base"
+    alias: "SKA Tango Base"
   ska-tango-util:
     version: "file://charts/ska-mid-itf-sut/Chart.yaml"
     platformDependents:
       - ska-mid-cbf-mcs
       - ska-csp-lmc-mid
-    alias: "Tango Util"
+    alias: "SKA Tango Util"
   ska-tmc-mid:
     version: "file://charts/ska-mid-itf-sut/Chart.yaml"
     dependencies:
       - "ska-csp-lmc-mid"
       - "ska-dish-lmc"
       - "ska-sdp"
-    alias: "TMC"
+    alias: "Mid TMC"
     root:
   ska-sdp:
     version: "file://charts/ska-mid-itf-sut/Chart.yaml"
     dependencies: []
-    alias: "SDP"
+    alias: "SKA SDP"
   ska-dish-lmc:
     version: "file://charts/dish-lmc/Chart.yaml"
     dependencies:
       - "ska-mid-dish-spfrx-talondx-console"
       - "ska-te-dish-structure-simulator"
-    alias: "Dish"
+    alias: "Dish LMC"
   ska-te-dish-structure-simulator:
     version: "file://charts/dish-structure-simulators/Chart.yaml"
     dependencies: []
@@ -39,20 +39,20 @@ parts:
   ska-csp-lmc-mid:
     version: "file://charts/ska-mid-itf-sut/Chart.yaml"
     dependencies: ["ska-mid-cbf-mcs"]
-    alias: "CSP"
+    alias: "Mid CSP LMC"
   ska-mid-cbf-mcs:
     version: "file://charts/ska-mid-itf-sut/Chart.yaml"
     dependencies: []
-    alias: "CBF MCS"
+    alias: "Mid CBF MCS"
   ska-tango-taranta:
     version: "file://charts/ska-mid-itf-sut/Chart.yaml"
     dependencies: ["ska-tango-tangogql"]
-    alias: "Taranta"
+    alias: "SKA Taranta"
   ska-tango-tangogql:
     version: "file://charts/ska-mid-itf-sut/Chart.yaml"
     dependencies: []
     platformDependents: []
-    alias: "TangoGQL"
+    alias: "SKA TangoGQL"
   ska-log-consumer:
     version: "file://charts/ska-mid-itf-sut/Chart.yaml"
     dependencies: []
@@ -61,4 +61,4 @@ parts:
   ska-mid-dish-spfrx-talondx-console:
     version: "file://charts/dish-lmc/Chart.yaml"
     dependencies: []
-    alias: "TalonDx Console"
+    alias: "Mid SPFRx Deployer"
