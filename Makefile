@@ -364,3 +364,31 @@ dish-logs:
 
 env:
 	env
+
+JUPYTER_TEST_FILE=ska-mid-jupyter-notebooks/tests/unit/basic_health/
+
+jupyter-pre-test:
+
+jupyter-post-test:
+
+jupyter-do-test:
+	@$(PYTHON_RUNNER) pytest --version -c /dev/null
+	@mkdir -p build
+	$(PYTHON_VARS_BEFORE_PYTEST) $(PYTHON_RUNNER) pytest $(PYTHON_VARS_AFTER_PYTEST) \
+	 --cov=$(PYTHON_SRC) --cov-report=term-missing --cov-report html:build/reports/code-coverage \
+	 --cov-report xml:build/reports/code-coverage.xml --junitxml=build/reports/unit-tests.xml $(JUPYTER_TEST_FILE)
+
+## TARGET: python-test
+## SYNOPSIS: make python-test
+## HOOKS: python-pre-test, python-post-test
+## VARS:
+##       PYTHON_RUNNER=<python executor> - defaults to empty, but could pass something like python -m
+##       PYTHON_TEST_FILE=<paths and/or files for testing> - defaults to tests/unit/
+##       PYTHON_VARS_BEFORE_PYTEST=<environment variables defined before pytest in run> - default empty
+##       PYTHON_VARS_AFTER_PYTEST=<additional switches passed to pytest> - default empty
+##
+##  Run pytest against the tests defined in ./tests.  By default, this will pickup any pytest
+##  specific configuration set in pytest.ini, setup.cfg etc. located in ./tests
+
+jupyter-test: jupyter-pre-test jupyter-do-test jupyter-post-test  ## test the Jupyter submodule
+

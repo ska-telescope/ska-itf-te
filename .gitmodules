@@ -4,3 +4,6 @@
 [submodule ".engineering-tools"]
 	path = .engineering-tools
 	url = https://gitlab.com/ska-telescope/ska-mid-itf-engineering-tools.git
+[submodule "ska-mid-jupyter-notebooks"]
+	path = ska-mid-jupyter-notebooks
+	url = git@gitlab.com:ska-telescope/ska-mid-jupyter-notebooks.git
