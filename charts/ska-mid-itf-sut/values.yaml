@@ -51,7 +51,7 @@ ska-mid-cbf-mcs:
     clusterDomain: "miditf.internal.skao.int"
 
 ska-mid-cbf-engineering-console:
-  enabled: true
+  enabled: false
   # Comment section below to use engineering-console image from CAR
   # Uncomment section below to use engineering-console image from gitlab
   # engineeringconsole:
