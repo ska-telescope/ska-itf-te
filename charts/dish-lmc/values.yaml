@@ -43,7 +43,7 @@ ska-mid-dish-spfrx-talondx-console:
   enabled: true
   console:
     registry: registry.gitlab.com/ska-telescope/ska-mid-dish-spfrx-talondx-console
-    version: 0.3.2-dev.c01353ef6
+    version: 0.3.2-dev.c917930d2
   # console:
   #   version: 0.2.1 # Edit in Gitlab Environment
   address: 10.165.3.20
