@@ -365,7 +365,7 @@ dish-logs:
 env:
 	env
 
-JUPYTER_TEST_FILE=ska-mid-jupyter-notebooks/tests/unit/basic_health/
+JUPYTER_TEST_FILE=.jupyter-notebooks/tests/unit/basic_health/
 
 jupyter-pre-test:
 
