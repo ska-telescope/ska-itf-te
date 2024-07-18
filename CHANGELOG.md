@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+## 23.3.0
+* [MAP-102] - updated Mid CBF now allows 2 FSPs to be used, updated MCS and Eng Console, latest SDP, latest SPFRx TalonDx Console
+* [AT-2109] - SUT configuration now with PBS names for Charts instead of chart-names
+* [AT-2173] - Jupyter Notebooks submodule added
+* [AT-2181] - TMC patch removed
+* [AT-2181] - Various chart versions updated, SUT chart renamed
+* [AT-2173] - Publishing DPD umpbrella chart
+* [AT-2173] - Update Engineering Console image
+
+## 23.2.1
+* [AT-2139] - Added TMC Mid patch image and DishLMC upgrade for TrackTable delay fix (SKB-419).
+  
 ## 23.2.0
 * [AT-2122] - DPD is deployed with the correct PVC name and can therefore correctly access the shared data products volume
 * [AT-2158] - Bumped mid-dish-spfrx-talondx-console version to 0.3.1

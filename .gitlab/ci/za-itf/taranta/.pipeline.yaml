@@ -11,8 +11,7 @@ deploy-taranta:
   script:
     - make k8s-install-chart
     - make k8s-wait
-  after_script:
-    - bash .make/resources/gitlab_section.sh template "Template Chart" make get-deployment-config-info
+    - bash .make/resources/gitlab_section.sh template "Output deployment config information" make get-deployment-config-info
   artifacts:
     name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID"
     paths:

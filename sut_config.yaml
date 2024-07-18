@@ -3,54 +3,62 @@ name: ska-mid-itf
 version: 0.1.0
 parts:
   ska-tango-base:
-    version: "file://charts/system-under-test/Chart.yaml"
+    version: "file://charts/ska-mid-itf-sut/Chart.yaml"
     platformDependents:
       - ska-mid-cbf-mcs
       - ska-csp-lmc-mid
+    alias: "SKA Tango Base"
   ska-tango-util:
-    version: "file://charts/system-under-test/Chart.yaml"
+    version: "file://charts/ska-mid-itf-sut/Chart.yaml"
     platformDependents:
       - ska-mid-cbf-mcs
       - ska-csp-lmc-mid
+    alias: "SKA Tango Util"
   ska-tmc-mid:
-    version: "file://charts/system-under-test/Chart.yaml"
+    version: "file://charts/ska-mid-itf-sut/Chart.yaml"
     dependencies:
       - "ska-csp-lmc-mid"
       - "ska-dish-lmc"
       - "ska-sdp"
+    alias: "Mid TMC"
     root:
   ska-sdp:
-    version: "file://charts/system-under-test/Chart.yaml"
+    version: "file://charts/ska-mid-itf-sut/Chart.yaml"
     dependencies: []
-    # root:
+    alias: "SKA SDP"
   ska-dish-lmc:
     version: "file://charts/dish-lmc/Chart.yaml"
     dependencies:
       - "ska-mid-dish-spfrx-talondx-console"
       - "ska-te-dish-structure-simulator"
+    alias: "Dish LMC"
   ska-te-dish-structure-simulator:
     version: "file://charts/dish-structure-simulators/Chart.yaml"
     dependencies: []
-    # root:
+    alias: "DS Simulator"
   ska-csp-lmc-mid:
-    version: "file://charts/system-under-test/Chart.yaml"
+    version: "file://charts/ska-mid-itf-sut/Chart.yaml"
     dependencies: ["ska-mid-cbf-mcs"]
-    # root:
+    alias: "Mid CSP LMC"
   ska-mid-cbf-mcs:
-    version: "file://charts/system-under-test/Chart.yaml"
+    version: "file://charts/ska-mid-itf-sut/Chart.yaml"
     dependencies: []
-    # root:
+    alias: "Mid CBF MCS"
   ska-tango-taranta:
-    version: "file://charts/system-under-test/Chart.yaml"
+    version: "file://charts/ska-mid-itf-sut/Chart.yaml"
     dependencies: ["ska-tango-tangogql"]
+    alias: "SKA Taranta"
   ska-tango-tangogql:
-    version: "file://charts/system-under-test/Chart.yaml"
+    version: "file://charts/ska-mid-itf-sut/Chart.yaml"
     dependencies: []
     platformDependents: []
+    alias: "SKA TangoGQL"
   ska-log-consumer:
-    version: "file://charts/system-under-test/Chart.yaml"
+    version: "file://charts/ska-mid-itf-sut/Chart.yaml"
     dependencies: []
     platformDependents: []
+    alias: ""
   ska-mid-dish-spfrx-talondx-console:
     version: "file://charts/dish-lmc/Chart.yaml"
     dependencies: []
+    alias: "Mid SPFRx Deployer"
