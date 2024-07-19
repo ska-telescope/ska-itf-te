@@ -22,6 +22,10 @@ ska-tango-base:
 
 # DISH LMC
 ska-dish-lmc:
+  dshlmc:
+    image:
+      registry: registry.gitlab.com/ska-telescope/ska-dish-lmc
+      tag: 4.0.0-dev.cb37cf672
   ska-tango-base:
     enabled: false
   ska-mid-dish-manager:
@@ -30,10 +34,6 @@ ska-dish-lmc:
     enabled: true
   ska-mid-dish-simulators:
     enabled: true
-    dishsimulators:
-      image:
-        registry: registry.gitlab.com/ska-telescope/ska-mid-dish-simulators
-        tag: 3.0.0-dev.ca5180130
     deviceServers:
       spfdevice:
         enabled: true
