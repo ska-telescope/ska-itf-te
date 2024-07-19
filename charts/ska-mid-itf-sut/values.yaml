@@ -70,12 +70,12 @@ ska-csp-lmc-mid:
 
 ### tmc - also see tmc-values for DishIDs!
 ska-tmc-mid:
-  # dishleafnode:
-  #   image:
+  dishleafnode:
+    image:
   # TEMPORARY COMMIT - SEE https://skao.slack.com/archives/C06H6ESMQNP/p1719498698255899
   # PULLING registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-dishleafnode/ska-tmc-dishleafnode:
-  # registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-dishleafnode
-  # tag: 0.14.2-dev.c10183b1c
+      registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-dishleafnode
+      tag: 0.14.2-dev.c5a4762cc
   # sdpleafnodes:
   #   image:
   #     tag: 0.15.1

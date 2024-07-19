@@ -30,6 +30,10 @@ ska-dish-lmc:
     enabled: true
   ska-mid-dish-simulators:
     enabled: true
+    dishsimulators:
+      image:
+        registry: registry.gitlab.com/ska-telescope/ska-mid-dish-simulators
+        tag: 3.0.0-dev.ca5180130
     deviceServers:
       spfdevice:
         enabled: true
