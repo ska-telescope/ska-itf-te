@@ -47,3 +47,17 @@ def fxt_sdp_base_configuration(tmp_path) -> conf_types.ScanConfiguration:
         tmp_path, conf_types.ScanConfigurationType.STANDARD
     )
     return configuration
+
+
+@pytest.fixture(name="set_exec_settings_for_tmc")
+def fxt_set_exec_settings_from_sut_settings(
+    exec_settings: fxt_types.exec_settings, sut_settings: conftest.SutTestSettings
+):
+    """.
+
+    :param exec_settings: _description_
+    :type exec_settings: fxt_types.exec_settings
+    :param sut_settings:
+    :type sut_settings: conftest.SutTestSettings
+    """
+    exec_settings.nr_of_receptors = sut_settings.receptors
