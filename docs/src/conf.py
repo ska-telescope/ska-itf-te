@@ -48,8 +48,8 @@ extensions = [
     "sphinx.ext.githubpages",
     "recommonmark",
     "sphinx.ext.autosectionlabel",
+    "myst_parser",
 ]
-
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["ska-ser-sphinx-templates/_templates"]
@@ -79,3 +79,6 @@ html_context = {
 }
 
 intersphinx_mapping = {"python": ("https://docs.python.org/3", None)}
+
+myst_enable_extensions = ["colon_fence"]
+

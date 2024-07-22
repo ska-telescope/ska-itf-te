@@ -28,7 +28,9 @@ Welcome to SKA CICD Deploy Mid ITF documentation!
    :maxdepth: 2
    :caption: Ansible Playbook Readme
 
-   README.ansible-playbooks.md
+.. include:: README.ansible-playbooks.md
+   :parser: myst_parser.sphinx_
+
 ..
    Indices and tables
    ==================
