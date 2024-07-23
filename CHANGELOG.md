@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 23.3.1
+* [AT-2188] - upgraded DishLMC to 4.0.0
+* [AT-2186] - Indicate CBF in-the-loop on Grafana and avoid deploying Engineering Console unless CBF is in-the-loop
+
 ## 23.3.0
 * [MAP-102] - updated Mid CBF now allows 2 FSPs to be used, updated MCS and Eng Console, latest SDP, latest SPFRx TalonDx Console
 * [AT-2109] - SUT configuration now with PBS names for Charts instead of chart-names
