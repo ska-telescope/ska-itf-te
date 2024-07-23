@@ -26,6 +26,13 @@ Welcome to SKA CICD Deploy Mid ITF documentation!
 
 .. toctree::
    :maxdepth: 2
+   :caption: Readme
+
+.. include:: README.md
+   :parser: myst_parser.sphinx_
+
+.. toctree::
+   :maxdepth: 2
    :caption: Ansible Playbook Readme
 
 .. include:: README.ansible-playbooks.md
