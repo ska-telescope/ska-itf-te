@@ -13,6 +13,7 @@
 import os
 import sys
 import sphinx_rtd_theme
+import myst_parser
 
 sys.path.insert(0, os.path.abspath("../../src"))
 
@@ -46,8 +47,8 @@ extensions = [
     "sphinx.ext.ifconfig",
     "sphinx.ext.viewcode",
     "sphinx.ext.githubpages",
-    "recommonmark",
-    "sphinx.ext.autosectionlabel",
+    # "recommonmark",
+    # "sphinx.ext.autosectionlabel",
     "myst_parser",
 ]
 
