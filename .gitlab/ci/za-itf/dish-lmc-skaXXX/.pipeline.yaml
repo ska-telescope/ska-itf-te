@@ -29,6 +29,8 @@
         KUBE_NAMESPACE: "ci-$KUBE_APP-$DISH_ID-$CI_COMMIT_REF_NAME"
         KUBE_NAMESPACE_PREFIX: ci-dish-lmc-
         KUBE_NAMESPACE_POSTFIX: -$CI_COMMIT_REF_NAME
+        K8S_AUTH_NAMESPACES: "$KUBE_NAMESPACE integration-sdp" # This is an ugly hack
+        K8S_AUTH_SERVICE_ACCOUNT: "ci-svc-ska-miditf-$CI_PIPELINE_ID"
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       variables:
         KUBE_NAMESPACE: integration-$KUBE_APP-$DISH_ID
@@ -51,6 +53,7 @@
   before_script:
     - bash .make/resources/gitlab_section.sh vars "Print vars" make vars
   script:
+    - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make dish-lmc-namespace-credentials
     - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart;
     - bash .make/resources/gitlab_section.sh wait "Wait for completion" make k8s-wait
     - make itf-dish-links
