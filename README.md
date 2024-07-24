@@ -189,10 +189,14 @@ IP  : 10.165.3.1
 Port: 5025
 Web : http://za-itf-signal-generator.ad.skatelescope.org/webpages/web/html/ihp.php
 
-# Deployment variables
+## Environment variables for K8S deployment
 
+Change as required for simulation or hardware in the loop:
+
+```
 CBF_HW_IN_THE_LOOP=false
 SPFRX_IN_THE_LOOP=false
 DISH_LMC_IN_THE_LOOP=false
 HW_IN_THE_LOOP=false
+```
 
