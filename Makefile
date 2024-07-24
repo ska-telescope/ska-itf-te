@@ -364,3 +364,8 @@ dish-logs:
 
 env:
 	env
+
+post-set-release:
+	@cur_rel= && \
+	./scripts/release/update_chart_version.sh $(shell awk -F= '/^release=/{print $$2}' .release) sut_config.yaml;
+	@echo "Updated SUT Config graph reflecting Mid ITF latest version."
