@@ -12,11 +12,12 @@ from ..conftest import SutTestSettings
 from ..resources.models.base.states import ObsState
 
 
-@pytest.mark.skip(reason="WIP")
+# @pytest.mark.skip(reason="WIP")
 @pytest.mark.k8s
 @pytest.mark.k8sonly
 @pytest.mark.skamid
 @pytest.mark.configure
+@pytest.mark.usefixtures("set_exec_settings_for_tmc")
 @scenario(
     "features/tmc_configure_scan.feature",
     "Configure the mid telescope subarray using TMC",
