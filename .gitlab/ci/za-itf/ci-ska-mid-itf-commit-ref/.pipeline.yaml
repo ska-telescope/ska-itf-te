@@ -118,7 +118,7 @@ k8s-test-runner:
     SHOW_STEP_FUNCTIONS: "True"
     CAPTURE_LOGS: "True"
     EXIT_AT_FAIL: "True"
-    REMOVE_FAILED_TEST_DEPLOYMENT: "true"
+    REMOVE_FAILED_TEST_DEPLOYMENT: "false"
     K8S_TEST_RUNNER_PARAMS: --set ska-tmc-mid.deviceServers.mocks.dish=true --set ska-tmc-mid.deviceServers.mocks.enabled=true
     DISH_LMC_IN_THE_LOOP: "false"
 
