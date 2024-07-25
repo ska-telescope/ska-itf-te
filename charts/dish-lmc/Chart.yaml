@@ -27,8 +27,7 @@ dependencies:
   # DISH LMC CHART
   - name: ska-dish-lmc
     version: 4.1.0
-    repository: https://gitlab.com/api/v4/projects/15858077/packages/helm/dev/
-    #repository: https://artefact.skao.int/repository/helm-internal
+    repository: https://artefact.skao.int/repository/helm-internal
 
   - name: ska-mid-dish-spfrx-talondx-console
     version: 0.3.2
