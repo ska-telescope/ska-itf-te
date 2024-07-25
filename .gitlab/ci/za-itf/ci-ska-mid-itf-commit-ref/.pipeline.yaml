@@ -96,21 +96,21 @@ k8s-test-runner:
     - bash .make/resources/gitlab_section.sh install "K8S Install" make k8s-install-chart
     - bash .make/resources/gitlab_section.sh wait "K8S wait" make k8s-wait
     - make itf-cbf-setup --dry
-  # script:
-  #   - make integration-test TANGO_HOST=$TANGO_DATABASE_DS.$KUBE_NAMESPACE.svc.$CLUSTER_DOMAIN:10000 || true
-  #   - echo "Test command exit code - $(cat build/status)"
-  #   - |
-  #     if [[ 0 == "$(cat build/status)" || "$REMOVE_FAILED_TEST_DEPLOYMENT" == "true" ]]; then
-  #       make remove-sut-deployment
-  #     else
-  #       echo "#####################################################################################"
-  #       echo "# NOTE: this deployment will persist for about 2 hours, for investigation purposes. #"
-  #       echo "#####################################################################################"
-  #       bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
-  #       make links
-  #     fi
-  #   - '[ -f build/status ] || (echo "Something went wrong with the test (no build/status file); exit 1")'
-  #   - exit $(cat build/status)
+  script:
+    - make integration-test TANGO_HOST=$TANGO_DATABASE_DS.$KUBE_NAMESPACE.svc.$CLUSTER_DOMAIN:10000 || true
+    - echo "Test command exit code - $(cat build/status)"
+    - |
+      if [[ 0 == "$(cat build/status)" || "$REMOVE_FAILED_TEST_DEPLOYMENT" == "true" ]]; then
+        make remove-sut-deployment
+      else
+        echo "#####################################################################################"
+        echo "# NOTE: this deployment will persist for about 2 hours, for investigation purposes. #"
+        echo "#####################################################################################"
+        bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
+        make links
+      fi
+    - '[ -f build/status ] || (echo "Something went wrong with the test (no build/status file); exit 1")'
+    - exit $(cat build/status)
   variables:
     DEBUG_ENTRYPOINT: "True"
     DEBUG_ENTRYPOINT_EXTENDED: "True"
