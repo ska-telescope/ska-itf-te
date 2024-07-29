@@ -30,6 +30,9 @@ ska-dish-lmc:
     enabled: true
   ska-mid-dish-simulators:
     enabled: true
+    dishsimulators:
+      image:
+        tag: 3.1.1
     deviceServers:
       spfdevice:
         enabled: true
