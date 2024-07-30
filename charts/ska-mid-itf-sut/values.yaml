@@ -75,7 +75,7 @@ ska-tmc-mid:
   dishleafnode:
     image:
       registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-dishleafnode
-      tag: 0.14.2-dev.c10183b1c
+      tag: 0.14.2-dev.c5a4762cc
   # sdpleafnodes:
   #   image:
   #     tag: 0.15.1
