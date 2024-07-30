@@ -28,14 +28,20 @@ def fxt_nr_of_subarrays() -> int:
     :return: _description_
     :rtype: int
     """
+    ##############################################
+    # THIS COMMENT BLOCK CAME DIRECTLY FROM SKAMPI
     # we only work with 1 subarray as CBF low currently limits
     # deployment of only 1
     # cbf mid only controls the state of subarray 1
     # so will also limit to 1
-    tel = names.TEL()
-    if tel.skalow:
-        return 1
-    return 2
+    ##############################################
+
+    ##############################################
+    # Overriding to see if 3 subarrays for MID and LOW helps
+    # tel = names.TEL()
+    # if tel.skalow:
+    #     return 1
+    return 3
 
 
 @pytest.fixture(name="set_nr_of_subarray", autouse=True)
