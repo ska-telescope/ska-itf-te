@@ -41,7 +41,7 @@ def fxt_nr_of_subarrays() -> int:
     # tel = names.TEL()
     # if tel.skalow:
     #     return 1
-    return 3
+    return 1
 
 
 @pytest.fixture(name="set_nr_of_subarray", autouse=True)
