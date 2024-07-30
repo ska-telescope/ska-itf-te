@@ -4,9 +4,9 @@
 
 # run the dockerfile
 IMAGE=registry.gitlab.com/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools
-IMAGE_VERSION=0.9.2-dev.c1a92fba6
+# IMAGE_VERSION=0.9.2-dev.c8d82d7c2
+IMAGE_VERSION=0.9.2
 docker run -it -e CI_COMMIT_SHA=$(git rev-parse --short HEAD) --env-file PrivateRules.mak $IMAGE:$IMAGE_VERSION
-
 
 # git clone (to mimic the pipeline start)
 mkdir /build && mkdir /build/ska-telescope && cd /build/ska-telescope 
@@ -14,17 +14,20 @@ git clone --recurse-submodules https://gitlab.com/ska-telescope/ska-mid-itf.git 
 git checkout $CI_COMMIT_SHA -q && git show -q
 
 # log into infra from the container
-infra login https://boundary.skao.int --enable-ssh
-infra use za-itf-k8s-master01-k8s
+# infra login https://boundary.skao.int --enable-ssh
+# infra use za-itf-k8s-master01-k8s
 
 # Activate the virtual environment in the container if you want to run make lint
-poetry shell
+poetry shell && poetry install
 
 make python-format
 make python-lint # add a few #noqas to get the thing going
 
 # before executing the latest version install again
 poetry install
+
+# run talon_on like the Gitlab Runner:
+talon_on
 
 # if you DON'T have the .venv running and you just ran poetry install, 
 # use the following command but with `poetry run ` prepended
