@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 23.4.0
+* [AT-2213] - no longer removing failed deployments - this is a big risk
+* [AT-2213] - Bumped DishLMC to 4.1.0 and use custom dishsimulators with speeds never seen before
+* [AT-2213] - put back the TMC Dishleafnode patch image
+* [AT-2213] - automated chart version update for Mid ITF chart
 ## 23.3.1
 * [AT-2188] - upgraded DishLMC to 4.0.0
 * [AT-2186] - Indicate CBF in-the-loop on Grafana and avoid deploying Engineering Console unless CBF is in-the-loop
