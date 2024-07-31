@@ -78,7 +78,7 @@ class SutTestSettings(SimpleNamespace):
     """Object representing env like SUT settings for fixtures in conftest."""
 
     mock_sut: bool = False
-    nr_of_subarrays = 3
+    nr_of_subarrays = 1
     subarray_id = 1
     scan_duration = 4
     _receptors = [1, 2, 3, 4]
