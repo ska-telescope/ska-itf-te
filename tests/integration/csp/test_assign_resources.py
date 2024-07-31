@@ -30,6 +30,7 @@ def fxt_default_composition(csp_base_composition: conf_types.Composition):
 @pytest.mark.skamid
 @pytest.mark.csp
 @pytest.mark.assign
+@pytest.mark.usefixtures("update_exec_settings")
 @scenario(
     "features/csp_assign_resources.feature",
     "Assign resources to CSP mid subarray",
@@ -78,6 +79,19 @@ def test_abort_in_resourcing_mid(
     """
 
 
+@pytest.fixture
+def update_exec_settings(exec_settings: fxt_types.exec_settings, sut_settings: SutTestSettings):
+    """_summary_.
+
+    :param exec_settings: _description_
+    :type exec_settings: fxt_types.exec_settings
+    :param sut_settings: _description_
+    :type sut_settings: SutTestSettings
+    """
+
+    exec_settings.nr_of_subarrays = sut_settings.nr_of_subarrays
+
+
 # use when from ..shared_assign_resources in ..conftest.py
 # @when("I assign resources to it")
 
@@ -99,18 +113,3 @@ def test_abort_in_resourcing_mid(
 #     :type exec_settings: ExecSettings
 #     """
 #     exec_settings.nr_of_subarrays = sut_settings.nr_of_subarrays
-
-
-@pytest.fixture(name="exec_settings", autouse=True)
-def fxt_exec_settings(request: Any, sut_settings: SutTestSettings) -> ExecSettings:
-    """_summary_.
-
-    :param request: The request fixture injected by pytest
-    :type request: Any
-    :param sut_settings: _description_
-    :type sut_settings: SutTestSettings
-    :rtype: ExecSettings
-    """
-    execution_settings = ExecSettings(request.node)
-    execution_settings.nr_of_subarrays = sut_settings.nr_of_subarrays
-    return execution_settings
