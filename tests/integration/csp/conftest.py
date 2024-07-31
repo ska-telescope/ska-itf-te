@@ -101,6 +101,7 @@ def fxt_set_csp_entry_point(
     set_session_exec_env: fxt_types.set_session_exec_env,
     exec_settings: fxt_types.exec_settings,
     sut_settings: conftest.SutTestSettings,
+    nr_of_subarrays: int,
 ):
     """_summary_.
 
@@ -113,10 +114,10 @@ def fxt_set_csp_entry_point(
     :param sut_settings: _description_
     :type sut_settings: conftest.SutTestSettings
     """
-    exec_settings.nr_of_subarrays = sut_settings.nr_of_subarrays
+    exec_settings.nr_of_subarrays = nr_of_subarrays
     exec_env = set_session_exec_env
     if not sut_settings.mock_sut:
-        CSPEntryPoint.nr_of_subarrays = sut_settings.nr_of_subarrays
+        CSPEntryPoint.nr_of_subarrays = nr_of_subarrays
         exec_env.entrypoint = CSPEntryPoint
     else:
         exec_env.entrypoint = "mock"
