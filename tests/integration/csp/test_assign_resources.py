@@ -30,7 +30,7 @@ def fxt_default_composition(csp_base_composition: conf_types.Composition):
 @pytest.mark.skamid
 @pytest.mark.csp
 @pytest.mark.assign
-@pytest.mark.usefixtures("update_exec_settings")
+@pytest.mark.usefixtures("updated_exec_settings")
 @scenario(
     "features/csp_assign_resources.feature",
     "Assign resources to CSP mid subarray",
@@ -79,7 +79,7 @@ def test_abort_in_resourcing_mid(
     """
 
 
-@pytest.fixture
+@pytest.fixture(name="updated_exec_settings")
 def update_exec_settings(exec_settings: fxt_types.exec_settings, sut_settings: SutTestSettings):
     """_summary_.
 
@@ -90,6 +90,7 @@ def update_exec_settings(exec_settings: fxt_types.exec_settings, sut_settings: S
     """
 
     exec_settings.nr_of_subarrays = sut_settings.nr_of_subarrays
+    logging.info(f"NR OF SUBARRAYS {exec_settings.nr_of_subarrays}")
 
 
 # use when from ..shared_assign_resources in ..conftest.py
