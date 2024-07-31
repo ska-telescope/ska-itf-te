@@ -2,7 +2,7 @@
 
 import logging
 import os
-from typing import Callable
+from typing import Callable, Any
 
 import pytest
 from assertpy import assert_that
@@ -12,6 +12,7 @@ from ska_ser_skallop.mvp_control.describing import mvp_names as names
 from ska_ser_skallop.mvp_control.entry_points import types as conf_types
 from ska_ser_skallop.mvp_control.entry_points.base import EntryPoint
 from ska_ser_skallop.mvp_fixtures.fixtures import fxt_types
+from ska_ser_skallop.mvp_fixtures.base import ExecSettings
 
 from .. import conftest
 from ..conftest import SutTestSettings
@@ -22,7 +23,7 @@ from ..resources.models.mvp_model.states import ObsState
 
 
 @pytest.fixture(name="nr_of_subarrays", autouse=True, scope="session")
-def fxt_nr_of_subarrays() -> int:
+def fxt_nr_of_subarrays(sut_settings: conftest.SutTestSettings) -> int:
     """_summary_.
 
     :return: _description_
@@ -41,26 +42,26 @@ def fxt_nr_of_subarrays() -> int:
     # tel = names.TEL()
     # if tel.skalow:
     #     return 1
-    return 1
+    return sut_settings.nr_of_subarrays
 
 
-@pytest.fixture(name="set_nr_of_subarray", autouse=True)
-def fxt_set_nr_of_subarray(
-    sut_settings: conftest.SutTestSettings,
-    exec_settings: fxt_types.exec_settings,
-    nr_of_subarrays: int,
-):
-    """_summary_.
+# @pytest.fixture(name="set_nr_of_subarray", autouse=True)
+# def fxt_set_nr_of_subarray(
+#     sut_settings: conftest.SutTestSettings,
+#     exec_settings: fxt_types.exec_settings,
+#     nr_of_subarrays: int,
+# ):
+#     """_summary_.
 
-    :param nr_of_subarrays: _description_
-    :type nr_of_subarrays: int
-    :param sut_settings: _description_
-    :type sut_settings: conftest.SutTestSettings
-    :param exec_settings: A fixture that returns the execution settings of the test
-    :type exec_settings: fxt_types.exec_settings
-    """
-    CSPEntryPoint.nr_of_subarrays = nr_of_subarrays
-    sut_settings.nr_of_subarrays = nr_of_subarrays
+#     :param nr_of_subarrays: _description_
+#     :type nr_of_subarrays: int
+#     :param sut_settings: _description_
+#     :type sut_settings: conftest.SutTestSettings
+#     :param exec_settings: A fixture that returns the execution settings of the test
+#     :type exec_settings: fxt_types.exec_settings
+#     """
+#     CSPEntryPoint.nr_of_subarrays = nr_of_subarrays
+#     sut_settings.nr_of_subarrays = nr_of_subarrays
 
 
 @pytest.fixture(autouse=True, scope="session")
@@ -96,9 +97,18 @@ def fxt_set_csp_online_from_csp(
     set_subsystem_online(entry_point)
 
 
+@pytest.fixture(name="exec_settings", autouse=True, scope="session")
+def fxt_exec_settings(request: Any) -> ExecSettings:
+    """Generate an ExecSettings implementation.
+
+    :param request: The request fixture injected by pytest
+    :return: the ExecSettings implementation.
+    """
+    return ExecSettings(request.node)
+
+
 @pytest.fixture(name="set_csp_entry_point", autouse=True)
 def fxt_set_csp_entry_point(
-    set_nr_of_subarray,
     set_session_exec_env: fxt_types.set_session_exec_env,
     exec_settings: fxt_types.exec_settings,
     sut_settings: conftest.SutTestSettings,
@@ -114,6 +124,7 @@ def fxt_set_csp_entry_point(
     :param sut_settings: _description_
     :type sut_settings: conftest.SutTestSettings
     """
+    exec_settings.nr_of_subarrays = 1
     exec_env = set_session_exec_env
     if not sut_settings.mock_sut:
         CSPEntryPoint.nr_of_subarrays = sut_settings.nr_of_subarrays
@@ -273,6 +284,7 @@ def the_csp_subarray_must_be_in_some_obsstate(
         settings for the integration tests.
     :type integration_test_exec_settings: fxt_types.exec_settings
     """
+
     tel = names.TEL()
     csp_subarray_name = tel.csp.subarray(sut_settings.subarray_id)
     recorder = integration_test_exec_settings.recorder
