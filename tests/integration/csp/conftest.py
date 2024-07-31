@@ -22,7 +22,7 @@ from ..resources.models.mvp_model.states import ObsState
 # pylint: disable=eval-used
 
 
-@pytest.fixture(name="nr_of_subarrays", autouse=True, scope="session")
+@pytest.fixture(name="nr_of_subarrays", autouse=True)
 def fxt_nr_of_subarrays(sut_settings: conftest.SutTestSettings) -> int:
     """_summary_.
 
@@ -124,7 +124,7 @@ def fxt_set_csp_entry_point(
     :param sut_settings: _description_
     :type sut_settings: conftest.SutTestSettings
     """
-    exec_settings.nr_of_subarrays = 1
+    exec_settings.nr_of_subarrays = sut_settings.nr_of_subarrays
     exec_env = set_session_exec_env
     if not sut_settings.mock_sut:
         CSPEntryPoint.nr_of_subarrays = sut_settings.nr_of_subarrays
