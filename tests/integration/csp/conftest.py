@@ -2,7 +2,7 @@
 
 import logging
 import os
-from typing import Callable, Any
+from typing import Callable
 
 import pytest
 from assertpy import assert_that
@@ -21,59 +21,14 @@ from ..resources.models.mvp_model.states import ObsState
 # pylint: disable=eval-used
 
 
-@pytest.fixture(name="nr_of_subarrays", autouse=True, scope="session")
-def fxt_nr_of_subarrays() -> int:
-    """_summary_.
-
-    :return: _description_
-    :rtype: int
-    """
-    ##############################################
-    # THIS COMMENT BLOCK CAME DIRECTLY FROM SKAMPI
-    # we only work with 1 subarray as CBF low currently limits
-    # deployment of only 1
-    # cbf mid only controls the state of subarray 1
-    # so will also limit to 1
-    ##############################################
-
-    ##############################################
-    # Overriding to see if 3 subarrays for MID and LOW helps
-    # tel = names.TEL()
-    # if tel.skalow:
-    #     return 1
-    return 1
-
-
-# @pytest.fixture(name="set_nr_of_subarray", autouse=True)
-# def fxt_set_nr_of_subarray(
-#     sut_settings: conftest.SutTestSettings,
-#     exec_settings: fxt_types.exec_settings,
-#     nr_of_subarrays: int,
-# ):
-#     """_summary_.
-
-#     :param nr_of_subarrays: _description_
-#     :type nr_of_subarrays: int
-#     :param sut_settings: _description_
-#     :type sut_settings: conftest.SutTestSettings
-#     :param exec_settings: A fixture that returns the execution settings of the test
-#     :type exec_settings: fxt_types.exec_settings
-#     """
-#     CSPEntryPoint.nr_of_subarrays = nr_of_subarrays
-#     sut_settings.nr_of_subarrays = nr_of_subarrays
-
-
 @pytest.fixture(autouse=True, scope="session")
 def fxt_set_csp_online_from_csp(
     set_session_exec_settings: fxt_types.session_exec_settings,
     set_subsystem_online: Callable[[EntryPoint], None],
     wait_sut_ready_for_session: Callable[[EntryPoint], None],
-    nr_of_subarrays: int,
 ):
     """_summary_.
 
-    :param nr_of_subarrays: _description_
-    :type nr_of_subarrays: int
     :param set_subsystem_online: _description_
     :type set_subsystem_online: Callable[[EntryPoint], None]
     :param set_session_exec_settings: A fixture to set session execution settings.
@@ -87,7 +42,6 @@ def fxt_set_csp_online_from_csp(
     set_session_exec_settings.log_enabled = True
     tel = names.TEL()
     set_session_exec_settings.capture_logs_from(str(tel.csp.subarray(1)))
-    CSPEntryPoint.nr_of_subarrays = nr_of_subarrays
     entry_point = CSPEntryPoint()
     logging.info("wait for sut to be ready in the context of csp")
     wait_sut_ready_for_session(entry_point)
@@ -101,12 +55,9 @@ def fxt_set_csp_entry_point(
     set_session_exec_env: fxt_types.set_session_exec_env,
     exec_settings: fxt_types.exec_settings,
     sut_settings: conftest.SutTestSettings,
-    nr_of_subarrays: int,
 ):
     """_summary_.
 
-    :param set_nr_of_subarray: To set the number of subarray
-    :type set_nr_of_subarray: int
     :param set_session_exec_env: _description_
     :type set_session_exec_env: fxt_types.set_session_exec_env
     :param exec_settings: _description_
@@ -114,10 +65,9 @@ def fxt_set_csp_entry_point(
     :param sut_settings: _description_
     :type sut_settings: conftest.SutTestSettings
     """
-    exec_settings.nr_of_subarrays = nr_of_subarrays
     exec_env = set_session_exec_env
     if not sut_settings.mock_sut:
-        CSPEntryPoint.nr_of_subarrays = nr_of_subarrays
+        CSPEntryPoint.nr_of_subarrays = sut_settings.nr_of_subarrays
         exec_env.entrypoint = CSPEntryPoint
     else:
         exec_env.entrypoint = "mock"
@@ -266,10 +216,8 @@ def the_csp_subarray_must_be_in_some_obsstate(
     :param sut_settings: An instance of SutTestSettings class
         containing test settings for the SUT.
     :type sut_settings: SutTestSettings
-
     :param obsstate: An instance of ObsState enum class representing the observation state.
     :type obsstate: ObsState
-
     :param integration_test_exec_settings: A dictionary containing the execution
         settings for the integration tests.
     :type integration_test_exec_settings: fxt_types.exec_settings

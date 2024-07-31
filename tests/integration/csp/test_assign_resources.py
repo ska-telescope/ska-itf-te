@@ -5,6 +5,7 @@ import logging
 import pytest
 from pytest_bdd import scenario
 from ska_ser_skallop.mvp_control.entry_points import types as conf_types
+from ska_ser_skallop.mvp_fixtures.fixtures import fxt_types
 
 from ..conftest import SutTestSettings
 
@@ -31,6 +32,7 @@ def fxt_default_composition(csp_base_composition: conf_types.Composition):
     "features/csp_assign_resources.feature",
     "Assign resources to CSP mid subarray",
 )
+@pytest.mark.usefixtures("update_exec_settings")
 def test_assign_resources_to_csp_mid_subarray():
     """Assign resources to CSP mid subarray."""
 
@@ -84,3 +86,15 @@ def test_abort_in_resourcing_mid(
 
 # mock tests
 # TODO
+
+
+@pytest.fixture
+def update_exec_settings(sut_settings: SutTestSettings, exec_settings: fxt_types.exec_settings):
+    """_summary_.
+
+    :param sut_settings: _description_
+    :type sut_settings: SutTestSettings
+    :param exec_settings: _description_
+    :type exec_settings: ExecSettings
+    """
+    exec_settings.nr_of_subarrays = sut_settings.nr_of_subarrays
