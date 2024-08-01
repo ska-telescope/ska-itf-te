@@ -48,7 +48,6 @@ def fxt_set_csp_online_from_csp(
     logging.info("wait for sut to be ready in the context of csp")
     wait_sut_ready_for_session(entry_point)
     logging.info("setting csp components online within csp context")
-    entry_point = CSPEntryPoint()
     set_subsystem_online(entry_point)
     logging.info(f"NR OF SUBARRAYS {entry_point.nr_of_subarrays}")
 
