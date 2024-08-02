@@ -120,7 +120,7 @@ DPD_PARAMS ?=
 
 ifeq ($(KUBE_APP),ska-mid-itf-dpd)
 	DPD_PARAMS += \
-	--set global.sdp.processingNamespace=$(KUBE_NAMESPACE_SDP)
+	--set global.ska-sdp.processingNamespace=$(KUBE_NAMESPACE_SDP)
 endif
 
 ifneq ($(DPD_PVC_NAME),)
