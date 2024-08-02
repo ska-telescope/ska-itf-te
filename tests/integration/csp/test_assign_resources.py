@@ -1,13 +1,11 @@
 """Assign resources to subarray feature tests."""
 
 import logging
-from typing import Any
 
 import pytest
 from pytest_bdd import scenario
 from ska_ser_skallop.mvp_control.entry_points import types as conf_types
 from ska_ser_skallop.mvp_fixtures.fixtures import fxt_types
-from ska_ser_skallop.mvp_fixtures.base import ExecSettings
 
 from ..conftest import SutTestSettings
 
