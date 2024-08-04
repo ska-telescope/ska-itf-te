@@ -573,6 +573,7 @@ def an_subarray_busy_assigning(
         subarray_id, receptors, sb_config, exec_settings, composition
     )
     allocated_subbaray.disable_automatic_teardown()
+    logging.info(f"NR OF SUBARRAYS: {exec_settings.nr_of_subarrays} an_subarray_busy_assigning")
     return allocated_subbaray
 
 

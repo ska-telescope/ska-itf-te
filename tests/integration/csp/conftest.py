@@ -21,53 +21,66 @@ from ..resources.models.mvp_model.states import ObsState
 # pylint: disable=eval-used
 
 
+@pytest.mark.usefixtures("set_csp_entry_point")
 @pytest.fixture(autouse=True)
 def fxt_set_csp_online_from_csp(
-    set_csp_entry_point: fxt_types.session_exec_env,
-    set_session_exec_settings: fxt_types.session_exec_settings,
+    session_exec_settings: fxt_types.session_exec_settings,
     set_subsystem_online: Callable[[EntryPoint], None],
     wait_sut_ready_for_session: Callable[[EntryPoint], None],
     sut_settings: SutTestSettings,
+    exec_env: fxt_types.exec_env,
 ):
     """_summary_.
 
-    :param set_subsystem_online: _description_
-    :type set_subsystem_online: Callable[[EntryPoint], None]
-    :param set_session_exec_settings: A fixture to set session execution settings.
-    :type set_session_exec_settings: fxt_types.session_exec_settings
     :param wait_sut_ready_for_session: Fixture that is used to take a subsystem
                                        online using the given entrypoint.
     :type wait_sut_ready_for_session: Callable[[EntryPoint], None]
+    :param session_exec_settings: A fixture to set session execution settings.
+    :type session_exec_settings: fxt_types.session_exec_settings
+    :param set_subsystem_online: _description_
+    :type set_subsystem_online: Callable[[EntryPoint], None]
+    :param wait_sut_ready_for_session: Fixture that is used to take a subsystem
+                                       online using the given entrypoint.
+    :type wait_sut_ready_for_session: Callable[[EntryPoint], None]
+    :param sut_settings: _description_
+    :type sut_settings: SutTestSettings
+    :param exec_env: _description_
+    :type exec_env: fxt_types.exec_env
     """
     # we first wait in case csp is not ready
-    set_session_exec_settings.time_out = 300
-    set_session_exec_settings.log_enabled = True
+    session_exec_settings.time_out = 300
+    session_exec_settings.log_enabled = True
     tel = names.TEL()
-    set_session_exec_settings.capture_logs_from(str(tel.csp.subarray(1)))
-    entry_point = set_csp_entry_point.entrypoint()
+    session_exec_settings.capture_logs_from(str(tel.csp.subarray(1)))
+    session_exec_settings.nr_of_subarrays = sut_settings.nr_of_subarrays
+    entry_point = exec_env.entrypoint()
     logging.info("wait for sut to be ready in the context of csp")
     wait_sut_ready_for_session(entry_point)
     logging.info("setting csp components online within csp context")
     set_subsystem_online(entry_point)
+    logging.info(f"CSP SET ONLINE FROM CSP, ENTRYPOINT USED: {exec_env.entrypoint}")
     logging.info(f"NR OF SUBARRAYS {entry_point.nr_of_subarrays}")
 
 
-@pytest.fixture(name="set_csp_entry_point", autouse=True)
+@pytest.fixture(name="set_csp_entry_point")
 def fxt_set_csp_entry_point(
     set_session_exec_env: fxt_types.set_session_exec_env,
-    exec_settings: fxt_types.exec_settings,
+    session_exec_settings: fxt_types.session_exec_settings,
+    exec_env: fxt_types.exec_env,
     sut_settings: conftest.SutTestSettings,
 ):
     """_summary_.
 
     :param set_session_exec_env: _description_
     :type set_session_exec_env: fxt_types.set_session_exec_env
-    :param exec_settings: _description_
-    :type exec_settings: fxt_types.exec_settings
+    :param session_exec_settings: _description_
+    :type session_exec_settings: fxt_types.session_exec_settings
+    :param exec_env: _description_
+    :type exec_env: fxt_types.exec_env
     :param sut_settings: _description_
     :type sut_settings: conftest.SutTestSettings
     """
-    exec_env = set_session_exec_env
+    # exec_env = set_session_exec_env
     if not sut_settings.mock_sut:
         CSPEntryPoint.nr_of_subarrays = sut_settings.nr_of_subarrays
         exec_env.entrypoint = CSPEntryPoint
@@ -76,7 +89,8 @@ def fxt_set_csp_entry_point(
     exec_env.scope = ["csp"]
     sut_settings.default_subarray_name = sut_settings.tel.csp.subarray(sut_settings.subarray_id)
     logging.info(f"NR OF SUBARRAYS {exec_env.entrypoint.nr_of_subarrays}")
-    return exec_env
+    logging.info("CSP ENTRYPOINT SET")
+    # return exec_env
 
 
 # log checking
@@ -226,7 +240,6 @@ def the_csp_subarray_must_be_in_some_obsstate(
         settings for the integration tests.
     :type integration_test_exec_settings: fxt_types.exec_settings
     """
-
     tel = names.TEL()
     csp_subarray_name = tel.csp.subarray(sut_settings.subarray_id)
     recorder = integration_test_exec_settings.recorder

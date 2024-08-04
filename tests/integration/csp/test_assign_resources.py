@@ -1,6 +1,7 @@
 """Assign resources to subarray feature tests."""
 
 import logging
+import os
 
 import pytest
 from pytest_bdd import scenario
@@ -28,7 +29,7 @@ def fxt_default_composition(csp_base_composition: conf_types.Composition):
 @pytest.mark.skamid
 @pytest.mark.csp
 @pytest.mark.assign
-@pytest.mark.usefixtures("updated_exec_settings")
+@pytest.mark.usefixtures("updated_session_exec_settings")
 @scenario(
     "features/csp_assign_resources.feature",
     "Assign resources to CSP mid subarray",
@@ -77,18 +78,45 @@ def test_abort_in_resourcing_mid(
     """
 
 
-@pytest.fixture(name="updated_exec_settings")
-def update_exec_settings(exec_settings: fxt_types.exec_settings, sut_settings: SutTestSettings):
+@pytest.fixture(name="updated_session_exec_settings")
+def update_session_exec_settings(
+    session_exec_settings: fxt_types.session_exec_settings, sut_settings: SutTestSettings
+):
     """_summary_.
 
-    :param exec_settings: _description_
-    :type exec_settings: fxt_types.exec_settings
+    :param session_exec_settings: _description_
+    :type session_exec_settings: fxt_types.session_exec_settings
     :param sut_settings: _description_
     :type sut_settings: SutTestSettings
+    :return: _description_
+    :rtype: _type_
     """
+    session_exec_settings.nr_of_subarrays = sut_settings.nr_of_subarrays
+    session_exec_settings.log_enabled = True
+    logging.info(f"NR OF SUBARRAYS {session_exec_settings.nr_of_subarrays}")
+    return session_exec_settings
 
-    exec_settings.nr_of_subarrays = sut_settings.nr_of_subarrays
-    logging.info(f"NR OF SUBARRAYS {exec_settings.nr_of_subarrays}")
+
+@pytest.fixture(autouse=True)
+def exec_settings(
+    updated_session_exec_settings: fxt_types.session_exec_settings,
+):
+    """_summary_.
+
+    :param updated_session_exec_settings: _description_
+    :type updated_session_exec_settings: fxt_types.session_exec_settings
+    :return: _description_
+    :rtype: _type_
+    """
+    exec_settings = updated_session_exec_settings
+    if os.getenv("LIVE_LOGGING_EXTENDED"):
+        logger.info("running live logs globally")
+        exec_settings.run_with_live_logging()
+    if os.getenv("ATTR_SYNCH_ENABLED_GLOBALLY"):
+        logger.warning("enabled attribute synchronization globally")
+        exec_settings.attr_synching = True
+    exec_settings.time_out = 150
+    return exec_settings
 
 
 # use when from ..shared_assign_resources in ..conftest.py
@@ -100,15 +128,3 @@ def update_exec_settings(exec_settings: fxt_types.exec_settings, sut_settings: S
 
 # mock tests
 # TODO
-
-
-# @pytest.fixture
-# def update_exec_settings(sut_settings: SutTestSettings, exec_settings: fxt_types.exec_settings):
-#     """_summary_.
-
-#     :param sut_settings: _description_
-#     :type sut_settings: SutTestSettings
-#     :param exec_settings: _description_
-#     :type exec_settings: ExecSettings
-#     """
-#     exec_settings.nr_of_subarrays = sut_settings.nr_of_subarrays
