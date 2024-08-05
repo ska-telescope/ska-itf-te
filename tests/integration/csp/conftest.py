@@ -20,6 +20,8 @@ from ..resources.models.mvp_model.states import ObsState
 
 # pylint: disable=eval-used
 
+logger = logging.getLogger(__name__)
+
 
 @pytest.fixture(autouse=True)
 def fxt_set_csp_online_from_csp(
@@ -52,14 +54,12 @@ def fxt_set_csp_online_from_csp(
     tel = names.TEL()
     session_exec_settings.capture_logs_from(str(tel.csp.subarray(1)))
     session_exec_settings.nr_of_subarrays = sut_settings.nr_of_subarrays
-    logging.info("wait for sut to be ready in the context of csp")
-    logging.info(f"EXEC ENV {exec_env.entrypoint}")
+    logger.info("wait for sut to be ready in the context of csp")
     entry_point = exec_env.entrypoint()
     wait_sut_ready_for_session(entry_point)
-    logging.info("setting csp components online within csp context")
+    logger.info("setting csp components online within csp context")
     set_subsystem_online(entry_point)
-    logging.info(f"CSP SET ONLINE FROM CSP, ENTRYPOINT USED: {entry_point}")
-    logging.info(f"NR OF SUBARRAYS {session_exec_settings.nr_of_subarrays}")
+    logger.info(f"CSP set online, entrypoint used: {entry_point}")
 
 
 @pytest.fixture(name="set_csp_entry_point", autouse=True)
@@ -85,12 +85,7 @@ def fxt_set_csp_entry_point(
         exec_env.entrypoint = "mock"
     exec_env.scope = ["csp"]
     sut_settings.default_subarray_name = sut_settings.tel.csp.subarray(sut_settings.subarray_id)
-    logging.info(f"NR OF SUBARRAYS {exec_env.entrypoint.nr_of_subarrays}")
-    logging.info("CSP ENTRYPOINT SET")
-    # return exec_env
-
-
-# log checking
+    logging.info(f"Entrypoint configured. Entrypoint: {exec_env.entrypoint}")
 
 
 @pytest.fixture(name="set_up_subarray_log_checking_for_csp")

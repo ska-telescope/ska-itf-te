@@ -256,8 +256,9 @@ def update_session_exec_settings(
     :rtype: _type_
     """
     session_exec_settings.nr_of_subarrays = sut_settings.nr_of_subarrays
-    session_exec_settings.log_enabled = True
-    logging.info(f"NR OF SUBARRAYS {session_exec_settings.nr_of_subarrays}")
+    logging.info(
+        f"Updated session_exec_settings. NR_OF_SUBARRAYS: {session_exec_settings.nr_of_subarrays}"
+    )
     return session_exec_settings
 
 
@@ -614,7 +615,6 @@ def an_subarray_busy_assigning(
         subarray_id, receptors, sb_config, exec_settings, composition
     )
     allocated_subbaray.disable_automatic_teardown()
-    logging.info(f"NR OF SUBARRAYS: {exec_settings.nr_of_subarrays} an_subarray_busy_assigning")
     return allocated_subbaray
 
 

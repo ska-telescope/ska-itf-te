@@ -11,7 +11,6 @@ from ska_ser_skallop.mvp_control.entry_points import types as conf_types
 from ska_ser_skallop.mvp_fixtures.fixtures import fxt_types
 
 from .. import conftest
-from ..conftest import SutTestSettings
 from ..resources.models.mvp_model.states import ObsState
 
 logger = logging.getLogger(__name__)
@@ -94,22 +93,3 @@ def the_csp_subarray_must_be_in_the_scanning_state(
     )
     result = csp_subarray.read_attribute("obsstate").value
     assert_that(result).is_equal_to(ObsState.READY)
-
-
-@pytest.fixture(name="updated_session_exec_settings")
-def update_session_exec_settings(
-    session_exec_settings: fxt_types.session_exec_settings, sut_settings: SutTestSettings
-):
-    """Update session execution settings.
-
-    :param session_exec_settings: _description_
-    :type session_exec_settings: fxt_types.session_exec_settings
-    :param sut_settings: _description_
-    :type sut_settings: SutTestSettings
-    :return: _description_
-    :rtype: _type_
-    """
-    session_exec_settings.nr_of_subarrays = sut_settings.nr_of_subarrays
-    session_exec_settings.log_enabled = True
-    logging.info(f"NR OF SUBARRAYS {session_exec_settings.nr_of_subarrays}")
-    return session_exec_settings
