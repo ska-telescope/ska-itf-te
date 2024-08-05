@@ -242,6 +242,47 @@ def fxt_integration_test_exec_settings(
     return integration_test_exec_settings
 
 
+@pytest.fixture(name="updated_session_exec_settings")
+def update_session_exec_settings(
+    session_exec_settings: fxt_types.session_exec_settings, sut_settings: SutTestSettings
+):
+    """_summary_.
+
+    :param session_exec_settings: _description_
+    :type session_exec_settings: fxt_types.session_exec_settings
+    :param sut_settings: _description_
+    :type sut_settings: SutTestSettings
+    :return: _description_
+    :rtype: _type_
+    """
+    session_exec_settings.nr_of_subarrays = sut_settings.nr_of_subarrays
+    session_exec_settings.log_enabled = True
+    logging.info(f"NR OF SUBARRAYS {session_exec_settings.nr_of_subarrays}")
+    return session_exec_settings
+
+
+@pytest.fixture(autouse=True)
+def exec_settings(
+    updated_session_exec_settings: fxt_types.session_exec_settings,
+):
+    """Update Execution settings.
+
+    :param updated_session_exec_settings: _description_
+    :type updated_session_exec_settings: fxt_types.session_exec_settings
+    :return: _description_
+    :rtype: _type_
+    """
+    exec_settings = updated_session_exec_settings
+    if os.getenv("LIVE_LOGGING_EXTENDED"):
+        logger.info("running live logs globally")
+        exec_settings.run_with_live_logging()
+    if os.getenv("ATTR_SYNCH_ENABLED_GLOBALLY"):
+        logger.warning("enabled attribute synchronization globally")
+        exec_settings.attr_synching = True
+    exec_settings.time_out = 150
+    return exec_settings
+
+
 @pytest.fixture(name="observation_config")
 def fxt_observation_config(sut_settings: SutTestSettings) -> Observation:
     """Pytest fixture that provides an instance of the `Observation` class.
