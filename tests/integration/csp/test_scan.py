@@ -98,28 +98,6 @@ def the_csp_subarray_must_be_in_the_scanning_state(
     assert_that(result).is_equal_to(ObsState.READY)
 
 
-@pytest.fixture(autouse=True)
-def exec_settings(
-    updated_session_exec_settings: fxt_types.session_exec_settings,
-):
-    """Update Execution settings.
-
-    :param updated_session_exec_settings: _description_
-    :type updated_session_exec_settings: fxt_types.session_exec_settings
-    :return: _description_
-    :rtype: _type_
-    """
-    exec_settings = updated_session_exec_settings
-    if os.getenv("LIVE_LOGGING_EXTENDED"):
-        logger.info("running live logs globally")
-        exec_settings.run_with_live_logging()
-    if os.getenv("ATTR_SYNCH_ENABLED_GLOBALLY"):
-        logger.warning("enabled attribute synchronization globally")
-        exec_settings.attr_synching = True
-    exec_settings.time_out = 150
-    return exec_settings
-
-
 @pytest.fixture(name="updated_session_exec_settings")
 def update_session_exec_settings(
     session_exec_settings: fxt_types.session_exec_settings, sut_settings: SutTestSettings

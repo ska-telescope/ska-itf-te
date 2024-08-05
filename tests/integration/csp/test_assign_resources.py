@@ -1,12 +1,10 @@
 """Assign resources to subarray feature tests."""
 
 import logging
-import os
 
 import pytest
 from pytest_bdd import scenario
 from ska_ser_skallop.mvp_control.entry_points import types as conf_types
-from ska_ser_skallop.mvp_fixtures.fixtures import fxt_types
 
 from ..conftest import SutTestSettings
 
@@ -76,47 +74,6 @@ def test_abort_in_resourcing_mid(
     :param set_restart_after_abort: A fixture to set restart after abort which is set as none
     :param composition: The assign resources configuration paramaters
     """
-
-
-@pytest.fixture(name="updated_session_exec_settings")
-def update_session_exec_settings(
-    session_exec_settings: fxt_types.session_exec_settings, sut_settings: SutTestSettings
-):
-    """_summary_.
-
-    :param session_exec_settings: _description_
-    :type session_exec_settings: fxt_types.session_exec_settings
-    :param sut_settings: _description_
-    :type sut_settings: SutTestSettings
-    :return: _description_
-    :rtype: _type_
-    """
-    session_exec_settings.nr_of_subarrays = sut_settings.nr_of_subarrays
-    session_exec_settings.log_enabled = True
-    logging.info(f"NR OF SUBARRAYS {session_exec_settings.nr_of_subarrays}")
-    return session_exec_settings
-
-
-@pytest.fixture(autouse=True)
-def exec_settings(
-    updated_session_exec_settings: fxt_types.session_exec_settings,
-):
-    """_summary_.
-
-    :param updated_session_exec_settings: _description_
-    :type updated_session_exec_settings: fxt_types.session_exec_settings
-    :return: _description_
-    :rtype: _type_
-    """
-    exec_settings = updated_session_exec_settings
-    if os.getenv("LIVE_LOGGING_EXTENDED"):
-        logger.info("running live logs globally")
-        exec_settings.run_with_live_logging()
-    if os.getenv("ATTR_SYNCH_ENABLED_GLOBALLY"):
-        logger.warning("enabled attribute synchronization globally")
-        exec_settings.attr_synching = True
-    exec_settings.time_out = 150
-    return exec_settings
 
 
 # use when from ..shared_assign_resources in ..conftest.py

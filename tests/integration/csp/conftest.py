@@ -21,7 +21,6 @@ from ..resources.models.mvp_model.states import ObsState
 # pylint: disable=eval-used
 
 
-@pytest.mark.usefixtures("set_csp_entry_point")
 @pytest.fixture(autouse=True)
 def fxt_set_csp_online_from_csp(
     session_exec_settings: fxt_types.session_exec_settings,
@@ -53,34 +52,32 @@ def fxt_set_csp_online_from_csp(
     tel = names.TEL()
     session_exec_settings.capture_logs_from(str(tel.csp.subarray(1)))
     session_exec_settings.nr_of_subarrays = sut_settings.nr_of_subarrays
-    entry_point = exec_env.entrypoint()
     logging.info("wait for sut to be ready in the context of csp")
+    logging.info(f"EXEC ENV {exec_env.entrypoint}")
+    entry_point = exec_env.entrypoint()
     wait_sut_ready_for_session(entry_point)
     logging.info("setting csp components online within csp context")
     set_subsystem_online(entry_point)
-    logging.info(f"CSP SET ONLINE FROM CSP, ENTRYPOINT USED: {exec_env.entrypoint}")
-    logging.info(f"NR OF SUBARRAYS {entry_point.nr_of_subarrays}")
+    logging.info(f"CSP SET ONLINE FROM CSP, ENTRYPOINT USED: {entry_point}")
+    logging.info(f"NR OF SUBARRAYS {session_exec_settings.nr_of_subarrays}")
 
 
-@pytest.fixture(name="set_csp_entry_point")
+@pytest.fixture(name="set_csp_entry_point", autouse=True)
 def fxt_set_csp_entry_point(
-    set_session_exec_env: fxt_types.set_session_exec_env,
     session_exec_settings: fxt_types.session_exec_settings,
-    exec_env: fxt_types.exec_env,
+    set_session_exec_env: fxt_types.session_exec_env,
     sut_settings: conftest.SutTestSettings,
 ):
     """_summary_.
 
-    :param set_session_exec_env: _description_
-    :type set_session_exec_env: fxt_types.set_session_exec_env
     :param session_exec_settings: _description_
     :type session_exec_settings: fxt_types.session_exec_settings
-    :param exec_env: _description_
-    :type exec_env: fxt_types.exec_env
+    :param set_session_exec_env: _description_
+    :type set_session_exec_env: fxt_types.session_exec_env
     :param sut_settings: _description_
     :type sut_settings: conftest.SutTestSettings
     """
-    # exec_env = set_session_exec_env
+    exec_env = set_session_exec_env
     if not sut_settings.mock_sut:
         CSPEntryPoint.nr_of_subarrays = sut_settings.nr_of_subarrays
         exec_env.entrypoint = CSPEntryPoint
