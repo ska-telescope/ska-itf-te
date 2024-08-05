@@ -17,7 +17,6 @@ from ..resources.models.mvp_model.states import ObsState
 logger = logging.getLogger(__name__)
 
 
-# @pytest.mark.skip(reason="Skipping failing test")
 @pytest.mark.csp_related
 @pytest.mark.skamid
 @pytest.mark.scan
