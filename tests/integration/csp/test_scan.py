@@ -1,7 +1,6 @@
 """Configure scan on subarray feature tests."""
 
 import logging
-import os
 
 import pytest
 from assertpy import assert_that
