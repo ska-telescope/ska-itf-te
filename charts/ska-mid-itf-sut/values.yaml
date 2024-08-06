@@ -96,9 +96,9 @@ ska-tmc-mid:
       enabled: true
   resources:
     limits:
-      cpu: 800m
+      cpu: 1000m
     requests:
-      cpu: 400m
+      cpu: 500m
 
 ska-sdp:
   helmdeploy:
