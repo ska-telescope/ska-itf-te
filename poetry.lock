@@ -4673,13 +4673,13 @@ reference = "skao"
 
 [[package]]
 name = "ska-ser-skallop"
-version = "2.31.3rc1"
+version = "2.31.3"
 description = "Testing helpers and modules for running end to end tests against SKAO Software, deployed using SKAO Gitlab CI/CD pipelines."
 optional = false
 python-versions = ">=3.10,<4.0"
 files = [
-    {file = "ska-ser-skallop-2.31.3rc1.tar.gz", hash = "sha256:016da32555f9eb20dede2f6b17df1f008482f43f91f78ebfefc634f175db5a03"},
-    {file = "ska_ser_skallop-2.31.3rc1-py3-none-any.whl", hash = "sha256:6981c71a593b450f4fa9da02cdd948959bdf28a505780d2403c93a0fa19632a4"},
+    {file = "ska-ser-skallop-2.31.3.tar.gz", hash = "sha256:4d711f4f8c322ced747e9902f5798cd42d05a061f7662c78c5dcebd224560c4f"},
+    {file = "ska_ser_skallop-2.31.3-py3-none-any.whl", hash = "sha256:47ebacf02cf583a92cb901946e84c6761c75a24e6205f33b478ed52035567866"},
 ]
 
 [package.dependencies]
@@ -5680,4 +5680,4 @@ reference = "PyPI-public"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.11"
-content-hash = "2b22392f67d38a6fe6293190e920b96d432daa329caef869500e923abb229621"
+content-hash = "ae80431b3e72fa4b1f5b40d0cf85f3359cbbb98e413c96bc9fe0f7b8df03429b"
