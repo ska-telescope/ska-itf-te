@@ -1,5 +1,7 @@
 """Configure scan on subarray feature tests."""
 
+import logging
+
 import pytest
 from assertpy import assert_that
 from pytest_bdd import given, scenario, then
@@ -11,8 +13,9 @@ from ska_ser_skallop.mvp_fixtures.fixtures import fxt_types
 from .. import conftest
 from ..resources.models.mvp_model.states import ObsState
 
+logger = logging.getLogger(__name__)
 
-@pytest.mark.skip(reason="Skipping failing test")
+
 @pytest.mark.csp_related
 @pytest.mark.skamid
 @pytest.mark.scan
