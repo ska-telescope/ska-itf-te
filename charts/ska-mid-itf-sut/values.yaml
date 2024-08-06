@@ -72,10 +72,10 @@ ska-csp-lmc-mid:
 ska-tmc-mid:
   # TEMPORARY COMMIT - SEE https://skao.slack.com/archives/C06H6ESMQNP/p1719498698255899
   # PULLING ska-tmc-dishleafnode from Gitlab Registry:
-  dishleafnode:
-    image:
-      registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-dishleafnode
-      tag: 0.14.4-dev.c5a4762cc
+  # dishleafnode:
+  #   image:
+  #     registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-dishleafnode
+  #     tag: 0.14.4-dev.c5a4762cc
   # sdpleafnodes:
   #   image:
   #     tag: 0.15.1
