@@ -3,7 +3,7 @@ global:
     enabled: true
   # Used by TMC dishleafnode for Dish LMC device identifier triplet.
   # The TMC centralnode's values are hardocoded at the moment.
-  # dish_suffix: "elt/master"
+  dish_suffix: "elt/master"
   minikube: false
   tango_host: tango-databaseds:10000
   facility: mid-itf
