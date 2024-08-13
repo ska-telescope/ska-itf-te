@@ -4,6 +4,8 @@
 .deploy:
   stage: deploy
   image: $DEPLOY_IMAGE
+  variables:
+    SWITCH_CSP_ON: "false"
   before_script:
     - |
       if [ "$CBF_HW_IN_THE_LOOP" == "true" ]; then
