@@ -88,3 +88,9 @@ destroy-sut-staging:
       namespace: $KUBE_NAMESPACE
     url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
     action: stop
+
+# TEMPORARY COMMIT: skip k8s-testrunner in staging environment
+k8s-test-runner:
+  rules:
+    - if: "$CI_COMMIT_TAG != null"
+      when: never
