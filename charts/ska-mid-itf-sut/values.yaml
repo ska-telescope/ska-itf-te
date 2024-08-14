@@ -72,7 +72,7 @@ ska-csp-lmc-mid:
   midcsplmc:
     image:
       registry: registry.gitlab.com/ska-telescope/ska-csp-lmc-mid
-      tag: 0.23.1-dev.ca765e97e
+      tag: 0.23.1-dev.c63dd797e
   ################################################################
 
 ### tmc - also see tmc-values for DishIDs!
