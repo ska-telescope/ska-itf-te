@@ -1,0 +1,81 @@
+db: tango-databaseds.ci-dish-lmc-ska036-at-2226-determine-stable-versions.svc.miditf.internal.skao.int:10000
+manager: mid-eda/cm/01
+archiver: mid-eda/es/01
+
+configuration:
+  - class: DishManager
+    attributes:
+      dishmode:
+        code_push_event: True
+        archive_strategy: SERVICE
+      pointingstate:
+        code_push_event: True
+        archive_strategy: SERVICE
+      configuredband:
+        code_push_event: True
+        archive_strategy: SERVICE
+      achievedtargetlock:
+        code_push_event: True
+        archive_strategy: SERVICE
+      healthstate:
+        code_push_event: True
+        archive_strategy: SERVICE
+      b1capabilitystate:
+        code_push_event: True
+        archive_strategy: SERVICE
+      b2capabilitystate:
+        code_push_event: True
+        archive_strategy: SERVICE
+      b3capabilitystate:
+        code_push_event: True
+        archive_strategy: SERVICE
+      b4capabilitystate:
+        code_push_event: True
+        archive_strategy: SERVICE
+      b5acapabilitystate:
+        code_push_event: True
+        archive_strategy: SERVICE
+      b5bcapabilitystate:
+        code_push_event: True
+        archive_strategy: SERVICE
+      achievedpointing:
+        code_push_event: True
+        archive_strategy: SERVICE
+      band2pointingmodelparams:
+        code_push_event: True
+        archive_strategy: SERVICE
+      attenuationpolh:
+        code_push_event: True
+        archive_strategy: SERVICE
+      attenuationpolv:
+        code_push_event: True
+        archive_strategy: SERVICE
+      kvalue:
+        code_push_event: True
+        archive_strategy: SERVICE
+  - class: DSManager
+    attributes:
+      powerstate:
+        code_push_event: True
+        archive_strategy: SERVICE
+      pointingstate:
+        code_push_event: True
+        archive_strategy: SERVICE
+      operatingmode:
+        code_push_event: True
+        archive_strategy: SERVICE
+      indexerposition:
+        code_push_event: True
+        archive_strategy: SERVICE
+      achievedpointing:
+        code_push_event: True
+        archive_strategy: SERVICE
+      desiredpointing:
+        code_push_event: True
+        archive_strategy: SERVICE
+      band2pointingmodelparams:
+        code_push_event: True
+        archive_strategy: SERVICE
+      dscstate:
+        code_push_event: True
+        archive_strategy: SERVICE

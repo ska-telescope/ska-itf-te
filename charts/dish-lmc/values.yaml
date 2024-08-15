@@ -82,7 +82,7 @@ ska-tango-tangogql:
 
 # EDA
 ska-tango-archiver:
-  enabled: false
+  enabled: true
   hostname: eda.ska-tango-archiver
   dbname: itf_eda
   dbuser: admin
