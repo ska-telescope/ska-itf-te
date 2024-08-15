@@ -6,7 +6,7 @@
     SPFRX_TANGO_INSTANCE: spfrx-20
     SPFRX_ADDRESS: 10.165.3.20
     DISH_ID: ska001
-    SPFRX_IN_THE_LOOP: "false"
+    SPFRX_IN_THE_LOOP: "true" # TEMPORARY COMMIT: uncomment this line to disable HW in the loop in ci-* pipelines
 
 deploy-dishlmc-ska001:
   extends:

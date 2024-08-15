@@ -37,7 +37,6 @@ deploy-sut-on-demand:
   #################################################################
   # TEMPORARY COMMIT: TMC workshop ease of use purposes - remove before PI Demo and restore browser bookmarks!
   variables:
-    SPFRX_IN_THE_LOOP: "true"
     CBF_HW_IN_THE_LOOP: "true"
     DISH_LMC_IN_THE_LOOP: "true"
   #################################################################
