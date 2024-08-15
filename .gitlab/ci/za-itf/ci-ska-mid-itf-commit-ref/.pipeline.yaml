@@ -34,6 +34,10 @@ deploy-sut-on-demand:
     - .ci-env
     - .on_demand_rules
     - .on-demand-stage
+  variables:
+    SPFRX_IN_THE_LOOP: "true"
+    CBF_HW_IN_THE_LOOP: "true"
+    DISH_LMC_IN_THE_LOOP: "true"
   environment:
     name: mid-itf/ska-$CONFIG-$CI_COMMIT_REF_SLUG
     kubernetes:
