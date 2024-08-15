@@ -41,3 +41,8 @@ dependencies:
     version: 0.2.3 # check latest version
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-ser-config-inspector.enabled
+
+  - name: ska-tango-archiver
+    version: 2.8.0
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-tango-archiver.enabled
