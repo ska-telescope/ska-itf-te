@@ -93,8 +93,8 @@ ska-tmc-mid:
     dishleafnode:
       enabled: true
   resources:
-    limits:
-      cpu: 800m
+    # limits:
+    #   cpu: 800m
     requests:
       cpu: 400m
 
