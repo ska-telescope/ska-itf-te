@@ -65,13 +65,20 @@ ska-mid-cbf-tmleafnode:
 ska-csp-lmc-mid:
   legacy_compatibility: true
   enabled: true
+  ################################################################
+  # TEMPORARY COMMIT: timeout issue on CSP proxy to CBF Controller
+  midcsplmc:
+    image:
+      registry: registry.gitlab.com/ska-telescope/ska-csp-lmc-mid/ska-csp-lmc-mid
+      tag: 0.23.1-dev.cf4b0f343
+  ################################################################
 
 ### tmc - also see tmc-values for DishIDs!
 ska-tmc-mid:
   dishleafnode:
     image:
-  # TEMPORARY COMMIT - SEE https://skao.slack.com/archives/C06H6ESMQNP/p1719498698255899
-  # PULLING registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-dishleafnode/ska-tmc-dishleafnode:
+      # TEMPORARY COMMIT - SEE https://skao.slack.com/archives/C06H6ESMQNP/p1719498698255899
+      # PULLING registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-dishleafnode/ska-tmc-dishleafnode:
       registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-dishleafnode
       tag: 0.14.4-dev.c5a4762cc
   # sdpleafnodes:
