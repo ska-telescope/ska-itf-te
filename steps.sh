@@ -5,7 +5,7 @@
 # run the dockerfile
 IMAGE=registry.gitlab.com/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools
 # IMAGE_VERSION=0.9.2-dev.c8d82d7c2
-IMAGE_VERSION=0.9.2
+IMAGE_VERSION=0.9.1
 docker run -it -e CI_COMMIT_SHA=$(git rev-parse --short HEAD) --env-file PrivateRules.mak $IMAGE:$IMAGE_VERSION
 
 # git clone (to mimic the pipeline start)
@@ -18,7 +18,10 @@ git checkout $CI_COMMIT_SHA -q && git show -q
 # infra use za-itf-k8s-master01-k8s
 
 # Activate the virtual environment in the container if you want to run make lint
-poetry shell && poetry install
+poetry shell 
+
+# Once the shell is active, install everything
+poetry install
 
 make python-format
 make python-lint # add a few #noqas to get the thing going
