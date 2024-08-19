@@ -80,3 +80,7 @@ xray-publish:
 # python-publish-to-gitlab:
 #   rules:
 #     - when: never
+
+docs-build-rtd:
+  rules:
+    - when: never
