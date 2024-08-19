@@ -4,7 +4,7 @@
 
 # run the dockerfile
 IMAGE=registry.gitlab.com/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools
-# IMAGE_VERSION=0.9.2-dev.c8d82d7c2
+# IMAGE_VERSION=0.9.2
 IMAGE_VERSION=0.9.1
 docker run -it -e CI_COMMIT_SHA=$(git rev-parse --short HEAD) --env-file PrivateRules.mak $IMAGE:$IMAGE_VERSION
 
