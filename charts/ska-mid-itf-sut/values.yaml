@@ -3,7 +3,7 @@ global:
     enabled: true
   # Used by TMC dishleafnode for Dish LMC device identifier triplet.
   # The TMC centralnode's values are hardocoded at the moment.
-  dish_suffix: "elt/master"
+  # dish_suffix: "elt/master"
   minikube: false
   tango_host: tango-databaseds:10000
   facility: mid-itf
@@ -70,12 +70,12 @@ ska-csp-lmc-mid:
 
 ### tmc - also see tmc-values for DishIDs!
 ska-tmc-mid:
+  # TEMPORARY COMMIT - SEE https://skao.slack.com/archives/C06H6ESMQNP/p1719498698255899
+  # PULLING ska-tmc-dishleafnode from Gitlab Registry:
   # dishleafnode:
   #   image:
-  # TEMPORARY COMMIT - SEE https://skao.slack.com/archives/C06H6ESMQNP/p1719498698255899
-  # PULLING registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-dishleafnode/ska-tmc-dishleafnode:
-  # registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-dishleafnode
-  # tag: 0.14.2-dev.c10183b1c
+  #     registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-dishleafnode
+  #     tag: 0.14.4-dev.c5a4762cc
   # sdpleafnodes:
   #   image:
   #     tag: 0.15.1
