@@ -51,7 +51,8 @@
   before_script:
     - bash .make/resources/gitlab_section.sh vars "Print vars" make vars
   script:
-    - export PYTHONPATH="/app/src:${PYTHONPATH}:/app/.venv/lib/python3.10/site-packages" # TEMPORARY COMMIT: fix in image later - echo $CI_JOB_NAME - $CI_JOB_STAGE > deploy/ci_details.txt # This is just to double-check if the job output to the build folder works
+    - poetry install
+    - export PATH=/build/ska-telescope/ska-mid-itf/.venv/bin:${PATH} # TEMPORARY COMMIT: fix in one place
     - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart;
     - bash .make/resources/gitlab_section.sh wait "Wait for completion" make k8s-wait
     - make itf-dish-links

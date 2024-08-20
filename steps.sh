@@ -17,11 +17,24 @@ git checkout $CI_COMMIT_SHA -q && git show -q
 # infra login https://boundary.skao.int --enable-ssh
 # infra use za-itf-k8s-master01-k8s
 
-# Activate the virtual environment in the container if you want to run make lint
-poetry shell
+# IF PYTHONPATH FIX WORKS, DELETE THIS:
+# # Activate the virtual environment in the container if you want to run make lint
+# poetry shell
+
+# BEFORE poetry shell:
+root@30ce45f0f0aa:/build/ska-telescope/ska-mid-itf# env | grep PATH
+PYTHONPATH=/app/src:/app/src:/app/.venv/lib/python3.10/site-packages
+PATH=/app/.venv/bin:/app/bin:/app/.venv/bin:/app/.local/bin:/app/bin:/app/.local/bin:/app/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+# AFTER poetry shell:
+(ska-mid-itf-py3.10) root@30ce45f0f0aa:/build/ska-telescope/ska-mid-itf# env | grep PATH
+PYTHONPATH=/app/src:/app/src:/app/.venv/lib/python3.10/site-packages
+PATH=/build/ska-telescope/ska-mid-itf/.venv/bin:/app/.venv/bin:/app/bin:/app/.venv/bin:/app/.local/bin:/app/bin:/app/.local/bin:/app/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+# INSTEAD OF poetry shell, run:
 
 # Once the shell is active, install everything
-poetry install
+poetry install && export PATH=/build/ska-telescope/ska-mid-itf/.venv/bin:${PATH}
 
 make python-format
 make python-lint # add a few #noqas to get the thing going
