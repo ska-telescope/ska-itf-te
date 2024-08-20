@@ -69,6 +69,10 @@ include:
 xray-publish:
   when: always
   rules: !reference [publish-k8s-test-results, rules]
+
+docs-build-rtd:
+  rules:
+    - when: never
 # python-build-for-publication:
 #   rules:
 #     - when: never
