@@ -47,7 +47,7 @@ deploy-aa05-dishes:
   extends:
     - .aa05-env
   script:
-    - export PYTHONPATH=/builds/ska-telescope/ska-mid-itf-engineering-tools/.venv/bin/python # TEMPORARY COMMIT: fix in image later
+    - export PYTHONPATH="/app/src:${PYTHONPATH}:/app/.venv/lib/python3.10/site-packages" # TEMPORARY COMMIT: fix in image later - echo $CI_JOB_NAME - $CI_JOB_STAGE > deploy/ci_details.txt # This is just to double-check if the job output to the build folder works
     - poetry install
     - echo "Deploying multiple dishes in downstream dish-aiv stage - first deploy ska001 manually"
     - echo "Deploying dishes $DISH_IDS:"

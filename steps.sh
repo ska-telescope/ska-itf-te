@@ -18,7 +18,7 @@ git checkout $CI_COMMIT_SHA -q && git show -q
 # infra use za-itf-k8s-master01-k8s
 
 # Activate the virtual environment in the container if you want to run make lint
-poetry shell 
+poetry shell
 
 # Once the shell is active, install everything
 poetry install
