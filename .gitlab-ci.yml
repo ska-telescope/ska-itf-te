@@ -84,3 +84,7 @@ xray-publish:
 docs-build-rtd:
   rules:
     - when: never
+
+oci-image-build:
+  rules:
+    - when: never
