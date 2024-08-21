@@ -4,7 +4,7 @@
 .dish-env:
   image: $DEPLOY_IMAGE
   variables:
-    DISH_LMC_INITIAL_PARAMS: -f charts/dish-lmc/values.yaml --set global.dishes={$DISH_INDEX} --set global.raw_user_account=$CAR_RAW_USERNAME --set global.raw_user_pass=$CAR_RAW_PASSWORD
+    DISH_LMC_INITIAL_PARAMS: -f charts/dish-lmc/values.yaml --set global.dishes={$DISH_INDEX} --set global.raw_user_account=$CAR_RAW_USERNAME --set global.raw_user_pass=$CAR_RAW_PASSWORD --set ska-tango-archiver.dbpassword=${EDA_DB_PASSWORD} --set ska-tango-archiver.archviewer.instances[0].timescale_login=admin:${EDA_DB_PASSWORD}
     CLUSTER_DOMAIN: miditf.internal.skao.int
     INGRESS_HOST: k8s.miditf.internal.skao.int
     K8S_CHART: dish-lmc
@@ -51,6 +51,8 @@
   before_script:
     - bash .make/resources/gitlab_section.sh vars "Print vars" make vars
   script:
+    - bash .make/resources/gitlab_section.sh poetry "Poetry Install" poetry install
+    - export PATH=.venv/bin:${PATH} # TEMPORARY COMMIT: fix in one place
     - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart;
     - bash .make/resources/gitlab_section.sh wait "Wait for completion" make k8s-wait
     - make itf-dish-links

@@ -4,8 +4,8 @@
 
 # run the dockerfile
 IMAGE=registry.gitlab.com/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools
-# IMAGE_VERSION=0.9.2-dev.c8d82d7c2
-IMAGE_VERSION=0.9.2
+IMAGE_VERSION=0.9.2-dev.c0ef99b9c
+# IMAGE_VERSION=0.9.1
 docker run -it -e CI_COMMIT_SHA=$(git rev-parse --short HEAD) --env-file PrivateRules.mak $IMAGE:$IMAGE_VERSION
 
 # git clone (to mimic the pipeline start)
@@ -17,8 +17,24 @@ git checkout $CI_COMMIT_SHA -q && git show -q
 # infra login https://boundary.skao.int --enable-ssh
 # infra use za-itf-k8s-master01-k8s
 
-# Activate the virtual environment in the container if you want to run make lint
-poetry shell && poetry install
+# IF PYTHONPATH FIX WORKS, DELETE THIS:
+# # Activate the virtual environment in the container if you want to run make lint
+# poetry shell
+
+# BEFORE poetry shell:
+root@30ce45f0f0aa:/build/ska-telescope/ska-mid-itf# env | grep PATH
+PYTHONPATH=/app/src:/app/src:/app/.venv/lib/python3.10/site-packages
+PATH=/app/.venv/bin:/app/bin:/app/.venv/bin:/app/.local/bin:/app/bin:/app/.local/bin:/app/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+# AFTER poetry shell:
+(ska-mid-itf-py3.10) root@30ce45f0f0aa:/build/ska-telescope/ska-mid-itf# env | grep PATH
+PYTHONPATH=/app/src:/app/src:/app/.venv/lib/python3.10/site-packages
+PATH=/build/ska-telescope/ska-mid-itf/.venv/bin:/app/.venv/bin:/app/bin:/app/.venv/bin:/app/.local/bin:/app/bin:/app/.local/bin:/app/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+# INSTEAD OF poetry shell, run:
+
+# Once the shell is active, install everything
+poetry install && export PATH=/build/ska-telescope/ska-mid-itf/.venv/bin:${PATH}
 
 make python-format
 make python-lint # add a few #noqas to get the thing going

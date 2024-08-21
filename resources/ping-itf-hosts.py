@@ -17,6 +17,7 @@ async def ping_host(host):
         print(f"Ping result code: {ping_result}")
         print(f"IP address {host[0]} not reachable - check if {host[1]} is online")
 
+
 async def netcat_host(host):
     if host[3]:
         ip = host[0]
@@ -30,24 +31,42 @@ async def netcat_host(host):
             print(f"NC result code: {nc_result}, command {nc_command}")
             print(f"IP address {host[0]} not reachable on port 22 - does {host[1]} have SSH?")
 
+
 async def main():
     hosts_list = [
-        [ "10.165.3.1", "R&S Signal Generator SMB100A", "za-itf-signal-generator.ad.skatelescope.org", True],
-        [ "10.165.3.2", "Tektronix Oscilloscope MSO64", "za-itf-oscilloscope.ad.skatelescope.org", False],
+        [
+            "10.165.3.1",
+            "R&S Signal Generator SMB100A",
+            "za-itf-signal-generator.ad.skatelescope.org",
+            True,
+        ],
+        [
+            "10.165.3.2",
+            "Tektronix Oscilloscope MSO64",
+            "za-itf-oscilloscope.ad.skatelescope.org",
+            False,
+        ],
         # ["10.165.3.3", "Tektronix AWG", "za-itf-awg.ad.skatelescope.org", True],
-        [ "10.165.3.4", "Anritsu Spectrum Analyser", "za-itf-spectrum-analyser.ad.skatelescope.org", True],
+        [
+            "10.165.3.4",
+            "Anritsu Spectrum Analyser",
+            "za-itf-spectrum-analyser.ad.skatelescope.org",
+            True,
+        ],
         # ["10.165.3.5", "GwInstek PSU", "za-itf-psu.ad.skatelescope.org", True],
         # [ "10.165.3.6", "RCDAT-8000-30 Programmable Attenuator", "za-itf-attenuator.ad.skatelescope.org", True],
         ["10.165.3.7", "za-itf-sw (Ubuntu)", "za-itf-sw.ad.skatelescope.org", True],
         ["10.165.3.8", "za-itf-dev1 (Ubuntu)", "za-itf-dev1.ad.skatelescope.org", True],
         ["10.165.3.9", "za-itf-dev2 (Windows)", "za-itf-dev2.ad.skatelescope.org", False],
-        [ "10.165.3.10", "Keysight Time Interval Counter", "za-itf-tic.ad.skatelescope.org", False],
+        ["10.165.3.10", "Keysight Time Interval Counter", "za-itf-tic.ad.skatelescope.org", False],
         # ["10.165.3.11", "Raspberry Pi (ITF)", "za-itf-pi.ad.skatelescope.org", True],
         ["10.165.3.12", "GPS", "za-itf-gps.ad.skatelescope.org", False],
         ["10.165.3.13", "NTP", "za-itf-ntp.ad.skatelescope.org", False],
         ["10.20.2.14", "PDU3", "za-itf-pdu3.ad.skatelescope.org", True],
         ["10.165.3.29", "TDC Talon1 LRU1 1G", "", True],
         ["10.165.3.30", "TDC Talon2 LRU1 1G", "", True],
+        ["10.165.3.20", "SPFRx 20 (RXPU 1 - Outlet 10)", "", True],
+        ["10.165.3.21", "SPFRx 21 (RXPU 2 - Outlet 9)", "", True],
     ]
     tasks = [asyncio.create_task(ping_host(host)) for host in hosts_list]
 
