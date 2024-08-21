@@ -88,3 +88,7 @@ docs-build-rtd:
 oci-image-build:
   rules:
     - when: never
+
+oci-image-publish:
+  rules:
+    - when: never
