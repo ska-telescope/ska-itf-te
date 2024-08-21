@@ -3,6 +3,9 @@
 ## Unreleased
 
 ## 23.4.1
+* [AT-2226] - Found a stable combination of software versions (and patches) which allow e2e telescope testing via TMC 
+
+## 23.4.1
 * [SKB-471] - Improved consumption of nr_of_subarrays in pytests
 * [AT-2213] - Bumped versions: talondx-console -> 0.3.2, csp-lmc-mid -> 0.23.1, tmc-mid -> 0.21.2, ska-ser-skallop -> 2.31.3
 * [AT-2216] - PVC namespace set incorrectly for vis receive pods
