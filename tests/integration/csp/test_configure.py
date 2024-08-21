@@ -24,7 +24,7 @@ def test_abort_configuring(set_up_subarray_log_checking_for_csp: None):
 @pytest.mark.skamid
 @pytest.mark.csp
 @pytest.mark.configure
-@pytest.mark.skip(reason="Skip failing test") # TEMP COMMIT
+@pytest.mark.skip(reason="Skip failing test")  # TEMP COMMIT
 @scenario("features/csp_configure_scan.feature", "Configure scan on csp subarray in mid")
 def test_configure_csp_mid_subarray():
     """Configure CSP mid subarray."""
