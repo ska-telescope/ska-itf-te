@@ -147,7 +147,7 @@ dpd-links: ## Create the URLs with which to access the Data Product Dashboard
 ##   KUBE_NAMESPACE_SDP
 ##  make target for deploying the clone PVC whenever it inexplicably goes to the farm
 
-fix-pvc:
+fix-pvc: ## Create PVC in the SDP namespace for data product sharing
 	kubectl apply -f charts/ska-mid-itf-dpd/templates/pvc.yaml -n ${KUBE_NAMESPACE_SDP}
 
 vars:
