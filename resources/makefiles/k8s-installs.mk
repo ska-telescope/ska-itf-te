@@ -140,6 +140,16 @@ dpd-links: ## Create the URLs with which to access the Data Product Dashboard
 	@echo "#        https://$(INGRESS_HOST)/$(KUBE_NAMESPACE)/dashboard/"
 	@echo "##############################################################################################"
 
+## TARGET: fix-pvc
+## SYNOPSIS: make fix-pvc
+## HOOKS: none
+## VARS:
+##   KUBE_NAMESPACE_SDP
+##  make target for deploying the clone PVC whenever it inexplicably goes to the farm
+
+fix-pvc:
+	kubectl apply -f charts/ska-mid-itf-dpd/templates/pvc.yaml -n ${KUBE_NAMESPACE_SDP}
+
 vars:
 	$(info KUBE_NAMESPACE: $(KUBE_NAMESPACE))
 	$(info #####################################)
