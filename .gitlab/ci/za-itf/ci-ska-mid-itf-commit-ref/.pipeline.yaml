@@ -34,6 +34,7 @@ deploy-sut-on-demand:
     - .ci-env
     - .on_demand_rules
     - .on-demand-stage
+    
   environment:
     name: mid-itf/ska-$CONFIG-$CI_COMMIT_REF_SLUG
     kubernetes:

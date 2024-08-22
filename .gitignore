@@ -192,3 +192,4 @@ pytest-logs.txt
 pytest.stdout
 results.json
 sut-logs
+helmcommands.sh
