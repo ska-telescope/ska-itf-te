@@ -184,7 +184,14 @@ def _(tmc, csp, cbf, dishes, receptor_ids):
 
     tmc_central_node.LoadDishCfg(json.dumps(dish_config_json))
 
-    wait_until(tmc_central_node, "isDishVccConfigSet", True, EventType.CHANGE_EVENT, 20)
+    wait_until(
+        tmc_central_node,
+        "isDishVccConfigSet",
+        True,
+        EventType.CHANGE_EVENT,
+        n_events=2,
+        timeout=20,
+    )
 
     assert tmc_central_node.isDishVccConfigSet == True
 
@@ -202,7 +209,9 @@ def _(tmc, csp, cbf, dishes, receptor_ids):
     assert sdp_subarray_leaf_node.sdpSubarrayObsState == ObsState.EMPTY
 
     tmc_central_node.TelescopeOn()
-    wait_until(tmc_central_node, "telescopeState", DevState.ON, EventType.CHANGE_EVENT, 120)
+    wait_until(
+        tmc_central_node, "telescopeState", DevState.ON, EventType.CHANGE_EVENT, timeout=120
+    )
 
     assert tmc_central_node.telescopeState == DevState.ON
     assert dish_leaf_node_ska001.dishMode == DishMode.STANDBY_FP
@@ -247,13 +256,21 @@ def _(tmc, cbf, receptor_ids):
     print(f"PB ID: {pb_id}, EB ID: {eb_id}")
 
     tmc_subarray.AssignResources(json.dumps(assign_resources_json))
-    wait_until(tmc_subarray, "obsState", ObsState.IDLE, EventType.CHANGE_EVENT, 20)
-    wait_until(cbf_subarray, "obsState", ObsState.IDLE, EventType.CHANGE_EVENT, 20)
+    wait_until(tmc_subarray, "obsState", ObsState.IDLE, EventType.CHANGE_EVENT, timeout=20)
+    wait_until(cbf_subarray, "obsState", ObsState.IDLE, EventType.CHANGE_EVENT, timeout=20)
     wait_until(
-        sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.IDLE, EventType.CHANGE_EVENT, 20
+        sdp_subarray_leaf_node,
+        "sdpSubarrayObsState",
+        ObsState.IDLE,
+        EventType.CHANGE_EVENT,
+        timeout=20,
     )
     wait_until(
-        csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.IDLE, EventType.CHANGE_EVENT, 20
+        csp_subarray_leaf_node,
+        "cspSubarrayObsState",
+        ObsState.IDLE,
+        EventType.CHANGE_EVENT,
+        timeout=20,
     )
 
 
@@ -273,7 +290,11 @@ def _(tmc, dishes):
 
     tmc_subarray.Configure(json.dumps(configure_scan_json))
     wait_until(
-        csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.READY, EventType.CHANGE_EVENT, 10
+        csp_subarray_leaf_node,
+        "cspSubarrayObsState",
+        ObsState.READY,
+        EventType.CHANGE_EVENT,
+        timeout=20,
     )
     wait_until(
         sdp_subarray_leaf_node,
@@ -283,8 +304,12 @@ def _(tmc, dishes):
         3,
         timeout=40,
     )
-    wait_until(dish_leaf_node_ska001, "dishMode", DishMode.OPERATE, EventType.CHANGE_EVENT, 10)
-    wait_until(dish_leaf_node_ska036, "dishMode", DishMode.OPERATE, EventType.CHANGE_EVENT, 10)
+    wait_until(
+        dish_leaf_node_ska001, "dishMode", DishMode.OPERATE, EventType.CHANGE_EVENT, timeout=20
+    )
+    wait_until(
+        dish_leaf_node_ska036, "dishMode", DishMode.OPERATE, EventType.CHANGE_EVENT, timeout=20
+    )
 
 
 @then("the telescope is ready for scan")
