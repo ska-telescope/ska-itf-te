@@ -21,7 +21,7 @@ TMC_CONFIGS = f"{DATA_DIR}/tmc"
 
 
 @pytest.fixture
-def receptors():
+def receptor_ids():
     receptors = ["SKA001", "SKA036"]
     return receptors
 
@@ -38,7 +38,7 @@ class DishMode(enum.IntEnum):
     UNKNOWN = 8
 
 
-def wait_until(device_proxy, attr_name, desired_value, event_type, n_events=2, timeout=120):
+def wait_until(device_proxy, attr_name, desired_value, event_type, n_events=2, timeout=10):
     event_queue = Queue()
 
     device_proxy.subscribe_event(attr_name, event_type, lambda event: event_queue.put(event))
@@ -151,7 +151,7 @@ def _():
 
 
 @given("a telescope in the ON state")
-def _(tmc, csp, cbf, dishes):
+def _(tmc, csp, cbf, dishes, receptor_ids):
     """I turn the telescope ON."""
     print("Turning telescope ON")
 
@@ -165,6 +165,7 @@ def _(tmc, csp, cbf, dishes):
     ) = tmc
     _, _, cbf_fspcorrsubarray = cbf
     dish_leaf_node_ska001, dish_leaf_node_ska036 = dishes
+    RECEPTORS = receptor_ids
 
     # Load DishVCCConfig
     CBF_CONFIGS = f"{DATA_DIR}/cbf"
@@ -183,7 +184,7 @@ def _(tmc, csp, cbf, dishes):
 
     tmc_central_node.LoadDishCfg(json.dumps(dish_config_json))
 
-    wait_until(tmc_central_node, "isDishVccConfigSet", True, EventType.CHANGE_EVENT, 3)
+    wait_until(tmc_central_node, "isDishVccConfigSet", True, EventType.CHANGE_EVENT, 20)
 
     assert tmc_central_node.isDishVccConfigSet == True
 
@@ -201,7 +202,7 @@ def _(tmc, csp, cbf, dishes):
     assert sdp_subarray_leaf_node.sdpSubarrayObsState == ObsState.EMPTY
 
     tmc_central_node.TelescopeOn()
-    wait_until(tmc_central_node, "telescopeState", DevState.ON, EventType.CHANGE_EVENT, 3)
+    wait_until(tmc_central_node, "telescopeState", DevState.ON, EventType.CHANGE_EVENT, 120)
 
     assert tmc_central_node.telescopeState == DevState.ON
     assert dish_leaf_node_ska001.dishMode == DishMode.STANDBY_FP
@@ -209,7 +210,7 @@ def _(tmc, csp, cbf, dishes):
 
 
 @when("I assign resources")
-def _(tmc, cbf):
+def _(tmc, cbf, receptor_ids):
     """I assign resources."""
     print("Assigning resources")
 
@@ -220,6 +221,7 @@ def _(tmc, cbf):
     KAFKA_PORT = 9092
     KAFKA_SERVICE_NAME = "ska-sdp-kafka"
     KAFKA_ENDPOINT = f"{KAFKA_SERVICE_NAME}.{SUT_NAMESPACE}.svc.{CLUSTER_DOMAIN}:{KAFKA_PORT}"
+    RECEPTORS = receptor_ids
 
     time_now = localtime()
     date = strftime("%Y%m%d", time_now)
@@ -245,13 +247,13 @@ def _(tmc, cbf):
     print(f"PB ID: {pb_id}, EB ID: {eb_id}")
 
     tmc_subarray.AssignResources(json.dumps(assign_resources_json))
-    wait_until(tmc_subarray, "obsState", ObsState.IDLE, EventType.CHANGE_EVENT, 3)
-    wait_until(cbf_subarray, "obsState", ObsState.IDLE, EventType.CHANGE_EVENT, 3)
+    wait_until(tmc_subarray, "obsState", ObsState.IDLE, EventType.CHANGE_EVENT, 20)
+    wait_until(cbf_subarray, "obsState", ObsState.IDLE, EventType.CHANGE_EVENT, 20)
     wait_until(
-        sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.IDLE, EventType.CHANGE_EVENT, 3
+        sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.IDLE, EventType.CHANGE_EVENT, 20
     )
     wait_until(
-        csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.IDLE, EventType.CHANGE_EVENT, 3
+        csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.IDLE, EventType.CHANGE_EVENT, 20
     )
 
 
@@ -271,7 +273,7 @@ def _(tmc, dishes):
 
     tmc_subarray.Configure(json.dumps(configure_scan_json))
     wait_until(
-        csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.READY, EventType.CHANGE_EVENT, 3
+        csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.READY, EventType.CHANGE_EVENT, 10
     )
     wait_until(
         sdp_subarray_leaf_node,
@@ -281,8 +283,8 @@ def _(tmc, dishes):
         3,
         timeout=40,
     )
-    wait_until(dish_leaf_node_ska001, "dishMode", DishMode.OPERATE, EventType.CHANGE_EVENT, 3)
-    wait_until(dish_leaf_node_ska036, "dishMode", DishMode.OPERATE, EventType.CHANGE_EVENT, 3)
+    wait_until(dish_leaf_node_ska001, "dishMode", DishMode.OPERATE, EventType.CHANGE_EVENT, 10)
+    wait_until(dish_leaf_node_ska036, "dishMode", DishMode.OPERATE, EventType.CHANGE_EVENT, 10)
 
 
 @then("the telescope is ready for scan")
