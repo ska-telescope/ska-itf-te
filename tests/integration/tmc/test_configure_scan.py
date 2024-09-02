@@ -1,19 +1,29 @@
 """Configure scan via TMC feature tests."""
 
-from pytest_bdd import given, scenario, then, when
 import os
-from tango import DeviceProxy, EventType, DevState
-import json
-import pytest
+from time import localtime, strftime
 from queue import Queue, Empty
 import enum
+import json
+import pytest
+from pytest_bdd import given, scenario, then, when
+from tango import DeviceProxy, EventType, DevState
+
 from ska_control_model import ObsState
-from time import sleep, localtime, strftime
+
 
 # TODO: Remove usage of globals like this
-RECEPTORS = ["SKA001", "SKA036"]
+
 CLUSTER_DOMAIN = "miditf.internal.skao.int"
-SUT_NAMESPACE = "integration"
+SUT_NAMESPACE = os.getenv("KUBE_NAMESPACE")
+DATA_DIR = "tests/integration/resources/data"
+TMC_CONFIGS = f"{DATA_DIR}/tmc"
+
+
+@pytest.fixture
+def receptors():
+    receptors = ["SKA001", "SKA036"]
+    return receptors
 
 
 class DishMode(enum.IntEnum):
@@ -28,7 +38,7 @@ class DishMode(enum.IntEnum):
     UNKNOWN = 8
 
 
-def wait_until(device_proxy, attr_name, desired_value, event_type, n_events, timeout=10):
+def wait_until(device_proxy, attr_name, desired_value, event_type, n_events=2, timeout=10):
     event_queue = Queue()
 
     device_proxy.subscribe_event(attr_name, event_type, lambda event: event_queue.put(event))
@@ -60,13 +70,6 @@ def test_configure_scan_via_tmc_on_1_subarray_in_mid():
 def set_context():
     CURRENT_TANGO_HOST = os.environ.get("TANGO_HOST")
     CURRENT_TZ = os.environ.get("TZ")
-
-    if SUT_NAMESPACE in ["staging", "integration"]:
-        SKA001_NAMESPACE = f"{SUT_NAMESPACE}-dish-lmc-ska001"
-        SKA036_NAMESPACE = f"{SUT_NAMESPACE}-dish-lmc-ska036"
-    else:
-        SKA001_NAMESPACE = f"ci-dish-lmc-ska001-{SUT_NAMESPACE[15:]}"
-        SKA036_NAMESPACE = f"ci-dish-lmc-ska036-{SUT_NAMESPACE[15:]}"
 
     TANGO_HOST = f"tango-databaseds.{SUT_NAMESPACE}.svc.{CLUSTER_DOMAIN}:10000"
     os.environ["TANGO_HOST"] = TANGO_HOST
@@ -164,7 +167,6 @@ def _(tmc, csp, cbf, dishes):
     dish_leaf_node_ska001, dish_leaf_node_ska036 = dishes
 
     # Load DishVCCConfig
-    DATA_DIR = "../resources/data"
     CBF_CONFIGS = f"{DATA_DIR}/cbf"
     DISH_CONFIG_FILE = f"{CBF_CONFIGS}/sys_params/load_dish_config.json"
 
@@ -214,8 +216,6 @@ def _(tmc, cbf):
     _, tmc_subarray, _, _, sdp_subarray_leaf_node, csp_subarray_leaf_node = tmc
     _, cbf_subarray, _ = cbf
 
-    DATA_DIR = "../resources/data"
-    TMC_CONFIGS = f"{DATA_DIR}/tmc"
     ASSIGN_RESOURCES_FILE = f"{TMC_CONFIGS}/assign_resources.json"
     KAFKA_PORT = 9092
     KAFKA_SERVICE_NAME = "ska-sdp-kafka"
@@ -262,8 +262,6 @@ def _(tmc, dishes):
 
     _, tmc_subarray, _, _, sdp_subarray_leaf_node, csp_subarray_leaf_node = tmc
     dish_leaf_node_ska001, dish_leaf_node_ska036 = dishes
-    DATA_DIR = "../resources/data"
-    TMC_CONFIGS = f"{DATA_DIR}/tmc"
     CONFIGURE_SCAN_FILE = f"{TMC_CONFIGS}/configure_scan.json"
 
     with open(CONFIGURE_SCAN_FILE, encoding="utf-8") as f:
