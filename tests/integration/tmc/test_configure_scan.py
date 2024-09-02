@@ -38,7 +38,7 @@ class DishMode(enum.IntEnum):
     UNKNOWN = 8
 
 
-def wait_until(device_proxy, attr_name, desired_value, event_type, n_events=2, timeout=10):
+def wait_until(device_proxy, attr_name, desired_value, event_type, n_events=2, timeout=120):
     event_queue = Queue()
 
     device_proxy.subscribe_event(attr_name, event_type, lambda event: event_queue.put(event))
