@@ -1,5 +1,7 @@
 """Configure scan on subarray feature tests."""
 
+import logging
+
 import pytest
 from assertpy import assert_that
 from pytest_bdd import given, scenario, then
@@ -11,11 +13,13 @@ from ska_ser_skallop.mvp_fixtures.fixtures import fxt_types
 from .. import conftest
 from ..resources.models.mvp_model.states import ObsState
 
+logger = logging.getLogger(__name__)
 
-@pytest.mark.skip(reason="Skipping failing test")
+
 @pytest.mark.csp_related
 @pytest.mark.skamid
 @pytest.mark.scan
+@pytest.mark.skip(reason="Skip failing test")  # TEMP COMMIT
 @scenario("features/csp_scan.feature", "Run a scan on csp subarray in mid")
 def test_run_a_scan_on_csp_subarray_in_mid():
     """Run a scan on sdp subarray in mid."""

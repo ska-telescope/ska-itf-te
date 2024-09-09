@@ -78,7 +78,7 @@ class SutTestSettings(SimpleNamespace):
     """Object representing env like SUT settings for fixtures in conftest."""
 
     mock_sut: bool = False
-    nr_of_subarrays = 3
+    nr_of_subarrays = 1
     subarray_id = 1
     scan_duration = 4
     _receptors = [1, 2, 3, 4]
@@ -240,6 +240,48 @@ def fxt_integration_test_exec_settings(
     if os.getenv("ATTR_SYNCH_ENABLED_GLOBALLY"):
         exec_settings.attr_synching = True
     return integration_test_exec_settings
+
+
+@pytest.fixture(name="updated_session_exec_settings")
+def update_session_exec_settings(
+    session_exec_settings: fxt_types.session_exec_settings, sut_settings: SutTestSettings
+):
+    """_summary_.
+
+    :param session_exec_settings: _description_
+    :type session_exec_settings: fxt_types.session_exec_settings
+    :param sut_settings: _description_
+    :type sut_settings: SutTestSettings
+    :return: _description_
+    :rtype: _type_
+    """
+    session_exec_settings.nr_of_subarrays = sut_settings.nr_of_subarrays
+    logging.info(
+        f"Updated session_exec_settings. NR_OF_SUBARRAYS: {session_exec_settings.nr_of_subarrays}"
+    )
+    return session_exec_settings
+
+
+@pytest.fixture(autouse=True)
+def exec_settings(
+    updated_session_exec_settings: fxt_types.session_exec_settings,
+):
+    """Update Execution settings.
+
+    :param updated_session_exec_settings: _description_
+    :type updated_session_exec_settings: fxt_types.session_exec_settings
+    :return: _description_
+    :rtype: _type_
+    """
+    exec_settings = updated_session_exec_settings
+    if os.getenv("LIVE_LOGGING_EXTENDED"):
+        logger.info("running live logs globally")
+        exec_settings.run_with_live_logging()
+    if os.getenv("ATTR_SYNCH_ENABLED_GLOBALLY"):
+        logger.warning("enabled attribute synchronization globally")
+        exec_settings.attr_synching = True
+    exec_settings.time_out = 150
+    return exec_settings
 
 
 @pytest.fixture(name="observation_config")
