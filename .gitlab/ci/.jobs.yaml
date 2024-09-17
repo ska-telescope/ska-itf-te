@@ -44,7 +44,6 @@
         bash .make/resources/gitlab_section.sh mcs_config "Configure MCS" make itf-cbf-config-mcs && sleep 3;
         bash .make/resources/gitlab_section.sh talon_on "Talon Tango ON" make itf-cbf-tango-on && sleep 3;
       fi
-    - make fix-pvc
     - env | grep RUNNER_AFTER_SCRIPT_TIMEOUT
     - bash .make/resources/gitlab_section.sh template "Output deployment config information" make get-deployment-config-info
   after_script:
@@ -77,8 +76,8 @@
       if [ "$KEEP_NAMESPACE" != "true" ]; then
         make k8s-delete-namespace
         if [ "$KUBE_NAMESPACE_SDP" != "" ]; then
-          kubectl wait --for=delete pvc/staging-pvc -n $KUBE_NAMESPACE_SDP --timeout=60s
           make k8s-delete-namespace KUBE_NAMESPACE=$KUBE_NAMESPACE_SDP
+          kubectl wait --for=delete pvc/staging-pvc -n $KUBE_NAMESPACE_SDP --timeout=60s --ignore-not-found
         fi
       fi
 
