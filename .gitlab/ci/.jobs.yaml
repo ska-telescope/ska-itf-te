@@ -77,12 +77,6 @@
         make k8s-delete-namespace
         if [ "$KUBE_NAMESPACE_SDP" != "" ]; then
           make k8s-delete-namespace KUBE_NAMESPACE=$KUBE_NAMESPACE_SDP
-          kubectl get pvc staging-pvc -n $KUBE_NAMESPACE_SDP > /dev/null 2>&1
-          if [ $? -eq 0 ]; then
-            kubectl wait --for=delete pvc/staging-pvc -n $KUBE_NAMESPACE_SDP --timeout=60s
-          else
-            echo "No PVC found. Continuing..."
-          fi
         fi
       fi
 
