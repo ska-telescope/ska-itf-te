@@ -140,6 +140,16 @@ dpd-links: ## Create the URLs with which to access the Data Product Dashboard
 	@echo "#        https://$(INGRESS_HOST)/$(KUBE_NAMESPACE)/dashboard/"
 	@echo "##############################################################################################"
 
+## TARGET: pvc-check
+## SYNOPSIS: make pvc-check
+## HOOKS: none
+## VARS:
+##   KUBE_NAMESPACE
+##  make target for checking which PVCs are running in the namespace provided
+
+pvc-check: ## Chec PVC in the namespace
+	kubectl get pvc -n $KUBE_NAMESPACE -o custom-columns=NAME:metadata.name,MANAGER:".metadata.labels.app\.kubernetes\.io/managed-by","RELEASE-NAME":".metadata.annotations.meta\.helm\.sh/release-name"
+
 ## TARGET: fix-pvc
 ## SYNOPSIS: make fix-pvc
 ## HOOKS: none

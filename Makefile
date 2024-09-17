@@ -236,7 +236,7 @@ K8S_TEST_TEST_COMMAND = unset PYTHONPATH; TANGO_HOST=$(TANGO_HOST) \
 						$(PYTHON_VARS_AFTER_PYTEST) ./tests/functional
 endif
 
-PING_HOST=itf-gateway# set this up in your /etc/hosts file from the Confluence page describing all the hosts.
+PING_HOST=itf-gateway# set this up in your /etc/hosts file from the Confluence page describing all the hosts under Management Network section
 
 itf-check-te-hosts-online:
 	@ping -c 1 -t 2 $(PING_HOST); RC=$$?; \
@@ -246,7 +246,7 @@ itf-check-te-hosts-online:
 		else echo "Able to reach the Gateway host."; \
 		echo "###############################"; echo; \
 		fi;
-	@python resources/ping-itf-hosts.py
+	@python3 resources/ping-itf-hosts.py
 
 check: itf-check-te-hosts-online
 
@@ -369,3 +369,4 @@ post-set-release:
 	@cur_rel= && \
 	./scripts/release/update_chart_version.sh $(shell awk -F= '/^release=/{print $$2}' .release) sut_config.yaml;
 	@echo "Updated SUT Config graph reflecting Mid ITF latest version."
+
