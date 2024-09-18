@@ -148,17 +148,27 @@ dpd-links: ## Create the URLs with which to access the Data Product Dashboard
 ##  make target for checking which PVCs are running in the namespace provided
 
 pvc-check: ## Chec PVC in the namespace
-	kubectl get pvc -n $KUBE_NAMESPACE -o custom-columns=NAME:metadata.name,MANAGER:".metadata.labels.app\.kubernetes\.io/managed-by","RELEASE-NAME":".metadata.annotations.meta\.helm\.sh/release-name"
+	@kubectl get pvc -n $(KUBE_NAMESPACE) -o custom-columns=NAME:metadata.name,MANAGER:".metadata.labels.app\.kubernetes\.io/managed-by","RELEASE-NAME":".metadata.annotations.meta\.helm\.sh/release-name"
 
-## TARGET: fix-pvc
-## SYNOPSIS: make fix-pvc
+## TARGET: pvc-patch-delete
+## SYNOPSIS: make pvc-patch-delete
+## HOOKS: none
+## VARS:
+##   KUBE_NAMESPACE_SDP
+##  make target for deleting the clone PVC whenever it was created using kubectl (not managed by Helm)
+
+pvc-patch-delete: ## Delete PVC in the SDP namespace in case one exists that was created using Kubectl
+	@kubectl delete pvc staging-pvc -n $(KUBE_NAMESPACE_SDP)
+
+## TARGET: pvc-patch-apply
+## SYNOPSIS: make pvc-patch-apply
 ## HOOKS: none
 ## VARS:
 ##   KUBE_NAMESPACE_SDP
 ##  make target for deploying the clone PVC whenever it inexplicably goes to the farm
 
-fix-pvc: ## Create PVC in the SDP namespace for data product sharing
-	kubectl apply -f charts/ska-mid-itf-dpd/templates/pvc.yaml -n ${KUBE_NAMESPACE_SDP}
+pvc-patch-apply: ## Create PVC in the SDP namespace for data product sharing
+	@kubectl apply -f charts/ska-mid-itf-dpd/templates/pvc.yaml -n $(KUBE_NAMESPACE_SDP)
 
 vars:
 	$(info KUBE_NAMESPACE: $(KUBE_NAMESPACE))
