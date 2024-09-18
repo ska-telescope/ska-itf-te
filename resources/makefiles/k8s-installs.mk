@@ -158,7 +158,7 @@ pvc-check: ## Chec PVC in the namespace
 ##  make target for deleting the clone PVC whenever it was created using kubectl (not managed by Helm)
 
 pvc-patch-delete: ## Delete PVC in the SDP namespace in case one exists that was created using Kubectl
-	@kubectl delete pvc staging-pvc -n $(KUBE_NAMESPACE_SDP)
+	@kubectl delete pvc,sts,jobs staging-pvc -n $(KUBE_NAMESPACE_SDP)
 
 ## TARGET: pvc-patch-apply
 ## SYNOPSIS: make pvc-patch-apply

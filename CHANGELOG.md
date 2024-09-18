@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+## 24.1.0
+* [AT-2270] - bumped SPFRx deployer version
+* [AT-2268] - fixed SDP PVC deployment & destroy issue
+* [STS-1128] - upgraded Makefiles - now with long-help
+
+## 23.5.0
+* [REL-1679] - Patched TMC, CSP.LMC & CBF.MCS with dev images used, downgraded CBF Engineering Console, Tango Archiver bump, Fixed EDA deployment
+
 ## 23.4.1
 * [AT-2226] - Found a stable combination of software versions (and patches) which allow e2e telescope testing via TMC 
 
