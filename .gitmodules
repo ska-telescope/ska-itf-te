@@ -1,10 +1,10 @@
 [submodule ".make"]
 	path = .make
-	url = https://gitlab.com/ska-telescope/sdi/ska-cicd-makefile.git
+	url = git@gitlab.com:ska-telescope/sdi/ska-cicd-makefile.git
 	shallow = true
 [submodule ".engineering-tools"]
 	path = .engineering-tools
-	url = https://gitlab.com/ska-telescope/ska-mid-itf-engineering-tools.git
+	url = git@gitlab.com:ska-telescope/ska-mid-itf-engineering-tools.git
 	shallow = true
 [submodule ".jupyter-notebooks"]
 	path = .jupyter-notebooks
