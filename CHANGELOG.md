@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+## 24.1.1
+* [REL-1722] - fixed submodule URLs
+
 ## 24.1.0
 * [AT-2270] - bumped SPFRx deployer version
 * [AT-2268] - fixed SDP PVC deployment & destroy issue
