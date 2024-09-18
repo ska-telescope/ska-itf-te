@@ -1,16 +1,15 @@
 """Configure scan via TMC feature tests."""
 
-import os
-from time import localtime, strftime
-from queue import Queue, Empty
 import enum
 import json
+import os
+from queue import Empty, Queue
+from time import localtime, strftime
+
 import pytest
 from pytest_bdd import given, scenario, then, when
-from tango import DeviceProxy, EventType, DevState
-
 from ska_control_model import ObsState
-
+from tango import DeviceProxy, DevState, EventType
 
 # TODO: Remove usage of globals like this
 
