@@ -1,12 +1,10 @@
-Feature: Perform scan via TMC
+Feature: Perform a single scan end-to-end via TMC
 
     Scenario: Perform a single scan end-to-end via TMC
-        Given a TMC configured with 1 subarray
-        And a CSP in adminMode online
-        And a CBF
-        And dishes d0001 and d0036
-        And a telescope in the ON state
-        When I assign resources
+        Given an SUT deployment with 1 subarray and dishes SKA001 and SKA036
+        And CSP in adminMode online
+        When I turn ON the telescope
+        And I assign resources
         And configure it for a scan
         And I start a scan for 10s
         And I end the scan
@@ -14,6 +12,7 @@ Feature: Perform scan via TMC
         And I release resources
         And I turn OFF the telescope
         Then the telescope is in the OFF state
+        And the respective dataproducts are available on the DPD
         
 
 
