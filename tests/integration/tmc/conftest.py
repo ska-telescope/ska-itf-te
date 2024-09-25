@@ -84,6 +84,27 @@ class CSP:
     def __init__(self):
         """."""
         self.control = DeviceProxy("mid-csp/control/0")
+        self.subarray = DeviceProxy("mid-csp/subarray/01")
+
+        proxies = [self.control, self.subarray]
+
+        self.check_proxies(proxies)
+
+        self.control.commandTimeout = 99  # TO BE REMOVED once CSP-CBF LRC's are implemented
+        self.subarray.commandTimeout = 99  # TO BE REMOVED once CSP-CBF LRC's are implemented
+
+    def check_proxies(self, proxies):
+        """Ping device proxies to confirm connectivity.
+
+        :param proxies: _description_
+        :type proxies: _type_
+        """
+        for proxy in proxies:
+            assert proxy.ping() > 0
+
+    def set_cbf_simulation_mode(self, simulation_mode: bool):
+        if simulation_mode:
+            self.control.cbfSimulationMode = 1
 
 
 class Dish:
