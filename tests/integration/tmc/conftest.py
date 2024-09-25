@@ -2,7 +2,7 @@
 
 import logging
 from queue import Empty, Queue
-from time import time, sleep
+from time import sleep, time
 from typing import Any
 
 from tango import DeviceProxy, EventType
@@ -92,8 +92,8 @@ class CSP:
 
         self.control.commandTimeout = 99  # TO BE REMOVED once CSP-CBF LRC's are implemented
         self.subarray.commandTimeout = 99  # TO BE REMOVED once CSP-CBF LRC's are implemented
-        self.control.Off("")
-        self.subarray.Off()
+        self.control.Off("")  # TODO: Fix out exactly why this is needed
+        self.subarray.Off()  # TODO: Find out exactly why this is needed
         sleep(3)
 
     def check_proxies(self, proxies):
