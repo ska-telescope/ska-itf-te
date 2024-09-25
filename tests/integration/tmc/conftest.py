@@ -103,6 +103,11 @@ class CSP:
             assert proxy.ping() > 0
 
     def set_cbf_simulation_mode(self, simulation_mode: bool):
+        """Set CBF simulation mode.
+
+        :param simulation_mode: _description_
+        :type simulation_mode: bool
+        """
         if simulation_mode:
             self.control.cbfSimulationMode = 1
 
@@ -226,7 +231,9 @@ def wait_for_event(
     device_proxy.unsubscribe_event(event_id)
 
     if not result:
-        logger.error("Desired event did not occur within the" f"timeout period of {timeout}s")
+        logger.error(
+            f"Desired event on {attr_name} did not occur within the timeout period of {timeout}s"
+        )
         raise EventWaitTimeout(
             "Desired event did not occur within the" f"timeout period of {timeout}s"
         )

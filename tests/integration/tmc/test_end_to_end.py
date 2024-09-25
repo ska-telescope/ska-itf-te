@@ -89,6 +89,7 @@ def telescope_handlers(receptor_ids) -> Generator[Tuple[TMC, CBF, CSP, List[Dish
     :yield: _description_
     :rtype: Generator[Tuple[TMC, CBF, CSP, List[Dish]], None, None]
     """
+    logger.info(f"Using the following SUT Tango host: {os.getenv('TANGO_HOST')}")
     RECEPTORS = receptor_ids
     tmc = TMC()
     cbf = CBF()
