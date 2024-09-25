@@ -92,6 +92,9 @@ class CSP:
 
         self.control.commandTimeout = 99  # TO BE REMOVED once CSP-CBF LRC's are implemented
         self.subarray.commandTimeout = 99  # TO BE REMOVED once CSP-CBF LRC's are implemented
+        self.control.Off("")
+        self.subarray.Off()
+        sleep(3)
 
     def check_proxies(self, proxies):
         """Ping device proxies to confirm connectivity.
@@ -237,6 +240,6 @@ def wait_for_event(
             f"Desired event on {attr_name} did not occur within the timeout period of {timeout}s"
         )
         raise EventWaitTimeout(
-            "Desired event on {attr_name} did not occur within the timeout period of {timeout}s"
+            f"Desired event on {attr_name} did not occur within the timeout period of {timeout}s"
         )
     return result
