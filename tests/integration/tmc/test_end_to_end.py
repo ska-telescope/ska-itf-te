@@ -25,9 +25,9 @@ logger = logging.getLogger()
 # @pytest.mark.skip(reason="WIP")
 @scenario(
     "features/tmc_end_to_end.feature",
-    "Perform a single scan end-to-end via TMC",
+    "End to End signal chain verification via TMC",
 )
-def test_e2e_scan_via_tmc():
+def test_e2e_via_tmc():
     """Configure scan via TMC on 1 subarray in mid."""
 
 
@@ -132,6 +132,10 @@ def _(telescope_handlers):
     csp_subarray.adminMode = 0
     wait_for_event(csp_control, "adminMode", 0)
     wait_for_event(csp_subarray, "adminMode", 0)
+    sleep(5)  # TODO: Find out exactly why this is needed
+    csp_control.Off("")  # TODO: Find out exactly why this is needed
+    csp_subarray.Off()  # TODO: Find out exactly why this is needed
+    sleep(5)  # TODO: Find out exactly why this is needed
 
 
 @when("I turn ON the telescope")
