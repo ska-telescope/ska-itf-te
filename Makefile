@@ -52,7 +52,7 @@ else
 EXIT = 
 endif
 
-INTEGRATION_TEST_SOURCE ?= tests/integration
+INTEGRATION_TEST_SOURCE ?= tests/integration/tmc/test_end_to_end.py::test_e2e_scan_via_tmc
 INTEGRATION_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(_MARKS) $(_COUNTS) $(EXIT) $(PYTEST_ADDOPTS)
 
 DISH_LMC_INITIAL_PARAMS ?=
