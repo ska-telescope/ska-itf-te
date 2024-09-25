@@ -2,7 +2,7 @@
 
 import logging
 from queue import Empty, Queue
-from time import time
+from time import time, sleep
 from typing import Any
 
 from tango import DeviceProxy, EventType
@@ -110,6 +110,8 @@ class CSP:
         """
         if simulation_mode:
             self.control.cbfSimulationMode = 1
+            sleep(3)  # TODO: Enable use of events to check simulationmode
+            # wait_for_event(self.control, "cbfSimulationMode", 1)
 
 
 class Dish:
@@ -235,6 +237,6 @@ def wait_for_event(
             f"Desired event on {attr_name} did not occur within the timeout period of {timeout}s"
         )
         raise EventWaitTimeout(
-            "Desired event did not occur within the" f"timeout period of {timeout}s"
+            "Desired event on {attr_name} did not occur within the timeout period of {timeout}s"
         )
     return result
