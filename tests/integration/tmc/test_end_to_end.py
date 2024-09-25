@@ -130,6 +130,8 @@ def _(telescope_handlers):
 
     csp_control.adminMode = 0
     csp_subarray.adminMode = 0
+    wait_for_event(csp_control, "adminMode", 0)
+    wait_for_event(csp_subarray, "adminMode", 0)
 
 
 @when("I turn ON the telescope")
