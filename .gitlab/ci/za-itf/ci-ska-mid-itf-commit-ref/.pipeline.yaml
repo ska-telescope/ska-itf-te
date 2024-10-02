@@ -189,7 +189,8 @@ remove-aa05-ds-sim:
 # # On-demand test jobs
 # ############################################
 
-test-end-to-end:
+test-end-to-end-staging:
+  stage: test
   extends:
     - .ci-env
   variables:
