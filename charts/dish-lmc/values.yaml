@@ -33,7 +33,8 @@ ska-dish-lmc:
     enabled: true
     dishsimulators:
       image:
-        tag: 3.1.2 # TEMPORARY COMMIT - see SKB-399 and various Slack threads - the DS Sim slews at speeds where no Dish, or no one, has ever gone before...
+        registry: registry.gitlab.com/ska-telescope/ska-mid-dish-simulators
+        tag: 4.1.1-dev.c078c5040
     deviceServers:
       spfdevice:
         enabled: true
