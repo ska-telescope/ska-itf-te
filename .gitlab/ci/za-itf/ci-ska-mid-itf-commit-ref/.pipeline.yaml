@@ -197,3 +197,4 @@ test-end-to-end:
     KUBE_NAMESPACE: staging
   script:
     - make integration-test
+  when: manual
