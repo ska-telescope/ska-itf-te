@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-## 24.2.1
+## 24.2.0
 * [AT-2249] - Added BDD test for end-to-end signal chain verification via TMC.  
 
 ## 24.1.1
