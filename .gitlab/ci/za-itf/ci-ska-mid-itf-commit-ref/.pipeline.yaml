@@ -34,7 +34,7 @@ deploy-sut-on-demand:
     - .ci-env
     - .on_demand_rules
     - .on-demand-stage
-    
+
   environment:
     name: mid-itf/ska-$CONFIG-$CI_COMMIT_REF_SLUG
     kubernetes:
@@ -184,3 +184,16 @@ remove-aa05-ds-sim:
     name: mid-itf/integration/dish-structure-simulator-aa05
     action: stop
   when: manual
+
+# ############################################
+# # On-demand test jobs
+# ############################################
+
+test-end-to-end:
+  extends:
+    - .ci-env
+  variables:
+    INTEGRATION_TEST_SOURCE: tests/integration/tmc/test_end_to_end.py::test_e2e_via_tmc
+    KUBE_NAMESPACE: staging
+  script:
+    - make integration-test
