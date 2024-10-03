@@ -64,20 +64,20 @@ endif
 DISH_LMC_INITIAL_PARAMS ?=
 DISH_LMC_EXTRA_PARAMS ?=
 
-#TEMPORARY COMMIT - REMOVE global.dish_index LINE AS SOON AS SPFC DEPLOYER IS UPDATED & RELEASED)
 ifneq ($(DISH_ID),)
 DISH_LMC_EXTRA_PARAMS = \
 	--set global.dish_id=$(DISH_ID) \
-	--set global.dish_index=$(DISH_ID) \
 	--set global.tangodb_fqdn=$(TANGO_DATABASE_DS).$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN) \
 	--set global.tango_host=$(TANGO_HOST) \
 	--set global.tangodb_port=10000
 endif
 
+#TEMPORARY COMMIT - REMOVE ska-spfc-deployer.job.dish_index LINE AS SOON AS SPFC DEPLOYER IS UPDATED & RELEASED)
 SPFC_IN_THE_LOOP ?= #Boolean flag to control deployment of the SPFC Tango device in a Dish
 ifeq ($(SPFC_IN_THE_LOOP), true)
 	DISH_LMC_EXTRA_PARAMS += \
 	--set ska-dish-lmc.ska-mid-dish-simulators.deviceServers.spfdevice.enabled=false \
+	--set ska-spfc-deployer.job.dish_index=$(DISH_ID) \
 	--set ska-spfc-deployer.enabled=true
 endif
 
