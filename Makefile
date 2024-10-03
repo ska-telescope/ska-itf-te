@@ -65,7 +65,7 @@ DISH_LMC_INITIAL_PARAMS ?=
 DISH_LMC_EXTRA_PARAMS ?=
 
 #TEMPORARY COMMIT - REMOVE global.dish_index LINE AS SOON AS SPFC DEPLOYER IS UPDATED & RELEASED)
-ifneq ($(DISH_ID),
+ifneq ($(DISH_ID),)
 DISH_LMC_EXTRA_PARAMS = \
 	--set global.dish_id=$(DISH_ID) \
 	--set global.dish_index=$(DISH_ID) \
