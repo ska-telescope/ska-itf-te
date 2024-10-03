@@ -78,7 +78,8 @@ ifeq ($(SPFC_IN_THE_LOOP), true)
 	DISH_LMC_EXTRA_PARAMS += \
 	--set ska-dish-lmc.ska-mid-dish-simulators.deviceServers.spfdevice.enabled=false \
 	--set ska-spfc-deployer.job.dish_index=$(DISH_ID) \
-	--set ska-spfc-deployer.enabled=true
+	--set ska-spfc-deployer.enabled=true \
+	--set ska-spfc-deployer.job.namespace=$(KUBE_NAMESPACE)
 endif
 
 SPFRX_IN_THE_LOOP ?= #Boolean flag to control deployment of the device described in SPFRX_TANGO_INSTANCE, SPFRX_ADDRESS variables
