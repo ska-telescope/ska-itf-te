@@ -71,6 +71,11 @@ TMC_PARAMS += --set ska-tmc-mid.deviceServers.mocks.enabled=false \
 	--set ska-tmc-mid.deviceServers.mocks.dish=false
 endif
 
+TMC_COMMANDTIMEOUT ?=
+ifneq ($(TMC_COMMANDTIMEOUT),)
+	TMC_PARAMS += --set ska-tmc-mid.deviceServers.cspsubarrayleafnode.CommandTimeOut=$(TMC_COMMANDTIMEOUT)
+endif
+
 SPFRX_IN_THE_LOOP ?= #Boolean flag to control deployment of the device described in SPFRX_TANGO_INSTANCE, SPFRX_ADDRESS variables
 SPFRX_FAMILY_NAME ?= spfrxpu
 SPFRX_MEMBER_NAME ?= controller
