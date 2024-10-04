@@ -111,6 +111,8 @@ def _(telescope_handlers):
     CBF_HW_IN_THE_LOOP = os.getenv("CBF_HW_IN_THE_LOOP", "false").lower()
     if CBF_HW_IN_THE_LOOP in ["false", "0"]:
         csp.set_cbf_simulation_mode(True)
+    else:
+        csp.set_cbf_simulation_mode(False)
 
 
 @given("CSP in adminMode online", target_fixture="csp")
@@ -174,7 +176,7 @@ def _(telescope_handlers, receptor_ids):
     logger.debug(f"dish_config_json file contents: \n{dish_config_json}")
 
     tmc_central_node.LoadDishCfg(json.dumps(dish_config_json))
-
+    sleep(15)
     wait_for_event(tmc_central_node, "isDishVccConfigSet", True)
 
     assert tmc_central_node.isDishVccConfigSet
