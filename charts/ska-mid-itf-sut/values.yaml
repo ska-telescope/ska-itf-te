@@ -88,6 +88,8 @@ ska-tmc-mid:
 
     dishleafnode:
       enabled: true
+    cspsubarrayleafnode:
+      CommandTimeOut: 120
   resources:
     # limits:
     #   cpu: 800m
