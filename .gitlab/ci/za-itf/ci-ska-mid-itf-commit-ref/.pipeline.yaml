@@ -206,4 +206,7 @@ test-end-to-end-staging:
   script:
     - bash .make/resources/gitlab_section.sh template "Output deployment config information" make get-deployment-config-info
     - make integration-test
-  when: manual
+  rules:
+    - when: manual
+    - if: "$EXECUTE_STAGING_E2E_WITH_HW == 'true'"
+      when: on_success
