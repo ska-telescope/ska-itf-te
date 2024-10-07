@@ -26,13 +26,18 @@ ska-dish-lmc:
     enabled: false
   ska-mid-dish-manager:
     enabled: true
+    image:
+      registry: https://registry.gitlab.com/ska-telescope/ska-mid-dish-manager
+      tag: ska-mid-dish-manager-5.0.0-dev.c234a7637
   ska-mid-dish-ds-manager:
     enabled: true
+    image:
+      tag: 2.1.2
   ska-mid-dish-simulators:
     enabled: true
     dishsimulators:
       image:
-        tag: 3.1.2 # TEMPORARY COMMIT - see SKB-399 and various Slack threads - the DS Sim slews at speeds where no Dish, or no one, has ever gone before...
+        tag: 4.1.2 # TEMPORARY COMMIT - see SKB-399 and various Slack threads - the DS Sim slews at speeds where no Dish, or no one, has ever gone before...
     deviceServers:
       spfdevice:
         enabled: true
