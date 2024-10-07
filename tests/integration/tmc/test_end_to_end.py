@@ -108,8 +108,10 @@ def _(telescope_handlers):
     :type telescope_handlers: _type_
     """
     _, _, csp, _ = telescope_handlers
-    CBF_HW_IN_THE_LOOP = os.getenv("CBF_HW_IN_THE_LOOP", "false").lower()
-    if CBF_HW_IN_THE_LOOP in ["false", "0"]:
+    SIM_MODE = os.getenv("SIM_MODE", "false").lower()
+    if SIM_MODE in ["false", "0", ""]:
+        csp.set_cbf_simulation_mode(False)
+    elif SIM_MODE in ["true", "1"]:
         csp.set_cbf_simulation_mode(True)
 
 
