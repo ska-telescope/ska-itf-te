@@ -289,7 +289,7 @@ def _(telescope_handlers):
     wait_for_event(tmc.csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.SCANNING)
     wait_for_event(tmc.subarray_node, "obsState", ObsState.SCANNING)
     logger.info("Scanning for 10s")
-    sleep(10)
+    sleep(100)
 
 
 @when("I end the scan")
