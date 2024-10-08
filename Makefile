@@ -55,20 +55,31 @@ endif
 INTEGRATION_TEST_SOURCE ?= tests/integration
 INTEGRATION_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(_MARKS) $(_COUNTS) $(EXIT) $(PYTEST_ADDOPTS)
 
+TMC_PARAMS ?=
+ifeq ($(DISH_LMC_IN_THE_LOOP),true)
+TMC_PARAMS += --set ska-tmc-mid.deviceServers.mocks.enabled=false \
+	--set ska-tmc-mid.deviceServers.mocks.dish=false
+endif
+
 DISH_LMC_INITIAL_PARAMS ?=
 DISH_LMC_EXTRA_PARAMS ?=
 
 ifneq ($(DISH_ID),)
-DISH_LMC_EXTRA_PARAMS = --set global.dish_id=$(DISH_ID) \
+DISH_LMC_EXTRA_PARAMS = \
+	--set global.dish_id=$(DISH_ID) \
 	--set global.tangodb_fqdn=$(TANGO_DATABASE_DS).$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN) \
 	--set global.tango_host=$(TANGO_HOST) \
 	--set global.tangodb_port=10000
 endif
 
-TMC_PARAMS ?=
-ifeq ($(DISH_LMC_IN_THE_LOOP),true)
-TMC_PARAMS += --set ska-tmc-mid.deviceServers.mocks.enabled=false \
-	--set ska-tmc-mid.deviceServers.mocks.dish=false
+#TEMPORARY COMMIT - REMOVE ska-spfc-deployer.job.dish_index LINE AS SOON AS SPFC DEPLOYER IS UPDATED & RELEASED)
+SPFC_IN_THE_LOOP ?= #Boolean flag to control deployment of the SPFC Tango device in a Dish
+ifeq ($(SPFC_IN_THE_LOOP), true)
+	DISH_LMC_EXTRA_PARAMS += \
+	--set ska-dish-lmc.ska-mid-dish-simulators.deviceServers.spfdevice.enabled=false \
+	--set ska-spfc-deployer.job.dish_index=$(DISH_ID) \
+	--set ska-spfc-deployer.enabled=true \
+	--set ska-spfc-deployer.job.namespace=$(KUBE_NAMESPACE)
 endif
 
 SPFRX_IN_THE_LOOP ?= #Boolean flag to control deployment of the device described in SPFRX_TANGO_INSTANCE, SPFRX_ADDRESS variables

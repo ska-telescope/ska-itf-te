@@ -44,6 +44,14 @@ spookd:
           instanceID: "0001"
           env:
             IP: 10.165.3.20
+        - resourceName: miditf/spfc-prod
+          instanceID: "0001"
+          env:
+            IP: 10.165.3.28
+        - resourceName: miditf/spfc-devkit
+          instanceID: "0001"
+          env:
+            IP: 10.165.3.33
     - hosts:
         - za-itf-cloud03 #randomly chosen
       devices:

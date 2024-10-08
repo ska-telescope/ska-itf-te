@@ -13,6 +13,7 @@ global:
   tangodb_port: 10000
   raw_user_account: bond
   raw_user_pass: jamesbond
+  dish_id: ska007
 
 ska-tango-base:
   tangodb:
@@ -52,6 +53,10 @@ ska-mid-dish-spfrx-talondx-console:
   scripts_dir: scripts
   instance: spfrx-20
   logging_level: 4
+
+# SPFC
+ska-spfc-deployer:
+  enabled: false
 
 # TARANTA SUITE
 ska-taranta:
