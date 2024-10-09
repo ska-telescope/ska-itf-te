@@ -211,3 +211,4 @@ test-end-to-end-staging:
       when: on_success
     - if: $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event"
       when: manual
+      allow_failure: true
