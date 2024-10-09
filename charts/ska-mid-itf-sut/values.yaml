@@ -69,7 +69,7 @@ ska-tmc-mid:
     image:
       registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-subarraynode
       image: ska-tmc-subarraynode
-      tag: 0.23.4-dev.c6a8430
+      tag: 0.23.4-dev.c6a8430dd
       pullPolicy: IfNotPresent
   telescope: SKA-mid
   ska-tango-base:
