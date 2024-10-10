@@ -7,7 +7,7 @@ from time import localtime, sleep, strftime
 from typing import Generator, List, Tuple
 
 import pytest
-from pytest_bdd import given, scenario, then, when, parsers
+from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
 from tango import DevState
 
