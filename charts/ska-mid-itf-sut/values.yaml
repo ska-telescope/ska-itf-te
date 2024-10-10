@@ -105,6 +105,10 @@ ska-tmc-mid:
       sdp: false
     centralnode:
       subarray_count: 1
+      DishVccConfig:
+        DishVccUri: "car://gitlab.com/ska-telescope/ska-telmodel-data?0.1.0-rc-mid-itf#tmdata"
+        DishVccFilePath: "instrument/ska1_mid_itf/ska-mid-cbf-system-parameters.json"
+
     dishleafnode:
       enabled: true
   resources:
