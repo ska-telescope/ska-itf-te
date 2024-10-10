@@ -10,7 +10,22 @@ Feature: Telescope end to end signal chain test
 		When I turn ON the telescope
 		And I assign resources
 		And configure it for a scan
-		And I start a scan for 10s
+		And I start a scan for 10 seconds
+		And I end the scan
+		And I end the observation
+		And I release resources
+		And I turn OFF the telescope
+		Then the telescope is in the OFF state
+		And the respective dataproducts are available on the DPD
+
+	@AT-2349 @AT-1305
+	Scenario: End to End signal chain verification via TMC - With HW
+		Given an SUT deployment with 1 subarray and dishes SKA001 and SKA036
+		And CSP in adminMode online
+		When I turn ON the telescope
+		And I assign resources
+		And configure it for a scan
+		And I start a scan for 60 seconds
 		And I end the scan
 		And I end the observation
 		And I release resources
