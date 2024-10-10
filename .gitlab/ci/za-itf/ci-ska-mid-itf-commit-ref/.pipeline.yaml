@@ -194,10 +194,19 @@ test-end-to-end-staging:
   extends:
     - .ci-env
   variables:
-    INTEGRATION_TEST_SOURCE: tests/integration/tmc/test_end_to_end.py::test_e2e_via_tmc
+    INTEGRATION_TEST_SOURCE: tests/integration/tmc/test_end_to_end.py
     KUBE_NAMESPACE: staging
     HELM_RELEASE: staging
     SIM_MODE: false
+    ADDMARKS: True
+    MARKS: hw_in_the_loop
+  rules:
+    - if: $EXECUTE_STAGING_E2E_WITH_HW == "true"
+      when: on_success
+      variables:
+    - if: $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: manual
+      allow_failure: true
   before_script:
     - make vars
     - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
@@ -206,9 +215,3 @@ test-end-to-end-staging:
   script:
     - bash .make/resources/gitlab_section.sh template "Output deployment config information" make get-deployment-config-info
     - make integration-test
-  rules:
-    - if: $EXECUTE_STAGING_E2E_WITH_HW == "true"
-      when: on_success
-    - if: $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event"
-      when: manual
-      allow_failure: true
