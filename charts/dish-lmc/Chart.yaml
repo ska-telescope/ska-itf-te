@@ -37,7 +37,7 @@ dependencies:
 
   # SPFC DEPLOYER CHART
   - name: ska-spfc-deployer
-    version: 0.1.7
+    version: 0.1.8
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-spfc-deployer.enabled
 
