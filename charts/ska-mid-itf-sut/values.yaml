@@ -65,10 +65,6 @@ ska-csp-lmc-mid:
 
 ### tmc - also see tmc-values for DishIDs!
 ska-tmc-mid:
-  subarraynode:
-    image:
-      tag: 0.23.4
-      pullPolicy: IfNotPresent
   telescope: SKA-mid
   ska-tango-base:
     enabled: false
