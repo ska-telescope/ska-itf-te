@@ -52,8 +52,8 @@ itf-cbf-config-mcs: itf-cbf-copy-slim-config itf-cbf-copy-hw-config ## Copy the 
 ##  make target for configuring the MCS - specifically HW config
 
 itf-cbf-copy-slim-config: ## Copy the Talon HW Config file onto a pod
-	@kubectl cp $(SLIM_CONFIG_FILE_PATH)/fs_slim_config.yaml $(KUBE_NAMESPACE)/ds-cbfcontroller-controller-0:/app/mnt/slim/fs_slim_config.yaml
-	@kubectl cp $(SLIM_CONFIG_FILE_PATH)/vis_slim_config.yaml $(KUBE_NAMESPACE)/ds-cbfcontroller-controller-0:/app/mnt/slim/vis_slim_config.yaml
+	@kubectl cp $(SLIM_CONFIG_FILE_PATH)/fs_slim_config.yaml $(KUBE_NAMESPACE)/ds-cbfcontroller-controller-0:/app/mnt/slim/fs/slim_config.yaml
+	@kubectl cp $(SLIM_CONFIG_FILE_PATH)/vis_slim_config.yaml $(KUBE_NAMESPACE)/ds-cbfcontroller-controller-0:/app/mnt/slim/vis/slim_config.yaml
 	@echo "Successfully copied Talon HW config file to the CBF Controller Pod."
 
 ## TARGET: itf-cbf-copy-hw-config
