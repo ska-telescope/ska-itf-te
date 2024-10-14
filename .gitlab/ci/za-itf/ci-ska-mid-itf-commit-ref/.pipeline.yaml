@@ -196,7 +196,7 @@ test-end-to-end-staging:
   extends:
     - .ci-env
   variables:
-    INTEGRATION_TEST_SOURCE: tests/integration/tmc/test_end_to_end.py
+    INTEGRATION_TEST_SOURCE: tests/integration/tmc
     KUBE_NAMESPACE: staging
     HELM_RELEASE: staging
     SIM_MODE: false
