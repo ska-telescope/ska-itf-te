@@ -163,3 +163,24 @@ In all cases where hardware-in-the-loop tests are to be done, it should be annou
 Other subsystems in the loop
 ============================
 DishLMC can also be controlled with the flag ``DISH_LMC_IN_THE_LOOP``, similarly to how the deployments for hardware-in-the-loop are controlled. By default, the DishLMC is mocked out in the ``integration`` namespace, by the TMC.
+
+***************
+Automated tests
+***************
+This repository contains end-to-end BDD tests for verifying the full signal chain which are executed within pipeline jobs targeted at ci- and staging namespaces in the mid-itf cluster. 
+
+End-to-end testing via TMC - Software only
+==========================================
+Software only end-to-end tests are run in the k8s-test-runner pipeline job each time a change is made. Test execution reports are uploaded against the AT-2305 Jira ticket when the test is run from the main pipeline.
+
+End-to-end testing via TMC - With hardware in the loop
+======================================================
+End-to-end tests are executed with hardware in the loop through on-demand pipeline jobs against the staging namespace. Hardware in the loop tests are also executed on a cadence through scheduled pipelines which trigger the on-demand hardware in the loop test jobs which execute against the staging namespace.
+Scheduled hardware in the loop test jobs execute against the staging namespace daily at 03h00 SAST. Test execution reports are uploaded against the AT-2349 Jira ticket when the test is run from the main pipeline..
+
+The test-end-to-end-staging pipeline job in the test stage is used to execute the hardware in the loop tests on demand. This job is available as an on-demand job in all pipelines with source push and merge_request_event. All tests within the tests/integration/tmc folder that have been marked using the hw_in_the_loop pytest marker will be executed by this job.
+To view the configuration of the system deployed in the staging namespace, view the pipeline logs. This job assumes the following:
+1. The telescope software has been successfully deployed with hardware in the loop into the staging namespace.
+2. The TMC central node telescopeState is OFF.
+
+The test-end-to-end-staging can be triggered to run automatically by setting the EXECUTE_STAGING_E2E_WITH_HW pipeline variable to "true"
