@@ -34,7 +34,7 @@ deploy-sut-on-demand:
     - .ci-env
     - .on_demand_rules
     - .on-demand-stage
-    
+
   environment:
     name: mid-itf/ska-$CONFIG-$CI_COMMIT_REF_SLUG
     kubernetes:
@@ -122,6 +122,8 @@ k8s-test-runner:
     REMOVE_FAILED_TEST_DEPLOYMENT: "false"
     K8S_TEST_RUNNER_PARAMS: --set ska-tmc-mid.deviceServers.mocks.dish=true --set ska-tmc-mid.deviceServers.mocks.enabled=true
     DISH_LMC_IN_THE_LOOP: "false"
+    ADDMARKS: True
+    MARKS: "'not hw_in_the_loop'"
 
 stop-k8s-test-runner:
   tags:
@@ -184,3 +186,34 @@ remove-aa05-ds-sim:
     name: mid-itf/integration/dish-structure-simulator-aa05
     action: stop
   when: manual
+
+# ############################################
+# # On-demand test jobs
+# ############################################
+
+test-end-to-end-staging:
+  stage: test
+  extends:
+    - .ci-env
+  variables:
+    INTEGRATION_TEST_SOURCE: tests/integration/tmc
+    KUBE_NAMESPACE: staging
+    HELM_RELEASE: staging
+    SIM_MODE: false
+    ADDMARKS: True
+    MARKS: hw_in_the_loop
+  rules:
+    - if: $EXECUTE_STAGING_E2E_WITH_HW == "true"
+      when: on_success
+      variables:
+    - if: $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: manual
+      allow_failure: true
+  before_script:
+    - make vars
+    - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
+    - "make help | grep k8s-test"
+    - bash .make/resources/gitlab_section.sh poetry "Poetry Install" poetry install
+  script:
+    - bash .make/resources/gitlab_section.sh template "Output deployment config information" make get-deployment-config-info
+    - make integration-test

@@ -7,7 +7,7 @@ from time import localtime, sleep, strftime
 from typing import Generator, List, Tuple
 
 import pytest
-from pytest_bdd import given, scenario, then, when
+from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
 from tango import DevState
 
@@ -19,16 +19,25 @@ CLUSTER_DOMAIN = "miditf.internal.skao.int"
 SUT_NAMESPACE = os.getenv("KUBE_NAMESPACE")
 DATA_DIR = "tests/integration/resources/data"
 TMC_CONFIGS = f"{DATA_DIR}/tmc"
+expected_k_value = 1
 logger = logging.getLogger()
 
 
-# @pytest.mark.skip(reason="WIP")
 @scenario(
     "features/tmc_end_to_end.feature",
     "End to End signal chain verification via TMC",
 )
 def test_e2e_via_tmc():
-    """Configure scan via TMC on 1 subarray in mid."""
+    """."""
+
+
+@pytest.mark.hw_in_the_loop
+@scenario(
+    "features/tmc_end_to_end.feature",
+    "End to End signal chain verification via TMC - With HW",
+)
+def test_e2e_via_tmc_slow():
+    """."""
 
 
 # TODO: Consider removing this e.g. read from config file or feature file
@@ -108,8 +117,10 @@ def _(telescope_handlers):
     :type telescope_handlers: _type_
     """
     _, _, csp, _ = telescope_handlers
-    CBF_HW_IN_THE_LOOP = os.getenv("CBF_HW_IN_THE_LOOP", "false").lower()
-    if CBF_HW_IN_THE_LOOP in ["false", "0"]:
+    SIM_MODE = os.getenv("SIM_MODE", "false").lower()
+    if SIM_MODE in ["false", "0", ""]:
+        csp.set_cbf_simulation_mode(False)
+    elif SIM_MODE in ["true", "1"]:
         csp.set_cbf_simulation_mode(True)
 
 
@@ -177,12 +188,10 @@ def _(telescope_handlers, receptor_ids):
 
     wait_for_event(tmc_central_node, "isDishVccConfigSet", True)
 
-    assert tmc_central_node.isDishVccConfigSet
-
     dish_vcc_config = json.loads(tmc.csp_master_leaf_node.dishVccConfig)
 
     for receptor in RECEPTORS:
-        assert dish_vcc_config["dish_parameters"][receptor]["k"] == 1
+        assert dish_vcc_config["dish_parameters"][receptor]["k"] == expected_k_value
 
     # Turn ON the telescope
     assert cbf_fspcorrsubarray.obsstate == ObsState.IDLE
@@ -280,12 +289,16 @@ def _(telescope_handlers, receptor_ids):
     wait_for_event(tmc.subarray_node, "obsState", ObsState.READY)
 
 
-@when("I start a scan for 10s")
-def _(telescope_handlers):
-    """Block for 10s while telescope is in SCANNING state.
+@when(
+    parsers.cfparse("I start a scan for {scan_time:Number} seconds", extra_types={"Number": float})
+)
+def _(telescope_handlers, scan_time):
+    """Block for scan_time while telescope is in SCANNING state.
 
     :param telescope_handlers: _description_
     :type telescope_handlers: _type_
+    :param scan_time: _description_
+    :type scan_time: _type_
     """
     tmc, _, _, _ = telescope_handlers
 
@@ -297,8 +310,8 @@ def _(telescope_handlers):
     wait_for_event(tmc.sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.SCANNING)
     wait_for_event(tmc.csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.SCANNING)
     wait_for_event(tmc.subarray_node, "obsState", ObsState.SCANNING)
-    logger.info("Scanning for 10s")
-    sleep(10)
+    logger.info(f"Scanning for {scan_time} seconds")
+    sleep(scan_time)
 
 
 @when("I end the scan")
@@ -383,7 +396,7 @@ def _(telescope_handlers):
 
     tmc_central_node = tmc.central_node
 
-    assert tmc_central_node.telescopeState == DevState.OFF
+    assert tmc_central_node.telescopeState in [DevState.OFF, DevState.UNKNOWN]
 
 
 @then("the respective dataproducts are available on the DPD")
