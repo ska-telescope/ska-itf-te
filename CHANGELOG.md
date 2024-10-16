@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+## 24.3.0
+* [AT-2367] - Updated Jupyter Notebooks to latest stable hash
+* [AT-2307] - Manual E2E pipeline job testing the staging deployment on-demand and on a schedule, minor fixes and updates
+* [AT-2359] - Added SPFC deployment in-the-loop for DishLMC namespaces, set to true for SKA063 namespace by default (but with no SPFRx HW), in the Mid ITF cluster
+* [AT-2333] - Updated Engineering Tools image version
+* [AT-2329] - Added SPFC to list of devices for exclusive-use management
+* [AT-2249] - Added Telescope Teardown steps and end-to-end TMC BDD Test, including upgrades, fixes and updates
+
 ## 24.1.1
 * [REL-1722] - fixed submodule URLs
 
