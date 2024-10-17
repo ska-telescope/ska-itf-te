@@ -154,6 +154,10 @@ def _(telescope_handlers):
 
     csp_control.adminMode = 0
     csp_subarray.adminMode = 0
+    sleep(5)
+    logger.info(
+        f"CSP adminMode is: {csp_control.adminMode}, CBF Simulation mode is: {csp_control.cbfSimulationMode}"
+    )
     # wait_for_event(csp_control, "adminMode", 0)
     # wait_for_event(csp_subarray, "adminMode", 0)
     # sleep(5)  # TODO: Find out exactly why this is needed
