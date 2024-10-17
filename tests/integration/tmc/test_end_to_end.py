@@ -111,7 +111,7 @@ def telescope_handlers(receptor_ids) -> Generator[Tuple[TMC, CBF, CSP, List[Dish
 
 @given("an SUT deployment with 1 subarray and dishes SKA001 and SKA036")
 def _(telescope_handlers):
-    """Trigger instantiation of telescope handler objects and handle simulation/hw_in_the_loop.
+    """Trigger instantiation of telescope handler objects.
 
     :param telescope_handlers: _description_
     :type telescope_handlers: _type_
@@ -126,7 +126,7 @@ def _(telescope_handlers):
 
 @given("CSP in adminMode online", target_fixture="csp")
 def _(telescope_handlers):
-    """Set CSP adminMode to Online.
+    """Set CSP adminMode to Online after handling simulation/hw_in_the_loop.
 
     :param telescope_handlers: _description_
     :type telescope_handlers: _type_
