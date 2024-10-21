@@ -200,9 +200,17 @@ def _(telescope_handlers, receptor_ids):
     )
     logger.debug(f"dish_config_json file contents: \n{dish_config_json}")
 
-    tmc_central_node.LoadDishCfg(json.dumps(dish_config_json))
+    k_value_correct = 1
+    if tmc_central_node.isDishVccConfigSet:
+        dish_vcc_config = json.loads(tmc.csp_master_leaf_node.dishVccConfig)
+        for receptor in RECEPTORS:
+            if dish_vcc_config["dish_parameters"][receptor]["k"] != 1:
+                k_value_correct = 0
+                break
 
-    wait_for_event(tmc_central_node, "isDishVccConfigSet", True)
+    if (not tmc_central_node.isDishVccConfigSet) or (not k_value_correct):
+        tmc_central_node.LoadDishCfg(json.dumps(dish_config_json))
+        wait_for_event(tmc_central_node, "isDishVccConfigSet", True)
 
     dish_vcc_config = json.loads(tmc.csp_master_leaf_node.dishVccConfig)
 
@@ -305,6 +313,8 @@ def _(telescope_handlers, scan_time):
     :param scan_time: _description_
     :type scan_time: _type_
     """
+    logger.info("Scanning")
+
     tmc, _, _, _ = telescope_handlers
 
     SCAN_FILE = f"{TMC_CONFIGS}/scan.json"
@@ -326,6 +336,8 @@ def _(telescope_handlers):
     :param telescope_handlers: _description_
     :type telescope_handlers: _type_
     """
+    logger.info("Ending the scan")
+
     tmc, _, _, _ = telescope_handlers
 
     tmc.subarray_node.EndScan()
@@ -342,6 +354,8 @@ def _(telescope_handlers):
     :param telescope_handlers: _description_
     :type telescope_handlers: _type_
     """
+    logger.info("Ending the observation")
+
     tmc, _, _, _ = telescope_handlers
 
     tmc_subarray_node = tmc.subarray_node
@@ -361,6 +375,8 @@ def _(telescope_handlers):
     :param telescope_handlers: _description_
     :type telescope_handlers: _type_
     """
+    logger.info("Releasing resources")
+
     tmc, _, _, _ = telescope_handlers
 
     tmc_subarray_node = tmc.subarray_node
@@ -381,6 +397,8 @@ def _(telescope_handlers):
     :param telescope_handlers: _description_
     :type telescope_handlers: _type_
     """
+    logger.info("Turning OFF the telescope")
+
     tmc, _, _, _ = telescope_handlers
 
     tmc_central_node = tmc.central_node
