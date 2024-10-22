@@ -2,14 +2,14 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: ska-dish-lmc
+  name: ska-dish-ska010
   namespace: flux-services
 spec:
   interval: 10m0s
   sourceRef:
     kind: GitRepository
     name: ska-mid-itf
-  path: ./datacentres/mid-itf/dish-lmc/deployment
+  path: ./datacentres/mid-itf/dish-lmc/deployment/dish
   prune: true
   wait: true
   timeout: 5m0s
