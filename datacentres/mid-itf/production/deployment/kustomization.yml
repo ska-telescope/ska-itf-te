@@ -3,7 +3,5 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  # - ../../../../ska036/deployment/fluxtrigger.yml
-  - ../../dish-lmc/deployment/fluxtrigger.yml
-  - # fluxtrigger.yml
+  - vault_secrets.yml
 
