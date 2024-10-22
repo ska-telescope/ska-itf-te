@@ -13,9 +13,9 @@ spec:
       key: values.yml
       name: vault-miditf-dish-lmc-kubeconfig
   valuesFrom:
-  - kind: Secret
-    name: vault-shared-dish
-    valuesKey: values.yml
+  # - kind: Secret
+  #   name: vault-shared-dish
+  #   valuesKey: values.yml
   - kind: Secret
     name: vault-miditf-dish-ska010
     valuesKey: values.yml
