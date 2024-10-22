@@ -3,7 +3,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: ska-dish-ska036
-  namespace: flux-service
+  namespace: flux-services
 spec:
   interval: 10m0s
   sourceRef:
