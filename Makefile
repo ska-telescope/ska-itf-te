@@ -78,7 +78,7 @@ ifeq ($(SPFC_IN_THE_LOOP), true)
 	DISH_LMC_EXTRA_PARAMS += \
 	--set ska-dish-lmc.ska-mid-dish-simulators.deviceServers.spfdevice.enabled=false \
 	--set ska-dish-lmc.ska-mid-dish-manager.dishmanager.spf.domain_name=$(DISH_ID) \
-	--set ska-dish-lmc.ska-mid-dish-manager.dishmanager.spf.family_name=spfc\
+	--set ska-dish-lmc.ska-mid-dish-manager.dishmanager.spf.family_name=spf/spfc \
 	--set ska-spfc-deployer.global.dish_index=$(DISH_ID) \
 	--set ska-spfc-deployer.enabled=true \
 	--set ska-spfc-deployer.job.namespace=$(KUBE_NAMESPACE)
