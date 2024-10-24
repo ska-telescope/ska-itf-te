@@ -50,6 +50,6 @@ dependencies:
     condition: ska-ser-config-inspector.enabled
 
   - name: ska-tango-archiver
-    version: 2.8.0
-    repository: https://artefact.skao.int/repository/helm-internal
+    version: 2.8.0-dev.cc5da4e46
+    repository: https://gitlab.com/api/v4/projects/23258133/packages/helm/dev
     condition: ska-tango-archiver.enabled
