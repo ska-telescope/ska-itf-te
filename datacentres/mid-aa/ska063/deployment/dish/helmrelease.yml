@@ -19,10 +19,10 @@ spec:
   - kind: Secret
     name: vault-midaa-dish-ska063
     valuesKey: values.yml
-  # - kind: Secret
-  #   name: vault-car-publisher
-  #   valuesKey: publisher_password
-  #   targetPath: global.raw_user_pass
+  - kind: Secret
+    name: vault-car-publisher
+    valuesKey: publisher_password
+    targetPath: global.raw_user_pass
   # - kind: Secret
   #   name: vault-eda-credentials
   #   valuesKey: login
