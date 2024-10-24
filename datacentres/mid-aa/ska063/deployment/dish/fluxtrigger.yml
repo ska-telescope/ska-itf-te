@@ -2,14 +2,14 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: ska-dish-ska036
+  name: ska063-dish
   namespace: flux-services
 spec:
-  interval: 10m0s
+  interval: 1m0s
   sourceRef:
     kind: GitRepository
     name: ska-mid-itf
-  path: ./datacentres/mid-itf/ska036/deployment/
+  path: ./datacentres/mid-aa/ska063/deployment/dish
   prune: true
-  wait: true
-  timeout: 5m0s
+  wait: false
+  timeout: 1m0s
