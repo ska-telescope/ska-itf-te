@@ -3,5 +3,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - dish/fluxtrigger.yml
-  - ska-tango-archiver/fluxtrigger.yml
+  - vault_secrets.yml
+  - helmrelease.yml
+

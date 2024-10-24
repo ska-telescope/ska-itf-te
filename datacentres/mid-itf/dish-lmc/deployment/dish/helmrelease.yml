@@ -23,11 +23,11 @@ spec:
     name: vault-car-publisher
     valuesKey: publisher_password
     targetPath: global.raw_user_pass
-  - kind: Secret
-    name: vault-eda-credentials
-    valuesKey: login
-    targetPath: ska-tango-archiver.archviewer.instances[0].timescale_login
-  - kind: Secret
-    name: vault-eda-credentials
-    valuesKey: dbpassword
-    targetPath: ska-tango-archiver.dbpassword
+  # - kind: Secret
+  #   name: vault-eda-credentials
+  #   valuesKey: login
+  #   targetPath: ska-tango-archiver.archviewer.instances[0].timescale_login
+  # - kind: Secret
+  #   name: vault-eda-credentials
+  #   valuesKey: dbpassword
+  #   targetPath: ska-tango-archiver.dbpassword
