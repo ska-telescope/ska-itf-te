@@ -10,10 +10,10 @@ spec:
   chart:
     spec:
       chart: ska-mid-itf-dish-lmc
-      version: '24.3.0'
+      version: '24.3.1-dev.cfb7b6d53'
       sourceRef:
         kind: HelmRepository
-        name: skatelescope
+        name: ska-mid-itf-git
   releaseName: ska-mid-itf-dish-lmc-skaxxx
   install:
     createNamespace: true
