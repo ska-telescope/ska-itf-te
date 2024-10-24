@@ -21,6 +21,7 @@ spec:
       retries: 3
   upgrade:
     remediation:
+      strategy: "uninstall"
       retries: 3
   storageNamespace: ska-mid-itf-dish-lmc-skaxxx
   targetNamespace: ska-mid-itf-dish-lmc-skaxxx
