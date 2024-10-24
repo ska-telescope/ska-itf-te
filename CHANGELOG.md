@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+## 24.3.1
+* [AT-2391] - Updated engineering tools version to accomodate for non semver compliant version numbers in the dependency checker tool
+
 ## 24.3.0
 * [AT-2367] - Updated Jupyter Notebooks to latest stable hash
 * [AT-2307] - Manual E2E pipeline job testing the staging deployment on-demand and on a schedule, minor fixes and updates
