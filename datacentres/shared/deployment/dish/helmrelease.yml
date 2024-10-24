@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: ska-mid-itf-dish-lmc
-      version: '24.3.1-dev.cfb7b6d53'
+      version: '24.3.1-dev.c42a8464c'
       sourceRef:
         kind: HelmRepository
         name: ska-mid-itf-git
