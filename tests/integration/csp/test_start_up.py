@@ -15,7 +15,6 @@ from .. import conftest
 logger = logging.getLogger(__name__)
 
 
-@pytest.mark.skip("Leaving CSP in an un desired state")
 @pytest.mark.csp_startup
 @pytest.mark.csp_related
 @pytest.mark.skamid
