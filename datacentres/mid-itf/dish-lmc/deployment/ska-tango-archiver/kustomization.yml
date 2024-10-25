@@ -10,5 +10,4 @@ patches:
   - path: helmrelease.yml
     target:
       kind: HelmRelease
-      name: ska010-archiver
       namespace: flux-services

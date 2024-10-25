@@ -2,14 +2,14 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: ska-dish-ska010-archiver
+  name: ska-dish-ska063-archiver
   namespace: flux-services
 spec:
   interval: 1m0s
   sourceRef:
     kind: GitRepository
     name: ska-mid-itf
-  path: ./datacentres/mid-itf/dish-lmc/deployment/ska-tango-archiver
+  path: ./datacentres/mid-aa/ska063/deployment/ska-tango-archiver
   prune: true
   wait: false
   timeout: 1m0s
