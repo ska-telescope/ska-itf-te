@@ -398,11 +398,10 @@ def _(telescope_handlers):
     wait_for_event(sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.EMPTY)
     wait_for_event(csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.EMPTY)
     wait_for_event(tmc_subarray_node, "obsState", ObsState.EMPTY)
-    pass
 
 
 @when("I turn OFF the telescope")
-def _(telescope_handlers):
+def _(telescope_handlers, receptor_ids):
     """Turn the telescope OFF via TMC.
 
     :param telescope_handlers: _description_
@@ -411,10 +410,14 @@ def _(telescope_handlers):
     logger.info("Turning OFF the telescope")
 
     tmc, _, _, _ = telescope_handlers
+    RECEPTORS = receptor_ids
 
     tmc_central_node = tmc.central_node
 
     tmc_central_node.TelescopeOff()
+
+    for receptor in RECEPTORS:
+        wait_for_event(tmc.get_dish_leaf_node_dp(receptor), "dishMode", DishMode.STANDBY_LP)
 
     wait_for_event(tmc_central_node, "telescopeState", DevState.OFF)
 
