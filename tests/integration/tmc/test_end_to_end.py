@@ -155,7 +155,8 @@ def _(telescope_handlers):
     csp_control.adminMode = 0
     csp_subarray.adminMode = 0
     logger.info(
-        f"CSP adminMode is: {csp_control.adminMode}, CBF Simulation mode is: {csp_control.cbfSimulationMode}"
+        f"CSP adminMode is: {csp_control.adminMode},"
+        f" CBF Simulation mode is: {csp_control.cbfSimulationMode}"
     )
     # wait_for_event(csp_control, "adminMode", 0)
     # wait_for_event(csp_subarray, "adminMode", 0)
@@ -406,6 +407,8 @@ def _(telescope_handlers, receptor_ids):
 
     :param telescope_handlers: _description_
     :type telescope_handlers: _type_
+    :param receptor_ids: _description_
+    :type receptor_ids: _type_
     """
     logger.info("Turning OFF the telescope")
 

@@ -85,7 +85,7 @@ class StartUpStep(base.StartUpStep, LogEnabled, WithCommandID):
         """
         assert self.long_running_command_subscriber
 
-        ##################################### No longer seems to work #####################################
+        # No longer seems to work #############################################################
         # dish_cfg = {
         #     "interface": "https://schema.skao.int/ska-mid-cbf-initsysparam/1.0",
         #     "dish_parameters": {
@@ -107,12 +107,13 @@ class StartUpStep(base.StartUpStep, LogEnabled, WithCommandID):
         #         },
         #     },
         # }
-        ###################################################################################################
+        #######################################################################################
 
         dish_cfg = {
             "interface": "https://schema.skao.int/ska-mid-cbf-initsysparam/1.0",
             "tm_data_sources": [
-                "car://gitlab.com/ska-telescope/ska-telmodel-data?ska-sdp-tmlite-repository-1.0.0#tmdata"
+                "car://gitlab.com/ska-telescope"
+                "/ska-telmodel-data?ska-sdp-tmlite-repository-1.0.0#tmdata"
             ],
             "tm_data_filepath": "instrument/ska1_mid_psi/ska-mid-cbf-system-parameters.json",
         }
@@ -177,7 +178,7 @@ class StartUpStep(base.StartUpStep, LogEnabled, WithCommandID):
                 "OFF", ignore_first=False
             )
             # subarrays
-            # Removing since subarray state is now simply a reflection of the lower level subsystem states
+            # Removing since subarray state is now simply a reflection of the lower level subsystem
             # for index in range(1, self.nr_of_subarrays + 1):
             #     brd.set_waiting_on(self._tel.csp.subarray(index)).for_attribute(
             #         "state"
