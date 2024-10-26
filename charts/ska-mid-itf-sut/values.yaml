@@ -84,6 +84,8 @@ ska-tmc-mid:
       enabled: true
     cspsubarrayleafnode:
       CommandTimeOut: 120
+    sdpsubarrayleafnode:
+      CommandTimeout: 90
   resources:
     # limits:
     #   cpu: 800m
