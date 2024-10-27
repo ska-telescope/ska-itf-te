@@ -145,12 +145,12 @@ def _(telescope_handlers):
         csp_subarray.adminMode = 1
         wait_for_event(csp_control, "adminMode", 1)
         wait_for_event(csp_subarray, "adminMode", 1)
-        sleep(2)
+        sleep(3)
 
     CBF_HW_IN_THE_LOOP = os.getenv("CBF_HW_IN_THE_LOOP", "false").lower()
     if CBF_HW_IN_THE_LOOP in ["false", "0"]:
         csp.set_cbf_simulation_mode(True)
-        sleep(2)
+        sleep(3)
 
     csp_control.commandTimeout = 99  # TO BE REMOVED once CSP-CBF LRC's are implemented
     csp_control.commandTimeout = 99  # TO BE REMOVED once CSP-CBF LRC's are implemented
@@ -158,7 +158,7 @@ def _(telescope_handlers):
     csp_subarray.adminMode = 0
     wait_for_event(csp_control, "adminMode", 0)
     wait_for_event(csp_subarray, "adminMode", 0)
-    sleep(2)  # TODO: Find out exactly why this is needed
+    sleep(5)  # TODO: Find out exactly why this is needed
 
     logger.info(
         f"CSP adminMode is: {csp_control.adminMode},"
