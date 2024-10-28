@@ -70,7 +70,7 @@ ska-csp-lmc-mid:
   midcsplmc:
     image:
       registry: registry.gitlab.com/ska-telescope/ska-csp-lmc-mid
-      tag: 0.23.1-dev.cd501c076
+      tag: 0.24.0
   ################################################################
 
 ### tmc - also see tmc-values for DishIDs!
@@ -80,14 +80,14 @@ ska-tmc-mid:
   cspsubarrayleafnode:
     image:
       registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-cspleafnodes
-      tag: 0.18.3-dev.cc929f0e0
+      tag: 0.21.2
   ######################################################################################
   ######################################################################################
   # TEMPORARY COMMIT - SEE https://skao.slack.com/archives/C06H6ESMQNP/p1719498698255899
   dishleafnode:
     image:
       registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-dishleafnode
-      tag: 0.17.1-dev.cde3f36a8
+      tag: 0.17.9
   ######################################################################################
   # sdpleafnodes:
   #   image:
