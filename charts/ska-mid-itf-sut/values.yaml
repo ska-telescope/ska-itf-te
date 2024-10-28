@@ -43,7 +43,7 @@ ska-mid-cbf-mcs:
   midcbf:
     image:
       registry: registry.gitlab.com/ska-telescope/ska-mid-cbf-mcs
-      tag: 0.15.2-dev.c6289920f
+      tag: 1.0.0
   hostInfo:
     environment: "mid-itf"
     clusterDomain: "miditf.internal.skao.int"
