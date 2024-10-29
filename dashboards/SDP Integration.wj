@@ -1,0 +1,945 @@
+{
+  "id": "671fc0f1a978370012e19dfb",
+  "name": "SDP Integration",
+  "version": "2.10.1",
+  "user": "ATLAS",
+  "insertTime": "2024-10-28T16:50:57.372Z",
+  "updateTime": "2024-10-28T16:50:57.367Z",
+  "group": null,
+  "groupWriteAccess": false,
+  "lastUpdatedBy": "ATLAS",
+  "widget": [
+    {
+      "valid": 1,
+      "id": "8",
+      "x": 0.3999999999999986,
+      "y": 12,
+      "canvas": "0",
+      "width": 123.2,
+      "height": 15,
+      "type": "BOX",
+      "inputs": {
+        "title": "",
+        "bigWidget": 4,
+        "smallWidget": 1,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "borderColor": "",
+        "borderWidth": 1,
+        "borderStyle": "solid",
+        "textSize": 1,
+        "fontFamily": "Helvetica",
+        "layout": "horizontal",
+        "alignment": "Center",
+        "padding": 1,
+        "customCss": ""
+      },
+      "innerWidgets": [
+        {
+          "id": "9",
+          "x": 0.8999999999999986,
+          "y": 13.06,
+          "canvas": "0",
+          "width": 30.5,
+          "height": 5.84,
+          "type": "LABEL",
+          "inputs": {
+            "text": "SDP Controller",
+            "textColor": "#000000",
+            "backgroundColor": "#ffffff",
+            "size": 2,
+            "borderWidth": 0,
+            "borderColor": "#000000",
+            "font": "Helvetica",
+            "linkTo": "",
+            "customCss": ""
+          },
+          "valid": 1,
+          "order": 4
+        },
+        {
+          "id": "59",
+          "x": 31.4,
+          "y": 13.06,
+          "canvas": "0",
+          "width": 30.5,
+          "height": 5.84,
+          "type": "ATTRIBUTE_DISPLAY",
+          "inputs": {
+            "attribute": {
+              "device": "taranta://mid-sdp/control/0",
+              "attribute": "sdpversion",
+              "label": "SDP Version"
+            },
+            "precision": 2,
+            "format": "",
+            "showDevice": false,
+            "showAttribute": "Label",
+            "alignTextCenter": false,
+            "alignValueRight": true,
+            "scientificNotation": false,
+            "showEnumLabels": false,
+            "showAttrQuality": false,
+            "textColor": "#000000",
+            "backgroundColor": "#ffffff",
+            "size": 1,
+            "font": "Helvetica",
+            "widgetCss": ""
+          },
+          "valid": 1,
+          "order": 9
+        },
+        {
+          "id": "10",
+          "x": 61.9,
+          "y": 13.06,
+          "canvas": "0",
+          "width": 30.5,
+          "height": 5.84,
+          "type": "DEVICE_STATUS",
+          "inputs": {
+            "device": "taranta://dserver/sdpcontroller/0",
+            "state": {
+              "device": "taranta://null",
+              "attribute": null
+            },
+            "showDeviceName": false,
+            "showStateString": true,
+            "showStateLED": true,
+            "LEDSize": 2,
+            "textColor": "#000000",
+            "backgroundColor": "#ffffff",
+            "textSize": 1,
+            "widgetCss": ""
+          },
+          "valid": 1,
+          "percentage": "",
+          "order": 10
+        },
+        {
+          "id": "53",
+          "x": 92.4,
+          "y": 13.06,
+          "canvas": "0",
+          "width": 30.5,
+          "height": 5.84,
+          "type": "ATTRIBUTE_DISPLAY",
+          "inputs": {
+            "attribute": {
+              "device": "taranta://mid-sdp/control/0",
+              "attribute": "healthstate",
+              "label": "Health state"
+            },
+            "precision": 2,
+            "format": "",
+            "showDevice": false,
+            "showAttribute": "Label",
+            "alignTextCenter": false,
+            "alignValueRight": true,
+            "scientificNotation": false,
+            "showEnumLabels": false,
+            "showAttrQuality": false,
+            "textColor": "#000000",
+            "backgroundColor": "#ffffff",
+            "size": 1,
+            "font": "Helvetica",
+            "widgetCss": ""
+          },
+          "valid": 1,
+          "order": 11
+        }
+      ],
+      "order": 0
+    },
+    {
+      "valid": 1,
+      "id": "20",
+      "x": 2,
+      "y": 61,
+      "canvas": "0",
+      "width": 40,
+      "height": 26,
+      "type": "BOX",
+      "inputs": {
+        "title": "",
+        "bigWidget": 4,
+        "smallWidget": 1,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "borderColor": "",
+        "borderWidth": 1,
+        "borderStyle": "solid",
+        "textSize": 1,
+        "fontFamily": "Helvetica",
+        "layout": "vertical",
+        "alignment": "Center",
+        "padding": 0,
+        "customCss": ""
+      },
+      "order": 1,
+      "innerWidgets": [
+        {
+          "id": "52",
+          "x": 2.5,
+          "y": 63.58,
+          "canvas": "0",
+          "width": 39,
+          "height": 4.6,
+          "type": "ATTRIBUTE_DISPLAY",
+          "inputs": {
+            "attribute": {
+              "device": "taranta://SubArray",
+              "attribute": "scanid",
+              "label": "Scan ID"
+            },
+            "precision": 2,
+            "format": "",
+            "showDevice": false,
+            "showAttribute": "Label",
+            "alignTextCenter": false,
+            "alignValueRight": true,
+            "scientificNotation": false,
+            "showEnumLabels": false,
+            "showAttrQuality": false,
+            "textColor": "#000000",
+            "backgroundColor": "#ffffff",
+            "size": 1,
+            "font": "Helvetica",
+            "widgetCss": ""
+          },
+          "valid": 1,
+          "order": 12
+        },
+        {
+          "id": "24",
+          "x": 2.5,
+          "y": 68.18,
+          "canvas": "0",
+          "width": 39,
+          "height": 4.6,
+          "type": "ATTRIBUTE_DISPLAY",
+          "inputs": {
+            "attribute": {
+              "device": "taranta://SubArray",
+              "attribute": "ebid",
+              "label": "Execution block ID"
+            },
+            "precision": 2,
+            "showDevice": false,
+            "showAttribute": "Label",
+            "scientificNotation": false,
+            "showEnumLabels": false,
+            "showAttrQuality": false,
+            "textColor": "#000000",
+            "backgroundColor": "#ffffff",
+            "size": 1,
+            "font": "Helvetica",
+            "widgetCss": ""
+          },
+          "valid": 1,
+          "order": 13
+        },
+        {
+          "id": "23",
+          "x": 2.5,
+          "y": 72.78,
+          "canvas": "0",
+          "width": 39,
+          "height": 4.6,
+          "type": "ATTRIBUTE_DISPLAY",
+          "inputs": {
+            "attribute": {
+              "device": "taranta://SubArray",
+              "attribute": "healthstate",
+              "label": "Health state"
+            },
+            "precision": 2,
+            "showDevice": false,
+            "showAttribute": "Label",
+            "scientificNotation": false,
+            "showEnumLabels": true,
+            "showAttrQuality": false,
+            "textColor": "#000000",
+            "backgroundColor": "#ffffff",
+            "size": 1,
+            "font": "Helvetica",
+            "widgetCss": "",
+            "alignTextCenter": false,
+            "alignValueRight": true
+          },
+          "valid": 1,
+          "order": 18
+        },
+        {
+          "id": "25",
+          "x": 2.5,
+          "y": 77.38,
+          "canvas": "0",
+          "width": 39,
+          "height": 4.6,
+          "type": "ATTRIBUTE_DISPLAY",
+          "inputs": {
+            "attribute": {
+              "device": "taranta://SubArray",
+              "attribute": "obsstate",
+              "label": "Observing state"
+            },
+            "precision": 2,
+            "showDevice": false,
+            "showAttribute": "Label",
+            "scientificNotation": false,
+            "showEnumLabels": true,
+            "showAttrQuality": false,
+            "textColor": "#000000",
+            "backgroundColor": "#ffffff",
+            "size": 1,
+            "font": "Helvetica",
+            "widgetCss": ""
+          },
+          "valid": 1,
+          "order": 20
+        },
+        {
+          "id": "22",
+          "x": 2.5,
+          "y": 81.97999999999999,
+          "canvas": "0",
+          "width": 39,
+          "height": 4.6,
+          "type": "ATTRIBUTE_DISPLAY",
+          "inputs": {
+            "attribute": {
+              "device": "taranta://SubArray",
+              "attribute": "scantype",
+              "label": "Scan type"
+            },
+            "precision": 2,
+            "showDevice": false,
+            "showAttribute": "Label",
+            "scientificNotation": false,
+            "showEnumLabels": true,
+            "showAttrQuality": false,
+            "textColor": "#000000",
+            "backgroundColor": "#ffffff",
+            "size": 1,
+            "font": "Helvetica",
+            "widgetCss": ""
+          },
+          "valid": 1,
+          "order": 22
+        }
+      ]
+    },
+    {
+      "valid": 1,
+      "id": "27",
+      "x": 43,
+      "y": 61,
+      "canvas": "0",
+      "width": 36,
+      "height": 26,
+      "type": "BOX",
+      "inputs": {
+        "title": "",
+        "bigWidget": 4,
+        "smallWidget": 1,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "borderColor": "",
+        "borderWidth": 1,
+        "borderStyle": "solid",
+        "textSize": 1,
+        "fontFamily": "Helvetica",
+        "layout": "vertical",
+        "alignment": "Center",
+        "padding": 0,
+        "customCss": ""
+      },
+      "order": 2,
+      "innerWidgets": [
+        {
+          "id": "33",
+          "x": 43.5,
+          "y": 63.58,
+          "canvas": "0",
+          "width": 35,
+          "height": 23.4,
+          "type": "ATTRIBUTE_DISPLAY",
+          "inputs": {
+            "attribute": {
+              "device": "taranta://SubArray",
+              "attribute": "resources",
+              "label": "Resources"
+            },
+            "precision": 2,
+            "showDevice": false,
+            "showAttribute": "Label",
+            "scientificNotation": false,
+            "showEnumLabels": false,
+            "showAttrQuality": false,
+            "textColor": "#000000",
+            "backgroundColor": "#ffffff",
+            "size": 1,
+            "font": "Helvetica",
+            "widgetCss": ""
+          },
+          "valid": 1,
+          "order": 1
+        }
+      ]
+    },
+    {
+      "valid": 1,
+      "id": "28",
+      "x": 81,
+      "y": 61,
+      "canvas": "0",
+      "width": 35,
+      "height": 26,
+      "type": "BOX",
+      "inputs": {
+        "title": "",
+        "bigWidget": 4,
+        "smallWidget": 1,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "borderColor": "",
+        "borderWidth": 1,
+        "borderStyle": "solid",
+        "textSize": 1,
+        "fontFamily": "Helvetica",
+        "layout": "vertical",
+        "alignment": "Center",
+        "padding": 0,
+        "customCss": ""
+      },
+      "order": 3,
+      "innerWidgets": [
+        {
+          "id": "34",
+          "x": 81.5,
+          "y": 63.58,
+          "canvas": "0",
+          "width": 34,
+          "height": 23.4,
+          "type": "ATTRIBUTE_DISPLAY",
+          "inputs": {
+            "attribute": {
+              "device": "taranta://SubArray",
+              "attribute": "receiveaddresses",
+              "label": "Receive addresses"
+            },
+            "precision": 2,
+            "showDevice": false,
+            "showAttribute": "Label",
+            "scientificNotation": false,
+            "showEnumLabels": false,
+            "showAttrQuality": false,
+            "textColor": "#000000",
+            "backgroundColor": "#ffffff",
+            "size": 1,
+            "font": "Helvetica",
+            "widgetCss": ""
+          },
+          "valid": 1,
+          "order": 2
+        }
+      ]
+    },
+    {
+      "valid": 1,
+      "id": "29",
+      "x": 2,
+      "y": 42,
+      "canvas": "0",
+      "width": 112,
+      "height": 10,
+      "type": "BOX",
+      "inputs": {
+        "title": "",
+        "bigWidget": 4,
+        "smallWidget": 1,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "borderColor": "",
+        "borderWidth": 1,
+        "borderStyle": "solid",
+        "textSize": 1,
+        "fontFamily": "Helvetica",
+        "layout": "vertical",
+        "alignment": "Center",
+        "padding": 0,
+        "customCss": ""
+      },
+      "order": 4,
+      "innerWidgets": [
+        {
+          "id": "51",
+          "x": 2.5,
+          "y": 43.3,
+          "canvas": "0",
+          "width": 111,
+          "height": 8.4,
+          "type": "TABULAR_VIEW",
+          "inputs": {
+            "devices": [
+              {
+                "device": "taranta://mid-sdp/subarray/01"
+              }
+            ],
+            "precision": 2,
+            "scientificNotation": false,
+            "showDefaultAttribute": false,
+            "showEnumLabels": true,
+            "customAttributes": [
+              {
+                "attribute": {
+                  "device": "taranta://mid-sdp/subarray/01",
+                  "attribute": "scanid",
+                  "label": "Scan ID"
+                }
+              },
+              {
+                "attribute": {
+                  "device": "taranta://mid-sdp/subarray/01",
+                  "attribute": "scantype",
+                  "label": "Scan type"
+                }
+              },
+              {
+                "attribute": {
+                  "device": "taranta://mid-sdp/subarray/01",
+                  "attribute": "ebid",
+                  "label": "Execution block ID"
+                }
+              },
+              {
+                "attribute": {
+                  "device": "taranta://mid-sdp/subarray/01",
+                  "attribute": "healthstate",
+                  "label": "Health state"
+                }
+              },
+              {
+                "attribute": {
+                  "device": "taranta://mid-sdp/subarray/01",
+                  "attribute": "obsstate",
+                  "label": "Observing state"
+                }
+              },
+              {
+                "attribute": {
+                  "device": "taranta://mid-sdp/subarray/01",
+                  "attribute": "state",
+                  "label": "State"
+                }
+              },
+              {
+                "attribute": {
+                  "device": "taranta://mid-sdp/subarray/01",
+                  "attribute": "versionid",
+                  "label": "Version"
+                }
+              }
+            ],
+            "compactTable": true,
+            "borderedTable": false,
+            "textColor": "#000000",
+            "backgroundColor": "#ffffff",
+            "size": 1,
+            "font": "Courier new",
+            "widgetCss": ""
+          },
+          "valid": 1,
+          "order": 3
+        }
+      ]
+    },
+    {
+      "valid": 1,
+      "id": "35",
+      "x": 9,
+      "y": 88.7,
+      "canvas": "0",
+      "width": 35,
+      "height": 6.6,
+      "type": "PARAMETRIC_WIDGET",
+      "inputs": {
+        "name": "Queue Connector",
+        "variable": "QueueConnector"
+      },
+      "order": 5
+    },
+    {
+      "valid": 1,
+      "id": "41",
+      "x": 6,
+      "y": 97,
+      "canvas": "0",
+      "width": 40,
+      "height": 27,
+      "type": "BOX",
+      "inputs": {
+        "title": "Queue Connector Statistics",
+        "bigWidget": 4,
+        "smallWidget": 1,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "borderColor": "",
+        "borderWidth": 0,
+        "borderStyle": "solid",
+        "textSize": 1,
+        "fontFamily": "Helvetica",
+        "layout": "vertical",
+        "alignment": "Center",
+        "padding": 0,
+        "customCss": ""
+      },
+      "order": 6,
+      "innerWidgets": [
+        {
+          "id": "57",
+          "x": 6.4,
+          "y": 101.56,
+          "canvas": "0",
+          "width": 39.2,
+          "height": 2.8,
+          "type": "ATTRIBUTE_DISPLAY",
+          "inputs": {
+            "attribute": {
+              "device": "taranta://QueueConnector",
+              "attribute": "last_update",
+              "label": "last_update"
+            },
+            "precision": 2,
+            "format": "",
+            "showDevice": false,
+            "showAttribute": "Label",
+            "alignTextCenter": false,
+            "alignValueRight": true,
+            "scientificNotation": false,
+            "showEnumLabels": false,
+            "showAttrQuality": false,
+            "textColor": "#000000",
+            "backgroundColor": "#ffffff",
+            "size": 1,
+            "font": "Helvetica",
+            "widgetCss": ""
+          },
+          "valid": 1,
+          "order": 6
+        },
+        {
+          "id": "56",
+          "x": 6.4,
+          "y": 104.36,
+          "canvas": "0",
+          "width": 39.2,
+          "height": 2.8,
+          "type": "ATTRIBUTE_DISPLAY",
+          "inputs": {
+            "attribute": {
+              "device": "taranta://QueueConnector",
+              "attribute": "payloads_received",
+              "label": "payloads_received"
+            },
+            "precision": 2,
+            "format": "",
+            "showDevice": false,
+            "showAttribute": "Label",
+            "alignTextCenter": false,
+            "alignValueRight": true,
+            "scientificNotation": false,
+            "showEnumLabels": false,
+            "showAttrQuality": false,
+            "textColor": "#000000",
+            "backgroundColor": "#ffffff",
+            "size": 1,
+            "font": "Helvetica",
+            "widgetCss": ""
+          },
+          "valid": 1,
+          "order": 7
+        },
+        {
+          "id": "55",
+          "x": 6.4,
+          "y": 107.16,
+          "canvas": "0",
+          "width": 39.2,
+          "height": 2.8,
+          "type": "ATTRIBUTE_DISPLAY",
+          "inputs": {
+            "attribute": {
+              "device": "taranta://QueueConnector",
+              "attribute": "time_since_last_payload",
+              "label": "time_since_last_payload"
+            },
+            "precision": 2,
+            "format": "",
+            "showDevice": false,
+            "showAttribute": "Label",
+            "alignTextCenter": false,
+            "alignValueRight": true,
+            "scientificNotation": false,
+            "showEnumLabels": false,
+            "showAttrQuality": false,
+            "textColor": "#000000",
+            "backgroundColor": "#ffffff",
+            "size": 1,
+            "font": "Helvetica",
+            "widgetCss": ""
+          },
+          "valid": 1,
+          "order": 8
+        },
+        {
+          "id": "54",
+          "x": 6.4,
+          "y": 109.96000000000001,
+          "canvas": "0",
+          "width": 39.2,
+          "height": 2.8,
+          "type": "ATTRIBUTE_DISPLAY",
+          "inputs": {
+            "attribute": {
+              "device": "taranta://QueueConnector",
+              "attribute": "time_slices_received",
+              "label": "time_slices_received"
+            },
+            "precision": 2,
+            "format": "",
+            "showDevice": false,
+            "showAttribute": "Label",
+            "alignTextCenter": false,
+            "alignValueRight": true,
+            "scientificNotation": false,
+            "showEnumLabels": false,
+            "showAttrQuality": false,
+            "textColor": "#000000",
+            "backgroundColor": "#ffffff",
+            "size": 1,
+            "font": "Helvetica",
+            "widgetCss": ""
+          },
+          "valid": 1,
+          "order": 9
+        },
+        {
+          "id": "47",
+          "x": 6.4,
+          "y": 112.76,
+          "canvas": "0",
+          "width": 39.2,
+          "height": 2.8,
+          "type": "ATTRIBUTE_DISPLAY",
+          "inputs": {
+            "attribute": {
+              "device": "taranta://QueueConnector",
+              "attribute": "subarray_id",
+              "label": "subarray_id"
+            },
+            "precision": 2,
+            "showDevice": false,
+            "showAttribute": "Label",
+            "alignTextCenter": false,
+            "alignValueRight": true,
+            "scientificNotation": false,
+            "showEnumLabels": false,
+            "showAttrQuality": false,
+            "textColor": "#000000",
+            "backgroundColor": "#ffffff",
+            "size": 1,
+            "font": "Helvetica",
+            "widgetCss": ""
+          },
+          "valid": 1,
+          "order": 10
+        },
+        {
+          "id": "46",
+          "x": 6.4,
+          "y": 115.56,
+          "canvas": "0",
+          "width": 39.2,
+          "height": 2.8,
+          "type": "ATTRIBUTE_DISPLAY",
+          "inputs": {
+            "attribute": {
+              "device": "taranta://QueueConnector",
+              "attribute": "execution_block_id",
+              "label": "execution_block_id"
+            },
+            "precision": 2,
+            "showDevice": false,
+            "showAttribute": "Label",
+            "alignTextCenter": false,
+            "alignValueRight": true,
+            "scientificNotation": false,
+            "showEnumLabels": false,
+            "showAttrQuality": false,
+            "textColor": "#000000",
+            "backgroundColor": "#ffffff",
+            "size": 1,
+            "font": "Helvetica",
+            "widgetCss": ""
+          },
+          "valid": 1,
+          "order": 11
+        },
+        {
+          "id": "45",
+          "x": 6.4,
+          "y": 118.36,
+          "canvas": "0",
+          "width": 39.2,
+          "height": 2.8,
+          "type": "ATTRIBUTE_DISPLAY",
+          "inputs": {
+            "attribute": {
+              "device": "taranta://QueueConnector",
+              "attribute": "processing_block_id",
+              "label": "processing_block_id"
+            },
+            "precision": 2,
+            "showDevice": false,
+            "showAttribute": "Label",
+            "alignTextCenter": false,
+            "alignValueRight": true,
+            "scientificNotation": false,
+            "showEnumLabels": false,
+            "showAttrQuality": false,
+            "textColor": "#000000",
+            "backgroundColor": "#ffffff",
+            "size": 1,
+            "font": "Helvetica",
+            "widgetCss": ""
+          },
+          "valid": 1,
+          "order": 12
+        },
+        {
+          "id": "43",
+          "x": 6.4,
+          "y": 121.16,
+          "canvas": "0",
+          "width": 39.2,
+          "height": 2.8,
+          "type": "ATTRIBUTE_DISPLAY",
+          "inputs": {
+            "attribute": {
+              "device": "taranta://QueueConnector",
+              "attribute": "receiver_state",
+              "label": "receiver_state"
+            },
+            "precision": 2,
+            "showDevice": false,
+            "showAttribute": "Label",
+            "alignTextCenter": false,
+            "alignValueRight": true,
+            "scientificNotation": false,
+            "showEnumLabels": false,
+            "showAttrQuality": false,
+            "textColor": "#000000",
+            "backgroundColor": "#ffffff",
+            "size": 1,
+            "font": "Helvetica",
+            "widgetCss": ""
+          },
+          "valid": 1,
+          "order": 14
+        }
+      ]
+    },
+    {
+      "valid": 1,
+      "id": "42",
+      "x": 3,
+      "y": 54,
+      "canvas": "0",
+      "width": 20,
+      "height": 6,
+      "type": "PARAMETRIC_WIDGET",
+      "inputs": {
+        "name": "SubArray",
+        "variable": "SubArray"
+      },
+      "order": 7
+    },
+    {
+      "valid": 1,
+      "id": "58",
+      "x": 4,
+      "y": 4,
+      "canvas": "0",
+      "width": 58,
+      "height": 5,
+      "type": "LABEL",
+      "inputs": {
+        "text": "Science Data Processor",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "automaticResize": "Disabled",
+        "size": 3,
+        "linkTo": "",
+        "customCss": ""
+      },
+      "order": 8
+    },
+    {
+      "valid": 1,
+      "id": "60",
+      "x": 2,
+      "y": 31,
+      "canvas": "0",
+      "width": 51,
+      "height": 10,
+      "type": "ATTRIBUTE_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "taranta://mid-sdp/control/0",
+          "attribute": "components",
+          "label": "Reports information on SDP components"
+        },
+        "precision": 2,
+        "format": "",
+        "showDevice": false,
+        "showAttribute": "Label",
+        "alignTextCenter": false,
+        "alignValueRight": false,
+        "scientificNotation": false,
+        "showEnumLabels": false,
+        "showAttrQuality": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "widgetCss": "",
+        "showUnit": true,
+        "jsonCollapsed": true,
+        "showTangoDB": false
+      },
+      "order": 23
+    }
+  ],
+  "variables": [
+    {
+      "_id": "6543520c8e9684001912b3a5",
+      "name": "SubArray",
+      "class": "SDPSubarray",
+      "device": "mid-sdp/subarray/01"
+    },
+    {
+      "_id": "652e6dac6a223500184fd0ea",
+      "name": "QueueConnector",
+      "class": "SDPQueueConnector",
+      "device": "mid-sdp/queueconnector/01"
+    }
+  ],
+  "environment": [
+    "*/*"
+  ]
+}
