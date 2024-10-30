@@ -1,32 +1,32 @@
 {
-  "id": "65c4dc414fb2ff001905eb12",
-  "name": "TMC_Monitoring",
-  "version": "2.5.0",
-  "user": "ATLAS",
-  "insertTime": "2024-02-08T13:50:57.254Z",
-  "updateTime": "2024-02-12T12:49:43.492Z",
+  "id": "65d61c474f0b050019db4453",
+  "name": "TMC_Monitoring copy 1 - copy",
+  "version": "2.6.0",
+  "user": "user1",
+  "insertTime": "2024-02-21T15:52:39.511Z",
+  "updateTime": "2024-02-22T12:37:44.383Z",
   "group": null,
   "groupWriteAccess": false,
-  "lastUpdatedBy": "ATLAS",
+  "lastUpdatedBy": "user1",
   "widget": [
     {
       "valid": 1,
       "id": "1",
-      "x": 39,
+      "x": 29,
       "y": 0,
       "canvas": "0",
-      "width": 154,
-      "height": 6,
+      "width": 184,
+      "height": 10,
       "type": "LABEL",
       "inputs": {
         "text": "TMC  Dashboard",
         "textColor": "#ffffff",
-        "backgroundColor": "#000000",
+        "backgroundColor": "#1b1b1d",
         "borderWidth": 0,
         "borderColor": "#000000",
         "font": "Helvetica",
         "automaticResize": "Disabled",
-        "size": 1.8,
+        "size": 3.2,
         "linkTo": "",
         "customCss": "text-align: center;\n  background-image: url('https://www.skao.int/sites/default/files/styles/ti_1500/public/2022-02/skao_logo_2021_colour_rgb_2500x1058px.jpg?itok=IceNzaEw');\n  background-size: 8% auto;\nbackground-repeat: no-repeat;"
       },
@@ -35,14 +35,14 @@
     {
       "valid": 1,
       "id": "2",
-      "x": 39,
-      "y": 6,
+      "x": 29,
+      "y": 10,
       "canvas": "0",
-      "width": 154,
-      "height": 129,
+      "width": 184,
+      "height": 143,
       "type": "LABEL",
       "inputs": {
-        "text": "",
+        "text": "dish 001 k value",
         "textColor": "#000000",
         "backgroundColor": "#fdf7e4",
         "borderWidth": 0,
@@ -62,7 +62,7 @@
       "y": 24,
       "canvas": "0",
       "width": 35,
-      "height": 32,
+      "height": 40,
       "type": "LABEL",
       "inputs": {
         "text": "CentralNode",
@@ -79,7 +79,7 @@
       "order": 2
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "5",
       "x": 64,
       "y": 28,
@@ -106,12 +106,14 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false
       },
       "order": 3
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "6",
       "x": 64,
       "y": 32,
@@ -138,12 +140,14 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false
       },
       "order": 4
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "7",
       "x": 64,
       "y": 36,
@@ -170,15 +174,17 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false
       },
       "order": 5
     },
     {
       "valid": 1,
       "id": "8",
-      "x": 42,
-      "y": 7,
+      "x": 30,
+      "y": 11,
       "canvas": "0",
       "width": 19,
       "height": 4,
@@ -198,19 +204,19 @@
       "order": 6
     },
     {
-      "valid": 0,
+      "valid": 1,
       "id": "9",
-      "x": 61,
-      "y": 7,
+      "x": 50,
+      "y": 11,
       "canvas": "0",
-      "width": 37,
+      "width": 33,
       "height": 9,
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "ska_mid/tm_central/central_node",
-          "attribute": null,
-          "label": null
+          "device": "taranta://ska_mid/tm_central/central_node",
+          "attribute": "telescopeavailability",
+          "label": "telescopeAvailability"
         },
         "precision": 2,
         "format": "",
@@ -225,15 +231,17 @@
         "backgroundColor": "#f7f7f7",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": false,
+        "showTangoDB": false
       },
       "order": 7
     },
     {
       "valid": 1,
       "id": "10",
-      "x": 107,
-      "y": 7,
+      "x": 85,
+      "y": 13,
       "canvas": "0",
       "width": 19,
       "height": 4,
@@ -253,10 +261,10 @@
       "order": 8
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "11",
-      "x": 122,
-      "y": 7,
+      "x": 104,
+      "y": 13,
       "canvas": "0",
       "width": 9,
       "height": 4,
@@ -264,8 +272,8 @@
       "inputs": {
         "attribute": {
           "device": "taranta://ska_mid/tm_central/central_node",
-          "attribute": "desiredtelescopestate",
-          "label": "desiredTelescopeState"
+          "attribute": "telescopestate",
+          "label": "telescopeState"
         },
         "precision": 2,
         "format": "",
@@ -280,15 +288,17 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false
       },
       "order": 9
     },
     {
       "valid": 1,
       "id": "12",
-      "x": 151,
-      "y": 7,
+      "x": 150,
+      "y": 13,
       "canvas": "0",
       "width": 22,
       "height": 4,
@@ -308,10 +318,10 @@
       "order": 10
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "13",
-      "x": 173,
-      "y": 7,
+      "x": 172,
+      "y": 13,
       "canvas": "0",
       "width": 12,
       "height": 4,
@@ -335,7 +345,9 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false
       },
       "order": 11
     },
@@ -346,7 +358,7 @@
       "y": 24,
       "canvas": "0",
       "width": 35,
-      "height": 32,
+      "height": 40,
       "type": "LABEL",
       "inputs": {
         "text": "SubarrayNode",
@@ -363,7 +375,7 @@
       "order": 12
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "16",
       "x": 103,
       "y": 28,
@@ -390,12 +402,14 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false
       },
       "order": 13
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "17",
       "x": 103,
       "y": 32,
@@ -422,12 +436,14 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false
       },
       "order": 14
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "18",
       "x": 103,
       "y": 36,
@@ -454,7 +470,9 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false
       },
       "order": 15
     },
@@ -462,10 +480,10 @@
       "valid": 1,
       "id": "19",
       "x": 42,
-      "y": 59,
+      "y": 67,
       "canvas": "0",
       "width": 74,
-      "height": 40,
+      "height": 51,
       "type": "LABEL",
       "inputs": {
         "text": "CSPLeafNodes",
@@ -484,11 +502,11 @@
     {
       "valid": 1,
       "id": "20",
-      "x": 45,
-      "y": 64,
+      "x": 44,
+      "y": 72,
       "canvas": "0",
-      "width": 32,
-      "height": 33,
+      "width": 33,
+      "height": 45,
       "type": "LABEL",
       "inputs": {
         "text": "CspMasterLeafNode",
@@ -507,11 +525,11 @@
     {
       "valid": 1,
       "id": "21",
-      "x": 81,
-      "y": 64,
+      "x": 80,
+      "y": 72,
       "canvas": "0",
       "width": 32,
-      "height": 33,
+      "height": 45,
       "type": "LABEL",
       "inputs": {
         "text": "CSPSubarrayLeafNode",
@@ -528,10 +546,10 @@
       "order": 18
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "23",
-      "x": 64,
-      "y": 68,
+      "x": 63,
+      "y": 76,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -555,15 +573,17 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false
       },
       "order": 19
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "24",
-      "x": 64,
-      "y": 72,
+      "x": 63,
+      "y": 80,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -587,15 +607,17 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false
       },
       "order": 20
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "25",
-      "x": 64,
-      "y": 76,
+      "x": 63,
+      "y": 84,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -619,15 +641,17 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false
       },
       "order": 21
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "27",
-      "x": 100,
-      "y": 68,
+      "x": 99,
+      "y": 76,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -651,15 +675,17 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false
       },
       "order": 22
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "28",
-      "x": 100,
-      "y": 72,
+      "x": 99,
+      "y": 80,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -683,15 +709,17 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false
       },
       "order": 23
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "29",
-      "x": 100,
-      "y": 76,
+      "x": 99,
+      "y": 84,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -715,15 +743,17 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false
       },
       "order": 24
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "30",
-      "x": 64,
-      "y": 84,
+      "x": 63,
+      "y": 92,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -747,15 +777,17 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false
       },
       "order": 25
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "31",
-      "x": 81,
-      "y": 87,
+      "x": 80,
+      "y": 95,
       "canvas": "0",
       "width": 32,
       "height": 9,
@@ -779,7 +811,9 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false
       },
       "order": 26
     },
@@ -787,7 +821,7 @@
       "valid": 1,
       "id": "32",
       "x": 42,
-      "y": 102,
+      "y": 120,
       "canvas": "0",
       "width": 74,
       "height": 32,
@@ -809,11 +843,11 @@
     {
       "valid": 1,
       "id": "33",
-      "x": 119,
-      "y": 24,
+      "x": 118,
+      "y": 23,
       "canvas": "0",
       "width": 70,
-      "height": 108,
+      "height": 127,
       "type": "LABEL",
       "inputs": {
         "text": "DishLeafNode",
@@ -856,7 +890,7 @@
       "valid": 1,
       "id": "40",
       "x": 45,
-      "y": 107,
+      "y": 125,
       "canvas": "0",
       "width": 32,
       "height": 24,
@@ -879,7 +913,7 @@
       "valid": 1,
       "id": "41",
       "x": 81,
-      "y": 107,
+      "y": 125,
       "canvas": "0",
       "width": 32,
       "height": 24,
@@ -1131,8 +1165,8 @@
     {
       "valid": 1,
       "id": "52",
-      "x": 45,
-      "y": 68,
+      "x": 44,
+      "y": 76,
       "canvas": "0",
       "width": 19,
       "height": 3,
@@ -1154,8 +1188,8 @@
     {
       "valid": 1,
       "id": "53",
-      "x": 81,
-      "y": 68,
+      "x": 80,
+      "y": 76,
       "canvas": "0",
       "width": 19,
       "height": 3,
@@ -1178,7 +1212,7 @@
       "valid": 1,
       "id": "54",
       "x": 45,
-      "y": 112,
+      "y": 130,
       "canvas": "0",
       "width": 19,
       "height": 3,
@@ -1201,7 +1235,7 @@
       "valid": 1,
       "id": "55",
       "x": 81,
-      "y": 112,
+      "y": 130,
       "canvas": "0",
       "width": 19,
       "height": 3,
@@ -1315,8 +1349,8 @@
     {
       "valid": 1,
       "id": "60",
-      "x": 45,
-      "y": 72,
+      "x": 44,
+      "y": 80,
       "canvas": "0",
       "width": 19,
       "height": 3,
@@ -1338,8 +1372,8 @@
     {
       "valid": 1,
       "id": "61",
-      "x": 81,
-      "y": 72,
+      "x": 80,
+      "y": 80,
       "canvas": "0",
       "width": 19,
       "height": 3,
@@ -1431,7 +1465,7 @@
       "valid": 1,
       "id": "65",
       "x": 81,
-      "y": 117,
+      "y": 135,
       "canvas": "0",
       "width": 19,
       "height": 3,
@@ -1454,7 +1488,7 @@
       "valid": 1,
       "id": "66",
       "x": 45,
-      "y": 117,
+      "y": 135,
       "canvas": "0",
       "width": 19,
       "height": 3,
@@ -1499,8 +1533,8 @@
     {
       "valid": 1,
       "id": "68",
-      "x": 45,
-      "y": 76,
+      "x": 44,
+      "y": 84,
       "canvas": "0",
       "width": 19,
       "height": 3,
@@ -1546,7 +1580,7 @@
       "valid": 1,
       "id": "74",
       "x": 81,
-      "y": 122,
+      "y": 140,
       "canvas": "0",
       "width": 19,
       "height": 3,
@@ -1569,7 +1603,7 @@
       "valid": 1,
       "id": "75",
       "x": 45,
-      "y": 122,
+      "y": 140,
       "canvas": "0",
       "width": 19,
       "height": 3,
@@ -1591,8 +1625,8 @@
     {
       "valid": 1,
       "id": "76",
-      "x": 81,
-      "y": 76,
+      "x": 80,
+      "y": 84,
       "canvas": "0",
       "width": 19,
       "height": 3,
@@ -1614,8 +1648,8 @@
     {
       "valid": 1,
       "id": "80",
-      "x": 45,
-      "y": 80,
+      "x": 44,
+      "y": 88,
       "canvas": "0",
       "width": 19,
       "height": 3,
@@ -1638,7 +1672,7 @@
       "valid": 1,
       "id": "81",
       "x": 81,
-      "y": 127,
+      "y": 145,
       "canvas": "0",
       "width": 19,
       "height": 3,
@@ -1661,7 +1695,7 @@
       "valid": 1,
       "id": "82",
       "x": 45,
-      "y": 127,
+      "y": 145,
       "canvas": "0",
       "width": 19,
       "height": 3,
@@ -1683,8 +1717,8 @@
     {
       "valid": 1,
       "id": "83",
-      "x": 81,
-      "y": 80,
+      "x": 80,
+      "y": 88,
       "canvas": "0",
       "width": 19,
       "height": 3,
@@ -1798,8 +1832,8 @@
     {
       "valid": 1,
       "id": "88",
-      "x": 45,
-      "y": 84,
+      "x": 44,
+      "y": 92,
       "canvas": "0",
       "width": 19,
       "height": 3,
@@ -1821,8 +1855,8 @@
     {
       "valid": 1,
       "id": "89",
-      "x": 81,
-      "y": 84,
+      "x": 80,
+      "y": 92,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -1842,10 +1876,10 @@
       "order": 72
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "90",
       "x": 64,
-      "y": 112,
+      "y": 130,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -1869,15 +1903,17 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false
       },
       "order": 73
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "91",
       "x": 64,
-      "y": 117,
+      "y": 135,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -1901,15 +1937,17 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false
       },
       "order": 74
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "92",
       "x": 64,
-      "y": 122,
+      "y": 140,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -1933,15 +1971,17 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false
       },
       "order": 75
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "94",
       "x": 100,
-      "y": 112,
+      "y": 130,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -1965,15 +2005,17 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false
       },
       "order": 76
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "95",
       "x": 100,
-      "y": 117,
+      "y": 135,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -1997,15 +2039,17 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false
       },
       "order": 77
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "96",
       "x": 100,
-      "y": 122,
+      "y": 140,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -2029,12 +2073,14 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false
       },
       "order": 78
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "98",
       "x": 138,
       "y": 39,
@@ -2061,12 +2107,14 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false
       },
       "order": 79
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "99",
       "x": 138,
       "y": 44,
@@ -2093,12 +2141,14 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false
       },
       "order": 80
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "100",
       "x": 138,
       "y": 54,
@@ -2125,12 +2175,14 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false
       },
       "order": 81
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "102",
       "x": 171,
       "y": 39,
@@ -2157,12 +2209,14 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false
       },
       "order": 82
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "103",
       "x": 171,
       "y": 44,
@@ -2189,12 +2243,14 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false
       },
       "order": 83
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "105",
       "x": 139,
       "y": 86,
@@ -2221,12 +2277,14 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false
       },
       "order": 84
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "106",
       "x": 139,
       "y": 91,
@@ -2253,12 +2311,14 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false
       },
       "order": 85
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "108",
       "x": 171,
       "y": 86,
@@ -2285,12 +2345,14 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false
       },
       "order": 86
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "109",
       "x": 171,
       "y": 91,
@@ -2317,12 +2379,14 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false
       },
       "order": 87
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "111",
       "x": 103,
       "y": 40,
@@ -2347,15 +2411,16 @@
         "showAttribute": "None",
         "alignTextCenter": false,
         "alignValueRight": true,
-        "customCss": ""
+        "customCss": "",
+        "showTangoDB": false
       },
       "order": 88
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "112",
-      "x": 100,
-      "y": 80,
+      "x": 99,
+      "y": 88,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -2377,15 +2442,16 @@
         "showAttribute": "None",
         "alignTextCenter": false,
         "alignValueRight": true,
-        "customCss": ""
+        "customCss": "",
+        "showTangoDB": false
       },
       "order": 89
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "113",
-      "x": 64,
-      "y": 80,
+      "x": 63,
+      "y": 88,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -2407,15 +2473,16 @@
         "showAttribute": "None",
         "alignTextCenter": false,
         "alignValueRight": true,
-        "customCss": ""
+        "customCss": "",
+        "showTangoDB": false
       },
       "order": 90
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "114",
       "x": 64,
-      "y": 127,
+      "y": 145,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -2437,15 +2504,16 @@
         "showAttribute": "None",
         "alignTextCenter": false,
         "alignValueRight": true,
-        "customCss": ""
+        "customCss": "",
+        "showTangoDB": false
       },
       "order": 91
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "115",
       "x": 100,
-      "y": 127,
+      "y": 145,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -2467,12 +2535,13 @@
         "showAttribute": "None",
         "alignTextCenter": false,
         "alignValueRight": true,
-        "customCss": ""
+        "customCss": "",
+        "showTangoDB": false
       },
       "order": 92
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "116",
       "x": 138,
       "y": 49,
@@ -2497,12 +2566,13 @@
         "showAttribute": "None",
         "alignTextCenter": false,
         "alignValueRight": true,
-        "customCss": ""
+        "customCss": "",
+        "showTangoDB": false
       },
       "order": 93
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "117",
       "x": 171,
       "y": 49,
@@ -2527,12 +2597,13 @@
         "showAttribute": "None",
         "alignTextCenter": false,
         "alignValueRight": true,
-        "customCss": ""
+        "customCss": "",
+        "showTangoDB": false
       },
       "order": 94
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "118",
       "x": 139,
       "y": 96,
@@ -2557,12 +2628,13 @@
         "showAttribute": "None",
         "alignTextCenter": false,
         "alignValueRight": true,
-        "customCss": ""
+        "customCss": "",
+        "showTangoDB": false
       },
       "order": 95
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "119",
       "x": 171,
       "y": 96,
@@ -2587,7 +2659,8 @@
         "showAttribute": "None",
         "alignTextCenter": false,
         "alignValueRight": true,
-        "customCss": ""
+        "customCss": "",
+        "showTangoDB": false
       },
       "order": 96
     },
@@ -2661,7 +2734,7 @@
       "order": 99
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "123",
       "x": 171,
       "y": 101,
@@ -2688,12 +2761,14 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false
       },
       "order": 100
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "124",
       "x": 139,
       "y": 101,
@@ -2720,12 +2795,14 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false
       },
       "order": 101
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "125",
       "x": 171,
       "y": 54,
@@ -2752,7 +2829,9 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false
       },
       "order": 102
     },
@@ -2780,7 +2859,7 @@
       "order": 103
     },
     {
-      "valid": 3,
+      "valid": 1,
       "id": "127",
       "x": 42,
       "y": 43,
@@ -2807,9 +2886,467 @@
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false
       },
       "order": 104
+    },
+    {
+      "valid": 1,
+      "id": "128",
+      "x": 119,
+      "y": 13,
+      "canvas": "0",
+      "width": 19,
+      "height": 4,
+      "type": "LABEL",
+      "inputs": {
+        "text": "DishVccConfigSet",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "automaticResize": "Disabled",
+        "size": 1.2,
+        "linkTo": "",
+        "customCss": ""
+      },
+      "order": 105
+    },
+    {
+      "valid": 1,
+      "id": "129",
+      "x": 138,
+      "y": 13,
+      "canvas": "0",
+      "width": 9,
+      "height": 4,
+      "type": "ATTRIBUTE_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "taranta://ska_mid/tm_central/central_node",
+          "attribute": "isdishvccconfigset",
+          "label": "isDishVccConfigSet"
+        },
+        "precision": 2,
+        "format": "",
+        "showDevice": false,
+        "showAttribute": "None",
+        "alignTextCenter": false,
+        "alignValueRight": false,
+        "scientificNotation": false,
+        "showEnumLabels": true,
+        "showAttrQuality": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false
+      },
+      "order": 106
+    },
+    {
+      "valid": 1,
+      "id": "130",
+      "x": 138,
+      "y": 59,
+      "canvas": "0",
+      "width": 15,
+      "height": 3,
+      "type": "ATTRIBUTE_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "taranta://ska_mid/tm_leaf_node/d0001",
+          "attribute": "kvalue",
+          "label": "kValue"
+        },
+        "precision": 2,
+        "format": "",
+        "showDevice": false,
+        "jsonCollapsed": true,
+        "showTangoDB": false,
+        "showAttribute": "None",
+        "alignTextCenter": false,
+        "alignValueRight": true,
+        "scientificNotation": false,
+        "showEnumLabels": false,
+        "showAttrQuality": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "widgetCss": ""
+      },
+      "order": 107
+    },
+    {
+      "valid": 1,
+      "id": "131",
+      "x": 122,
+      "y": 59,
+      "canvas": "0",
+      "width": 16,
+      "height": 3,
+      "type": "LABEL",
+      "inputs": {
+        "text": "KValue",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "automaticResize": "Disabled",
+        "size": 1,
+        "linkTo": "",
+        "customCss": ""
+      },
+      "order": 108
+    },
+    {
+      "valid": 1,
+      "id": "132",
+      "x": 171,
+      "y": 59,
+      "canvas": "0",
+      "width": 15,
+      "height": 3,
+      "type": "ATTRIBUTE_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "taranta://ska_mid/tm_leaf_node/d0036",
+          "attribute": "kvalue",
+          "label": "kValue"
+        },
+        "precision": 2,
+        "format": "",
+        "showDevice": false,
+        "jsonCollapsed": true,
+        "showTangoDB": false,
+        "showAttribute": "None",
+        "alignTextCenter": false,
+        "alignValueRight": true,
+        "scientificNotation": false,
+        "showEnumLabels": false,
+        "showAttrQuality": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "widgetCss": ""
+      },
+      "order": 109
+    },
+    {
+      "valid": 1,
+      "id": "133",
+      "x": 155,
+      "y": 59,
+      "canvas": "0",
+      "width": 16,
+      "height": 3,
+      "type": "LABEL",
+      "inputs": {
+        "text": "kValue",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "automaticResize": "Disabled",
+        "size": 1,
+        "linkTo": "",
+        "customCss": ""
+      },
+      "order": 110
+    },
+    {
+      "valid": 1,
+      "id": "134",
+      "x": 139,
+      "y": 106,
+      "canvas": "0",
+      "width": 14,
+      "height": 3,
+      "type": "ATTRIBUTE_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "taranta://ska_mid/tm_leaf_node/d0063",
+          "attribute": "kvalue",
+          "label": "kValue"
+        },
+        "precision": 2,
+        "format": "",
+        "showDevice": false,
+        "jsonCollapsed": true,
+        "showTangoDB": false,
+        "showAttribute": "None",
+        "alignTextCenter": false,
+        "alignValueRight": true,
+        "scientificNotation": false,
+        "showEnumLabels": false,
+        "showAttrQuality": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "widgetCss": ""
+      },
+      "order": 111
+    },
+    {
+      "valid": 1,
+      "id": "135",
+      "x": 171,
+      "y": 105,
+      "canvas": "0",
+      "width": 15,
+      "height": 3,
+      "type": "ATTRIBUTE_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "taranta://ska_mid/tm_leaf_node/d0100",
+          "attribute": "kvalue",
+          "label": "kValue"
+        },
+        "precision": 2,
+        "format": "",
+        "showDevice": false,
+        "jsonCollapsed": true,
+        "showTangoDB": false,
+        "showAttribute": "None",
+        "alignTextCenter": false,
+        "alignValueRight": true,
+        "scientificNotation": false,
+        "showEnumLabels": false,
+        "showAttrQuality": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "widgetCss": ""
+      },
+      "order": 112
+    },
+    {
+      "valid": 1,
+      "id": "136",
+      "x": 122,
+      "y": 106,
+      "canvas": "0",
+      "width": 17,
+      "height": 3,
+      "type": "LABEL",
+      "inputs": {
+        "text": "kValue",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "automaticResize": "Disabled",
+        "size": 1,
+        "linkTo": "",
+        "customCss": ""
+      },
+      "order": 113
+    },
+    {
+      "valid": 1,
+      "id": "137",
+      "x": 155,
+      "y": 105,
+      "canvas": "0",
+      "width": 16,
+      "height": 3,
+      "type": "LABEL",
+      "inputs": {
+        "text": "kValue",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "automaticResize": "Disabled",
+        "size": 1,
+        "linkTo": "",
+        "customCss": ""
+      },
+      "order": 114
+    },
+    {
+      "valid": 1,
+      "id": "138",
+      "x": 42,
+      "y": 55,
+      "canvas": "0",
+      "width": 35,
+      "height": 8,
+      "type": "ATTRIBUTE_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "taranta://ska_mid/tm_central/central_node",
+          "attribute": "dishvccvalidationstatus",
+          "label": "DishVccValidationStatus"
+        },
+        "precision": 2,
+        "format": "",
+        "showDevice": false,
+        "jsonCollapsed": true,
+        "showTangoDB": false,
+        "showAttribute": "None",
+        "alignTextCenter": false,
+        "alignValueRight": true,
+        "scientificNotation": false,
+        "showEnumLabels": false,
+        "showAttrQuality": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "widgetCss": ""
+      },
+      "order": 115
+    },
+    {
+      "valid": 1,
+      "id": "139",
+      "x": 42,
+      "y": 52,
+      "canvas": "0",
+      "width": 20,
+      "height": 3,
+      "type": "LABEL",
+      "inputs": {
+        "text": "DishVccValidationStatus",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "automaticResize": "Disabled",
+        "size": 1,
+        "linkTo": "",
+        "customCss": ""
+      },
+      "order": 116
+    },
+    {
+      "valid": 1,
+      "id": "140",
+      "x": 44,
+      "y": 99,
+      "canvas": "0",
+      "width": 32,
+      "height": 7,
+      "type": "ATTRIBUTE_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "taranta://ska_mid/tm_leaf_node/csp_master",
+          "attribute": "dishvccconfig",
+          "label": "dishVccConfig"
+        },
+        "precision": 2,
+        "format": "",
+        "showDevice": false,
+        "jsonCollapsed": true,
+        "showTangoDB": false,
+        "showAttribute": "None",
+        "alignTextCenter": false,
+        "alignValueRight": true,
+        "scientificNotation": false,
+        "showEnumLabels": false,
+        "showAttrQuality": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "widgetCss": ""
+      },
+      "order": 117
+    },
+    {
+      "valid": 1,
+      "id": "141",
+      "x": 44,
+      "y": 96,
+      "canvas": "0",
+      "width": 19,
+      "height": 3,
+      "type": "LABEL",
+      "inputs": {
+        "text": "DishVccConfig",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "automaticResize": "Disabled",
+        "size": 1,
+        "linkTo": "",
+        "customCss": ""
+      },
+      "order": 118
+    },
+    {
+      "valid": 1,
+      "id": "142",
+      "x": 44,
+      "y": 110,
+      "canvas": "0",
+      "width": 32,
+      "height": 6,
+      "type": "ATTRIBUTE_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "taranta://ska_mid/tm_leaf_node/csp_master",
+          "attribute": "sourcedishvccconfig",
+          "label": "sourceDishVccConfig"
+        },
+        "precision": 2,
+        "format": "",
+        "showDevice": false,
+        "jsonCollapsed": true,
+        "showTangoDB": false,
+        "showAttribute": "None",
+        "alignTextCenter": false,
+        "alignValueRight": true,
+        "scientificNotation": false,
+        "showEnumLabels": false,
+        "showAttrQuality": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "widgetCss": ""
+      },
+      "order": 119
+    },
+    {
+      "valid": 1,
+      "id": "143",
+      "x": 44,
+      "y": 107,
+      "canvas": "0",
+      "width": 19,
+      "height": 3,
+      "type": "LABEL",
+      "inputs": {
+        "text": "SourceDishVccConfig",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "automaticResize": "Disabled",
+        "size": 1,
+        "linkTo": "",
+        "customCss": ""
+      },
+      "order": 120
     }
   ],
   "variables": []
