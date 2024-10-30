@@ -1,32 +1,32 @@
 {
-  "id": "65d61c474f0b050019db4453",
-  "name": "TMC_Monitoring copy 1 - copy",
-  "version": "2.6.0",
-  "user": "user1",
-  "insertTime": "2024-02-21T15:52:39.511Z",
-  "updateTime": "2024-02-22T12:37:44.383Z",
+  "id": "65dc5298b20f1600120e7a85",
+  "name": "TMC_Monitoring",
+  "version": "2.11.5",
+  "user": "ATLAS",
+  "insertTime": "2024-02-26T08:58:00.603Z",
+  "updateTime": "2024-08-27T23:27:20.741Z",
   "group": null,
   "groupWriteAccess": false,
-  "lastUpdatedBy": "user1",
+  "lastUpdatedBy": "ATLAS",
   "widget": [
     {
       "valid": 1,
       "id": "1",
-      "x": 29,
-      "y": 0,
+      "x": 2,
+      "y": 2,
       "canvas": "0",
-      "width": 184,
-      "height": 10,
+      "width": 154,
+      "height": 6,
       "type": "LABEL",
       "inputs": {
         "text": "TMC  Dashboard",
         "textColor": "#ffffff",
-        "backgroundColor": "#1b1b1d",
+        "backgroundColor": "#000000",
         "borderWidth": 0,
         "borderColor": "#000000",
         "font": "Helvetica",
         "automaticResize": "Disabled",
-        "size": 3.2,
+        "size": 1.8,
         "linkTo": "",
         "customCss": "text-align: center;\n  background-image: url('https://www.skao.int/sites/default/files/styles/ti_1500/public/2022-02/skao_logo_2021_colour_rgb_2500x1058px.jpg?itok=IceNzaEw');\n  background-size: 8% auto;\nbackground-repeat: no-repeat;"
       },
@@ -35,14 +35,14 @@
     {
       "valid": 1,
       "id": "2",
-      "x": 29,
-      "y": 10,
+      "x": 2,
+      "y": 8,
       "canvas": "0",
-      "width": 184,
-      "height": 143,
+      "width": 154,
+      "height": 129,
       "type": "LABEL",
       "inputs": {
-        "text": "dish 001 k value",
+        "text": "",
         "textColor": "#000000",
         "backgroundColor": "#fdf7e4",
         "borderWidth": 0,
@@ -58,11 +58,11 @@
     {
       "valid": 1,
       "id": "4",
-      "x": 42,
-      "y": 24,
+      "x": 5,
+      "y": 26,
       "canvas": "0",
       "width": 35,
-      "height": 40,
+      "height": 32,
       "type": "LABEL",
       "inputs": {
         "text": "CentralNode",
@@ -81,8 +81,8 @@
     {
       "valid": 1,
       "id": "5",
-      "x": 64,
-      "y": 28,
+      "x": 27,
+      "y": 30,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -108,15 +108,16 @@
         "font": "Helvetica",
         "widgetCss": "",
         "jsonCollapsed": true,
-        "showTangoDB": false
+        "showTangoDB": false,
+        "showUnit": true
       },
       "order": 3
     },
     {
       "valid": 1,
       "id": "6",
-      "x": 64,
-      "y": 32,
+      "x": 27,
+      "y": 34,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -142,15 +143,16 @@
         "font": "Helvetica",
         "widgetCss": "",
         "jsonCollapsed": true,
-        "showTangoDB": false
+        "showTangoDB": false,
+        "showUnit": true
       },
       "order": 4
     },
     {
       "valid": 1,
       "id": "7",
-      "x": 64,
-      "y": 36,
+      "x": 27,
+      "y": 38,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -176,15 +178,16 @@
         "font": "Helvetica",
         "widgetCss": "",
         "jsonCollapsed": true,
-        "showTangoDB": false
+        "showTangoDB": false,
+        "showUnit": true
       },
       "order": 5
     },
     {
       "valid": 1,
       "id": "8",
-      "x": 30,
-      "y": 11,
+      "x": 5,
+      "y": 9,
       "canvas": "0",
       "width": 19,
       "height": 4,
@@ -206,10 +209,10 @@
     {
       "valid": 1,
       "id": "9",
-      "x": 50,
-      "y": 11,
+      "x": 24,
+      "y": 9,
       "canvas": "0",
-      "width": 33,
+      "width": 37,
       "height": 9,
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
@@ -232,16 +235,17 @@
         "size": 1,
         "font": "Helvetica",
         "widgetCss": "",
-        "jsonCollapsed": false,
-        "showTangoDB": false
+        "jsonCollapsed": true,
+        "showTangoDB": false,
+        "showUnit": true
       },
       "order": 7
     },
     {
       "valid": 1,
       "id": "10",
-      "x": 85,
-      "y": 13,
+      "x": 5,
+      "y": 14,
       "canvas": "0",
       "width": 19,
       "height": 4,
@@ -263,10 +267,10 @@
     {
       "valid": 1,
       "id": "11",
-      "x": 104,
-      "y": 13,
+      "x": 20,
+      "y": 14,
       "canvas": "0",
-      "width": 9,
+      "width": 10,
       "height": 4,
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
@@ -290,28 +294,29 @@
         "font": "Helvetica",
         "widgetCss": "",
         "jsonCollapsed": true,
-        "showTangoDB": false
+        "showTangoDB": false,
+        "showUnit": true
       },
       "order": 9
     },
     {
       "valid": 1,
       "id": "12",
-      "x": 150,
-      "y": 13,
+      "x": 62,
+      "y": 9,
       "canvas": "0",
       "width": 22,
       "height": 4,
       "type": "LABEL",
       "inputs": {
-        "text": "Telescope HealthState",
+        "text": "Telescope Health",
         "textColor": "#000000",
         "backgroundColor": "#ffffff",
         "borderWidth": 0,
         "borderColor": "#000000",
         "font": "Helvetica",
         "automaticResize": "Disabled",
-        "size": 1.2,
+        "size": 1.5,
         "linkTo": "",
         "customCss": ""
       },
@@ -320,10 +325,10 @@
     {
       "valid": 1,
       "id": "13",
-      "x": 172,
-      "y": 13,
+      "x": 84,
+      "y": 9,
       "canvas": "0",
-      "width": 12,
+      "width": 20,
       "height": 4,
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
@@ -343,22 +348,23 @@
         "showAttrQuality": false,
         "textColor": "#000000",
         "backgroundColor": "#ffffff",
-        "size": 1,
+        "size": 1.5,
         "font": "Helvetica",
         "widgetCss": "",
         "jsonCollapsed": true,
-        "showTangoDB": false
+        "showTangoDB": false,
+        "showUnit": true
       },
       "order": 11
     },
     {
       "valid": 1,
       "id": "14",
-      "x": 81,
-      "y": 24,
+      "x": 44,
+      "y": 26,
       "canvas": "0",
       "width": 35,
-      "height": 40,
+      "height": 32,
       "type": "LABEL",
       "inputs": {
         "text": "SubarrayNode",
@@ -377,8 +383,8 @@
     {
       "valid": 1,
       "id": "16",
-      "x": 103,
-      "y": 28,
+      "x": 66,
+      "y": 30,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -404,15 +410,16 @@
         "font": "Helvetica",
         "widgetCss": "",
         "jsonCollapsed": true,
-        "showTangoDB": false
+        "showTangoDB": false,
+        "showUnit": true
       },
       "order": 13
     },
     {
       "valid": 1,
       "id": "17",
-      "x": 103,
-      "y": 32,
+      "x": 66,
+      "y": 34,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -438,15 +445,16 @@
         "font": "Helvetica",
         "widgetCss": "",
         "jsonCollapsed": true,
-        "showTangoDB": false
+        "showTangoDB": false,
+        "showUnit": true
       },
       "order": 14
     },
     {
       "valid": 1,
       "id": "18",
-      "x": 103,
-      "y": 36,
+      "x": 66,
+      "y": 38,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -472,18 +480,19 @@
         "font": "Helvetica",
         "widgetCss": "",
         "jsonCollapsed": true,
-        "showTangoDB": false
+        "showTangoDB": false,
+        "showUnit": true
       },
       "order": 15
     },
     {
       "valid": 1,
       "id": "19",
-      "x": 42,
-      "y": 67,
+      "x": 5,
+      "y": 61,
       "canvas": "0",
       "width": 74,
-      "height": 51,
+      "height": 40,
       "type": "LABEL",
       "inputs": {
         "text": "CSPLeafNodes",
@@ -502,11 +511,11 @@
     {
       "valid": 1,
       "id": "20",
-      "x": 44,
-      "y": 72,
+      "x": 8,
+      "y": 66,
       "canvas": "0",
-      "width": 33,
-      "height": 45,
+      "width": 32,
+      "height": 35,
       "type": "LABEL",
       "inputs": {
         "text": "CspMasterLeafNode",
@@ -525,11 +534,11 @@
     {
       "valid": 1,
       "id": "21",
-      "x": 80,
-      "y": 72,
+      "x": 44,
+      "y": 66,
       "canvas": "0",
-      "width": 32,
-      "height": 45,
+      "width": 35,
+      "height": 35,
       "type": "LABEL",
       "inputs": {
         "text": "CSPSubarrayLeafNode",
@@ -548,8 +557,8 @@
     {
       "valid": 1,
       "id": "23",
-      "x": 63,
-      "y": 76,
+      "x": 27,
+      "y": 70,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -575,15 +584,16 @@
         "font": "Helvetica",
         "widgetCss": "",
         "jsonCollapsed": true,
-        "showTangoDB": false
+        "showTangoDB": false,
+        "showUnit": true
       },
       "order": 19
     },
     {
       "valid": 1,
       "id": "24",
-      "x": 63,
-      "y": 80,
+      "x": 27,
+      "y": 74,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -609,15 +619,16 @@
         "font": "Helvetica",
         "widgetCss": "",
         "jsonCollapsed": true,
-        "showTangoDB": false
+        "showTangoDB": false,
+        "showUnit": true
       },
       "order": 20
     },
     {
       "valid": 1,
       "id": "25",
-      "x": 63,
-      "y": 84,
+      "x": 27,
+      "y": 78,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -643,15 +654,16 @@
         "font": "Helvetica",
         "widgetCss": "",
         "jsonCollapsed": true,
-        "showTangoDB": false
+        "showTangoDB": false,
+        "showUnit": true
       },
       "order": 21
     },
     {
       "valid": 1,
       "id": "27",
-      "x": 99,
-      "y": 76,
+      "x": 66,
+      "y": 70,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -677,15 +689,16 @@
         "font": "Helvetica",
         "widgetCss": "",
         "jsonCollapsed": true,
-        "showTangoDB": false
+        "showTangoDB": false,
+        "showUnit": true
       },
       "order": 22
     },
     {
       "valid": 1,
       "id": "28",
-      "x": 99,
-      "y": 80,
+      "x": 66,
+      "y": 74,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -711,15 +724,16 @@
         "font": "Helvetica",
         "widgetCss": "",
         "jsonCollapsed": true,
-        "showTangoDB": false
+        "showTangoDB": false,
+        "showUnit": true
       },
       "order": 23
     },
     {
       "valid": 1,
       "id": "29",
-      "x": 99,
-      "y": 84,
+      "x": 66,
+      "y": 78,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -745,15 +759,16 @@
         "font": "Helvetica",
         "widgetCss": "",
         "jsonCollapsed": true,
-        "showTangoDB": false
+        "showTangoDB": false,
+        "showUnit": true
       },
       "order": 24
     },
     {
       "valid": 1,
       "id": "30",
-      "x": 63,
-      "y": 92,
+      "x": 27,
+      "y": 86,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -779,18 +794,19 @@
         "font": "Helvetica",
         "widgetCss": "",
         "jsonCollapsed": true,
-        "showTangoDB": false
+        "showTangoDB": false,
+        "showUnit": true
       },
       "order": 25
     },
     {
       "valid": 1,
       "id": "31",
-      "x": 80,
-      "y": 95,
+      "x": 44,
+      "y": 93,
       "canvas": "0",
       "width": 32,
-      "height": 9,
+      "height": 8,
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
@@ -813,15 +829,16 @@
         "font": "Helvetica",
         "widgetCss": "",
         "jsonCollapsed": true,
-        "showTangoDB": false
+        "showTangoDB": false,
+        "showUnit": true
       },
       "order": 26
     },
     {
       "valid": 1,
       "id": "32",
-      "x": 42,
-      "y": 120,
+      "x": 5,
+      "y": 104,
       "canvas": "0",
       "width": 74,
       "height": 32,
@@ -843,11 +860,11 @@
     {
       "valid": 1,
       "id": "33",
-      "x": 118,
-      "y": 23,
+      "x": 82,
+      "y": 26,
       "canvas": "0",
       "width": 70,
-      "height": 127,
+      "height": 108,
       "type": "LABEL",
       "inputs": {
         "text": "DishLeafNode",
@@ -866,8 +883,8 @@
     {
       "valid": 1,
       "id": "36",
-      "x": 122,
-      "y": 34,
+      "x": 85,
+      "y": 36,
       "canvas": "0",
       "width": 31,
       "height": 44,
@@ -889,11 +906,11 @@
     {
       "valid": 1,
       "id": "40",
-      "x": 45,
-      "y": 125,
+      "x": 8,
+      "y": 109,
       "canvas": "0",
       "width": 32,
-      "height": 24,
+      "height": 27,
       "type": "LABEL",
       "inputs": {
         "text": "SDPMasterLeafNode",
@@ -912,11 +929,11 @@
     {
       "valid": 1,
       "id": "41",
-      "x": 81,
-      "y": 125,
+      "x": 44,
+      "y": 109,
       "canvas": "0",
       "width": 32,
-      "height": 24,
+      "height": 27,
       "type": "LABEL",
       "inputs": {
         "text": "SDPSubarrayLeafNode",
@@ -935,8 +952,8 @@
     {
       "valid": 1,
       "id": "42",
-      "x": 155,
-      "y": 34,
+      "x": 118,
+      "y": 36,
       "canvas": "0",
       "width": 31,
       "height": 44,
@@ -958,8 +975,8 @@
     {
       "valid": 1,
       "id": "43",
-      "x": 122,
-      "y": 81,
+      "x": 85,
+      "y": 83,
       "canvas": "0",
       "width": 31,
       "height": 47,
@@ -981,8 +998,8 @@
     {
       "valid": 1,
       "id": "44",
-      "x": 155,
-      "y": 81,
+      "x": 118,
+      "y": 83,
       "canvas": "0",
       "width": 31,
       "height": 47,
@@ -1004,8 +1021,8 @@
     {
       "valid": 1,
       "id": "45",
-      "x": 42,
-      "y": 36,
+      "x": 5,
+      "y": 38,
       "canvas": "0",
       "width": 22,
       "height": 3,
@@ -1027,8 +1044,8 @@
     {
       "valid": 1,
       "id": "46",
-      "x": 42,
-      "y": 32,
+      "x": 5,
+      "y": 34,
       "canvas": "0",
       "width": 22,
       "height": 3,
@@ -1050,8 +1067,8 @@
     {
       "valid": 1,
       "id": "47",
-      "x": 42,
-      "y": 28,
+      "x": 5,
+      "y": 30,
       "canvas": "0",
       "width": 22,
       "height": 3,
@@ -1073,8 +1090,8 @@
     {
       "valid": 1,
       "id": "48",
-      "x": 81,
-      "y": 28,
+      "x": 44,
+      "y": 30,
       "canvas": "0",
       "width": 22,
       "height": 3,
@@ -1096,8 +1113,8 @@
     {
       "valid": 1,
       "id": "49",
-      "x": 81,
-      "y": 32,
+      "x": 44,
+      "y": 34,
       "canvas": "0",
       "width": 22,
       "height": 3,
@@ -1119,8 +1136,8 @@
     {
       "valid": 1,
       "id": "50",
-      "x": 81,
-      "y": 36,
+      "x": 44,
+      "y": 38,
       "canvas": "0",
       "width": 22,
       "height": 3,
@@ -1142,8 +1159,8 @@
     {
       "valid": 1,
       "id": "51",
-      "x": 81,
-      "y": 40,
+      "x": 44,
+      "y": 42,
       "canvas": "0",
       "width": 22,
       "height": 3,
@@ -1165,8 +1182,8 @@
     {
       "valid": 1,
       "id": "52",
-      "x": 44,
-      "y": 76,
+      "x": 8,
+      "y": 70,
       "canvas": "0",
       "width": 19,
       "height": 3,
@@ -1188,10 +1205,10 @@
     {
       "valid": 1,
       "id": "53",
-      "x": 80,
-      "y": 76,
+      "x": 44,
+      "y": 70,
       "canvas": "0",
-      "width": 19,
+      "width": 22,
       "height": 3,
       "type": "LABEL",
       "inputs": {
@@ -1211,8 +1228,8 @@
     {
       "valid": 1,
       "id": "54",
-      "x": 45,
-      "y": 130,
+      "x": 8,
+      "y": 114,
       "canvas": "0",
       "width": 19,
       "height": 3,
@@ -1234,8 +1251,8 @@
     {
       "valid": 1,
       "id": "55",
-      "x": 81,
-      "y": 130,
+      "x": 44,
+      "y": 114,
       "canvas": "0",
       "width": 19,
       "height": 3,
@@ -1257,8 +1274,8 @@
     {
       "valid": 1,
       "id": "56",
-      "x": 122,
-      "y": 39,
+      "x": 85,
+      "y": 41,
       "canvas": "0",
       "width": 16,
       "height": 3,
@@ -1280,8 +1297,8 @@
     {
       "valid": 1,
       "id": "57",
-      "x": 155,
-      "y": 39,
+      "x": 118,
+      "y": 41,
       "canvas": "0",
       "width": 16,
       "height": 3,
@@ -1303,8 +1320,8 @@
     {
       "valid": 1,
       "id": "58",
-      "x": 122,
-      "y": 86,
+      "x": 85,
+      "y": 88,
       "canvas": "0",
       "width": 17,
       "height": 3,
@@ -1326,8 +1343,8 @@
     {
       "valid": 1,
       "id": "59",
-      "x": 155,
-      "y": 86,
+      "x": 118,
+      "y": 88,
       "canvas": "0",
       "width": 16,
       "height": 3,
@@ -1349,8 +1366,8 @@
     {
       "valid": 1,
       "id": "60",
-      "x": 44,
-      "y": 80,
+      "x": 8,
+      "y": 74,
       "canvas": "0",
       "width": 19,
       "height": 3,
@@ -1372,10 +1389,10 @@
     {
       "valid": 1,
       "id": "61",
-      "x": 80,
-      "y": 80,
+      "x": 44,
+      "y": 74,
       "canvas": "0",
-      "width": 19,
+      "width": 22,
       "height": 3,
       "type": "LABEL",
       "inputs": {
@@ -1395,8 +1412,8 @@
     {
       "valid": 1,
       "id": "62",
-      "x": 122,
-      "y": 91,
+      "x": 85,
+      "y": 93,
       "canvas": "0",
       "width": 17,
       "height": 3,
@@ -1418,8 +1435,8 @@
     {
       "valid": 1,
       "id": "63",
-      "x": 155,
-      "y": 44,
+      "x": 118,
+      "y": 46,
       "canvas": "0",
       "width": 16,
       "height": 3,
@@ -1441,8 +1458,8 @@
     {
       "valid": 1,
       "id": "64",
-      "x": 122,
-      "y": 44,
+      "x": 85,
+      "y": 46,
       "canvas": "0",
       "width": 16,
       "height": 3,
@@ -1464,8 +1481,8 @@
     {
       "valid": 1,
       "id": "65",
-      "x": 81,
-      "y": 135,
+      "x": 44,
+      "y": 119,
       "canvas": "0",
       "width": 19,
       "height": 3,
@@ -1487,8 +1504,8 @@
     {
       "valid": 1,
       "id": "66",
-      "x": 45,
-      "y": 135,
+      "x": 8,
+      "y": 119,
       "canvas": "0",
       "width": 19,
       "height": 3,
@@ -1510,8 +1527,8 @@
     {
       "valid": 1,
       "id": "67",
-      "x": 155,
-      "y": 91,
+      "x": 118,
+      "y": 93,
       "canvas": "0",
       "width": 16,
       "height": 3,
@@ -1533,8 +1550,8 @@
     {
       "valid": 1,
       "id": "68",
-      "x": 44,
-      "y": 84,
+      "x": 8,
+      "y": 78,
       "canvas": "0",
       "width": 19,
       "height": 3,
@@ -1556,8 +1573,8 @@
     {
       "valid": 1,
       "id": "73",
-      "x": 122,
-      "y": 54,
+      "x": 85,
+      "y": 56,
       "canvas": "0",
       "width": 16,
       "height": 3,
@@ -1579,8 +1596,8 @@
     {
       "valid": 1,
       "id": "74",
-      "x": 81,
-      "y": 140,
+      "x": 44,
+      "y": 124,
       "canvas": "0",
       "width": 19,
       "height": 3,
@@ -1602,8 +1619,8 @@
     {
       "valid": 1,
       "id": "75",
-      "x": 45,
-      "y": 140,
+      "x": 8,
+      "y": 124,
       "canvas": "0",
       "width": 19,
       "height": 3,
@@ -1625,10 +1642,10 @@
     {
       "valid": 1,
       "id": "76",
-      "x": 80,
-      "y": 84,
+      "x": 44,
+      "y": 78,
       "canvas": "0",
-      "width": 19,
+      "width": 22,
       "height": 3,
       "type": "LABEL",
       "inputs": {
@@ -1648,8 +1665,8 @@
     {
       "valid": 1,
       "id": "80",
-      "x": 44,
-      "y": 88,
+      "x": 8,
+      "y": 82,
       "canvas": "0",
       "width": 19,
       "height": 3,
@@ -1671,8 +1688,8 @@
     {
       "valid": 1,
       "id": "81",
-      "x": 81,
-      "y": 145,
+      "x": 44,
+      "y": 129,
       "canvas": "0",
       "width": 19,
       "height": 3,
@@ -1694,8 +1711,8 @@
     {
       "valid": 1,
       "id": "82",
-      "x": 45,
-      "y": 145,
+      "x": 8,
+      "y": 129,
       "canvas": "0",
       "width": 19,
       "height": 3,
@@ -1717,10 +1734,10 @@
     {
       "valid": 1,
       "id": "83",
-      "x": 80,
-      "y": 88,
+      "x": 44,
+      "y": 82,
       "canvas": "0",
-      "width": 19,
+      "width": 23,
       "height": 3,
       "type": "LABEL",
       "inputs": {
@@ -1740,8 +1757,8 @@
     {
       "valid": 1,
       "id": "84",
-      "x": 122,
-      "y": 96,
+      "x": 85,
+      "y": 98,
       "canvas": "0",
       "width": 17,
       "height": 3,
@@ -1763,8 +1780,8 @@
     {
       "valid": 1,
       "id": "85",
-      "x": 155,
-      "y": 96,
+      "x": 118,
+      "y": 98,
       "canvas": "0",
       "width": 16,
       "height": 3,
@@ -1786,8 +1803,8 @@
     {
       "valid": 1,
       "id": "86",
-      "x": 155,
-      "y": 49,
+      "x": 118,
+      "y": 51,
       "canvas": "0",
       "width": 16,
       "height": 3,
@@ -1809,8 +1826,8 @@
     {
       "valid": 1,
       "id": "87",
-      "x": 122,
-      "y": 49,
+      "x": 85,
+      "y": 51,
       "canvas": "0",
       "width": 16,
       "height": 3,
@@ -1832,8 +1849,8 @@
     {
       "valid": 1,
       "id": "88",
-      "x": 44,
-      "y": 92,
+      "x": 8,
+      "y": 86,
       "canvas": "0",
       "width": 19,
       "height": 3,
@@ -1855,8 +1872,8 @@
     {
       "valid": 1,
       "id": "89",
-      "x": 80,
-      "y": 92,
+      "x": 44,
+      "y": 90,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -1878,8 +1895,8 @@
     {
       "valid": 1,
       "id": "90",
-      "x": 64,
-      "y": 130,
+      "x": 27,
+      "y": 114,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -1905,15 +1922,16 @@
         "font": "Helvetica",
         "widgetCss": "",
         "jsonCollapsed": true,
-        "showTangoDB": false
+        "showTangoDB": false,
+        "showUnit": true
       },
       "order": 73
     },
     {
       "valid": 1,
       "id": "91",
-      "x": 64,
-      "y": 135,
+      "x": 27,
+      "y": 119,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -1939,15 +1957,16 @@
         "font": "Helvetica",
         "widgetCss": "",
         "jsonCollapsed": true,
-        "showTangoDB": false
+        "showTangoDB": false,
+        "showUnit": true
       },
       "order": 74
     },
     {
       "valid": 1,
       "id": "92",
-      "x": 64,
-      "y": 140,
+      "x": 27,
+      "y": 124,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -1973,15 +1992,16 @@
         "font": "Helvetica",
         "widgetCss": "",
         "jsonCollapsed": true,
-        "showTangoDB": false
+        "showTangoDB": false,
+        "showUnit": true
       },
       "order": 75
     },
     {
       "valid": 1,
       "id": "94",
-      "x": 100,
-      "y": 130,
+      "x": 63,
+      "y": 114,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -2007,15 +2027,16 @@
         "font": "Helvetica",
         "widgetCss": "",
         "jsonCollapsed": true,
-        "showTangoDB": false
+        "showTangoDB": false,
+        "showUnit": true
       },
       "order": 76
     },
     {
       "valid": 1,
       "id": "95",
-      "x": 100,
-      "y": 135,
+      "x": 63,
+      "y": 119,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -2041,15 +2062,16 @@
         "font": "Helvetica",
         "widgetCss": "",
         "jsonCollapsed": true,
-        "showTangoDB": false
+        "showTangoDB": false,
+        "showUnit": true
       },
       "order": 77
     },
     {
       "valid": 1,
       "id": "96",
-      "x": 100,
-      "y": 140,
+      "x": 63,
+      "y": 124,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -2075,15 +2097,16 @@
         "font": "Helvetica",
         "widgetCss": "",
         "jsonCollapsed": true,
-        "showTangoDB": false
+        "showTangoDB": false,
+        "showUnit": true
       },
       "order": 78
     },
     {
       "valid": 1,
       "id": "98",
-      "x": 138,
-      "y": 39,
+      "x": 101,
+      "y": 41,
       "canvas": "0",
       "width": 15,
       "height": 3,
@@ -2109,15 +2132,16 @@
         "font": "Helvetica",
         "widgetCss": "",
         "jsonCollapsed": true,
-        "showTangoDB": false
+        "showTangoDB": false,
+        "showUnit": true
       },
       "order": 79
     },
     {
       "valid": 1,
       "id": "99",
-      "x": 138,
-      "y": 44,
+      "x": 101,
+      "y": 46,
       "canvas": "0",
       "width": 15,
       "height": 3,
@@ -2143,15 +2167,16 @@
         "font": "Helvetica",
         "widgetCss": "",
         "jsonCollapsed": true,
-        "showTangoDB": false
+        "showTangoDB": false,
+        "showUnit": true
       },
       "order": 80
     },
     {
       "valid": 1,
       "id": "100",
-      "x": 138,
-      "y": 54,
+      "x": 101,
+      "y": 56,
       "canvas": "0",
       "width": 15,
       "height": 3,
@@ -2177,15 +2202,16 @@
         "font": "Helvetica",
         "widgetCss": "",
         "jsonCollapsed": true,
-        "showTangoDB": false
+        "showTangoDB": false,
+        "showUnit": true
       },
       "order": 81
     },
     {
       "valid": 1,
       "id": "102",
-      "x": 171,
-      "y": 39,
+      "x": 134,
+      "y": 41,
       "canvas": "0",
       "width": 15,
       "height": 3,
@@ -2211,15 +2237,16 @@
         "font": "Helvetica",
         "widgetCss": "",
         "jsonCollapsed": true,
-        "showTangoDB": false
+        "showTangoDB": false,
+        "showUnit": true
       },
       "order": 82
     },
     {
       "valid": 1,
       "id": "103",
-      "x": 171,
-      "y": 44,
+      "x": 134,
+      "y": 46,
       "canvas": "0",
       "width": 15,
       "height": 3,
@@ -2245,151 +2272,16 @@
         "font": "Helvetica",
         "widgetCss": "",
         "jsonCollapsed": true,
-        "showTangoDB": false
+        "showTangoDB": false,
+        "showUnit": true
       },
       "order": 83
     },
     {
       "valid": 1,
-      "id": "105",
-      "x": 139,
-      "y": 86,
-      "canvas": "0",
-      "width": 14,
-      "height": 3,
-      "type": "ATTRIBUTE_DISPLAY",
-      "inputs": {
-        "attribute": {
-          "device": "taranta://ska_mid/tm_leaf_node/d0063",
-          "attribute": "state",
-          "label": "State"
-        },
-        "precision": 2,
-        "format": "",
-        "showDevice": false,
-        "showAttribute": "None",
-        "alignTextCenter": false,
-        "alignValueRight": true,
-        "scientificNotation": false,
-        "showEnumLabels": true,
-        "showAttrQuality": false,
-        "textColor": "#000000",
-        "backgroundColor": "#ffffff",
-        "size": 1,
-        "font": "Helvetica",
-        "widgetCss": "",
-        "jsonCollapsed": true,
-        "showTangoDB": false
-      },
-      "order": 84
-    },
-    {
-      "valid": 1,
-      "id": "106",
-      "x": 139,
-      "y": 91,
-      "canvas": "0",
-      "width": 14,
-      "height": 3,
-      "type": "ATTRIBUTE_DISPLAY",
-      "inputs": {
-        "attribute": {
-          "device": "taranta://ska_mid/tm_leaf_node/d0063",
-          "attribute": "healthstate",
-          "label": "healthState"
-        },
-        "precision": 2,
-        "format": "",
-        "showDevice": false,
-        "showAttribute": "None",
-        "alignTextCenter": false,
-        "alignValueRight": true,
-        "scientificNotation": false,
-        "showEnumLabels": true,
-        "showAttrQuality": false,
-        "textColor": "#000000",
-        "backgroundColor": "#ffffff",
-        "size": 1,
-        "font": "Helvetica",
-        "widgetCss": "",
-        "jsonCollapsed": true,
-        "showTangoDB": false
-      },
-      "order": 85
-    },
-    {
-      "valid": 1,
-      "id": "108",
-      "x": 171,
-      "y": 86,
-      "canvas": "0",
-      "width": 15,
-      "height": 3,
-      "type": "ATTRIBUTE_DISPLAY",
-      "inputs": {
-        "attribute": {
-          "device": "taranta://ska_mid/tm_leaf_node/d0100",
-          "attribute": "state",
-          "label": "State"
-        },
-        "precision": 2,
-        "format": "",
-        "showDevice": false,
-        "showAttribute": "None",
-        "alignTextCenter": false,
-        "alignValueRight": true,
-        "scientificNotation": false,
-        "showEnumLabels": true,
-        "showAttrQuality": false,
-        "textColor": "#000000",
-        "backgroundColor": "#ffffff",
-        "size": 1,
-        "font": "Helvetica",
-        "widgetCss": "",
-        "jsonCollapsed": true,
-        "showTangoDB": false
-      },
-      "order": 86
-    },
-    {
-      "valid": 1,
-      "id": "109",
-      "x": 171,
-      "y": 91,
-      "canvas": "0",
-      "width": 15,
-      "height": 3,
-      "type": "ATTRIBUTE_DISPLAY",
-      "inputs": {
-        "attribute": {
-          "device": "taranta://ska_mid/tm_leaf_node/d0100",
-          "attribute": "healthstate",
-          "label": "healthState"
-        },
-        "precision": 2,
-        "format": "",
-        "showDevice": false,
-        "showAttribute": "None",
-        "alignTextCenter": false,
-        "alignValueRight": true,
-        "scientificNotation": false,
-        "showEnumLabels": true,
-        "showAttrQuality": false,
-        "textColor": "#000000",
-        "backgroundColor": "#ffffff",
-        "size": 1,
-        "font": "Helvetica",
-        "widgetCss": "",
-        "jsonCollapsed": true,
-        "showTangoDB": false
-      },
-      "order": 87
-    },
-    {
-      "valid": 1,
       "id": "111",
-      "x": 103,
-      "y": 40,
+      "x": 66,
+      "y": 42,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -2414,13 +2306,13 @@
         "customCss": "",
         "showTangoDB": false
       },
-      "order": 88
+      "order": 84
     },
     {
       "valid": 1,
       "id": "112",
-      "x": 99,
-      "y": 88,
+      "x": 66,
+      "y": 82,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -2445,13 +2337,13 @@
         "customCss": "",
         "showTangoDB": false
       },
-      "order": 89
+      "order": 85
     },
     {
       "valid": 1,
       "id": "113",
-      "x": 63,
-      "y": 88,
+      "x": 27,
+      "y": 82,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -2476,13 +2368,13 @@
         "customCss": "",
         "showTangoDB": false
       },
-      "order": 90
+      "order": 86
     },
     {
       "valid": 1,
       "id": "114",
-      "x": 64,
-      "y": 145,
+      "x": 27,
+      "y": 129,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -2507,13 +2399,13 @@
         "customCss": "",
         "showTangoDB": false
       },
-      "order": 91
+      "order": 87
     },
     {
       "valid": 1,
       "id": "115",
-      "x": 100,
-      "y": 145,
+      "x": 63,
+      "y": 129,
       "canvas": "0",
       "width": 13,
       "height": 3,
@@ -2538,13 +2430,13 @@
         "customCss": "",
         "showTangoDB": false
       },
-      "order": 92
+      "order": 88
     },
     {
       "valid": 1,
       "id": "116",
-      "x": 138,
-      "y": 49,
+      "x": 101,
+      "y": 51,
       "canvas": "0",
       "width": 15,
       "height": 3,
@@ -2569,13 +2461,13 @@
         "customCss": "",
         "showTangoDB": false
       },
-      "order": 93
+      "order": 89
     },
     {
       "valid": 1,
       "id": "117",
-      "x": 171,
-      "y": 49,
+      "x": 134,
+      "y": 51,
       "canvas": "0",
       "width": 15,
       "height": 3,
@@ -2600,75 +2492,13 @@
         "customCss": "",
         "showTangoDB": false
       },
-      "order": 94
-    },
-    {
-      "valid": 1,
-      "id": "118",
-      "x": 139,
-      "y": 96,
-      "canvas": "0",
-      "width": 14,
-      "height": 3,
-      "type": "LED_DISPLAY",
-      "inputs": {
-        "attribute": {
-          "device": "taranta://ska_mid/tm_leaf_node/d0063",
-          "attribute": "issubsystemavailable",
-          "label": "isSubsystemAvailable"
-        },
-        "relation": "=",
-        "compare": "true",
-        "trueColor": "#3ac73a",
-        "falseColor": "#ff0000",
-        "ledSize": 1,
-        "textSize": 1,
-        "showAttributeValue": true,
-        "showDeviceName": false,
-        "showAttribute": "None",
-        "alignTextCenter": false,
-        "alignValueRight": true,
-        "customCss": "",
-        "showTangoDB": false
-      },
-      "order": 95
-    },
-    {
-      "valid": 1,
-      "id": "119",
-      "x": 171,
-      "y": 96,
-      "canvas": "0",
-      "width": 15,
-      "height": 3,
-      "type": "LED_DISPLAY",
-      "inputs": {
-        "attribute": {
-          "device": "taranta://ska_mid/tm_leaf_node/d0100",
-          "attribute": "issubsystemavailable",
-          "label": "isSubsystemAvailable"
-        },
-        "relation": "=",
-        "compare": "true",
-        "trueColor": "#3ac73a",
-        "falseColor": "#ff0000",
-        "ledSize": 1,
-        "textSize": 1,
-        "showAttributeValue": true,
-        "showDeviceName": false,
-        "showAttribute": "None",
-        "alignTextCenter": false,
-        "alignValueRight": true,
-        "customCss": "",
-        "showTangoDB": false
-      },
-      "order": 96
+      "order": 90
     },
     {
       "valid": 1,
       "id": "120",
-      "x": 155,
-      "y": 101,
+      "x": 118,
+      "y": 103,
       "canvas": "0",
       "width": 16,
       "height": 3,
@@ -2685,13 +2515,13 @@
         "linkTo": "",
         "customCss": ""
       },
-      "order": 97
+      "order": 91
     },
     {
       "valid": 1,
       "id": "121",
-      "x": 122,
-      "y": 101,
+      "x": 85,
+      "y": 103,
       "canvas": "0",
       "width": 17,
       "height": 3,
@@ -2708,13 +2538,13 @@
         "linkTo": "",
         "customCss": ""
       },
-      "order": 98
+      "order": 92
     },
     {
       "valid": 1,
       "id": "122",
-      "x": 155,
-      "y": 54,
+      "x": 118,
+      "y": 56,
       "canvas": "0",
       "width": 16,
       "height": 3,
@@ -2731,81 +2561,13 @@
         "linkTo": "",
         "customCss": ""
       },
-      "order": 99
-    },
-    {
-      "valid": 1,
-      "id": "123",
-      "x": 171,
-      "y": 101,
-      "canvas": "0",
-      "width": 15,
-      "height": 3,
-      "type": "ATTRIBUTE_DISPLAY",
-      "inputs": {
-        "attribute": {
-          "device": "taranta://ska_mid/tm_leaf_node/d0100",
-          "attribute": "versionid",
-          "label": "versionId"
-        },
-        "precision": 2,
-        "format": "",
-        "showDevice": false,
-        "showAttribute": "None",
-        "alignTextCenter": false,
-        "alignValueRight": true,
-        "scientificNotation": false,
-        "showEnumLabels": true,
-        "showAttrQuality": false,
-        "textColor": "#000000",
-        "backgroundColor": "#ffffff",
-        "size": 1,
-        "font": "Helvetica",
-        "widgetCss": "",
-        "jsonCollapsed": true,
-        "showTangoDB": false
-      },
-      "order": 100
-    },
-    {
-      "valid": 1,
-      "id": "124",
-      "x": 139,
-      "y": 101,
-      "canvas": "0",
-      "width": 14,
-      "height": 3,
-      "type": "ATTRIBUTE_DISPLAY",
-      "inputs": {
-        "attribute": {
-          "device": "taranta://ska_mid/tm_leaf_node/d0063",
-          "attribute": "versionid",
-          "label": "versionId"
-        },
-        "precision": 2,
-        "format": "",
-        "showDevice": false,
-        "showAttribute": "None",
-        "alignTextCenter": false,
-        "alignValueRight": true,
-        "scientificNotation": false,
-        "showEnumLabels": true,
-        "showAttrQuality": false,
-        "textColor": "#000000",
-        "backgroundColor": "#ffffff",
-        "size": 1,
-        "font": "Helvetica",
-        "widgetCss": "",
-        "jsonCollapsed": true,
-        "showTangoDB": false
-      },
-      "order": 101
+      "order": 93
     },
     {
       "valid": 1,
       "id": "125",
-      "x": 171,
-      "y": 54,
+      "x": 134,
+      "y": 56,
       "canvas": "0",
       "width": 15,
       "height": 3,
@@ -2831,15 +2593,16 @@
         "font": "Helvetica",
         "widgetCss": "",
         "jsonCollapsed": true,
-        "showTangoDB": false
+        "showTangoDB": false,
+        "showUnit": true
       },
-      "order": 102
+      "order": 94
     },
     {
       "valid": 1,
       "id": "126",
-      "x": 42,
-      "y": 40,
+      "x": 5,
+      "y": 46,
       "canvas": "0",
       "width": 22,
       "height": 3,
@@ -2856,13 +2619,13 @@
         "linkTo": "",
         "customCss": ""
       },
-      "order": 103
+      "order": 95
     },
     {
       "valid": 1,
       "id": "127",
-      "x": 42,
-      "y": 43,
+      "x": 5,
+      "y": 49,
       "canvas": "0",
       "width": 35,
       "height": 8,
@@ -2888,54 +2651,55 @@
         "font": "Helvetica",
         "widgetCss": "",
         "jsonCollapsed": true,
-        "showTangoDB": false
+        "showTangoDB": false,
+        "showUnit": true
       },
-      "order": 104
+      "order": 96
     },
     {
       "valid": 1,
       "id": "128",
-      "x": 119,
-      "y": 13,
+      "x": 44,
+      "y": 46,
       "canvas": "0",
-      "width": 19,
-      "height": 4,
+      "width": 22,
+      "height": 3,
       "type": "LABEL",
       "inputs": {
-        "text": "DishVccConfigSet",
+        "text": "Observation State",
         "textColor": "#000000",
         "backgroundColor": "#ffffff",
         "borderWidth": 0,
         "borderColor": "#000000",
         "font": "Helvetica",
         "automaticResize": "Disabled",
-        "size": 1.2,
+        "size": 1,
         "linkTo": "",
         "customCss": ""
       },
-      "order": 105
+      "order": 97
     },
     {
       "valid": 1,
       "id": "129",
-      "x": 138,
-      "y": 13,
+      "x": 66,
+      "y": 46,
       "canvas": "0",
-      "width": 9,
-      "height": 4,
+      "width": 13,
+      "height": 3,
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://ska_mid/tm_central/central_node",
-          "attribute": "isdishvccconfigset",
-          "label": "isDishVccConfigSet"
+          "device": "taranta://ska_mid/tm_subarray_node/1",
+          "attribute": "obsstate",
+          "label": "obsState"
         },
         "precision": 2,
         "format": "",
         "showDevice": false,
         "showAttribute": "None",
         "alignTextCenter": false,
-        "alignValueRight": false,
+        "alignValueRight": true,
         "scientificNotation": false,
         "showEnumLabels": true,
         "showAttrQuality": false,
@@ -2945,15 +2709,132 @@
         "font": "Helvetica",
         "widgetCss": "",
         "jsonCollapsed": true,
-        "showTangoDB": false
+        "showTangoDB": false,
+        "showUnit": true
       },
-      "order": 106
+      "order": 98
     },
     {
       "valid": 1,
       "id": "130",
-      "x": 138,
-      "y": 59,
+      "x": 72,
+      "y": 14,
+      "canvas": "0",
+      "width": 5,
+      "height": 4,
+      "type": "LED_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "taranta://ska_mid/tm_central/central_node",
+          "attribute": "telescopehealthstate",
+          "label": "telescopeHealthState"
+        },
+        "relation": "=",
+        "compare": "0",
+        "trueColor": "#3ac73a",
+        "falseColor": "#ff0000",
+        "ledSize": 2,
+        "textSize": 1,
+        "showAttributeValue": false,
+        "showDeviceName": false,
+        "showTangoDB": false,
+        "showAttribute": "None",
+        "alignTextCenter": false,
+        "alignValueRight": true,
+        "customCss": ""
+      },
+      "order": 99
+    },
+    {
+      "valid": 1,
+      "id": "131",
+      "x": 67,
+      "y": 14,
+      "canvas": "0",
+      "width": 5,
+      "height": 4,
+      "type": "LED_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "taranta://ska_mid/tm_central/central_node",
+          "attribute": "telescopehealthstate",
+          "label": "telescopeHealthState"
+        },
+        "relation": "<",
+        "compare": "2",
+        "trueColor": "#3ac73a",
+        "falseColor": "#ff0000",
+        "ledSize": 2,
+        "textSize": 1,
+        "showAttributeValue": false,
+        "showDeviceName": false,
+        "showTangoDB": false,
+        "showAttribute": "None",
+        "alignTextCenter": false,
+        "alignValueRight": true,
+        "customCss": ""
+      },
+      "order": 100
+    },
+    {
+      "valid": 1,
+      "id": "132",
+      "x": 62,
+      "y": 14,
+      "canvas": "0",
+      "width": 5,
+      "height": 4,
+      "type": "LED_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "taranta://ska_mid/tm_central/central_node",
+          "attribute": "telescopehealthstate",
+          "label": "telescopeHealthState"
+        },
+        "relation": "<",
+        "compare": "3",
+        "trueColor": "#3ac73a",
+        "falseColor": "#ff0000",
+        "ledSize": 2,
+        "textSize": 1,
+        "showAttributeValue": false,
+        "showDeviceName": false,
+        "showTangoDB": false,
+        "showAttribute": "None",
+        "alignTextCenter": false,
+        "alignValueRight": true,
+        "customCss": ""
+      },
+      "order": 101
+    },
+    {
+      "valid": 1,
+      "id": "133",
+      "x": 85,
+      "y": 62,
+      "canvas": "0",
+      "width": 16,
+      "height": 3,
+      "type": "LABEL",
+      "inputs": {
+        "text": "Dish Mode",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "automaticResize": "Disabled",
+        "size": 1,
+        "linkTo": "",
+        "customCss": ""
+      },
+      "order": 102
+    },
+    {
+      "valid": 1,
+      "id": "134",
+      "x": 101,
+      "y": 62,
       "canvas": "0",
       "width": 15,
       "height": 3,
@@ -2961,39 +2842,144 @@
       "inputs": {
         "attribute": {
           "device": "taranta://ska_mid/tm_leaf_node/d0001",
-          "attribute": "kvalue",
-          "label": "kValue"
+          "attribute": "dishmode",
+          "label": "dishMode"
         },
         "precision": 2,
         "format": "",
         "showDevice": false,
-        "jsonCollapsed": true,
-        "showTangoDB": false,
         "showAttribute": "None",
         "alignTextCenter": false,
         "alignValueRight": true,
         "scientificNotation": false,
-        "showEnumLabels": false,
+        "showEnumLabels": true,
         "showAttrQuality": false,
         "textColor": "#000000",
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false,
+        "showUnit": true
       },
-      "order": 107
+      "order": 103
     },
     {
       "valid": 1,
-      "id": "131",
-      "x": 122,
-      "y": 59,
+      "id": "135",
+      "x": 118,
+      "y": 108,
       "canvas": "0",
       "width": 16,
       "height": 3,
       "type": "LABEL",
       "inputs": {
-        "text": "KValue",
+        "text": "Dish Mode",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "automaticResize": "Disabled",
+        "size": 1,
+        "linkTo": "",
+        "customCss": ""
+      },
+      "order": 104
+    },
+    {
+      "valid": 1,
+      "id": "137",
+      "x": 85,
+      "y": 108,
+      "canvas": "0",
+      "width": 16,
+      "height": 3,
+      "type": "LABEL",
+      "inputs": {
+        "text": "Dish Mode",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "automaticResize": "Disabled",
+        "size": 1,
+        "linkTo": "",
+        "customCss": ""
+      },
+      "order": 105
+    },
+    {
+      "valid": 1,
+      "id": "138",
+      "x": 118,
+      "y": 62,
+      "canvas": "0",
+      "width": 16,
+      "height": 3,
+      "type": "LABEL",
+      "inputs": {
+        "text": "Dish Mode",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "automaticResize": "Disabled",
+        "size": 1,
+        "linkTo": "",
+        "customCss": ""
+      },
+      "order": 106
+    },
+    {
+      "valid": 1,
+      "id": "139",
+      "x": 134,
+      "y": 62,
+      "canvas": "0",
+      "width": 15,
+      "height": 3,
+      "type": "ATTRIBUTE_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "taranta://ska_mid/tm_leaf_node/d0036",
+          "attribute": "dishmode",
+          "label": "dishMode"
+        },
+        "precision": 2,
+        "format": "",
+        "showDevice": false,
+        "showAttribute": "None",
+        "alignTextCenter": false,
+        "alignValueRight": true,
+        "scientificNotation": false,
+        "showEnumLabels": true,
+        "showAttrQuality": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false,
+        "showUnit": true
+      },
+      "order": 107
+    },
+    {
+      "valid": 1,
+      "id": "140",
+      "x": 5,
+      "y": 42,
+      "canvas": "0",
+      "width": 22,
+      "height": 3,
+      "type": "LABEL",
+      "inputs": {
+        "text": "Dish VCC Config Set?",
         "textColor": "#000000",
         "backgroundColor": "#ffffff",
         "borderWidth": 0,
@@ -3008,49 +2994,46 @@
     },
     {
       "valid": 1,
-      "id": "132",
-      "x": 171,
-      "y": 59,
+      "id": "141",
+      "x": 27,
+      "y": 42,
       "canvas": "0",
-      "width": 15,
+      "width": 13,
       "height": 3,
-      "type": "ATTRIBUTE_DISPLAY",
+      "type": "LED_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://ska_mid/tm_leaf_node/d0036",
-          "attribute": "kvalue",
-          "label": "kValue"
+          "device": "taranta://ska_mid/tm_central/central_node",
+          "attribute": "isdishvccconfigset",
+          "label": "isDishVccConfigSet"
         },
-        "precision": 2,
-        "format": "",
-        "showDevice": false,
-        "jsonCollapsed": true,
-        "showTangoDB": false,
+        "relation": "=",
+        "compare": "true",
+        "trueColor": "#3ac73a",
+        "falseColor": "#ff0000",
+        "ledSize": 1,
+        "textSize": 1,
+        "showAttributeValue": true,
+        "showDeviceName": false,
         "showAttribute": "None",
         "alignTextCenter": false,
         "alignValueRight": true,
-        "scientificNotation": false,
-        "showEnumLabels": false,
-        "showAttrQuality": false,
-        "textColor": "#000000",
-        "backgroundColor": "#ffffff",
-        "size": 1,
-        "font": "Helvetica",
-        "widgetCss": ""
+        "customCss": "",
+        "showTangoDB": false
       },
       "order": 109
     },
     {
       "valid": 1,
-      "id": "133",
-      "x": 155,
-      "y": 59,
+      "id": "142",
+      "x": 44,
+      "y": 86,
       "canvas": "0",
-      "width": 16,
+      "width": 22,
       "height": 3,
       "type": "LABEL",
       "inputs": {
-        "text": "kValue",
+        "text": "Observation State",
         "textColor": "#000000",
         "backgroundColor": "#ffffff",
         "borderWidth": 0,
@@ -3065,289 +3048,100 @@
     },
     {
       "valid": 1,
-      "id": "134",
-      "x": 139,
-      "y": 106,
+      "id": "143",
+      "x": 66,
+      "y": 86,
       "canvas": "0",
-      "width": 14,
+      "width": 13,
       "height": 3,
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://ska_mid/tm_leaf_node/d0063",
-          "attribute": "kvalue",
-          "label": "kValue"
+          "device": "taranta://ska_mid/tm_leaf_node/csp_subarray01",
+          "attribute": "cspsubarrayobsstate",
+          "label": "cspSubarrayObsState"
         },
         "precision": 2,
         "format": "",
         "showDevice": false,
-        "jsonCollapsed": true,
-        "showTangoDB": false,
         "showAttribute": "None",
         "alignTextCenter": false,
         "alignValueRight": true,
         "scientificNotation": false,
-        "showEnumLabels": false,
+        "showEnumLabels": true,
         "showAttrQuality": false,
         "textColor": "#000000",
         "backgroundColor": "#ffffff",
         "size": 1,
         "font": "Helvetica",
-        "widgetCss": ""
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false,
+        "showUnit": true
       },
       "order": 111
     },
     {
       "valid": 1,
-      "id": "135",
-      "x": 171,
-      "y": 105,
+      "id": "144",
+      "x": 44,
+      "y": 133,
       "canvas": "0",
-      "width": 15,
+      "width": 19,
       "height": 3,
-      "type": "ATTRIBUTE_DISPLAY",
+      "type": "LABEL",
       "inputs": {
-        "attribute": {
-          "device": "taranta://ska_mid/tm_leaf_node/d0100",
-          "attribute": "kvalue",
-          "label": "kValue"
-        },
-        "precision": 2,
-        "format": "",
-        "showDevice": false,
-        "jsonCollapsed": true,
-        "showTangoDB": false,
-        "showAttribute": "None",
-        "alignTextCenter": false,
-        "alignValueRight": true,
-        "scientificNotation": false,
-        "showEnumLabels": false,
-        "showAttrQuality": false,
+        "text": "Observation State",
         "textColor": "#000000",
         "backgroundColor": "#ffffff",
-        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
         "font": "Helvetica",
-        "widgetCss": ""
+        "automaticResize": "Disabled",
+        "size": 1,
+        "linkTo": "",
+        "customCss": ""
       },
       "order": 112
     },
     {
       "valid": 1,
-      "id": "136",
-      "x": 122,
-      "y": 106,
+      "id": "145",
+      "x": 63,
+      "y": 133,
       "canvas": "0",
-      "width": 17,
+      "width": 13,
       "height": 3,
-      "type": "LABEL",
+      "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
-        "text": "kValue",
+        "attribute": {
+          "device": "taranta://ska_mid/tm_leaf_node/sdp_subarray01",
+          "attribute": "sdpsubarrayobsstate",
+          "label": "sdpSubarrayObsState"
+        },
+        "precision": 2,
+        "format": "",
+        "showDevice": false,
+        "showAttribute": "None",
+        "alignTextCenter": false,
+        "alignValueRight": true,
+        "scientificNotation": false,
+        "showEnumLabels": true,
+        "showAttrQuality": false,
         "textColor": "#000000",
         "backgroundColor": "#ffffff",
-        "borderWidth": 0,
-        "borderColor": "#000000",
-        "font": "Helvetica",
-        "automaticResize": "Disabled",
         "size": 1,
-        "linkTo": "",
-        "customCss": ""
+        "font": "Helvetica",
+        "widgetCss": "",
+        "jsonCollapsed": true,
+        "showTangoDB": false,
+        "showUnit": true
       },
       "order": 113
-    },
-    {
-      "valid": 1,
-      "id": "137",
-      "x": 155,
-      "y": 105,
-      "canvas": "0",
-      "width": 16,
-      "height": 3,
-      "type": "LABEL",
-      "inputs": {
-        "text": "kValue",
-        "textColor": "#000000",
-        "backgroundColor": "#ffffff",
-        "borderWidth": 0,
-        "borderColor": "#000000",
-        "font": "Helvetica",
-        "automaticResize": "Disabled",
-        "size": 1,
-        "linkTo": "",
-        "customCss": ""
-      },
-      "order": 114
-    },
-    {
-      "valid": 1,
-      "id": "138",
-      "x": 42,
-      "y": 55,
-      "canvas": "0",
-      "width": 35,
-      "height": 8,
-      "type": "ATTRIBUTE_DISPLAY",
-      "inputs": {
-        "attribute": {
-          "device": "taranta://ska_mid/tm_central/central_node",
-          "attribute": "dishvccvalidationstatus",
-          "label": "DishVccValidationStatus"
-        },
-        "precision": 2,
-        "format": "",
-        "showDevice": false,
-        "jsonCollapsed": true,
-        "showTangoDB": false,
-        "showAttribute": "None",
-        "alignTextCenter": false,
-        "alignValueRight": true,
-        "scientificNotation": false,
-        "showEnumLabels": false,
-        "showAttrQuality": false,
-        "textColor": "#000000",
-        "backgroundColor": "#ffffff",
-        "size": 1,
-        "font": "Helvetica",
-        "widgetCss": ""
-      },
-      "order": 115
-    },
-    {
-      "valid": 1,
-      "id": "139",
-      "x": 42,
-      "y": 52,
-      "canvas": "0",
-      "width": 20,
-      "height": 3,
-      "type": "LABEL",
-      "inputs": {
-        "text": "DishVccValidationStatus",
-        "textColor": "#000000",
-        "backgroundColor": "#ffffff",
-        "borderWidth": 0,
-        "borderColor": "#000000",
-        "font": "Helvetica",
-        "automaticResize": "Disabled",
-        "size": 1,
-        "linkTo": "",
-        "customCss": ""
-      },
-      "order": 116
-    },
-    {
-      "valid": 1,
-      "id": "140",
-      "x": 44,
-      "y": 99,
-      "canvas": "0",
-      "width": 32,
-      "height": 7,
-      "type": "ATTRIBUTE_DISPLAY",
-      "inputs": {
-        "attribute": {
-          "device": "taranta://ska_mid/tm_leaf_node/csp_master",
-          "attribute": "dishvccconfig",
-          "label": "dishVccConfig"
-        },
-        "precision": 2,
-        "format": "",
-        "showDevice": false,
-        "jsonCollapsed": true,
-        "showTangoDB": false,
-        "showAttribute": "None",
-        "alignTextCenter": false,
-        "alignValueRight": true,
-        "scientificNotation": false,
-        "showEnumLabels": false,
-        "showAttrQuality": false,
-        "textColor": "#000000",
-        "backgroundColor": "#ffffff",
-        "size": 1,
-        "font": "Helvetica",
-        "widgetCss": ""
-      },
-      "order": 117
-    },
-    {
-      "valid": 1,
-      "id": "141",
-      "x": 44,
-      "y": 96,
-      "canvas": "0",
-      "width": 19,
-      "height": 3,
-      "type": "LABEL",
-      "inputs": {
-        "text": "DishVccConfig",
-        "textColor": "#000000",
-        "backgroundColor": "#ffffff",
-        "borderWidth": 0,
-        "borderColor": "#000000",
-        "font": "Helvetica",
-        "automaticResize": "Disabled",
-        "size": 1,
-        "linkTo": "",
-        "customCss": ""
-      },
-      "order": 118
-    },
-    {
-      "valid": 1,
-      "id": "142",
-      "x": 44,
-      "y": 110,
-      "canvas": "0",
-      "width": 32,
-      "height": 6,
-      "type": "ATTRIBUTE_DISPLAY",
-      "inputs": {
-        "attribute": {
-          "device": "taranta://ska_mid/tm_leaf_node/csp_master",
-          "attribute": "sourcedishvccconfig",
-          "label": "sourceDishVccConfig"
-        },
-        "precision": 2,
-        "format": "",
-        "showDevice": false,
-        "jsonCollapsed": true,
-        "showTangoDB": false,
-        "showAttribute": "None",
-        "alignTextCenter": false,
-        "alignValueRight": true,
-        "scientificNotation": false,
-        "showEnumLabels": false,
-        "showAttrQuality": false,
-        "textColor": "#000000",
-        "backgroundColor": "#ffffff",
-        "size": 1,
-        "font": "Helvetica",
-        "widgetCss": ""
-      },
-      "order": 119
-    },
-    {
-      "valid": 1,
-      "id": "143",
-      "x": 44,
-      "y": 107,
-      "canvas": "0",
-      "width": 19,
-      "height": 3,
-      "type": "LABEL",
-      "inputs": {
-        "text": "SourceDishVccConfig",
-        "textColor": "#000000",
-        "backgroundColor": "#ffffff",
-        "borderWidth": 0,
-        "borderColor": "#000000",
-        "font": "Helvetica",
-        "automaticResize": "Disabled",
-        "size": 1,
-        "linkTo": "",
-        "customCss": ""
-      },
-      "order": 120
     }
   ],
-  "variables": []
+  "variables": [],
+  "environment": [
+    "*/*"
+  ]
 }
