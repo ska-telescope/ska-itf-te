@@ -188,3 +188,21 @@ FQDN: za-itf-signal-generator.ad.skatelescope.org
 IP  : 10.165.3.1
 Port: 5025
 Web : http://za-itf-signal-generator.ad.skatelescope.org/webpages/web/html/ihp.php
+
+
+## SPFC helm chart
+
+### Using ska-spfc-deployer helm chart
+The following steps below are a guideline on how to deploy the ska-spfc-deployer helm chart:
+To include the ska-spfc-deployer helm chart use the following layout below within your helm chart:
+
+- name: ska-spfc-deployer
+    version: (use the latest version of the SPFC)
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-spfc-deployer.enabled
+
+Please ensure that the values.yaml file of your helm chart, has an entry under "global" indicating the DishID
+that the SPFC will be communicating with:
+
+global:
+  dish_id: ska001
