@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 24.4.0
+* [AT-2409] - Enabled EDA Deployment in staging environment
+* [AT-2346] - Added optional SPFC deployment to pipelines
+* [MAP-166] - Official Releases updated for TMC, CSP.LMC, DishLMC and E2E BDD test updated to accommodate these changes
+* [AT-2311] - Updated Taranta Dashboards for major products; added Dish Dashboard updating script
+
 ## 24.3.1
 * [AT-2391] - Updated engineering tools version to accomodate for non semver compliant version numbers in the dependency checker tool
 
