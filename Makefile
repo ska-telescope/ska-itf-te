@@ -124,7 +124,6 @@ DISH_LMC_PARAMS ?= $(DISH_LMC_INITIAL_PARAMS) $(DISH_LMC_EXTRA_PARAMS)
 SKUID_URL ?= ska-ser-skuid-test-svc.$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN):9870
 ODA_PARAMS ?= --set ska-db-oda-umbrella.ska-db-oda.rest.skuid.url=$(SKUID_URL)
 
-
 ###################################################################
 ### THIS SECTION NEEDS REVIEW FROM SDP ARCHITECTS
 SDP_EXTRA_PARAMS ?=
@@ -172,6 +171,14 @@ SDP_PARAMS ?= --set ska-sdp.helmdeploy.namespace=$(KUBE_NAMESPACE_SDP) \
 
 ###################################################################
 
+###################################################################
+### TODO: Move creds to Vault
+EDA_EXTRA_PARAMS ?=
+EDA_PARAMS ?= --set ska-tango-archiver.dbpassword=${EDA_DB_PASSWORD} \
+	--set ska-tango-archiver.archviewer.instances[0].timescale_login=admin:${EDA_DB_PASSWORD} \
+	$(EDA_EXTRA_PARAMS)
+###################################################################
+
 K8S_TEST_RUNNER_PARAMS ?=
 
 K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
@@ -195,7 +202,8 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	$(K8S_EXTRA_PARAMS) \
 	$(K8S_TEST_RUNNER_PARAMS) \
 	$(TMC_PARAMS) \
-	$(CSP_PARAMS)
+	$(CSP_PARAMS) \
+	$(EDA_PARAMS)
 
 
 TMC_VALUES_PATH?=charts/ska-mid-itf-sut/tmc-values.yaml

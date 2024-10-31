@@ -84,32 +84,38 @@ class StartUpStep(base.StartUpStep, LogEnabled, WithCommandID):
         :raises CommandException: when the command returned as failed
         """
         assert self.long_running_command_subscriber
+
+        # No longer seems to work #############################################################
         # dish_cfg = {
-        #    "interface": "https://schema.skao.int/ska-mid-cbf-initsysparam/1.0",
-        #    "tm_data_sources":
-        # ["car://gitlab.com/ska-telescope/ska-telmodel-data?ska-sdp-tmlite-repository-1.0.0#tmdata"],
-        #    "tm_data_filepath": "instrument/ska1_mid_itf/ska-mid-cbf-system-parameters.json",
+        #     "interface": "https://schema.skao.int/ska-mid-cbf-initsysparam/1.0",
+        #     "dish_parameters": {
+        #         "SKA001": {
+        #             "vcc": 1,
+        #             "k": 111,
+        #         },
+        #         "SKA036": {
+        #             "vcc": 2,
+        #             "k": 222,
+        #         },
+        #         "SKA063": {
+        #             "vcc": 3,
+        #             "k": 333,
+        #         },
+        #         "SKA100": {
+        #             "vcc": 4,
+        #             "k": 444,
+        #         },
+        #     },
         # }
+        #######################################################################################
+
         dish_cfg = {
             "interface": "https://schema.skao.int/ska-mid-cbf-initsysparam/1.0",
-            "dish_parameters": {
-                "SKA001": {
-                    "vcc": 1,
-                    "k": 111,
-                },
-                "SKA036": {
-                    "vcc": 2,
-                    "k": 222,
-                },
-                "SKA063": {
-                    "vcc": 3,
-                    "k": 333,
-                },
-                "SKA100": {
-                    "vcc": 4,
-                    "k": 444,
-                },
-            },
+            "tm_data_sources": [
+                "car://gitlab.com/ska-telescope"
+                "/ska-telmodel-data?ska-sdp-tmlite-repository-1.0.0#tmdata"
+            ],
+            "tm_data_filepath": "instrument/ska1_mid_psi/ska-mid-cbf-system-parameters.json",
         }
 
         load_cfg_id = self.csp_controller.command_inout("loadDishCfg", json.dumps(dish_cfg))
@@ -172,13 +178,14 @@ class StartUpStep(base.StartUpStep, LogEnabled, WithCommandID):
                 "OFF", ignore_first=False
             )
             # subarrays
-            for index in range(1, self.nr_of_subarrays + 1):
-                brd.set_waiting_on(self._tel.csp.subarray(index)).for_attribute(
-                    "state"
-                ).to_become_equal_to("OFF", ignore_first=False)
-            self.long_running_command_subscriber = brd.set_wait_for_long_running_command_on(
-                self._tel.csp.controller
-            )
+            # Removing since subarray state is now simply a reflection of the lower level subsystem
+            # for index in range(1, self.nr_of_subarrays + 1):
+            #     brd.set_waiting_on(self._tel.csp.subarray(index)).for_attribute(
+            #         "state"
+            #     ).to_become_equal_to("OFF", ignore_first=False)
+            # self.long_running_command_subscriber = brd.set_wait_for_long_running_command_on(
+            #     self._tel.csp.controller
+            # )
         return brd
 
     def undo_startup(self):
