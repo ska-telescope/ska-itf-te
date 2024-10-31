@@ -111,7 +111,7 @@ def telescope_handlers(receptor_ids) -> Generator[Tuple[TMC, CBF, CSP, List[Dish
 
 @given("an SUT deployment with 1 subarray and dishes SKA001 and SKA036")
 def _(telescope_handlers):
-    """Trigger instantiation of telescope handler objects and handle simulation/hw_in_the_loop.
+    """Trigger instantiation of telescope handler objects.
 
     :param telescope_handlers: _description_
     :type telescope_handlers: _type_
@@ -126,7 +126,7 @@ def _(telescope_handlers):
 
 @given("CSP in adminMode online", target_fixture="csp")
 def _(telescope_handlers):
-    """Set CSP adminMode to Online.
+    """Set CSP adminMode to Online after handling simulation/hw_in_the_loop.
 
     :param telescope_handlers: _description_
     :type telescope_handlers: _type_
@@ -139,11 +139,31 @@ def _(telescope_handlers):
 
     assert csp_control.ping() > 0
 
+    if (csp_control.adminMode == 0) or (csp_subarray.adminMode == 0):
+        # CSP should be OFFLINE when CBF Sim mode is set
+        csp_control.adminMode = 1
+        csp_subarray.adminMode = 1
+        wait_for_event(csp_control, "adminMode", 1)
+        wait_for_event(csp_subarray, "adminMode", 1)
+        sleep(3)
+
+    CBF_HW_IN_THE_LOOP = os.getenv("CBF_HW_IN_THE_LOOP", "false").lower()
+    if CBF_HW_IN_THE_LOOP in ["false", "0"]:
+        csp.set_cbf_simulation_mode(True)
+        sleep(3)
+
+    csp_control.commandTimeout = 99  # TO BE REMOVED once CSP-CBF LRC's are implemented
+    csp_control.commandTimeout = 99  # TO BE REMOVED once CSP-CBF LRC's are implemented
     csp_control.adminMode = 0
     csp_subarray.adminMode = 0
     wait_for_event(csp_control, "adminMode", 0)
     wait_for_event(csp_subarray, "adminMode", 0)
     sleep(5)  # TODO: Find out exactly why this is needed
+
+    logger.info(
+        f"CSP adminMode is: {csp_control.adminMode},"
+        f" CBF Simulation mode is: {csp_control.cbfSimulationMode}"
+    )
     csp_control.Off("")  # TODO: Find out exactly why this is needed
     csp_subarray.Off()  # TODO: Find out exactly why this is needed
     sleep(5)  # TODO: Find out exactly why this is needed
@@ -184,9 +204,17 @@ def _(telescope_handlers, receptor_ids):
     )
     logger.debug(f"dish_config_json file contents: \n{dish_config_json}")
 
-    tmc_central_node.LoadDishCfg(json.dumps(dish_config_json))
+    k_value_correct = 1
+    if tmc_central_node.isDishVccConfigSet:
+        dish_vcc_config = json.loads(tmc.csp_master_leaf_node.dishVccConfig)
+        for receptor in RECEPTORS:
+            if dish_vcc_config["dish_parameters"][receptor]["k"] != 1:
+                k_value_correct = 0
+                break
 
-    wait_for_event(tmc_central_node, "isDishVccConfigSet", True)
+    if (not tmc_central_node.isDishVccConfigSet) or (not k_value_correct):
+        tmc_central_node.LoadDishCfg(json.dumps(dish_config_json))
+        wait_for_event(tmc_central_node, "isDishVccConfigSet", True)
 
     dish_vcc_config = json.loads(tmc.csp_master_leaf_node.dishVccConfig)
 
@@ -300,6 +328,8 @@ def _(telescope_handlers, scan_time):
     :param scan_time: _description_
     :type scan_time: _type_
     """
+    logger.info("Scanning")
+
     tmc, _, _, _ = telescope_handlers
 
     SCAN_FILE = f"{TMC_CONFIGS}/scan.json"
@@ -321,6 +351,8 @@ def _(telescope_handlers):
     :param telescope_handlers: _description_
     :type telescope_handlers: _type_
     """
+    logger.info("Ending the scan")
+
     tmc, _, _, _ = telescope_handlers
 
     tmc.subarray_node.EndScan()
@@ -337,6 +369,8 @@ def _(telescope_handlers):
     :param telescope_handlers: _description_
     :type telescope_handlers: _type_
     """
+    logger.info("Ending the observation")
+
     tmc, _, _, _ = telescope_handlers
 
     tmc_subarray_node = tmc.subarray_node
@@ -356,6 +390,8 @@ def _(telescope_handlers):
     :param telescope_handlers: _description_
     :type telescope_handlers: _type_
     """
+    logger.info("Releasing resources")
+
     tmc, _, _, _ = telescope_handlers
 
     tmc_subarray_node = tmc.subarray_node
@@ -366,21 +402,28 @@ def _(telescope_handlers):
     wait_for_event(sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.EMPTY)
     wait_for_event(csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.EMPTY)
     wait_for_event(tmc_subarray_node, "obsState", ObsState.EMPTY)
-    pass
 
 
 @when("I turn OFF the telescope")
-def _(telescope_handlers):
+def _(telescope_handlers, receptor_ids):
     """Turn the telescope OFF via TMC.
 
     :param telescope_handlers: _description_
     :type telescope_handlers: _type_
+    :param receptor_ids: _description_
+    :type receptor_ids: _type_
     """
+    logger.info("Turning OFF the telescope")
+
     tmc, _, _, _ = telescope_handlers
+    RECEPTORS = receptor_ids
 
     tmc_central_node = tmc.central_node
 
     tmc_central_node.TelescopeOff()
+
+    for receptor in RECEPTORS:
+        wait_for_event(tmc.get_dish_leaf_node_dp(receptor), "dishMode", DishMode.STANDBY_LP)
 
     wait_for_event(tmc_central_node, "telescopeState", DevState.OFF)
 
