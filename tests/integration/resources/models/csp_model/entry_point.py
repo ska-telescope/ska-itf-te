@@ -123,6 +123,8 @@ class StartUpStep(base.StartUpStep, LogEnabled, WithCommandID):
             self.long_running_command_subscriber.unsubscribe_all()
             raise CommandException(load_cfg_id)
 
+        sleep(5)  # TEMPORARY COMMIT - REMOVE AFTER 42 HAIL MARY's
+
         command_id = self.csp_controller.command_inout("On", [])
         if command_success(command_id):
             self.long_running_command_subscriber.set_command_id(command_id)
