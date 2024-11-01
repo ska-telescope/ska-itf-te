@@ -371,6 +371,18 @@ sdp-logs:
 	@scripts/kubernetes/log_system.sh sdp ${KUBE_NAMESPACE}
 .PHONY: sdp-logs
 
+
+## TARGET: vis-receive-logs
+## SYNOPSIS: make vis-receive-logs namespace=integration
+## HOOKS: none
+## VARS:
+##	namespace=[Namespace in which to look for SDP logs]
+##  make target for downloading all SDP logs in a given namespace.
+##  logs are placed in sut-logs/sdp-logs/$date
+vis-receive-logs:
+	@scripts/kubernetes/log_script.sh vis-receive ${KUBE_NAMESPACE}
+.PHONY: vis-receive-logs
+
 ## TARGET: dish-logs
 ## SYNOPSIS: make dish-logs namespace=integration
 ## HOOKS: none
