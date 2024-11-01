@@ -51,7 +51,7 @@ sdp-logs:
 ## VARS:
 ##	KUBE_NAMESPACE_SDP=[Namespace in which to look for SDP logs]
 ##  make target for downloading all SDP vis-receive pod logs in a given namespace.
-##  logs are placed in sut-logs/sdp-logs/$date
+##  logs are placed in sut-logs/vis-receive-logs/$date
 vis-receive-logs:
 	@scripts/kubernetes/log_script.sh vis-receive ${KUBE_NAMESPACE_SDP}
 .PHONY: vis-receive-logs
