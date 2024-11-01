@@ -79,6 +79,12 @@ dependencies:
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tango-archiver.enabled
 
+  # IC@MS
+  - name: ska-icams-alarmhandler
+    version: 0.1.0-dev.ce012fb35
+    repository: https://gitlab.com/api/v4/projects/56649674/packages/helm/dev
+    condition: ska-icams-alarmhandler.enabled
+
   # EXAMPLE DEV CHART: DON'T DELETE THIS SECTION
   # - name: ska-sdp
   #   version: 0.19.0-dev.c651132b9

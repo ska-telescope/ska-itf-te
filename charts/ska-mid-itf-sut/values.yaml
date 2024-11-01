@@ -146,3 +146,19 @@ ska-tango-tangogql:
     enabled: false
   ska-tango-examples:
     enabled: false
+
+# IC@MS
+ska-icams-alarmhandler:
+  enabled: true
+  icams:
+    image:
+      registry: registry.gitlab.com/ska-telescope/ska-icams-alarmhandler
+      image: ska-icams-alarmhandler
+      tag: 0.1.0-dev.ce012fb35
+      pullPolicy: IfNotPresent
+  backend:
+    mongodb:
+      persistence:
+        enabled: true
+        storageClass: "nfss1"
+        size: "8Gi"
