@@ -1,9 +1,9 @@
 
 ## TARGET: tmc-logs
-## SYNOPSIS: make tmc-logs namespace=integration
+## SYNOPSIS: make tmc-logs KUBE_NAMESPACE=integration
 ## HOOKS: none
 ## VARS:
-##	namespace=[Namespace in which to look for TMC logs]
+##	KUBE_NAMESPACE=[Namespace in which to look for TMC logs]
 ##  make target for downloading all TMC logs in a given namespace.
 ##  logs are placed in sut-logs/ska-tmc-mid-logs/$date
 tmc-logs:
@@ -11,10 +11,10 @@ tmc-logs:
 .PHONY: tmc-logs
 
 ## TARGET: cbf-logs
-## SYNOPSIS: make cbf-logs namespace=integration
+## SYNOPSIS: make cbf-logs KUBE_NAMESPACE=integration
 ## HOOKS: none
 ## VARS:
-##	namespace=[Namespace in which to look for CBF logs]
+##	KUBE_NAMESPACE=[Namespace in which to look for CBF logs]
 ##  make target for downloading all CBF logs in a given namespace.
 ##  logs are placed in sut-logs/cbfmcs-mid-logs/$date
 cbf-logs:
@@ -22,10 +22,10 @@ cbf-logs:
 .PHONY: cbf-logs
 
 ## TARGET: csp-logs
-## SYNOPSIS: make csp-logs namespace=integration
+## SYNOPSIS: make csp-logs KUBE_NAMESPACE=integration
 ## HOOKS: none
 ## VARS:
-##	namespace=[Namespace in which to look for CSP logs]
+##	KUBE_NAMESPACE=[Namespace in which to look for CSP logs]
 ##  make target for downloading all CSP logs in a given namespace.
 ##  logs are placed in sut-logs/csp-lmc-logs/$date
 csp-logs:
@@ -34,10 +34,10 @@ csp-logs:
 
 
 ## TARGET: sdp-logs
-## SYNOPSIS: make sdp-logs namespace=integration
+## SYNOPSIS: make sdp-logs KUBE_NAMESPACE=integration
 ## HOOKS: none
 ## VARS:
-##	namespace=[Namespace in which to look for SDP logs]
+##	KUBE_NAMESPACE=[Namespace in which to look for SDP logs]
 ##  make target for downloading all SDP logs in a given namespace.
 ##  logs are placed in sut-logs/sdp-logs/$date
 sdp-logs:
@@ -46,21 +46,21 @@ sdp-logs:
 
 
 ## TARGET: vis-receive-logs
-## SYNOPSIS: make vis-receive-logs namespace=integration
+## SYNOPSIS: make vis-receive-logs KUBE_NAMESPACE=integration
 ## HOOKS: none
 ## VARS:
-##	namespace=[Namespace in which to look for SDP logs]
-##  make target for downloading all SDP logs in a given namespace.
+##	KUBE_KUBE_NAMESPACE=[Namespace in which to look for SDP logs]
+##  make target for downloading all SDP vis-receive pod logs in a given namespace.
 ##  logs are placed in sut-logs/sdp-logs/$date
 vis-receive-logs:
 	@scripts/kubernetes/log_script.sh vis-receive ${KUBE_NAMESPACE}
 .PHONY: vis-receive-logs
 
 ## TARGET: dish-logs
-## SYNOPSIS: make dish-logs namespace=integration
+## SYNOPSIS: make dish-logs KUBE_NAMESPACE=integration
 ## HOOKS: none
 ## VARS:
-##	namespace=[Namespace in which to look for Dish LMC logs]
+##	KUBE_NAMESPACE=[Namespace in which to look for Dish LMC logs]
 ##  make target for downloading all Dish LMC logs in a given namespace.
 ##  logs are placed in sut-logs/ska-dish-lmc-logs/$date
 dish-logs:
