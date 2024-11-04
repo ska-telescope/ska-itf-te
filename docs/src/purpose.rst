@@ -184,3 +184,8 @@ To view the configuration of the system deployed in the staging namespace, view 
 2. The TMC central node telescopeState is OFF.
 
 The test-end-to-end-staging can be triggered to run automatically by setting the EXECUTE_STAGING_E2E_WITH_HW pipeline variable to "true"
+
+Deployment of ITF verified system to Production (KDRA & Dishes)
+===============================================================
+
+Refer to steps outlined in [Confluence](https://confluence.skatelescope.org/x/ZaXtEQ).
