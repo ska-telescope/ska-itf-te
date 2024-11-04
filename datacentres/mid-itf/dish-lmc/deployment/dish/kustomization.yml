@@ -11,5 +11,13 @@ patches:
   - path: helmrelease.yml
     target:
       kind: HelmRelease
-      name: ska-mid-dish
       namespace: flux-services
+
+
+  - target:
+      kind: HelmRelease
+      namespace: flux-services
+    patch: |-
+      - op: replace
+        path: /metadata/name
+        value: skalmc-dish

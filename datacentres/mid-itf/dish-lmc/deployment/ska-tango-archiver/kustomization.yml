@@ -11,3 +11,11 @@ patches:
     target:
       kind: HelmRelease
       namespace: flux-services
+
+  - target:
+      kind: HelmRelease
+      namespace: flux-services
+    patch: |-
+      - op: replace
+        path: /metadata/name
+        value: skalmc-archiver

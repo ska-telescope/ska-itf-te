@@ -12,3 +12,11 @@ patches:
     target:
       kind: HelmRelease
       namespace: flux-services
+
+  - target:
+      kind: HelmRelease
+      namespace: flux-services
+    patch: |-
+      - op: replace
+        path: /metadata/name
+        value: ska063-dish
