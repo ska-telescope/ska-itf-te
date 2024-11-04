@@ -10,10 +10,10 @@ spec:
   chart:
     spec:
       chart: ska-mid-itf-dish-lmc
-      version: '24.3.1-dev.c42a8464c'
+      version: "24.4.0"
       sourceRef:
         kind: HelmRepository
-        name: ska-mid-itf-git
+        name: skatelescope
   releaseName: ska-mid-itf-dish-lmc-skaxxx
   install:
     createNamespace: true
@@ -26,7 +26,6 @@ spec:
   storageNamespace: ska-mid-itf-dish-lmc-skaxxx
   targetNamespace: ska-mid-itf-dish-lmc-skaxxx
   valuesFrom:
-  - kind: Secret
-    name: vault-shared-dish
-    valuesKey: values.yml
-      
+    - kind: Secret
+      name: vault-shared-dish
+      valuesKey: values.yml

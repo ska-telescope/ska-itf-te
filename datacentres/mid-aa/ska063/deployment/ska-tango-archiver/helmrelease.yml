@@ -13,18 +13,9 @@ spec:
       key: values.yml
       name: vault-midaa-ska063-kubeconfig
   valuesFrom:
-  - kind: Secret
-    name: vault-shared-ska-tango-archiver
-    valuesKey: values.yml
-  - kind: Secret
-    name: vault-midaa-dish-ska063-archiver
-    valuesKey: values.yml
-  # - kind: Secret
-  #   name: vault-eda-credentials
-  #   valuesKey: login
-  #   targetPath: archviewer.instances[0].timescale_login
-  # - kind: Secret
-  #   name: vault-eda-credentials
-  #   valuesKey: dbpassword
-  #   targetPath: dbpassword
-
+    - kind: Secret
+      name: vault-shared-ska-tango-archiver
+      valuesKey: values.yml
+    - kind: Secret
+      name: vault-midaa-dish-ska063-archiver
+      valuesKey: values.yml
