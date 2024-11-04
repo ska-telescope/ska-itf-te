@@ -1,0 +1,21 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: ska063-archiver
+  namespace: flux-services
+spec:
+  storageNamespace: dish-lmc-ska063
+  targetNamespace: dish-lmc-ska063
+  releaseName: ska063-archiver
+  kubeConfig:
+    secretRef:
+      key: values.yml
+      name: vault-midaa-ska063-kubeconfig
+  valuesFrom:
+    - kind: Secret
+      name: vault-shared-ska-tango-archiver
+      valuesKey: values.yml
+    - kind: Secret
+      name: vault-midaa-dish-ska063-archiver
+      valuesKey: values.yml

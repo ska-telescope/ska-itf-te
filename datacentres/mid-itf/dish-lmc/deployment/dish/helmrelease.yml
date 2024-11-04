@@ -1,0 +1,33 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: ska-mid-dish
+  namespace: flux-services
+spec:
+  storageNamespace: staging-dish-lmc-ska010
+  targetNamespace: staging-dish-lmc-ska010
+  releaseName: ska-mid-itf-dish-ska010
+  kubeConfig:
+    secretRef:
+      key: values.yml
+      name: vault-miditf-dish-lmc-kubeconfig
+  valuesFrom:
+  - kind: Secret
+    name: vault-shared-dish
+    valuesKey: values.yml
+  - kind: Secret
+    name: vault-miditf-dish-ska010
+    valuesKey: values.yml
+  - kind: Secret
+    name: vault-car-publisher
+    valuesKey: publisher_password
+    targetPath: global.raw_user_pass
+  - kind: Secret
+    name: vault-eda-credentials
+    valuesKey: login
+    targetPath: ska-tango-archiver.archviewer.instances[0].timescale_login
+  - kind: Secret
+    name: vault-eda-credentials
+    valuesKey: dbpassword
+    targetPath: ska-tango-archiver.dbpassword
