@@ -81,7 +81,7 @@ dependencies:
 
   # IC@MS
   - name: ska-icams-alarmhandler
-    version: 0.1.0-dev.ce012fb35
+    version: 0.1.0-dev.c5b29d58b
     repository: https://gitlab.com/api/v4/projects/56649674/packages/helm/dev
     condition: ska-icams-alarmhandler.enabled
 
