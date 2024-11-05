@@ -218,3 +218,5 @@ test-end-to-end-staging:
   script:
     - bash .make/resources/gitlab_section.sh template "Output deployment config information" make get-deployment-config-info
     - make integration-test
+    - '[ -f build/status ] || (echo "Something went wrong with the test (no build/status file); exit 1")'
+    - exit $(cat build/status)
