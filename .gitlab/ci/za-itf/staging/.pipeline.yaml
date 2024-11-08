@@ -46,7 +46,8 @@ deploy-sut-staging:
     - .deploy
     - .staging-env
   when: on_success
-  needs: k8s-test-runner
+  needs:
+    - k8s-test-runner
   environment:
     name: mid-itf/ska-$CONFIG-staging
     kubernetes:
@@ -64,7 +65,8 @@ redeploy-sut-staging:
   extends:
     - .redeploy
     - .staging-env
-  needs: k8s-test-runner
+  needs:
+    - k8s-test-runner
   environment:
     name: mid-itf/ska-$CONFIG-staging
     kubernetes:
