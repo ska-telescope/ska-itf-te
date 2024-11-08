@@ -203,6 +203,7 @@ test-end-to-end-staging:
     SIM_MODE: false
     ADDMARKS: True
     MARKS: hw_in_the_loop
+    LIVE_LOGGING: True
   rules:
     - if: $EXECUTE_STAGING_E2E_WITH_HW == "true"
       when: on_success
