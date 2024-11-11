@@ -79,17 +79,6 @@
     - .deploy-dish-lmc
   when: on_success
 
-.deploy-dishlmc-ska063:
-  extends:
-    - .deploy-additional-lmc
-  needs:
-    - deploy-aa05-dishes
-    - deploy-dishlmc-ska001
-  variables:
-    DISH_INDEX: "063"
-  environment:
-    on_stop: uninstall-dishlmc-ska063
-
 .deploy-dishlmc-ska100:
   extends:
     - .deploy-additional-lmc

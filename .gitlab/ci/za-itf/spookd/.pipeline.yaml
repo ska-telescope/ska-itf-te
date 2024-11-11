@@ -11,4 +11,4 @@ deploy-spookd:
   script:
     - make spooky
   extends:
-    - .integration_rules
+    - .staging_rules
