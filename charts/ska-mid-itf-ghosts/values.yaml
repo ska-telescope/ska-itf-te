@@ -40,7 +40,7 @@ spookd:
     - hosts:
         - za-itf-k8s-worker01 #randomly chosen
       devices:
-        - resourceName: miditf/spfrx-20
+        - resourceName: miditf/rxpu-1
           instanceID: "0001"
           env:
             IP: 10.165.3.20
@@ -55,7 +55,21 @@ spookd:
     - hosts:
         - za-itf-cloud03 #randomly chosen
       devices:
-        - resourceName: miditf/spfrx-21
+        - resourceName: miditf/rxpu-2
           instanceID: "0001"
           env:
             IP: 10.165.3.21
+    - hosts:
+        - za-itf-cloud05 #randomly chosen
+      devices:
+        - resourceName: miditf/rxpu-3
+          instanceID: "0001"
+          env:
+            IP: 10.165.3.22
+    - hosts:
+        - za-itf-cloud05 #randomly chosen
+      devices:
+        - resourceName: miditf/rxpu-4
+          instanceID: "0001"
+          env:
+            IP: 10.165.3.23

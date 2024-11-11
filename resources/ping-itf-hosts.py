@@ -65,8 +65,10 @@ async def main():
         ["10.20.2.14", "PDU3", "za-itf-pdu3.ad.skatelescope.org", True],
         ["10.165.3.29", "TDC Talon1 LRU1 1G", "", True],
         ["10.165.3.30", "TDC Talon2 LRU1 1G", "", True],
-        ["10.165.3.20", "SPFRx 20 (RXPU 1 - Outlet 10)", "", True],
-        ["10.165.3.21", "SPFRx 21 (RXPU 2 - Outlet 9)", "", True],
+        ["10.165.3.20", "RXPU 1 - Outlet 10", "", True],
+        ["10.165.3.21", "RXPU 2 - Outlet 9", "", True],
+        ["10.165.3.22", "RXPU 3 - Outlet 19?)", "", True],
+        ["10.165.3.23", "RXPU 4 - Outlet 20?)", "", True],
     ]
     tasks = [asyncio.create_task(ping_host(host)) for host in hosts_list]
 
