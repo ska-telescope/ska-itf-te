@@ -1,7 +1,8 @@
 # Version History
 
 ## Unreleased
-
+* [AT-2487] - fixed pipeline dependency chain
+  
 ## 24.4.1
 * [AT-2350] - Updated Jupyter Notebook
 * [BANG-635] - Added FluxCD Deployment mechanism for deploying DishLMC to VM and KDRA Dish SKA063 from release branch

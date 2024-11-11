@@ -23,7 +23,6 @@
     SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_COMMIT_REF_NAME
     CBF_HW_IN_THE_LOOP: "false"
     DISH_LMC_IN_THE_LOOP: "true"
-    DISH_IDS: "SKA001 SKA036" # Add additional Dishes back when adding their pipelines: SKA063 SKA100"
 
 .on-demand-stage:
   stage: on_demand_itf_sut
