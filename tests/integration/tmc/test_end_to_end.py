@@ -16,7 +16,7 @@ from utils.enums import DishMode
 
 # TODO: Rethink usage of globals like this
 CLUSTER_DOMAIN = "miditf.internal.skao.int"
-SUT_NAMESPACE = os.getenv("E2E_TEST_EXECUTION_NAMESPACE")
+SUT_NAMESPACE = os.getenv("KUBE_NAMESPACE")
 DATA_DIR = "tests/integration/resources/data"
 TMC_CONFIGS = f"{DATA_DIR}/tmc"
 expected_k_value = 1
@@ -38,6 +38,10 @@ def test_e2e_via_tmc():
 )
 def test_e2e_via_tmc_slow():
     """."""
+    global SUT_NAMESPACE
+
+    if not (SUT_NAMESPACE := os.getenv("E2E_TEST_EXECUTION_NAMESPACE")):
+        SUT_NAMESPACE = os.getenv("KUBE_NAMESPACE")
 
 
 # TODO: Consider removing this e.g. read from config file or feature file
