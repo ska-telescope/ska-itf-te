@@ -16,5 +16,6 @@
     ],
     "esbonio.sphinx.confDir": "",
     "yaml.schemas": {
-    }
+    },
+    "ros.distro": "humble"
 }
