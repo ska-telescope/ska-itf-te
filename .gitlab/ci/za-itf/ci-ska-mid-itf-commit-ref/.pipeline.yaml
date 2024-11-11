@@ -191,18 +191,21 @@ remove-aa05-ds-sim:
 # # On-demand test jobs
 # ############################################
 
-test-end-to-end-staging:
+test-end-to-end:
   stage: test
   extends:
     - .ci-env
   variables:
     INTEGRATION_TEST_SOURCE: tests/integration/tmc
-    KUBE_NAMESPACE: staging
-    HELM_RELEASE: staging
+    E2E_TEST_EXECUTION_NAMESPACE: $KUBE_NAMESPACE
     SIM_MODE: false
     ADDMARKS: True
     MARKS: hw_in_the_loop
+<<<<<<< HEAD
     LIVE_LOGGING: True
+=======
+    PYTEST_ADDOPTS: --log-level-cli=INFO
+>>>>>>> origin/main
   rules:
     - if: $EXECUTE_STAGING_E2E_WITH_HW == "true"
       when: on_success

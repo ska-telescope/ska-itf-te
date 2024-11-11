@@ -38,6 +38,10 @@ def test_e2e_via_tmc():
 )
 def test_e2e_via_tmc_slow():
     """."""
+    global SUT_NAMESPACE
+
+    if not (SUT_NAMESPACE := os.getenv("E2E_TEST_EXECUTION_NAMESPACE")):
+        SUT_NAMESPACE = os.getenv("KUBE_NAMESPACE")
 
 
 # TODO: Consider removing this e.g. read from config file or feature file
