@@ -9,8 +9,7 @@
     SPFRX_IN_THE_LOOP: "false"
     SPFC_IN_THE_LOOP: "true"
   rules:
-    - if: "$DISH_IDS !~ /.*SKA063.*/"
-      when: never
+    - if: "$DISH_IDS =~ /.*SKA063.*/"
 
 1-deploy-dishlmc-ska063:
   extends:
