@@ -8,9 +8,9 @@
     DISH_ID: ska063
     SPFRX_IN_THE_LOOP: "false"
     SPFC_IN_THE_LOOP: "true"
-    DISH_IDS: "SKA001 SKA063"
+    DISH_IDS: "SKA063"
   rules:
-    - if: "$DISH_IDS !~ /.*SKA063.*/"
+    - if: $DISH_IDS == "SKA063"
       when: never
 
 1-deploy-dishlmc-ska063:
