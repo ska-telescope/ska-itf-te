@@ -10,7 +10,7 @@
     SPFC_IN_THE_LOOP: "true"
     DISH_IDS: "SKA063"
   rules:
-    - if: $DISH_IDS == "SKA063"
+    - if: $DISH_IDS != "SKA063"
       when: never
 
 1-deploy-dishlmc-ska063:
