@@ -201,7 +201,7 @@ test-end-to-end:
     SIM_MODE: false
     ADDMARKS: True
     MARKS: hw_in_the_loop
-    PYTEST_ADDOPTS: --log-level-cli=INFO
+    PYTEST_ADDOPTS: --log-cli-level=INFO
   rules:
     - if: $EXECUTE_STAGING_E2E_WITH_HW == "true"
       when: on_success
