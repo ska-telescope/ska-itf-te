@@ -9,7 +9,7 @@
     SPFRX_IN_THE_LOOP: "false"
     SPFC_IN_THE_LOOP: "true"
   rules:
-    - if: $DISH_IDS !~ /(.+)SKA036(.+)/
+    - if: $DISH_IDS !~ /SKA036/
       when: never
 
 4-deploy-dishlmc-ska036:
