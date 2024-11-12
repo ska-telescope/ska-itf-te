@@ -8,7 +8,7 @@
     DISH_ID: ska100
     SPFRX_IN_THE_LOOP: "false"
   rules:
-    - if: $DISH_IDS !~ /SKA100/
+    - if: $DISH_IDS !~ /(.+)SKA100(.+)/
       when: never
 
 3-deploy-dishlmc-ska100:
