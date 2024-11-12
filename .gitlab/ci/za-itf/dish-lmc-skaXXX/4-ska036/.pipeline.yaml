@@ -3,31 +3,32 @@
 .ska036-env:
   variables:
     DISH_INDEX: "036"
-    SPFRX_TANGO_INSTANCE: rxpu-2
-    SPFRX_ADDRESS: 10.165.3.21
+    SPFRX_TANGO_INSTANCE: rxpu-4
+    SPFRX_ADDRESS: 10.165.3.23
     DISH_ID: ska036
     SPFRX_IN_THE_LOOP: "false"
+    SPFC_IN_THE_LOOP: "true"
 
-deploy-dishlmc-ska036:
+4-deploy-dishlmc-ska036:
   extends:
     - .deploy-additional-lmc
     - .ska036-env
   needs:
-    - deploy-dishlmc-ska001
+    - 1-deploy-dishlmc-ska063
     - deploy-aa05-dishes
   when: on_success
   environment:
-    on_stop: uninstall-dishlmc-ska036
+    on_stop: 4-uninstall-dishlmc-ska036
 
-redeploy-dishlmc-ska036:
+4-redeploy-dishlmc-ska036:
   extends:
     - .redeploy-dish-lmc
     - .ska036-env
   when: manual
   environment:
-    on_stop: uninstall-dishlmc-ska036
+    on_stop: 4-uninstall-dishlmc-ska036
 
-uninstall-dishlmc-ska036:
+4-uninstall-dishlmc-ska036:
   extends:
     - .destroy-aa05-dishes
     - .ska036-env

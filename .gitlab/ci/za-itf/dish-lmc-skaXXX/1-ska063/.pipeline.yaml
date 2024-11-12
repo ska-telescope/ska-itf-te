@@ -3,13 +3,13 @@
 .ska063-env:
   variables:
     DISH_INDEX: "063"
-    # SPFRX_TANGO_INSTANCE: spfrx-???
-    # SPFRX_ADDRESS:
+    SPFRX_TANGO_INSTANCE: rxpu-1
+    SPFRX_ADDRESS: 10.165.3.20
     DISH_ID: ska063
     SPFRX_IN_THE_LOOP: "false"
     SPFC_IN_THE_LOOP: "true"
 
-deploy-dishlmc-ska063:
+1-deploy-dishlmc-ska063:
   extends:
     - .deploy-dish-lmc
     - .ska063-env
@@ -21,9 +21,9 @@ deploy-dishlmc-ska063:
   #   DISH_LMC_EXTRA_PARAMS: -f charts/dish-lmc/values-cetc.yaml --set ska-dish-lmc.ska-mid-dish-ds-manager.dishstructuremanager.dsSim.fqdn=$DS_SIM_OPCUA_FQDN
   when: manual
   environment:
-    on_stop: uninstall-dishlmc-ska063
+    on_stop: 1-uninstall-dishlmc-ska063
 
-redeploy-dishlmc-ska063:
+1-redeploy-dishlmc-ska063:
   extends:
     - .redeploy-dish-lmc
     - .ska063-env
@@ -31,9 +31,9 @@ redeploy-dishlmc-ska063:
   # variables:
   #   DISH_LMC_EXTRA_PARAMS: -f charts/dish-lmc/values-cetc.yaml --set ska-dish-lmc.ska-mid-dish-ds-manager.dishstructuremanager.dsSim.fqdn=$DS_SIM_OPCUA_FQDN
   environment:
-    on_stop: uninstall-dishlmc-ska063
+    on_stop: 1-uninstall-dishlmc-ska063
 
-uninstall-dishlmc-ska063:
+1-uninstall-dishlmc-ska063:
   extends:
     - .destroy-dish-lmc
     - .ska063-env
