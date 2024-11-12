@@ -105,7 +105,7 @@ helm-chart-lint:
   rules:
     - if: $CI_PIPELINE_SOURCE == "pipeline"
       when: never
-    - exists:
+    - exists: 
         - charts/**/*
 
 helm-chart-build:
