@@ -91,3 +91,9 @@ destroy-sut-staging:
       namespace: $KUBE_NAMESPACE
     url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
     action: stop
+
+test-end-to-end-staging:
+  stage: test
+  extends:
+  - .test-end-to-end-with-hw
+  - .staging-env

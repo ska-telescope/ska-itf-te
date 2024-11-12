@@ -105,7 +105,7 @@ helm-chart-lint:
   rules:
     - if: $CI_PIPELINE_SOURCE == "pipeline"
       when: never
-    - exists:
+    - exists: 
         - charts/**/*
 
 helm-chart-build:
@@ -121,3 +121,28 @@ docs-build:
       when: never
     - exists:
         - charts/**/*
+
+.test-end-to-end-with-hw:
+  variables:
+    INTEGRATION_TEST_SOURCE: tests/integration/tmc
+    E2E_TEST_EXECUTION_NAMESPACE: $KUBE_NAMESPACE
+    SIM_MODE: false
+    ADDMARKS: True
+    MARKS: hw_in_the_loop
+    PYTEST_ADDOPTS: --log-cli-level=INFO
+  rules:
+    - if: $EXECUTE_STAGING_E2E_WITH_HW == "true"
+      when: on_success
+    - if: $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: manual
+      allow_failure: true
+  before_script:
+    - make vars
+    - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
+    - "make help | grep k8s-test"
+    - bash .make/resources/gitlab_section.sh poetry "Poetry Install" poetry install
+  script:
+    - bash .make/resources/gitlab_section.sh template "Output deployment config information" make get-deployment-config-info
+    - make integration-test
+    - '[ -f build/status ] || (echo "Something went wrong with the test (no build/status file); exit 1")'
+    - exit $(cat build/status)
