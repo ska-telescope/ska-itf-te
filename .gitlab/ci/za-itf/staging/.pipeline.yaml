@@ -95,5 +95,5 @@ destroy-sut-staging:
 test-end-to-end-staging:
   stage: test
   extends:
-  - .test-with-hw
+  - .test-end-to-end-with-hw
   - .staging-env
