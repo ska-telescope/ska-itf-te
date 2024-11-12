@@ -11,6 +11,7 @@
   rules:
     - if: "$DISH_IDS !~ /.*SKA063.*/"
       when: never
+    - when: on_success
 
 1-deploy-dishlmc-ska063:
   extends:
