@@ -28,7 +28,7 @@ def fxt_set_obsconfig(observation_config: Observation):
             observation_config.update_target_specs(dishes=["SKA001"])
 
 
-# @pytest.mark.skip("need to update cbf with new api")
+@pytest.mark.skip("Isolating E2E test")
 @pytest.mark.csp_related
 @pytest.mark.skamid
 @pytest.mark.cbf

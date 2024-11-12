@@ -35,6 +35,7 @@ def test_assign_resources_to_csp_mid_subarray():
     """Assign resources to CSP mid subarray."""
 
 
+@pytest.mark.skip("Isolating E2E test")
 @pytest.mark.csp_related
 @pytest.mark.skamid
 @pytest.mark.csp

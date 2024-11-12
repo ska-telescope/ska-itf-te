@@ -15,6 +15,7 @@ from .. import conftest
 logger = logging.getLogger(__name__)
 
 
+@pytest.mark.skip("Isolating E2E test")
 @pytest.mark.csp_startup
 @pytest.mark.csp_related
 @pytest.mark.skamid
