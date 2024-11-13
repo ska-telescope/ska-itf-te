@@ -14,6 +14,7 @@
     SPFRX_LOCAL_DIR: artifacts
     SPFRX_SCRIPTS_DIR: scripts
     SPFRX_TANGO_LOGGING_LEVEL: 4
+    KUBE_NAMESPACE: "testing"
 
 .dish_rules:
   rules:
