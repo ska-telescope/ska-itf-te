@@ -95,5 +95,13 @@ destroy-sut-staging:
 test-end-to-end-staging:
   stage: test
   extends:
-  - .test-end-to-end-with-hw
   - .staging-env
+  - .test-end-to-end-with-hw
+  rules:
+    - if: $EXECUTE_E2E_STAGING_WITH_HW == "true"
+      when: on_success
+      allow_failure: true
+    - if: "$CI_COMMIT_TAG != null"
+      when: manual
+      allow_failure: true
+
