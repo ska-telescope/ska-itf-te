@@ -130,12 +130,6 @@ docs-build:
     ADDMARKS: True
     MARKS: hw_in_the_loop
     PYTEST_ADDOPTS: --log-cli-level=INFO
-  rules:
-    - if: $EXECUTE_STAGING_E2E_WITH_HW == "true"
-      when: on_success
-    - if: $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event"
-      when: manual
-      allow_failure: true
   before_script:
     - make vars
     - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
