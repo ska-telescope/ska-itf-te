@@ -43,7 +43,7 @@
     - helm-chart-build
   allow_failure: true # need to keep this to unlock the pipeline
   environment:
-    name: mid-itf/$KUBE_NAMESPACE
+    name: mid-itf/${KUBE_NAMESPACE}
 
 .deploy-dish-lmc:
   stage: deploy-dish-aiv
