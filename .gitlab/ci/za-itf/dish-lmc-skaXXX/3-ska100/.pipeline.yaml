@@ -17,7 +17,7 @@
   needs:
     - 1-deploy-dishlmc-ska063
     - deploy-aa05-dishes
-  when: on_success
+  when: manual
   environment:
     on_stop: 3-uninstall-dishlmc-ska100
 
