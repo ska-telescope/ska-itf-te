@@ -9,7 +9,6 @@
     INGRESS_HOST: k8s.miditf.internal.skao.int
     K8S_CHART: dish-lmc
     KUBE_APP: dish-lmc
-    # DISH_ID: ska$DISH_INDEX
     SPFRX_BIN: /usr/local/bin
     SPFRX_LOCAL_DIR: artifacts
     SPFRX_SCRIPTS_DIR: scripts
@@ -33,8 +32,6 @@
       variables:
         KUBE_NAMESPACE: integration-$KUBE_APP-$DISH_ID
         KUBE_NAMESPACE_PREFIX: integration-dish-lmc-
-    # - if: "$DISH_IDS =~ /.*SKA063.*/"
-    #   variables:
 
 .dish-lmc:
   tags:
