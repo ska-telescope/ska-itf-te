@@ -93,7 +93,7 @@
                   "version":"4.4.0"
                },
                "parameters": {
-                  "channels_per_port": 10,
+                  "channels_per_port": 20,
                   "transport_protocol": "udp",
                   "signal_display": {
                         "metrics": ["all"],
