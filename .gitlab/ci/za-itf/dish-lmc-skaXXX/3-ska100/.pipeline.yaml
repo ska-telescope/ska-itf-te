@@ -12,18 +12,15 @@
 
 3-deploy-dishlmc-ska100:
   extends:
-    - .deploy-additional-lmc
     - .ska100-env
-  needs:
-    - 1-deploy-dishlmc-ska063
-    - deploy-aa05-dishes
-  when: manual
+    - .deploy-additional-lmc
+  when: on_success
   environment:
     on_stop: 3-uninstall-dishlmc-ska100
 
 3-redeploy-dishlmc-ska100:
   extends:
-    - .deploy-dish-lmc
+    - .redeploy-dish-lmc
     - .ska100-env
   when: manual
   # variables:
