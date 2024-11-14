@@ -2,14 +2,10 @@
 
 .ska063-env:
   variables:
-    DISH_INDEX: "063"
     SPFRX_TANGO_INSTANCE: rxpu-1
     SPFRX_ADDRESS: 10.165.3.20
-    DISH_ID: ska063
     SPFRX_IN_THE_LOOP: "false"
     SPFC_IN_THE_LOOP: "true"
-  rules:
-    - if: "$DISH_IDS =~ /.*SKA063.*/"
 
 1-deploy-dishlmc-ska063:
   extends:
