@@ -33,6 +33,10 @@
       variables:
         KUBE_NAMESPACE: integration-$KUBE_APP-$DISH_ID
         KUBE_NAMESPACE_PREFIX: integration-dish-lmc-
+    - if: "$DISH_IDS =~ /.*SKA063.*/"
+      variables:
+        # DISH_ID: ska063
+        DISH_INDEX: "063"
 
 .dish-lmc:
   tags:
