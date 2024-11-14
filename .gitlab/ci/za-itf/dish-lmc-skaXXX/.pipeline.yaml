@@ -9,7 +9,7 @@
     INGRESS_HOST: k8s.miditf.internal.skao.int
     K8S_CHART: dish-lmc
     KUBE_APP: dish-lmc
-    DISH_ID: ska$DISH_INDEX
+    # DISH_ID: ska$DISH_INDEX
     SPFRX_BIN: /usr/local/bin
     SPFRX_LOCAL_DIR: artifacts
     SPFRX_SCRIPTS_DIR: scripts
