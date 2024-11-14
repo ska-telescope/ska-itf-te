@@ -13,7 +13,7 @@
 3-deploy-dishlmc-ska100:
   extends:
     - .ska100-env
-    - .deploy-additional-lmc
+    - .deploy-dish-lmc
   when: on_success
   environment:
     on_stop: 3-uninstall-dishlmc-ska100
