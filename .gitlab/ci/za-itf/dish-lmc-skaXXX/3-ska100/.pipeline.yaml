@@ -14,7 +14,7 @@
   extends:
     - .ska100-env
     - .deploy-dish-lmc
-  when: on_success
+  when: manual
   environment:
     on_stop: 3-uninstall-dishlmc-ska100
 
