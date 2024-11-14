@@ -23,7 +23,7 @@
 
 3-redeploy-dishlmc-ska100:
   extends:
-    - .redeploy-dish-lmc
+    - .deploy-dish-lmc
     - .ska100-env
   when: manual
   # variables:
