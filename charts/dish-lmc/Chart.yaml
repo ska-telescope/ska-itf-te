@@ -42,7 +42,7 @@ dependencies:
   #  condition: ska-spfc-deployer.enabled
 
   - name: ska-spfc-deployer
-    version: 0.1.8-dev.ce407265b
+    version: 0.1.8-dev.cb6b89ef7
     repository: https://gitlab.com/api/v4/projects/52159216/packages/helm/dev
     condition: ska-spfc-deployer.enabled
 
