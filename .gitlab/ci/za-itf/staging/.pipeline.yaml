@@ -24,7 +24,6 @@
     # HARDWARE AND DISH IN THE LOOP SETTINGS
     CBF_HW_IN_THE_LOOP: "true"
     DISH_LMC_IN_THE_LOOP: "true" # TEMPORARY COMMIT - SET TO TRUE FOR FULL SYSTEM ONCE CONNECTION BUGS ARE SORTED - SEE SKB-309 AND FRIENDS
-    DISH_IDS: "SKA001 SKA036" # Add additional dishes when pipelines are available: SKA063 SKA100
     # SDP CONFIGURATION FOR PERSISTENT DATA
     DPD_PVC_NAME: staging-pvc
 
@@ -95,8 +94,8 @@ destroy-sut-staging:
 test-end-to-end-staging:
   stage: test
   extends:
-  - .staging-env
-  - .test-end-to-end-with-hw
+    - .staging-env
+    - .test-end-to-end-with-hw
   rules:
     - if: $EXECUTE_E2E_STAGING_WITH_HW == "true"
       when: on_success

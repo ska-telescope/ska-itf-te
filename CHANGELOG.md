@@ -2,6 +2,7 @@
 
 ## Unreleased
 * [AT-2487] - fixed pipeline dependency chain
+* [AT-2487] - added two receptors - we now have four-receptor deployments available
   
 ## 24.4.1
 * [AT-2350] - Updated Jupyter Notebook

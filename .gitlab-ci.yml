@@ -13,7 +13,7 @@ variables:
   # see https://gitlab.com/ska-telescope/ska-mid-itf/-/jobs/6807963899
   DEPLOY_IMAGE: $CI_REGISTRY/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools:0.9.3
   MCS_CONFIG_FILE_PATH: resources/mcs
-  DISH_IDS: "SKA063 SKA001 SKA100" # SKA001 SKA036 Add additional Dishes back when adding their pipelines in this order"
+  DISH_IDS: "SKA063 SKA001" # SKA001 SKA036 Add additional Dishes back when adding their pipelines in this order"
 
   # PYTEST_SUBSYS_MARK: (csp_startup or sdp or eda)
   # K8S_INSTALL_FROM_CAR: "false"remove redundant cache
