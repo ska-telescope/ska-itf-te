@@ -49,6 +49,7 @@
   image: $DEPLOY_IMAGE
   before_script:
     - bash .make/resources/gitlab_section.sh vars "Print vars" make vars
+    - if ! [[ "$DISH_IDS" =~ .*$DISH_ID.* ]]; then echo "DISH_IDS $DISH_IDS not matching $DISH_ID; exiting..." && exit 1; fi
   script:
     - bash .make/resources/gitlab_section.sh poetry "Poetry Install" poetry install
     - export PATH=.venv/bin:${PATH} # TEMPORARY COMMIT: fix in one place
