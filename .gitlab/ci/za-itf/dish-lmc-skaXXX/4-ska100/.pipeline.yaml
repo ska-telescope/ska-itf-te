@@ -14,7 +14,7 @@
     - .deploy-additional-lmc
     - .ska100-env
   needs:
-    - 1-deploy-dishlmc-ska063
+    - 1-deploy-dishlmc-ska001
     - deploy-aa05-dishes
   when: on_success
   environment:
