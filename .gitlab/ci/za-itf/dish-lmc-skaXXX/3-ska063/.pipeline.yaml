@@ -1,35 +1,35 @@
-# DISH SKA100 SPECIFIC CI
+# DISH SKA063 SPECIFIC CI
 
-.ska100-env:
+.ska063-env:
   variables:
-    DISH_INDEX: "100"
+    DISH_INDEX: "063"
     SPFRX_TANGO_INSTANCE: rxpu-3
     SPFRX_ADDRESS: 10.165.3.22
-    DISH_ID: ska100
+    DISH_ID: ska063
     SPFRX_IN_THE_LOOP: "false"
 
-3-deploy-dishlmc-ska100:
+3-deploy-dishlmc-ska063:
   extends:
     - .deploy-additional-lmc
-    - .ska100-env
+    - .ska063-env
   needs:
     - 1-deploy-dishlmc-ska063
     - deploy-aa05-dishes
   when: on_success
   environment:
-    on_stop: 3-uninstall-dishlmc-ska100
+    on_stop: 3-uninstall-dishlmc-ska063
 
-3-redeploy-dishlmc-ska100:
+3-redeploy-dishlmc-ska063:
   extends:
     - .redeploy-dish-lmc
-    - .ska100-env
+    - .ska063-env
   when: manual
   # variables:
   #   DISH_LMC_EXTRA_PARAMS: -f charts/dish-lmc/values-cetc.yaml --set ska-dish-lmc.ska-mid-dish-ds-manager.dishstructuremanager.dsSim.fqdn=$DS_SIM_OPCUA_FQDN
   environment:
-    on_stop: 3-uninstall-dishlmc-ska100
+    on_stop: 3-uninstall-dishlmc-ska063
 
-3-uninstall-dishlmc-ska100:
+3-uninstall-dishlmc-ska063:
   extends:
     - .destroy-dish-lmc
-    - .ska100-env
+    - .ska063-env

@@ -5,7 +5,7 @@ Feature: Telescope end to end signal chain test
 
 	@AT-2305 @AT-1305
 	Scenario: End to End signal chain verification via TMC
-		Given an SUT deployment with 1 subarray and dishes SKA001 and SKA063
+		Given an SUT deployment with 1 subarray and dishes SKA001 and SKA036
 		And CSP in adminMode online
 		When I turn ON the telescope
 		And I assign resources
@@ -20,7 +20,7 @@ Feature: Telescope end to end signal chain test
 
 	@AT-2349 @AT-1305
 	Scenario: End to End signal chain verification via TMC - With HW
-		Given an SUT deployment with 1 subarray and dishes SKA001 and SKA063
+		Given an SUT deployment with 1 subarray and dishes SKA001 and SKA036
 		And CSP in adminMode online
 		When I turn ON the telescope
 		And I assign resources

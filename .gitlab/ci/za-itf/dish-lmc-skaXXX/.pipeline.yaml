@@ -97,7 +97,7 @@
     - uninstall-aa05-dishes
 
 include:
-  - local: .gitlab/ci/za-itf/dish-lmc-skaXXX/1-ska063/.pipeline.yaml
-  - local: .gitlab/ci/za-itf/dish-lmc-skaXXX/2-ska001/.pipeline.yaml
-  - local: .gitlab/ci/za-itf/dish-lmc-skaXXX/3-ska100/.pipeline.yaml
-  - local: .gitlab/ci/za-itf/dish-lmc-skaXXX/4-ska036/.pipeline.yaml
+  - local: .gitlab/ci/za-itf/dish-lmc-skaXXX/1-ska001/.pipeline.yaml
+  - local: .gitlab/ci/za-itf/dish-lmc-skaXXX/2-ska036/.pipeline.yaml
+  - local: .gitlab/ci/za-itf/dish-lmc-skaXXX/3-ska063/.pipeline.yaml
+  - local: .gitlab/ci/za-itf/dish-lmc-skaXXX/4-ska100/.pipeline.yaml

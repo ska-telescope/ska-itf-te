@@ -1,34 +1,34 @@
-# DISH SKA036 SPECIFIC CI
+# DISH SKA100 SPECIFIC CI
 
-.ska036-env:
+.ska100-env:
   variables:
-    DISH_INDEX: "036"
+    DISH_INDEX: "100"
     SPFRX_TANGO_INSTANCE: rxpu-4
     SPFRX_ADDRESS: 10.165.3.23
-    DISH_ID: ska036
+    DISH_ID: ska100
     SPFRX_IN_THE_LOOP: "false"
     SPFC_IN_THE_LOOP: "true"
 
-4-deploy-dishlmc-ska036:
+4-deploy-dishlmc-ska100:
   extends:
     - .deploy-additional-lmc
-    - .ska036-env
+    - .ska100-env
   needs:
     - 1-deploy-dishlmc-ska063
     - deploy-aa05-dishes
   when: on_success
   environment:
-    on_stop: 4-uninstall-dishlmc-ska036
+    on_stop: 4-uninstall-dishlmc-ska100
 
-4-redeploy-dishlmc-ska036:
+4-redeploy-dishlmc-ska100:
   extends:
     - .redeploy-dish-lmc
-    - .ska036-env
+    - .ska100-env
   when: manual
   environment:
-    on_stop: 4-uninstall-dishlmc-ska036
+    on_stop: 4-uninstall-dishlmc-ska100
 
-4-uninstall-dishlmc-ska036:
+4-uninstall-dishlmc-ska100:
   extends:
     - .destroy-aa05-dishes
-    - .ska036-env
+    - .ska100-env
