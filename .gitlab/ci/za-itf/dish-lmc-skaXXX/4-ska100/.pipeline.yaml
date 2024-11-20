@@ -8,6 +8,7 @@
     DISH_ID: ska100
     SPFRX_IN_THE_LOOP: "false"
     SPFC_IN_THE_LOOP: "true"
+    SPFC_INSTANCE: "spfc-devkit"
 
 4-deploy-dishlmc-ska100:
   extends:
