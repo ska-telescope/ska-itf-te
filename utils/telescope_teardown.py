@@ -1,18 +1,17 @@
 """Module containing telescope teardown tools which are implemented based on ADR-8."""
 
-import os
-from dataclasses import dataclass, field
-
-from tango import DevState
-from ska_control_model import ObsState
-from utils.enums import DishMode
-from typing import Dict, List
-import re
-from time import sleep
 import logging
+import os
+import re
+from dataclasses import dataclass, field
+from typing import Dict, List
+
+from ska_control_model import ObsState
+from tango import DevState
 
 # TODO: Get these  helper classes moved into utils
-from tests.integration.tmc.conftest import TMC, Dish, wait_for_event, EventWaitTimeout
+from tests.integration.tmc.conftest import TMC, EventWaitTimeout, wait_for_event
+from utils.enums import DishMode
 
 # TODO: Think about passing an instance of logger, and not global logger
 logger = logging.getLogger()
@@ -26,17 +25,46 @@ logger.addHandler(console_handler)
 
 @dataclass
 class TelescopeState:
+    """Class representing the telescope state.
+
+    :return: _description_
+    :rtype: _type_
+    """
+
     telescope: DevState = DevState.OFF
     subarray: ObsState = ObsState.EMPTY
     csp: ObsState = ObsState.EMPTY
     sdp: ObsState = ObsState.EMPTY
     dishes: Dict[str, DishMode] = field(default_factory=lambda: {"SKA001": DishMode.STANDBY_LP})
 
+    def __str__(self):
+        """Generate string representation of telescope state.
+
+        :return: _description_
+        :rtype: _type_
+        """
+        dishes_str = ", ".join(f"{dish}: {mode.name}" for dish, mode in self.dishes.items())
+        return (
+            f"\nTelescope State:\n"
+            f"  Telescope: {self.telescope.name}\n"
+            f"  Subarray: {self.subarray.name}\n"
+            f"  CSP: {self.csp.name}\n"
+            f"  SDP: {self.sdp.name}\n"
+            f"  Dishes: {dishes_str}"
+        )
+
 
 class Telescope:
-    """Class representing the state of the telescope under TMC control."""
+    """Class containing methods to manipulate the state ofthe telescope under TMC control."""
 
     def __init__(self, sut_namespace: str, dish_ids: List[str]):
+        """_summary_.
+
+        :param sut_namespace: _description_
+        :type sut_namespace: str
+        :param dish_ids: _description_
+        :type dish_ids: List[str]
+        """
         self.sut_namespace = sut_namespace
         os.environ["TANGO_HOST"] = (
             f"tango-databaseds.{self.sut_namespace}.svc.miditf.internal.skao.int:10000"
@@ -48,14 +76,21 @@ class Telescope:
     def teardown(self, desired_state: TelescopeState = None):
         """Bring telescope down to desired TMC state - base state by default.
 
-        :param desired_tmc_state: _description_, defaults to DevState.ON
-        :type desired_tmc_state: _type_, optional
+        :param desired_state: _description_, defaults to None
+        :type desired_state: TelescopeState
         """
         if desired_state is None:
-            desired_state = TelescopeState()
+            desired_state = self.telescope_base_state
 
         current_telescope_state = self.get_current_state()
+        if current_telescope_state == desired_state:
+            logger.info(f"Telescope is already at the base state: {self.telescope_base_state}")
+            return
 
+        # Teardown the dishes
+        self._teardown_dishes(current_dish_states=current_telescope_state.dishes)
+
+        current_telescope_state = self.get_current_state()
         if current_telescope_state == desired_state:
             return
 
@@ -68,6 +103,7 @@ class Telescope:
             logger.info(
                 "Failed to teardown telescope via the TMC Subarray. Attempting contingencies"
             )
+
             # Re-evaluate telescope state and continue teardown if necessary
             current_telescope_state = self.get_current_state()
             if current_telescope_state == desired_state:
@@ -106,10 +142,13 @@ class Telescope:
         if current_telescope_state == desired_state:
             return
 
-        # Teardown the dishes
-        self._teardown_dishes(current_dish_states=current_telescope_state.dishes)
+        # Turn OFF the telescope
+        self._turn_off_telescope()
 
-        # self._turn_off_telescope()
+        # Re-evaluate telescope state
+        current_telescope_state = self.get_current_state()
+        if current_telescope_state != desired_state:
+            logger.error("Failed to teardown the telescope to the base state")
 
     def _teardown_dishes(self, current_dish_states: Dict[str, DishMode]):
         """Teardown dishes from current state down to the base state.
@@ -119,8 +158,16 @@ class Telescope:
         """
         for dish_id in current_dish_states.keys():
             if current_dish_states[dish_id] == self.telescope_base_state.dishes[dish_id]:
+                logger.info(
+                    f"Dish {dish_id} is already at the following base state: "
+                    f"{self.telescope_base_state.dishes[dish_id]}"
+                )
                 continue
 
+            logger.info(
+                f"Tearing down dish {dish_id} from {current_dish_states[dish_id]}"
+                f" to {self.telescope_base_state.dishes[dish_id]}"
+            )
             dish = self.tmc.get_dish_leaf_node_dp(dish_id)
 
             if self.telescope_base_state.dishes[dish_id] == DishMode.STANDBY_LP:
@@ -128,22 +175,25 @@ class Telescope:
                 if current_dish_states[dish_id] == DishMode.OPERATE:
                     dish.AbortCommands()
                     dish.SetStandbyFPMode()
-                    wait_for_event(dish, "dishMode", DishMode.STANDBY_FP)
+                    wait_for_event(dish, "dishMode", DishMode.STANDBY_FP, timeout=10)
                     dish.SetStandbyLPMode()
-                    wait_for_event(dish, "dishMode", DishMode.STANDBY_LP)
+                    wait_for_event(dish, "dishMode", DishMode.STANDBY_LP, timeout=10)
 
                 # Teardown from STANDBY_FP
                 if current_dish_states[dish_id] == DishMode.STANDBY_FP:
                     dish.SetStandbyLPMode()
-                    wait_for_event(dish, "dishMode", DishMode.STANDBY_LP)
+                    wait_for_event(dish, "dishMode", DishMode.STANDBY_LP, timeout=10)
             else:
                 logger.error(
-                    f"Teardown of dish to {self.telescope_base_state.dishes[dish_id]} has not been implemented"
+                    f"Teardown of dish to {self.telescope_base_state.dishes[dish_id]}"
+                    " has not been implemented"
                 )
 
     def _teardown_sut_subsystem(self, subsystem: str, current_state: ObsState):
-        """Teardown the TMC Subarray, Central Signal Processor (CSP)
-        and SDP (Science Data Processor). Subsystems are torn down to the base state.
+        """Teardown the System Under Test (SUT) subsystems via TMC.
+
+        TeardownTMC Subarray, Central Signal Processor (CSP) and SDP (Science Data Processor).
+        Subsystems are torn down to the base state.
 
         :param subsystem: _description_
         :type subsystem: str
@@ -174,28 +224,28 @@ class Telescope:
             # Teardown from SCANNING
             if current_state == ObsState.SCANNING:
                 proxy.EndScan()
-                wait_for_event(proxy, obs_state_name, ObsState.READY, timeout=5)
+                wait_for_event(proxy, obs_state_name, ObsState.READY, timeout=10)
                 proxy.End()
-                wait_for_event(proxy, obs_state_name, ObsState.IDLE, timeout=5)
+                wait_for_event(proxy, obs_state_name, ObsState.IDLE, timeout=10)
                 proxy.ReleaseAllResources()
-                wait_for_event(proxy, obs_state_name, ObsState.EMPTY, timeout=5)
+                wait_for_event(proxy, obs_state_name, ObsState.EMPTY, timeout=10)
 
             # Teardown from READY
             if current_state == ObsState.READY:
                 proxy.End()
-                wait_for_event(proxy, obs_state_name, ObsState.IDLE)
+                wait_for_event(proxy, obs_state_name, ObsState.IDLE, timeout=10)
                 proxy.ReleaseAllResources()
-                wait_for_event(proxy, obs_state_name, ObsState.EMPTY)
+                wait_for_event(proxy, obs_state_name, ObsState.EMPTY, timeout=10)
 
             # Teardown from IDLE
             if current_state == ObsState.IDLE:
                 proxy.ReleaseAllResources()
-                wait_for_event(proxy, obs_state_name, ObsState.EMPTY)
+                wait_for_event(proxy, obs_state_name, ObsState.EMPTY, timeout=10)
 
             # Teardown from ABORTED
             if current_state == ObsState.ABORTED:
                 proxy.Restart()
-                wait_for_event(proxy, obs_state_name, ObsState.EMPTY)
+                wait_for_event(proxy, obs_state_name, ObsState.EMPTY, timeout=10)
 
             # # Teardown from a transitionary state
             self._tear_down_transitionary(
@@ -222,18 +272,18 @@ class Telescope:
         :type obs_state_name: _type_
         """
         # Teardown from a transitionary state (*ING)
-        if re.findall(r"\w+ING\b", current_state.name) or current_state == ObsState.IDLE:
+        if re.findall(r"\w+ING\b", current_state.name):
             proxy.Abort()
-            wait_for_event(proxy, obs_state_name, ObsState.ABORTED)
+            wait_for_event(proxy, obs_state_name, ObsState.ABORTED, timeout=10)
             proxy.Restart()
-            wait_for_event(proxy, obs_state_name, ObsState.EMPTY)
+            wait_for_event(proxy, obs_state_name, ObsState.EMPTY, timeout=10)
 
     def _turn_off_telescope(self):
         """Turn OFF the telescope."""
         proxy = self.tmc.central_node
 
         proxy.TelescopeOff()
-        wait_for_event(proxy, "telescopeState", DevState.OFF)
+        wait_for_event(proxy, "telescopeState", DevState.OFF, timeout=10)
 
     def get_current_state(self) -> TelescopeState:
         """Return the current telescope state.
