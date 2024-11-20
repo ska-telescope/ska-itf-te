@@ -52,7 +52,7 @@ def receptor_ids():
     :return: List of receptor IDs
     :rtype: _type_
     """
-    receptors = ["SKA001", "SKA063"]
+    receptors = ["SKA001", "SKA036"]
     return receptors
 
 
@@ -113,7 +113,7 @@ def telescope_handlers(receptor_ids) -> Generator[Tuple[TMC, CBF, CSP, List[Dish
     tmc.tear_down()
 
 
-@given("an SUT deployment with 1 subarray and dishes SKA001 and SKA063")
+@given("an SUT deployment with 1 subarray and dishes SKA001 and SKA036")
 def _(telescope_handlers):
     """Trigger instantiation of telescope handler objects.
 
