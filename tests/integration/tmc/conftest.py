@@ -234,9 +234,11 @@ def wait_for_event(
 
     if not result:
         logger.error(
-            f"Desired event on {attr_name} did not occur within the timeout period of {timeout}s"
+            f"Desired event {device_proxy.name()} {attr_name}={desired_value}"
+            f" did not occur within the timeout period of {timeout}s"
         )
         raise EventWaitTimeout(
-            f"Desired event on {attr_name} did not occur within the timeout period of {timeout}s"
+            f"Desired event {device_proxy.name()} {attr_name}={desired_value}"
+            f" did not occur within the timeout period of {timeout}s"
         )
     return result
