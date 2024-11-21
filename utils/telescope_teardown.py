@@ -7,7 +7,7 @@ from dataclasses import dataclass, field
 from typing import Dict, List
 
 from ska_control_model import ObsState
-from tango import DevState
+from ska_control_model._dev_state import DevState
 
 # TODO: Get these  helper classes moved into utils
 from tests.integration.tmc.conftest import TMC, EventWaitTimeout, wait_for_event
@@ -54,7 +54,7 @@ class TelescopeState:
         )
 
 
-class Telescope:
+class TelescopeHandler:
     """Class containing methods to manipulate the state ofthe telescope under TMC control."""
 
     def __init__(self, sut_namespace: str, dish_ids: List[str]):
@@ -93,7 +93,6 @@ class Telescope:
         current_telescope_state = self.get_current_state()
         if current_telescope_state == desired_state:
             return
-
         # Teardown System Under Test (SUT) first via TMC subarray
         try:
             self._teardown_sut_subsystem(
@@ -175,14 +174,14 @@ class Telescope:
                 if current_dish_states[dish_id] == DishMode.OPERATE:
                     dish.AbortCommands()
                     dish.SetStandbyFPMode()
-                    wait_for_event(dish, "dishMode", DishMode.STANDBY_FP, timeout=10)
+                    wait_for_event(dish, "dishMode", DishMode.STANDBY_FP, timeout=30)
                     dish.SetStandbyLPMode()
-                    wait_for_event(dish, "dishMode", DishMode.STANDBY_LP, timeout=10)
+                    wait_for_event(dish, "dishMode", DishMode.STANDBY_LP, timeout=30)
 
                 # Teardown from STANDBY_FP
                 if current_dish_states[dish_id] == DishMode.STANDBY_FP:
                     dish.SetStandbyLPMode()
-                    wait_for_event(dish, "dishMode", DishMode.STANDBY_LP, timeout=10)
+                    wait_for_event(dish, "dishMode", DishMode.STANDBY_LP, timeout=30)
             else:
                 logger.error(
                     f"Teardown of dish to {self.telescope_base_state.dishes[dish_id]}"
@@ -224,28 +223,28 @@ class Telescope:
             # Teardown from SCANNING
             if current_state == ObsState.SCANNING:
                 proxy.EndScan()
-                wait_for_event(proxy, obs_state_name, ObsState.READY, timeout=10)
+                wait_for_event(proxy, obs_state_name, ObsState.READY, timeout=30)
                 proxy.End()
-                wait_for_event(proxy, obs_state_name, ObsState.IDLE, timeout=10)
+                wait_for_event(proxy, obs_state_name, ObsState.IDLE, timeout=30)
                 proxy.ReleaseAllResources()
-                wait_for_event(proxy, obs_state_name, ObsState.EMPTY, timeout=10)
+                wait_for_event(proxy, obs_state_name, ObsState.EMPTY, timeout=30)
 
             # Teardown from READY
             if current_state == ObsState.READY:
                 proxy.End()
-                wait_for_event(proxy, obs_state_name, ObsState.IDLE, timeout=10)
+                wait_for_event(proxy, obs_state_name, ObsState.IDLE, timeout=30)
                 proxy.ReleaseAllResources()
-                wait_for_event(proxy, obs_state_name, ObsState.EMPTY, timeout=10)
+                wait_for_event(proxy, obs_state_name, ObsState.EMPTY, timeout=30)
 
             # Teardown from IDLE
             if current_state == ObsState.IDLE:
                 proxy.ReleaseAllResources()
-                wait_for_event(proxy, obs_state_name, ObsState.EMPTY, timeout=10)
+                wait_for_event(proxy, obs_state_name, ObsState.EMPTY, timeout=30)
 
             # Teardown from ABORTED
             if current_state == ObsState.ABORTED:
                 proxy.Restart()
-                wait_for_event(proxy, obs_state_name, ObsState.EMPTY, timeout=10)
+                wait_for_event(proxy, obs_state_name, ObsState.EMPTY, timeout=30)
 
             # # Teardown from a transitionary state
             self._tear_down_transitionary(
@@ -274,16 +273,16 @@ class Telescope:
         # Teardown from a transitionary state (*ING)
         if re.findall(r"\w+ING\b", current_state.name):
             proxy.Abort()
-            wait_for_event(proxy, obs_state_name, ObsState.ABORTED, timeout=10)
+            wait_for_event(proxy, obs_state_name, ObsState.ABORTED, timeout=30)
             proxy.Restart()
-            wait_for_event(proxy, obs_state_name, ObsState.EMPTY, timeout=10)
+            wait_for_event(proxy, obs_state_name, ObsState.EMPTY, timeout=30)
 
     def _turn_off_telescope(self):
         """Turn OFF the telescope."""
         proxy = self.tmc.central_node
 
         proxy.TelescopeOff()
-        wait_for_event(proxy, "telescopeState", DevState.OFF, timeout=10)
+        wait_for_event(proxy, "telescopeState", DevState.OFF, timeout=30)
 
     def get_current_state(self) -> TelescopeState:
         """Return the current telescope state.
@@ -291,7 +290,7 @@ class Telescope:
         :return: _description_
         :rtype: TelescopeState
         """
-        telescope_state = self.tmc.central_node.telescopeState
+        telescope_state = DevState(self.tmc.central_node.telescopeState)
         subarray_state = self.tmc.subarray_node.obsState
         csp_state = self.tmc.csp_subarray_leaf_node.cspSubarrayObsState
         sdp_state = self.tmc.sdp_subarray_leaf_node.sdpSubarrayObsState
@@ -303,12 +302,3 @@ class Telescope:
             telescope_state, subarray_state, csp_state, sdp_state, dish_states
         )
         return current_telescope_state
-
-
-def main():
-    sut_namespace = "ci-ska-mid-itf-at-2306-telescope-teardown"
-    telescope = Telescope(sut_namespace, dish_ids=["SKA001", "SKA036"])
-    telescope.teardown()
-
-if __name__ == "__main__":
-    main()
