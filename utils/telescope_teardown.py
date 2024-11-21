@@ -305,7 +305,10 @@ class Telescope:
         return current_telescope_state
 
 
-if __name__ == "__main__":
+def main():
     sut_namespace = "ci-ska-mid-itf-at-2306-telescope-teardown"
     telescope = Telescope(sut_namespace, dish_ids=["SKA001", "SKA036"])
     telescope.teardown()
+
+if __name__ == "__main__":
+    main()
