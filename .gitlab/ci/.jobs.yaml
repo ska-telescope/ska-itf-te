@@ -136,7 +136,7 @@ docs-build:
     - "make help | grep k8s-test"
     - bash .make/resources/gitlab_section.sh poetry "Poetry Install" poetry install
   script:
-    - poetry shell
+    - export PYTHONPATH=.:$PYTHONPATH
     - telescope_state_control --print-state -n $E2E_TEST_EXECUTION_NAMESPACE -d "$DISH_IDS"
     - bash .make/resources/gitlab_section.sh poetry "Telescope teardown" telescope_state_control --teardown -n $E2E_TEST_EXECUTION_NAMESPACE -d "$DISH_IDS"
     - bash .make/resources/gitlab_section.sh template "Output deployment config information" make get-deployment-config-info
