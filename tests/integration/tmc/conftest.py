@@ -212,7 +212,8 @@ def wait_for_event(
     attr_val_name = desired_value
     try:
         attr_val_name = desired_value.name
-    except:
+    except AttributeError:
+        # Accept failure to obtain name
         pass
 
     time_start = time()
