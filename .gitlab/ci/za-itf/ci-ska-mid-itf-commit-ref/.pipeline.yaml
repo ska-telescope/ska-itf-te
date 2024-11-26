@@ -124,6 +124,9 @@ k8s-test-runner:
     DISH_LMC_IN_THE_LOOP: "false"
     ADDMARKS: True
     MARKS: "'not hw_in_the_loop'"
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "web" && "$CI_COMMIT_TAG"
+      when: never
 
 stop-k8s-test-runner:
   tags:
