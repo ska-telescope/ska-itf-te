@@ -4857,13 +4857,13 @@ reference = "skao"
 
 [[package]]
 name = "ska-mid-itf-engineering-tools"
-version = "0.9.4rc1"
+version = "0.9.4rc2"
 description = "SKA MID ITF Engineering tools"
 optional = false
 python-versions = ">=3.10,<3.11"
 files = [
-    {file = "ska_mid_itf_engineering_tools-0.9.4rc1-py3-none-any.whl", hash = "sha256:aa9e3ef27d58b9bf502309d20ad15513e4a3dac9082c12f207cb72ad240f5806"},
-    {file = "ska_mid_itf_engineering_tools-0.9.4rc1.tar.gz", hash = "sha256:98b56fce7bdcabebe7755c8e641af3331b152c9654d82967a12b856e2dabcdf9"},
+    {file = "ska_mid_itf_engineering_tools-0.9.4rc2-py3-none-any.whl", hash = "sha256:aa3822315ca966fcd823fb3ef427cfa86746ca78d9d946c5a8fccf5719eba4f3"},
+    {file = "ska_mid_itf_engineering_tools-0.9.4rc2.tar.gz", hash = "sha256:55588d1658211a85c4091f6d9252dec050cc9bc91616a4eab0d1c43f1d75ce6f"},
 ]
 
 [package.dependencies]
@@ -5927,4 +5927,4 @@ reference = "PyPI-public"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.11"
-content-hash = "8e4b02dec88202bd294677fd4d5f2fd6aa92a9eb29b1beec85a5dc64b7586df8"
+content-hash = "13f5f485ae72b687983f965f282ce1563e90c21c8ef90cf7b95ebad95bcb3b7e"
