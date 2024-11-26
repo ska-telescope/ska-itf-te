@@ -7,7 +7,7 @@
     SPFRX_IN_THE_LOOP: "false"
     DISH_ID: ska001
     DISH_INDEX: "001"
-    SPFC_IN_THE_LOOP: "true"
+    SPFC_IN_THE_LOOP: "false"
     SPFC_INSTANCE: spfc-devkit
 
 1-deploy-dishlmc-ska001:

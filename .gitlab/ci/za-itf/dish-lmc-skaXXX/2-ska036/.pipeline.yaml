@@ -7,7 +7,7 @@
     SPFRX_ADDRESS: 10.165.3.21
     DISH_ID: ska036
     SPFRX_IN_THE_LOOP: "false"
-    SPFC_IN_THE_LOOP: "true"
+    SPFC_IN_THE_LOOP: "false"
     SPFC_INSTANCE: spfc-prod
 
 2-deploy-dishlmc-ska036:
