@@ -24,6 +24,7 @@ ska-tango-base:
 # TARANTA
 ska-taranta:
   enabled: true
+  tango_dbs: ["ska-tango-sut", "ska-tango-ska001", "ska-tango-ska036", "ska-tango-ska063", "ska-tango-ska100"]
   tangogql:
     replicas: 1
     resources:
