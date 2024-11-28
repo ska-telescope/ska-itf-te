@@ -3,6 +3,8 @@
 ## Unreleased
 * [AT-2487] - fixed pipeline dependency chain
 * [AT-2487] - added two receptors - we now have four-receptor deployments available
+* [AT-2427] - added Talon3 and Talon4 to the Ansible inventory
+* [AT-2427] - added log-capture targets and provided help text for all targets
   
 ## 24.4.1
 * [AT-2350] - Updated Jupyter Notebook
