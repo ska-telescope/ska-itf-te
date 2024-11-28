@@ -44,6 +44,7 @@ ska-mid-dish-spfrx-talondx-console:
   enabled: false
   console:
     version: 0.3.8-dev.c74186232 # Edit in Gitlab Environment
+    registry: registry.gitlab.com/ska-telescope/ska-mid-dish-spfrx-talondx-console
   address: 10.165.3.20
   bin: /usr/local/bin
   local_dir: artifacts
