@@ -38,10 +38,6 @@ ska-dish-lmc:
         enabled: true
     dsOpcuaSimulator:
       enabled: true
-    dishleafnode:
-      image:
-        registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-dishleafnode
-        tag: 0.18.1-dev.cbb476326
 
 # SPFRx
 ska-mid-dish-spfrx-talondx-console:
