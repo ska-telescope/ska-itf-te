@@ -79,17 +79,17 @@ ska-tmc-mid:
       DishVccConfig:
         DishVccUri: "car://gitlab.com/ska-telescope/ska-telmodel-data?0.1.0-rc-mid-itf#tmdata"
         DishVccFilePath: "instrument/ska1_mid_itf/ska-mid-cbf-system-parameters.json"
-    dishleafnode:
-      enabled: true
-      image:
-        registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-dishleafnode
-        tag: 0.18.1-dev.cbb476326
     cspsubarrayleafnode:
       CommandTimeOut: 300
     sdpsubarrayleafnode:
       CommandTimeout: 90
     subarraynode:
       CommandTimeOut: 300
+  dishleafnode:
+    enabled: true
+    image:
+      registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-dishleafnode
+      tag: 0.18.1-dev.cbb476326
   resources:
     # limits:
     #   cpu: 800m
