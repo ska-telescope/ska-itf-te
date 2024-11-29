@@ -2,18 +2,8 @@ apiVersion: v2
 name: ska-mid-itf-dish-lmc
 description: An umbrella Helm chart for deploying the Dish LMC and necessary peripherals
 type: application
-<<<<<<< HEAD
-<<<<<<< HEAD
-version: 24.5.1-rc.7
-appVersion: 24.5.1-rc.7
-=======
-version: 24.5.1-rc.8
-appVersion: 24.5.1-rc.8
->>>>>>> fa360adf (MAP-212 Bump rc)
-=======
 version: 24.5.1-rc.9
 appVersion: 24.5.1-rc.9
->>>>>>> c592b255 (MAP-212 Bump rc)
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
   # TANGO DEPENDENCIES
