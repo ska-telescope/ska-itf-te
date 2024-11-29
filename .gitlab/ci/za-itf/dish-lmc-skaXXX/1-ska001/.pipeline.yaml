@@ -2,11 +2,11 @@
 
 .ska001-env:
   variables:
+    DISH_ID: ska001
+    DISH_INDEX: "001"
     SPFRX_TANGO_INSTANCE: rxpu-1
     SPFRX_ADDRESS: 10.165.3.20
     SPFRX_IN_THE_LOOP: "false"
-    DISH_ID: ska001
-    DISH_INDEX: "001"
     SPFC_IN_THE_LOOP: "false"
     SPFC_INSTANCE: spfc-devkit
 

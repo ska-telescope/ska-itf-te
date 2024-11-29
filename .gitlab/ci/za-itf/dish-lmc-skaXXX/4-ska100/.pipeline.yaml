@@ -2,10 +2,10 @@
 
 .ska100-env:
   variables:
+    DISH_ID: ska100
     DISH_INDEX: "100"
     SPFRX_TANGO_INSTANCE: rxpu-4
     SPFRX_ADDRESS: 10.165.3.23
-    DISH_ID: ska100
     SPFRX_IN_THE_LOOP: "false"
     SPFC_IN_THE_LOOP: "false"
 
