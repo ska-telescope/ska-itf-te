@@ -86,7 +86,6 @@ ska-tmc-mid:
     subarraynode:
       CommandTimeOut: 300
   dishleafnode:
-    enabled: true
     image:
       registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-dishleafnode
       tag: 0.18.1-dev.cbb476326
