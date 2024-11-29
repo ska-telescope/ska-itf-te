@@ -2,10 +2,10 @@
 
 .ska036-env:
   variables:
+    DISH_ID: ska036
     DISH_INDEX: "036"
     SPFRX_TANGO_INSTANCE: rxpu-2
     SPFRX_ADDRESS: 10.165.3.21
-    DISH_ID: ska036
     SPFRX_IN_THE_LOOP: "false"
     SPFC_IN_THE_LOOP: "false"
     SPFC_INSTANCE: spfc-prod
