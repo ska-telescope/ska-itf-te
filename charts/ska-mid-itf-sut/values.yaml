@@ -85,10 +85,6 @@ ska-tmc-mid:
       CommandTimeout: 90
     subarraynode:
       CommandTimeOut: 300
-  dishleafnode:
-    image:
-      registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-dishleafnode
-      tag: 0.18.1-dev.cbb476326
   resources:
     # limits:
     #   cpu: 800m
