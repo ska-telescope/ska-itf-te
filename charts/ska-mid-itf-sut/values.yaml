@@ -68,6 +68,10 @@ ska-tmc-mid:
   telescope: SKA-mid
   ska-tango-base:
     enabled: false
+  cspsubarrayleafnode:
+    image:
+      registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-cspleafnodes
+      tag: 0.21.3-dev.ccfe6aad7
   deviceServers:
     mocks:
       enabled: true
@@ -81,9 +85,6 @@ ska-tmc-mid:
         DishVccFilePath: "instrument/ska1_mid_itf/ska-mid-cbf-system-parameters.json"
     cspsubarrayleafnode:
       CommandTimeOut: 300
-      image:
-        registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-cspleafnodes
-        tag: 0.21.3-dev.ccfe6aad7
     sdpsubarrayleafnode:
       CommandTimeout: 90
     subarraynode:
