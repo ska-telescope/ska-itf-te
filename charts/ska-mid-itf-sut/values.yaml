@@ -180,7 +180,8 @@ ska-tango-archiver:
   telescope_environment: MID-ITF
   configuration_manager: mid-eda/cm/01
   event_subscriber: mid-eda/es/01
-  archwizard_config: MyHDB=tango://tango-databaseds:10000/mid-eda/cm/01
+ # archwizard_config: MyHDB=tango://tango-databaseds:10000/mid-eda/cm/01
+  archwizard_config: MyHDB=tango://databaseds-tango-base.{{.Release.Name}}.svc.cluster.local:10000/mid-eda/cm/01
   archviewer:
     instances:
       - name: "mid"
