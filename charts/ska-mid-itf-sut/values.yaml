@@ -70,8 +70,7 @@ ska-tmc-mid:
     enabled: false
   cspsubarrayleafnode:
     image:
-      registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-cspleafnodes
-      tag: 0.21.3-dev.ccfe6aad7
+      tag: 0.21.4
   deviceServers:
     mocks:
       enabled: true
