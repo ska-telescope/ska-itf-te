@@ -24,7 +24,7 @@ ska-tango-base:
 # TARANTA
 ska-taranta:
   enabled: true
-  tango_dbs:
+  TANGO_DBS:
     [
       "ska-tango-sut",
       "ska-tango-ska001",
@@ -44,7 +44,7 @@ ska-taranta:
 
 # TANGOGQL: SUT
 tangogql-sut:
-  tangodb: system_under_test
+  tangoDB: system_under_test
   enabled: true
   ska-tango-base:
     enabled: false
@@ -53,7 +53,7 @@ tangogql-sut:
 
 # TANGOGQL:
 tangogql-ska001:
-  tangodb: ska001
+  tangoDB: ska001
   tango_host: tango-databaseds.integration-dish-lmc-ska001.svc.miditf.internal.skao.int:10000
   enabled: true
   ska-tango-base:
@@ -63,7 +63,7 @@ tangogql-ska001:
 
 # TANGOGQL:
 tangogql-ska036:
-  tangodb: ska036
+  tangoDB: ska036
   tango_host: tango-databaseds.integration-dish-lmc-ska036.svc.miditf.internal.skao.int:10000
   enabled: true
   ska-tango-base:
@@ -73,7 +73,7 @@ tangogql-ska036:
 
 # TANGOGQL:
 tangogql-ska063:
-  tangodb: ska063
+  tangoDB: ska063
   tango_host: tango-databaseds.integration-dish-lmc-ska063.svc.miditf.internal.skao.int:10000
   enabled: true
   ska-tango-base:
@@ -83,7 +83,7 @@ tangogql-ska063:
 
 # TANGOGQL:
 tangogql-ska100:
-  tangodb: ska100
+  tangoDB: ska100
   tango_host: tango-databaseds.integration-dish-lmc-ska100.svc.miditf.internal.skao.int:10000
   enabled: true
   ska-tango-base:
