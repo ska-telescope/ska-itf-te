@@ -125,6 +125,9 @@ ska-tmc-mid:
   telescope: SKA-mid
   ska-tango-base:
     enabled: false
+  cspsubarrayleafnode:
+    image:
+      tag: 0.21.4
   deviceServers:
     mocks:
       enabled: true
@@ -136,13 +139,12 @@ ska-tmc-mid:
       DishVccConfig:
         DishVccUri: "car://gitlab.com/ska-telescope/ska-telmodel-data?0.1.0-rc-mid-itf#tmdata"
         DishVccFilePath: "instrument/ska1_mid_itf/ska-mid-cbf-system-parameters.json"
-
-    dishleafnode:
-      enabled: true
     cspsubarrayleafnode:
-      CommandTimeOut: 120
+      CommandTimeOut: 300
     sdpsubarrayleafnode:
       CommandTimeout: 90
+    subarraynode:
+      CommandTimeOut: 300
   resources:
     # limits:
     #   cpu: 800m

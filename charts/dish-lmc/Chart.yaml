@@ -2,8 +2,8 @@ apiVersion: v2
 name: ska-mid-itf-dish-lmc
 description: An umbrella Helm chart for deploying the Dish LMC and necessary peripherals
 type: application
-version: 24.5.1-rc.7
-appVersion: 24.5.1-rc.7
+version: 24.5.1-rc.10
+appVersion: 24.5.1-rc.10
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
   # TANGO DEPENDENCIES
@@ -31,7 +31,7 @@ dependencies:
 
   # SPFRx DEPLOYER CHART
   - name: ska-mid-dish-spfrx-talondx-console
-    version: 0.3.7
+    version:  0.3.9
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-mid-dish-spfrx-talondx-console.enabled
 
