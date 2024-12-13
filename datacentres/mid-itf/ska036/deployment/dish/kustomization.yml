@@ -2,7 +2,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ../../../../shared/deployment/ska-tango-archiver
+  - ../../../../shared/deployment/dish
   - vault_secrets.yml
 
 patches:
@@ -17,4 +17,4 @@ patches:
     patch: |-
       - op: replace
         path: /metadata/name
-        value: ska063-archiver
+        value: ska036-dish
