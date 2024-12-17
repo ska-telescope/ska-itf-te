@@ -83,8 +83,6 @@ dependencies:
     condition: ska-taranta.enabled
     alias: ska-tango-ska100
 
-
-
   # test helpers
   - name: ska-log-consumer
     version: 0.1.6

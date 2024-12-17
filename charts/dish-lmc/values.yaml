@@ -58,6 +58,7 @@ ska-spfc-deployer:
 # TARANTA SUITE
 ska-taranta:
   enabled: true
+  TANGO_DBS: ["ska-tango-sut", "ska-tango-ska001", "ska-tango-ska036", "ska-tango-ska063", "ska-tango-ska100"]
   ingress:
     enabled: true
     nginx: true

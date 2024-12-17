@@ -23,6 +23,27 @@ dependencies:
     version: 1.4.4
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-taranta.enabled
+    alias: ska-tango-sut
+  - name: ska-tango-tangogql
+    version: 1.4.4
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-taranta.enabled
+    alias: ska-tango-ska001
+  - name: ska-tango-tangogql
+    version: 1.4.4
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-taranta.enabled
+    alias: ska-tango-ska036
+  - name: ska-tango-tangogql
+    version: 1.4.4
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-taranta.enabled
+    alias: ska-tango-ska063
+  - name: ska-tango-tangogql
+    version: 1.4.4
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-taranta.enabled
+    alias: ska-tango-ska100
 
   # DISH LMC CHART
   - name: ska-dish-lmc
