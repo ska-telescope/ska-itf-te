@@ -21,7 +21,7 @@
     - if: "$CI_COMMIT_TAG"
       variables:
         SPFRX_IN_THE_LOOP: "true"
-        SPFC_IN_THE_LOOP: "true"
+        SPFC_IN_THE_LOOP: "false"
         KUBE_NAMESPACE: staging-$KUBE_APP-$DISH_ID
         KUBE_NAMESPACE_PREFIX: staging-dish-lmc-
     - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
