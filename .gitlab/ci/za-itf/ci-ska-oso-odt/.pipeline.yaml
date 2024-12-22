@@ -18,7 +18,6 @@ artifacts:
   paths:
     - "build/"
 
-
 deploy-odt-on-demand:
   variables:
     K8S_EXTRA_PARAMS: "-f charts/ska-oso-odt-services/values.yaml"
@@ -31,6 +30,6 @@ deploy-odt-on-demand:
 
 destroy-oda-on-demand:
   script:
-    - - !reference [.cleanup, script]
+    - !reference [.cleanup, script]
   environment:
     action: stop
