@@ -1,24 +1,29 @@
-variables:
-  CONFIG: mid
-  K8S_CHART: ska-oso-odt-services
-  KUBE_APP: ska-db-oda
-  INGRESS_HOST: "k8s.miditf.internal.skao.int"
-  CLUSTER_DOMAIN: "miditf.internal.skao.int"
-  TANGO_DATABASE_DS: tango-databaseds
-  MINIKUBE: "false"
-  CLUSTER_DOMAIN_POSTFIX: miditf.internal.skao.int
-environment:
-  name: sut/oda/$KUBE_NAMESPACE
-  kubernetes:
-    namespace: $KUBE_NAMESPACE
-  url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
-when: manual
-artifacts:
-  name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID"
-  paths:
-    - "build/"
+.odt:
+  tags:
+    - ska-k8srunner-za-itf
+  variables:
+    CONFIG: mid
+    K8S_CHART: ska-oso-odt-services
+    KUBE_APP: ska-db-odt
+    INGRESS_HOST: "k8s.miditf.internal.skao.int"
+    CLUSTER_DOMAIN: "miditf.internal.skao.int"
+    TANGO_DATABASE_DS: tango-databaseds
+    MINIKUBE: "false"
+    CLUSTER_DOMAIN_POSTFIX: miditf.internal.skao.int
+  environment:
+    name: sut/odt/$KUBE_NAMESPACE
+    kubernetes:
+      namespace: $KUBE_NAMESPACE
+    url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
+  when: manual
+  artifacts:
+    name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID"
+    paths:
+      - "build/"
 
 deploy-odt-on-demand:
+  extends:
+    - .odt
   variables:
     K8S_EXTRA_PARAMS: "-f charts/ska-oso-odt-services/values.yaml"
   script:
@@ -26,10 +31,11 @@ deploy-odt-on-demand:
   after_script:
     - bash .make/resources/gitlab_section.sh deployment-config "Output deployment config information" make get-deployment-config-info
   environment:
-    on_stop: destroy-oda-on-demand
+    on_stop: destroy-odt-on-demand
 
-destroy-oda-on-demand:
+destroy-odt-on-demand:
   extends:
+    - .odt
     - .cleanup
   script:
     - !reference [.cleanup, script]
