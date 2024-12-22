@@ -1,0 +1,12 @@
+apiVersion: v2
+name: ska-oso-odt-services
+description: Deployment of ska-oso-odt-services-umbrella, which includes ska-db-oda, postgres and ska-ser-skuid, in the Mid ITF.
+type: application
+version: 24.5.1-rc.10
+appVersion: 24.5.1-rc.10
+icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
+dependencies:
+  # OSO ODT SERVICES UMBRELLA CHART
+  - name: ska-oso-odt-services-umbrella
+    version: 1.0.4
+    repository: https://artefact.skao.int/repository/helm-internal
