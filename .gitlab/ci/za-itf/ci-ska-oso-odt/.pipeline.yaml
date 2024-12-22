@@ -29,6 +29,8 @@ deploy-odt-on-demand:
     on_stop: destroy-oda-on-demand
 
 destroy-oda-on-demand:
+  extends:
+    - .cleanup
   script:
     - !reference [.cleanup, script]
   environment:
