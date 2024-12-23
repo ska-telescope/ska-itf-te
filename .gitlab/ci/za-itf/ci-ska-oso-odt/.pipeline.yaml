@@ -10,6 +10,7 @@
     TANGO_DATABASE_DS: tango-databaseds
     MINIKUBE: "false"
     CLUSTER_DOMAIN_POSTFIX: miditf.internal.skao.int
+    KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
   environment:
     name: sut/odt/$KUBE_NAMESPACE
     kubernetes:
