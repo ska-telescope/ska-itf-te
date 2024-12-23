@@ -56,10 +56,6 @@ INTEGRATION_TEST_SOURCE ?= tests/integration
 INTEGRATION_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(_MARKS) $(_COUNTS) $(EXIT) $(PYTEST_ADDOPTS)
 
 TMC_PARAMS ?=
-ifeq ($(DISH_LMC_IN_THE_LOOP),true)
-TMC_PARAMS += --set ska-tmc-mid.deviceServers.mocks.enabled=false \
-	--set ska-tmc-mid.deviceServers.mocks.dish=false
-endif
 
 DISH_LMC_INITIAL_PARAMS ?=
 DISH_LMC_EXTRA_PARAMS ?=
