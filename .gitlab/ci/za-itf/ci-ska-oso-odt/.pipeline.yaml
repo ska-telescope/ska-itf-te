@@ -36,8 +36,8 @@ deploy-odt-on-demand:
 destroy-odt-on-demand:
   extends:
     - .odt
-    - .cleanup
   script:
-    - !reference [.cleanup, script]
+    - make k8s-uninstall-chart || true
+    - make k8s-delete-namespace KUBE_NAMESPACE=$KUBE_NAMESPACE
   environment:
     action: stop
