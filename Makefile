@@ -3,7 +3,7 @@
 
 OCI_BUILD_ADDITIONAL_ARGS += --cache-from registry.gitlab.com/ska-telescope/ska-mid-itf/ska-mid-itf-base:0.1.4
 
-HELM_CHARTS_TO_PUBLISH=dish-lmc ska-db-oda-mid-itf ska-mid-itf-ghosts ska-mid-itf-sut ska-mid-itf-dpd ska-oso-odt-services 
+HELM_CHARTS_TO_PUBLISH=dish-lmc ska-db-oda-mid-itf ska-mid-itf-ghosts ska-mid-itf-sut ska-mid-itf-dpd
 PYTHON_VARS_AFTER_PYTEST= --disable-pytest-warnings
 POETRY_CONFIG_VIRTUALENVS_CREATE = true
 
@@ -56,6 +56,10 @@ INTEGRATION_TEST_SOURCE ?= tests/integration
 INTEGRATION_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(_MARKS) $(_COUNTS) $(EXIT) $(PYTEST_ADDOPTS)
 
 TMC_PARAMS ?=
+ifeq ($(DISH_LMC_IN_THE_LOOP),true)
+TMC_PARAMS += --set ska-tmc-mid.deviceServers.mocks.enabled=false \
+	--set ska-tmc-mid.deviceServers.mocks.dish=false
+endif
 
 DISH_LMC_INITIAL_PARAMS ?=
 DISH_LMC_EXTRA_PARAMS ?=
@@ -177,12 +181,6 @@ EDA_PARAMS ?= --set ska-tango-archiver.dbpassword=${EDA_DB_PASSWORD} \
 	$(EDA_EXTRA_PARAMS)
 ###################################################################
 
-ODT_PARAMS ?=
-ifeq ($(DISH_LMC_IN_THE_LOOP),true)
-TMC_PARAMS += --set ska-tmc-mid.deviceServers.mocks.enabled=false \
-	--set global.cluster_domain=$(CLUSTER_DOMAIN)
-endif
-
 K8S_TEST_RUNNER_PARAMS ?=
 
 K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
@@ -207,8 +205,7 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	$(K8S_TEST_RUNNER_PARAMS) \
 	$(TMC_PARAMS) \
 	$(CSP_PARAMS) \
-	$(EDA_PARAMS) \
-	$(ODT_PARAMS)
+	$(EDA_PARAMS)
 
 
 TMC_VALUES_PATH?=charts/ska-mid-itf-sut/tmc-values.yaml
