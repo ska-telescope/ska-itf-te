@@ -17,4 +17,4 @@ patches:
     patch: |-
       - op: replace
         path: /metadata/name
-        value: ska063-archiver
+        value: ska036-archiver
