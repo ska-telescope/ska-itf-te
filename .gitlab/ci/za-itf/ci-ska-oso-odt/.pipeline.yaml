@@ -4,7 +4,7 @@
   stage: on_demand_itf_sut
   variables:
     CONFIG: mid
-    K8S_CHART: ska-oso-odt-services
+    K8S_CHART: ska-oso-odt
     KUBE_APP: ska-db-odt
     INGRESS_HOST: "k8s.miditf.internal.skao.int"
     CLUSTER_DOMAIN: "miditf.internal.skao.int"
@@ -27,7 +27,7 @@ deploy-odt-on-demand:
   extends:
     - .odt
   variables:
-    K8S_EXTRA_PARAMS: "-f charts/ska-oso-odt-services/values.yaml"
+    K8S_EXTRA_PARAMS: "-f charts/ska-oso-odt/values.yaml"
   script:
     - make k8s-install-chart
   after_script:
@@ -56,7 +56,7 @@ deploy-odt-staging:
   extends:
     - .odt-staging
   variables:
-    K8S_EXTRA_PARAMS: "-f charts/ska-oso-odt-services/values-staging.yaml"
+    K8S_EXTRA_PARAMS: "-f charts/ska-oso-odt/values-staging.yaml"
   script:
     - make k8s-install-chart
   after_script:

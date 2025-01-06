@@ -1,6 +1,6 @@
 apiVersion: v2
-name: ska-oso-odt-services
-description: Deployment of ska-oso-odt-services-umbrella, which includes ska-db-oda, postgres and ska-ser-skuid, in the Mid ITF.
+name: ska-oso-odt
+description: Deployment of the OSO ODT backend and UI charts
 type: application
 version: 24.5.1-rc.10
 appVersion: 24.5.1-rc.10
