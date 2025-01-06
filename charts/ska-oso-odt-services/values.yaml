@@ -1,19 +1,95 @@
 global:
-  cluster_domain: techops.internal.skao.int
+  annotations:
+    app.gitlab.com/app: CI_PROJECT_PATH_SLUG
+    app.gitlab.com/env: CI_ENVIRONMENT_SLUG
+  minikube: true
+  tango_host: databaseds-tango-base:10000 # this is the name of the k8s Service that is deployed as part of this chart
+
+deployTmcSimulator: false # Disabled temporarily to fix pipeline issue
+enableTaranta: false
+
+ska-oso-oet-low:
+  enabled: false
+
+ska-oso-oet-mid:
+  telescope: SKA-mid
+  enabled: true
+  rest:
+    ingress:
+      enabled: false # We define a separate ingress rule in this repo as a workaround for the mid/low clash if you just deploy the ska-oso-chart ingress twice
+    oda:
+      url: # Only known at runtime, so is overwritten in the Makefile
+
 ska-db-oda-umbrella:
+  enabled: true
   ska-db-oda:
-    enabled: true
+    secretProvider:
+      enabled: true # Makefile will override to false for a local deployment
     rest:
+      logLevel: info
       enabled: true
       ingress:
         enabled: true
-      backend:
-        postgres:
-          host:
+      postgres:
+        host: # Only known at runtime, so is overwritten in the Makefile
   postgresql:
     enabled: true
-  pgadmin4:
+
+ska-oso-services:
+  enabled: true
+
+ska-oso-odt-ui:
+  enabled: true
+  backendURL: ~ # Requires the KUBE_HOST, so is overwritten in the Makefile at deploy time
+
+ska-oso-pht-services:
+  enabled: true
+  secretProvider:
     enabled: true
-  ska-ser-skuid:
-    skuid:
+
+ska-oso-pht-ui:
+  enabled: true
+  rest:
+    logLevel: info
+    oda:
+      backendType: rest
+      url: ~ # Defaults to the ODA service URL in the chart
+
+ska-oso-ptt:
+  enabled: true
+  backendURL:
+
+ska-oso-ptt-services:
+  enabled: true
+  rest:
+    logLevel: info
+    oda:
+      backendType: postgres
+      url: ~ # Defaults to the ODA service URL in the chart
+    ingress:
       enabled: true
+
+ska-oso-slt-ui:
+  enabled: true
+  backendURL:
+
+ska-oso-slt-services:
+  enabled: true
+  rest:
+    logLevel: info
+    oda:
+      backendType: rest
+      url: ~ # Defaults to the ODA service URL in the chart
+    ingress:
+      enabled: true
+
+ska-ost-osd-umbrella:
+  enabled: true
+  ska-ost-osd:
+    rest:
+      logLevel: info
+      osd:
+        backendType: rest
+        url: ~ # Defaults to the ODA service URL in the chart
+      ingress:
+        enabled: true

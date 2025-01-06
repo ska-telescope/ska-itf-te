@@ -6,7 +6,17 @@ version: 24.5.1-rc.10
 appVersion: 24.5.1-rc.10
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
-  # OSO ODT SERVICES UMBRELLA CHART
-  - name: ska-oso-odt-services-umbrella
-    version: 1.0.4
+  # OSO SERVICES
+  - name: ska-oso-services
+    version: 0.3.1
     repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-oso-services.enabled
+
+  # ODT UI
+  - name: ska-oso-odt-ui
+    version: 1.0.0
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-oso-odt-ui.enabled
+
+  # TODO: Add more OSO application charts from https://gitlab.com/ska-telescope/oso/ska-oso-integration/-/blob/main/charts/ska-oso-integration/Chart.yaml?ref_type=heads
+  # See https://skao.slack.com/archives/C061EMWDBC3/p1736167848340639
