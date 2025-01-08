@@ -51,13 +51,13 @@ setup_pi_dry_run: setup ## Runs the full playbook against the Raspberry Pi in dr
 	$(ANSIBLE_COMMAND_DRY_RUN) --limit raspberry_pi $(MKFILE_DIR)site.yml
 .PHONY: setup_pi_dry_run
 
-setup_pi_spfc: setup ## Runs the full playbook against the SPFC Raspberry Pi.
-	$(ANSIBLE_COMMAND) --limit raspberry_pi_spfc $(MKFILE_DIR)site.yml
-.PHONY: setup_pi_spfc
+setup_spfrx: setup ## Runs the full playbook against the SPFRX's.
+	$(ANSIBLE_COMMAND) --limit spfrx $(MKFILE_DIR)site.yml
+.PHONY: setup_spfrx
 
-setup_pi_spfc_dry_run: setup ## Runs the full playbook against the SPFC Raspberry Pi in dry-run mode.
-	$(ANSIBLE_COMMAND_DRY_RUN) --limit raspberry_pi_spfc $(MKFILE_DIR)site.yml
-.PHONY: setup_pi_spfc_dry_run
+setup_spfrx_dry_run: setup ## Runs the full playbook against the SPFRX's.
+	$(ANSIBLE_COMMAND_DRY_RUN) --limit spfrx $(MKFILE_DIR)site.yml
+.PHONY: setup_spfrx_dry_run
 
 setup_gaia: setup ## Runs the full playbook against Gaia.
 	$(ANSIBLE_COMMAND) --limit gaia $(MKFILE_DIR)site.yml
