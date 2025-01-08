@@ -212,8 +212,8 @@ Makefile:setup_pi_dry_run      Runs the full playbook against the Raspberry Pi i
 Makefile:setup_pi              Runs the full playbook against the Raspberry Pi.
 Makefile:setup_talon_boards_dry_run Runs the full playbook against the Talon boards in dry-run mode.
 Makefile:setup_talon_boards    Runs the full playbook against the Talon boards.
-Makefile:setup_pi_spfc_dry_run Runs the full playbook against the Raspberry Pi SPFC in dry-run mode.
-Makefile:setup_pi_spfc         Runs the full playbook against the Raspberry Pi SPFC.
+Makefile:setup_spfrx_dry_run   Runs the full playbook against the SPFRX in dry-run mode.
+Makefile:setup_spfrx           Runs the full playbook against the SPFRX.
 Makefile:test-cicd-default     Runs a playbook test with all flags enabled (intended for Gitlab pipelines).
 Makefile:test-cicd-gaia        Runs a playbook test as if it were against Gaia (intended for Gitlab pipelines).
 Makefile:test-cicd-raspberry_pi Runs a playbook test as if it were against the Raspberry Pi (intended for Gitlab pipelines).
