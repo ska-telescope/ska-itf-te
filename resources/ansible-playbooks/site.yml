@@ -64,10 +64,3 @@
   hosts: localhost
   roles:
     - local_ssh
-
-# Configure raspberry pi (SPFC)
-- name: Setup raspberry_pi_spfc
-  hosts:
-    - raspberry_pi_spfc
-  roles:
-    - role: update_spfc
