@@ -1,0 +1,19 @@
+- name: Get configuration from Vault
+#ansible.builtin.shell: cat /etc/systemd/network/00-eth.network
+  set_fact:
+    current_host_id: "{{ inventory_hostname }}"
+
+- name: Read SPFRx config file
+  set_fact:
+    spfrx_config_data: "{{ lookup('file', 'group_vars/spfrx_configs/spfrx_configs.yaml') | from_yaml }}"
+
+- name: Check if search_key exists in the dictionary
+  set_fact:
+    key_exists: "{{ current_host_id in spfrx_config_data.spfrx_configs }}" 
+
+- name: Submit SPFRx configuration to SPFRx hosts. 
+  lineinfile:
+    path: /home/root/tmp_network_config.network 
+    line: "{{ spfrx_config_data.spfrx_configs[current_host_id] }}"
+    create: true
+  when: key_exists

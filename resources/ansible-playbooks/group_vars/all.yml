@@ -7,4 +7,4 @@ install_kubectl: false
 # directory structures
 shared_dir: /srv
 shared_common_dir: /srv/all
-remove_users: []
+remove_users: ["p.jordaan","t.tsotetsi"]

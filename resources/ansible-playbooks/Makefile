@@ -23,6 +23,14 @@ ANSIBLE_COMMAND_DRY_RUN := $(ANSIBLE_COMMAND) --check --diff
 V ?=
 USER ?= $(shell whoami)
 
+#Extract SPFRX network config file from Vault
+SPFRX_CONFIG ?=
+ifndef INITIAL_LOGIN
+	SPFRX_CONFIG = $(shell vault login  -method=github token=$(VAULT_TOKEN))
+else
+	SPFRX_CONFIG = $(shell vault login -method=oidc & vault login  -method=github token=$(VAULT_TOKEN))
+endif
+
 ifndef AD_USER
 $(error AD_USER is not set: set this to your active directory user (i.e. Jira username.))
 endif
@@ -52,11 +60,15 @@ setup_pi_dry_run: setup ## Runs the full playbook against the Raspberry Pi in dr
 .PHONY: setup_pi_dry_run
 
 setup_spfrx: setup ## Runs the full playbook against the SPFRX's.
+	$(SPFRX_CONFIG) $(shell vault kv get --field SPFRX_CONFIG -mount="kv" "groups/ska-dev/atlas" > group_vars/spfrx_configs/spfrx_configs.yaml)
 	$(ANSIBLE_COMMAND) --limit spfrx $(MKFILE_DIR)site.yml
+	$(shell rm group_vars/spfrx_configs/spfrx_configs.yaml)
 .PHONY: setup_spfrx
 
 setup_spfrx_dry_run: setup ## Runs the full playbook against the SPFRX's.
-	$(ANSIBLE_COMMAND_DRY_RUN) --limit spfrx $(MKFILE_DIR)site.yml
+	$(SPFRX_CONFIG) $(shell vault kv get --field SPFRX_CONFIG -mount="kv" "groups/ska-dev/atlas" > group_vars/spfrx_configs/spfrx_configs.yaml)
+	$(ANSIBLE_COMMAND) --limit spfrx $(MKFILE_DIR)site.yml
+	$(shell rm group_vars/spfrx_configs/spfrx_configs.yaml)
 .PHONY: setup_spfrx_dry_run
 
 setup_gaia: setup ## Runs the full playbook against Gaia.
