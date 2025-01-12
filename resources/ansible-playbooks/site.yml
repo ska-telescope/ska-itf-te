@@ -64,3 +64,10 @@
   hosts: localhost
   roles:
     - local_ssh
+
+# Configure SPFRx (za-itf-sw)
+- name: Setup SPFRx
+  hosts:
+    - spfrx
+  roles:
+    - role: spfrx_setup
