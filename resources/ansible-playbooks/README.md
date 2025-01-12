@@ -37,9 +37,11 @@ Currently it does the following:
 This role adds an SSH config file at `~/.ssh/config.d/ska-mid-itf-config` which is also included in your main SSH config file. This file sets up SSH access to hosts in the Mid ITF. It adds access to the following hosts:
 
 * Gaia (10.165.4.7): `ssh gaia`
-* Raspberry Pi 0 (10.165.4.11): `ssh pi0`
 * Raspberry Pi 4 (10.165.4.15): `ssh pi4`
-* Raspberry Pi 4 (10.165.3.35): `ssh pi4-spfc`
+* SPFRx (10.165.3.20): `ssh spfrx1`
+* SPFRx (10.165.3.21): `ssh spfrx2`
+* SPFRx (10.165.3.22): `ssh spfrx3`
+* SPFRx (10.165.3.23): `ssh spfrx4`
 * Talon Board 1 (10.165.4.29): `ssh talon1`
 * Talon Board 2 (10.165.4.30): `ssh talon2`
 
@@ -116,7 +118,7 @@ We currently have 5 plays defined in our playbook:
 3. Setup test
 4. Setup Talon Dx boards
 5. Install Mid ITF SSH config on localhost
-6. Update SPFC configuration
+6. Update SPFRx configuration
 
 *Setup gaia* and *Setup rasperry_pi* each execute most of the following actions:
 
@@ -140,7 +142,7 @@ We currently have 5 plays defined in our playbook:
 
 *Install Mid ITF SSH config on localhost* sets up your local machine to easily SSH onto hosts in the Mid ITF.
 
-*Update SPFC configuration* Updates SPFC configuration files and reloads the systemd service.
+*Update SPFRx network configuration* Updates SPFRx network configuration files.
 ### Gaia
 
 The Gaia play can be executed as follows:
@@ -184,12 +186,17 @@ make test
 make test_gaia
 ```
 
-### Raspberry Pi SPFC
+### SPFRx
 
-The Raspberry Pi SPFC play can be executed as follows:
+The SPFRx playbook can be executed as follows:
+If the SPFRx is ran for the first time, please pass the `INITIAL_LOGIN` flag set to 1 as follows:
 
 ```bash
-make setup_pi_spfc
+ make setup_spfrx INITIAL_LOGIN=1
+```
+If the SPFRx notebook has been ran recently and Vault login is still active, please execute the command below:
+```bash
+make setup_spfrx
 ```
 
 ## Additional Info
