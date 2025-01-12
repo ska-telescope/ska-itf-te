@@ -1,2 +1,3 @@
 PrivateRules.mak
 inventory/hosts
+group_vars/spfrx_configs/spfrx_configs.yaml
