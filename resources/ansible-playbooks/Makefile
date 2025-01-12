@@ -62,13 +62,11 @@ setup_pi_dry_run: setup ## Runs the full playbook against the Raspberry Pi in dr
 setup_spfrx: setup ## Runs the full playbook against the SPFRX's.
 	$(SPFRX_CONFIG) $(shell vault kv get --field SPFRX_CONFIG -mount="kv" "groups/ska-dev/atlas" > group_vars/spfrx_configs/spfrx_configs.yaml)
 	$(ANSIBLE_COMMAND) --limit spfrx $(MKFILE_DIR)site.yml
-	$(shell rm group_vars/spfrx_configs/spfrx_configs.yaml)
 .PHONY: setup_spfrx
 
 setup_spfrx_dry_run: setup ## Runs the full playbook against the SPFRX's.
 	$(SPFRX_CONFIG) $(shell vault kv get --field SPFRX_CONFIG -mount="kv" "groups/ska-dev/atlas" > group_vars/spfrx_configs/spfrx_configs.yaml)
 	$(ANSIBLE_COMMAND) --limit spfrx $(MKFILE_DIR)site.yml
-	$(shell rm group_vars/spfrx_configs/spfrx_configs.yaml)
 .PHONY: setup_spfrx_dry_run
 
 setup_gaia: setup ## Runs the full playbook against Gaia.

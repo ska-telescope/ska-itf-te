@@ -1,0 +1,40 @@
+spfrx_configs:
+    spfrx1: |
+      Name=eth0
+      Gateway=10.165.3.245
+      Netmask=255.255.255.0
+      Network=10.165.3.0
+      DNS=10.81.228.213
+      DNS=10.81.228.214
+      Address=10.165.3.20/24
+      MACAddress=00:11:22:33:44:01
+
+    spfrx2: |
+      Name=eth0
+      Gateway=10.165.3.245
+      Netmask=255.255.255.0
+      Network=10.165.3.0
+      DNS=10.81.228.213
+      DNS=10.81.228.214
+      Address=10.165.3.20/24
+      MACAddress=00:11:22:33:44:02
+
+    spfrx3: |
+      Name=eth0
+      Gateway=10.165.3.245
+      Netmask=255.255.255.0
+      Network=10.165.3.0
+      DNS=10.81.228.213
+      DNS=10.81.228.214
+      Address=10.165.3.20/24
+      MACAddress=00:11:22:33:44:03
+
+    spfrx4: |
+      Name=eth0
+      Gateway=10.165.3.245
+      Netmask=255.255.255.0
+      Network=10.165.3.0
+      DNS=10.81.228.213
+      DNS=10.81.228.214
+      Address=10.165.3.20/24
+      MACAddress=00:11:22:33:44:04
