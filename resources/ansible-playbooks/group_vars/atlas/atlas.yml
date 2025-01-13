@@ -42,6 +42,10 @@ team_users:
 #- name: b.lunsky #Request for his public key and add it here, then uncomment the lines.
 #  ssh_key_path: "{{ users_dir }}/aj/.ssh/id_rsa.pub"
 
+remove_users:
+  - g.leroux
+  - t.tsotetsi
+  - p.jordaan
 
 kube_admin_context: kubernetes-admin@kubernetes
 kube_context: atlas-integration-mid-kubernetes
