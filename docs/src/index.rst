@@ -11,6 +11,7 @@ Welcome to SKA CICD Deploy Mid ITF documentation!
    :caption: Documentation
 
    purpose
+   testing
 .. README =============================================================
 
 .. This project most likely has it's own README. We include it here.
