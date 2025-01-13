@@ -26,13 +26,11 @@ NOTE: use the handy tool provided in the Jupyter Notebooks subproject, to calcul
     :linenos:
     :caption: tests/integration/resources/data/tmc/assign_resources.json
 
-    ~~~~~~~
     import notebook_tools.generate_fsp as generate_fsp
     start_freq = 350000000  # Start frequency in Hz - tune to suit use case
     num_fsps_available = 4 # this is a tuneable parameter based on what is available in the setup
     end_freq = generate_fsp.calculate_end_freq(start_freq, num_fsps_available)
     print(f"Channel Count: {generate_fsp.calculate_channel_count(start_freq, end_freq)}") 
-    ~~~~~~~
 
 
 
@@ -44,7 +42,6 @@ NOTE: use the handy tool provided in the Jupyter Notebooks subproject, to calcul
     :linenos:
     :caption: tests/integration/resources/data/tmc/assign_resources.json
 
-    ~~~~~~~
     import notebook_tools.generate_fsp as generate_fsp
 
     start_freq = 350000000  # Start frequency in Hz - tune to suit use case
@@ -53,7 +50,6 @@ NOTE: use the handy tool provided in the Jupyter Notebooks subproject, to calcul
         f"Maximum end frequency based on params above: {generate_fsp.calculate_end_freq(start_freq, num_fsps_available)}"
     )
     print("NOTE: MAX FREQ LIMIT for BAND 1/2 is 1760000000")
-    ~~~~~~~
 
 
 Scan()
