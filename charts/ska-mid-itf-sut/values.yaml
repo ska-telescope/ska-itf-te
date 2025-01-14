@@ -24,14 +24,7 @@ ska-tango-base:
 # TARANTA
 ska-taranta:
   enabled: true
-  tango_dbs:
-    [
-      "ska-tango-sut",
-      "ska-tango-ska001",
-      "ska-tango-ska036",
-      "ska-tango-ska063",
-      "ska-tango-ska100",
-    ]
+  tango_dbs: [] # This is an empty list if there are no connections to external tangoDBs. Override during deploy-time using `helm install --set ...`
   tangogql:
     replicas: 1
     resources:
@@ -42,49 +35,9 @@ ska-taranta:
         cpu: 1000m # 1000m = 1 CPU
         memory: 1024Mi # 1024Mi = 1 GB mem
 
-# TANGOGQL: SUT
-tangogql-sut:
-  tangodb: system_under_test
-  enabled: true
-  ska-tango-base:
-    enabled: false
-  ska-tango-examples:
-    enabled: false
-
-# TANGOGQL:
-tangogql-ska001:
-  tangodb: ska001
-  tango_host: tango-databaseds.integration-dish-lmc-ska001.svc.miditf.internal.skao.int:10000
-  enabled: true
-  ska-tango-base:
-    enabled: false
-  ska-tango-examples:
-    enabled: false
-
-# TANGOGQL:
-tangogql-ska036:
-  tangodb: ska036
-  tango_host: tango-databaseds.integration-dish-lmc-ska036.svc.miditf.internal.skao.int:10000
-  enabled: true
-  ska-tango-base:
-    enabled: false
-  ska-tango-examples:
-    enabled: false
-
-# TANGOGQL:
-tangogql-ska063:
-  tangodb: ska063
-  tango_host: tango-databaseds.integration-dish-lmc-ska063.svc.miditf.internal.skao.int:10000
-  enabled: true
-  ska-tango-base:
-    enabled: false
-  ska-tango-examples:
-    enabled: false
-
-# TANGOGQL:
-tangogql-ska100:
-  tangodb: ska100
-  tango_host: tango-databaseds.integration-dish-lmc-ska100.svc.miditf.internal.skao.int:10000
+# TANGOGQL
+tangogql:
+  tangodb: centralmc # This is the name of the TangoDB that should always be set first when deploying a multiDB Taranta system
   enabled: true
   ska-tango-base:
     enabled: false
@@ -128,6 +81,13 @@ ska-tmc-mid:
   cspsubarrayleafnode:
     image:
       tag: 0.21.4
+    TelmodelSource: gitlab://gitlab.com/ska-telescope/ska-telmodel-data?main#tmdata
+    TelmodelPath: instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json
+    # DelayCadence: 10.0
+    # DelayValidityPeriod: 20.0
+    # DelayModelTimeInAdvance: 30
+    # CommandTimeOut: 50
+    # SleepTime: 1.5
   deviceServers:
     mocks:
       enabled: true
