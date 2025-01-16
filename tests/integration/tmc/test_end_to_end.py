@@ -283,8 +283,8 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids):
         assign_resources_json["sdp"]["execution_block"]["eb_id"] = eb_id
         assign_resources_json["sdp"]["processing_blocks"][0]["pb_id"] = pb_id
 
-        #TODO: Include once band param calculation methods are centralised
-        # # Add in Frequency bounds and the channel count 
+        # TODO: Include once band param calculation methods are centralised
+        # # Add in Frequency bounds and the channel count
         # assign_resources_json["sdp"]["execution_block"]["channels"][0]["spectral_windows"][0][
         #     "freq_min"
         # ] = band_params["start_freq"]
