@@ -169,6 +169,7 @@ def _(telescope_handlers):
         f" CBF Simulation mode is: {csp_control.cbfSimulationMode}"
     )
 
+
 @when("I turn ON the telescope")
 def _(telescope_handlers, receptor_ids):
     """Turn the telescope ON.
