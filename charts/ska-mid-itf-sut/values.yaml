@@ -48,7 +48,7 @@ tangogql:
 ska-ser-config-inspector:
   enabled: true
 
-ska-mid-cbf-mcs:
+ska-mid-cbf-tdc-mcs:
   enabled: true
   num_subarrays: 3
   hostInfo:
