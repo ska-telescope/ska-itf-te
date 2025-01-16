@@ -26,12 +26,12 @@ dependencies:
 
   # DISH LMC CHART
   - name: ska-dish-lmc
-    version: 5.0.1
+    version: 6.0.1
     repository: https://artefact.skao.int/repository/helm-internal
 
   # SPFRx DEPLOYER CHART
   - name: ska-mid-dish-spfrx-talondx-console
-    version:  0.3.9
+    version:  0.4.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-mid-dish-spfrx-talondx-console.enabled
 
