@@ -168,10 +168,6 @@ def _(telescope_handlers):
         f"CSP adminMode is: {csp_control.adminMode},"
         f" CBF Simulation mode is: {csp_control.cbfSimulationMode}"
     )
-    # csp_control.Off("")  # TODO: Find out exactly why this is needed
-    # csp_subarray.Off()  # TODO: Find out exactly why this is needed
-    # sleep(5)  # TODO: Find out exactly why this is needed
-
 
 @when("I turn ON the telescope")
 def _(telescope_handlers, receptor_ids):
@@ -284,6 +280,7 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids):
         assign_resources_json["sdp"]["processing_blocks"][0]["pb_id"] = pb_id
 
         # TODO: Include once band param calculation methods are centralised
+        # band_params = generate_fsp.generate_band_params(SCAN_BAND)
         # # Add in Frequency bounds and the channel count
         # assign_resources_json["sdp"]["execution_block"]["channels"][0]["spectral_windows"][0][
         #     "freq_min"
