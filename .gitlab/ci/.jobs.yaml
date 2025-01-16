@@ -136,7 +136,10 @@ docs-build:
     - "make help | grep k8s-test"
     - bash .make/resources/gitlab_section.sh poetry "Poetry Install" poetry install
   script:
+    - export TANGO_HOST=tango-databaseds.$E2E_TEST_EXECUTION_NAMESPACE.svc.miditf.internal.skao.int:10000
     - bash .make/resources/gitlab_section.sh template "Output deployment config information" make get-deployment-config-info
+    - make print-telescope-state || true
+    - make teardown-telescope || true
     - make integration-test
     - '[ -f build/status ] || (echo "Something went wrong with the test (no build/status file); exit 1")'
     - exit $(cat build/status)
