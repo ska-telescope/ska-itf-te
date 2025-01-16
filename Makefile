@@ -85,7 +85,7 @@ ifeq ($(SPFC_IN_THE_LOOP), true)
 	--set ska-spfc-deployer.instance=$(SPFC_INSTANCE)
 endif
 
-SPFRX_IN_THE_LOOP ?= #Boolean flag to control deployment of the device described in SPFRX_TANGO_INSTANCE, SPFRX_ADDRESS variables
+SPFRX_IN_THE_LOOP ?= true #Boolean flag to control deployment of the device described in SPFRX_TANGO_INSTANCE, SPFRX_ADDRESS variables
 SPFRX_FAMILY_NAME ?= spfrxpu
 SPFRX_MEMBER_NAME ?= controller
 ifeq ($(SPFRX_IN_THE_LOOP), true)
@@ -115,7 +115,7 @@ ifeq ($(SPFRX_IN_THE_LOOP), true)
 	--set ska-dish-lmc.ska-mid-dish-simulators.deviceServers.spfrxdevice.enabled=$(SPFRX_SIM_ENABLE)
 endif
 
-CBF_HW_IN_THE_LOOP ?= 
+CBF_HW_IN_THE_LOOP ?= true
 CSP_PARAMS ?=
 ifeq ($(CBF_HW_IN_THE_LOOP),true)
 	CSP_PARAMS += --set ska-mid-cbf-engineering-console.enabled=true
