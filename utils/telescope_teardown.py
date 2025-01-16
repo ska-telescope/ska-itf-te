@@ -182,6 +182,13 @@ class TelescopeHandler:
                 if current_dish_states[dish_id] == DishMode.STANDBY_FP:
                     dish.SetStandbyLPMode()
                     wait_for_event(dish, "dishMode", DishMode.STANDBY_LP, timeout=30)
+
+                # Teardown from UNKNOWN
+                if current_dish_states[dish_id] == DishMode.UNKNOWN:
+                    dish.SetStowMode()
+                    wait_for_event(dish, "dishMode", DishMode.STOW, timeout=30)
+                    dish.SetStandbyLPMode()
+                    wait_for_event(dish, "dishMode", DishMode.STANDBY_LP, timeout=30)
             else:
                 logger.error(
                     f"Teardown of dish to {self.telescope_base_state.dishes[dish_id]}"
