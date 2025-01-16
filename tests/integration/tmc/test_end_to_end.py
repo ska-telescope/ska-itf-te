@@ -149,7 +149,7 @@ def _(telescope_handlers):
         csp_subarray.adminMode = 1
         wait_for_event(csp_control, "adminMode", 1)
         wait_for_event(csp_subarray, "adminMode", 1)
-        sleep(3)
+        sleep(4)
 
     CBF_HW_IN_THE_LOOP = os.getenv("CBF_HW_IN_THE_LOOP", "false").lower()
     if CBF_HW_IN_THE_LOOP in ["false", "0"]:
@@ -168,9 +168,9 @@ def _(telescope_handlers):
         f"CSP adminMode is: {csp_control.adminMode},"
         f" CBF Simulation mode is: {csp_control.cbfSimulationMode}"
     )
-    csp_control.Off("")  # TODO: Find out exactly why this is needed
-    csp_subarray.Off()  # TODO: Find out exactly why this is needed
-    sleep(5)  # TODO: Find out exactly why this is needed
+    # csp_control.Off("")  # TODO: Find out exactly why this is needed
+    # csp_subarray.Off()  # TODO: Find out exactly why this is needed
+    # sleep(5)  # TODO: Find out exactly why this is needed
 
 
 @when("I turn ON the telescope")
@@ -282,6 +282,18 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids):
         ] = f"{KAFKA_ENDPOINT}:json_workflow_state"
         assign_resources_json["sdp"]["execution_block"]["eb_id"] = eb_id
         assign_resources_json["sdp"]["processing_blocks"][0]["pb_id"] = pb_id
+
+        #TODO: Include once band param calculation methods are centralised
+        # # Add in Frequency bounds and the channel count 
+        # assign_resources_json["sdp"]["execution_block"]["channels"][0]["spectral_windows"][0][
+        #     "freq_min"
+        # ] = band_params["start_freq"]
+        # assign_resources_json["sdp"]["execution_block"]["channels"][0]["spectral_windows"][0][
+        #     "freq_max"
+        # ] = f_limits["freq_max"]
+        # assign_resources_json["sdp"]["execution_block"]["channels"][0]["spectral_windows"][0][
+        #     "count"
+        # ] = band_params["channel_count"]
 
     logger.info(f"PB ID: {pb_id}, EB ID: {eb_id}")
 
