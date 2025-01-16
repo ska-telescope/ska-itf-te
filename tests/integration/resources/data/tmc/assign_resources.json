@@ -4,8 +4,11 @@
     "subarray_id": 1,
     "dish": {
         "receptor_ids": [
-            "SKA001"
-        ]
+            "SKA001",
+            "SKA036",
+            "SKA063",
+            "SKA100"
+          ]
     },
     "sdp": {
         "interface": "https://schema.skao.int/ska-sdp-assignres/0.4",
@@ -17,8 +20,11 @@
                 4
             ],
             "receptors": [
-                "SKA001"
-            ],
+                "SKA001",
+                "SKA036",
+                "SKA063",
+                "SKA100"
+              ],
             "receive_nodes": 1
         },
         "execution_block": {
@@ -31,11 +37,11 @@
                     "spectral_windows": [
                         {
                             "spectral_window_id": "fsp_1_channels",
-                            "count": 54900,
+                            "count": 55060,
                             "start": 0,
                             "stride": 1,
-                            "freq_min": 0.2964e9,
-                            "freq_max": 1.0909e9,
+                            "freq_min": 350000000.0,
+                            "freq_max": 1090006400.0,
                             "link_map": [
                                 [
                                     0,
