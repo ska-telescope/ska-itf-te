@@ -48,7 +48,7 @@ parts:
     version: "file://charts/ska-mid-itf-sut/Chart.yaml"
     dependencies: ["ska-tango-tangogql"]
     alias: "SKA Taranta"
-  ska-tango-tangogql:
+  ska-tango-tangogql-ariadne:
     version: "file://charts/ska-mid-itf-sut/Chart.yaml"
     dependencies: []
     platformDependents: []
