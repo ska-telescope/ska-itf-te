@@ -269,14 +269,6 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids):
         assign_resources_json = json.load(f)
         assign_resources_json["dish"]["receptor_ids"] = RECEPTORS
         assign_resources_json["sdp"]["resources"]["receptors"] = RECEPTORS
-        assign_resources_json["sdp"]["processing_blocks"][0]["parameters"][
-            "queue_connector_configuration"
-        ]["exchanges"][0]["source"]["servers"] = KAFKA_ENDPOINT
-        assign_resources_json["sdp"]["processing_blocks"][0]["parameters"]["extra_helm_values"][
-            "receiver"
-        ]["options"]["reception"][
-            "stats_receiver_kafka_config"
-        ] = f"{KAFKA_ENDPOINT}:json_workflow_state"
         assign_resources_json["sdp"]["execution_block"]["eb_id"] = eb_id
         assign_resources_json["sdp"]["processing_blocks"][0]["pb_id"] = pb_id
 
