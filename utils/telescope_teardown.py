@@ -172,7 +172,7 @@ class TelescopeHandler:
             if self.telescope_base_state.dishes[dish_id] == DishMode.STANDBY_LP:
                 # Teardown from OPERATE
                 if current_dish_states[dish_id] == DishMode.OPERATE:
-                    dish.Abort()
+                    dish.AbortCommands()
                     dish.SetStandbyFPMode()
                     wait_for_event(dish, "dishMode", DishMode.STANDBY_FP, timeout=30)
                     dish.SetStandbyLPMode()
