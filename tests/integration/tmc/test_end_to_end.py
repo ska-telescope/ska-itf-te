@@ -260,9 +260,6 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids):
     cbf_subarray = cbf.subarray
 
     ASSIGN_RESOURCES_FILE = f"{TMC_CONFIGS}/assign_resources.json"
-    KAFKA_PORT = 9092
-    KAFKA_SERVICE_NAME = "ska-sdp-kafka"
-    KAFKA_ENDPOINT = f"{KAFKA_SERVICE_NAME}.{SUT_NAMESPACE}.svc.{CLUSTER_DOMAIN}:{KAFKA_PORT}"
     RECEPTORS = receptor_ids
 
     with open(ASSIGN_RESOURCES_FILE, encoding="utf-8") as f:
