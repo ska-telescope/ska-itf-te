@@ -113,7 +113,7 @@ def telescope_handlers(receptor_ids) -> Generator[Tuple[TMC, CBF, CSP, List[Dish
     tmc.tear_down()
 
 
-@given("an SUT deployment with 1 subarray and dishes SKA001 and SKA036")
+@given("an SUT deployment with 1 subarray")
 def _(telescope_handlers):
     """Trigger instantiation of telescope handler objects.
 
