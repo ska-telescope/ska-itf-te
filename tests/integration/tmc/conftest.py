@@ -209,6 +209,12 @@ def wait_for_event(
     event_queue = Queue()
 
     event_id = device_proxy.subscribe_event(attr_name, event_type, event_queue.put)
+    attr_val_name = desired_value
+    try:
+        attr_val_name = desired_value.name
+    except AttributeError:
+        # Accept failure to obtain name
+        pass
 
     time_start = time()
     while (time() - time_start) < timeout:
@@ -223,7 +229,7 @@ def wait_for_event(
                 if value == desired_value:
                     logger.info(
                         f"Device {device_proxy.name()} attribute {attr_name} changed "
-                        f"to the following desired value: {desired_value}"
+                        f"to the following desired value: {attr_val_name}"
                     )
                     result = True
                     break
@@ -234,9 +240,11 @@ def wait_for_event(
 
     if not result:
         logger.error(
-            f"Desired event on {attr_name} did not occur within the timeout period of {timeout}s"
+            f"Desired event {device_proxy.name()} {attr_name}={attr_val_name}"
+            f" did not occur within the timeout period of {timeout}s"
         )
         raise EventWaitTimeout(
-            f"Desired event on {attr_name} did not occur within the timeout period of {timeout}s"
+            f"Desired event {device_proxy.name()} {attr_name}={attr_val_name}"
+            f" did not occur within the timeout period of {timeout}s"
         )
     return result
