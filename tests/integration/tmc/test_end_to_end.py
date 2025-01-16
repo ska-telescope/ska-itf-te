@@ -260,23 +260,12 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids):
     cbf_subarray = cbf.subarray
 
     ASSIGN_RESOURCES_FILE = f"{TMC_CONFIGS}/assign_resources.json"
-    KAFKA_PORT = 9092
-    KAFKA_SERVICE_NAME = "ska-sdp-kafka"
-    KAFKA_ENDPOINT = f"{KAFKA_SERVICE_NAME}.{SUT_NAMESPACE}.svc.{CLUSTER_DOMAIN}:{KAFKA_PORT}"
     RECEPTORS = receptor_ids
 
     with open(ASSIGN_RESOURCES_FILE, encoding="utf-8") as f:
         assign_resources_json = json.load(f)
         assign_resources_json["dish"]["receptor_ids"] = RECEPTORS
         assign_resources_json["sdp"]["resources"]["receptors"] = RECEPTORS
-        assign_resources_json["sdp"]["processing_blocks"][0]["parameters"][
-            "queue_connector_configuration"
-        ]["exchanges"][0]["source"]["servers"] = KAFKA_ENDPOINT
-        assign_resources_json["sdp"]["processing_blocks"][0]["parameters"]["extra_helm_values"][
-            "receiver"
-        ]["options"]["reception"][
-            "stats_receiver_kafka_config"
-        ] = f"{KAFKA_ENDPOINT}:json_workflow_state"
         assign_resources_json["sdp"]["execution_block"]["eb_id"] = eb_id
         assign_resources_json["sdp"]["processing_blocks"][0]["pb_id"] = pb_id
 

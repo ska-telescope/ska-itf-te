@@ -15,19 +15,15 @@
   "dish": {
     "receiver_band": "1"
   },
-  "sdp": {
-    "interface": "https://schema.skao.int/ska-sdp-configure/0.4",
-    "scan_type": "science"
-  },
   "csp": {
     "interface": "https://schema.skao.int/ska-csp-configurescan/4.1",
-    "transaction_id": "txn-....-00001",
     "common": {
-      "config_id": "1 receptor, band 1, 2 FSP, no options",
-      "eb_id": "eb-m001-20230712-56789",
-      "frequency_band": "1"
+      "config_id": "sbi-mvp01-20200325-00001-science_A",
+      "frequency_band": "1",
+      "eb_id": "eb-m001-20230712-56789"
     },
     "pst": {},
+    "transaction_id": "txn-....-00001",
     "midcbf": {
       "correlation": {
         "processing_regions": [
@@ -48,8 +44,12 @@
       }
     }
   },
+  "sdp": {
+    "interface": "https://schema.skao.int/ska-sdp-configure/0.4",
+    "scan_type": "science"
+  },
   "tmc": {
-    "scan_duration": 920.0,
+    "scan_duration": 620.0,
     "partial_configuration": false
   }
 }
