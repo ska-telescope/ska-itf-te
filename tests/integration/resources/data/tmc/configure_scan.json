@@ -12,6 +12,9 @@
     },
     "correction": "UPDATE"
   },
+  "dish": {
+    "receiver_band": "1"
+  },
   "sdp": {
     "interface": "https://schema.skao.int/ska-sdp-configure/0.4",
     "scan_type": "science"
@@ -37,7 +40,7 @@
             ],
             "start_freq": 350000000,
             "channel_width": 13440,
-            "channel_count": 54900,
+            "channel_count": 55060,
             "sdp_start_channel_id": 0,
             "integration_factor": 10
           }
@@ -48,8 +51,5 @@
   "tmc": {
     "scan_duration": 920.0,
     "partial_configuration": false
-  },
-  "dish": {
-    "receiver_band": "1"
   }
 }
