@@ -21,6 +21,7 @@ DATA_DIR = "tests/integration/resources/data"
 TMC_CONFIGS = f"{DATA_DIR}/tmc"
 expected_k_value = 1
 logger = logging.getLogger()
+OVERRIDE_SCAN_DURATION = os.getenv("OVERRIDE_SCAN_DURATION")
 
 
 @scenario(
@@ -338,6 +339,9 @@ def _(telescope_handlers, scan_time):
     SCAN_FILE = f"{TMC_CONFIGS}/scan.json"
     with open(SCAN_FILE, encoding="utf-8") as f:
         scan_json = f.read()
+
+    if OVERRIDE_SCAN_DURATION:
+        scan_time = int(OVERRIDE_SCAN_DURATION)
 
     tmc.subarray_node.Scan(scan_json)
     wait_for_event(tmc.sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.SCANNING)

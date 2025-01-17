@@ -25,7 +25,7 @@ Feature: Telescope end to end signal chain test
 		When I turn ON the telescope
 		And I assign resources
 		And configure it for a scan
-		And I start a scan for 60 seconds
+		And I start a scan for 120 seconds
 		And I end the scan
 		And I end the observation
 		And I release resources
