@@ -341,7 +341,7 @@ def _(telescope_handlers, scan_time):
         scan_json = f.read()
 
     if OVERRIDE_SCAN_DURATION:
-        scan_time = OVERRIDE_SCAN_DURATION
+        scan_time = int(OVERRIDE_SCAN_DURATION)
 
     tmc.subarray_node.Scan(scan_json)
     wait_for_event(tmc.sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.SCANNING)
