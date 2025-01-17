@@ -155,7 +155,10 @@ def _(telescope_handlers):
     CBF_HW_IN_THE_LOOP = os.getenv("CBF_HW_IN_THE_LOOP", "false").lower()
     if CBF_HW_IN_THE_LOOP in ["false", "0"]:
         csp.set_cbf_simulation_mode(True)
-        sleep(3)
+        sleep(4)
+    else:
+        csp.set_cbf_simulation_mode(False)
+        sleep(4)
 
     csp_control.commandTimeout = 99  # TO BE REMOVED once CSP-CBF LRC's are implemented
     csp_control.commandTimeout = 99  # TO BE REMOVED once CSP-CBF LRC's are implemented
