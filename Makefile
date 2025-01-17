@@ -339,3 +339,8 @@ post-set-release:
 	./scripts/release/update_chart_version.sh $(shell awk -F= '/^release=/{print $$2}' .release) sut_config.yaml;
 	@echo "Updated SUT Config graph reflecting Mid ITF latest version."
 
+print-telescope-state:
+	@poetry run telescope_state_control --print-state -n ${E2E_TEST_EXECUTION_NAMESPACE} -d "${DISH_IDS}"
+
+teardown-telescope:
+	@poetry run telescope_state_control --teardown -n ${E2E_TEST_EXECUTION_NAMESPACE} -d "${DISH_IDS}"

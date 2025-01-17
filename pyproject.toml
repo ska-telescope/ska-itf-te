@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ska-mid-itf"
-version = "25.3.0rc3"
+version = "25.3.0"
 description = "Integration testing and deployment project for the Mid ITF"
 authors = ["ATLAS"]
 license = "BSD 3-Clause"
@@ -50,6 +50,7 @@ flake8-rst-docstrings = "^0.3.0"
 darglint = "^1.8.1"
 mypy = "^1.8.0"
 twine = "^5.0.0"
+ipykernel = "^6.29.5"
 
 [tool.poetry.group.ansible.dependencies]
 ansible = "^9.3.0"
@@ -84,3 +85,6 @@ max-line-length = 99
 
 [tool.black]
 line_length = 99
+
+[tool.poetry.scripts]
+telescope_state_control = "scripts.telescope_control.state:main"
