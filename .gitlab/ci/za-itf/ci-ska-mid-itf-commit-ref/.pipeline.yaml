@@ -123,6 +123,7 @@ k8s-test-runner:
     DISH_LMC_IN_THE_LOOP: "false"
     ADDMARKS: True
     MARKS: "'not hw_in_the_loop'"
+    SIM_MODE: "true"
 
 stop-k8s-test-runner:
   tags:
