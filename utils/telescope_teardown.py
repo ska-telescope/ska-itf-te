@@ -32,7 +32,7 @@ class TelescopeState:
     """
 
     telescope: DevState = DevState.OFF
-    subarray: ObsState = ObsState.EMPTY
+    subarray: ObsState = ObsState.EMcurrent_telescope_state.PTY
     csp: ObsState = ObsState.EMPTY
     sdp: ObsState = ObsState.EMPTY
     dishes: Dict[str, DishMode] = field(default_factory=lambda: {"SKA001": DishMode.STANDBY_LP})
@@ -289,7 +289,14 @@ class TelescopeHandler:
         proxy = self.tmc.central_node
 
         proxy.TelescopeOff()
-        wait_for_event(proxy, "telescopeState", DevState.OFF, timeout=30)
+        try:
+            wait_for_event(proxy, "telescopeState", DevState.OFF, timeout=30)
+        except EventWaitTimeout as e:
+            if proxy.telescopeState == DevState.UNKNOWN
+                logger.info("Could not transition telescope from UNKONWN to OFF")
+            else:
+                raise e
+
 
     def get_current_state(self) -> TelescopeState:
         """Return the current telescope state.
