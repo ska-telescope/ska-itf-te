@@ -122,7 +122,18 @@ def _(telescope_handlers):
     :type telescope_handlers: _type_
     """
     _, _, csp, _ = telescope_handlers
+    csp_control = csp.control
+    csp_subarray = csp.subarray
     SIM_MODE = os.getenv("SIM_MODE", "false").lower()
+
+    if (csp_control.adminMode == 0) or (csp_subarray.adminMode == 0):
+        # CSP should be OFFLINE when CBF Sim mode is set
+        csp_control.adminMode = 1
+        csp_subarray.adminMode = 1
+        wait_for_event(csp_control, "adminMode", 1)
+        wait_for_event(csp_subarray, "adminMode", 1)
+        sleep(4)
+
     if SIM_MODE in ["false", "0", ""]:
         csp.set_cbf_simulation_mode(False)
     elif SIM_MODE in ["true", "1"]:
@@ -143,19 +154,6 @@ def _(telescope_handlers):
     csp_subarray = csp.subarray
 
     assert csp_control.ping() > 0
-
-    if (csp_control.adminMode == 0) or (csp_subarray.adminMode == 0):
-        # CSP should be OFFLINE when CBF Sim mode is set
-        csp_control.adminMode = 1
-        csp_subarray.adminMode = 1
-        wait_for_event(csp_control, "adminMode", 1)
-        wait_for_event(csp_subarray, "adminMode", 1)
-        sleep(4)
-
-    CBF_HW_IN_THE_LOOP = os.getenv("CBF_HW_IN_THE_LOOP", "false").lower()
-    if CBF_HW_IN_THE_LOOP in ["false", "0"]:
-        csp.set_cbf_simulation_mode(True)
-        sleep(3)
 
     csp_control.commandTimeout = 99  # TO BE REMOVED once CSP-CBF LRC's are implemented
     csp_control.commandTimeout = 99  # TO BE REMOVED once CSP-CBF LRC's are implemented
@@ -233,7 +231,7 @@ def _(telescope_handlers, receptor_ids):
 
     tmc_central_node.TelescopeOn()
     wait_for_event(tmc_central_node, "telescopeState", DevState.ON)
-    sleep(80)  # TODO: Remove once we know how to properly check that the CBF is ON
+    sleep(120)  # TODO: Remove once we know how to properly check that the CBF is ON
 
     assert tmc_central_node.telescopeState == DevState.ON
     for receptor in RECEPTORS:
