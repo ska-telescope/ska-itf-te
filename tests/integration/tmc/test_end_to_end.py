@@ -125,7 +125,6 @@ def _(telescope_handlers):
     csp_control = csp.control
     csp_subarray = csp.subarray
     SIM_MODE = os.getenv("SIM_MODE", "false").lower()
-    CBF_HW_IN_THE_LOOP = os.getenv("CBF_HW_IN_THE_LOOP", "false").lower()
 
     if (csp_control.adminMode == 0) or (csp_subarray.adminMode == 0):
         # CSP should be OFFLINE when CBF Sim mode is set
