@@ -122,6 +122,8 @@ def _(telescope_handlers):
     :type telescope_handlers: _type_
     """
     _, _, csp, _ = telescope_handlers
+    csp_control = csp.control
+    csp_subarray = csp.subarray
     SIM_MODE = os.getenv("SIM_MODE", "false").lower()
     CBF_HW_IN_THE_LOOP = os.getenv("CBF_HW_IN_THE_LOOP", "false").lower()
 
@@ -135,10 +137,8 @@ def _(telescope_handlers):
 
     if SIM_MODE in ["false", "0", ""]:
         csp.set_cbf_simulation_mode(False)
-        sleep(4)
     elif SIM_MODE in ["true", "1"]:
         csp.set_cbf_simulation_mode(True)
-        sleep(4)
 
 
 @given("CSP in adminMode online", target_fixture="csp")
