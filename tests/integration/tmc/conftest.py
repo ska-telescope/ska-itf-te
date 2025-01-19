@@ -110,11 +110,11 @@ class CSP:
         """
         if simulation_mode:
             self.control.cbfSimulationMode = 1
-            sleep(3)  # TODO: Enable use of events to check simulationmode
+            sleep(5)  # TODO: Enable use of events to check simulationmode
             # wait_for_event(self.control, "cbfSimulationMode", 1)
         else:
             self.control.cbfSimulationMode = 0
-            sleep(3)  # TODO: Enable use of events to check simulationmode
+            sleep(5)  # TODO: Enable use of events to check simulationmode
             # wait_for_event(self.control, "cbfSimulationMode", 1)
 
 
