@@ -16,7 +16,8 @@ dependencies:
 
   # SKA Mid TMC
   - name: ska-tmc-mid
-    version: 0.22.8 # check latest version
+    # version: 0.22.8 # check latest version
+    version: 0.24.1-rc.1 # see values.yaml for dishleafnode overrides
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tmc-mid.enabled
 
