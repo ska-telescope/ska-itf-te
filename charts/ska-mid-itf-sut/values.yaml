@@ -80,7 +80,7 @@ ska-tmc-mid:
     enabled: false
   dishleafnode:
     image:
-      tag: 0.19.1 ## TEMPORARY COMMIT: This is an override to test verification of SKB-606
+      tag: 0.19.6 ## TEMPORARY COMMIT: This is an override to test verification of SKB-606
   cspsubarrayleafnode:
     image:
       tag: 0.21.4
