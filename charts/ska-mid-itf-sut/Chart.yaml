@@ -16,8 +16,8 @@ dependencies:
 
   # SKA Mid TMC
   - name: ska-tmc-mid
-    # version: 0.22.8 # check latest version
-    version: 0.24.1-rc.1 # see values.yaml for dishleafnode overrides
+    # version: 0.24.1 # check latest version
+    version: 0.24.1-rc.3 # see values.yaml for dishleafnode overrides
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tmc-mid.enabled
 
@@ -28,10 +28,10 @@ dependencies:
     condition: ska-csp-lmc-mid.enabled
 
   # SKA Mid CBF
-  - name: ska-mid-cbf-mcs
+  - name: ska-mid-cbf-tdc-mcs
     version: 1.1.1
     repository: https://artefact.skao.int/repository/helm-internal
-    condition: ska-mid-cbf-mcs.enabled
+    condition: ska-mid-cbf-tdc-mcs.enabled
 
   - name: ska-mid-cbf-engineering-console
     version: 1.0.1

@@ -5,13 +5,13 @@ parts:
   ska-tango-base:
     version: "file://charts/ska-mid-itf-sut/Chart.yaml"
     platformDependents:
-      - ska-mid-cbf-mcs
+      - ska-mid-cbf-tdc-mcs
       - ska-csp-lmc-mid
     alias: "SKA Tango Base"
   ska-tango-util:
     version: "file://charts/ska-mid-itf-sut/Chart.yaml"
     platformDependents:
-      - ska-mid-cbf-mcs
+      - ska-mid-cbf-tdc-mcs
       - ska-csp-lmc-mid
     alias: "SKA Tango Util"
   ska-tmc-mid:
@@ -38,9 +38,9 @@ parts:
     alias: "DS Simulator"
   ska-csp-lmc-mid:
     version: "file://charts/ska-mid-itf-sut/Chart.yaml"
-    dependencies: ["ska-mid-cbf-mcs"]
+    dependencies: ["ska-mid-cbf-tdc-mcs"]
     alias: "Mid CSP LMC"
-  ska-mid-cbf-mcs:
+  ska-mid-cbf-tdc-mcs:
     version: "file://charts/ska-mid-itf-sut/Chart.yaml"
     dependencies: []
     alias: "Mid CBF MCS"
