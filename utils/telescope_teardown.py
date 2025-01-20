@@ -292,11 +292,10 @@ class TelescopeHandler:
         try:
             wait_for_event(proxy, "telescopeState", DevState.OFF, timeout=30)
         except EventWaitTimeout as e:
-            if proxy.telescopeState == DevState.UNKNOWN
+            if proxy.telescopeState == DevState.UNKNOWN:
                 logger.info("Could not transition telescope from UNKONWN to OFF")
             else:
                 raise e
-
 
     def get_current_state(self) -> TelescopeState:
         """Return the current telescope state.
