@@ -289,7 +289,7 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids):
     wait_for_event(sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.IDLE)
     wait_for_event(csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.IDLE)
     wait_for_event(tmc_subarray_node, "obsState", ObsState.IDLE)
-    sleep(20) # TODO: Bring in vis-receive check method
+    sleep(20)  # TODO: Bring in vis-receive check method
 
 
 @when("configure it for a scan")
