@@ -302,7 +302,7 @@ def _(telescope_handlers, receptor_ids):
     """
     logger.info("Configuring scan")
 
-    tmc, _, _, _ = telescope_handlers
+    tmc, _, _, dishes = telescope_handlers
     RECEPTORS = receptor_ids
 
     CONFIGURE_SCAN_FILE = f"{TMC_CONFIGS}/configure_scan.json"
@@ -311,6 +311,15 @@ def _(telescope_handlers, receptor_ids):
         configure_scan_json = json.load(f)
 
     logger.debug(json.dumps(configure_scan_json))
+
+    # TODO: Remove once TMC correctly checks command completion using LRC unique_ids
+    for dish in dishes:
+        dish.get_dish_manager_proxy().ConfigureBand1(True)
+        dish_tango_host = dish.get_dish_tango_host()
+        spfrx_controller = DeviceProxy(
+            f"{dish_tango_host}/{dish.dish_id.lower()}/spfrxpu/controller"
+        )
+        wait_for_event(spfrx_controller, "configuredBand", 1)
 
     tmc.subarray_node.Configure(json.dumps(configure_scan_json))
     wait_for_event(tmc.csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.READY)
