@@ -9,14 +9,14 @@ from typing import Generator, List, Tuple
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
-from tango import DevState, DeviceProxy
+from tango import DeviceProxy, DevState
 
 from tests.integration.tmc.conftest import CBF, CSP, TMC, Dish, wait_for_event
 from utils.enums import DishMode
 
 # TODO: Rethink usage of globals like this
 CLUSTER_DOMAIN = "miditf.internal.skao.int"
-SUT_NAMESPACE = "ci-ska-mid-itf-at-2586-verify-skb-606" #os.getenv("KUBE_NAMESPACE")
+SUT_NAMESPACE = "ci-ska-mid-itf-at-2586-verify-skb-606"  # os.getenv("KUBE_NAMESPACE")
 DATA_DIR = "tests/integration/resources/data"
 TMC_CONFIGS = f"{DATA_DIR}/tmc"
 expected_k_value = 1
