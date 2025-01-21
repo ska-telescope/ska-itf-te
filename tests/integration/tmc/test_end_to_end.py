@@ -289,7 +289,28 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids):
     wait_for_event(sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.IDLE)
     wait_for_event(csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.IDLE)
     wait_for_event(tmc_subarray_node, "obsState", ObsState.IDLE)
-    sleep(20)  # TODO: Bring in vis-receive check method
+    sleep(20)  # TODO: Bring in vis-receive pod check method
+
+
+@when("I configure band directly")
+def _(telescope_handlers):
+    """Temporary step calls configureBand directly on dish managers.
+
+    :param telescope_handlers: _description_
+    :type telescope_handlers: _type_
+    """
+    logger.info("Configuring band directly")
+    _, _, _, dishes = telescope_handlers
+
+    # TODO: Remove once TMC correctly checks command completion using LRC unique_ids
+    for dish in dishes:
+        dish.get_dish_manager_proxy().ConfigureBand1(True)
+        dish_tango_host = dish.get_dish_tango_host()
+        spfrx_controller = DeviceProxy(
+            f"{dish_tango_host}/{dish.dish_id.lower()}/spfrxpu/controller"
+        )
+        wait_for_event(spfrx_controller, "configuredBand", 1)
+    sleep(2)
 
 
 @when("configure it for a scan")
@@ -303,7 +324,7 @@ def _(telescope_handlers, receptor_ids):
     """
     logger.info("Configuring scan")
 
-    tmc, _, _, dishes = telescope_handlers
+    tmc, _, _, _ = telescope_handlers
     RECEPTORS = receptor_ids
 
     CONFIGURE_SCAN_FILE = f"{TMC_CONFIGS}/configure_scan.json"
@@ -312,16 +333,6 @@ def _(telescope_handlers, receptor_ids):
         configure_scan_json = json.load(f)
 
     logger.debug(json.dumps(configure_scan_json))
-
-    # TODO: Remove once TMC correctly checks command completion using LRC unique_ids
-    for dish in dishes:
-        dish.get_dish_manager_proxy().ConfigureBand1(True)
-        dish_tango_host = dish.get_dish_tango_host()
-        spfrx_controller = DeviceProxy(
-            f"{dish_tango_host}/{dish.dish_id.lower()}/spfrxpu/controller"
-        )
-        wait_for_event(spfrx_controller, "configuredBand", 1)
-    sleep(2)
 
     tmc.subarray_node.Configure(json.dumps(configure_scan_json))
     wait_for_event(tmc.csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.READY)
