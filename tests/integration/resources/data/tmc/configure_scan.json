@@ -13,7 +13,7 @@
       "correction": "UPDATE"
   },
   "dish": {
-      "receiver_band": "2"
+      "receiver_band": "1"
   },
   "csp": {
     "interface": "https://schema.skao.int/ska-csp-configurescan/4.1",
