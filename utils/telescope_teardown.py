@@ -293,7 +293,7 @@ class TelescopeHandler:
             wait_for_event(proxy, "telescopeState", DevState.OFF, timeout=30)
         except EventWaitTimeout as e:
             if proxy.telescopeState == DevState.UNKNOWN:
-                logger.info("Could not transition telescope from UNKONWN to OFF")
+                logger.info("Could not transition telescope from UNKNOWN to OFF")
             else:
                 raise e
 
