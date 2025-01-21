@@ -10,7 +10,7 @@ from typing import Generator, List, Tuple
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
-from tango import DevState
+from tango import DevState, DeviceProxy
 
 from tests.integration.tmc.conftest import CBF, CSP, TMC, Dish, wait_for_event
 from utils.enums import DishMode
@@ -365,6 +365,7 @@ def _(telescope_handlers, receptor_ids, scan_band):
             f"{dish_tango_host}/{dish.dish_id.lower()}/spfrxpu/controller"
         )
         wait_for_event(spfrx_controller, "configuredBand", 1)
+    sleep(2)
 
     tmc.subarray_node.Configure(json.dumps(configure_scan_json))
     wait_for_event(tmc.csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.READY)
