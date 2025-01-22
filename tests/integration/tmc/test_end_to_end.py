@@ -220,6 +220,7 @@ def _(telescope_handlers, receptor_ids):
 
     if (not tmc_central_node.isDishVccConfigSet) or (not k_value_correct):
         tmc_central_node.LoadDishCfg(json.dumps(dish_config_json))
+        logger.info("NOW LOADING DISH CFG")
         wait_for_event(tmc_central_node, "isDishVccConfigSet", True)
 
     dish_vcc_config = json.loads(tmc.csp_master_leaf_node.dishVccConfig)
