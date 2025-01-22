@@ -16,7 +16,7 @@ from utils.enums import DishMode
 
 # TODO: Rethink usage of globals like this
 CLUSTER_DOMAIN = "miditf.internal.skao.int"
-SUT_NAMESPACE = "ci-ska-mid-itf-at-2586-verify-skb-606"  # os.getenv("KUBE_NAMESPACE")
+SUT_NAMESPACE = os.getenv("KUBE_NAMESPACE")
 DATA_DIR = "tests/integration/resources/data"
 TMC_CONFIGS = f"{DATA_DIR}/tmc"
 expected_k_value = 1
@@ -214,6 +214,7 @@ def _(telescope_handlers, receptor_ids):
 
     if (not tmc_central_node.isDishVccConfigSet) or (not k_value_correct):
         tmc_central_node.LoadDishCfg(json.dumps(dish_config_json))
+        logger.info("NOW LOADING DISH CFG")
         wait_for_event(tmc_central_node, "isDishVccConfigSet", True)
 
     dish_vcc_config = json.loads(tmc.csp_master_leaf_node.dishVccConfig)
