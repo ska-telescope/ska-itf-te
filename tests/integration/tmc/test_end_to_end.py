@@ -23,6 +23,7 @@ expected_k_value = 1
 logger = logging.getLogger()
 OVERRIDE_SCAN_DURATION = os.getenv("OVERRIDE_SCAN_DURATION")
 SCAN_BAND = os.getenv("SCAN_BAND")
+INTEGRATION_FACTOR = os.getenv("INTEGRATION_FACTOR")
 
 
 @scenario(
@@ -312,6 +313,9 @@ def _(telescope_handlers, receptor_ids):
         configure_scan_json = json.load(f)
         configure_scan_json["dish"]["receiver_band"] = str(SCAN_BAND)
         configure_scan_json["csp"]["common"]["frequency_band"] = str(SCAN_BAND)
+        configure_scan_json["csp"]["midcbf"]["correlation"]["processing_regions"][0][
+            "integration_factor"
+        ] = int(INTEGRATION_FACTOR)
 
     logger.debug(json.dumps(configure_scan_json))
 
