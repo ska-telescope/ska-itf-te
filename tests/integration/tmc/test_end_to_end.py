@@ -298,7 +298,7 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids):
         "configure it for a band {scan_band:Number} scan", extra_types={"Number": float}
     )
 )
-def _(telescope_handlers, receptor_ids):
+def _(telescope_handlers, receptor_ids, scan_band):
     """Configure scan via TMC.
 
     :param telescope_handlers: _description_
