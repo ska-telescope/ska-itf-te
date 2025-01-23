@@ -303,6 +303,8 @@ def _(telescope_handlers, receptor_ids, scan_band):
     :type telescope_handlers: _type_
     :param receptor_ids: _description_
     :type receptor_ids: _type_
+    :param scan_band: _description_
+    :type scan_band: _type_
     """
     if OVERRIDE_SCAN_BAND:
         scan_band = OVERRIDE_SCAN_BAND
