@@ -22,7 +22,7 @@ TMC_CONFIGS = f"{DATA_DIR}/tmc"
 expected_k_value = 1
 logger = logging.getLogger()
 OVERRIDE_SCAN_DURATION = os.getenv("OVERRIDE_SCAN_DURATION")
-SCAN_BAND = os.getenv("SCAN_BAND")
+OVERRIDE_SCAN_BAND = os.getenv("OVERRIDE_SCAN_BAND")
 INTEGRATION_FACTOR = os.getenv("INTEGRATION_FACTOR")
 
 
@@ -293,7 +293,11 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids):
     wait_for_event(tmc_subarray_node, "obsState", ObsState.IDLE)
 
 
-@when("configure it for a scan")
+@when(
+    parsers.cfparse(
+        "configure it for a band {scan_band:Number} scan", extra_types={"Number": float}
+    )
+)
 def _(telescope_handlers, receptor_ids):
     """Configure scan via TMC.
 
@@ -302,7 +306,10 @@ def _(telescope_handlers, receptor_ids):
     :param receptor_ids: _description_
     :type receptor_ids: _type_
     """
-    logger.info(f"Configuring a band {SCAN_BAND} scan")
+    if OVERRIDE_SCAN_BAND:
+        scan_band = OVERRIDE_SCAN_BAND
+
+    logger.info(f"Configuring a band {scan_band} scan")
 
     tmc, _, _, _ = telescope_handlers
     RECEPTORS = receptor_ids
@@ -311,11 +318,13 @@ def _(telescope_handlers, receptor_ids):
 
     with open(CONFIGURE_SCAN_FILE, encoding="utf-8") as f:
         configure_scan_json = json.load(f)
-        configure_scan_json["dish"]["receiver_band"] = str(SCAN_BAND)
-        configure_scan_json["csp"]["common"]["frequency_band"] = str(SCAN_BAND)
-        configure_scan_json["csp"]["midcbf"]["correlation"]["processing_regions"][0][
-            "integration_factor"
-        ] = int(INTEGRATION_FACTOR)
+        configure_scan_json["dish"]["receiver_band"] = str(scan_band)
+        configure_scan_json["csp"]["common"]["frequency_band"] = str(scan_band)
+
+        if INTEGRATION_FACTOR:
+            configure_scan_json["csp"]["midcbf"]["correlation"]["processing_regions"][0][
+                "integration_factor"
+            ] = int(INTEGRATION_FACTOR)
 
     logger.debug(json.dumps(configure_scan_json))
 

@@ -9,7 +9,7 @@ Feature: Telescope end to end signal chain test
 		And CSP in adminMode online
 		When I turn ON the telescope
 		And I assign resources
-		And configure it for a scan
+		And configure it for a band 1 scan
 		And I start a scan for 10 seconds
 		And I end the scan
 		And I end the observation
@@ -24,7 +24,7 @@ Feature: Telescope end to end signal chain test
 		And CSP in adminMode online
 		When I turn ON the telescope
 		And I assign resources
-		And configure it for a scan
+		And configure it for a band 1 scan
 		And I start a scan for 120 seconds
 		And I end the scan
 		And I end the observation
