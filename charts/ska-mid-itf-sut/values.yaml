@@ -81,7 +81,7 @@ ska-tmc-mid:
   cspsubarrayleafnode:
     image:
       tag: 0.21.4
-    TelmodelSource: gitlab://gitlab.com/ska-telescope/ska-telmodel-data?1.0.1-rc.1#tmdata
+    TelmodelSource: gitlab://gitlab.com/ska-telescope/ska-telmodel-data?1.0.1-rc.2#tmdata
     TelmodelPath: instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json
     # DelayCadence: 10.0
     # DelayValidityPeriod: 20.0
