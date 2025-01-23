@@ -22,6 +22,7 @@ TMC_CONFIGS = f"{DATA_DIR}/tmc"
 expected_k_value = 1
 logger = logging.getLogger()
 OVERRIDE_SCAN_DURATION = os.getenv("OVERRIDE_SCAN_DURATION")
+SCAN_BAND = os.getenv("SCAN_BAND")
 
 
 @scenario(
@@ -300,7 +301,7 @@ def _(telescope_handlers, receptor_ids):
     :param receptor_ids: _description_
     :type receptor_ids: _type_
     """
-    logger.info("Configuring scan")
+    logger.info(f"Configuring a band {SCAN_BAND} scan")
 
     tmc, _, _, _ = telescope_handlers
     RECEPTORS = receptor_ids
@@ -309,6 +310,8 @@ def _(telescope_handlers, receptor_ids):
 
     with open(CONFIGURE_SCAN_FILE, encoding="utf-8") as f:
         configure_scan_json = json.load(f)
+        configure_scan_json["dish"]["receiver_band"] = str(SCAN_BAND)
+        configure_scan_json["csp"]["common"]["frequency_band"] = str(SCAN_BAND)
 
     logger.debug(json.dumps(configure_scan_json))
 
