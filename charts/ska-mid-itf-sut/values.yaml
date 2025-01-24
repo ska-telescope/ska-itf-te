@@ -93,7 +93,7 @@ ska-tmc-mid:
         DishVccUri: "car://gitlab.com/ska-telescope/ska-telmodel-data?0.1.0-rc-mid-itf#tmdata"
         DishVccFilePath: "instrument/ska1_mid_itf/ska-mid-cbf-system-parameters.json"
     cspsubarrayleafnode:
-      TelmodelSource: gitlab://gitlab.com/ska-telescope/ska-mid-itf?25.3.2-rc.5#tmdata
+      TelmodelSource: gitlab://gitlab.com/ska-telescope/ska-mid-itf?25.3.2#tmdata
       TelmodelPath: instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json
       # TelmodelPath: instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json
       # TelmodelPath: instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json
