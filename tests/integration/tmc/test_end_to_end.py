@@ -15,7 +15,7 @@ from tango import DevState
 from tests.integration.tmc.conftest import CBF, CSP, TMC, Dish, wait_for_event
 from utils.enums import DishMode
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.getcwd(), "jupyter-notebooks")))
+sys.path.append(os.path.abspath(os.path.join(os.getcwd(), ".jupyter-notebooks")))
 from src.notebook_tools import generate_fsp
 
 # TODO: Rethink usage of globals like this
