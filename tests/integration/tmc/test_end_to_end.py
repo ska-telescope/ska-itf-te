@@ -16,7 +16,7 @@ from tests.integration.tmc.conftest import CBF, CSP, TMC, Dish, wait_for_event
 from utils.enums import DishMode
 
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), ".jupyter-notebooks")))
-from src.notebook_tools import generate_fsp
+from src.notebook_tools import generate_fsp  # noqa: E402
 
 # TODO: Rethink usage of globals like this
 CLUSTER_DOMAIN = "miditf.internal.skao.int"
