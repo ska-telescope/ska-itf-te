@@ -284,7 +284,7 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids, scan_band):
         assign_resources_json["sdp"]["execution_block"]["eb_id"] = eb_id
         assign_resources_json["sdp"]["processing_blocks"][0]["pb_id"] = pb_id
 
-        band_params = generate_fsp.generate_band_params(SCAN_BAND)
+        band_params = generate_fsp.generate_band_params(scan_band)
 
         # Add in Frequency bounds and the channel count
         assign_resources_json["sdp"]["execution_block"]["channels"][0]["spectral_windows"][0][
