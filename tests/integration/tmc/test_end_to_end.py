@@ -3,6 +3,7 @@
 import json
 import logging
 import os
+import sys
 from time import localtime, sleep, strftime
 from typing import Generator, List, Tuple
 
@@ -13,6 +14,9 @@ from tango import DevState
 
 from tests.integration.tmc.conftest import CBF, CSP, TMC, Dish, wait_for_event
 from utils.enums import DishMode
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.getcwd(), "jupyter-notebooks")))
+from src.notebook_tools import generate_fsp
 
 # TODO: Rethink usage of globals like this
 CLUSTER_DOMAIN = "miditf.internal.skao.int"
@@ -240,8 +244,12 @@ def _(telescope_handlers, receptor_ids):
         assert tmc.get_dish_leaf_node_dp(receptor).dishMode == DishMode.STANDBY_FP
 
 
-@when("I assign resources")
-def _(telescope_handlers, receptor_ids, pb_and_eb_ids):
+@when(
+    parsers.cfparse(
+        "I assign resources for a band {scan_band:Number} scan", extra_types={"Number": int}
+    )
+)
+def _(telescope_handlers, receptor_ids, pb_and_eb_ids, scan_band):
     """Assign resources via TMC.
 
     :param telescope_handlers: _description_
@@ -264,6 +272,11 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids):
     ASSIGN_RESOURCES_FILE = f"{TMC_CONFIGS}/assign_resources.json"
     RECEPTORS = receptor_ids
 
+    if OVERRIDE_SCAN_BAND:
+        scan_band = OVERRIDE_SCAN_BAND
+
+    band_params = generate_fsp.generate_band_params(scan_band)
+
     with open(ASSIGN_RESOURCES_FILE, encoding="utf-8") as f:
         assign_resources_json = json.load(f)
         assign_resources_json["dish"]["receptor_ids"] = RECEPTORS
@@ -271,18 +284,18 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids):
         assign_resources_json["sdp"]["execution_block"]["eb_id"] = eb_id
         assign_resources_json["sdp"]["processing_blocks"][0]["pb_id"] = pb_id
 
-        # TODO: Include once band param calculation methods are centralised
-        # band_params = generate_fsp.generate_band_params(SCAN_BAND)
-        # # Add in Frequency bounds and the channel count
-        # assign_resources_json["sdp"]["execution_block"]["channels"][0]["spectral_windows"][0][
-        #     "freq_min"
-        # ] = band_params["start_freq"]
-        # assign_resources_json["sdp"]["execution_block"]["channels"][0]["spectral_windows"][0][
-        #     "freq_max"
-        # ] = f_limits["freq_max"]
-        # assign_resources_json["sdp"]["execution_block"]["channels"][0]["spectral_windows"][0][
-        #     "count"
-        # ] = band_params["channel_count"]
+        band_params = generate_fsp.generate_band_params(SCAN_BAND)
+
+        # Add in Frequency bounds and the channel count
+        assign_resources_json["sdp"]["execution_block"]["channels"][0]["spectral_windows"][0][
+            "freq_min"
+        ] = band_params["start_freq"]
+        assign_resources_json["sdp"]["execution_block"]["channels"][0]["spectral_windows"][0][
+            "freq_max"
+        ] = band_params["end_freq"]
+        assign_resources_json["sdp"]["execution_block"]["channels"][0]["spectral_windows"][0][
+            "count"
+        ] = band_params["channel_count"]
 
     logger.info(f"PB ID: {pb_id}, EB ID: {eb_id}")
 
@@ -317,10 +330,22 @@ def _(telescope_handlers, receptor_ids, scan_band):
 
     CONFIGURE_SCAN_FILE = f"{TMC_CONFIGS}/configure_scan.json"
 
+    fsp_list = [1, 2, 3, 4]
+
     with open(CONFIGURE_SCAN_FILE, encoding="utf-8") as f:
         configure_scan_json = json.load(f)
         configure_scan_json["dish"]["receiver_band"] = str(scan_band)
         configure_scan_json["csp"]["common"]["frequency_band"] = str(scan_band)
+
+        configure_scan_json["csp"]["midcbf"]["correlation"]["processing_regions"][0][
+            "fsp_ids"
+        ] = fsp_list
+        configure_scan_json["csp"]["midcbf"]["correlation"]["processing_regions"][0][
+            "start_freq"
+        ] = int(band_params["start_freq"])
+        configure_scan_json["csp"]["midcbf"]["correlation"]["processing_regions"][0][
+            "channel_count"
+        ] = int(band_params["channel_count"])
 
         if INTEGRATION_FACTOR:
             configure_scan_json["csp"]["midcbf"]["correlation"]["processing_regions"][0][
