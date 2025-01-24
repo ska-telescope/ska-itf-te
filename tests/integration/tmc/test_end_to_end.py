@@ -258,6 +258,8 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids, scan_band):
     :type receptor_ids: _type_
     :param pb_and_eb_ids: _description_
     :type pb_and_eb_ids: _type_
+    :param scan_band: _description_
+    :type scan_band: _type_
     """
     logger.info("Assigning resources")
 
@@ -330,6 +332,7 @@ def _(telescope_handlers, receptor_ids, scan_band):
 
     CONFIGURE_SCAN_FILE = f"{TMC_CONFIGS}/configure_scan.json"
 
+    band_params = generate_fsp.generate_band_params(scan_band)
     fsp_list = [1, 2, 3, 4]
 
     with open(CONFIGURE_SCAN_FILE, encoding="utf-8") as f:
