@@ -142,7 +142,7 @@ class TelescopeHandler:
             return
 
         # Turn OFF the telescope
-        self._turn_off_telescope()
+        # self._turn_off_telescope()
 
         # Re-evaluate telescope state
         current_telescope_state = self.get_current_state()
