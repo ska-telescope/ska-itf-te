@@ -32,7 +32,7 @@ dependencies:
 
   # SPFRx DEPLOYER CHART
   - name: ska-mid-dish-spfrx-talondx-console
-    version: 0.4.0-dev.c39ae7dc8
+    version: 0.4.0-dev.c44ee81bc
     repository: https://gitlab.com/api/v4/projects/45166302/packages/helm/dev
     condition: ska-mid-dish-spfrx-talondx-console.enabled
 
