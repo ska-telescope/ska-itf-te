@@ -198,6 +198,7 @@ If the SPFRx notebook has been ran recently and Vault login is still active, ple
 ```bash
 make setup_spfrx
 ```
+Please ensure that SPFRX_CONFIG variable is set in the PrivateRules.mak file
 
 ## Additional Info
 
