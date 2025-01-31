@@ -156,3 +156,11 @@ ska-tango-archiver:
 temp_sdp_pvc:
   dpd_namespace: ska-dpd
   dpd_pvc: shared-mnl
+
+# TMC, temporary for dishleafnode
+ska-tmc-dishleafnode:
+  dishleafnode:
+    registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-dishleafnode
+    image: ska-tmc-dishleafnode
+    tag: 0.19.7-dev.ce03e190e
+  enabled: true
