@@ -3,6 +3,7 @@
 import json
 import logging
 import os
+import sys
 from time import localtime, sleep, strftime
 from typing import Generator, List, Tuple
 
@@ -14,6 +15,9 @@ from tango import DevState
 from tests.integration.tmc.conftest import CBF, CSP, TMC, Dish, wait_for_event
 from utils.enums import DishMode
 
+sys.path.append(os.path.abspath(os.path.join(os.getcwd(), ".jupyter-notebooks")))
+from src.notebook_tools import generate_fsp  # noqa: E402
+
 # TODO: Rethink usage of globals like this
 CLUSTER_DOMAIN = "miditf.internal.skao.int"
 SUT_NAMESPACE = os.getenv("KUBE_NAMESPACE")
@@ -22,6 +26,8 @@ TMC_CONFIGS = f"{DATA_DIR}/tmc"
 expected_k_value = 1
 logger = logging.getLogger()
 OVERRIDE_SCAN_DURATION = os.getenv("OVERRIDE_SCAN_DURATION")
+OVERRIDE_SCAN_BAND = os.getenv("OVERRIDE_SCAN_BAND")
+INTEGRATION_FACTOR = os.getenv("INTEGRATION_FACTOR")
 
 
 @scenario(
@@ -238,8 +244,12 @@ def _(telescope_handlers, receptor_ids):
         assert tmc.get_dish_leaf_node_dp(receptor).dishMode == DishMode.STANDBY_FP
 
 
-@when("I assign resources")
-def _(telescope_handlers, receptor_ids, pb_and_eb_ids):
+@when(
+    parsers.cfparse(
+        "I assign resources for a band {scan_band:Number} scan", extra_types={"Number": int}
+    )
+)
+def _(telescope_handlers, receptor_ids, pb_and_eb_ids, scan_band):
     """Assign resources via TMC.
 
     :param telescope_handlers: _description_
@@ -248,6 +258,8 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids):
     :type receptor_ids: _type_
     :param pb_and_eb_ids: _description_
     :type pb_and_eb_ids: _type_
+    :param scan_band: _description_
+    :type scan_band: _type_
     """
     logger.info("Assigning resources")
 
@@ -262,6 +274,11 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids):
     ASSIGN_RESOURCES_FILE = f"{TMC_CONFIGS}/assign_resources.json"
     RECEPTORS = receptor_ids
 
+    if OVERRIDE_SCAN_BAND:
+        scan_band = int(OVERRIDE_SCAN_BAND)
+
+    band_params = generate_fsp.generate_band_params(scan_band)
+
     with open(ASSIGN_RESOURCES_FILE, encoding="utf-8") as f:
         assign_resources_json = json.load(f)
         assign_resources_json["dish"]["receptor_ids"] = RECEPTORS
@@ -269,18 +286,18 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids):
         assign_resources_json["sdp"]["execution_block"]["eb_id"] = eb_id
         assign_resources_json["sdp"]["processing_blocks"][0]["pb_id"] = pb_id
 
-        # TODO: Include once band param calculation methods are centralised
-        # band_params = generate_fsp.generate_band_params(SCAN_BAND)
-        # # Add in Frequency bounds and the channel count
-        # assign_resources_json["sdp"]["execution_block"]["channels"][0]["spectral_windows"][0][
-        #     "freq_min"
-        # ] = band_params["start_freq"]
-        # assign_resources_json["sdp"]["execution_block"]["channels"][0]["spectral_windows"][0][
-        #     "freq_max"
-        # ] = f_limits["freq_max"]
-        # assign_resources_json["sdp"]["execution_block"]["channels"][0]["spectral_windows"][0][
-        #     "count"
-        # ] = band_params["channel_count"]
+        band_params = generate_fsp.generate_band_params(scan_band)
+
+        # Add in Frequency bounds and the channel count
+        assign_resources_json["sdp"]["execution_block"]["channels"][0]["spectral_windows"][0][
+            "freq_min"
+        ] = band_params["start_freq"]
+        assign_resources_json["sdp"]["execution_block"]["channels"][0]["spectral_windows"][0][
+            "freq_max"
+        ] = band_params["end_freq"]
+        assign_resources_json["sdp"]["execution_block"]["channels"][0]["spectral_windows"][0][
+            "count"
+        ] = band_params["channel_count"]
 
     logger.info(f"PB ID: {pb_id}, EB ID: {eb_id}")
 
@@ -289,26 +306,54 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids):
     wait_for_event(sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.IDLE)
     wait_for_event(csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.IDLE)
     wait_for_event(tmc_subarray_node, "obsState", ObsState.IDLE)
+    sleep(30)  # TODO: Remove sleep for vis-receive
 
 
-@when("configure it for a scan")
-def _(telescope_handlers, receptor_ids):
+@when(
+    parsers.cfparse("configure it for a band {scan_band:Number} scan", extra_types={"Number": int})
+)
+def _(telescope_handlers, receptor_ids, scan_band):
     """Configure scan via TMC.
 
     :param telescope_handlers: _description_
     :type telescope_handlers: _type_
     :param receptor_ids: _description_
     :type receptor_ids: _type_
+    :param scan_band: _description_
+    :type scan_band: _type_
     """
-    logger.info("Configuring scan")
+    if OVERRIDE_SCAN_BAND:
+        scan_band = int(OVERRIDE_SCAN_BAND)
+
+    logger.info(f"Configuring a band {scan_band} scan")
 
     tmc, _, _, _ = telescope_handlers
     RECEPTORS = receptor_ids
 
     CONFIGURE_SCAN_FILE = f"{TMC_CONFIGS}/configure_scan.json"
 
+    band_params = generate_fsp.generate_band_params(scan_band)
+    fsp_list = [1, 2, 3, 4]
+
     with open(CONFIGURE_SCAN_FILE, encoding="utf-8") as f:
         configure_scan_json = json.load(f)
+        configure_scan_json["dish"]["receiver_band"] = str(scan_band)
+        configure_scan_json["csp"]["common"]["frequency_band"] = str(scan_band)
+
+        configure_scan_json["csp"]["midcbf"]["correlation"]["processing_regions"][0][
+            "fsp_ids"
+        ] = fsp_list
+        configure_scan_json["csp"]["midcbf"]["correlation"]["processing_regions"][0][
+            "start_freq"
+        ] = int(band_params["start_freq"])
+        configure_scan_json["csp"]["midcbf"]["correlation"]["processing_regions"][0][
+            "channel_count"
+        ] = int(band_params["channel_count"])
+
+        if INTEGRATION_FACTOR:
+            configure_scan_json["csp"]["midcbf"]["correlation"]["processing_regions"][0][
+                "integration_factor"
+            ] = int(INTEGRATION_FACTOR)
 
     logger.debug(json.dumps(configure_scan_json))
 
