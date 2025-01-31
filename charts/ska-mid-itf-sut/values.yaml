@@ -81,13 +81,6 @@ ska-tmc-mid:
   cspsubarrayleafnode:
     image:
       tag: 0.21.4
-    TelmodelSource: gitlab://gitlab.com/ska-telescope/ska-telmodel-data?1.0.1-rc.1#tmdata
-    TelmodelPath: instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json
-    # DelayCadence: 10.0
-    # DelayValidityPeriod: 20.0
-    # DelayModelTimeInAdvance: 30
-    # CommandTimeOut: 50
-    # SleepTime: 1.5
   deviceServers:
     mocks:
       enabled: true
@@ -100,6 +93,14 @@ ska-tmc-mid:
         DishVccUri: "car://gitlab.com/ska-telescope/ska-telmodel-data?0.1.0-rc-mid-itf#tmdata"
         DishVccFilePath: "instrument/ska1_mid_itf/ska-mid-cbf-system-parameters.json"
     cspsubarrayleafnode:
+      TelmodelSource: gitlab://gitlab.com/ska-telescope/ska-mid-itf?25.3.2#tmdata
+      TelmodelPath: instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json
+      # TelmodelPath: instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json
+      # TelmodelPath: instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json
+      # DelayCadence: 10.0
+      # DelayValidityPeriod: 20.0
+      # DelayModelTimeInAdvance: 30
+      # SleepTime: 1.5
       CommandTimeOut: 300
     sdpsubarrayleafnode:
       CommandTimeout: 90
