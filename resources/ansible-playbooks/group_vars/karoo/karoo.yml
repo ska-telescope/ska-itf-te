@@ -17,11 +17,12 @@ team_users:
     ssh_key_path: "{{ users_dir }}/d.petrie/.ssh/id_rsa.pub"
   - name: j.venter
     ssh_key_path: "{{ users_dir }}/j.venter/.ssh/id_rsa.pub"
-  - name: p.dube
-    ssh_key_path: "{{ users_dir }}/p.dube/.ssh/id_rsa.pub"
   - name: s.twum
     ssh_key_path: "{{ users_dir }}/s.twum/.ssh/id_rsa.pub"
   - name: u.silere
     ssh_key_path: "{{ users_dir }}/u.silere/.ssh/id_rsa.pub"
+
+remove_users:
+  - p.dube
 
 kube_context: karoo-kubernetes

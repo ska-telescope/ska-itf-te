@@ -5,7 +5,7 @@
 
 - name: Read SPFRx config file
   set_fact:
-    spfrx_config_data: "{{ lookup('file', 'group_vars/spfrx_configs/spfrx_configs.yaml') | from_yaml }}"
+    spfrx_config_data: "{{ lookup('file', '/tmp/spfrx_configs.yaml') | from_yaml }}"
 
 - name: Check if search_key exists in the dictionary
   set_fact:

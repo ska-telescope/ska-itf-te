@@ -45,7 +45,6 @@ remove_users:
   - g.leroux
   - t.tsotetsi
   - p.jordaan
-  - p.dube
 
 kube_admin_context: kubernetes-admin@kubernetes
 kube_context: atlas-integration-mid-kubernetes
