@@ -66,7 +66,7 @@ setup_spfrx: setup ## Runs the full playbook against the SPFRX's.
 
 setup_spfrx_dry_run: setup ## Runs the full playbook against the SPFRX's.
 	$(SPFRX_CONFIG) $(shell vault kv get --field SPFRX_CONFIG -mount="kv" "groups/ska-dev/atlas" > /tmp/spfrx_configs.yaml)
-	$(ANSIBLE_COMMAND) --limit spfrx $(MKFILE_DIR)site.yml
+	$(ANSIBLE_COMMAND_DRY_RUN) --limit spfrx $(MKFILE_DIR)site.yml
 .PHONY: setup_spfrx_dry_run
 
 setup_gaia: setup ## Runs the full playbook against Gaia.

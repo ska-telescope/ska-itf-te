@@ -192,7 +192,7 @@ The SPFRx playbook can be executed as follows:
 If the SPFRx is ran for the first time, please pass the `INITIAL_LOGIN` flag set to 1 as follows:
 
 ```bash
- make setup_spfrx INITIAL_LOGIN=1
+make setup_spfrx INITIAL_LOGIN=1
 ```
 If the SPFRx notebook has been ran recently and Vault login is still active, please execute the command below:
 ```bash
