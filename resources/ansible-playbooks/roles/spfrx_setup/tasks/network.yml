@@ -1,5 +1,4 @@
 - name: Get configuration from Vault
-#ansible.builtin.shell: cat /etc/systemd/network/00-eth.network
   set_fact:
     current_host_id: "{{ inventory_hostname }}"
 
