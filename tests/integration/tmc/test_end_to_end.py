@@ -21,7 +21,7 @@ from src.notebook_tools import generate_fsp  # noqa: E402
 # TODO: Rethink usage of globals like this
 CLUSTER_DOMAIN = "miditf.internal.skao.int"
 SUT_NAMESPACE = os.getenv("KUBE_NAMESPACE")
-DATA_DIR = "tests/integration/resources/data"
+DATA_DIR = ".jupyter-notebooks/data/mid_telescope"
 TMC_CONFIGS = f"{DATA_DIR}/tmc"
 expected_k_value = 1
 logger = logging.getLogger()
