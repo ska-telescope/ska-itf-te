@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 25.4.0
+* [AT-2624] - Readthedocs YAML updates
+* [AT-2586] - Improved Telescope Teardown procedure
+* [AT-2649] - Parameterised more End-to-end Test variables
+* [AT-2582] - Fixed zero-delay co-ordinates
+
 ## 25.3.0
 
 * [AT-2487] - fixed pipeline dependency chain
