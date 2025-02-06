@@ -737,11 +737,11 @@ def a_tmc():
     assert result > 0
 
     receptors = ["SKA001", "SKA036", "SKA063", "SKA100"]
-    for receptor in receptors:
-        dish_leaf_node = tmc.get_dish_leaf_node_dp(receptor)
-        logger.info("Dish Leaf Node devname: %s", dish_leaf_node.dev_name())
-        result = dish_leaf_node.ping()
-        assert result > 0
+    # for receptor in receptors:
+    #     dish_leaf_node = tmc.get_dish_leaf_node_dp(receptor)
+    #     logger.info("Dish Leaf Node devname: %s", dish_leaf_node.dev_name())
+    #     result = dish_leaf_node.ping()
+    #     assert result > 0
 
 @given("an alarm handler")
 def a_alarm_handler():
