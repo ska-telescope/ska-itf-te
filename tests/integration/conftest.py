@@ -17,6 +17,7 @@ from ska_ser_skallop.mvp_control.entry_points import types as conf_types
 from ska_ser_skallop.mvp_control.infra_mon.configuration import get_mvp_release
 from ska_ser_skallop.mvp_fixtures.fixtures import fxt_types
 from tango import DeviceProxy
+from tests.integration.tmc.conftest import TMC
 
 from .resources.models.base.states import ObsState
 from .resources.models.mvp_model.env import init_observation_config
@@ -673,40 +674,74 @@ def the_subarray_should_go_into_an_aborted_state(
 @given("a TMC")
 def a_tmc():
     """Given a TMC."""
-    tel = names.TEL()
-    nr_of_subarrays = 1
+    # tel = names.TEL()
+    # nr_of_subarrays = 1
 
-    central_node_name = tel.tm.central_node
-    central_node = con_config.get_device_proxy(central_node_name)
-    result = central_node.ping()
+    # central_node_name = tel.tm.central_node
+    # central_node = con_config.get_device_proxy(central_node_name)
+    # result = central_node.ping()
+    # assert result > 0
+
+    # subarray_node = con_config.get_device_proxy(tel.tm.subarray(1))
+    # result = subarray_node.ping()
+    # assert result > 0
+
+    # csp_master_leaf_node = con_config.get_device_proxy(tel.tm.csp_leaf_node)
+    # result = csp_master_leaf_node.ping()
+    # assert result > 0
+
+    # sdp_master_leaf_node = con_config.get_device_proxy(tel.tm.sdp_leaf_node)
+    # result = sdp_master_leaf_node.ping()
+    # assert result > 0
+
+    # csp_subarray_leaf_node = con_config.get_device_proxy(tel.tm.subarray(1).csp_leaf_node)
+    # result = csp_subarray_leaf_node.ping()
+    # assert result > 0
+
+    # sdp_subarray_leaf_node = con_config.get_device_proxy(tel.tm.subarray(1).sdp_leaf_node)
+    # result = sdp_subarray_leaf_node.ping()
+    # assert result > 0
+
+    # if tel.skamid:
+    #     for index in range(1, nr_of_subarrays + 1):
+    #         dish_leaf_nodes = con_config.get_device_proxy(tel.tm.dish_leafnode(index))
+    #         result = dish_leaf_nodes.ping()
+    #         assert result > 0
+    
+    tmc = TMC()
+    sdp_subarray_leaf_node = tmc.sdp_subarray_leaf_node
+    csp_subarray_leaf_node = tmc.csp_subarray_leaf_node
+
+    tmc_central_node = tmc.central_node
+    result = tmc_central_node.ping()
     assert result > 0
 
-    subarray_node = con_config.get_device_proxy(tel.tm.subarray(1))
-    result = subarray_node.ping()
+    tmc_subarray_node1 = tmc.subarray_node
+    result = tmc_subarray_node1.ping()
     assert result > 0
 
-    csp_master_leaf_node = con_config.get_device_proxy(tel.tm.csp_leaf_node)
+    csp_master_leaf_node = tmc.csp_master_leaf_node
     result = csp_master_leaf_node.ping()
     assert result > 0
 
-    sdp_master_leaf_node = con_config.get_device_proxy(tel.tm.sdp_leaf_node)
+    sdp_master_leaf_node = tmc.sdp_master_leaf_node
     result = sdp_master_leaf_node.ping()
     assert result > 0
 
-    csp_subarray_leaf_node = con_config.get_device_proxy(tel.tm.subarray(1).csp_leaf_node)
+    csp_subarray_leaf_node = tmc.csp_subarray_leaf_node
     result = csp_subarray_leaf_node.ping()
     assert result > 0
 
-    sdp_subarray_leaf_node = con_config.get_device_proxy(tel.tm.subarray(1).sdp_leaf_node)
+    sdp_subarray_leaf_node = tmc.sdp_subarray_leaf_node
     result = sdp_subarray_leaf_node.ping()
     assert result > 0
 
-    if tel.skamid:
-        for index in range(1, nr_of_subarrays + 1):
-            dish_leaf_nodes = con_config.get_device_proxy(tel.tm.dish_leafnode(index))
-            result = dish_leaf_nodes.ping()
-            assert result > 0
-
+    receptors = ["SKA001", "SKA036", "SKA063", "SKA100"]
+    for receptor in receptors:
+        dish_leaf_node = tmc.get_dish_leaf_node_dp(receptor)
+        logger.info("Dish Leaf Node devname: %s", dish_leaf_node.dev_name())
+        result = dish_leaf_node.ping()
+        assert result > 0
 
 @given("an alarm handler")
 def a_alarm_handler():
