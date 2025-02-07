@@ -27,7 +27,7 @@ from .resources.models.obsconfig.config import Observation
 
 logger = logging.getLogger(__name__)
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="session")
 def check_all_dish_leaf_nodes_running():
     """
     Check whether all the dish leaf nodes devices are running. The timeout 
