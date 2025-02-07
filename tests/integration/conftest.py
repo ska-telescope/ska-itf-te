@@ -27,28 +27,28 @@ from .resources.models.obsconfig.config import Observation
 
 logger = logging.getLogger(__name__)
 
-@pytest.fixture(scope="session")
-def check_all_dish_leaf_nodes_running():
-    """
-    Check whether all the dish leaf nodes devices are running. The timeout 
-    occurs if the dish leaf nodes are not running in given timeout.
-    """
-    receptors = ["SKA001", "SKA036", "SKA063", "SKA100"]
-    runing_devices = []
-    no_of_retries = 3 
-    tmc = TMC()
-    for receptor in receptors:
-        dish_leaf_node = tmc.get_dish_leaf_node_dp(receptor)
-        dish_leaf_node_dev_name = dish_leaf_node.dev_name()
-        logger.info("Dish Leaf Node devname: %s", dish_leaf_node_dev_name)
-        for retry in range (0, no_of_retries):
-            result = dish_leaf_node.ping()
-            if result > 0:
-                runing_devices.append(dish_leaf_node.dev_name())
-                break
-            retry+=1
-            time.sleep(30)
-        assert dish_leaf_node.ping(), f"Timeout occurred while waiting for dishlefnode {receptor} to be running"
+# @pytest.fixture(scope="session")
+# def check_all_dish_leaf_nodes_running():
+#     """
+#     Check whether all the dish leaf nodes devices are running. The timeout 
+#     occurs if the dish leaf nodes are not running in given timeout.
+#     """
+#     receptors = ["SKA001", "SKA036", "SKA063", "SKA100"]
+#     runing_devices = []
+#     no_of_retries = 3 
+#     tmc = TMC()
+#     for receptor in receptors:
+#         dish_leaf_node = tmc.get_dish_leaf_node_dp(receptor)
+#         dish_leaf_node_dev_name = dish_leaf_node.dev_name()
+#         logger.info("Dish Leaf Node devname: %s", dish_leaf_node_dev_name)
+#         for retry in range (0, no_of_retries):
+#             result = dish_leaf_node.ping()
+#             if result > 0:
+#                 runing_devices.append(dish_leaf_node.dev_name())
+#                 break
+#             retry+=1
+#             time.sleep(30)
+#         assert dish_leaf_node.ping(), f"Timeout occurred while waiting for dishlefnode {receptor} to be running"
 
 
 @pytest.fixture(name="check_infra_per_test", autouse=True)
