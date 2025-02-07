@@ -22,10 +22,15 @@ stages:
   - build
   - deploy-dish-aiv
   - remove-dish-aiv
+    #### TEMPORARY COMMIT: BRANCHES SHOULD NOT TARGET integration ENVIRONMENT ####
+  - integration
+    ##############################################################################
   - test
   - lint
   - platform
-  - integration
+    #### TEMPORARY COMMIT: BRANCHES SHOULD NOT TARGET integration ENVIRONMENT ####
+  # - integration
+    ##############################################################################
   - staging
   - upload
   - publish
