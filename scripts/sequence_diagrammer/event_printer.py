@@ -18,14 +18,14 @@ class EventPrinter:
         self.filename = filename
         self.events = []
 
-    def __enter__(self):
+    def start(self):
         for tracked_device in self.tracked_devices:
             dp = tracked_device.device_proxy
             for attr_name in tracked_device.attribute_names:
                 sub_id = dp.subscribe_event(attr_name, tango.EventType.CHANGE_EVENT, self)
                 tracked_device.subscription_ids.append(sub_id)
 
-    def __exit__(self, exc_type, exc_value, exc_tb):
+    def stop(self):
         for tracked_device in self.tracked_devices:
             try:
                 dp = tracked_device.device_proxy

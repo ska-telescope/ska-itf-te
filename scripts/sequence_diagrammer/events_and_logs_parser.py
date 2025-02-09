@@ -43,7 +43,7 @@ class EventsAndLogsFileParser(LogParser):
             show_events: bool=False,
             show_component_state_updates: bool=False,
             include_dividers: bool=True,
-            use_new_pages: bool=False,
+            use_new_pages: bool=True,
             group_devices: bool=True,
             include_lrc_ids: bool=False,
             ):
