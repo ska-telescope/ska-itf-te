@@ -14,6 +14,7 @@ from tango import DevState
 
 from tests.integration.tmc.conftest import CBF, CSP, TMC, Dish, wait_for_event
 from utils.enums import DishMode
+from scripts.sequence_diagrammer.generate_sequence_diagram import sequenceDiagrammer
 
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), ".jupyter-notebooks")))
 from src.notebook_tools import generate_fsp  # noqa: E402
@@ -28,7 +29,9 @@ logger = logging.getLogger()
 OVERRIDE_SCAN_DURATION = os.getenv("OVERRIDE_SCAN_DURATION")
 OVERRIDE_SCAN_BAND = os.getenv("OVERRIDE_SCAN_BAND")
 INTEGRATION_FACTOR = os.getenv("INTEGRATION_FACTOR")
+GENERATE_SEQUENCE_DIAGRAM = os.getenv("GENERATE_SEQUENCE_DIAGRAM")
 
+sequence_diagrammer = sequenceDiagrammer(SUT_NAMESPACE)
 
 @scenario(
     "features/tmc_end_to_end.feature",
@@ -173,6 +176,11 @@ def _(telescope_handlers):
         f"CSP adminMode is: {csp_control.adminMode},"
         f" CBF Simulation mode is: {csp_control.cbfSimulationMode}"
     )
+
+@given("I start listening for events")
+def _():
+    if GENERATE_SEQUENCE_DIAGRAM:
+        sequence_diagrammer.start_tracking_events()
 
 
 @when("I turn ON the telescope")
@@ -478,6 +486,10 @@ def _(telescope_handlers, receptor_ids):
 
     wait_for_event(tmc_central_node, "telescopeState", DevState.OFF)
 
+@when("I generate a sequence diagram")
+def _():
+    if GENERATE_SEQUENCE_DIAGRAM:
+        sequence_diagrammer.stop_tracking_and_generate_diagram()
 
 @then("the telescope is in the OFF state")
 def _(telescope_handlers):

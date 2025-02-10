@@ -316,6 +316,7 @@ XRAY_EXTRA_OPTS=-v
 integration-test:
 	@mkdir -p build
 	set -o pipefail; $(PYTHON_RUNNER) pytest $(INTEGRATION_TEST_SOURCE) $(INTEGRATION_TEST_ARGS); \
+	@mv sequence-diagram.puml build/sequence-diagram.puml || echo "sequence diagram not moved"
 	echo $$? > build/status
 
 upload-to-confluence:

@@ -58,7 +58,12 @@ class EventsAndLogsFileParser(LogParser):
         self.include_lrc_ids = include_lrc_ids
 
         self.sequence_diagram = PlantUMLSequenceDiagram()
-        self.log_parse_helper = LogParserHelper()
+        self.log_parse_helper = LogParserHelper(
+            self.sequence_diagram,
+            self.get_likely_caller_from_hierarchy,
+            self.get_cleaned_device_name
+        )
+
         self.device_hierarchy = device_hierarchy
         self.running_lrc_status_updates = {}
 
