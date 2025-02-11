@@ -124,7 +124,8 @@ endif
 DISH_LMC_PARAMS ?= $(DISH_LMC_INITIAL_PARAMS) $(DISH_LMC_EXTRA_PARAMS)
 
 SKUID_URL ?= ska-ser-skuid-test-svc.$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN):9870
-ODA_PARAMS ?= --set ska-db-oda-umbrella.ska-db-oda.rest.skuid.url=$(SKUID_URL)
+ODA_PARAMS ?= --set ska-db-oda-umbrella.ska-db-oda.rest.skuid.url=$(SKUID_URL) \
+			  --set ska-db-oda-umbrella.ska-db-oda.secretProvider.enabled=true
 
 OET_PARAMS ?= --set ska-oso-oet.rest.oda.url=ska-db-oda-rest-$(HELM_RELEASE).ska-db-oda.svc.$(CLUSTER_DOMAIN):5000/ska-db-oda/oda/api/v7
 
