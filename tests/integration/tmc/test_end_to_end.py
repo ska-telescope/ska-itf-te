@@ -12,9 +12,9 @@ from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
 from tango import DevState
 
+from scripts.sequence_diagrammer.generate_sequence_diagram import sequenceDiagrammer
 from tests.integration.tmc.conftest import CBF, CSP, TMC, Dish, wait_for_event
 from utils.enums import DishMode
-from scripts.sequence_diagrammer.generate_sequence_diagram import sequenceDiagrammer
 
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), ".jupyter-notebooks")))
 from src.notebook_tools import generate_fsp  # noqa: E402
