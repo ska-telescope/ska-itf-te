@@ -28,15 +28,3 @@
   loop_control:
     loop_var: current_user
   when: add_to_groups
-
-- name: Change user home directory group
-  file:
-    path: /home/{{ current_user }}
-    owner: "{{ current_user }}"
-    group: "{{ team_name }}"
-    state: directory
-    recurse: yes
-  become: true
-  loop: "{{ users }}"
-  loop_control:
-    loop_var: current_user
