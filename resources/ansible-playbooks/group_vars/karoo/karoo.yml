@@ -21,6 +21,8 @@ team_users:
     ssh_key_path: "{{ users_dir }}/s.twum/.ssh/id_rsa.pub"
   - name: u.silere
     ssh_key_path: "{{ users_dir }}/u.silere/.ssh/id_rsa.pub"
+  - name: m.nzama
+    ssh_key_path: "{{ users_dir }}/m.nzama/.ssh/id_ed25519.pub"
 
 remove_users:
   - p.dube

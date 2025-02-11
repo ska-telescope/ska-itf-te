@@ -41,10 +41,11 @@ team_users:
   - name: b.lunsky
     ssh_key_path: "{{ users_dir }}/bl/.ssh/id_rsa.pub"
 
-remove_users:
-  - g.leroux
-  - t.tsotetsi
-  - p.jordaan
+#remove_users:
+#  - benjamin.lunsky
+#  - t.stotetsi
+#  - p.jordaan
+#  - g.leroux
 
 kube_admin_context: kubernetes-admin@kubernetes
 kube_context: atlas-integration-mid-kubernetes
