@@ -14,6 +14,12 @@ dependencies:
     version: 0.4.11
     repository: https://artefact.skao.int/repository/helm-internal
 
+  # SKA OET
+  - name: ska-oso-oet
+    version: 6.4.0
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-oso-oet.enabled
+
   # SKA Mid TMC
   - name: ska-tmc-mid
     version: 0.22.8 # check latest version

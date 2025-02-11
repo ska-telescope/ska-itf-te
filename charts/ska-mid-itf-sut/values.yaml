@@ -73,6 +73,13 @@ ska-csp-lmc-mid:
   legacy_compatibility: true
   enabled: true
 
+# ska-oso-oet.rest.oda.postgres.host=test-postgresql.ska-db-oda
+ska-oso-oet:
+  rest:
+    oda:
+      postgres:
+        host: test-postgresql.ska-db-oda
+
 ### tmc - also see tmc-values for DishIDs!
 ska-tmc-mid:
   telescope: SKA-mid

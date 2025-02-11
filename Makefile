@@ -126,6 +126,8 @@ DISH_LMC_PARAMS ?= $(DISH_LMC_INITIAL_PARAMS) $(DISH_LMC_EXTRA_PARAMS)
 SKUID_URL ?= ska-ser-skuid-test-svc.$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN):9870
 ODA_PARAMS ?= --set ska-db-oda-umbrella.ska-db-oda.rest.skuid.url=$(SKUID_URL)
 
+OET_PARAMS ?= --set ska-oso-oet.rest.oda.url=ska-db-oda-rest-$(HELM_RELEASE).ska-db-oda.svc.$(CLUSTER_DOMAIN):5000/ska-db-oda/oda/api/v7
+
 ###################################################################
 ### THIS SECTION NEEDS REVIEW FROM SDP ARCHITECTS
 SDP_EXTRA_PARAMS ?=
@@ -196,6 +198,7 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	--set ska-tango-base.jive.enabled=$(JIVE) \
 	--set ska-tango-base.itango.enabled=$(ITANGO_ENABLED) \
 	$(SDP_PARAMS) \
+	$(OET_PARAMS) \
 	$(ODA_PARAMS) \
 	$(DISH_LMC_PARAMS) \
 	$(TARANTA_PARAMS) \
