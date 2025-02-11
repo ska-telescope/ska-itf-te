@@ -26,7 +26,12 @@ class sequenceDiagrammer:
         os.environ["TZ"] = "Africa/Johannesburg"
 
         # Set up namespaces and pods
-        self.sut_namespace = sut_namespace if sut_namespace else os.getenv("KUBE_NAMESPACE")
+        if sut_namespace:
+            self.sut_namespace = sut_namespace 
+        elif os.getenv("KUBE_NAMESPACE"):
+            self.sut_namespace = os.getenv("KUBE_NAMESPACE")
+        else:
+            self.sut_namespace = 'staging'  # default to staging
 
         if "DISH_IDS" in os.environ:
             dish_ids: str = os.environ["DISH_IDS"]
