@@ -4,9 +4,9 @@ import tango
 from datetime import datetime, timezone
 
 # Local imports
-from event_printer import EventPrinter, TrackedDevice
-from events_and_logs_parser import EventsAndLogsFileParser
-from log_retriever import LogRetriever
+from scripts.sequence_diagrammer.event_printer import EventPrinter, TrackedDevice
+from scripts.sequence_diagrammer.events_and_logs_parser import EventsAndLogsFileParser
+from scripts.sequence_diagrammer.log_retriever import LogRetriever
 
 # Submodule imports
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Directory of the script

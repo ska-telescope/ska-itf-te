@@ -4,8 +4,8 @@ import sys
 from typing import Match
 
 # Local imports
-from log_parse_helper import LogParserHelper
-from plantuml_helper import PlantUMLSequenceDiagram
+from scripts.sequence_diagrammer.log_parse_helper import LogParserHelper
+from scripts.sequence_diagrammer.plantuml_helper import PlantUMLSequenceDiagram
 
 # Submodule imports
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Directory of the script

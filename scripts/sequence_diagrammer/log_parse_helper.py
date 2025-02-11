@@ -4,7 +4,7 @@ import sys
 from typing import Callable, Match, Optional
 
 # Local imports
-from plantuml_helper import PlantUMLSequenceDiagram
+from scripts.sequence_diagrammer.plantuml_helper import PlantUMLSequenceDiagram
 
 # Submodule imports
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Directory of the script
