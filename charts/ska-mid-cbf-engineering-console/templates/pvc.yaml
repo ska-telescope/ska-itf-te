@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: staging-pvc
+  # namespace: shared-ska-dataproducts
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 2Ti
+  storageClassName: ceph-cephfs
+  volumeMode: Filesystem

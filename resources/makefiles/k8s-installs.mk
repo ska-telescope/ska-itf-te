@@ -170,6 +170,8 @@ pvc-patch-delete: ## Delete PVC in the SDP namespace in case one exists that was
 pvc-patch-apply: ## Create PVC in the SDP namespace for data product sharing
 	@kubectl apply -f charts/ska-mid-itf-dpd/templates/pvc.yaml -n $(KUBE_NAMESPACE_SDP)
 
+k8s-pre-install-chart:
+	rm charts/$(K8S_CHART)/Chart.lock || true
 vars:
 	$(info KUBE_NAMESPACE: $(KUBE_NAMESPACE))
 	$(info #####################################)
