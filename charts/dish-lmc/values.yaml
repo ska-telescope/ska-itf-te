@@ -27,6 +27,11 @@ ska-dish-lmc:
     enabled: false
   ska-mid-dish-manager:
     enabled: true
+    # TEMP COMMIT: pytango upgrade missing events investigation
+    image:
+      registry: registry.gitlab.com/ska-telescope/ska-mid-dish-manager
+      image: ska-mid-dish-manager
+      tag: 7.0.0-dev.c787d4d39
   ska-mid-dish-ds-manager:
     enabled: true
   ska-mid-dish-simulators:
