@@ -81,6 +81,18 @@ ska-tmc-mid:
   cspsubarrayleafnode:
     image:
       tag: 0.21.4
+  # TEMP COMMIT: Pytango upgrade for missed events investigation
+  centralnode:
+    image:
+      registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-dishleafnode
+      image: ska-tmc-dishleafnode
+      tag: 0.17.3-dev.ce4cd45c5
+  dishleafnode:
+    image:
+      registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-centralnode
+      image: ska-tmc-centralnode
+      tag: 0.19.7-dev.c8031527b
+      
   deviceServers:
     mocks:
       enabled: true
