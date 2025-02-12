@@ -127,8 +127,8 @@ SKUID_URL ?= ska-ser-skuid-test-svc.$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN):9870
 ODA_PARAMS ?= --set ska-db-oda-umbrella.ska-db-oda.rest.skuid.url=$(SKUID_URL) \
 			  --set ska-db-oda-umbrella.ska-db-oda.secretProvider.enabled=true
 
-OET_PARAMS ?= --set ska-oso-oet.rest.oda.url=ska-db-oda-rest-rest.ska-db-oda.svc.$(CLUSTER_DOMAIN):5000/ska-db-oda/oda/api/v7
-
+OET_PARAMS ?= --set ska-oso-oet.rest.oda.url=ska-db-oda-rest-rest.ska-db-oda.svc.$(CLUSTER_DOMAIN):5000/ska-db-oda/oda/api/v7 \
+			  --set ska-oso-oet.rest.skuid.url=ska-ser-skuid-test-svc.ska-db-oda.svc.$(CLUSTER_DOMAIN):9870
 ###################################################################
 ### THIS SECTION NEEDS REVIEW FROM SDP ARCHITECTS
 SDP_EXTRA_PARAMS ?=
