@@ -2,6 +2,7 @@
 
 from tango import DeviceProxy, DevFailed
 from argparse import ArgumentParser
+import re
 import json
 import statistics
 import itertools
@@ -16,6 +17,11 @@ def build_parser() -> ArgumentParser:
     parser.add_argument('--poll-period', help='period between polls in seconds', type=float, default=10.0)
 
     return parser
+
+regex = re.compile("tango://[^/]+/(.*)")
+def strl(ev):
+    m = regex.match(ev)
+    return m.group(1)
 
 def print_stats(sorted_array, name, units=' (μs)'):
     mean = float(statistics.mean(sorted_array))
@@ -47,17 +53,17 @@ def print_summary(data, last_data):
     if len(new) > 0:
         print("New publishers:")
         for ev in new:
-            print(f"\t{ev}: {counters[ev]}")
+            print(f"\t{strl(ev)}: {counters[ev]}")
 
     if len(changed) > 0:
         print("Published events:")
         for ev in changed:
-            print(f"\t{ev}: {counters[ev] - last_counters[ev]:+}")
+            print(f"\t{strl(ev)}: {counters[ev] - last_counters[ev]:+}")
 
     if len(removed) > 0:
         print("Removed publishers:")
         for ev in removed:
-            print(f"\t{ev}")
+            print(f"\t{strl(ev)}")
 
     if server['perf_stats'] is not None and len(server['perf_stats']) > 0:
         print('Publishing performance:')
@@ -81,26 +87,26 @@ def print_summary(data, last_data):
             elif ev in last_callbacks and ev not in callbacks:
                 removed.append(ev)
             elif callbacks[ev]["counter"] != last_callbacks[ev]["counter"] or \
-                callbacks[ev]["callback_count"] == last_callbacks[ev]["callback_count"]:
+                callbacks[ev]["callback_count"] != last_callbacks[ev]["callback_count"]:
                 changed.append(ev)
 
         if len(new) > 0:
             print("New subscriptions:")
             for ev in new:
                 v = callbacks[ev]
-                print(f'\t{ev}: {v["counter"]} ({v["callback_count"]} callback(s) registered)')
+                print(f'\t{strl(ev)}: {v["counter"]} ({v["callback_count"]} callback(s) registered)')
 
         if len(changed) > 0:
             print("Received events or callbacks changed:")
             for ev in changed:
                 v = callbacks[ev]
                 last = last_callbacks[ev]
-                print(f'\t{ev}: {v["counter"] - last["counter"]:+} ({v["callback_count"] - last["callback_count"]:+} callbacks)')
+                print(f'\t{strl(ev)}: {v["counter"] - last["counter"]:+} ({v["callback_count"] - last["callback_count"]:+} callbacks)')
 
         if len(removed) > 0:
             print("Removed subscriptions:")
             for ev in removed:
-                print(f"\t{ev}")
+                print(f"\t{strl(ev)}")
 
         if client['perf_stats'] is not None and len(client['perf_stats']) > 0:
             stats = client['perf_stats']
