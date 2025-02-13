@@ -36,7 +36,7 @@ ska-dish-lmc:
     # TEMP COMMIT: pytango upgrade missing events investigation
   ska-mid-dish-ds-manager:
     enabled: true
-    dsmanager:
+    dishstructuremanager:
       image:
         tag: 3.1.0
   ska-mid-dish-simulators:
