@@ -29,8 +29,12 @@ def print_stats(sorted_array, name, units=' (μs)'):
     err = stdev / (len(sorted_array) ** 0.5)
     minimum = min(sorted_array)
     maximum = max(sorted_array)
-    pc10 = sorted_array[len(sorted_array) // 10]
-    pc90 = sorted_array[len(sorted_array) - len(sorted_array) // 10]
+    try:
+        pc10 = sorted_array[len(sorted_array) // 10]
+        pc90 = sorted_array[len(sorted_array) - len(sorted_array) // 10]
+    except:
+        pc10 = None
+        pc90 = None
     name = name + units;
     print(f"\t{name:>30}: {mean:10.2f}±{err:<10.2f} (min={minimum}, 10%={pc10}, 90%={pc90} max={maximum})")
 
@@ -68,7 +72,7 @@ def print_summary(data, last_data):
     if server['perf_stats'] is not None and len(server['perf_stats']) > 0:
         print('Publishing performance:')
         stats = server['perf_stats']
-        micros_since_last_events = sorted(x["micros_since_last_event"] for x in stats)
+        micros_since_last_events = sorted(x["micros_since_last_event"] for x in stats if x["micros_since_last_event"] != -1)
         print_stats(micros_since_last_events, "Event Gaps")
         push_event_micros = sorted(x["push_event_micros"] for x in stats)
         print_stats(push_event_micros, "Event push time")
@@ -111,13 +115,13 @@ def print_summary(data, last_data):
         if client['perf_stats'] is not None and len(client['perf_stats']) > 0:
             stats = client['perf_stats']
             print('Subscription performance:')
-            micros_since_last_events = sorted(x["micros_since_last_event"] for x in stats)
+            micros_since_last_events = sorted(x["micros_since_last_event"] for x in stats if x["micros_since_last_event"] != -1)
             print_stats(micros_since_last_events, "Event Gaps")
             sleep_micros = sorted(x["sleep_micros"] for x in stats)
             print_stats(sleep_micros, "Sleeping time")
             process_micros = sorted(x["process_micros"] for x in stats)
             print_stats(process_micros, "Processing time")
-            first_callback_latency = sorted(x["first_callback_lactency_micros"] for x in stats if x["first_callback_lactency_micros"] != -1)
+            first_callback_latency = sorted(x["first_callback_lactency_micros"] for x in stats if x["first_callback_lactency_micros"] != -9223372036854775808)
             print_stats(first_callback_latency, "First callback latency")
             callback_count = sorted(x["callback_count"] for x in stats)
             print_stats(callback_count, "Callback Count")
