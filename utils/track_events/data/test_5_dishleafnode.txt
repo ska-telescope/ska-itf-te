@@ -1,0 +1,1679 @@
+New publishers:
+	ska_mid/tm_leaf_node/d0001/kvaluevalidationresult.change: 2
+	ska_mid/tm_leaf_node/d0001/longrunningcommandresult.change: 11
+	ska_mid/tm_leaf_node/d0001/healthstate.change: 1
+	ska_mid/tm_leaf_node/d0001/state.change: 1
+	ska_mid/tm_leaf_node/d0001/pointingstate.change: 9
+	ska_mid/tm_leaf_node/d0001/issubsystemavailable.change: 1
+	ska_mid/tm_leaf_node/d0001/dishmode.change: 19
+	ska_mid/tm_leaf_node/d0001/kvalue.change: 2
+New subscriptions:
+	mid-dish/dish-manager/ska001/achievedpointing.idl5_change: 10347 (1 callback(s) registered)
+	mid-dish/dish-manager/ska001/longrunningcommandresult.idl5_change: 42 (1 callback(s) registered)
+	mid-dish/dish-manager/ska001/pointingstate.idl5_change: 8 (1 callback(s) registered)
+	mid-dish/dish-manager/ska001/dishmode.idl5_change: 18 (1 callback(s) registered)
+	mid-dish/dish-manager/ska001/configuredband.idl5_change: 4 (1 callback(s) registered)
+***** 2025-02-13T12:27:10.671074
+
+
+
+***** 2025-02-13T12:27:20.679108
+
+
+
+***** 2025-02-13T12:27:30.689052
+
+
+
+***** 2025-02-13T12:27:40.699055
+
+
+
+***** 2025-02-13T12:27:50.703955
+
+
+
+***** 2025-02-13T12:28:00.712972
+
+
+
+***** 2025-02-13T12:28:10.722030
+
+
+
+***** 2025-02-13T12:28:20.730974
+
+
+
+***** 2025-02-13T12:28:30.739067
+
+
+
+***** 2025-02-13T12:28:40.747955
+
+
+
+***** 2025-02-13T12:28:50.755038
+
+
+
+***** 2025-02-13T12:29:00.763026
+
+
+
+***** 2025-02-13T12:29:10.771034
+
+
+
+***** 2025-02-13T12:29:20.779036
+
+
+
+***** 2025-02-13T12:29:30.784099
+
+
+
+***** 2025-02-13T12:29:40.794045
+
+
+
+***** 2025-02-13T12:29:50.804283
+
+
+
+***** 2025-02-13T12:30:00.811079
+
+
+
+***** 2025-02-13T12:30:10.819011
+
+
+
+***** 2025-02-13T12:30:20.831062
+
+
+
+***** 2025-02-13T12:30:30.831465
+
+
+
+***** 2025-02-13T12:30:40.839007
+
+
+
+***** 2025-02-13T12:30:50.849139
+
+
+
+***** 2025-02-13T12:31:00.858997
+
+
+
+***** 2025-02-13T12:31:10.867229
+
+
+
+***** 2025-02-13T12:31:20.874984
+
+
+
+***** 2025-02-13T12:31:30.883100
+
+
+
+***** 2025-02-13T12:31:40.891054
+
+
+
+***** 2025-02-13T12:31:50.892088
+
+
+
+***** 2025-02-13T12:32:00.899080
+
+
+
+***** 2025-02-13T12:32:10.907072
+
+
+
+***** 2025-02-13T12:32:20.915017
+
+
+
+***** 2025-02-13T12:32:30.924273
+
+
+
+***** 2025-02-13T12:32:40.931066
+
+
+
+***** 2025-02-13T12:32:50.936818
+
+
+
+***** 2025-02-13T12:33:00.943047
+
+
+
+***** 2025-02-13T12:33:10.951076
+
+
+
+***** 2025-02-13T12:33:20.959073
+
+
+
+***** 2025-02-13T12:33:30.968904
+
+
+
+***** 2025-02-13T12:33:40.975142
+
+
+
+***** 2025-02-13T12:33:50.983061
+
+
+
+***** 2025-02-13T12:34:00.991059
+
+
+
+***** 2025-02-13T12:34:10.999095
+
+
+
+***** 2025-02-13T12:34:21.007031
+
+
+
+***** 2025-02-13T12:34:31.015105
+
+
+
+***** 2025-02-13T12:34:41.023086
+Published events:
+	ska_mid/tm_leaf_node/d0001/dishmode.change: +2
+Publishing performance:
+	               Event Gaps (μs):  174406.00±0.00       (min=174406, 10%=None, 90%=None max=174406)
+	          Event push time (μs):      31.50±1.77       (min=29, 10%=None, 90%=None max=34)
+Received events or callbacks changed:
+	mid-dish/dish-manager/ska001/longrunningcommandresult.idl5_change: +3 (+0 callbacks)
+	mid-dish/dish-manager/ska001/dishmode.idl5_change: +2 (+0 callbacks)
+Subscription performance:
+	               Event Gaps (μs):  271997.25±182310.50  (min=1529, 10%=None, 90%=None max=900162)
+	            Sleeping time (μs): 125148314.80±111694544.75 (min=8, 10%=None, 90%=None max=624661079)
+	          Processing time (μs):    1946.20±120.56     (min=1519, 10%=None, 90%=None max=2246)
+	   First callback latency (μs):     947.20±261.30     (min=630, 10%=None, 90%=None max=2115)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=None, 90%=None max=1)
+	               Wake Count (μs):      14.80±12.34      (min=1, 10%=None, 90%=None max=70)
+
+
+
+***** 2025-02-13T12:34:51.032687
+Publishing performance:
+	               Event Gaps (μs):  174406.00±0.00       (min=174406, 10%=None, 90%=None max=174406)
+	          Event push time (μs):      31.50±1.77       (min=29, 10%=None, 90%=None max=34)
+Subscription performance:
+	               Event Gaps (μs):  271997.25±182310.50  (min=1529, 10%=None, 90%=None max=900162)
+	            Sleeping time (μs): 125148314.80±111694544.75 (min=8, 10%=None, 90%=None max=624661079)
+	          Processing time (μs):    1946.20±120.56     (min=1519, 10%=None, 90%=None max=2246)
+	   First callback latency (μs):     947.20±261.30     (min=630, 10%=None, 90%=None max=2115)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=None, 90%=None max=1)
+	               Wake Count (μs):      14.80±12.34      (min=1, 10%=None, 90%=None max=70)
+
+
+
+***** 2025-02-13T12:35:01.041155
+Publishing performance:
+	               Event Gaps (μs):  174406.00±0.00       (min=174406, 10%=None, 90%=None max=174406)
+	          Event push time (μs):      31.50±1.77       (min=29, 10%=None, 90%=None max=34)
+Subscription performance:
+	               Event Gaps (μs):  271997.25±182310.50  (min=1529, 10%=None, 90%=None max=900162)
+	            Sleeping time (μs): 125148314.80±111694544.75 (min=8, 10%=None, 90%=None max=624661079)
+	          Processing time (μs):    1946.20±120.56     (min=1519, 10%=None, 90%=None max=2246)
+	   First callback latency (μs):     947.20±261.30     (min=630, 10%=None, 90%=None max=2115)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=None, 90%=None max=1)
+	               Wake Count (μs):      14.80±12.34      (min=1, 10%=None, 90%=None max=70)
+
+
+
+***** 2025-02-13T12:35:11.051098
+Publishing performance:
+	               Event Gaps (μs):  174406.00±0.00       (min=174406, 10%=None, 90%=None max=174406)
+	          Event push time (μs):      31.50±1.77       (min=29, 10%=None, 90%=None max=34)
+Subscription performance:
+	               Event Gaps (μs):  271997.25±182310.50  (min=1529, 10%=None, 90%=None max=900162)
+	            Sleeping time (μs): 125148314.80±111694544.75 (min=8, 10%=None, 90%=None max=624661079)
+	          Processing time (μs):    1946.20±120.56     (min=1519, 10%=None, 90%=None max=2246)
+	   First callback latency (μs):     947.20±261.30     (min=630, 10%=None, 90%=None max=2115)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=None, 90%=None max=1)
+	               Wake Count (μs):      14.80±12.34      (min=1, 10%=None, 90%=None max=70)
+
+
+
+***** 2025-02-13T12:35:21.061201
+Publishing performance:
+	               Event Gaps (μs):  174406.00±0.00       (min=174406, 10%=None, 90%=None max=174406)
+	          Event push time (μs):      31.50±1.77       (min=29, 10%=None, 90%=None max=34)
+Subscription performance:
+	               Event Gaps (μs):  271997.25±182310.50  (min=1529, 10%=None, 90%=None max=900162)
+	            Sleeping time (μs): 125148314.80±111694544.75 (min=8, 10%=None, 90%=None max=624661079)
+	          Processing time (μs):    1946.20±120.56     (min=1519, 10%=None, 90%=None max=2246)
+	   First callback latency (μs):     947.20±261.30     (min=630, 10%=None, 90%=None max=2115)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=None, 90%=None max=1)
+	               Wake Count (μs):      14.80±12.34      (min=1, 10%=None, 90%=None max=70)
+
+
+
+***** 2025-02-13T12:35:31.071025
+Publishing performance:
+	               Event Gaps (μs):  174406.00±0.00       (min=174406, 10%=None, 90%=None max=174406)
+	          Event push time (μs):      31.50±1.77       (min=29, 10%=None, 90%=None max=34)
+Subscription performance:
+	               Event Gaps (μs):  271997.25±182310.50  (min=1529, 10%=None, 90%=None max=900162)
+	            Sleeping time (μs): 125148314.80±111694544.75 (min=8, 10%=None, 90%=None max=624661079)
+	          Processing time (μs):    1946.20±120.56     (min=1519, 10%=None, 90%=None max=2246)
+	   First callback latency (μs):     947.20±261.30     (min=630, 10%=None, 90%=None max=2115)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=None, 90%=None max=1)
+	               Wake Count (μs):      14.80±12.34      (min=1, 10%=None, 90%=None max=70)
+
+
+
+***** 2025-02-13T12:35:41.079058
+Publishing performance:
+	               Event Gaps (μs):  174406.00±0.00       (min=174406, 10%=None, 90%=None max=174406)
+	          Event push time (μs):      31.50±1.77       (min=29, 10%=None, 90%=None max=34)
+Subscription performance:
+	               Event Gaps (μs):  271997.25±182310.50  (min=1529, 10%=None, 90%=None max=900162)
+	            Sleeping time (μs): 125148314.80±111694544.75 (min=8, 10%=None, 90%=None max=624661079)
+	          Processing time (μs):    1946.20±120.56     (min=1519, 10%=None, 90%=None max=2246)
+	   First callback latency (μs):     947.20±261.30     (min=630, 10%=None, 90%=None max=2115)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=None, 90%=None max=1)
+	               Wake Count (μs):      14.80±12.34      (min=1, 10%=None, 90%=None max=70)
+
+
+
+***** 2025-02-13T12:35:51.087047
+Publishing performance:
+	               Event Gaps (μs):  174406.00±0.00       (min=174406, 10%=None, 90%=None max=174406)
+	          Event push time (μs):      31.50±1.77       (min=29, 10%=None, 90%=None max=34)
+Subscription performance:
+	               Event Gaps (μs):  271997.25±182310.50  (min=1529, 10%=None, 90%=None max=900162)
+	            Sleeping time (μs): 125148314.80±111694544.75 (min=8, 10%=None, 90%=None max=624661079)
+	          Processing time (μs):    1946.20±120.56     (min=1519, 10%=None, 90%=None max=2246)
+	   First callback latency (μs):     947.20±261.30     (min=630, 10%=None, 90%=None max=2115)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=None, 90%=None max=1)
+	               Wake Count (μs):      14.80±12.34      (min=1, 10%=None, 90%=None max=70)
+
+
+
+***** 2025-02-13T12:36:01.095087
+Publishing performance:
+	               Event Gaps (μs):  174406.00±0.00       (min=174406, 10%=None, 90%=None max=174406)
+	          Event push time (μs):      31.50±1.77       (min=29, 10%=None, 90%=None max=34)
+Subscription performance:
+	               Event Gaps (μs):  271997.25±182310.50  (min=1529, 10%=None, 90%=None max=900162)
+	            Sleeping time (μs): 125148314.80±111694544.75 (min=8, 10%=None, 90%=None max=624661079)
+	          Processing time (μs):    1946.20±120.56     (min=1519, 10%=None, 90%=None max=2246)
+	   First callback latency (μs):     947.20±261.30     (min=630, 10%=None, 90%=None max=2115)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=None, 90%=None max=1)
+	               Wake Count (μs):      14.80±12.34      (min=1, 10%=None, 90%=None max=70)
+
+
+
+***** 2025-02-13T12:36:11.103038
+Publishing performance:
+	               Event Gaps (μs):  174406.00±0.00       (min=174406, 10%=None, 90%=None max=174406)
+	          Event push time (μs):      31.50±1.77       (min=29, 10%=None, 90%=None max=34)
+Subscription performance:
+	               Event Gaps (μs):  271997.25±182310.50  (min=1529, 10%=None, 90%=None max=900162)
+	            Sleeping time (μs): 125148314.80±111694544.75 (min=8, 10%=None, 90%=None max=624661079)
+	          Processing time (μs):    1946.20±120.56     (min=1519, 10%=None, 90%=None max=2246)
+	   First callback latency (μs):     947.20±261.30     (min=630, 10%=None, 90%=None max=2115)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=None, 90%=None max=1)
+	               Wake Count (μs):      14.80±12.34      (min=1, 10%=None, 90%=None max=70)
+
+
+
+***** 2025-02-13T12:36:21.113065
+Publishing performance:
+	               Event Gaps (μs):  174406.00±0.00       (min=174406, 10%=None, 90%=None max=174406)
+	          Event push time (μs):      31.50±1.77       (min=29, 10%=None, 90%=None max=34)
+Subscription performance:
+	               Event Gaps (μs):  271997.25±182310.50  (min=1529, 10%=None, 90%=None max=900162)
+	            Sleeping time (μs): 125148314.80±111694544.75 (min=8, 10%=None, 90%=None max=624661079)
+	          Processing time (μs):    1946.20±120.56     (min=1519, 10%=None, 90%=None max=2246)
+	   First callback latency (μs):     947.20±261.30     (min=630, 10%=None, 90%=None max=2115)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=None, 90%=None max=1)
+	               Wake Count (μs):      14.80±12.34      (min=1, 10%=None, 90%=None max=70)
+
+
+
+***** 2025-02-13T12:36:31.123049
+Publishing performance:
+	               Event Gaps (μs):  174406.00±0.00       (min=174406, 10%=None, 90%=None max=174406)
+	          Event push time (μs):      31.50±1.77       (min=29, 10%=None, 90%=None max=34)
+Subscription performance:
+	               Event Gaps (μs):  271997.25±182310.50  (min=1529, 10%=None, 90%=None max=900162)
+	            Sleeping time (μs): 125148314.80±111694544.75 (min=8, 10%=None, 90%=None max=624661079)
+	          Processing time (μs):    1946.20±120.56     (min=1519, 10%=None, 90%=None max=2246)
+	   First callback latency (μs):     947.20±261.30     (min=630, 10%=None, 90%=None max=2115)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=None, 90%=None max=1)
+	               Wake Count (μs):      14.80±12.34      (min=1, 10%=None, 90%=None max=70)
+
+
+
+***** 2025-02-13T12:36:41.131060
+Publishing performance:
+	               Event Gaps (μs):  174406.00±0.00       (min=174406, 10%=None, 90%=None max=174406)
+	          Event push time (μs):      31.50±1.77       (min=29, 10%=None, 90%=None max=34)
+Subscription performance:
+	               Event Gaps (μs):  271997.25±182310.50  (min=1529, 10%=None, 90%=None max=900162)
+	            Sleeping time (μs): 125148314.80±111694544.75 (min=8, 10%=None, 90%=None max=624661079)
+	          Processing time (μs):    1946.20±120.56     (min=1519, 10%=None, 90%=None max=2246)
+	   First callback latency (μs):     947.20±261.30     (min=630, 10%=None, 90%=None max=2115)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=None, 90%=None max=1)
+	               Wake Count (μs):      14.80±12.34      (min=1, 10%=None, 90%=None max=70)
+
+
+
+***** 2025-02-13T12:36:51.139055
+Publishing performance:
+	               Event Gaps (μs):  174406.00±0.00       (min=174406, 10%=None, 90%=None max=174406)
+	          Event push time (μs):      31.50±1.77       (min=29, 10%=None, 90%=None max=34)
+Subscription performance:
+	               Event Gaps (μs):  271997.25±182310.50  (min=1529, 10%=None, 90%=None max=900162)
+	            Sleeping time (μs): 125148314.80±111694544.75 (min=8, 10%=None, 90%=None max=624661079)
+	          Processing time (μs):    1946.20±120.56     (min=1519, 10%=None, 90%=None max=2246)
+	   First callback latency (μs):     947.20±261.30     (min=630, 10%=None, 90%=None max=2115)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=None, 90%=None max=1)
+	               Wake Count (μs):      14.80±12.34      (min=1, 10%=None, 90%=None max=70)
+
+
+
+***** 2025-02-13T12:37:01.147209
+Publishing performance:
+	               Event Gaps (μs):  174406.00±0.00       (min=174406, 10%=None, 90%=None max=174406)
+	          Event push time (μs):      31.50±1.77       (min=29, 10%=None, 90%=None max=34)
+Subscription performance:
+	               Event Gaps (μs):  271997.25±182310.50  (min=1529, 10%=None, 90%=None max=900162)
+	            Sleeping time (μs): 125148314.80±111694544.75 (min=8, 10%=None, 90%=None max=624661079)
+	          Processing time (μs):    1946.20±120.56     (min=1519, 10%=None, 90%=None max=2246)
+	   First callback latency (μs):     947.20±261.30     (min=630, 10%=None, 90%=None max=2115)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=None, 90%=None max=1)
+	               Wake Count (μs):      14.80±12.34      (min=1, 10%=None, 90%=None max=70)
+
+
+
+***** 2025-02-13T12:37:11.155087
+Publishing performance:
+	               Event Gaps (μs):  174406.00±0.00       (min=174406, 10%=None, 90%=None max=174406)
+	          Event push time (μs):      31.50±1.77       (min=29, 10%=None, 90%=None max=34)
+Subscription performance:
+	               Event Gaps (μs):  271997.25±182310.50  (min=1529, 10%=None, 90%=None max=900162)
+	            Sleeping time (μs): 125148314.80±111694544.75 (min=8, 10%=None, 90%=None max=624661079)
+	          Processing time (μs):    1946.20±120.56     (min=1519, 10%=None, 90%=None max=2246)
+	   First callback latency (μs):     947.20±261.30     (min=630, 10%=None, 90%=None max=2115)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=None, 90%=None max=1)
+	               Wake Count (μs):      14.80±12.34      (min=1, 10%=None, 90%=None max=70)
+
+
+
+***** 2025-02-13T12:37:21.163180
+Published events:
+	ska_mid/tm_leaf_node/d0001/dishmode.change: +2
+Publishing performance:
+	               Event Gaps (μs): 54309621.33±43751565.45 (min=174406, 10%=None, 90%=None max=161476739)
+	          Event push time (μs):      45.25±8.52       (min=29, 10%=None, 90%=None max=73)
+Received events or callbacks changed:
+	mid-dish/dish-manager/ska001/longrunningcommandresult.idl5_change: +4 (+0 callbacks)
+	mid-dish/dish-manager/ska001/dishmode.idl5_change: +2 (+0 callbacks)
+	mid-dish/dish-manager/ska001/configuredband.idl5_change: +1 (+0 callbacks)
+Subscription performance:
+	               Event Gaps (μs): 14813271.55±13671904.47 (min=1529, 10%=86965, 90%=158199522 max=158199522)
+	            Sleeping time (μs): 65447686.25±50265255.73 (min=8, 10%=9, 90%=624661079 max=624661079)
+	          Processing time (μs):  186414.58±75081.96   (min=10, 10%=1519, 90%=729618 max=729618)
+	   First callback latency (μs):  421314.91±177608.61  (min=630, 10%=635, 90%=1458547 max=1458547)
+	           Callback Count (μs):       0.92±0.08       (min=0, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       8.33±5.58       (min=1, 10%=1, 90%=70 max=70)
+
+
+
+***** 2025-02-13T12:37:31.171518
+Published events:
+	ska_mid/tm_leaf_node/d0001/longrunningcommandresult.change: +2
+	ska_mid/tm_leaf_node/d0001/pointingstate.change: +3
+	ska_mid/tm_leaf_node/d0001/dishmode.change: +1
+Publishing performance:
+	               Event Gaps (μs): 18611141.33±16837630.21 (min=1952, 10%=None, 90%=None max=161476739)
+	          Event push time (μs):      96.70±54.44      (min=16, 10%=29, 90%=611 max=611)
+Received events or callbacks changed:
+	mid-dish/dish-manager/ska001/achievedpointing.idl5_change: +294 (+0 callbacks)
+	mid-dish/dish-manager/ska001/longrunningcommandresult.idl5_change: +5 (+0 callbacks)
+	mid-dish/dish-manager/ska001/pointingstate.idl5_change: +3 (+0 callbacks)
+	mid-dish/dish-manager/ska001/dishmode.idl5_change: +1 (+0 callbacks)
+Subscription performance:
+	               Event Gaps (μs):   26564.70±2546.14    (min=1265, 10%=1555, 90%=94498 max=96854)
+	            Sleeping time (μs):   24590.84±2554.76    (min=5, 10%=6, 90%=92918 max=95518)
+	          Processing time (μs):    1971.46±25.71      (min=1164, 10%=1454, 90%=2562 max=3636)
+	   First callback latency (μs):    3609.85±142.12     (min=538, 10%=585, 90%=6666 max=10774)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=2)
+
+
+
+***** 2025-02-13T12:37:41.181495
+Publishing performance:
+	               Event Gaps (μs): 18611141.33±16837630.21 (min=1952, 10%=None, 90%=None max=161476739)
+	          Event push time (μs):      96.70±54.44      (min=16, 10%=29, 90%=611 max=611)
+Received events or callbacks changed:
+	mid-dish/dish-manager/ska001/achievedpointing.idl5_change: +372 (+0 callbacks)
+Subscription performance:
+	               Event Gaps (μs):   26572.75±2557.09    (min=1267, 10%=1526, 90%=94827 max=97138)
+	            Sleeping time (μs):   24677.84±2563.92    (min=5, 10%=6, 90%=93130 max=95826)
+	          Processing time (μs):    1890.17±27.19      (min=1260, 10%=1373, 90%=2431 max=4597)
+	   First callback latency (μs):    3436.28±131.84     (min=531, 10%=574, 90%=6300 max=7916)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:37:51.191297
+Publishing performance:
+	               Event Gaps (μs): 18611141.33±16837630.21 (min=1952, 10%=None, 90%=None max=161476739)
+	          Event push time (μs):      96.70±54.44      (min=16, 10%=29, 90%=611 max=611)
+Received events or callbacks changed:
+	mid-dish/dish-manager/ska001/achievedpointing.idl5_change: +373 (+0 callbacks)
+Subscription performance:
+	               Event Gaps (μs):   26577.09±2561.58    (min=1313, 10%=1500, 90%=94922 max=99121)
+	            Sleeping time (μs):   24749.02±2571.40    (min=5, 10%=6, 90%=93383 max=97595)
+	          Processing time (μs):    1823.60±23.09      (min=1264, 10%=1386, 90%=2375 max=2932)
+	   First callback latency (μs):    3365.00±130.57     (min=499, 10%=548, 90%=6249 max=7641)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:38:01.199305
+Publishing performance:
+	               Event Gaps (μs): 18611141.33±16837630.21 (min=1952, 10%=None, 90%=None max=161476739)
+	          Event push time (μs):      96.70±54.44      (min=16, 10%=29, 90%=611 max=611)
+Received events or callbacks changed:
+	mid-dish/dish-manager/ska001/achievedpointing.idl5_change: +371 (+0 callbacks)
+Subscription performance:
+	               Event Gaps (μs):   26948.29±2567.65    (min=1288, 10%=1588, 90%=94933 max=97948)
+	            Sleeping time (μs):   25045.05±2576.30    (min=5, 10%=6, 90%=93403 max=95784)
+	          Processing time (μs):    1900.80±23.96      (min=1257, 10%=1453, 90%=2390 max=3307)
+	   First callback latency (μs):    3376.40±134.47     (min=467, 10%=512, 90%=6294 max=7883)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:38:11.209405
+Publishing performance:
+	               Event Gaps (μs): 18611141.33±16837630.21 (min=1952, 10%=None, 90%=None max=161476739)
+	          Event push time (μs):      96.70±54.44      (min=16, 10%=29, 90%=611 max=611)
+Received events or callbacks changed:
+	mid-dish/dish-manager/ska001/achievedpointing.idl5_change: +373 (+0 callbacks)
+Subscription performance:
+	               Event Gaps (μs):   26576.25±2557.64    (min=1244, 10%=1533, 90%=94876 max=97195)
+	            Sleeping time (μs):   24703.80±2566.61    (min=5, 10%=6, 90%=93400 max=95658)
+	          Processing time (μs):    1870.13±25.07      (min=1227, 10%=1356, 90%=2422 max=3134)
+	   First callback latency (μs):    3352.47±133.33     (min=435, 10%=481, 90%=6336 max=7924)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=2)
+
+
+
+***** 2025-02-13T12:38:21.219359
+Publishing performance:
+	               Event Gaps (μs): 18611141.33±16837630.21 (min=1952, 10%=None, 90%=None max=161476739)
+	          Event push time (μs):      96.70±54.44      (min=16, 10%=29, 90%=611 max=611)
+Received events or callbacks changed:
+	mid-dish/dish-manager/ska001/achievedpointing.idl5_change: +371 (+0 callbacks)
+Subscription performance:
+	               Event Gaps (μs):   26582.27±2558.51    (min=1284, 10%=1585, 90%=94766 max=126581)
+	            Sleeping time (μs):   24661.58±2568.50    (min=5, 10%=6, 90%=93256 max=124973)
+	          Processing time (μs):    1915.08±24.88      (min=1274, 10%=1401, 90%=2506 max=3177)
+	   First callback latency (μs):    3390.36±135.42     (min=403, 10%=455, 90%=6387 max=7410)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=2)
+
+
+
+***** 2025-02-13T12:38:31.227337
+Publishing performance:
+	               Event Gaps (μs): 18611141.33±16837630.21 (min=1952, 10%=None, 90%=None max=161476739)
+	          Event push time (μs):      96.70±54.44      (min=16, 10%=29, 90%=611 max=611)
+Received events or callbacks changed:
+	mid-dish/dish-manager/ska001/achievedpointing.idl5_change: +372 (+0 callbacks)
+Subscription performance:
+	               Event Gaps (μs):   26577.92±2551.77    (min=1304, 10%=1570, 90%=94852 max=96904)
+	            Sleeping time (μs):   24650.22±2561.07    (min=5, 10%=6, 90%=93200 max=95525)
+	          Processing time (μs):    1922.70±28.67      (min=1288, 10%=1435, 90%=2464 max=4496)
+	   First callback latency (μs):    3383.05±139.01     (min=411, 10%=447, 90%=6403 max=8792)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=2)
+
+
+
+***** 2025-02-13T12:38:41.235413
+Publishing performance:
+	               Event Gaps (μs): 18611141.33±16837630.21 (min=1952, 10%=None, 90%=None max=161476739)
+	          Event push time (μs):      96.70±54.44      (min=16, 10%=29, 90%=611 max=611)
+Received events or callbacks changed:
+	mid-dish/dish-manager/ska001/achievedpointing.idl5_change: +373 (+0 callbacks)
+Subscription performance:
+	               Event Gaps (μs):   26584.61±2554.71    (min=1255, 10%=1581, 90%=94799 max=123349)
+	            Sleeping time (μs):   24626.87±2563.69    (min=5, 10%=6, 90%=93194 max=122010)
+	          Processing time (μs):    1951.94±31.52      (min=1249, 10%=1370, 90%=2476 max=6650)
+	   First callback latency (μs):    3360.11±137.65     (min=354, 10%=412, 90%=6253 max=11388)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=2)
+
+
+
+***** 2025-02-13T12:38:51.243320
+Publishing performance:
+	               Event Gaps (μs): 18611141.33±16837630.21 (min=1952, 10%=None, 90%=None max=161476739)
+	          Event push time (μs):      96.70±54.44      (min=16, 10%=29, 90%=611 max=611)
+Received events or callbacks changed:
+	mid-dish/dish-manager/ska001/achievedpointing.idl5_change: +374 (+0 callbacks)
+Subscription performance:
+	               Event Gaps (μs):   26946.27±2559.54    (min=1288, 10%=1582, 90%=94850 max=96498)
+	            Sleeping time (μs):   24975.90±2569.10    (min=5, 10%=6, 90%=93079 max=94641)
+	          Processing time (μs):    1973.20±30.19      (min=1282, 10%=1446, 90%=2645 max=4960)
+	   First callback latency (μs):    3387.59±138.86     (min=345, 10%=384, 90%=6472 max=8570)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=2)
+
+
+
+***** 2025-02-13T12:39:01.251321
+Publishing performance:
+	               Event Gaps (μs): 18611141.33±16837630.21 (min=1952, 10%=None, 90%=None max=161476739)
+	          Event push time (μs):      96.70±54.44      (min=16, 10%=29, 90%=611 max=611)
+Received events or callbacks changed:
+	mid-dish/dish-manager/ska001/achievedpointing.idl5_change: +360 (+0 callbacks)
+Subscription performance:
+	               Event Gaps (μs):   28128.38±2924.38    (min=1274, 10%=1560, 90%=94755 max=391631)
+	            Sleeping time (μs):   26215.32±2932.37    (min=5, 10%=6, 90%=93328 max=389968)
+	          Processing time (μs):    1910.29±24.73      (min=1268, 10%=1429, 90%=2456 max=3396)
+	   First callback latency (μs):    3258.97±136.32     (min=338, 10%=379, 90%=6175 max=8262)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=2)
+
+
+
+***** 2025-02-13T12:39:11.261461
+Publishing performance:
+	               Event Gaps (μs): 18611141.33±16837630.21 (min=1952, 10%=None, 90%=None max=161476739)
+	          Event push time (μs):      96.70±54.44      (min=16, 10%=29, 90%=611 max=611)
+Received events or callbacks changed:
+	mid-dish/dish-manager/ska001/achievedpointing.idl5_change: +372 (+0 callbacks)
+Subscription performance:
+	               Event Gaps (μs):   26954.39±2568.07    (min=1326, 10%=1552, 90%=95033 max=96551)
+	            Sleeping time (μs):   25061.26±2577.88    (min=5, 10%=6, 90%=93373 max=95187)
+	          Processing time (μs):    1889.43±27.99      (min=1290, 10%=1396, 90%=2487 max=4733)
+	   First callback latency (μs):    3235.98±133.53     (min=302, 10%=361, 90%=6180 max=7872)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:39:21.271346
+Publishing performance:
+	               Event Gaps (μs): 18611141.33±16837630.21 (min=1952, 10%=None, 90%=None max=161476739)
+	          Event push time (μs):      96.70±54.44      (min=16, 10%=29, 90%=611 max=611)
+Received events or callbacks changed:
+	mid-dish/dish-manager/ska001/achievedpointing.idl5_change: +371 (+0 callbacks)
+Subscription performance:
+	               Event Gaps (μs):   26584.37±2553.91    (min=1269, 10%=1553, 90%=94807 max=109612)
+	            Sleeping time (μs):   24664.91±2563.84    (min=5, 10%=6, 90%=93285 max=107750)
+	          Processing time (μs):    1913.94±26.12      (min=1257, 10%=1435, 90%=2476 max=3640)
+	   First callback latency (μs):    3284.35±135.98     (min=298, 10%=344, 90%=6171 max=8089)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:39:31.279270
+Published events:
+	ska_mid/tm_leaf_node/d0001/longrunningcommandresult.change: +2
+	ska_mid/tm_leaf_node/d0001/pointingstate.change: +1
+Publishing performance:
+	               Event Gaps (μs): 24356352.08±15300155.25 (min=1952, 10%=174406, 90%=161476739 max=161476739)
+	          Event push time (μs):     109.62±48.32      (min=16, 10%=28, 90%=611 max=611)
+Received events or callbacks changed:
+	mid-dish/dish-manager/ska001/achievedpointing.idl5_change: +361 (+0 callbacks)
+	mid-dish/dish-manager/ska001/longrunningcommandresult.idl5_change: +3 (+0 callbacks)
+	mid-dish/dish-manager/ska001/pointingstate.idl5_change: +1 (+0 callbacks)
+Subscription performance:
+	               Event Gaps (μs):   27358.57±2907.16    (min=1280, 10%=1558, 90%=94897 max=393010)
+	            Sleeping time (μs):   25488.32±2914.76    (min=5, 10%=6, 90%=93291 max=391545)
+	          Processing time (μs):    1864.18±24.02      (min=1265, 10%=1423, 90%=2382 max=3161)
+	   First callback latency (μs):    3223.98±134.44     (min=276, 10%=326, 90%=6102 max=9589)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=2)
+
+
+
+***** 2025-02-13T12:39:41.283539
+Published events:
+	ska_mid/tm_leaf_node/d0001/dishmode.change: +1
+Publishing performance:
+	               Event Gaps (μs): 22911297.38±14191296.74 (min=1952, 10%=174406, 90%=161476739 max=161476739)
+	          Event push time (μs):     104.36±45.15      (min=16, 10%=28, 90%=611 max=611)
+Received events or callbacks changed:
+	mid-dish/dish-manager/ska001/achievedpointing.idl5_change: +26 (+0 callbacks)
+	mid-dish/dish-manager/ska001/longrunningcommandresult.idl5_change: +1 (+0 callbacks)
+	mid-dish/dish-manager/ska001/dishmode.idl5_change: +1 (+0 callbacks)
+Subscription performance:
+	               Event Gaps (μs):   60888.91±7572.82    (min=1280, 10%=1570, 90%=96442 max=556331)
+	            Sleeping time (μs):   23670.03±2860.60    (min=5, 10%=6, 90%=93270 max=391545)
+	          Processing time (μs):   38986.24±7639.70    (min=1265, 10%=1435, 90%=2966 max=556313)
+	   First callback latency (μs):  391484.04±90170.85   (min=276, 10%=327, 90%=7940 max=8590851)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=2)
+
+
+
+***** 2025-02-13T12:39:51.285002
+Publishing performance:
+	               Event Gaps (μs): 22911297.38±14191296.74 (min=1952, 10%=174406, 90%=161476739 max=161476739)
+	          Event push time (μs):     104.36±45.15      (min=16, 10%=28, 90%=611 max=611)
+Received events or callbacks changed:
+	mid-dish/dish-manager/ska001/achievedpointing.idl5_change: +21 (+0 callbacks)
+	mid-dish/dish-manager/ska001/longrunningcommandresult.idl5_change: +1 (+0 callbacks)
+Subscription performance:
+	               Event Gaps (μs):   97122.93±10109.66   (min=1280, 10%=1572, 90%=443955 max=556331)
+	            Sleeping time (μs):   21490.43±2788.40    (min=5, 10%=6, 90%=93065 max=391545)
+	          Processing time (μs):   77416.40±10439.98   (min=1265, 10%=1435, 90%=444205 max=556313)
+	   First callback latency (μs): 1545371.95±249564.29  (min=276, 10%=330, 90%=7696125 max=17866994)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=2)
+
+
+
+***** 2025-02-13T12:40:01.291249
+Publishing performance:
+	               Event Gaps (μs): 22911297.38±14191296.74 (min=1952, 10%=174406, 90%=161476739 max=161476739)
+	          Event push time (μs):     104.36±45.15      (min=16, 10%=28, 90%=611 max=611)
+Received events or callbacks changed:
+	mid-dish/dish-manager/ska001/achievedpointing.idl5_change: +24 (+0 callbacks)
+Subscription performance:
+	               Event Gaps (μs):  134176.21±11541.33   (min=1280, 10%=1577, 90%=448898 max=556331)
+	            Sleeping time (μs):   19318.76±2708.27    (min=5, 10%=6, 90%=93019 max=391545)
+	          Processing time (μs):  116443.09±12002.27   (min=1265, 10%=1451, 90%=448881 max=556313)
+	   First callback latency (μs): 3686963.09±460792.42  (min=276, 10%=334, 90%=17866994 max=27352177)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=2)
+
+
+
+***** 2025-02-13T12:40:11.299379
+Publishing performance:
+	               Event Gaps (μs): 22911297.38±14191296.74 (min=1952, 10%=174406, 90%=161476739 max=161476739)
+	          Event push time (μs):     104.36±45.15      (min=16, 10%=28, 90%=611 max=611)
+Received events or callbacks changed:
+	mid-dish/dish-manager/ska001/achievedpointing.idl5_change: +23 (+0 callbacks)
+Subscription performance:
+	               Event Gaps (μs):  170699.36±12451.01   (min=1280, 10%=1589, 90%=453753 max=556331)
+	            Sleeping time (μs):   17137.06±2617.55    (min=5, 10%=6, 90%=92732 max=391545)
+	          Processing time (μs):  155201.78±13009.04   (min=1265, 10%=1452, 90%=453735 max=556313)
+	   First callback latency (μs): 6578274.93±680010.61  (min=276, 10%=335, 90%=26969805 max=36605818)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=2)
+
+
+
+***** 2025-02-13T12:40:21.308622
+Publishing performance:
+	               Event Gaps (μs): 22911297.38±14191296.74 (min=1952, 10%=174406, 90%=161476739 max=161476739)
+	          Event push time (μs):     104.36±45.15      (min=16, 10%=28, 90%=611 max=611)
+Received events or callbacks changed:
+	mid-dish/dish-manager/ska001/achievedpointing.idl5_change: +23 (+0 callbacks)
+Subscription performance:
+	               Event Gaps (μs):  207585.82±12914.33   (min=1280, 10%=1610, 90%=453849 max=556331)
+	            Sleeping time (μs):   14975.20±2518.54    (min=5, 10%=6, 90%=92375 max=391545)
+	          Processing time (μs):  194297.00±13530.56   (min=1265, 10%=1515, 90%=453831 max=556313)
+	   First callback latency (μs): 10315784.36±908749.80  (min=276, 10%=343, 90%=36256569 max=46045698)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=2)
+
+
+
+***** 2025-02-13T12:40:31.315388
+Publishing performance:
+	               Event Gaps (μs): 22911297.38±14191296.74 (min=1952, 10%=174406, 90%=161476739 max=161476739)
+	          Event push time (μs):     104.36±45.15      (min=16, 10%=28, 90%=611 max=611)
+Received events or callbacks changed:
+	mid-dish/dish-manager/ska001/achievedpointing.idl5_change: +23 (+0 callbacks)
+Subscription performance:
+	               Event Gaps (μs):  244253.68±12944.89   (min=1280, 10%=1640, 90%=453969 max=556331)
+	            Sleeping time (μs):   12795.27±2405.60    (min=5, 10%=6, 90%=91948 max=391545)
+	          Processing time (μs):  233184.66±13586.80   (min=1265, 10%=1549, 90%=453950 max=556313)
+	   First callback latency (μs): 14896291.18±1135625.81 (min=276, 10%=350, 90%=45701406 max=55434254)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=2)
+
+
+
+***** 2025-02-13T12:40:41.323415
+Publishing performance:
+	               Event Gaps (μs): 22911297.38±14191296.74 (min=1952, 10%=174406, 90%=161476739 max=161476739)
+	          Event push time (μs):     104.36±45.15      (min=16, 10%=28, 90%=611 max=611)
+Received events or callbacks changed:
+	mid-dish/dish-manager/ska001/achievedpointing.idl5_change: +24 (+0 callbacks)
+Subscription performance:
+	               Event Gaps (μs):  281578.38±12532.84   (min=1280, 10%=1686, 90%=454010 max=556331)
+	            Sleeping time (μs):   10249.41±2256.01    (min=5, 10%=7, 90%=89262 max=391545)
+	          Processing time (μs):  272952.86±13143.94   (min=1265, 10%=1605, 90%=453992 max=556313)
+	   First callback latency (μs): 20573708.21±1359785.96 (min=276, 10%=2111, 90%=55434254 max=65084494)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=2)
+
+
+
+***** 2025-02-13T12:40:51.331478
+Published events:
+	ska_mid/tm_leaf_node/d0001/dishmode.change: +1
+Publishing performance:
+	               Event Gaps (μs): 26104165.93±13532044.96 (min=1952, 10%=174406, 90%=161476739 max=161476739)
+	          Event push time (μs):      99.67±42.39      (min=16, 10%=28, 90%=611 max=611)
+Received events or callbacks changed:
+	mid-dish/dish-manager/ska001/achievedpointing.idl5_change: +20 (+0 callbacks)
+	mid-dish/dish-manager/ska001/longrunningcommandresult.idl5_change: +1 (+0 callbacks)
+	mid-dish/dish-manager/ska001/dishmode.idl5_change: +1 (+0 callbacks)
+Subscription performance:
+	               Event Gaps (μs):  317489.45±11821.11   (min=1337, 10%=1901, 90%=454629 max=625520)
+	            Sleeping time (μs):    8064.51±2109.41    (min=5, 10%=7, 90%=21 max=391545)
+	          Processing time (μs):  311164.81±12389.06   (min=1265, 10%=1665, 90%=454610 max=625490)
+	   First callback latency (μs): 26595368.03±1546055.69 (min=276, 10%=2567, 90%=64313234 max=74277629)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=2)
+
+
+
+***** 2025-02-13T12:41:01.339465
+Publishing performance:
+	               Event Gaps (μs): 26104165.93±13532044.96 (min=1952, 10%=174406, 90%=161476739 max=161476739)
+	          Event push time (μs):      99.67±42.39      (min=16, 10%=28, 90%=611 max=611)
+Received events or callbacks changed:
+	mid-dish/dish-manager/ska001/achievedpointing.idl5_change: +22 (+0 callbacks)
+	mid-dish/dish-manager/ska001/longrunningcommandresult.idl5_change: +1 (+0 callbacks)
+Subscription performance:
+	               Event Gaps (μs):  354508.98±10408.36   (min=1337, 10%=2227, 90%=457874 max=625520)
+	            Sleeping time (μs):    6253.16±1973.27    (min=5, 10%=8, 90%=19 max=391545)
+	          Processing time (μs):  349962.54±10936.88   (min=1265, 10%=1758, 90%=457857 max=625490)
+	   First callback latency (μs): 33701650.42±1707294.14 (min=276, 10%=3035, 90%=73953987 max=83664030)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=2)
+
+
+
+***** 2025-02-13T12:41:11.349322
+Published events:
+	ska_mid/tm_leaf_node/d0001/longrunningcommandresult.change: +1
+	ska_mid/tm_leaf_node/d0001/dishmode.change: +1
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Received events or callbacks changed:
+	mid-dish/dish-manager/ska001/achievedpointing.idl5_change: +97 (+0 callbacks)
+	mid-dish/dish-manager/ska001/longrunningcommandresult.idl5_change: +2 (+0 callbacks)
+	mid-dish/dish-manager/ska001/dishmode.idl5_change: +1 (+0 callbacks)
+	mid-dish/dish-manager/ska001/configuredband.idl5_change: +1 (+0 callbacks)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:41:21.359369
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:41:31.367326
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:41:41.375389
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:41:51.385316
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:42:01.395415
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:42:11.403327
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:42:21.411419
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:42:31.419372
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:42:41.427396
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:42:51.435370
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:43:01.443500
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:43:11.452296
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:43:21.458060
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:43:31.467341
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:43:41.475433
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:43:51.483383
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:44:01.491360
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:44:11.499359
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:44:21.507483
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:44:31.517064
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:44:41.525903
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:44:51.535333
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:45:01.545425
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:45:11.551404
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:45:21.559334
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:45:31.567507
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:45:41.575440
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:45:51.583369
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:46:01.584285
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:46:11.591435
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:46:21.599603
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:46:31.609413
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:46:41.619485
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:46:51.627387
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:47:01.635436
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:47:11.643323
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:47:21.651997
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:47:31.659383
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:47:41.668240
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:47:51.678254
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:48:01.687351
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:48:11.695387
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:48:21.704099
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:48:31.713484
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:48:41.723366
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:48:51.733506
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:49:01.743386
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:49:11.751405
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:49:21.759391
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:49:31.767378
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:49:41.777441
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:49:51.783659
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:50:01.791366
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:50:11.794895
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:50:21.804949
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:50:31.811433
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:50:41.818483
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:50:51.827369
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:51:01.833084
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
+
+***** 2025-02-13T12:51:11.839419
+Publishing performance:
+	               Event Gaps (μs): 24244499.75±11945458.30 (min=1952, 10%=12158, 90%=161476739 max=161476739)
+	          Event push time (μs):      90.41±37.90      (min=16, 10%=17, 90%=611 max=611)
+Subscription performance:
+	               Event Gaps (μs):  281103.41±12991.52   (min=696, 10%=1326, 90%=453395 max=625520)
+	            Sleeping time (μs):      11.85±0.29       (min=4, 10%=5, 90%=16 max=24)
+	          Processing time (μs):  279383.28±13021.76   (min=691, 10%=1319, 90%=453376 max=625490)
+	   First callback latency (μs): 66360077.07±1384655.27 (min=21594951, 10%=31463980, 90%=88024075 max=88585819)
+	           Callback Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+	               Wake Count (μs):       1.00±0.00       (min=1, 10%=1, 90%=1 max=1)
+
+
