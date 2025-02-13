@@ -1,0 +1,65 @@
+#!/usr/bin/env python
+
+import tango
+from tango import DeviceProxy, DevFailed
+from argparse import ArgumentParser
+
+import sys
+from datetime import datetime
+import time
+
+def build_parser() -> ArgumentParser:
+    parser = ArgumentParser(
+        prog="event-system-recorder",
+        description="Records QueryEventSystem() samples periodically",
+    )
+    parser.add_argument('device', help='device or admin device to connect to')
+    parser.add_argument('-o', '--output', help='file to save data to, one json object per line', default='samples.json')
+    parser.add_argument('--poll-period', help='period between polls in seconds', type=float, default=1.0)
+    parser.add_argument('-a', '--append', help='append to file', action='store_true')
+
+    return parser
+
+
+def main(args: dict):
+    name = args.device
+    display_name = name
+    dp = DeviceProxy(name)
+
+    if dp.info().dev_class != 'DServer':
+        adm_name = dp.adm_name()
+        display_name = f'{adm_name} (from {name})'
+        name = adm_name
+        dp = DeviceProxy(name)
+
+    if 'QueryEventSystem' not in dp.get_command_list():
+        print(f'{display_name} does not support QueryEventSystem, is this pod using "PyTango 9.5.1234"?', file=sys.stderr)
+        sys.exit(1)
+
+    if args.append:
+        mode = 'a'
+    else:
+        mode = 'w'
+    with open(args.output, mode) as f:
+        while(True):
+            next_poll = time.time() + args.poll_period
+
+            try:
+                data = dp.QueryEventSystem()
+                f.write(f'{{"time":"{datetime.now().isoformat()}","name":"{name}","data":{data}}}\n')
+
+            except DevFailed as exc:
+                print(exc, file=sys.stderr)
+                f.write(f'{{"time":"{datetime.now().isoformat()}","name":"{name}","error":"{repr(exc)}"}}\n')
+
+            f.flush()
+            sleep_for = next_poll - time.time()
+            if sleep_for > 0.001:
+                time.sleep(sleep_for)
+            elif sleep_for < 0:
+                print(f'poll time missed by {-sleep_for}s', file=sys.stderr)
+
+
+if __name__ == '__main__':
+    args = build_parser().parse_args()
+    main(args)
