@@ -33,6 +33,10 @@ ska-dish-lmc:
         registry: registry.gitlab.com/ska-telescope/ska-mid-dish-manager
         image: ska-mid-dish-manager
         tag: 7.0.0-dev.c787d4d39
+    # TEMP COMMIT: pytango upgrade missing events investigation
+    dsmanager:
+      image:
+        tag: 3.1.0
   ska-mid-dish-ds-manager:
     enabled: true
   ska-mid-dish-simulators:
