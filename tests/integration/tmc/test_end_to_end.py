@@ -33,7 +33,6 @@ GENERATE_SEQUENCE_DIAGRAM = os.getenv("GENERATE_SEQUENCE_DIAGRAM")
 
 sequence_diagrammer = sequenceDiagrammer(SUT_NAMESPACE)
 
-
 @scenario(
     "features/tmc_end_to_end.feature",
     "End to End signal chain verification via TMC",
@@ -182,6 +181,7 @@ def _(telescope_handlers):
 @given("I start listening for events")
 def _():
     if GENERATE_SEQUENCE_DIAGRAM:
+        sequence_diagrammer.setup()
         sequence_diagrammer.start_tracking_events()
 
 

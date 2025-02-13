@@ -45,12 +45,17 @@ class sequenceDiagrammer:
             self.sut_namespace, f'SKA{index}'
         ) for index in self.dish_indexes]
 
+    def setup(self):
+        """."""
         self.namespaces_pods: dict[str, list[str]] = define_pods_for_logs(
             self.dish_indexes, self.sut_namespace, self.dish_namespaces
         )
 
         # Setup tracked devices
-        self.tracked_device_trls: list[str] = define_tracked_device_trls(self.dish_indexes, self.sut_namespace, self.dish_namespaces)
+        self.tracked_device_trls: list[str] = define_tracked_device_trls(
+            self.dish_indexes, self.sut_namespace, self.dish_namespaces
+        )
+
         self.tracked_devices = [
             TrackedDevice(
                 tango.DeviceProxy(device_trl),
