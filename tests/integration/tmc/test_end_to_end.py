@@ -33,6 +33,7 @@ GENERATE_SEQUENCE_DIAGRAM = os.getenv("GENERATE_SEQUENCE_DIAGRAM")
 
 sequence_diagrammer = sequenceDiagrammer(SUT_NAMESPACE)
 
+
 @scenario(
     "features/tmc_end_to_end.feature",
     "End to End signal chain verification via TMC",
