@@ -4,6 +4,7 @@ from tango import DeviceProxy, DevFailed
 from argparse import ArgumentParser
 import json
 import statistics
+import itertools
 import time
 
 def build_parser() -> ArgumentParser:
@@ -27,12 +28,37 @@ def print_stats(sorted_array, name, units=' (μs)'):
     name = name + units;
     print(f"\t{name:>30}: {mean:10.2f}±{err:<10.2f} (min={minimum}, 10%={pc10}, 90%={pc90} max={maximum})")
 
-def print_summary(data):
+def print_summary(data, last_data):
     server = data['server']
-    if len(server['event_counters']) > 0:
-        print('Published event counts:')
-        for k, v in server['event_counters'].items():
-            print(f'\t{k}: {v}')
+    counters = server['event_counters']
+    last_counters = last_data['server']['event_counters'] if last_data is not None else {}
+    event_names = set(itertools.chain(counters.keys(), last_counters.keys()))
+    new = []
+    removed = []
+    changed = []
+    for ev in event_names:
+        if ev in counters and ev not in last_counters:
+            new.append(ev)
+        elif ev in last_counters and ev not in counters:
+            removed.append(ev)
+        elif counters[ev] != last_counters[ev]:
+            changed.append(ev)
+
+    if len(new) > 0:
+        print("New publishers:")
+        for ev in new:
+            print(f"\t{ev}: {counters[ev]}")
+
+    if len(changed) > 0:
+        print("Published events:")
+        for ev in changed:
+            print(f"\t{ev}: {counters[ev] - last_counters[ev]:+}")
+
+    if len(removed) > 0:
+        print("Removed publishers:")
+        for ev in removed:
+            print(f"\t{ev}")
+
     if server['perf_stats'] is not None and len(server['perf_stats']) > 0:
         print('Publishing performance:')
         stats = server['perf_stats']
@@ -43,10 +69,39 @@ def print_summary(data):
 
     if 'client' in data:
         client = data['client']
-        if len(client['event_callbacks']) > 0:
-            print('Recieved event counts:')
-            for k, v in client['event_callbacks'].items():
-                print(f'\t{k}: {v["counter"]} ({v["callback_count"]} callback(s) registered)')
+        callbacks = client['event_callbacks']
+        last_callbacks = last_data['client']['event_callbacks'] if last_data is not None and 'client' in last_data else {}
+        event_names = set(itertools.chain(callbacks.keys(), last_callbacks.keys()))
+        new = []
+        removed = []
+        changed = []
+        for ev in event_names:
+            if ev in callbacks and ev not in last_callbacks:
+                new.append(ev)
+            elif ev in last_callbacks and ev not in callbacks:
+                removed.append(ev)
+            elif callbacks[ev]["counter"] != last_callbacks[ev]["counter"] or \
+                callbacks[ev]["callback_count"] == last_callbacks[ev]["callback_count"]:
+                changed.append(ev)
+
+        if len(new) > 0:
+            print("New subscriptions:")
+            for ev in new:
+                v = callbacks[ev]
+                print(f'\t{ev}: {v["counter"]} ({v["callback_count"]} callback(s) registered)')
+
+        if len(changed) > 0:
+            print("Received events or callbacks changed:")
+            for ev in changed:
+                v = callbacks[ev]
+                last = last_callbacks[ev]
+                print(f'\t{ev}: {v["counter"] - last["counter"]:+} ({v["callback_count"] - last["callback_count"]:+} callbacks)')
+
+        if len(removed) > 0:
+            print("Removed subscriptions:")
+            for ev in removed:
+                print(f"\t{ev}")
+
         if client['perf_stats'] is not None and len(client['perf_stats']) > 0:
             stats = client['perf_stats']
             print('Subscription performance:')
@@ -78,12 +133,14 @@ def main(args: dict):
         print(f'{display_name} does not support QueryEventSystem, is this pod using "PyTango 9.5.1234"?', file=sys.stderr)
         sys.exit(1)
 
+    last_data = None
     while(True):
         next_poll = time.time() + args.poll_period
 
         try:
-            data = dp.QueryEventSystem()
-            print_summary(json.loads(data))
+            data = json.loads(dp.QueryEventSystem())
+            print_summary(data, last_data)
+            last_data = data;
         except DevFailed as exc:
             print(exc, file=sys.stderr)
 
