@@ -66,7 +66,7 @@ include:
   - local: .gitlab/ci/za-itf/taranta/.pipeline.yaml
   - local: .gitlab/ci/za-itf/ci-ska-db-oda-commit-ref/.pipeline.yaml
   - local: .gitlab/ci/za-itf/dpd/.pipeline.yaml
-  - local: .gitlab/ci/za-itf/engineering-console/.pipeline.yaml
+  - local: .gitlab/ci/za-itf/cbf-engineering-console/.pipeline.yaml
 
 xray-publish:
   when: always
