@@ -138,7 +138,7 @@ def _(telescope_handlers):
         csp_subarray.adminMode = 1
         wait_for_event(csp_control, "adminMode", 1)
         wait_for_event(csp_subarray, "adminMode", 1)
-        sleep(4)
+        sleep(8)
 
     if SIM_MODE in ["false", "0", ""]:
         csp.set_cbf_simulation_mode(False)
@@ -167,7 +167,7 @@ def _(telescope_handlers):
     csp_subarray.adminMode = 0
     wait_for_event(csp_control, "adminMode", 0)
     wait_for_event(csp_subarray, "adminMode", 0)
-    sleep(5)  # TODO: Find out exactly why this is needed
+    sleep(7)  # TODO: Find out exactly why this is needed
 
     logger.info(
         f"CSP adminMode is: {csp_control.adminMode},"
