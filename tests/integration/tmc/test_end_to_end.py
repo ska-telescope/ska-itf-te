@@ -214,7 +214,9 @@ def _(telescope_handlers, receptor_ids):
         dish_vcc_config = json.loads(tmc.csp_master_leaf_node.dishVccConfig)
         for receptor in RECEPTORS:
             dish_k_value = dish_vcc_config["dish_parameters"][receptor]["k"]
-            assert dish_k_value == EXPECTED_K_VALUE, f"K value expected to be {EXPECTED_K_VALUE}, actual value {dish_k_value}"
+            assert (
+                dish_k_value == EXPECTED_K_VALUE
+            ), f"K value expected to be {EXPECTED_K_VALUE}, actual value {dish_k_value}"
 
     # if (not tmc_central_node.isDishVccConfigSet) or (not k_value_correct):
     #     tmc_central_node.LoadDishCfg(json.dumps(dish_config_json))
