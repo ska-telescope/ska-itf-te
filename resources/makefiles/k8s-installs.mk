@@ -140,6 +140,22 @@ dpd-links: ## Create the URLs with which to access the Data Product Dashboard
 	@echo "#        https://$(INGRESS_HOST)/$(KUBE_NAMESPACE)/dashboard/"
 	@echo "##############################################################################################"
 
+## TARGET: ec-links
+## SYNOPSIS: make ec-links
+## HOOKS: none
+## VARS:
+##   CI_JOB_NAME
+##   KUBE_NAMESPACE
+##   INGRESS_HOST
+##  make target for generating the URLs for accessing the Engineering Console Dashboard in the Mid ITF.
+
+ec-links: ## Create the URLs with which to access the Engineering Console Dashboard
+	@echo ${CI_JOB_NAME}
+	@echo "##############################################################################################"
+	@echo "#        Access the Engineering Console Dashboard here:"
+	@echo "#        https://$(INGRESS_HOST)/$(KUBE_NAMESPACE)/dashboard/"
+	@echo "##############################################################################################"
+
 ## TARGET: pvc-check
 ## SYNOPSIS: make pvc-check
 ## HOOKS: none
