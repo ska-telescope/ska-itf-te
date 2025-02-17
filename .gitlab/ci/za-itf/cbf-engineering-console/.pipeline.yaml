@@ -1,16 +1,16 @@
-.ec:
+.cbf-eng-console:
   tags:
     - ska-k8srunner-za-itf
   variables:
     CONFIG: mid
     K8S_CHART: ska-mid-cbf-engineering-console
-    KUBE_APP: ska-mid-itf-ec
+    KUBE_APP: ska-mid-itf-cbf-ec
     KUBE_NAMESPACE_SDP: "ci-ska-mid-itf-$CI_COMMIT_REF_NAME-sdp"
     INGRESS_HOST: "k8s.miditf.internal.skao.int"
     CLUSTER_DOMAIN: "miditf.internal.skao.int"
     MINIKUBE: "false"
   environment:
-    name: sut/ec/$KUBE_NAMESPACE
+    name: sut/cbf-engineering-console/$KUBE_NAMESPACE
     kubernetes:
       namespace: $KUBE_NAMESPACE
     url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/dashboard/"
@@ -20,17 +20,7 @@
     paths:
       - "build/"
 
-.ec-on-demand:
-  extends:
-    - .ec
-    - .on_demand_rules
-  stage: on_demand_itf_sut
-  variables:
-    KUBE_NAMESPACE: ci-ska-mid-itf-ec-$CI_COMMIT_REF_NAME
-    DPD_PVC_NAME: test-pvc
-    HELM_RELEASE: test
-
-.ec-install:
+.cbf-eng-console-install:
   script:
     - make vars
     - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart
@@ -40,40 +30,21 @@
     # - bash .make/resources/gitlab_section.sh template "Template chart" make k8s-template-chart-with-build-artifacts
     - bash .make/resources/gitlab_section.sh helmget "Get all Helm configuration data" helm get all -n $KUBE_NAMESPACE $HELM_RELEASE
 
-.ec-destroy:
+.cbf-eng-console-destroy:
   script:
     - !reference [.cleanup, script]
   environment:
     action: stop
 
-.ec-redeploy:
+.cbf-eng-console-redeploy:
   extends:
-    - .ec-install
+    - .cbf-eng-console-install
   before_script:
     - !reference [.cleanup, script]
 
-deploy-ec-on-demand:
+.cbf-eng-console-staging:
   extends:
-    - .ec-on-demand
-    - .ec-install
-  environment:
-    on_stop: destroy-ec-on-demand
-
-redeploy-ec-on-demand:
-  extends:
-    - .ec-on-demand
-    - .ec-redeploy
-  environment:
-    on_stop: destroy-ec-on-demand
-
-destroy-ec-on-demand:
-  extends:
-    - .ec-on-demand
-    - .ec-destroy
-
-.ec-staging:
-  extends:
-    - .ec
+    - .cbf-eng-console
     - .staging_rules
   stage: staging
   variables:
@@ -82,21 +53,21 @@ destroy-ec-on-demand:
     DPD_PVC_NAME: staging-pvc
     HELM_RELEASE: staging
 
-deploy-ec-staging:
+deploy-cbf-ec-staging:
   extends:
-    - .ec-staging
-    - .ec-install
+    - .cbf-eng-console-staging
+    - .cbf-eng-console-install
   environment:
-    on_stop: destroy-ec-staging
+    on_stop: destroy-cbf-ec-staging
 
-destroy-ec-staging:
+destroy-cbf-ec-staging:
   extends:
-    - .ec-staging
-    - .ec-destroy
+    - .cbf-eng-console-staging
+    - .cbf-eng-console-destroy
 
-redeploy-ec-staging:
+redeploy-cbf-ec-staging:
   extends:
-    - .ec-staging
-    - .ec-redeploy
+    - .cbf-eng-console-staging
+    - .cbf-eng-console-redeploy
   environment:
-    on_stop: destroy-ec-staging
+    on_stop: destroy-cbf-ec-staging
