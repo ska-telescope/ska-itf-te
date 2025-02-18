@@ -3,23 +3,33 @@
 import json
 import logging
 import os
+import sys
 from queue import Empty, Queue
 from time import localtime, sleep, strftime, time
 from typing import Any, Generator, List, Tuple
 
 import pytest
-from pytest_bdd import given, when, parsers
+from pytest_bdd import given, parsers, then, when
 from ska_control_model import ObsState
 from tango import DeviceProxy, DevState, EventType
 
 from utils.enums import DishMode
 
+sys.path.append(os.path.abspath(os.path.join(os.getcwd(), ".jupyter-notebooks")))
+from src.notebook_tools import generate_fsp  # noqa: E402
+
 logger = logging.getLogger()
 
+# TODO: Rethink usage of globals like this
 CLUSTER_DOMAIN = "miditf.internal.skao.int"
 SUT_NAMESPACE = os.getenv("KUBE_NAMESPACE")
 DATA_DIR = ".jupyter-notebooks/data/mid_telescope"
+TMC_CONFIGS = f"{DATA_DIR}/tmc"
 expected_k_value = 1
+logger = logging.getLogger()
+OVERRIDE_SCAN_DURATION = os.getenv("OVERRIDE_SCAN_DURATION")
+OVERRIDE_SCAN_BAND = os.getenv("OVERRIDE_SCAN_BAND")
+INTEGRATION_FACTOR = os.getenv("INTEGRATION_FACTOR")
 
 
 class TMC:
@@ -346,8 +356,18 @@ def _(telescope_handlers):
     csp_control = csp.control
     csp_subarray = csp.subarray
     SIM_MODE = os.getenv("SIM_MODE", "false").lower()
+    if SIM_MODE in ["false", "0", ""]:
+        SIM_MODE = False
+    elif SIM_MODE in ["true", "1"]:
+        SIM_MODE = True
+    else:
+        logging.error("SIM_MODE is invalid")
+        pytest.fail("SIM_MODE not correctly specified")
 
-    if (csp_control.adminMode == 0) or (csp_subarray.adminMode == 0):
+    reset_csp_adminmode = (SIM_MODE != csp_control.cbfSimulationMode) and (
+        (csp_control.adminMode == 0) or (csp_subarray.adminMode == 0)
+    )
+    if reset_csp_adminmode:
         # CSP should be OFFLINE when CBF Sim mode is set
         csp_control.adminMode = 1
         csp_subarray.adminMode = 1
@@ -355,9 +375,9 @@ def _(telescope_handlers):
         wait_for_event(csp_subarray, "adminMode", 1)
         sleep(4)
 
-    if SIM_MODE in ["false", "0", ""]:
+    if not SIM_MODE:
         csp.set_cbf_simulation_mode(False)
-    elif SIM_MODE in ["true", "1"]:
+    elif SIM_MODE:
         csp.set_cbf_simulation_mode(True)
 
 
@@ -452,7 +472,7 @@ def _(telescope_handlers, receptor_ids):
 
     tmc_central_node.TelescopeOn()
     wait_for_event(tmc_central_node, "telescopeState", DevState.ON)
-    sleep(120)  # TODO: Remove once we know how to properly check that the CBF is ON
+    sleep(10)  # TODO: Remove once we know how to properly check that the CBF is ON
 
     assert tmc_central_node.telescopeState == DevState.ON
     for receptor in RECEPTORS:
@@ -668,3 +688,40 @@ def _(telescope_handlers):
     wait_for_event(sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.EMPTY)
     wait_for_event(csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.EMPTY)
     wait_for_event(tmc_subarray_node, "obsState", ObsState.EMPTY)
+
+
+@when("I turn OFF the telescope")
+def _(telescope_handlers, receptor_ids):
+    """Turn the telescope OFF via TMC.
+
+    :param telescope_handlers: _description_
+    :type telescope_handlers: _type_
+    :param receptor_ids: _description_
+    :type receptor_ids: _type_
+    """
+    logger.info("Turning OFF the telescope")
+
+    tmc, _, _, _ = telescope_handlers
+    RECEPTORS = receptor_ids
+
+    tmc_central_node = tmc.central_node
+
+    tmc_central_node.TelescopeOff()
+
+    for receptor in RECEPTORS:
+        wait_for_event(tmc.get_dish_leaf_node_dp(receptor), "dishMode", DishMode.STANDBY_LP)
+
+    wait_for_event(tmc_central_node, "telescopeState", DevState.OFF)
+
+
+@then("the respective dataproducts are available on the DPD")
+def _(pb_and_eb_ids):
+    """Check that the respective dataproducts are available on the DPD via the dataproducts API.
+
+    :param pb_and_eb_ids: _description_
+    :type pb_and_eb_ids: _type_
+    """
+    # TODO: Implement
+    pb_id, eb_id = pb_and_eb_ids
+
+    assert True
