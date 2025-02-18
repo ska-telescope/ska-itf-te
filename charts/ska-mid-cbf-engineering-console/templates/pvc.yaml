@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: staging-pvc
+  name: cbf-ec-pvc
   namespace: cbf-engineering-console # This is not actually used from this manifest and needs to be set in the makefile / environment when running `kubectl apply -f` command
 spec:
   accessModes:

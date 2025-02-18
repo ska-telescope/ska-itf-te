@@ -48,10 +48,7 @@
     - .staging_rules
   stage: platform
   variables:
-    KUBE_NAMESPACE: shared-ska-dataproducts
-    KUBE_NAMESPACE_SDP: staging-sdp
-    DPD_PVC_NAME: staging-pvc
-    HELM_RELEASE: staging
+    KUBE_NAMESPACE: cbf-engineering-console
 
 deploy-cbf-ec-staging:
   extends:
