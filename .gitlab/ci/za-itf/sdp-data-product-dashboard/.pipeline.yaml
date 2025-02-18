@@ -75,7 +75,7 @@ destroy-dpd-on-demand:
   extends:
     - .dpd
     - .staging_rules
-  stage: staging
+  stage: platform
   variables:
     KUBE_NAMESPACE: shared-ska-dataproducts
     KUBE_NAMESPACE_SDP: staging-sdp
