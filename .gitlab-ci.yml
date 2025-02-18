@@ -59,14 +59,14 @@ include:
   - local: .gitlab/ci/za-itf/ci-ska-mid-itf-commit-ref/.pipeline.yaml
   - local: .gitlab/ci/za-itf/dish-lmc-skaXXX/.pipeline.yaml
   - local: .gitlab/ci/za-itf/ci-ska-mid-sut-skaXXX-commit-ref/.pipeline.yaml
-  - local: .gitlab/ci/za-itf/ds-sim-skaXXX/.pipeline.yaml
+  - local: .gitlab/ci/za-itf/dish-ds-sim-skaXXX/.pipeline.yaml
   - local: .gitlab/ci/za-itf/integration/.pipeline.yaml
   - local: .gitlab/ci/za-itf/spookd/.pipeline.yaml
   - local: .gitlab/ci/za-itf/staging/.pipeline.yaml
   - local: .gitlab/ci/za-itf/taranta/.pipeline.yaml
   - local: .gitlab/ci/za-itf/ci-ska-db-oda-commit-ref/.pipeline.yaml
-  - local: .gitlab/ci/za-itf/dpd/.pipeline.yaml
   - local: .gitlab/ci/za-itf/cbf-engineering-console/.pipeline.yaml
+  - local: .gitlab/ci/za-itf/sdp-data-product-dashboard/.pipeline.yaml
 
 xray-publish:
   when: always
