@@ -188,6 +188,10 @@ pvc-patch-apply: ## Create PVC in the SDP namespace for data product sharing
 
 k8s-pre-install-chart:
 	rm charts/$(K8S_CHART)/Chart.lock || true
+
+k8s-pre-template-chart:
+	rm charts/$(K8S_CHART)/Chart.lock || true
+
 vars:
 	$(info KUBE_NAMESPACE: $(KUBE_NAMESPACE))
 	$(info #####################################)

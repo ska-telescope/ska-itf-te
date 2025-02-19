@@ -126,8 +126,6 @@ DISH_LMC_PARAMS ?= $(DISH_LMC_INITIAL_PARAMS) $(DISH_LMC_EXTRA_PARAMS)
 SKUID_URL ?= ska-ser-skuid-test-svc.$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN):9870
 ODA_PARAMS ?= --set ska-db-oda-umbrella.ska-db-oda.rest.skuid.url=$(SKUID_URL)
 
-###################################################################
-### THIS SECTION NEEDS REVIEW FROM SDP ARCHITECTS
 SDP_EXTRA_PARAMS ?=
 DPD_PARAMS ?= 
 
@@ -171,6 +169,7 @@ SDP_PARAMS ?= --set ska-sdp.helmdeploy.namespace=$(KUBE_NAMESPACE_SDP) \
 	--set global.sdp.processingNamespace=$(KUBE_NAMESPACE_SDP) \
 	$(SDP_EXTRA_PARAMS)
 
+CBF_MCS_PARAMS ?= 
 ###################################################################
 
 ###################################################################
@@ -205,6 +204,7 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	$(K8S_TEST_RUNNER_PARAMS) \
 	$(TMC_PARAMS) \
 	$(CSP_PARAMS) \
+	$(CBF_MCS_PARAMS) \
 	$(EDA_PARAMS)
 
 
@@ -344,3 +344,8 @@ print-telescope-state:
 
 teardown-telescope:
 	@poetry run telescope_state_control --teardown -n ${E2E_TEST_EXECUTION_NAMESPACE} -d "${DISH_IDS}"
+
+ifeq ($(KUBE_NAMESPACE),staging)
+	k8s-post-install-chart:
+		kubectl patch pvc -n staging artifacts-pvc-$(HELM_RELEASE) --patch-file patch-pvc.yaml
+endif
