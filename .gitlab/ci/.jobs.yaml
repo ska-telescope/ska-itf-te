@@ -170,6 +170,7 @@ docs-build:
     INTEGRATION_TEST_SOURCE: tests/integration/tmc/test_telescope_off.py::test_telescope_off_via_tmc
     ADDMARKS: ""
   script:
+    - make teardown-telescope || true
     - make integration-test
     - '[ -f build/status ] || (echo "Something went wrong with the test (no build/status file); exit 1")'
     - exit $(cat build/status)
