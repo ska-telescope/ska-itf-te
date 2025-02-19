@@ -1,4 +1,0 @@
-metadata:
-  labels:
-    skao.int/clone-pvc: cbf-ec-pvc
-    skao.int/clone-pvc-namespace:  cbf-engineering-console
