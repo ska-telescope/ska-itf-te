@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 25.5.1
+* [AT-2586] - Fixed SKB-606 with updates of TMC
 ## 25.5.0
 * [AT-2726] - Fixed SDP PVC patch Yaml file with correct labelling of PVC.
 
