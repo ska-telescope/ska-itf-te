@@ -16,19 +16,19 @@ dependencies:
 
   # SKA Mid TMC
   - name: ska-tmc-mid
-    version: 0.22.8 # check latest version
+    version: 0.25.0-rc.2 # check latest version
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tmc-mid.enabled
 
   # SKA Mid CSP LMC
   - name: ska-csp-lmc-mid
-    version: 0.24.0
+    version: 0.24.1-rc.1
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-csp-lmc-mid.enabled
 
   # SKA Mid CBF
   - name: ska-mid-cbf-mcs
-    version: 1.1.1
+    version: 1.1.0-rc.2
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-mid-cbf-mcs.enabled
 
