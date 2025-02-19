@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-## 25.6.0
+## 25.6.1
 * [AT-2586] - Fixed SKB-606 with updates of TMC
 
 ## 25.5.0
