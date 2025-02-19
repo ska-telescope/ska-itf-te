@@ -20,17 +20,6 @@ from src.notebook_tools import generate_fsp  # noqa: E402
 
 logger = logging.getLogger()
 
-# TODO: Rethink usage of globals like this
-CLUSTER_DOMAIN = "miditf.internal.skao.int"
-SUT_NAMESPACE = os.getenv("KUBE_NAMESPACE")
-DATA_DIR = ".jupyter-notebooks/data/mid_telescope"
-TMC_CONFIGS = f"{DATA_DIR}/tmc"
-expected_k_value = 1
-logger = logging.getLogger()
-OVERRIDE_SCAN_DURATION = os.getenv("OVERRIDE_SCAN_DURATION")
-OVERRIDE_SCAN_BAND = os.getenv("OVERRIDE_SCAN_BAND")
-INTEGRATION_FACTOR = os.getenv("INTEGRATION_FACTOR")
-
 
 class TMC:
     """Helper class containing TMC specific details such as device names and proxies."""
@@ -278,6 +267,28 @@ def wait_for_event(
 
 # TODO: Consider removing this e.g. read from config file or feature file
 @pytest.fixture(scope="session")
+def settings():
+    """Fixture for generating settings to be used in the test.
+
+    :return: _description_
+    :rtype: _type_
+    """
+    settings = {}
+    settings["cluster_domain"] = "miditf.internal.skao.int"
+    settings["SUT_namespace"] = os.getenv("KUBE_NAMESPACE")
+    settings["data_dir"] = ".jupyter-notebooks/data/mid_telescope"
+    settings["TMC_configs"] = f"{settings['data_dir']}/tmc"
+    settings["expected_k_value"] = 1
+    settings["override_scan_duration"] = os.getenv("OVERRIDE_SCAN_DURATION")
+    settings["override_scan_band"] = os.getenv("OVERRIDE_SCAN_BAND")
+    settings["integration_factor"] = os.getenv("INTEGRATION_FACTOR")
+    settings["sim_mode"] = os.getenv("SIM_MODE", "false").lower()
+
+    return settings
+
+
+# TODO: Consider removing this e.g. read from config file or feature file
+@pytest.fixture(scope="session")
 def receptor_ids():
     """Fixture for generating list of receptors to be used in test.
 
@@ -289,15 +300,19 @@ def receptor_ids():
 
 
 @pytest.fixture(autouse=True, scope="session")
-def set_context():
+def set_context(settings):
     """Fixture for configuring environment and global variables for the test.
 
+    :param settings: _description_
+    :type settings: _type_
     :yield: _
     """
     CURRENT_TANGO_HOST = os.environ.get("TANGO_HOST")
     CURRENT_TZ = os.environ.get("TZ")
 
-    TANGO_HOST = f"tango-databaseds.{SUT_NAMESPACE}.svc.{CLUSTER_DOMAIN}:10000"
+    TANGO_HOST = (
+        f"tango-databaseds.{settings['SUT_namespace']}.svc.{settings['cluster_domain']}:10000"
+    )
     os.environ["TANGO_HOST"] = TANGO_HOST
     os.environ["TZ"] = "Africa/Johannesburg"
 
@@ -326,10 +341,13 @@ def pb_and_eb_ids() -> Tuple[str, str]:
 
 
 @pytest.fixture(scope="session")
-def telescope_handlers(receptor_ids) -> Generator[Tuple[TMC, CBF, CSP, List[Dish]], None, None]:
+def telescope_handlers(
+    receptor_ids, settings
+) -> Generator[Tuple[TMC, CBF, CSP, List[Dish]], None, None]:
     """Generate telescope handlers containing device proxies. Teardown telescope on completion.
 
     :param receptor_ids: _description_
+    :type settings: _type_
     :type receptor_ids: _type_
     :yield: _description_
     :rtype: Generator[Tuple[TMC, CBF, CSP, List[Dish]], None, None]
@@ -339,32 +357,34 @@ def telescope_handlers(receptor_ids) -> Generator[Tuple[TMC, CBF, CSP, List[Dish
     tmc = TMC()
     cbf = CBF()
     csp = CSP()
-    dishes = [Dish(SUT_NAMESPACE, receptor) for receptor in RECEPTORS]
+    dishes = [Dish(settings["SUT_namespace"], receptor) for receptor in RECEPTORS]
 
     yield tmc, cbf, csp, dishes
     tmc.tear_down()
 
 
 @given("an SUT deployment with 1 subarray")
-def _(telescope_handlers):
+def _(telescope_handlers, settings):
     """Trigger instantiation of telescope handler objects.
 
     :param telescope_handlers: _description_
+    :type settings: _type_
     :type telescope_handlers: _type_
     """
     _, _, csp, _ = telescope_handlers
     csp_control = csp.control
     csp_subarray = csp.subarray
-    SIM_MODE = os.getenv("SIM_MODE", "false").lower()
-    if SIM_MODE in ["false", "0", ""]:
-        SIM_MODE = False
-    elif SIM_MODE in ["true", "1"]:
-        SIM_MODE = True
+    sim_mode = settings["sim_mode"]
+
+    if sim_mode in ["false", "0", ""]:
+        sim_mode = False
+    elif sim_mode in ["true", "1"]:
+        sim_mode = True
     else:
         logging.error("SIM_MODE is invalid")
         pytest.fail("SIM_MODE not correctly specified")
 
-    reset_csp_adminmode = (SIM_MODE != csp_control.cbfSimulationMode) and (
+    reset_csp_adminmode = (sim_mode != csp_control.cbfSimulationMode) and (
         (csp_control.adminMode == 0) or (csp_subarray.adminMode == 0)
     )
     if reset_csp_adminmode:
@@ -375,9 +395,9 @@ def _(telescope_handlers):
         wait_for_event(csp_subarray, "adminMode", 1)
         sleep(4)
 
-    if not SIM_MODE:
+    if not sim_mode:
         csp.set_cbf_simulation_mode(False)
-    elif SIM_MODE:
+    elif sim_mode:
         csp.set_cbf_simulation_mode(True)
 
 
@@ -411,10 +431,11 @@ def _(telescope_handlers):
 
 
 @when("I turn ON the telescope")
-def _(telescope_handlers, receptor_ids):
+def _(telescope_handlers, receptor_ids, settings):
     """Turn the telescope ON.
 
     :param telescope_handlers: _description_
+    :type settings: _type_
     :type telescope_handlers: _type_
     :param receptor_ids: _description_
     :type receptor_ids: _type_
@@ -431,7 +452,7 @@ def _(telescope_handlers, receptor_ids):
     cbf_fspcorrsubarray = cbf.fspcorrsubarray
 
     # Load DishVCCConfig
-    CBF_CONFIGS = f"{DATA_DIR}/cbf"
+    CBF_CONFIGS = f"{settings['data_dir']}/cbf"
     DISH_CONFIG_FILE = f"{CBF_CONFIGS}/sys_params/load_dish_config.json"
 
     with open(DISH_CONFIG_FILE, encoding="utf-8") as f:
@@ -460,7 +481,7 @@ def _(telescope_handlers, receptor_ids):
     dish_vcc_config = json.loads(tmc.csp_master_leaf_node.dishVccConfig)
 
     for receptor in RECEPTORS:
-        assert dish_vcc_config["dish_parameters"][receptor]["k"] == expected_k_value
+        assert dish_vcc_config["dish_parameters"][receptor]["k"] == settings["expected_k_value"]
 
     # Turn ON the telescope
     assert cbf_fspcorrsubarray.obsstate == ObsState.IDLE
@@ -484,10 +505,11 @@ def _(telescope_handlers, receptor_ids):
         "I assign resources for a band {scan_band:Number} scan", extra_types={"Number": int}
     )
 )
-def _(telescope_handlers, receptor_ids, pb_and_eb_ids, scan_band):
+def _(telescope_handlers, receptor_ids, pb_and_eb_ids, scan_band, settings):
     """Assign resources via TMC.
 
     :param telescope_handlers: _description_
+    :type settings: _type_
     :type telescope_handlers: _type_
     :param receptor_ids: _description_
     :type receptor_ids: _type_
@@ -506,11 +528,11 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids, scan_band):
     csp_subarray_leaf_node = tmc.csp_subarray_leaf_node
     cbf_subarray = cbf.subarray
 
-    ASSIGN_RESOURCES_FILE = f"{TMC_CONFIGS}/assign_resources.json"
+    ASSIGN_RESOURCES_FILE = f"{settings['TMC_configs']}/assign_resources.json"
     RECEPTORS = receptor_ids
 
-    if OVERRIDE_SCAN_BAND:
-        scan_band = int(OVERRIDE_SCAN_BAND)
+    if settings["override_scan_band"]:
+        scan_band = int(settings["override_scan_band"])
 
     band_params = generate_fsp.generate_band_params(scan_band)
 
@@ -547,25 +569,26 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids, scan_band):
 @when(
     parsers.cfparse("configure it for a band {scan_band:Number} scan", extra_types={"Number": int})
 )
-def _(telescope_handlers, receptor_ids, scan_band):
+def _(telescope_handlers, receptor_ids, scan_band, settings):
     """Configure scan via TMC.
 
     :param telescope_handlers: _description_
+    :type settings: _type_
     :type telescope_handlers: _type_
     :param receptor_ids: _description_
     :type receptor_ids: _type_
     :param scan_band: _description_
     :type scan_band: _type_
     """
-    if OVERRIDE_SCAN_BAND:
-        scan_band = int(OVERRIDE_SCAN_BAND)
+    if settings["override_scan_band"]:
+        scan_band = int(settings["override_scan_band"])
 
     logger.info(f"Configuring a band {scan_band} scan")
 
     tmc, _, _, _ = telescope_handlers
     RECEPTORS = receptor_ids
 
-    CONFIGURE_SCAN_FILE = f"{TMC_CONFIGS}/configure_scan.json"
+    CONFIGURE_SCAN_FILE = f"{settings['TMC_configs']}/configure_scan.json"
 
     band_params = generate_fsp.generate_band_params(scan_band)
     fsp_list = [1, 2, 3, 4]
@@ -585,10 +608,10 @@ def _(telescope_handlers, receptor_ids, scan_band):
             "channel_count"
         ] = int(band_params["channel_count"])
 
-        if INTEGRATION_FACTOR:
+        if settings["integration_factor"]:
             configure_scan_json["csp"]["midcbf"]["correlation"]["processing_regions"][0][
                 "integration_factor"
-            ] = int(INTEGRATION_FACTOR)
+            ] = int(settings["integration_factor"])
 
     logger.debug(json.dumps(configure_scan_json))
 
@@ -603,10 +626,11 @@ def _(telescope_handlers, receptor_ids, scan_band):
 @when(
     parsers.cfparse("I start a scan for {scan_time:Number} seconds", extra_types={"Number": float})
 )
-def _(telescope_handlers, scan_time):
+def _(telescope_handlers, scan_time, settings):
     """Block for scan_time while telescope is in SCANNING state.
 
     :param telescope_handlers: _description_
+    :type settings: _type_
     :type telescope_handlers: _type_
     :param scan_time: _description_
     :type scan_time: _type_
@@ -615,12 +639,12 @@ def _(telescope_handlers, scan_time):
 
     tmc, _, _, _ = telescope_handlers
 
-    SCAN_FILE = f"{TMC_CONFIGS}/scan.json"
+    SCAN_FILE = f"{settings['TMC_configs']}/scan.json"
     with open(SCAN_FILE, encoding="utf-8") as f:
         scan_json = f.read()
 
-    if OVERRIDE_SCAN_DURATION:
-        scan_time = int(OVERRIDE_SCAN_DURATION)
+    if settings["override_scan_duration"]:
+        scan_time = int(settings["override_scan_duration"])
 
     tmc.subarray_node.Scan(scan_json)
     wait_for_event(tmc.sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.SCANNING)
