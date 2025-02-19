@@ -493,7 +493,7 @@ def _(telescope_handlers, receptor_ids, settings):
 
     tmc_central_node.TelescopeOn()
     wait_for_event(tmc_central_node, "telescopeState", DevState.ON)
-    sleep(10)  # TODO: Remove once we know how to properly check that the CBF is ON
+    sleep(120)  # TODO: Remove once we know how to properly check that the CBF is ON
 
     assert tmc_central_node.telescopeState == DevState.ON
     for receptor in RECEPTORS:
