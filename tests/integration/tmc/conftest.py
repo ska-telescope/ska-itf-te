@@ -384,16 +384,16 @@ def _(telescope_handlers, settings):
         logging.error("SIM_MODE is invalid")
         pytest.fail("SIM_MODE not correctly specified")
 
-    reset_csp_adminmode = (sim_mode != csp_control.cbfSimulationMode) and (
-        (csp_control.adminMode == 0) or (csp_subarray.adminMode == 0)
-    )
-    if reset_csp_adminmode:
-        # CSP should be OFFLINE when CBF Sim mode is set
-        csp_control.adminMode = 1
-        csp_subarray.adminMode = 1
-        wait_for_event(csp_control, "adminMode", 1)
-        wait_for_event(csp_subarray, "adminMode", 1)
-        sleep(4)
+    # reset_csp_adminmode = (sim_mode != csp_control.cbfSimulationMode) and (
+    #     (csp_control.adminMode == 0) or (csp_subarray.adminMode == 0)
+    # )
+    # if reset_csp_adminmode:
+    # CSP should be OFFLINE when CBF Sim mode is set
+    csp_control.adminMode = 1
+    csp_subarray.adminMode = 1
+    wait_for_event(csp_control, "adminMode", 1)
+    wait_for_event(csp_subarray, "adminMode", 1)
+    sleep(4)
 
     if not sim_mode:
         csp.set_cbf_simulation_mode(False)
