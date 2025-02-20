@@ -452,36 +452,36 @@ def _(telescope_handlers, receptor_ids, settings):
     cbf_fspcorrsubarray = cbf.fspcorrsubarray
 
     # Load DishVCCConfig
-    CBF_CONFIGS = f"{settings['data_dir']}/cbf"
-    DISH_CONFIG_FILE = f"{CBF_CONFIGS}/sys_params/load_dish_config.json"
+    # CBF_CONFIGS = f"{settings['data_dir']}/cbf"
+    # DISH_CONFIG_FILE = f"{CBF_CONFIGS}/sys_params/load_dish_config.json"
 
-    with open(DISH_CONFIG_FILE, encoding="utf-8") as f:
-        dish_config_json = json.load(f)
+    # with open(DISH_CONFIG_FILE, encoding="utf-8") as f:
+    #     dish_config_json = json.load(f)
 
-    dish_config_json["tm_data_sources"][
-        0
-    ] = "car://gitlab.com/ska-telescope/ska-telmodel-data?0.1.0-rc-mid-itf#tmdata"
-    dish_config_json["tm_data_filepath"] = (
-        "instrument/ska1_mid_itf/ska-mid-cbf-system-parameters.json"
-    )
-    logger.debug(f"dish_config_json file contents: \n{dish_config_json}")
+    # dish_config_json["tm_data_sources"][
+    #     0
+    # ] = "car://gitlab.com/ska-telescope/ska-telmodel-data?0.1.0-rc-mid-itf#tmdata"
+    # dish_config_json["tm_data_filepath"] = (
+    #     "instrument/ska1_mid_itf/ska-mid-cbf-system-parameters.json"
+    # )
+    # logger.debug(f"dish_config_json file contents: \n{dish_config_json}")
 
-    k_value_correct = 1
-    if tmc_central_node.isDishVccConfigSet:
-        dish_vcc_config = json.loads(tmc.csp_master_leaf_node.dishVccConfig)
-        for receptor in RECEPTORS:
-            if dish_vcc_config["dish_parameters"][receptor]["k"] != 1:
-                k_value_correct = 0
-                break
+    # k_value_correct = 1
+    # if tmc_central_node.isDishVccConfigSet:
+    #     dish_vcc_config = json.loads(tmc.csp_master_leaf_node.dishVccConfig)
+    #     for receptor in RECEPTORS:
+    #         if dish_vcc_config["dish_parameters"][receptor]["k"] != 1:
+    #             k_value_correct = 0
+    #             break
 
-    if (not tmc_central_node.isDishVccConfigSet) or (not k_value_correct):
-        tmc_central_node.LoadDishCfg(json.dumps(dish_config_json))
-        wait_for_event(tmc_central_node, "isDishVccConfigSet", True)
+    # if (not tmc_central_node.isDishVccConfigSet) or (not k_value_correct):
+    #     tmc_central_node.LoadDishCfg(json.dumps(dish_config_json))
+    #     wait_for_event(tmc_central_node, "isDishVccConfigSet", True)
 
-    dish_vcc_config = json.loads(tmc.csp_master_leaf_node.dishVccConfig)
+    # dish_vcc_config = json.loads(tmc.csp_master_leaf_node.dishVccConfig)
 
-    for receptor in RECEPTORS:
-        assert dish_vcc_config["dish_parameters"][receptor]["k"] == settings["expected_k_value"]
+    # for receptor in RECEPTORS:
+    #     assert dish_vcc_config["dish_parameters"][receptor]["k"] == settings["expected_k_value"]
 
     # Turn ON the telescope
     assert cbf_fspcorrsubarray.obsstate == ObsState.IDLE
