@@ -10,12 +10,8 @@
     - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
       when: manual
       variables:
-        KUBE_NAMESPACE_PREFIX: integration-dish-lmc-
-    #### TEMPORARY COMMIT: BRANCHES SHOULD NOT TARGET integration ENVIRONMENT ####
-        KUBE_NAMESPACE_PREFIX: integration-dish-lmc-
-        # KUBE_NAMESPACE_PREFIX: ci-dish-lmc-
-        # KUBE_NAMESPACE_POSTFIX: -$CI_COMMIT_REF_NAME
-    ##############################################################################
+        KUBE_NAMESPACE_PREFIX: ci-dish-lmc-
+        KUBE_NAMESPACE_POSTFIX: -$CI_COMMIT_REF_NAME
       allow_failure: true
     - when: never
 
@@ -30,13 +26,6 @@
       variables:
         KUBE_NAMESPACE_PREFIX: integration-dish-lmc-
       allow_failure: true
-    #### TEMPORARY COMMIT: BRANCHES SHOULD NOT TARGET integration ENVIRONMENT ####
-    - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
-      when: manual
-      variables:
-        KUBE_NAMESPACE_PREFIX: integration-dish-lmc-
-      allow_failure: true
-    ##############################################################################
     - when: never
 
 # If the pipeline is being exectued as a downstream, do not lint

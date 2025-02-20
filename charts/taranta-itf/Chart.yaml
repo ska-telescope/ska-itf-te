@@ -7,6 +7,6 @@ appVersion: 0.1.0
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
   - name: ska-tango-tangogql-ariadne
-    version: 0.1.1
+    version: 1.0.1
     repository: https://artefact.skao.int/repository/helm-internal
     alias: tangogql

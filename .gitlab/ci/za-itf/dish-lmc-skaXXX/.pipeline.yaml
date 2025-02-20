@@ -25,13 +25,11 @@
         KUBE_NAMESPACE: staging-$KUBE_APP-$DISH_ID
         KUBE_NAMESPACE_PREFIX: staging-dish-lmc-
     - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
-    #### TEMPORARY COMMIT: BRANCHES SHOULD NOT TARGET integration ENVIRONMENT ####
-    #   variables:
-    #     KUBE_NAMESPACE: "ci-$KUBE_APP-$DISH_ID-$CI_COMMIT_REF_NAME"
-    #     KUBE_NAMESPACE_PREFIX: ci-dish-lmc-
-    #     KUBE_NAMESPACE_POSTFIX: -$CI_COMMIT_REF_NAME
-    # - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    ##############################################################################
+      variables:
+        KUBE_NAMESPACE: "ci-$KUBE_APP-$DISH_ID-$CI_COMMIT_REF_NAME"
+        KUBE_NAMESPACE_PREFIX: ci-dish-lmc-
+        KUBE_NAMESPACE_POSTFIX: -$CI_COMMIT_REF_NAME
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       variables:
         KUBE_NAMESPACE: integration-$KUBE_APP-$DISH_ID
         KUBE_NAMESPACE_PREFIX: integration-dish-lmc-
