@@ -3,7 +3,7 @@
 from pytest_bdd import scenario, then
 from tango import DevState
 
-
+@pytest.mark.hw_in_the_loop
 @scenario("features/test_telescope_off.feature", "Telescope OFF via TMC")
 def test_telescope_off_via_tmc():
     """Telescope ON via TMC."""
