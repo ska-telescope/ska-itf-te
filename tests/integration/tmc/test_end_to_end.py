@@ -180,10 +180,18 @@ def _(telescope_handlers):
 
 
 @given("I start listening for events")
-def _():
+def _(request: pytest.FixtureRequest):
+    """Start listening for tango events and register test finaliser."""
     if GENERATE_SEQUENCE_DIAGRAM:
         sequence_diagrammer.setup()
         sequence_diagrammer.start_tracking_events()
+
+        # Register a finalizer to ensure sequence diagram generation always runs
+        def finalise():
+            print("Finalizing: Generating sequence diagram...")
+            sequence_diagrammer.stop_tracking_and_generate_diagram()
+
+        request.addfinalizer(finalise)  # Ensures it runs after test completes
 
 
 @when("I turn ON the telescope")
@@ -488,12 +496,6 @@ def _(telescope_handlers, receptor_ids):
         wait_for_event(tmc.get_dish_leaf_node_dp(receptor), "dishMode", DishMode.STANDBY_LP)
 
     wait_for_event(tmc_central_node, "telescopeState", DevState.OFF)
-
-
-@when("I generate a sequence diagram")
-def _():
-    if GENERATE_SEQUENCE_DIAGRAM:
-        sequence_diagrammer.stop_tracking_and_generate_diagram()
 
 
 @then("the telescope is in the OFF state")
