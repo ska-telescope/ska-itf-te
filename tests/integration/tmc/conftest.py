@@ -422,7 +422,7 @@ def _(telescope_handlers):
     csp_subarray.adminMode = 0
     wait_for_event(csp_control, "adminMode", 0)
     wait_for_event(csp_subarray, "adminMode", 0)
-    sleep(5)  # TODO: Find out exactly why this is needed
+    sleep(15)  # TODO: Find out exactly why this is needed
 
     logger.info(
         f"CSP adminMode is: {csp_control.adminMode},"
