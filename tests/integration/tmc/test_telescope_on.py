@@ -1,7 +1,9 @@
 """Telescope end to end signal chain test feature tests."""
 
+import pytest
 from pytest_bdd import scenario, then
 from tango import DevState
+
 
 @pytest.mark.hw_in_the_loop
 @scenario("features/test_telescope_on.feature", "Telescope ON via TMC")
