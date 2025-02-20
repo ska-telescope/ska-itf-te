@@ -31,7 +31,7 @@ class TelescopeState:
     :rtype: _type_
     """
 
-    telescope: DevState = DevState.OFF
+    central_node: DevState = DevState.OFF
     subarray: ObsState = ObsState.EMPTY
     csp: ObsState = ObsState.EMPTY
     sdp: ObsState = ObsState.EMPTY
@@ -46,7 +46,7 @@ class TelescopeState:
         dishes_str = ", ".join(f"{dish}: {mode.name}" for dish, mode in self.dishes.items())
         return (
             f"\nTelescope State:\n"
-            f"  Telescope: {self.telescope.name}\n"
+            f"  Central node: {self.central_node.name}\n"
             f"  Subarray: {self.subarray.name}\n"
             f"  CSP: {self.csp.name}\n"
             f"  SDP: {self.sdp.name}\n"
@@ -262,7 +262,7 @@ class TelescopeHandler:
 
             # Teardown from FAULT
             if current_state == ObsState.FAULT:
-                print(f"{subsystem} teardown from {ObsState.FAULT} note implemented")
+                print(f"{subsystem} teardown from {ObsState.FAULT} not implemented")
 
         else:
             print(f"Teardown of CSP to {self.telescope_base_state.csp} has not been implemented")
