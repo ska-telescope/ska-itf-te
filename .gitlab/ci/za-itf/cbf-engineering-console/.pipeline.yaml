@@ -5,7 +5,6 @@
     CONFIG: mid
     K8S_CHART: ska-mid-cbf-engineering-console
     KUBE_APP: ska-mid-itf-cbf-ec
-    KUBE_NAMESPACE_SDP: "ci-ska-mid-itf-$CI_COMMIT_REF_NAME-sdp"
     INGRESS_HOST: "k8s.miditf.internal.skao.int"
     CLUSTER_DOMAIN: "miditf.internal.skao.int"
     MINIKUBE: "false"
@@ -32,15 +31,11 @@
 
 .cbf-eng-console-destroy:
   script:
+    - make vars
+    - sleep(10)
     - !reference [.cleanup, script]
   environment:
     action: stop
-
-.cbf-eng-console-redeploy:
-  extends:
-    - .cbf-eng-console-install
-  before_script:
-    - !reference [.cleanup, script]
 
 .cbf-eng-console-staging:
   extends:

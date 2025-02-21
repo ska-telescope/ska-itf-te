@@ -86,17 +86,3 @@ deploy-dpd-staging:
   extends:
     - .dpd-staging
     - .dpd-install
-  environment:
-    on_stop: destroy-dpd-staging
-
-destroy-dpd-staging:
-  extends:
-    - .dpd-staging
-    - .dpd-destroy
-
-redeploy-dpd-staging:
-  extends:
-    - .dpd-staging
-    - .dpd-redeploy
-  environment:
-    on_stop: destroy-dpd-staging
