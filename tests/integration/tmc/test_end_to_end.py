@@ -123,27 +123,23 @@ def telescope_handlers(receptor_ids) -> Generator[Tuple[TMC, CBF, CSP, List[Dish
 
 
 @pytest.fixture
-def sequence_diagrammer(request: pytest.FixtureRequest):
+def sequence_diagrammer():
     """Create a fresh sequence diagrammer instance and ensure it cleans up.
 
-    This fixture initialises a new instance of the sequence diagrammer
-    for tracking events during the test. It also registers a finaliser
-    to stop event tracking and generate the diagram when the test completes.
+    This fixture initialises a new instance of the sequence diagrammer 
+    for tracking events during the test. It ensures that event tracking 
+    stops and the sequence diagram is generated when the test completes.
 
-    :param request: An instance of pytest.FixtureRequest to provide
-                    access to test metadata, fixtures, and teardown logic.
-    :type request: pytest.FixtureRequest
     :return: An instance of sequenceDiagrammer for tracking events.
     :rtype: sequenceDiagrammer
     """
-    instance = sequenceDiagrammer(SUT_NAMESPACE)
+    sequence_diagrammer = sequenceDiagrammer(SUT_NAMESPACE)
 
-    def finalise():
+    try:
+        yield sequence_diagrammer  # Provide instance to test
+    finally:
         if GENERATE_SEQUENCE_DIAGRAM:
-            instance.stop_tracking_and_generate_diagram()
-
-    request.addfinalizer(finalise)  # Ensure cleanup happens
-    return instance  # This will be used in test steps
+            sequence_diagrammer.stop_tracking_and_generate_diagram()  # Cleanup after test
 
 
 @given("an SUT deployment with 1 subarray")
