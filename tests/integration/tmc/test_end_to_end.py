@@ -125,8 +125,8 @@ def telescope_handlers(receptor_ids) -> Generator[Tuple[TMC, CBF, CSP, List[Dish
 @pytest.fixture
 def sequence_diagrammer(request: pytest.FixtureRequest):
     """Creates a fresh sequence diagrammer instance and ensures it cleans up.
-    
-    :param request: an instance of pytest.FixtureRequest to provide 
+
+    :param request: an instance of pytest.FixtureRequest to provide
                     access to test metadata, fixtures, and teardown logic.
     :type request: pytest.FixtureRequest
     """
@@ -199,12 +199,12 @@ def _(telescope_handlers):
 def _(sequence_diagrammer):
     """Start listening for tango events and register test finaliser.
 
-    This step initialises the sequence diagrammer and starts listening for 
-    Tango events if the GENERATE_SEQUENCE_DIAGRAM flag is enabled. 
-    The events captured during the test will be used to generate a sequence 
+    This step initialises the sequence diagrammer and starts listening for
+    Tango events if the GENERATE_SEQUENCE_DIAGRAM flag is enabled.
+    The events captured during the test will be used to generate a sequence
     diagram at the end of the test.
 
-    :param sequence_diagrammer: An instance of sequenceDiagrammer that manages 
+    :param sequence_diagrammer: An instance of sequenceDiagrammer that manages
                                 event tracking and diagram generation.
     :type sequence_diagrammer: sequenceDiagrammer
     """
