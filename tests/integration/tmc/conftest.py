@@ -364,16 +364,32 @@ def telescope_handlers(
 
 
 @given("an SUT deployment with 1 subarray")
-def _(telescope_handlers, settings):
+def _(telescope_handlers):
     """Trigger instantiation of telescope handler objects.
 
     :param telescope_handlers: _description_
-    :type settings: _type_
     :type telescope_handlers: _type_
     """
+    pass
+
+
+@given("CSP in adminMode online", target_fixture="csp")
+def _(telescope_handlers, settings):
+    """Set CSP adminMode to Online after handling simulation/hw_in_the_loop.
+
+    :param telescope_handlers: _description_
+    :type telescope_handlers: _type_
+    :param settings: _description_
+    :type settings: _type_
+    """
+    logger.info("Setting CSP adminmode")
+
     _, _, csp, _ = telescope_handlers
     csp_control = csp.control
     csp_subarray = csp.subarray
+
+    assert csp_control.ping() > 0
+
     sim_mode = settings["sim_mode"]
 
     if sim_mode in ["false", "0", ""]:
@@ -384,40 +400,26 @@ def _(telescope_handlers, settings):
         logging.error("SIM_MODE is invalid")
         pytest.fail("SIM_MODE not correctly specified")
 
-    # reset_csp_adminmode = (sim_mode != csp_control.cbfSimulationMode) and (
-    #     (csp_control.adminMode == 0) or (csp_subarray.adminMode == 0)
-    # )
-    # if reset_csp_adminmode:
+    reset_csp_adminmode = (sim_mode != csp_control.cbfSimulationMode) and (
+        (csp_control.adminMode == 0) or (csp_subarray.adminMode == 0)
+    )
+
     # CSP should be OFFLINE when CBF Sim mode is set
-    csp_control.adminMode = 1
-    csp_subarray.adminMode = 1
-    wait_for_event(csp_control, "adminMode", 1)
-    wait_for_event(csp_subarray, "adminMode", 1)
-    sleep(4)
+    if reset_csp_adminmode:
+        csp_control.adminMode = 1
+        csp_subarray.adminMode = 1
+        wait_for_event(csp_control, "adminMode", 1)
+        wait_for_event(csp_subarray, "adminMode", 1)
+        sleep(4)
 
     if not sim_mode:
         csp.set_cbf_simulation_mode(False)
     elif sim_mode:
         csp.set_cbf_simulation_mode(True)
 
-
-@given("CSP in adminMode online", target_fixture="csp")
-def _(telescope_handlers):
-    """Set CSP adminMode to Online after handling simulation/hw_in_the_loop.
-
-    :param telescope_handlers: _description_
-    :type telescope_handlers: _type_
-    """
-    logger.info("Getting CSP DeviceProxy and setting online")
-
-    _, _, csp, _ = telescope_handlers
-    csp_control = csp.control
-    csp_subarray = csp.subarray
-
-    assert csp_control.ping() > 0
-
     csp_control.commandTimeout = 99  # TO BE REMOVED once CSP-CBF LRC's are implemented
     csp_control.commandTimeout = 99  # TO BE REMOVED once CSP-CBF LRC's are implemented
+
     csp_control.adminMode = 0
     csp_subarray.adminMode = 0
     wait_for_event(csp_control, "adminMode", 0)
