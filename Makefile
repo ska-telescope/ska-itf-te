@@ -153,7 +153,8 @@ ifeq ($(KUBE_NAMESPACE),staging)
 		--set ska-sdp.data-pvc.create.clone-pvc-namespace=shared-ska-dataproducts \
 		--set ska-sdp.data-pvc.create.enabled=true \
 		--set ska-sdp.data-pvc.create.size=2Ti \
-		--set ska-sdp.data-pvc.create.storageClassName=ceph-cephfs
+		--set ska-sdp.data-pvc.create.storageClassName=ceph-cephfs \
+		--set ska-sdp.data-pvc.pod.enabled=true
 endif
 
 # ifeq (wildcard($(KUBE_NAMESPACE),"ci-*")) # This will break - fix before push! block to be used in automated testing
@@ -302,6 +303,9 @@ include .make/raw.mk
 
 # include CBF configuration targets
 -include resources/makefiles/cbf-config.mk
+
+# include Taranta multiDB targets
+-include resources/makefiles/taranta.mk
 
 # include Xray uploads
 include .make/xray.mk

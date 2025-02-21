@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+## 25.5.0
+* [AT-2726] - Fixed SDP PVC patch Yaml file with correct labelling of PVC.
+
 ## 25.4.0
 * [AT-2624] - Readthedocs YAML updates
 * [AT-2586] - Improved Telescope Teardown procedure

@@ -184,7 +184,7 @@ pvc-patch-delete: ## Delete PVC in the SDP namespace in case one exists that was
 ##  make target for deploying the clone PVC whenever it inexplicably goes to the farm
 
 pvc-patch-apply: ## Create PVC in the SDP namespace for data product sharing
-	@kubectl apply -f charts/ska-mid-itf-dpd/templates/pvc.yaml -n $(KUBE_NAMESPACE_SDP)
+	@kubectl apply -f .gitlab/ci/za-itf/staging/sdp-vis-receive-pvc.yaml -n $(KUBE_NAMESPACE_SDP)
 
 k8s-pre-install-chart:
 	rm charts/$(K8S_CHART)/Chart.lock || true
