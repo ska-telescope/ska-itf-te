@@ -31,8 +31,6 @@ OVERRIDE_SCAN_BAND = os.getenv("OVERRIDE_SCAN_BAND")
 INTEGRATION_FACTOR = os.getenv("INTEGRATION_FACTOR")
 GENERATE_SEQUENCE_DIAGRAM = os.getenv("GENERATE_SEQUENCE_DIAGRAM")
 
-sequence_diagrammer = sequenceDiagrammer(SUT_NAMESPACE)
-
 
 @scenario(
     "features/tmc_end_to_end.feature",
@@ -124,6 +122,24 @@ def telescope_handlers(receptor_ids) -> Generator[Tuple[TMC, CBF, CSP, List[Dish
     tmc.tear_down()
 
 
+@pytest.fixture
+def sequence_diagrammer(request: pytest.FixtureRequest):
+    """Creates a fresh sequence diagrammer instance and ensures it cleans up.
+    
+    :param request: an instance of pytest.FixtureRequest to provide 
+                    access to test metadata, fixtures, and teardown logic.
+    :type request: pytest.FixtureRequest
+    """
+    instance = sequenceDiagrammer(SUT_NAMESPACE)
+
+    def finalise():
+        if GENERATE_SEQUENCE_DIAGRAM:
+            instance.stop_tracking_and_generate_diagram()
+
+    request.addfinalizer(finalise)  # Ensure cleanup happens
+    return instance  # This will be used in test steps
+
+
 @given("an SUT deployment with 1 subarray")
 def _(telescope_handlers):
     """Trigger instantiation of telescope handler objects.
@@ -180,18 +196,21 @@ def _(telescope_handlers):
 
 
 @given("a sequence diagrammer has optionally started listeing for events")
-def _(request: pytest.FixtureRequest):
-    """Start listening for tango events and register test finaliser."""
+def _(sequence_diagrammer):
+    """Start listening for tango events and register test finaliser.
+
+    This step initialises the sequence diagrammer and starts listening for 
+    Tango events if the GENERATE_SEQUENCE_DIAGRAM flag is enabled. 
+    The events captured during the test will be used to generate a sequence 
+    diagram at the end of the test.
+
+    :param sequence_diagrammer: An instance of sequenceDiagrammer that manages 
+                                event tracking and diagram generation.
+    :type sequence_diagrammer: sequenceDiagrammer
+    """
     if GENERATE_SEQUENCE_DIAGRAM:
         sequence_diagrammer.setup()
         sequence_diagrammer.start_tracking_events()
-
-        # Register a finaliser to ensure sequence diagram generation always runs
-        def finalise():
-            print("Finalizing: Generating sequence diagram...")
-            sequence_diagrammer.stop_tracking_and_generate_diagram()
-
-        request.addfinalizer(finalise)  # Ensures it runs after test completes
 
 
 @when("I turn ON the telescope")
