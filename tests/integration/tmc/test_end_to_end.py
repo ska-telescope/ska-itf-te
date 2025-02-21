@@ -179,14 +179,14 @@ def _(telescope_handlers):
     )
 
 
-@given("I start listening for events")
+@given("a sequence diagrammer has optionally started listeing for events")
 def _(request: pytest.FixtureRequest):
     """Start listening for tango events and register test finaliser."""
     if GENERATE_SEQUENCE_DIAGRAM:
         sequence_diagrammer.setup()
         sequence_diagrammer.start_tracking_events()
 
-        # Register a finalizer to ensure sequence diagram generation always runs
+        # Register a finaliser to ensure sequence diagram generation always runs
         def finalise():
             print("Finalizing: Generating sequence diagram...")
             sequence_diagrammer.stop_tracking_and_generate_diagram()
