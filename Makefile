@@ -304,6 +304,9 @@ include .make/raw.mk
 # include CBF configuration targets
 -include resources/makefiles/cbf-config.mk
 
+# include Taranta multiDB targets
+-include resources/makefiles/taranta.mk
+
 # include Xray uploads
 include .make/xray.mk
 
