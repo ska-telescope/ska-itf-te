@@ -126,11 +126,11 @@ def telescope_handlers(receptor_ids) -> Generator[Tuple[TMC, CBF, CSP, List[Dish
 def sequence_diagrammer():
     """Create a fresh sequence diagrammer instance and ensure it cleans up.
 
-    This fixture initialises a new instance of the sequence diagrammer 
-    for tracking events during the test. It ensures that event tracking 
+    This fixture initialises a new instance of the sequence diagrammer
+    for tracking events during the test. It ensures that event tracking
     stops and the sequence diagram is generated when the test completes.
 
-    :return: An instance of sequenceDiagrammer for tracking events.
+    :yield: An instance of sequenceDiagrammer for tracking events.
     :rtype: sequenceDiagrammer
     """
     sequence_diagrammer = sequenceDiagrammer(SUT_NAMESPACE)
