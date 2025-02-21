@@ -27,10 +27,10 @@ dependencies:
     condition: ska-csp-lmc-mid.enabled
 
   # SKA Mid CBF
-  - name: ska-mid-cbf-mcs
+  - name: ska-mid-cbf-tdc-mcs
     version: 1.1.1
     repository: https://artefact.skao.int/repository/helm-internal
-    condition: ska-mid-cbf-mcs.enabled
+    condition: ska-mid-cbf-tdc-mcs.enabled
 
   - name: ska-mid-cbf-engineering-console
     version: 1.0.1

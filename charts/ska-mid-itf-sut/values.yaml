@@ -49,7 +49,11 @@ tangogql:
 ska-ser-config-inspector:
   enabled: true
 
-ska-mid-cbf-mcs:
+ska-mid-cbf-tdc-mcs:
+  global:
+    labels:
+      skao.int/clone-pvc: cbf-ec-pvc
+      skao.int/clone-pvc-namespace:  cbf-engineering-console
   enabled: true
   num_subarrays: 3
   hostInfo:
