@@ -60,6 +60,5 @@ destroy-cbf-ec-staging:
 redeploy-cbf-ec-staging:
   extends:
     - .cbf-eng-console-staging
-    - .cbf-eng-console-redeploy
   environment:
     on_stop: destroy-cbf-ec-staging
