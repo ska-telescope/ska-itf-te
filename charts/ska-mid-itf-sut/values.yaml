@@ -22,9 +22,10 @@ ska-tango-base:
     use_pv: true
 
 # TARANTA
-ska-taranta:
+ska-tango-taranta:
   enabled: true
-  tango_dbs: [] # This is an empty list if there are no connections to external tangoDBs. Override during deploy-time using `helm install --set ...`
+  TANGO_DBS: ["ska001", "ska036", "ska063", "ska100"]
+  # tango_dbs: [] # This is an empty list if there are no connections to external tangoDBs. Override during deploy-time using `helm install --set ...`
   tangogql:
     replicas: 1
     resources:
@@ -37,7 +38,7 @@ ska-taranta:
 
 # TANGOGQL
 tangogql:
-  tangodb: centralmc # This is the name of the TangoDB that should always be set first when deploying a multiDB Taranta system
+  tangoDB: taranta # This is the name of the TangoDB that should always be set first when deploying a multiDB Taranta system
   enabled: true
   ska-tango-base:
     enabled: false

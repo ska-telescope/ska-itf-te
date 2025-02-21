@@ -16,11 +16,11 @@ dependencies:
 
   # TARANTA APPLICATION
   - name: ska-tango-taranta
-    version: 2.12.1
+    version: 2.13.1
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-taranta.enabled
   - name: ska-tango-tangogql-ariadne
-    version: 0.1.1
+    version: 1.0.1
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-taranta.enabled
     alias: ska-tango-tangogql
