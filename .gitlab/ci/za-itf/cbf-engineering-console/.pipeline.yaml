@@ -60,5 +60,7 @@ destroy-cbf-ec-staging:
 redeploy-cbf-ec-staging:
   extends:
     - .cbf-eng-console-staging
+  before_script:
+    - !reference [.cleanup, script]
   environment:
     on_stop: destroy-cbf-ec-staging
