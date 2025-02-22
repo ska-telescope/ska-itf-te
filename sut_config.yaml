@@ -40,7 +40,7 @@ parts:
     version: "file://charts/ska-mid-itf-sut/Chart.yaml"
     dependencies: ["ska-mid-cbf-mcs"]
     alias: "Mid CSP LMC"
-  ska-mid-cbf-mcs:
+  ska-mid-cbf-tdc-mcs:
     version: "file://charts/ska-mid-itf-sut/Chart.yaml"
     dependencies: []
     alias: "Mid CBF MCS"
