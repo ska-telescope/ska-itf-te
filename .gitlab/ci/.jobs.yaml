@@ -43,7 +43,10 @@
         bash .make/resources/gitlab_section.sh talon_on "Talon Tango ON" make itf-cbf-tango-on && sleep 3;
       fi
     - make pvc-patch-apply
-    - if [ "$DISH_LMC_IN_THE_LOOP" == "true" ]; then make taranta-deploy-all-tangogql-instances; fi
+    - |
+      if [ "$DISH_LMC_IN_THE_LOOP" == "true" ]; then 
+        bash .make/resources/gitlab_section.sh install_tangoGQL "Install TangoGQL for multiDB" make taranta-deploy-all-tangogql-instances;
+      fi
     - env | grep RUNNER_AFTER_SCRIPT_TIMEOUT
     - bash .make/resources/gitlab_section.sh template "Output deployment config information" make get-deployment-config-info
     - bash .make/resources/gitlab_section.sh smoketest "Smoke Test Deployment" pytest tests/smoke/ || true
