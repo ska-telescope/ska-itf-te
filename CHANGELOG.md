@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+## 25.6.1
+* [REL-1963] - fixed non-functional deployment of MultiDB Taranta
+
+## 25.6.0
+* [AT-2756] - updated Tango Util & Tango Base charts
+* [AT-2584] - MultiDB Taranta support
+
 ## 25.5.0
 * [AT-2726] - Fixed SDP PVC patch Yaml file with correct labelling of PVC.
 

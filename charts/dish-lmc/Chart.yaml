@@ -2,16 +2,16 @@ apiVersion: v2
 name: ska-mid-itf-dish-lmc
 description: An umbrella Helm chart for deploying the Dish LMC and necessary peripherals
 type: application
-version: 25.5.0
-appVersion: 25.5.0
+version: 25.6.1
+appVersion: 25.6.1
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
   # TANGO DEPENDENCIES
   - name: ska-tango-base
-    version: 0.4.10
+    version: 0.4.15
     repository: https://artefact.skao.int/repository/helm-internal
   - name: ska-tango-util
-    version: 0.4.11
+    version: 0.4.15
     repository: https://artefact.skao.int/repository/helm-internal
 
   # TARANTA APPLICATION
