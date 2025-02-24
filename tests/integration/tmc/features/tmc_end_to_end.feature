@@ -21,8 +21,8 @@ Feature: Telescope end to end signal chain test
 	@AT-2349 @AT-1305
 	Scenario: End to End signal chain verification via TMC - With HW
 		Given an SUT deployment with 1 subarray
-		And CSP in adminMode online
 		And a sequence diagrammer has optionally started listeing for events
+		And CSP in adminMode online
 		When I turn ON the telescope
 		And I assign resources for a band 1 scan
 		And configure it for a band 1 scan
