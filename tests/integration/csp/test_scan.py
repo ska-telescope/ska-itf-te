@@ -15,6 +15,7 @@ from ..resources.models.mvp_model.states import ObsState
 
 logger = logging.getLogger(__name__)
 
+
 @pytest.mark.csp_related
 @pytest.mark.skamid
 @pytest.mark.scan
@@ -22,6 +23,7 @@ logger = logging.getLogger(__name__)
 @scenario("features/csp_scan.feature", "Run a scan on csp subarray in mid")
 def test_run_a_scan_on_csp_subarray_in_mid():
     """Run a scan on sdp subarray in mid."""
+
 
 @pytest.mark.skip
 @pytest.mark.csp_related
