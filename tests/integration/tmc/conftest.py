@@ -386,7 +386,6 @@ def _(telescope_handlers, settings):
 
     _, _, csp, _ = telescope_handlers
     csp_control = csp.control
-    csp_subarray = csp.subarray
 
     assert csp_control.ping() > 0
 
@@ -401,14 +400,13 @@ def _(telescope_handlers, settings):
         pytest.fail("SIM_MODE not correctly specified")
 
     # reset_csp_adminmode = (sim_mode != csp_control.cbfSimulationMode) and (
-    #     (csp_control.adminMode == 0) or (csp_subarray.adminMode == 0)
+    #     (csp_control.adminMode == 0)
     # )
 
     # # CSP should be OFFLINE when CBF Sim mode is set
     # if reset_csp_adminmode:
     csp_control.adminMode = 1
     wait_for_event(csp_control, "adminMode", 1)
-    wait_for_event(csp_subarray, "adminMode", 1)
     sleep(8)
 
     if not sim_mode:
@@ -421,7 +419,6 @@ def _(telescope_handlers, settings):
 
     csp_control.adminMode = 0
     wait_for_event(csp_control, "adminMode", 0)
-    wait_for_event(csp_subarray, "adminMode", 0)
     sleep(15)  # TODO: Find out exactly why this is needed
 
     logger.info(
