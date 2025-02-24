@@ -147,7 +147,10 @@ class TelescopeHandler:
         # Re-evaluate telescope state
         current_telescope_state = self.get_current_state()
         if current_telescope_state != desired_state:
-            logger.error("Failed to teardown the telescope to the base state")
+            logger.error(
+                "Failed to teardown the telescope to the base state. This is "
+                "expected when the target central node state is OFF."
+            )
 
     def _teardown_dishes(self, current_dish_states: Dict[str, DishMode]):
         """Teardown dishes from current state down to the base state.
@@ -190,12 +193,13 @@ class TelescopeHandler:
                     dish.SetStandbyLPMode()
                     wait_for_event(dish, "dishMode", DishMode.STANDBY_LP, timeout=30)
 
-
             elif self.telescope_base_state.dishes[dish_id] == DishMode.STANDBY_FP:
                 # Teardown from OPERATE
                 if current_dish_states[dish_id] == DishMode.OPERATE:
                     if dish.pointingState == PointingState.READY:
-                        logger.info(f"Dish {dish_id} pointing state is READY, so leaving dish in OPERATE")
+                        logger.info(
+                            f"Dish {dish_id} pointing state is READY, so leaving dish in OPERATE"
+                        )
                         continue
 
                 # Teardown from UNKNOWN
