@@ -62,7 +62,6 @@ class EventsAndLogsFileParser(LogParser):
             self.sequence_diagram,
             self.get_likely_caller_from_hierarchy,
             self.get_cleaned_device_name,
-            self.use_new_pages
         )
 
         self.device_hierarchy = device_hierarchy
@@ -72,9 +71,6 @@ class EventsAndLogsFileParser(LogParser):
             [LOG_REGEX_PATTERN, self.log_callback],
             [EVENT_REGEX_PATTERN, self.event_callback],
         ]
-
-        self.track_load_table_count = 0
-        self.brand_new_diagram = True
 
     def get_likely_caller_from_hierarchy(self, device) -> str:
         for hierarchy_list in self.device_hierarchy:
@@ -210,7 +206,7 @@ class EventsAndLogsFileParser(LogParser):
         elif action == '_debug_patch':
             # <prefix>|<date>|DEBUG|<runner|_debug_patch|<log_line>|tango-device:ska_mid/tm_central/central_node|
             # -> CentralNodeMid.TelescopeOn()
-            self.log_parse_helper.handle_debug_patch_log(cleaned_device, message)
+            self.log_parse_helper.handle_debug_patch_log(cleaned_device, message, self.use_new_pages, self.actor, self.include_dividers)
 
         elif action == '_set_k_numbers_to_dish':
             # <prefix>|<date>|INFO|<runner>|_set_k_numbers_to_dish|<log_line>|

@@ -1,3 +1,4 @@
+import ast
 import os
 import re
 import sys
@@ -19,13 +20,14 @@ class LogParserHelper:
         self,
         sequence_diagram: PlantUMLSequenceDiagram,
         get_likely_caller_from_hierarchy: Callable[[str], str],
-        get_cleaned_device_name: Callable[[str, Optional[str]], str],
-        use_new_pages: bool
+        get_cleaned_device_name: Callable[[str, Optional[str]], str]
     ):
         self.sequence_diagram = sequence_diagram
         self.get_likely_caller_from_hierarchy = get_likely_caller_from_hierarchy
         self.get_cleaned_device_name = get_cleaned_device_name
-        self.use_new_pages = use_new_pages
+
+        self.track_load_table_count = 0
+        self.brand_new_diagram = True
 
     def handle_lrc_result_log(self, cleaned_device: str, message: str):
         '''Handles parsing of longRunningCommandResult logs and updates the sequence diagram'''
@@ -63,7 +65,7 @@ class LogParserHelper:
             
             self.generic_command_match_handling(match, cleaned_device)
 
-    def handle_debug_patch_log(self, cleaned_device: str, message: str):
+    def handle_debug_patch_log(self, cleaned_device: str, message: str, use_new_pages: bool, actor: str, include_dividers: bool):
         '''Handles parsing of _debug_patch logs and updates the sequence diagram'''
         match = DEBUG_PATCH_FORWARD_REGEX_PATTERN.search(message)
         if match:
@@ -79,7 +81,7 @@ class LogParserHelper:
                 likely_caller = self.get_likely_caller_from_hierarchy(likely_caller)
 
             # Use new pages for major notebook commands to split the images
-            if self.use_new_pages and likely_caller == self.actor:
+            if use_new_pages and likely_caller == actor:
                 # We don't want a new page on the very first command
                 if not self.brand_new_diagram:
                     self.sequence_diagram.add_new_page(command_name)
@@ -87,7 +89,7 @@ class LogParserHelper:
                 self.brand_new_diagram = False
 
             # Create a divider if a new notebook command was run
-            if self.include_dividers and likely_caller == self.actor:
+            if include_dividers and likely_caller == actor:
                 self.sequence_diagram.add_divider(command_name)
 
 
@@ -150,8 +152,7 @@ class LogParserHelper:
         if match:
             self.generic_command_match_handling(match, cleaned_device)
 
-    def info_patch_cb(self, prefix, iso_date_string, log_level, runner,
-                        action, log_line, device, message):
+    def info_patch_cb(self, device, message, limit_track_load_table_calls: bool):
         if "->" in message:
             match = INCOMING_COMMAND_CALL_REGEX_PATTERN.search(message)
             if match:
@@ -161,7 +162,7 @@ class LogParserHelper:
                 # Reduce "TrackLoadTable" commands from the diagram
                 if method == "TrackLoadTable":
                     self.track_load_table_count += 1
-                    if self.limit_track_load_table_calls and \
+                    if limit_track_load_table_calls and \
                         self.track_load_table_count > TRACK_LOAD_TABLE_LIMIT:
                         return
 
@@ -178,7 +179,7 @@ class LogParserHelper:
                 # Reduce "TrackLoadTable" commands from the diagram
                 if method == 'TrackLoadTable':
                     self.track_load_table_count += 1
-                    if self.limit_track_load_table_calls and \
+                    if limit_track_load_table_calls and \
                         self.track_load_table_count > TRACK_LOAD_TABLE_LIMIT:
                         return
                     
@@ -192,8 +193,7 @@ class LogParserHelper:
                     device, caller, f'""{method}"" -> {return_val}'
                 )
 
-    def component_state_update_cb(self, prefix, iso_date_string, log_level,
-                                    runner, action, log_line, device, message):
+    def component_state_update_cb(self, device, message):
         search_string = r"Updating (\w*) (\w*) component state with \[(.*)\]"
 
         match = re.search(search_string, message)
