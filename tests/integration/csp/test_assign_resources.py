@@ -21,6 +21,7 @@ def fxt_default_composition(csp_base_composition: conf_types.Composition):
     """
     return csp_base_composition
 
+
 @pytest.mark.skip
 @pytest.mark.csp_related
 @pytest.mark.skamid
@@ -33,6 +34,7 @@ def fxt_default_composition(csp_base_composition: conf_types.Composition):
 )
 def test_assign_resources_to_csp_mid_subarray():
     """Assign resources to CSP mid subarray."""
+
 
 @pytest.mark.skip
 @pytest.mark.csp_related
