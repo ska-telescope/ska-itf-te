@@ -19,11 +19,13 @@ class LogParserHelper:
         self,
         sequence_diagram: PlantUMLSequenceDiagram,
         get_likely_caller_from_hierarchy: Callable[[str], str],
-        get_cleaned_device_name: Callable[[str, Optional[str]], str]
+        get_cleaned_device_name: Callable[[str, Optional[str]], str],
+        use_new_pages: bool
     ):
         self.sequence_diagram = sequence_diagram
         self.get_likely_caller_from_hierarchy = get_likely_caller_from_hierarchy
         self.get_cleaned_device_name = get_cleaned_device_name
+        self.use_new_pages = use_new_pages
 
     def handle_lrc_result_log(self, cleaned_device: str, message: str):
         '''Handles parsing of longRunningCommandResult logs and updates the sequence diagram'''

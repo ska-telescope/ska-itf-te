@@ -61,7 +61,8 @@ class EventsAndLogsFileParser(LogParser):
         self.log_parse_helper = LogParserHelper(
             self.sequence_diagram,
             self.get_likely_caller_from_hierarchy,
-            self.get_cleaned_device_name
+            self.get_cleaned_device_name,
+            self.use_new_pages
         )
 
         self.device_hierarchy = device_hierarchy
