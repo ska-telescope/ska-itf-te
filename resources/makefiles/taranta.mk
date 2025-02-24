@@ -15,7 +15,7 @@ taranta-deploy-dish-tangogql: taranta-check-env ## Deploy TangoGQL instance
 	$(info Helm Release for this deployment: $(HELM_RELEASE)-$(DISH_ID))
 	$(info Tango Host: $(TANGO_DATABASE_DS).$(KUBE_NAMESPACE)-dish-lmc-$(DISH_ID).svc.$(CLUSTER_DOMAIN):10000)
 	$(info Setting Helm Chart Params: $(TARANTA_PARAMS))
-	@make k8s-install-chart K8S_CHART=taranta-itf K8S_CHART_PARAMS=$(TARANTA_PARAMS) HELM_RELEASE=$(HELM_RELEASE)-$(DISH_ID)
+	@bash .make/resources/gitlab_section.sh install-taranta "Installing TangoGQL for $(DISH_ID)" make k8s-install-chart K8S_CHART=taranta-itf K8S_CHART_PARAMS=$(TARANTA_PARAMS) HELM_RELEASE=$(HELM_RELEASE)-$(DISH_ID)
 
 .PHONY: taranta-check-env
 
