@@ -633,7 +633,7 @@ def _(telescope_handlers, scan_time, settings):
     :param scan_time: _description_
     :type scan_time: _type_
     """
-    logger.info("Scanning")
+    logger.info("Issuing scan command")
 
     tmc, _, _, _ = telescope_handlers
 
