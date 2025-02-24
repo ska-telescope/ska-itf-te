@@ -11,7 +11,7 @@ from ska_control_model._dev_state import DevState
 
 # TODO: Get these  helper classes moved into utils
 from tests.integration.tmc.conftest import TMC, EventWaitTimeout, wait_for_event
-from utils.enums import DishMode
+from utils.enums import DishMode, PointingState
 
 # TODO: Think about passing an instance of logger, and not global logger
 logger = logging.getLogger()
@@ -189,6 +189,23 @@ class TelescopeHandler:
                     wait_for_event(dish, "dishMode", DishMode.STOW, timeout=30)
                     dish.SetStandbyLPMode()
                     wait_for_event(dish, "dishMode", DishMode.STANDBY_LP, timeout=30)
+
+
+            elif self.telescope_base_state.dishes[dish_id] == DishMode.STANDBY_FP:
+                # Teardown from OPERATE
+                if current_dish_states[dish_id] == DishMode.OPERATE:
+                    if dish.pointingState == PointingState.READY:
+                        logger.info(f"Dish {dish_id} pointing state is READY, so leaving dish in OPERATE")
+                        continue
+
+                # Teardown from UNKNOWN
+                if current_dish_states[dish_id] == DishMode.UNKNOWN:
+                    dish.SetStowMode()
+                    wait_for_event(dish, "dishMode", DishMode.STOW, timeout=30)
+                    dish.SetStandbyLPMode()
+                    wait_for_event(dish, "dishMode", DishMode.STANDBY_LP, timeout=30)
+                    dish.SetStandbyFPMode()
+                    wait_for_event(dish, "dishMode", DishMode.STANDBY_FP, timeout=30)
             else:
                 logger.error(
                     f"Teardown of dish to {self.telescope_base_state.dishes[dish_id]}"
