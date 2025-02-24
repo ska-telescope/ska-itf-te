@@ -407,7 +407,6 @@ def _(telescope_handlers, settings):
     # # CSP should be OFFLINE when CBF Sim mode is set
     # if reset_csp_adminmode:
     csp_control.adminMode = 1
-    csp_subarray.adminMode = 1
     wait_for_event(csp_control, "adminMode", 1)
     wait_for_event(csp_subarray, "adminMode", 1)
     sleep(8)
@@ -421,7 +420,6 @@ def _(telescope_handlers, settings):
     csp_control.commandTimeout = 99  # TO BE REMOVED once CSP-CBF LRC's are implemented
 
     csp_control.adminMode = 0
-    csp_subarray.adminMode = 0
     wait_for_event(csp_control, "adminMode", 0)
     wait_for_event(csp_subarray, "adminMode", 0)
     sleep(15)  # TODO: Find out exactly why this is needed
