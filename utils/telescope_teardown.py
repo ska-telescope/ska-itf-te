@@ -84,7 +84,7 @@ class TelescopeHandler:
 
         current_telescope_state = self.get_current_state()
         if current_telescope_state == desired_state:
-            logger.info(f"Telescope is already at the base state: {self.telescope_base_state}")
+            logger.info(f"Telescope is already at the base state")
             return
 
         # Teardown the dishes
