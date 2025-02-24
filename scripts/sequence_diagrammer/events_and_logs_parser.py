@@ -237,13 +237,10 @@ class EventsAndLogsFileParser(LogParser):
             self.log_parse_helper.handle_csp_sdp_release_resources_command_log(cleaned_device, message)
 
         elif action == "_info_patch":
-            self.log_parse_helper.info_patch_cb(
-                prefix, iso_date_string, log_level, runner, action, log_line, cleaned_device, message
-            )
+            self.log_parse_helper.info_patch_cb(cleaned_device, message, self.limit_track_load_table_calls)
+
         elif action == "_update_component_state" and self.show_component_state_updates:
-            self.log_parse_helper.component_state_update_cb(
-                prefix, iso_date_string, log_level, runner, action, log_line, cleaned_device, message
-            )
+            self.log_parse_helper.component_state_update_cb(cleaned_device, message)
 
     def event_callback(self, prefix, device: str, event_attr, val):
         # Ignore empty devices        
