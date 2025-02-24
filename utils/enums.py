@@ -17,7 +17,7 @@ class DishMode(IntEnum):
     UNKNOWN = 8
 
 
-class PointingState(enum.IntEnum):
+class PointingState(IntEnum):
     """Pointing state enum."""
 
     READY = 0
