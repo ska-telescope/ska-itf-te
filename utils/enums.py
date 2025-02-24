@@ -15,3 +15,12 @@ class DishMode(IntEnum):
     CONFIG = 6
     OPERATE = 7
     UNKNOWN = 8
+
+class PointingState(enum.IntEnum):
+    """Pointing state enum."""
+    
+    READY = 0
+    SLEW = 1
+    TRACK = 2
+    SCAN = 3
+    UNKNOWN = 4
