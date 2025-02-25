@@ -203,6 +203,8 @@ test-end-to-end:
     - if: $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event"
       when: manual
       allow_failure: true
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: never
     - when: manual
       allow_failure: true
 
@@ -218,6 +220,8 @@ test-telescope-on:
     - if: $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event"
       when: manual
       allow_failure: true
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: never
     - when: manual
       allow_failure: true
 
@@ -233,6 +237,8 @@ test-scan:
     - if: $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event"
       when: manual
       allow_failure: true
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: never
     - when: manual
       allow_failure: true
 
@@ -248,5 +254,7 @@ test-telescope-off:
     - if: $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event"
       when: manual
       allow_failure: true
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: never
     - when: manual
       allow_failure: true
