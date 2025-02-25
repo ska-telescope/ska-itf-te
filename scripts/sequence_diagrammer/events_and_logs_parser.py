@@ -61,7 +61,6 @@ class EventsAndLogsFileParser(LogParser):
         self.log_parse_helper = LogParserHelper(
             self.sequence_diagram,
             self.get_likely_caller_from_hierarchy,
-            self.get_cleaned_device_name,
         )
 
         self.device_hierarchy = device_hierarchy
@@ -81,7 +80,7 @@ class EventsAndLogsFileParser(LogParser):
             likely_caller = self.device_hierarchy[hierarchy_index][device_index - 1]
             # print(f'Likely caller of device {device} is {likely_caller}')
             return likely_caller
-        print(f"Setting unknown caller for device {device}")
+        # print(f"Setting unknown caller for device {device}")
         return "unknown"
 
     def get_method_from_lrc_id(self, lrc_id: str) -> str:
@@ -104,13 +103,13 @@ class EventsAndLogsFileParser(LogParser):
         self.sequence_diagram.start_diagram(title, actor)
 
         # Add participants to ensure order of swimlanes
-        previous_group, previous_colour = self.determine_box_name_and_colour(self.device_hierarchy[0][1])
+        previous_group, previous_colour = determine_box_name_and_colour(self.device_hierarchy[0][1])
         if self.group_devices:
             self.sequence_diagram.add_box(previous_group, previous_colour)
 
         for hierarchy_list in self.device_hierarchy:
             for device in hierarchy_list[1:]:
-                current_group, current_colour = self.determine_box_name_and_colour(device)
+                current_group, current_colour = determine_box_name_and_colour(device)
                 if self.group_devices and previous_group != current_group:
                     self.sequence_diagram.end_box()
                     self.sequence_diagram.add_box(current_group, current_colour)
@@ -129,58 +128,6 @@ class EventsAndLogsFileParser(LogParser):
         with open(output_file_path, "w", encoding="utf-8") as f:
             f.write(self.sequence_diagram.diagram_code)
 
-    def get_cleaned_device_name(self, device: str, info_type: str = 'none') -> str:
-        if 'full_trl' in info_type:
-            # tango://tango-databaseds.staging-dish-lmc-ska001.svc.miditf.internal.skao.int:10000/mid-dish/dish-manager/SKA001
-            device = device.split('/', maxsplit=3)[-1] # only get the trl part of the full name
-
-        try:
-            cleaned_device = device.split('/', maxsplit=1)[1]  # e.g. dish-manager/ska001
-        except Exception as e:
-            print(f'Error when cleaning device ({device}): {e}')
-            return ''
-            
-
-        # mid-csp and mid-sdp are both just called "subarray" or "control", to differentiate, add the 
-        # first part of the trl. The spfrxpu devices also need the first element to get the dish number
-        if cleaned_device.startswith('subarray/') \
-            or cleaned_device.startswith('spfrxpu/') \
-            or cleaned_device.startswith('control/'):
-            if 'event' in info_type:
-                # e.g. MidCspSubarray(mid-csp/subarray/01)
-                trl_start = device.split('(', 1)[1]
-            elif 'log' in info_type:
-                # e.g. tango-device:mid-csp/subarray/01
-                trl_start = device.split('tango-device:', 1)[1]
-            else:
-                # e.g. mid-csp/subarray/01 or [ska001/spfrxpu/controller]
-                trl_start = device.strip('[')
-
-            cleaned_device = f'{trl_start.split("/")[0]}/{cleaned_device}'
-
-        # Remove last character if it's an event because the closing parenthesis will still be there
-        cleaned_device = cleaned_device[:-1] if info_type == 'event' or device.startswith('[') else cleaned_device
-
-        # Replace / with . and for plantUML
-        cleaned_device = cleaned_device.replace('/', '.')
-
-        return cleaned_device.lower()
-
-    def determine_box_name_and_colour(self, device: str) -> tuple[str, str]:
-        '''Determine the group the device falls under and assign the appropriate colour'''
-        match device:
-            case _ if device.startswith('tm'):
-                return DeviceGroup.TMC.value
-            case _ if device.startswith(('mid-csp', 'mid_csp', 'sub_elt')):
-                return DeviceGroup.CSP.value
-            case _ if device.startswith('mid-sdp'):
-                return DeviceGroup.SDP.value
-            case _ if device.startswith(('dish-', 'ds-', 'ska', 'simulator_spfc')):
-                return DeviceGroup.DISHES.value
-            case _:
-                print(f'Device {device} set to UNKNOWN group')
-                return DeviceGroup.UNKNOWN.value
-
     def log_callback(self, prefix: str, iso_date_string: str, log_level: str,
                      runner: str, action: str, log_line: str, device: str, message: str):
         # Ignore empty devices        
@@ -190,7 +137,7 @@ class EventsAndLogsFileParser(LogParser):
         # Example log message:
         # 1724676115.079 -  Log  - 1|2024-08-26T12:41:55.079Z|DEBUG|Thread-9 (_event_consumer)|
         # _component_state_changed|dish_manager_cm.py#390|tango-device:mid-dish/dish-manager/SKA001|...
-        cleaned_device = self.get_cleaned_device_name(device, 'log')
+        cleaned_device = get_cleaned_device_name(device, 'log')
 
         if action in ['update_long_running_command_result', 'update_command_result']:
             # <prefix>|<date>|INFO|longRunningCommandResult|update_long_running_command_result|<log_line>|
@@ -252,7 +199,7 @@ class EventsAndLogsFileParser(LogParser):
         # 	longrunningcommandstatus	('1724660914.663982_241979260268973_SetStowMode', 'COMPLETED')
         # 1724660914.761 - Event - 2024-09-18 08:44:43.859312	MidCspSubarray(mid-csp/subarray/01)
         #   longrunningcommandstatus	('1726641882.6817706_174896405886953_AssignResources', 'STAGING')
-        cleaned_device = self.get_cleaned_device_name(device, "event")
+        cleaned_device = get_cleaned_device_name(device, "event")
         caller = self.get_likely_caller_from_hierarchy(cleaned_device)
 
         if "longrunningcommand" in event_attr:

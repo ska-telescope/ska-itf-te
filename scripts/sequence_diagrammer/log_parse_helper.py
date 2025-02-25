@@ -20,11 +20,9 @@ class LogParserHelper:
         self,
         sequence_diagram: PlantUMLSequenceDiagram,
         get_likely_caller_from_hierarchy: Callable[[str], str],
-        get_cleaned_device_name: Callable[[str, Optional[str]], str]
     ):
         self.sequence_diagram = sequence_diagram
         self.get_likely_caller_from_hierarchy = get_likely_caller_from_hierarchy
-        self.get_cleaned_device_name = get_cleaned_device_name
 
         self.track_load_table_count = 0
         self.brand_new_diagram = True
@@ -46,7 +44,7 @@ class LogParserHelper:
             command = command_id.split('_')[-1]
 
             # Clean the target device name for PlantUML
-            cleaned_from_device = self.get_cleaned_device_name(from_device)
+            cleaned_from_device = get_cleaned_device_name(from_device)
 
             # Add an arrow to the sequence diagram
             self.sequence_diagram.add_command_response(
@@ -217,7 +215,7 @@ class LogParserHelper:
         target_device = match.group(2).strip()
 
         # Clean the target device name for PlantUML
-        cleaned_target_device = self.get_cleaned_device_name(target_device, target_device_type)
+        cleaned_target_device = get_cleaned_device_name(target_device, target_device_type)
 
         # Add an arrow to the sequence diagram
         self.sequence_diagram.add_command_call(
