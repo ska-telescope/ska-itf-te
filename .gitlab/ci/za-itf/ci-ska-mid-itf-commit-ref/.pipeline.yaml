@@ -201,8 +201,6 @@ remove-aa05-ds-sim:
       allow_failure: true
     - if: '$CI_COMMIT_BRANCH == "main"'
       when: never
-    - when: manual
-      allow_failure: true
 
 test-end-to-end:
   stage: test
