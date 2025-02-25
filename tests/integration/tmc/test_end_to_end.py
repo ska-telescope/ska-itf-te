@@ -139,7 +139,10 @@ def sequence_diagrammer():
         yield sequence_diagrammer  # Provide instance to test
     finally:
         if GENERATE_SEQUENCE_DIAGRAM:
+            logger.info("Generating puml diagram")
             sequence_diagrammer.stop_tracking_and_generate_diagram()  # Cleanup after test
+        else:
+            logger.info("Sequence diagram generation correctly skipped")
 
 
 @given("an SUT deployment with 1 subarray")
@@ -211,8 +214,11 @@ def _(sequence_diagrammer):
     :type sequence_diagrammer: sequenceDiagrammer
     """
     if GENERATE_SEQUENCE_DIAGRAM:
+        logger.info("Starting event listening for puml diagram")
         sequence_diagrammer.setup()
         sequence_diagrammer.start_tracking_events()
+    else:
+        logger.info("Skipping sequence diagram generation")
 
 
 @when("I turn ON the telescope")
