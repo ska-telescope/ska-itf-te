@@ -223,6 +223,7 @@ test-scan:
   extends:
     - .ci-env
     - .test-scan-with-hw
+    - .test-ci-rules
 
 test-telescope-off:
   stage: test

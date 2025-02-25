@@ -80,7 +80,6 @@ test-end-to-end-integration:
     - .integration-env
     - .test-end-to-end-with-hw
     - .test-integration-rules
-  rules:
 
 test-telescope-on-integration:
   stage: test
