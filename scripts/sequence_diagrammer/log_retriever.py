@@ -35,7 +35,7 @@ class LogRetriever:
             
             # Make sure api_response is not empty
             if not api_response:
-                print(f"No logs found for {pod_name}.")
+                print(f"Empty api response for {pod_name}")
                 return []
             
             # Save logs to files for debugging
