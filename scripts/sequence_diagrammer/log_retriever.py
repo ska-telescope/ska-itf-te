@@ -19,7 +19,7 @@ class LogRetriever:
         return match.group() if match else ""
 
     def get_pod_logs_and_timestamps(self, namespace, pod_name, since_time):
-        command = f"kubectl logs {pod_name} -n {namespace} --since-time={since_time}"
+        command = f"kubectl logs {pod_name} -n {namespace} --since-time={since_time} --timestamps"
         # print(command)
 
         try:
@@ -30,12 +30,12 @@ class LogRetriever:
 
             # Check if there is any error output (0 is success)
             if result.returncode != 0:
-                print(f"Error for {pod_name}: {result.stderr}")
+                print(f"Error for {pod_name} (return code {result.returncode}): {result.stderr.strip()}")
                 return []
             
             # Make sure api_response is not empty
             if not api_response:
-                print(f"Empty api response for {pod_name}")
+                print(f"Empty API response for {pod_name} STDERR: {result.stderr.strip()}")
                 return []
             
             # Save logs to files for debugging
