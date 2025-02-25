@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+## 25.6.2
+* [REL-1977] - CBF Engineering Console and MCS upgrade
+
 ## 25.6.1
 * [REL-1963] - fixed non-functional deployment of MultiDB Taranta
 
