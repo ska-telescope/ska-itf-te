@@ -127,6 +127,10 @@ docs-build:
         - charts/**/*
 
 .test-end-to-end-with-hw:
+  artifacts:
+    paths:
+      - build/sequence-diagram.puml
+    when: always
   variables:
     INTEGRATION_TEST_SOURCE: tests/integration/tmc
     E2E_TEST_EXECUTION_NAMESPACE: $KUBE_NAMESPACE
