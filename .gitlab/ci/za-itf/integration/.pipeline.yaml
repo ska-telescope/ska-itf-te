@@ -68,3 +68,37 @@ destroy-sut-integration:
       namespace: $KUBE_NAMESPACE
     url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
     action: stop
+
+.test-integration-rules:
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: manual
+
+test-end-to-end-integration:
+  stage: test
+  extends:
+    - .integration-env
+    - .test-end-to-end-with-hw
+    - .test-integration-rules
+  rules:
+
+test-telescope-on-integration:
+  stage: test
+  extends:
+    - .integration-env
+    - .test-telescope-on-with-hw
+    - .test-integration-rules
+
+test-scan-integration:
+  stage: test
+  extends:
+    - .integration-env
+    - .test-scan-with-hw
+    - .test-integration-rules
+
+test-telescope-off-integration:
+  stage: test
+  extends:
+    - .integration-env
+    - .test-telescope-off-with-hw
+    - .test-integration-rules
