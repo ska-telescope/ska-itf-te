@@ -191,11 +191,7 @@ remove-aa05-ds-sim:
 # # On-demand test jobs
 # ############################################
 
-test-end-to-end:
-  stage: test
-  extends:
-    - .ci-env
-    - .test-end-to-end-with-hw
+.test-ci-rules:
   rules:
     - if: $EXECUTE_E2E_WITH_HW == "true"
       when: on_success
@@ -207,54 +203,30 @@ test-end-to-end:
       when: never
     - when: manual
       allow_failure: true
+
+test-end-to-end:
+  stage: test
+  extends:
+    - .ci-env
+    - .test-end-to-end-with-hw
+    - .test-ci-rules
 
 test-telescope-on:
   stage: test
   extends:
     - .ci-env
     - .test-telescope-on-with-hw
-  rules:
-    - if: $EXECUTE_E2E_WITH_HW == "true"
-      when: on_success
-      allow_failure: true
-    - if: $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event"
-      when: manual
-      allow_failure: true
-    - if: '$CI_COMMIT_BRANCH == "main"'
-      when: never
-    - when: manual
-      allow_failure: true
+    - .test-ci-rules
 
 test-scan:
   stage: test
   extends:
     - .ci-env
     - .test-scan-with-hw
-  rules:
-    - if: $EXECUTE_E2E_WITH_HW == "true"
-      when: on_success
-      allow_failure: true
-    - if: $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event"
-      when: manual
-      allow_failure: true
-    - if: '$CI_COMMIT_BRANCH == "main"'
-      when: never
-    - when: manual
-      allow_failure: true
 
 test-telescope-off:
   stage: test
   extends:
     - .ci-env
     - .test-telescope-off-with-hw
-  rules:
-    - if: $EXECUTE_E2E_WITH_HW == "true"
-      when: on_success
-      allow_failure: true
-    - if: $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event"
-      when: manual
-      allow_failure: true
-    - if: '$CI_COMMIT_BRANCH == "main"'
-      when: never
-    - when: manual
-      allow_failure: true
+    - .test-ci-rules
