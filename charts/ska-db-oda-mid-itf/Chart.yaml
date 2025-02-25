@@ -2,8 +2,8 @@ apiVersion: v2
 name: ska-db-oda-mid-itf
 description: Deployment of ska-db-oda-umbrella, which includes ska-db-oda, postgres and ska-ser-skuid, in the Mid ITF.
 type: application
-version: 25.6.3
-appVersion: 25.6.3
+version: 25.6.3-rc.1
+appVersion: 25.6.3-rc.1
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
   - name: ska-db-oda-umbrella
