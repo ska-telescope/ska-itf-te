@@ -71,6 +71,8 @@ destroy-sut-integration:
 
 .test-integration-rules:
   rules:
+    - if: $CI_PIPELINE_SOURCE == "tag"
+      when: never
     - if: '$CI_COMMIT_BRANCH == "main"'
       when: manual
 
