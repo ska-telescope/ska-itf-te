@@ -118,7 +118,9 @@ endif
 CBF_HW_IN_THE_LOOP ?= 
 CSP_PARAMS ?=
 ifeq ($(CBF_HW_IN_THE_LOOP),true)
-	CSP_PARAMS += --set ska-mid-cbf-engineering-console.enabled=true
+	CSP_PARAMS += \
+	--set ska-mid-cbf-engineering-console.enabled=true \
+	--set ska-mid-cbf-tdc-mcs.artifactsPvc.storageClassName=ceph-cephfs
 endif
 
 DISH_LMC_PARAMS ?= $(DISH_LMC_INITIAL_PARAMS) $(DISH_LMC_EXTRA_PARAMS)
