@@ -151,16 +151,16 @@ publish-k8s-test-results:
       - "build/"
   extends:
     - .ci-env
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "pipeline"
-      when: never
-    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
-      when: always
-    - when: never
+  #rules:
+  #  - if: $CI_PIPELINE_SOURCE == "pipeline"
+  #    when: never
+  #  - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+  #    when: always
+  #  - when: never
   script:
     - echo "Test result code from k8s-test-runner job was $(cat build/status)"
-    - poetry install
-    - make upload-to-confluence
+    #- poetry install
+    #- make upload-to-confluence
 
 # ############################################
 # # Dish Strcuture Simulator related CICD jobs
