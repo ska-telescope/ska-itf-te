@@ -59,6 +59,10 @@ ska-mid-cbf-tdc-mcs:
   hostInfo:
     environment: "mid-itf"
     clusterDomain: "miditf.internal.skao.int"
+  artifactsPvc:
+    storageClassName: ceph-cephfs
+    volumeMode: Filesystem
+
 
 ska-mid-cbf-engineering-console:
   enabled: false
