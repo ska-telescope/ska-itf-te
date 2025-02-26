@@ -110,8 +110,9 @@ class EventsAndLogsFileParser(LogParser):
         for hierarchy_list in self.device_hierarchy:
             for device in hierarchy_list[1:]:
                 current_group, current_colour = determine_box_name_and_colour(device)
-                if self.group_devices and previous_group != current_group:
+                if self.group_devices and previous_group not in (current_group, "Unknown"):
                     self.sequence_diagram.end_box()
+                if self.group_devices and current_group not in (previous_group, "Unknown"):
                     self.sequence_diagram.add_box(current_group, current_colour)
                     previous_group = current_group
 
