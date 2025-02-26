@@ -2,16 +2,16 @@ apiVersion: v2
 name: ska-mid-itf-sut
 description: An umbrella Helm chart for deployment of the System Under Test at the Mid ITF
 type: application
-version: 25.6.3-rc.2
-appVersion: 25.6.3-rc.2
+version: 25.4.0
+appVersion: 25.4.0
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
   # Tango Base & Deployment Charts: TangoDB, iTango, Tango Operator Utils
   - name: ska-tango-base
-    version: 0.4.15
+    version: 0.4.10
     repository: https://artefact.skao.int/repository/helm-internal
   - name: ska-tango-util
-    version: 0.4.15
+    version: 0.4.11
     repository: https://artefact.skao.int/repository/helm-internal
 
   # SKA Mid TMC
@@ -22,18 +22,18 @@ dependencies:
 
   # SKA Mid CSP LMC
   - name: ska-csp-lmc-mid
-    version: 0.24.0
+    version: 1.0.0-rc.3
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-csp-lmc-mid.enabled
 
   # SKA Mid CBF
   - name: ska-mid-cbf-mcs
-    version: 1.1.2
+    version: 1.1.1
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-mid-cbf-mcs.enabled
 
   - name: ska-mid-cbf-engineering-console
-    version: 1.1.1
+    version: 1.0.1
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-mid-cbf-engineering-console.enabled
 
@@ -53,12 +53,12 @@ dependencies:
 
   # TARANTA SUITE
   - name: ska-tango-taranta
-    version: 2.13.1
+    version: 2.12.1
     repository: https://artefact.skao.int/repository/helm-internal
-    condition: ska-tango-taranta.enabled
+    condition: ska-taranta.enabled
   # MULTIDB TANGOGQL
   - name: ska-tango-tangogql-ariadne
-    version: 1.0.1
+    version: 0.1.1
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-taranta.enabled
     alias: tangogql
