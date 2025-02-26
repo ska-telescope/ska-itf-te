@@ -21,7 +21,7 @@
     K8S_AUTH_SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_PIPELINE_ID
     PDU_IP: 10.20.2.14
     SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_COMMIT_REF_NAME
-    CBF_HW_IN_THE_LOOP: "true"
+    CBF_HW_IN_THE_LOOP: "false"
     DISH_LMC_IN_THE_LOOP: "true"
 
 .on-demand-stage:
