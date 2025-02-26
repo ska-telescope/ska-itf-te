@@ -38,7 +38,7 @@ parts:
     alias: "DS Simulator"
   ska-csp-lmc-mid:
     version: "file://charts/ska-mid-itf-sut/Chart.yaml"
-    dependencies: []
+    dependencies: ["ska-mid-cbf-tdc-mcs"]
     alias: "Mid CSP LMC"
   ska-mid-cbf-mcs:
     version: "file://charts/ska-mid-itf-sut/Chart.yaml"
