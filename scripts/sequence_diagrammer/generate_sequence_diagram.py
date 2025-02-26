@@ -45,6 +45,8 @@ class sequenceDiagrammer:
             self.sut_namespace, f'SKA{index}'
         ) for index in self.dish_indexes]
 
+        self.sequence_diagram_file_name = "sequence-diagram.puml"
+
     def setup(self):
         """."""
         self.namespaces_pods: dict[str, list[str]] = define_pods_for_logs(
@@ -79,7 +81,6 @@ class sequenceDiagrammer:
 
         self.events_file_name = f"generated_events-{date}-{time_start}.txt"
         self.events_and_logs_file_name = f"events_and_logs-{date}-{time_start}.txt"
-        self.sequence_diagram_file_name = f"sequence-diagram.puml"
 
         self.event_printer = EventPrinter(
             self.events_file_name, self.tracked_devices
@@ -94,11 +95,11 @@ class sequenceDiagrammer:
         )
 
     def start_tracking_events(self):
-        """."""
+        """Enter the event printer to start listening for events."""
         self.event_printer.start()
 
     def stop_tracking_and_generate_diagram(self):
-        """."""
+        """Exit event listening, parse logs and generate puml."""
         self.event_printer.stop()
 
         # Loop over each namespace and its pods
@@ -132,5 +133,8 @@ class sequenceDiagrammer:
         events_and_logs_file_path = f"./{self.events_and_logs_file_name}"
 
         self.file_parser.parse(
-            events_and_logs_file_path, self.sequence_diagram_file_name
+            events_and_logs_file_path, self.sequence_diagram_file_name, actor='test'
         )
+
+    def get_puml_filename(self) -> str:
+        return self.sequence_diagram_file_name

@@ -3,6 +3,7 @@
 import json
 import logging
 import os
+import pathlib
 import sys
 from time import localtime, sleep, strftime
 from typing import Generator, List, Tuple
@@ -142,6 +143,7 @@ def sequence_diagrammer():
             logger.info("Generating puml diagram")
             sequence_diagrammer.stop_tracking_and_generate_diagram()  # Cleanup after test
         else:
+            pathlib.Path(sequence_diagrammer.get_puml_filename()).unlink(missing_ok=True)
             logger.info("Sequence diagram generation correctly skipped")
 
 
