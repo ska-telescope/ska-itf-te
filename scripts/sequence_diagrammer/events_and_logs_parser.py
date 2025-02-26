@@ -103,16 +103,21 @@ class EventsAndLogsFileParser(LogParser):
         self.sequence_diagram.start_diagram(title, actor)
 
         # Add participants to ensure order of swimlanes
+        unknown_group = DeviceGroup.UNKNOWN.value
         previous_group, previous_colour = determine_box_name_and_colour(self.device_hierarchy[0][1])
-        if self.group_devices:
+        if self.group_devices and previous_group != unknown_group:
             self.sequence_diagram.add_box(previous_group, previous_colour)
 
         for hierarchy_list in self.device_hierarchy:
             for device in hierarchy_list[1:]:
                 current_group, current_colour = determine_box_name_and_colour(device)
-                if self.group_devices and previous_group not in (current_group, "Unknown"):
+
+                # Ensure we close the previous box if transitioning to a new device group
+                if self.group_devices and previous_group not in (current_group, unknown_group):
                     self.sequence_diagram.end_box()
-                if self.group_devices and current_group not in (previous_group, "Unknown"):
+
+                # Open a new box if it's a different group and not "Unknown"
+                if self.group_devices and current_group not in (previous_group, unknown_group):
                     self.sequence_diagram.add_box(current_group, current_colour)
                     previous_group = current_group
 
