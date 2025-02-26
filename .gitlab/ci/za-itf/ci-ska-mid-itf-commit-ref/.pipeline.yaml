@@ -96,6 +96,8 @@ k8s-test-runner:
     - bash .make/resources/gitlab_section.sh install "K8S Install" make k8s-install-chart
     - bash .make/resources/gitlab_section.sh wait "K8S wait" make k8s-wait
     - make itf-cbf-setup --dry
+    - mkdir -p build
+    - env > build/environment.txt
   script:
     - make integration-test TANGO_HOST=$TANGO_DATABASE_DS.$KUBE_NAMESPACE.svc.$CLUSTER_DOMAIN:10000 || true
     - echo "Test command exit code - $(cat build/status)"
@@ -191,17 +193,44 @@ remove-aa05-ds-sim:
 # # On-demand test jobs
 # ############################################
 
+.test-ci-rules:
+  rules:
+    - if: $EXECUTE_E2E_WITH_HW == "true"
+      when: on_success
+      allow_failure: true
+    - if: $CI_COMMIT_TAG
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: manual
+      allow_failure: true
+    - when: never
+
 test-end-to-end:
   stage: test
   extends:
     - .ci-env
     - .test-end-to-end-with-hw
-  rules:
-    - if: $EXECUTE_E2E_WITH_HW == "true"
-      when: on_success
-      allow_failure: true
-    - if: $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event"
-      when: manual
-      allow_failure: true
-    - when: manual
-      allow_failure: true
+    - .test-ci-rules
+
+test-telescope-on:
+  stage: test
+  extends:
+    - .ci-env
+    - .test-telescope-on-with-hw
+    - .test-ci-rules
+
+test-scan:
+  stage: test
+  extends:
+    - .ci-env
+    - .test-scan-with-hw
+    - .test-ci-rules
+
+test-telescope-off:
+  stage: test
+  extends:
+    - .ci-env
+    - .test-telescope-off-with-hw
+    - .test-ci-rules

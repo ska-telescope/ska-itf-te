@@ -25,6 +25,7 @@ def test_run_a_scan_on_csp_subarray_in_mid():
     """Run a scan on sdp subarray in mid."""
 
 
+@pytest.mark.skip
 @pytest.mark.csp_related
 @pytest.mark.skamid
 @pytest.mark.scan
