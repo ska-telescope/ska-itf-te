@@ -54,6 +54,9 @@ ska-mid-cbf-tdc-mcs:
     labels:
       skao.int/clone-pvc: cbf-ec-pvc
       skao.int/clone-pvc-namespace:  cbf-engineering-console
+  artifactsPvc:
+    storageClassName: ceph-cephfs
+    volumeMode: Filesystem
   enabled: true
   num_subarrays: 3
   hostInfo:
