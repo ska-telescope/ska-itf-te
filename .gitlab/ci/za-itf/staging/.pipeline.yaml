@@ -93,9 +93,6 @@ destroy-sut-staging:
 
 .test-staging-rules:
   rules:
-    - if: $EXECUTE_E2E_STAGING_WITH_HW == "true"
-      when: on_success
-      allow_failure: true
     - if: $CI_COMMIT_TAG
       when: manual
       allow_failure: true
@@ -107,6 +104,14 @@ test-end-to-end-staging:
     - .staging-env
     - .test-end-to-end-with-hw
     - .test-staging-rules
+  rules:
+    - if: $EXECUTE_E2E_STAGING_WITH_HW == "true"
+      when: on_success
+      allow_failure: true
+    - if: $CI_COMMIT_TAG
+      when: manual
+      allow_failure: true
+    - when: never
 
 test-telescope-on-staging:
   stage: test
