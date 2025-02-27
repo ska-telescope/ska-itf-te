@@ -295,7 +295,7 @@ def receptor_ids():
     :return: List of receptor IDs
     :rtype: _type_
     """
-    receptors = ["SKA001", "SKA036", "SKA063", "SKA100"]
+    receptors = ["SKA001", "SKA036", "SKA063"] #TEMP COMMIT 
     return receptors
 
 
