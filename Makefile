@@ -353,3 +353,6 @@ ifeq ($(KUBE_NAMESPACE),staging)
 	k8s-post-install-chart:
 		kubectl patch pvc -n staging artifacts-pvc-$(HELM_RELEASE) --patch-file patch-pvc.yaml
 endif
+
+teardown-telescope-to-pre-assign:
+	@poetry run telescope_state_control --teardown -n ${E2E_TEST_EXECUTION_NAMESPACE} -d "${DISH_IDS}" -c "ON" -b "STANDBY_FP"
