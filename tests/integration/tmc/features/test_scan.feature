@@ -4,7 +4,7 @@ Feature: Telescope scan test
 	It is assumed that the telescope is in the ON state
 
 	Scenario: Perform a scan via TMC
-        	Given an SUT deployment with 1 subarray
+		Given an SUT deployment with 1 subarray
 		When I assign resources for a band 1 scan
 		And configure it for a band 1 scan
 		And I start a scan for 120 seconds
