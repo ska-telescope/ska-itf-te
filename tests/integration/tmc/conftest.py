@@ -3,6 +3,7 @@
 import json
 import logging
 import os
+import pathlib
 import sys
 from queue import Empty, Queue
 from time import localtime, sleep, strftime, time
@@ -13,6 +14,7 @@ from pytest_bdd import given, parsers, then, when
 from ska_control_model import ObsState
 from tango import DeviceProxy, DevState, EventType
 
+from scripts.sequence_diagrammer.generate_sequence_diagram import sequenceDiagrammer
 from utils.enums import DishMode
 
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), ".jupyter-notebooks")))
@@ -283,6 +285,9 @@ def settings():
     settings["override_scan_band"] = os.getenv("OVERRIDE_SCAN_BAND")
     settings["integration_factor"] = os.getenv("INTEGRATION_FACTOR")
     settings["sim_mode"] = os.getenv("SIM_MODE", "false").lower()
+    settings["generate_sequence_diagram"] = (
+        os.getenv("GENERATE_SEQUENCE_DIAGRAM", "false").lower() == "true"
+    )
 
     return settings
 
@@ -363,6 +368,32 @@ def telescope_handlers(
     tmc.tear_down()
 
 
+@pytest.fixture
+def sequence_diagrammer(settings):
+    """Create a fresh sequence diagrammer instance and ensure it cleans up.
+
+    This fixture initialises a new instance of the sequence diagrammer
+    for tracking events during the test. It ensures that event tracking
+    stops and the sequence diagram is generated when the test completes.
+
+    :param settings: test settings
+    :type settings: dict[str]
+    :yield: An instance of sequenceDiagrammer for tracking events.
+    :rtype: sequenceDiagrammer
+    """
+    sequence_diagrammer = sequenceDiagrammer(settings["SUT_namespace"])
+
+    try:
+        yield sequence_diagrammer  # Provide instance to test
+    finally:
+        if settings["generate_sequence_diagram"]:
+            logger.info("Generating puml diagram")
+            sequence_diagrammer.stop_tracking_and_generate_diagram()  # Cleanup after test
+        else:
+            pathlib.Path(sequence_diagrammer.get_puml_filename()).unlink(missing_ok=True)
+            logger.info("Sequence diagram generation correctly skipped")
+
+
 @given("an SUT deployment with 1 subarray")
 def _(telescope_handlers):
     """Trigger instantiation of telescope handler objects.
@@ -371,6 +402,29 @@ def _(telescope_handlers):
     :type telescope_handlers: _type_
     """
     pass
+
+
+@given("a sequence diagrammer has optionally started listeing for events")
+def _(sequence_diagrammer, settings):
+    """Start listening for tango events and register test finaliser.
+
+    This step initialises the sequence diagrammer and starts listening for
+    Tango events if the GENERATE_SEQUENCE_DIAGRAM flag is enabled.
+    The events captured during the test will be used to generate a sequence
+    diagram at the end of the test.
+
+    :param sequence_diagrammer: An instance of sequenceDiagrammer that manages
+                                event tracking and diagram generation.
+    :type sequence_diagrammer: sequenceDiagrammer
+    :param settings: test settings
+    :type settings: dict[str]
+    """
+    if settings["generate_sequence_diagram"]:
+        logger.info("Starting event listening for puml diagram")
+        sequence_diagrammer.setup()
+        sequence_diagrammer.start_tracking_events()
+    else:
+        logger.info("Skipping sequence diagram generation")
 
 
 @given("CSP in adminMode online", target_fixture="csp")
