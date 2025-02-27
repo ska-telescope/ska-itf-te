@@ -2,8 +2,7 @@
 
 ## Unreleased
 
-## 25.6.2
-* [REL-1977] - CBF Engineering Console and MCS upgrade
+* [AT-2647] - Split end-to-end tests - ON and OFF commands now separated from Observation sequences
 
 ## 25.6.1
 * [REL-1963] - fixed non-functional deployment of MultiDB Taranta
