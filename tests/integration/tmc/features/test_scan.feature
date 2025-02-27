@@ -5,6 +5,7 @@ Feature: Telescope scan test
 
 	Scenario: Perform a scan via TMC
 		Given an SUT deployment with 1 subarray
+		And a sequence diagrammer has optionally started listeing for events
 		When I assign resources for a band 1 scan
 		And configure it for a band 1 scan
 		And I start a scan for 120 seconds
