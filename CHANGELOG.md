@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+## 25.6.2
 * [AT-2647] - Split end-to-end tests - ON and OFF commands now separated from Observation sequences
 
 ## 25.6.1
