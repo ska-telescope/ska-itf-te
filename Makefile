@@ -321,6 +321,7 @@ integration-test:
 	@mkdir -p build
 	set -o pipefail; $(PYTHON_RUNNER) pytest $(INTEGRATION_TEST_SOURCE) $(INTEGRATION_TEST_ARGS); \
 	echo $$? > build/status
+	@mv sequence-diagram.puml build/sequence-diagram.puml || echo "sequence diagram not moved"
 
 upload-to-confluence:
 	@poetry run upload-to-confluence sut_config.yaml build/reports/cucumber.json
