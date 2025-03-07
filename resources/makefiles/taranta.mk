@@ -31,7 +31,7 @@ taranta-deploy-all-tangogql-instances:
 		else \
 			DISH_NAMESPACE=integration-dish-lmc-$$ID; \
 		fi; \
-		make taranta-deploy-dish-tangogql DISH_ID=$$ID DISH_NAMESPACE=$$DISH_NAMESPACE --dry; \
+		make taranta-deploy-dish-tangogql DISH_ID=$$ID DISH_NAMESPACE=$$DISH_NAMESPACE; \
 	done
 
 taranta-check-env: ## Private target: Check environment configuration variables
