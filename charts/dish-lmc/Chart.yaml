@@ -27,7 +27,7 @@ dependencies:
 
   # DISH LMC CHART
   - name: ska-dish-lmc
-    version: 6.0.1
+    version: 7.0.0
     repository: https://artefact.skao.int/repository/helm-internal
 
   # SPFRx DEPLOYER CHART
