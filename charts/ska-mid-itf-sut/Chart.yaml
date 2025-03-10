@@ -2,8 +2,8 @@ apiVersion: v2
 name: ska-mid-itf-sut
 description: An umbrella Helm chart for deployment of the System Under Test at the Mid ITF
 type: application
-version: 25.6.3-rc.2
-appVersion: 25.6.3-rc.2
+version: 25.6.2
+appVersion: 25.6.2
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
   # Tango Base & Deployment Charts: TangoDB, iTango, Tango Operator Utils
@@ -28,9 +28,9 @@ dependencies:
 
   # SKA Mid CBF
   - name: ska-mid-cbf-tdc-mcs
-    version: 1.1.2
+    version: 1.1.3
     repository: https://artefact.skao.int/repository/helm-internal
-    condition: ska-mid-cbf-mcs.enabled
+    condition: ska-mid-cbf-tdc-mcs.enabled
 
   - name: ska-mid-cbf-engineering-console
     version: 1.1.1
