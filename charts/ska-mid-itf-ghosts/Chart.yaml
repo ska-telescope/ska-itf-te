@@ -2,8 +2,8 @@ apiVersion: v2
 name: ska-mid-itf-devices
 description: An umbrella Helm chart for providing resources to the Mid ITF cluster
 type: application
-version: 25.6.3-rc.3
-appVersion: 25.6.3-rc.3
+version: 25.6.3-rc.4
+appVersion: 25.6.3-rc.4
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
   # SPOOKD
