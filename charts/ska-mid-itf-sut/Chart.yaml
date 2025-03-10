@@ -16,7 +16,7 @@ dependencies:
 
   # SKA Mid TMC
   - name: ska-tmc-mid
-    version: 0.22.8 # check latest version
+    version: 0.25.0 # check latest version
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tmc-mid.enabled
 
@@ -28,9 +28,9 @@ dependencies:
 
   # SKA Mid CBF
   - name: ska-mid-cbf-tdc-mcs
-    version: 1.1.2
+    version: 1.1.3
     repository: https://artefact.skao.int/repository/helm-internal
-    condition: ska-mid-cbf-mcs.enabled
+    condition: ska-mid-cbf-tdc-mcs.enabled
 
   - name: ska-mid-cbf-engineering-console
     version: 1.1.1

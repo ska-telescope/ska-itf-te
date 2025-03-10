@@ -1,0 +1,24 @@
+.cbf-eng-console:
+  tags:
+    - ska-k8srunner-za-itf
+    - .staging_rules
+  stage: platform
+  variables:
+    KUBE_NAMESPACE: cbf-engineering-console
+    CONFIG: mid
+    K8S_CHART: ska-mid-cbf-engineering-console-cache
+    KUBE_APP: ska-mid-itf-cbf-ec
+    CLUSTER_DOMAIN: "miditf.internal.skao.int"
+    MINIKUBE: "false"
+  environment:
+    name: sut/cbf-engineering-console/$KUBE_NAMESPACE
+  when: manual
+  script:
+    - make vars
+    - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart
+  after_script:
+    - bash .make/resources/gitlab_section.sh helmget "Get all Helm configuration data" helm get all -n $KUBE_NAMESPACE $HELM_RELEASE
+  artifacts:
+    name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID"
+    paths:
+      - "build/"
