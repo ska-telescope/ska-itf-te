@@ -22,7 +22,7 @@ taranta-deploy-dish-tangogql: taranta-check-env ## Deploy TangoGQL instance
 LOWER_DISH_IDS=$(shell echo $(DISH_IDS) | tr A-Z a-z)
 taranta-deploy-all-tangogql-instances:
 	$(info DISH_IDS: $(LOWER_DISH_IDS))
-	@for ID in $(LOWER_DISH_IDS); do \
+	for ID in $(LOWER_DISH_IDS); do \
 		if [[ ! -z "$(CI_COMMIT_TAG)" ]]; then \
 			DISH_NAMESPACE=staging-dish-lmc-$$ID; \
 		elif [[ "$(CI_PIPELINE_SOURCE)"=="merge_request_event" ]]; then \
