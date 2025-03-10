@@ -32,7 +32,7 @@ taranta-deploy-all-tangogql-instances:
 		else \
 			DISH_NAMESPACE=integration-dish-lmc-$$ID; \
 		fi; \
-		echo "##### Deploying TangoGQL for Dish $$ID... #####"
+		echo "##### Deploying TangoGQL for Dish $$ID... #####"; \
 		make taranta-deploy-dish-tangogql DISH_ID=$$ID DISH_NAMESPACE=$$DISH_NAMESPACE; \
 	done
 
