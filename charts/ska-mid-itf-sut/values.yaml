@@ -50,13 +50,15 @@ ska-ser-config-inspector:
   enabled: true
 
 ska-mid-cbf-tdc-mcs:
-  global:
-    labels:
-      skao.int/clone-pvc: cbf-ec-pvc
-      skao.int/clone-pvc-namespace:  cbf-engineering-console
-  pvc:
-    storageClassName: ceph-cephfs
-    volumeMode: Filesystem
+  ############ TEMPORARY COMMIT - WAIT UNTIL MCS 1.1.3 ######## 
+  # global:
+  #   labels:
+  #     skao.int/clone-pvc: cbf-ec-pvc
+  #     skao.int/clone-pvc-namespace:  cbf-engineering-console
+  # pvc:
+  #   storageClassName: ceph-cephfs
+  #   volumeMode: Filesystem
+  ######## END TEMPORARY COMMIT - WAIT UNTIL MCS 1.1.3 ######## 
   enabled: true
   num_subarrays: 3
   hostInfo:
