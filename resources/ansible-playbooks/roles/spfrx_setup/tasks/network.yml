@@ -12,7 +12,7 @@
 
 - name: Submit SPFRx configuration to SPFRx hosts. 
   lineinfile:
-    path: /home/root/tmp_network_config.network 
+    path: /etc/systemd/network/00-eth.network
     line: "{{ spfrx_config_data.spfrx_configs[current_host_id] }}"
     create: true
   when: key_exists
