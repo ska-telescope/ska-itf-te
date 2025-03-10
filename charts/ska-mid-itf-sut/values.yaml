@@ -71,7 +71,6 @@ ska-mid-cbf-tmleafnode:
   enabled: true
 
 ska-csp-lmc-mid:
-  legacy_compatibility: true
   enabled: true
 
 ### tmc - also see tmc-values for DishIDs!
