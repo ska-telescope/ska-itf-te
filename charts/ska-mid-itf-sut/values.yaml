@@ -50,15 +50,13 @@ ska-ser-config-inspector:
   enabled: true
 
 ska-mid-cbf-tdc-mcs:
-  ############ TEMPORARY COMMIT - WAIT UNTIL MCS 1.1.3 ######## 
-  # global:
-  #   labels:
-  #     skao.int/clone-pvc: cbf-ec-pvc
-  #     skao.int/clone-pvc-namespace:  cbf-engineering-console
-  # pvc:
-  #   storageClassName: ceph-cephfs
-  #   volumeMode: Filesystem
-  ######## END TEMPORARY COMMIT - WAIT UNTIL MCS 1.1.3 ######## 
+  global:
+    labels:
+      skao.int/clone-pvc: cbf-ec-pvc
+      skao.int/clone-pvc-namespace:  cbf-engineering-console
+  pvc:
+    storageClassName: ceph-cephfs
+    volumeMode: Filesystem
   enabled: true
   num_subarrays: 3
   hostInfo:
@@ -110,6 +108,7 @@ ska-tmc-mid:
       CommandTimeout: 90
     subarraynode:
       CommandTimeOut: 300
+      CspScanInterfaceURL: "https://schema.skao.int/ska-csp-scan/2.2" # TEMPORARY COMMIT - not to be overwritten in makefile
   resources:
     # limits:
     #   cpu: 800m
