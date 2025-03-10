@@ -100,6 +100,7 @@ k8s-test-runner:
     - mkdir -p build
     - env > build/environment.txt
   script:
+    - make k8s-info CLUSTER_HEADLAMP_BASE_URL=https://k8s.miditf.internal.skao.int/headlamp CLUSTER_DATACENTRE=mid-itf CLUSTER_MONITOR=mid-itf-monitor
     - make integration-test TANGO_HOST=$TANGO_DATABASE_DS.$KUBE_NAMESPACE.svc.$CLUSTER_DOMAIN:10000 || true
     - echo "Test command exit code - $(cat build/status)"
     - |
