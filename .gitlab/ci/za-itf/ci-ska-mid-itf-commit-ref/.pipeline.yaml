@@ -23,7 +23,7 @@
     SERVICE_ACCOUNT: ci-svc-ska-miditf-$CI_COMMIT_REF_NAME
     CBF_HW_IN_THE_LOOP: "false"
     DISH_LMC_IN_THE_LOOP: "true"
-    K8S_TIMEOUT: 420
+    K8S_TIMEOUT: 420s
 
 .on-demand-stage:
   stage: on_demand_itf_sut
