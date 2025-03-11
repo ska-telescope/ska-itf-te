@@ -2,6 +2,21 @@
 
 ## Unreleased
 
+## 25.6.3
+* [AT-2354] - Output links to Grafana dashboards and Kibana logs for the SUT namespace whenever integration-test is called
+* [AT-2611] - Updated Ansible scripts with most recent users of the ITF jump host and corrected SPFRx network configurations
+* [AT-2766] - SKB-606 resolutions:
+                Bumped TMC to v0.25.0;
+                Bumped SPFRx deployer to v0.5.0;
+                Bumped DishLMC chart to v7.0.0;
+                Added DishLMC patch image version 7.0.0-dev.ca11be44a (temporary workaroud);
+                Removed CSP SubarrayLeafnode patch image (workaround)
+
+* [AT-2805] - Gitlab e2e test job targets one specific test
+* [AT-2612] - PlantUML Sequence diagrammes generated while using Notebooks and during CI pipeline tests, saved with artefacts
+* [AT-2726] - Added pod to SDP namespace to check if PVC is available;
+              also moved PVC patch info
+
 ## 25.6.2
 * [AT-2647] - Split end-to-end tests - ON and OFF commands now separated from Observation sequences
 
