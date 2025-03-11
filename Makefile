@@ -317,7 +317,11 @@ XRAY_TEST_RESULT_FILE ?= build/reports/cucumber.json
 XRAY_EXECUTION_CONFIG_FILE ?= tests/xray-config.json
 XRAY_EXTRA_OPTS=-v
 
-integration-test:
+CLUSTER_HEADLAMP_BASE_URL?=https://k8s.miditf.internal.skao.int/headlamp
+CLUSTER_DATACENTRE?=mid-itf
+CLUSTER_MONITOR?=mid-itf-monitor
+
+integration-test: k8s-info
 	@mkdir -p build
 	set -o pipefail; $(PYTHON_RUNNER) pytest $(INTEGRATION_TEST_SOURCE) $(INTEGRATION_TEST_ARGS); \
 	echo $$? > build/status
