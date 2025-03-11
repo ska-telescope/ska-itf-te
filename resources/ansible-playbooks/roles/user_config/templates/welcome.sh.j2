@@ -6,7 +6,7 @@ if id -nG "${USER}" | grep -vqw {{ team_primary_group }}; then
 fi
 
 case ${USER} in
-p.jordaan | a.debeer | j.coetzer)
+a.debeer | j.coetzer)
     WELCOME_STR="Welkom by {{ host_identifier }},"
     ;;
 *)

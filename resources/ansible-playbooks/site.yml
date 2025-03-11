@@ -65,9 +65,9 @@
   roles:
     - local_ssh
 
-# Configure raspberry pi (SPFC)
-- name: Setup raspberry_pi_spfc
+# Configure SPFRx (za-itf-sw)
+- name: Setup SPFRx
   hosts:
-    - raspberry_pi_spfc
+    - spfrx
   roles:
-    - role: update_spfc
+    - role: spfrx_setup
