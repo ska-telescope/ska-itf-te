@@ -2,4 +2,4 @@ all_hosts:
   - name: gaia
     ip: 10.165.3.7
   - name: raspberry_pi
-    ip: 10.165.3.11
+    ip: 10.165.3.15

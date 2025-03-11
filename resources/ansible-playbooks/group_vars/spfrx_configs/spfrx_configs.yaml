@@ -1,0 +1,56 @@
+spfrx_configs:
+    spfrx1: |
+      [Match]
+      Name=eth0
+
+      [Network]
+      Gateway=10.165.3.245
+      Netmask=255.255.255.0
+      Network=10.165.3.0
+      DNS=10.81.228.213
+      DNS=10.81.228.214
+
+      [Address]
+      Address=10.165.3.20/24
+
+    spfrx2: |
+      [Match]
+      Name=eth0
+
+      [Network]
+      Gateway=10.165.3.245
+      Netmask=255.255.255.0
+      Network=10.165.3.0
+      DNS=10.81.228.213
+      DNS=10.81.228.214
+
+      [Address]
+      Address=10.165.3.21/24
+
+    spfrx3: |
+      [Match]
+      Name=eth0
+
+      [Network]
+      Gateway=10.165.3.245
+      Netmask=255.255.255.0
+      Network=10.165.3.0
+      DNS=10.81.228.213
+      DNS=10.81.228.214
+
+      [Address]
+      Address=10.165.3.22/24
+
+    spfrx4: |
+      [Match]
+      Name=eth0
+
+      [Network]
+      Gateway=10.165.3.245
+      Netmask=255.255.255.0
+      Network=10.165.3.0
+      DNS=10.81.228.213
+      DNS=10.81.228.214
+
+      [Address]
+      Address=10.165.3.23/24
