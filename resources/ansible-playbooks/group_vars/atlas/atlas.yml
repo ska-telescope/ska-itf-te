@@ -17,7 +17,7 @@ team_groups:
     all: false
     create: true
     members:
-    - p.jordaan
+    - n.nzotho
     - a.debeer
 
 users_dir: ../../../../users/atlas
@@ -32,16 +32,19 @@ team_users:
     ssh_key_path: "{{ users_dir }}/mm/.ssh/id_rsa.pub"
   - name: n.nzotho
     ssh_key_path: "{{ users_dir }}/nn/.ssh/id_ed25519.pub"
-  - name: p.jordaan
-    ssh_key_path: "{{ users_dir }}/pj/.ssh/id_rsa.pub"
-  - name: t.tsotetsi
-    ssh_key_path: "{{ users_dir }}/tt/.ssh/id_ed25519.pub"
+  - name: ashley.naude
+    ssh_key_path: "{{ users_dir }}/an/.ssh/id_ed25519.pub"
   - name: vhulahani.manukha
     ssh_key_path: "{{ users_dir }}/vm/.ssh/id_rsa.pub"
+  - name: a.joseph
+    ssh_key_path: "{{ users_dir }}/aj/.ssh/id_rsa.pub"
+  - name: b.lunsky
+    ssh_key_path: "{{ users_dir }}/bl/.ssh/id_rsa.pub"
+
 remove_users:
   - g.leroux
-  - b.lunsky
-
+  - t.tsotetsi
+  - p.jordaan
 
 kube_admin_context: kubernetes-admin@kubernetes
 kube_context: atlas-integration-mid-kubernetes
