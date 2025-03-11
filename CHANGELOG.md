@@ -3,6 +3,7 @@
 ## Unreleased
 
 ## 25.6.3
+* [AT-2354] - Output links to Grafana dashboards and Kibana logs for the SUT namespace whenever integration-test is called
 * [AT-2611] - Updated Ansible scripts with most recent users of the ITF jump host and corrected SPFRx network configurations
 * [AT-2766] - SKB-606 resolutions:
                 Bumped TMC to v0.25.0;
