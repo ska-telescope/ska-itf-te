@@ -31,7 +31,7 @@ ska-dish-lmc:
       image:
         registry: registry.gitlab.com/ska-telescope/ska-mid-dish-manager
         image: ska-mid-dish-manager
-        tag: 7.0.0-dev.ca11be44a   # TEMPORARY COMMIT: workaround to unblock SKB-606 resolution 
+        tag: 7.0.0-dev.cdaaea0a2  # TEMPORARY COMMIT: SKB-809 fix validation 
   ska-mid-dish-ds-manager:
     enabled: true
   ska-mid-dish-simulators:
