@@ -675,7 +675,7 @@ def _(telescope_handlers, receptor_ids, scan_band, settings):
         ] = int(band_params["channel_count"])
 
         if settings["integration_factor"]:
-            ["csp"]["midcbf"]["correlation"]["processing_regions"][0][
+            configure_scan_json["csp"]["midcbf"]["correlation"]["processing_regions"][0][
                 "integration_factor"
             ] = int(settings["integration_factor"])
 
