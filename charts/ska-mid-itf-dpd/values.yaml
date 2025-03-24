@@ -1,8 +1,10 @@
+global:
+  data-product-pvc-name: shared-dataproduct-pvc
 ska-sdp-dataproduct-dashboard:
   ingress:
     hostname: https://k8s.miditf.internal.skao.int
   dataProductPVC:
-    name: shared-mnl
+    name: staging-pvc
     create:
       enabled: true
       size: 2Ti
