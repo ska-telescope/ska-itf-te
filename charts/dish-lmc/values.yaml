@@ -27,11 +27,12 @@ ska-dish-lmc:
     enabled: false
   ska-mid-dish-manager:
     enabled: true
-    dishmanager:
-      image:
-        registry: registry.gitlab.com/ska-telescope/ska-mid-dish-manager
-        image: ska-mid-dish-manager
-        tag: 7.0.0-dev.cdaaea0a2  # TEMPORARY COMMIT: SKB-809 fix validation 
+    # Leaving this here just as an example
+    # dishmanager:
+    #   image:
+    #     registry: registry.gitlab.com/ska-telescope/ska-mid-dish-manager
+    #     image: ska-mid-dish-manager
+    #     tag: 7.0.0-dev.cdaaea0a2
   ska-mid-dish-ds-manager:
     enabled: true
   ska-mid-dish-simulators:
