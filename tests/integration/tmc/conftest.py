@@ -288,6 +288,7 @@ def settings():
     settings["generate_sequence_diagram"] = (
         os.getenv("GENERATE_SEQUENCE_DIAGRAM", "false").lower() == "true"
     )
+    settings["artifact_dir"] = "config"
 
     return settings
 
@@ -528,6 +529,13 @@ def _(telescope_handlers, receptor_ids, settings):
     if (not tmc_central_node.isDishVccConfigSet) or (not k_value_correct):
         tmc_central_node.LoadDishCfg(json.dumps(dish_config_json))
         wait_for_event(tmc_central_node, "isDishVccConfigSet", True)
+
+        logger.debug(json.dumps(dish_config_json))
+
+        dish_config_artifact_path = f"{settings['artifact_dir']}/load_dish_config.json"
+        with open(dish_config_artifact_path, "w") as dish_config_file:
+            json.dump(dish_config_json, dish_config_file, indent=2)
+
         sleep(5)
 
     dish_vcc_config = json.loads(tmc.csp_master_leaf_node.dishVccConfig)
@@ -610,6 +618,12 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids, scan_band, settings):
 
     logger.info(f"PB ID: {pb_id}, EB ID: {eb_id}")
 
+    logger.debug(json.dumps(assign_resources_json))
+
+    assign_resources_artifact_path = f"{settings['artifact_dir']}/assign_resources.json"
+    with open(assign_resources_artifact_path, "w") as assign_resources_config_file:
+        json.dump(assign_resources_json, assign_resources_config_file, indent=4)
+
     tmc.subarray_node.AssignResources(json.dumps(assign_resources_json))
     wait_for_event(cbf_subarray, "obsState", ObsState.IDLE)
     wait_for_event(sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.IDLE)
@@ -661,11 +675,15 @@ def _(telescope_handlers, receptor_ids, scan_band, settings):
         ] = int(band_params["channel_count"])
 
         if settings["integration_factor"]:
-            configure_scan_json["csp"]["midcbf"]["correlation"]["processing_regions"][0][
+            ["csp"]["midcbf"]["correlation"]["processing_regions"][0][
                 "integration_factor"
             ] = int(settings["integration_factor"])
 
     logger.debug(json.dumps(configure_scan_json))
+
+    configure_scan_artifact_path = f"{settings['artifact_dir']}/configure_scan.json"
+    with open(configure_scan_artifact_path, "w") as configure_scan_config_file:
+        json.dump(configure_scan_json, configure_scan_config_file, indent=4)
 
     tmc.subarray_node.Configure(json.dumps(configure_scan_json))
     wait_for_event(tmc.csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.READY)
@@ -697,6 +715,12 @@ def _(telescope_handlers, scan_time, settings):
 
     if settings["override_scan_duration"]:
         scan_time = int(settings["override_scan_duration"])
+
+    logger.debug(json.dumps(scan_json))
+
+    scan_artifact_path = f"{settings['artifact_dir']}/scan.json"
+    with open(scan_artifact_path, "w") as scan_config_file:
+        json.dump(scan_json, scan_config_file, indent=2)
 
     tmc.subarray_node.Scan(scan_json)
     wait_for_event(tmc.sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.SCANNING)
