@@ -1497,7 +1497,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "ska001://mid-dish/dish-manager/ska001",
+          "device": "ska001://mid-dish/control/SKA001",
           "attribute": "state",
           "label": "State"
         },
@@ -1532,7 +1532,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "ska001://mid-dish/dish-manager/ska001",
+          "device": "ska001://mid-dish/control/SKA001",
           "attribute": "healthstate",
           "label": "healthState"
         },
@@ -1567,7 +1567,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "ska001://mid-dish/dish-manager/ska001",
+          "device": "ska001://mid-dish/control/SKA001",
           "attribute": "pointingstate",
           "label": "pointingState"
         },
@@ -1602,7 +1602,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "ska001://mid-dish/dish-manager/ska001",
+          "device": "ska001://mid-dish/control/SKA001",
           "attribute": "dishmode",
           "label": "dishMode"
         },
@@ -2127,7 +2127,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://ska_mid/tm_leaf_node/csp_master",
+          "device": "taranta://mid-tmc/leaf-node-csp/0",
           "attribute": "versionid",
           "label": "versionId"
         },
@@ -2162,7 +2162,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://ska_mid/tm_leaf_node/sdp_master",
+          "device": "taranta://mid-tmc/leaf-node-sdp/0",
           "attribute": "versionid",
           "label": "versionId"
         },
@@ -2197,7 +2197,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://ska_mid/tm_leaf_node/d0001",
+          "device": "taranta://mid-dish/leaf-node-dish/SKA001",
           "attribute": "versionid",
           "label": "versionId"
         },
@@ -2372,7 +2372,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "ska001://mid-dish/dish-manager/ska001",
+          "device": "ska001://mid-dish/control/SKA001",
           "attribute": "buildstate",
           "label": "buildState"
         },
@@ -2953,7 +2953,7 @@
       "type": "SPECTRUM_TABLE",
       "inputs": {
         "attribute": {
-          "device": "ska001://mid-dish/dish-manager/ska001",
+          "device": "ska001://mid-dish/control/SKA001",
           "attribute": "achievedpointing",
           "label": "achievedPointing"
         },
@@ -3004,7 +3004,7 @@
       "type": "SPECTRUM_TABLE",
       "inputs": {
         "attribute": {
-          "device": "ska001://mid-dish/dish-manager/ska001",
+          "device": "ska001://mid-dish/control/SKA001",
           "attribute": "desiredpointingaz",
           "label": "desiredPointingAz"
         },
@@ -3752,7 +3752,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "ska001://mid-dish/dish-manager/ska001",
+          "device": "ska001://mid-dish/control/SKA001",
           "attribute": "kvalue",
           "label": "kValue"
         },
@@ -4352,7 +4352,7 @@
       "type": "SPECTRUM_TABLE",
       "inputs": {
         "attribute": {
-          "device": "ska001://mid-dish/dish-manager/ska001",
+          "device": "ska001://mid-dish/control/SKA001",
           "attribute": "desiredpointingel",
           "label": "desiredPointingEl"
         },
