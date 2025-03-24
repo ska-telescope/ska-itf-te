@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 26.0.0
+* [AT-2856] - upgraded and pulled newly-named DPD chart
+* [AT-2811] - no longer creating our own PVC in DPD namespace - manage via Helm only
+* [AT-2855] - upgraded CSP.LMC to 1.0.0 and removed DishLMC custom image override
+* [AT-2843] - store command config strings as CI job artefacts
+
 ## 25.6.3
 * [AT-2354] - Output links to Grafana dashboards and Kibana logs for the SUT namespace whenever integration-test is called
 * [AT-2611] - Updated Ansible scripts with most recent users of the ITF jump host and corrected SPFRx network configurations
