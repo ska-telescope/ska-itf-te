@@ -24,13 +24,13 @@
             "device": "mid-dish/leaf-node-dish/SKA001"
           },
           {
-            "device": "ska_mid/tm_leaf_node/d0036"
+            "device": "mid-dish/leaf-node-dish/SKA036"
           },
           {
-            "device": "ska_mid/tm_leaf_node/d0063"
+            "device": "mid-dish/leaf-node-dish/SKA063"
           },
           {
-            "device": "ska_mid/tm_leaf_node/d0100"
+            "device": "mid-dish/leaf-node-dish/SKA100"
           }
         ],
         "precision": 2,
@@ -40,21 +40,21 @@
         "customAttributes": [
           {
             "attribute": {
-              "device": "mid-dish/leaf-node-dish/SKA001,ska_mid/tm_leaf_node/d0036,ska_mid/tm_leaf_node/d0063,ska_mid/tm_leaf_node/d0100",
+              "device": "mid-dish/leaf-node-dish/SKA001,mid-dish/leaf-node-dish/SKA036,mid-dish/leaf-node-dish/SKA063,mid-dish/leaf-node-dish/SKA100",
               "attribute": "dishmasterdevname",
               "label": "dishMasterDevName"
             }
           },
           {
             "attribute": {
-              "device": "mid-dish/leaf-node-dish/SKA001,ska_mid/tm_leaf_node/d0036,ska_mid/tm_leaf_node/d0063,ska_mid/tm_leaf_node/d0100",
+              "device": "mid-dish/leaf-node-dish/SKA001,mid-dish/leaf-node-dish/SKA036,mid-dish/leaf-node-dish/SKA063,mid-dish/leaf-node-dish/SKA100",
               "attribute": "buildstate",
               "label": "buildState"
             }
           },
           {
             "attribute": {
-              "device": "mid-dish/leaf-node-dish/SKA001,ska_mid/tm_leaf_node/d0036,ska_mid/tm_leaf_node/d0063,ska_mid/tm_leaf_node/d0100",
+              "device": "mid-dish/leaf-node-dish/SKA001,mid-dish/leaf-node-dish/SKA036,mid-dish/leaf-node-dish/SKA063,mid-dish/leaf-node-dish/SKA100",
               "attribute": "issubsystemavailable",
               "label": "isSubsystemAvailable"
             }

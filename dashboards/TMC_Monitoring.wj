@@ -2218,7 +2218,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://ska_mid/tm_leaf_node/d0036",
+          "device": "taranta://mid-dish/leaf-node-dish/SKA036",
           "attribute": "state",
           "label": "State"
         },
@@ -2253,7 +2253,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://ska_mid/tm_leaf_node/d0036",
+          "device": "taranta://mid-dish/leaf-node-dish/SKA036",
           "attribute": "healthstate",
           "label": "healthState"
         },
@@ -2474,7 +2474,7 @@
       "type": "LED_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://ska_mid/tm_leaf_node/d0036",
+          "device": "taranta://mid-dish/leaf-node-dish/SKA036",
           "attribute": "issubsystemavailable",
           "label": "isSubsystemAvailable"
         },
@@ -2574,7 +2574,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://ska_mid/tm_leaf_node/d0036",
+          "device": "taranta://mid-dish/leaf-node-dish/SKA036",
           "attribute": "versionid",
           "label": "versionId"
         },
@@ -2945,7 +2945,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://ska_mid/tm_leaf_node/d0036",
+          "device": "taranta://mid-dish/leaf-node-dish/SKA036",
           "attribute": "dishmode",
           "label": "dishMode"
         },
@@ -3150,7 +3150,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://ska_mid/tm_leaf_node/d0063",
+          "device": "taranta://mid-dish/leaf-node-dish/SKA063",
           "attribute": "state",
           "label": "State"
         },
@@ -3185,7 +3185,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://ska_mid/tm_leaf_node/d0100",
+          "device": "taranta://mid-dish/leaf-node-dish/SKA100",
           "attribute": "state",
           "label": "State"
         },
@@ -3220,7 +3220,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://ska_mid/tm_leaf_node/d0063",
+          "device": "taranta://mid-dish/leaf-node-dish/SKA063",
           "attribute": "healthstate",
           "label": "healthState"
         },
@@ -3356,7 +3356,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://ska_mid/tm_leaf_node/d0100",
+          "device": "taranta://mid-dish/leaf-node-dish/SKA100",
           "attribute": "healthstate",
           "label": "healthState"
         },
@@ -3391,7 +3391,7 @@
       "type": "LED_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://ska_mid/tm_leaf_node/d0100",
+          "device": "taranta://mid-dish/leaf-node-dish/SKA100",
           "attribute": "issubsystemavailable",
           "label": "isSubsystemAvailable"
         },
@@ -3422,7 +3422,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://ska_mid/tm_leaf_node/d0100",
+          "device": "taranta://mid-dish/leaf-node-dish/SKA100",
           "attribute": "versionid",
           "label": "versionId"
         },
@@ -3457,7 +3457,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://ska_mid/tm_leaf_node/d0100",
+          "device": "taranta://mid-dish/leaf-node-dish/SKA100",
           "attribute": "dishmode",
           "label": "dishMode"
         },
