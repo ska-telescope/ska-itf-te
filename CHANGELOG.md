@@ -3,7 +3,7 @@
 ## Unreleased
 
 ## 26.0.0
-* [AT-2856] - upgraded and pulled newly-named DPD chart
+* [AT-2856] - upgraded and pulled newly-named DPD chart to 0.10.0
 * [AT-2811] - no longer creating our own PVC in DPD namespace - manage via Helm only
 * [AT-2855] - upgraded CSP.LMC to 1.0.0 and removed DishLMC custom image override
 * [AT-2843] - store command config strings as CI job artefacts
