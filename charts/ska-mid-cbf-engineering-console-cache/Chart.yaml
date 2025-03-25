@@ -2,6 +2,6 @@ apiVersion: v2
 name: ska-mid-cbf-engineering-console-cache
 description: A Helm chart for deployment of a PVC for persisting the Engineering Console downloads at the Mid ITF
 type: application
-version: 26.0.0-rc.4
-appVersion: 26.0.0-rc.4
+version: 26.0.0
+appVersion: 26.0.0
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
