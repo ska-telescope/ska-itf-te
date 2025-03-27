@@ -16,7 +16,7 @@ TARANTA ?= false# Enable Taranta
 MINIKUBE ?= true ## Minikube or not
 EXPOSE_All_DS ?= true ## Expose All Tango Services to the external network (enable Loadbalancer service)
 SKA_TANGO_OPERATOR ?= true
-EXPOSE_DATABASE_DS ?= true## 
+EXPOSE_DATABASE_DS ?= true##
 TANGO_DATABASE_DS ?= tango-databaseds## TANGO_DATABASE_DS name
 TANGO_HOST ?= tango-databaseds:10000## TANGO_HOST connection to the Tango DS
 TANGO_SERVER_PORT ?= 45450## TANGO_SERVER_PORT - fixed listening port for local server
@@ -34,7 +34,7 @@ ifneq ($(COUNT),)
 # --count option is removed
 _COUNT ?= --count=$(COUNT)
 else
-_COUNT ?= 
+_COUNT ?=
 endif
 
 MARKS ?=## Additional Marks to add to pytests
@@ -43,13 +43,13 @@ MARKS ?=## Additional Marks to add to pytests
 ifneq ($(ADDMARKS),)
 	_MARKS ?= -m $(MARKS)
 else
-_MARKS ?= 
+_MARKS ?=
 endif
 EXIT_AT_FAIL ?=True## whether the pytest should exit immediately upon failure
 ifneq ($(EXIT_AT_FAIL),false)
 EXIT = -x
 else
-EXIT = 
+EXIT =
 endif
 
 INTEGRATION_TEST_SOURCE ?= tests/integration
@@ -96,7 +96,7 @@ endif
 SPFRX_TRL ?= $(DISH_ID)/$(SPFRX_FAMILY_NAME)/$(SPFRX_MEMBER_NAME)
 
 SPFRX_ADDRESS ?=localhost
-SPFRX_BIN ?=/usr/local/bin 
+SPFRX_BIN ?=/usr/local/bin
 SPFRX_LOCAL_DIR ?=artifacts
 SPFRX_SCRIPTS_DIR ?=scripts
 SPFRX_TANGO_INSTANCE ?=this-one
@@ -115,7 +115,7 @@ ifeq ($(SPFRX_IN_THE_LOOP), true)
 	--set ska-dish-lmc.ska-mid-dish-simulators.deviceServers.spfrxdevice.enabled=$(SPFRX_SIM_ENABLE)
 endif
 
-CBF_HW_IN_THE_LOOP ?= 
+CBF_HW_IN_THE_LOOP ?=
 CSP_PARAMS ?=
 ifeq ($(CBF_HW_IN_THE_LOOP),true)
 	CSP_PARAMS += --set ska-mid-cbf-engineering-console.enabled=true
@@ -129,7 +129,7 @@ ODA_PARAMS ?= --set ska-db-oda-umbrella.ska-db-oda.rest.skuid.url=$(SKUID_URL)
 ###################################################################
 ### THIS SECTION NEEDS REVIEW FROM SDP ARCHITECTS
 SDP_EXTRA_PARAMS ?=
-DPD_PARAMS ?= 
+DPD_PARAMS ?=
 
 ifeq ($(KUBE_APP),ska-mid-itf-dpd)
 	DPD_PARAMS += \
@@ -273,8 +273,8 @@ itf-check-te-hosts-online:
 
 check: itf-check-te-hosts-online
 
-theres-a-ghost: 
-	@kubectl get nodes -o=jsonpath="{.items[*]['metadata.name', 'status.capacity']}{'\n'}" | grep skao.int 
+theres-a-ghost:
+	@kubectl get nodes -o=jsonpath="{.items[*]['metadata.name', 'status.capacity']}{'\n'}" | grep skao.int
 
 spooky: itf-spookd-install theres-a-ghost
 
@@ -312,6 +312,9 @@ include .make/xray.mk
 
 # include logging tools
 include resources/makefiles/logs.mk
+
+# include Flux updates
+include resources/makefiles/fluxcd.mk
 
 XRAY_TEST_RESULT_FILE ?= build/reports/cucumber.json
 XRAY_EXECUTION_CONFIG_FILE ?= tests/xray-config.json
