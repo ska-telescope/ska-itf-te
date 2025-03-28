@@ -1,0 +1,20 @@
+team_name: wombat
+team_groups:
+  - name: wombat
+    primary: true
+    all: true
+    admin: false
+    create: true
+
+dir_name: ../../../../users/{{team_name}}
+team_users:
+  - name: j.engelbrecht
+    ssh_key_path: '{{dir_name}}/j.engelbrecht/.ssh/id_ed25519.pub'
+  - name: o.skivington
+    ssh_key_path: '{{dir_name}}/o.skivington/.ssh/id_ed25519.pub'
+  - name: u.pedersen
+    ssh_key_path: '{{dir_name}}/u.pedersen/.ssh/id_ed25519.pub'
+
+
+# Placeholder until we setup KUBECONFIG for WOMBAT.
+kube_context: wombat-kubernetes

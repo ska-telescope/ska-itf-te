@@ -54,6 +54,7 @@ ipykernel = "^6.29.5"
 
 [tool.poetry.group.ansible.dependencies]
 ansible = "^9.3.0"
+ansible-compat = "^25.1.0"
 ansible-lint = { version = "^24.2.0", markers = "platform_system != 'Windows'" }
 
 [build-system]
