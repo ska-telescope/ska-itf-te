@@ -130,6 +130,7 @@ docs-build:
   artifacts:
     paths:
       - build/sequence-diagram.puml
+      - config/
     when: always
   variables:
     INTEGRATION_TEST_SOURCE: tests/integration/tmc/test_end_to_end.py::test_e2e_via_tmc_slow
@@ -140,6 +141,7 @@ docs-build:
     PYTEST_ADDOPTS: --log-cli-level=INFO
   before_script:
     - make vars
+    - mkdir -p config
     - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
     - "make help | grep k8s-test"
     - bash .make/resources/gitlab_section.sh poetry "Poetry Install" poetry install
@@ -151,7 +153,7 @@ docs-build:
     - make integration-test
     - '[ -f build/status ] || (echo "Something went wrong with the test (no build/status file); exit 1")'
     - exit $(cat build/status)
-  
+
 .test-telescope-on-with-hw:
   extends:
     - .test-end-to-end-with-hw
