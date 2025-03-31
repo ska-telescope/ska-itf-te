@@ -57,7 +57,7 @@ ska-mid-dish-spfrx-talondx-console:
   logging_level: 4
 
 # SPFC
-ska-spfc-deployer:
+ska-mid-dish-spfc-deployer:
   enabled: false
 
 # TARANTA SUITE

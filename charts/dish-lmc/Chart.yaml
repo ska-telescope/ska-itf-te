@@ -37,11 +37,11 @@ dependencies:
     condition: ska-mid-dish-spfrx-talondx-console.enabled
 
   # SPFC DEPLOYER CHART
-  - name: ska-spfc-deployer
-    version: 0.1.8-dev.ce4fc8598
+  - name: ska-mid-dish-spfc-deployer
+    version: 0.1.8-dev.c218e6888
     # repository: https://artefact.skao.int/repository/helm-internal
     repository: https://gitlab.com/api/v4/projects/52159216/packages/helm/dev
-    condition: ska-spfc-deployer.enabled
+    condition: ska-mid-dish-spfc-deployer.enabled
 
   # SKA Configuration Inspector API
   # Gitlab Location: https://gitlab.com/ska-telescope/ska-ser-config-inspector
