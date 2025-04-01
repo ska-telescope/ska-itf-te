@@ -206,3 +206,12 @@ that the SPFC will be communicating with:
 
 global:
   dish_id: ska001
+
+## Vault
+
+Start a server in "dev" mode:
+
+```
+vault server -dev -dev-root-token-id="root"
+```
+

@@ -11,10 +11,6 @@ ENVIRONMENT ?= losberg
 ## HOOKS: none
 ## VARS:
 ##  VAULT_ADDR=[Vault server address]
-##	PRODUCT_NAME=[product name e.g. central-controller]
-##  VALUES_FILENAME=[e.g. values]
-##  DATACENTRE=[e.g. mid-aa]
-##  ENVIRONMENT=[e.g. losberg]
 ##  make target for reading Vault values
 vault-login: ## Get access to Vault
 	@echo "Log in for Vault access"
