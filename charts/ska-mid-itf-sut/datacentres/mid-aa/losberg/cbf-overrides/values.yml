@@ -1,0 +1,5 @@
+ska-mid-cbf-tdc-mcs:
+  num_subarrays: 3
+  hostInfo:
+    environment: "mid-aa"
+    clusterDomain: "mid.internal.skao.int"

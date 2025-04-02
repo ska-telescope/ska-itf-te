@@ -1,0 +1,27 @@
+ska-mid-cbf-tdc-mcs:
+  global:
+    labels:
+      skao.int/clone-pvc: cbf-ec-pvc
+      skao.int/clone-pvc-namespace:  cbf-engineering-console
+  pvc:
+    storageClassName: ceph-cephfs
+    volumeMode: Filesystem
+  enabled: true
+  num_subarrays: xxx
+  hostInfo:
+    environment: "mid-xxx"
+    clusterDomain: "xxx.internal.skao.int"
+
+ska-mid-cbf-engineering-console:
+  enabled: false
+  # Comment section below to use engineering-console image from CAR
+  # Uncomment section below to use engineering-console image from gitlab
+  # engineeringconsole:
+  #   image:
+  #     registry: registry.gitlab.com/ska-telescope/ska-mid-cbf-engineering-console
+  #     image: ska-mid-cbf-engineering-console
+  #     tag: 0.10.8-dev.c9206d147
+  #     pullPolicy: IfNotPresent
+
+ska-mid-cbf-tmleafnode:
+  enabled: true
