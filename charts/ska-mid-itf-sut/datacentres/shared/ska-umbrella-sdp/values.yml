@@ -1,0 +1,15 @@
+ska-sdp:
+  helmdeploy:
+    enableNADClusterRole: true
+  legacy_compatibility: true
+  enabled: true
+  lmc:
+    prefix: xxx
+    nsubarray: xxx
+  data-pvc:
+    create:
+      enabled: true
+      size: 2Ti
+      storageClassName: ceph-cephfs
+  ska-tango-base:
+    enabled: false

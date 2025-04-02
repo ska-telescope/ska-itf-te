@@ -1,0 +1,10 @@
+ska-sdp:
+  lmc:
+    prefix: mid
+    nsubarray: 3
+
+# Temporary configuration for PVC
+# See templates/pvc.yaml
+temp_sdp_pvc:
+  dpd_namespace: ska-dpd
+  dpd_pvc: shared-mnl
