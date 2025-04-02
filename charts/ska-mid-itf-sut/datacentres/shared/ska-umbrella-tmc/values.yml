@@ -1,0 +1,33 @@
+ska-tmc-mid:
+  telescope: SKA-xxx
+  ska-tango-base:
+    enabled: false
+  deviceServers:
+    mocks:
+      enabled: true
+      dish: true
+      csp: false
+      sdp: false
+    centralnode:
+      subarray_count: xxx
+      DishVccConfig:
+        DishVccUri: "xxx"
+        DishVccFilePath: "xxx"
+    cspsubarrayleafnode:
+      TelmodelSource: "xxx"
+      TelmodelPath: "xxx"
+      # DelayCadence: 10.0
+      # DelayValidityPeriod: 20.0
+      # DelayModelTimeInAdvance: 30
+      # SleepTime: 1.5
+      CommandTimeOut: 300
+    sdpsubarrayleafnode:
+      CommandTimeout: 90
+    subarraynode:
+      CommandTimeOut: 300
+      CspScanInterfaceURL: "https://schema.skao.int/ska-csp-scan/2.2" # TEMPORARY COMMIT - not to be overwritten in makefile
+  resources:
+    # limits:
+    #   cpu: 800m
+    requests:
+      cpu: 400m
