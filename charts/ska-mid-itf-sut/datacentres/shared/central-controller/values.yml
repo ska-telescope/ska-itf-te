@@ -1,0 +1,40 @@
+ska-tango-base:
+  itango:
+    enabled: true
+  tangodb:
+    use_pv: true
+
+# TARANTA
+ska-tango-taranta:
+  enabled: true
+  TANGO_DBS: ["ska001", "ska036", "ska063", "ska100"]
+  # tango_dbs: [] # This is an empty list if there are no connections to external tangoDBs. Override during deploy-time using `helm install --set ...`
+  tangogql:
+    replicas: 1
+    resources:
+      requests:
+        cpu: 600m # 600m = 0.6 CPU
+        memory: 512Mi # 512Mi = 0.5 GB mem
+      limits:
+        cpu: 1000m # 1000m = 1 CPU
+        memory: 1024Mi # 1024Mi = 1 GB mem
+
+# TANGOGQL
+tangogql:
+  tangoDB: taranta # This is the name of the TangoDB that should always be set first when deploying a multiDB Taranta system
+  enabled: true
+  ska-tango-base:
+    enabled: false
+  ska-tango-examples:
+    enabled: false
+
+# CIA
+ska-ser-config-inspector:
+  enabled: true
+
+ska-csp-lmc-mid:
+  enabled: true
+
+# helpers
+ska-log-consumer:
+  enabled: false
