@@ -6,7 +6,7 @@ global:
   dish_suffix: "elt/master"
   minikube: false
   tango_host: tango-databaseds:10000
-  facility: mid-xxx
+  facility: xxx-xxx
   operator: true
   exposeAllDS: true
   data-product-pvc-name: test-pvc
