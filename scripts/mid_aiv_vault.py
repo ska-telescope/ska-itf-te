@@ -41,7 +41,7 @@ class kv1adapter(hvac.adapters.Adapter):
         return self.the_token
 
     def request(self, method, url, headers=None, raise_exception=True, **kwargs):
-        _module_logger.info("Request")
+        _module_logger.info("Request method %s url %s headers %s kwargs %s", method, url, headers, kwargs)
 
 
 def usage(p_name: str) -> None:
