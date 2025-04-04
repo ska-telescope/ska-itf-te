@@ -1,1 +1,1 @@
-{{- include "ska-ser-config-inspector.chartinfo.tpl" . -}}
+# {{- include "ska-ser-config-inspector.chartinfo.tpl" . -}}
