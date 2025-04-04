@@ -1,85 +1,80 @@
-# Makefile targets for updating values.yml in Vault
+# Makefile targets for controlling flux
 
-VAULT_ADDR ?= https://vault.skao.int
-PRODUCT_NAME ?= central-controller
-VALUES_FILENAME ?= value
-DATACENTRE ?= mid-aa
-ENVIRONMENT ?= losberg
+GIT_REPO ?= ska-mid-itf
+GIT_BRANCH ?= ""
+K8S_NAMESPACE ?= ska-mid-helmreleases
+KUSTOM_NAME ?= foo
 
-## TARGET: vault-login
-## SYNOPSIS: target for logging on Vault
+ifeq ($(GIT_BRANCH), "")
+GIT_BRANCH := $(shell git branch | grep ^\* | cut -c3-)
+endif
+
+## TARGET: flux-suspend
+## SYNOPSIS: target for suspending resources
 ## HOOKS: none
 ## VARS:
-##  VAULT_ADDR=[Vault server address]
-##  make target for reading Vault values
-vault-login: ## Get access to Vault
-	@echo "Log in for Vault access"
-	@echo "For the token, navigate to $(VAULT_ADDR)/ui/vault/dashboard"
-	vault login -address $(VAULT_ADDR)
+##  GIT_REPO=[Git repository name]
+##  K8S_NAMESPACE=[Kubernetes namespace]
+##  make target for suspending resources
+flux-suspend: ## Suspend resources
+	@echo "Suspend flux resources for git repository $(GIT_REPO) and namespace $(K8S_NAMESPACE)"
+	flux suspend source git $(GIT_REPO) -n $(K8S_NAMESPACE)
 
-## TARGET: vault-status
-## SYNOPSIS: target for checking Vault status
+## TARGET: flux-resume
+## SYNOPSIS: target for resuming suspended resources
 ## HOOKS: none
 ## VARS:
-##  VAULT_ADDR=[Vault server address]
-##  make target for reading Vault status
-vault-status: ## Check Vault status
-	@echo "Check Vault status"
-	@echo "Server: $(VAULT_ADDR)"
-	vault status -address $(VAULT_ADDR)
+##  GIT_REPO=[Git repository name]
+##  K8S_NAMESPACE=[Kubernetes namespace]
+##  make target for resuming suspended resources
+flux-resume: ## Resume suspended resources
+	@echo "Resume flux resources for git repository $(GIT_REPO) and namespace $(K8S_NAMESPACE)"
+	flux resume source git $(GIT_REPO) -n $(K8S_NAMESPACE)
 
-## TARGET: vault-get-values
-## SYNOPSIS: target for getting values from Vault
+## TARGET: flux-suspend-kustomization
+## SYNOPSIS: target for suspending kustomization
 ## HOOKS: none
 ## VARS:
-##  VAULT_ADDR=[Vault server address]
-##  VALUES_FILENAME=[e.g. values]
-##  DATACENTRE=[Data centre e.g. mid-aa]
-##  ENVIRONMENT=[Environment e.g. losberg]
-##	PRODUCT_NAME=[product name e.g. central-controller]
-##  make target for reading Vault values
-vault-get-values: ## Get values from Vault
-	@echo "Get Vault values"
-	@echo "Data centre: $(DATACENTRE)"
-	@echo "Environment: $(ENVIRONMENT)"
-	@echo "Product: $(PRODUCT_NAME)"
-	vault kv get -address $(VAULT_ADDR) -mount=$(DATACENTRE) $(ENVIRONMENT)/$(PRODUCT_NAME)
+##  KUSTOM_NAME=[kustomization name]
+##  make target for suspending kustomization
+flux-suspend-kustomization: ## Suspend kustomization
+	@echo "Suspend flux kustomization $(KUSTOM_NAME)"
+	flux suspend kustomization $(KUSTOM_NAME)
 
-## TARGET: vault-update-values
-## SYNOPSIS: target for updating values in Vault
+## TARGET: flux-resume-kustomization
+## SYNOPSIS: target for resuming suspended kustomization
 ## HOOKS: none
 ## VARS:
-##  VAULT_ADDR=[Vault server address]
-##	PRODUCT_NAME=[product name e.g. central-controller]
-##  VALUES_FILENAME=[e.g. values]
-##  DATACENTRE=[Data centre e.g. mid-aa]
-##  ENVIRONMENT=[e.g. losberg]
-##  make target for updating Vault values
-vault-update-values: ## Update values in Vault
-	@echo "Update Vault values"
+##  KUSTOM_NAME=[kustomization name]
+##  make target for resuming suspended kustomization
+flux-resume-kustomization: ## Resume suspended kustomization
+	@echo "Resume flux kustomization $(KUSTOM_NAME)"
+	flux resume kustomization $(KUSTOM_NAME)
 
-## TARGET: vault-new-values
-## SYNOPSIS: target for creating values in Vault
+## TARGET: flux-delete-kustomization
+## SYNOPSIS: target for deleting suspended kustomization
 ## HOOKS: none
 ## VARS:
-##  VAULT_ADDR=[Vault server address]
-##	PRODUCT_NAME=[product name e.g. central-controller]
-##  VALUES_FILENAME=[File name e.g. value]
-##  DATACENTRE=[Data centre e.g. mid-aa]
-##  ENVIRONMENT=[e.g. losberg]
-##  make target for creating Vault values
-vault-new-values: ## Create new values in Vault
-	@echo "New Vault values"
+##  KUSTOM_NAME=[kustomization name]
+##  make target for deleting suspended kustomization
+flux-delete-kustomization: ## Delete kustomization
+	@echo "Resume flux kustomization $(KUSTOM_NAME)"
+	flux delete kustomization $(KUSTOM_NAME)
 
-## TARGET: vault-new-version
-## SYNOPSIS: target for creating a new version in Vault
+## TARGET: get-current-branch
+## SYNOPSIS: target for getting current git branch
 ## HOOKS: none
 ## VARS:
-##  VAULT_ADDR=[Vault server address]
-##	PRODUCT_NAME=[Product name e.g. central-controller]
-##  VALUES_FILENAME=[File name e.g. values]
-##  DATACENTRE=[Data centre e.g. mid-aa]
-##  ENVIRONMENT=[e.g. losberg]
-##  make target for updating Vault version
-vault-new-version: ## Create new version in Vault
-	@echo "Set Vault version"
+##  GIT_REPO=[Git repository name]
+##  make target for getting current git branch
+get-current-branch: ## get current git branch
+	@echo $(GIT_BRANCH)
+
+## TARGET: set-current-branch
+## SYNOPSIS: target for setting current git branch
+## HOOKS: none
+## VARS:
+##  GIT_BRANCH=[Git branch name]
+##  make target for setting current git branch
+set-current-branch: ## set current git branch
+	@git checkout $(GIT_BRANCH)

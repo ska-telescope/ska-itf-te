@@ -316,6 +316,9 @@ include resources/makefiles/logs.mk
 # include Flux updates
 include resources/makefiles/fluxcd.mk
 
+# include Vault queries
+include resources/makefiles/vault.mk
+
 XRAY_TEST_RESULT_FILE ?= build/reports/cucumber.json
 XRAY_EXECUTION_CONFIG_FILE ?= tests/xray-config.json
 XRAY_EXTRA_OPTS=-v

@@ -339,6 +339,11 @@ def main(y_arg: list) -> int:
             secrets_data_path = arg
         elif opt in ("-e", "--empty"):
             create_empty = True
+        elif opt in ("-E", "--engines"):
+            if "," in arg:
+                secret_engines = arg.split(",")
+            else:
+                secret_engines = [arg]
         elif opt in ("-F", "--format"):
             data_format = arg.lower()
             if data_format not in DATA_FORMATS:
