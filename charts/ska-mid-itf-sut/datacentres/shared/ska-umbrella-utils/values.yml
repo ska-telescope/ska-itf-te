@@ -1,0 +1,10 @@
+ska-csp-lmc-mid:
+  enabled: true
+
+# CIA
+ska-ser-config-inspector:
+  enabled: true
+
+# helpers
+ska-log-consumer:
+  enabled: false

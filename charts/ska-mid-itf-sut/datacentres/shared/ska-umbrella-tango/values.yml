@@ -27,14 +27,3 @@ tangogql:
     enabled: false
   ska-tango-examples:
     enabled: false
-
-# CIA
-ska-ser-config-inspector:
-  enabled: true
-
-ska-csp-lmc-mid:
-  enabled: true
-
-# helpers
-ska-log-consumer:
-  enabled: false
