@@ -16,6 +16,7 @@ namespace = os.getenv("KUBE_NAMESPACE")
 
 logger = logging.getLogger(__name__)
 
+
 @pytest.mark.skip(reason="Requires ADR-9 name updates in skallop")  # TEMPORARY COMMIT
 @pytest.mark.skamid
 @scenario(
