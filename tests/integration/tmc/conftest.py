@@ -28,11 +28,11 @@ class TMC:
 
     def __init__(self):
         """."""
-        self.central_node = DeviceProxy("ska_mid/tm_central/central_node")
-        self.subarray_node = DeviceProxy("ska_mid/tm_subarray_node/1")
-        self.sdp_subarray_leaf_node = DeviceProxy("ska_mid/tm_leaf_node/sdp_subarray01")
-        self.csp_master_leaf_node = DeviceProxy("ska_mid/tm_leaf_node/csp_master")
-        self.csp_subarray_leaf_node = DeviceProxy("ska_mid/tm_leaf_node/csp_subarray01")
+        self.central_node = DeviceProxy("mid-tmc/central-node/0")
+        self.subarray_node = DeviceProxy("mid-tmc/subarray/01")
+        self.sdp_subarray_leaf_node = DeviceProxy("mid-tmc/subarray-leaf-node-sdp/01")
+        self.csp_master_leaf_node = DeviceProxy("mid-tmc/leaf-node-csp/0")
+        self.csp_subarray_leaf_node = DeviceProxy("mid-tmc/subarray-leaf-node-csp/01")
 
         proxies = [
             self.central_node,
@@ -63,7 +63,7 @@ class TMC:
         :rtype: DeviceProxy
         """
         dish_number = int(dish_id.lower().split("ska", maxsplit=1)[1])
-        dp = DeviceProxy(f"ska_mid/tm_leaf_node/d{dish_number:04}")
+        dp = DeviceProxy(f"mid-tmc/leaf-node-dish/d{dish_number:04}")
         assert dp.ping() > 0
         return dp
 
