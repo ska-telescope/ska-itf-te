@@ -28,11 +28,8 @@ copyright = "Adriaan de Beer, adebeer@sarao.ac.za"
 author = "ATLAS Team"
 
 # The full version, including alpha/beta/rc tags
-<<<<<<< HEAD
+
 release = "26.1.0rc3"
-=======
-release = "26.1.0"
->>>>>>> 7bde4a96 (AT-2906 bump-minor-release updates)
 
 # -- General configuration ---------------------------------------------------
 
