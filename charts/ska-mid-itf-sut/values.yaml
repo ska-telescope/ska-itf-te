@@ -130,8 +130,8 @@ ska-sdp:
       storageClassName: ceph-cephfs
   ska-tango-base:
     enabled: false
-  ska-sdp-qa:
-    enabled: false
+  # ska-sdp-qa:
+  #   enabled: false
 
 # helpers
 ska-log-consumer:
