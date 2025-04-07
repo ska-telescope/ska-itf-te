@@ -16,7 +16,7 @@ namespace = os.getenv("KUBE_NAMESPACE")
 
 logger = logging.getLogger(__name__)
 
-
+@pytest.mark.skip(reason="Requires ADR-9 name updates in skallop")  # TEMPORARY COMMIT
 @pytest.mark.skamid
 @scenario("features/configure_unknown_state_alarm.feature", "Configure Alarm for UNKNOWN State")
 def test_tmc_alarm_for_state_unknown():
