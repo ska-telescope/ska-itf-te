@@ -62,7 +62,6 @@ class TMC:
         :return: _description_
         :rtype: DeviceProxy
         """
-        dish_number = int(dish_id.lower().split("ska", maxsplit=1)[1])
         dp = DeviceProxy(f"mid-tmc/leaf-node-dish/{dish_id}")
         assert dp.ping() > 0
         return dp
