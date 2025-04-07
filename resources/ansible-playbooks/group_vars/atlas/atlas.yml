@@ -40,6 +40,8 @@ team_users:
     ssh_key_path: "{{ users_dir }}/aj/.ssh/id_rsa.pub"
   - name: b.lunsky
     ssh_key_path: "{{ users_dir }}/bl/.ssh/id_rsa.pub"
+  - name: d.horn
+    ssh_key_path: "{{ users_dir }}/dh/.ssh/id_rsa.pub"
 
 remove_users:
   - g.leroux
