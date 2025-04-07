@@ -131,7 +131,7 @@ ska-sdp:
   ska-tango-base:
     enabled: false
   ska-sdp-qa:
-    enabled: false
+    enabled: true
 
 # helpers
 ska-log-consumer:
