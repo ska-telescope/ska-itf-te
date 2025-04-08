@@ -512,6 +512,8 @@ def _(telescope_handlers, receptor_ids, settings):
     csp_subarray_leaf_node = tmc.csp_subarray_leaf_node
     cbf_fspcorrsubarray = cbf.fspcorrsubarray
 
+    sim_mode = settings["sim_mode"]
+
     # Load DishVCCConfig
     CBF_CONFIGS = f"{settings['data_dir']}/cbf"
     DISH_CONFIG_FILE = f"{CBF_CONFIGS}/sys_params/load_dish_config.json"
@@ -564,9 +566,10 @@ def _(telescope_handlers, receptor_ids, settings):
     wait_for_event(tmc_central_node, "telescopeState", DevState.ON)
     # CBF On state indication is a combination of controller state and talon board health state
     wait_for_event(cbf.controller, "state", DevState.ON)
-    for i in range(1, len(receptor_ids)+1):
-        talon_board_dp = cbf.get_talon_board_proxy(i)
-        wait_for_event(talon_board_dp, "healthState", HealthState.OK)
+    if not sim_mode:
+        for i in range(1, len(receptor_ids)+1):
+            talon_board_dp = cbf.get_talon_board_proxy(i)
+            wait_for_event(talon_board_dp, "healthState", HealthState.OK)
 
     assert tmc_central_node.telescopeState == DevState.ON
     for receptor in RECEPTORS:
