@@ -1,2 +1,4 @@
 global:
+  ska-tango-archiver:
+    enabled: true
   facility: mid-aa

@@ -1,6 +1,6 @@
 global:
   ska-tango-archiver:
-    enabled: true
+    enabled: xxx
   # Used by TMC dishleafnode for Dish LMC device identifier triplet.
   # The TMC centralnode's values are hardcoded at the moment.
   dish_suffix: "elt/master"
