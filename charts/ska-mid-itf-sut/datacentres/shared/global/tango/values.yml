@@ -1,0 +1,14 @@
+ska-tango-base:
+  itango:
+    enabled: true
+  tangodb:
+    use_pv: true
+
+# TANGOGQL
+tangogql:
+  tangoDB: taranta # This is the name of the TangoDB that should always be set first when deploying a multiDB Taranta system
+  enabled: true
+  ska-tango-base:
+    enabled: false
+  ska-tango-examples:
+    enabled: false

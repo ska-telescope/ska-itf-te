@@ -1,9 +1,3 @@
-ska-tango-base:
-  itango:
-    enabled: true
-  tangodb:
-    use_pv: true
-
 # TARANTA
 ska-tango-taranta:
   enabled: true
@@ -19,11 +13,10 @@ ska-tango-taranta:
         cpu: 1000m # 1000m = 1 CPU
         memory: 1024Mi # 1024Mi = 1 GB mem
 
-# TANGOGQL
-tangogql:
-  tangoDB: taranta # This is the name of the TangoDB that should always be set first when deploying a multiDB Taranta system
+# CIA
+ska-ser-config-inspector:
   enabled: true
-  ska-tango-base:
-    enabled: false
-  ska-tango-examples:
-    enabled: false
+
+# helpers
+ska-log-consumer:
+  enabled: false
