@@ -1,6 +1,7 @@
 # Version History
 
 ## Unreleased
+* [AT-2885] - add make targets for flux and vault, with support script
 
 ## 26.0.0
 * [AT-2856] - upgraded and pulled newly-named DPD chart to 0.10.0
