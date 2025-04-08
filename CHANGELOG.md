@@ -3,6 +3,19 @@
 ## Unreleased
 * [AT-2885] - add make targets for flux and vault, with support script
 
+## 26.1.0
+* [AT-2906] - TMC name changes (ADR-9)
+            - dish leafnode naming fixes (ADR-9)
+            - alarm rules in tests with new names (ADR-9)
+            - Upgraded TMC
+            - Upgraded CBF.MCS and CBF.EC
+            - Upgraded Archiver
+            - Disabled Taranta (temporary - SKB-850}
+            - Disabled TangoGQL (temporary - SKB-850}
+            - Disabled CIA (temporary - SKB-850}
+            - Disabled all tests except end2end test until name changes are incorporated into Skallop (ADR-9)
+* [AT-2897] - Upgraded Telescope Model to work with latest product versions
+
 ## 26.0.0
 * [AT-2856] - upgraded and pulled newly-named DPD chart to 0.10.0
 * [AT-2811] - no longer creating our own PVC in DPD namespace - manage via Helm only
