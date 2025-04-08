@@ -8,5 +8,5 @@
 	shallow = true
 [submodule ".jupyter-notebooks"]
 	path = .jupyter-notebooks
-	url = ../ska-mid-jupyter-notebooks.git
+	url = https://gitlab.com/ska-telescope/ska-mid-jupyter-notebooks
 	shallow = true
