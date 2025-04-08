@@ -1,6 +1,7 @@
 # Version History
 
 ## Unreleased
+* [AT-2884] - refactor values.yml files in preparation for Vault usage and access control
 
 ## 26.1.0
 * [AT-2906] - TMC name changes (ADR-9)
