@@ -11,7 +11,7 @@ from typing import Any, Generator, List, Tuple
 
 import pytest
 from pytest_bdd import given, parsers, then, when
-from ska_control_model import ObsState
+from ska_control_model import ObsState, HealthState
 from tango import DeviceProxy, DevState, EventType
 
 from scripts.sequence_diagrammer.generate_sequence_diagram import sequenceDiagrammer
@@ -89,6 +89,16 @@ class CBF:
         self.subarray = DeviceProxy("mid_csp_cbf/sub_elt/subarray_01")
         self.fspcorrsubarray = DeviceProxy("mid_csp_cbf/fspcorrsubarray/01_01")
 
+    def get_talon_board_proxy(self, board_num) -> DeviceProxy:
+        """.
+
+        :return: _description_
+        :rtype: DeviceProxy
+        """
+
+        dp = DeviceProxy(f"mid_csp_cbf/talon_board/{board_num:03}")
+        assert dp.ping() > 0
+        return dp
 
 class CSP:
     """Helper class containing CSP specific details such as device names and proxies."""
@@ -552,7 +562,11 @@ def _(telescope_handlers, receptor_ids, settings):
 
     tmc_central_node.TelescopeOn()
     wait_for_event(tmc_central_node, "telescopeState", DevState.ON)
-    sleep(120)  # TODO: Remove once we know how to properly check that the CBF is ON
+    # CBF On state indication is a combination of controller state and talon board health state
+    wait_for_event(cbf.controller, "state", DevState.ON)
+    for i in range(1, len(receptor_ids)+1):
+        talon_board_dp = cbf.get_talon_board_proxy(i)
+        wait_for_event(talon_board_dp, "healthState", HealthState.OK)
 
     assert tmc_central_node.telescopeState == DevState.ON
     for receptor in RECEPTORS:
