@@ -7,7 +7,7 @@
     SPFRX_TANGO_INSTANCE: rxpu-1
     SPFRX_ADDRESS: 10.165.3.20
     SPFRX_IN_THE_LOOP: "false"
-    #SPFC_IN_THE_LOOP: "false"
+    SPFC_IN_THE_LOOP: "false"
     SPFC_INSTANCE: spfc-devkit
 
 1-deploy-dishlmc-ska001:
