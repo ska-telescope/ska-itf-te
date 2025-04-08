@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 26.1.1
+* [AT-2912] - Added ska-mid-cbf-tdc-tmleafnode chart to enable CBF verification tests. Disabled by default.
+* [AT-2917] - Upgraded CSP to v1.0.1
+
 ## 26.1.0
 * [AT-2906] - TMC name changes (ADR-9)
             - dish leafnode naming fixes (ADR-9)
