@@ -1,18 +1,20 @@
 #!/usr/bin/python
+"""Read information from vault."""
 
 import getopt
-import hvac
 import json
 import logging
 import os
 import subprocess
 import sys
+from typing import Any
+
+import hvac  # type: ignore[import-untyped]
 import yaml
 
 LOG_LEVEL = logging.WARNING
 logging.basicConfig(level=LOG_LEVEL)
 _module_logger = logging.getLogger(__name__)
-
 
 
 DEFAULT_URL = "http://127.0.0.1:8200"
@@ -23,10 +25,7 @@ DEFAULT_DATA_FORMAT = "yaml"
 
 
 class kv1adapter(hvac.adapters.Adapter):
-    """
-    Nothing to see here.
-    """
-
+    """Nothing to see here."""
 
     def __init__(
         self,
@@ -45,38 +44,69 @@ class kv1adapter(hvac.adapters.Adapter):
     ):
         """
         Nothing to see here.
+
+        :param base_uri: base URI
+        :param token: token
+        :param cert: certificate
+        :param verify: verification
+        :param timeout: timeout
+        :param proxies: proxy stuff
+        :param allow_redirects: allow redirects
+        :param session: session
+        :param namespace: namespace
+        :param ignore_exceptions: ignore exceptions
+        :param strict_http: strict HTTP
+        :param request_header: request header
         """
         self.the_token = token
         super().__init__(
-            base_uri, token, cert, verify, timeout, proxies, allow_redirects, session,
-            namespace, ignore_exceptions, strict_http, request_header
+            base_uri,
+            token,
+            cert,
+            verify,
+            timeout,
+            proxies,
+            allow_redirects,
+            session,
+            namespace,
+            ignore_exceptions,
+            strict_http,
+            request_header,
         )
 
-    def get_login_token(self, response):
+    def get_login_token(self, response) -> Any:
         """
         Nothing to see here.
+
+        param response: mythical stuff
+        :returns: mythical token
         """
         _module_logger.info("Read token from '%s'", response)
         return self.the_token
 
-    def request(self, method, url, headers=None, raise_exception=True, **kwargs):
+    def request(
+        self, method, url, headers=None, raise_exception=True, **kwargs
+    ) -> None:
         """
         Nothing to see here.
+
+        :param method: methodical
+        :param url: URL
+        :param headers: headers
+        :param raise_exception: raise an exception
+        :param kwargs: keywords and arguments
         """
         _module_logger.info(
             "Request method %s url %s headers %s kwargs %s",
             method,
             url,
             headers,
-            kwargs
+            kwargs,
         )
 
 
-
 def list_secrets():
-    """
-    Nothing to see here.
-    """
+    """Nothing to see here."""
     # read_response = client.secrets.kv.read_secret_version(path=vault_path)
     # print('Values under path "{the_path}" : {read_response}')
 
@@ -192,7 +222,7 @@ def read_secret(
     return 0
 
 
-def read_secret_engines(
+def read_secret_engines(  # noqa: C901
     secret_data_path: str,
     secret_engines: list,
     data_format: str,
@@ -274,7 +304,12 @@ def kv_list(secret_data_path: str, vault_path: str, create_empty: bool) -> list:
     """
     _module_logger.debug("List path %s", vault_path)
     try:
-        kv_out = subprocess.run(["vault", "kv", "list", vault_path], stdout=subprocess.PIPE, text=True, check=True)
+        kv_out = subprocess.run(
+            ["vault", "kv", "list", vault_path],
+            stdout=subprocess.PIPE,
+            text=True,
+            check=True,
+        )
     except subprocess.CalledProcessError:
         _module_logger.warning("Could not list path %s", vault_path)
         if create_empty:
@@ -290,12 +325,17 @@ def kv_list(secret_data_path: str, vault_path: str, create_empty: bool) -> list:
 
 
 def usage(p_name: str) -> None:
+    """
+    Display the help message.
+
+    :param p_name: program name
+    """
     print("Usage")
     print(f"\t {p_name} [--host=<VAULT_HOST>] [--path=<VAULT_PATH>]")
     return
 
 
-def main(y_arg: list) -> int:
+def main(y_arg: list) -> int:  # noqa: C901
     """
     Start here.
 
@@ -305,7 +345,7 @@ def main(y_arg: list) -> int:
     secrets_data_path: str = ""
     vault_host: str = "https://vault.skao.int/"
     secret_engines: list = []
-    vault_token: str = ""
+    # vault_token: str = ""
     data_format: str = ""
     create_empty: bool = False
 
@@ -323,7 +363,7 @@ def main(y_arg: list) -> int:
                 "host=",
                 "path=",
                 "token=",
-            ]
+            ],
         )
         _module_logger.info("Read options %s", opts)
     except getopt.GetoptError as opt_err:
@@ -347,8 +387,8 @@ def main(y_arg: list) -> int:
         elif opt in ("-F", "--format"):
             data_format = arg.lower()
             if data_format not in DATA_FORMATS:
-                 _module_logger.error("Invalid format %s", data_format)
-                 return 1
+                _module_logger.error("Invalid format %s", data_format)
+                return 1
         elif opt in ("-H", "--host"):
             vault_host = arg
         elif opt in ("-P", "--path"):
@@ -356,8 +396,8 @@ def main(y_arg: list) -> int:
                 secret_engines = arg.split(",")
             else:
                 secret_engines = [arg]
-        elif opt in ("-T", "--token"):
-            vault_token = arg
+        # elif opt in ("-T", "--token"):
+        #     vault_token = arg
         elif opt == "-v":
             _module_logger.setLevel(logging.INFO)
             _module_logger.warning("Set level to info")
