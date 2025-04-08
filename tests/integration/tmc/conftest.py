@@ -11,7 +11,7 @@ from typing import Any, Generator, List, Tuple
 
 import pytest
 from pytest_bdd import given, parsers, then, when
-from ska_control_model import ObsState, HealthState
+from ska_control_model import HealthState, ObsState
 from tango import DeviceProxy, DevState, EventType
 
 from scripts.sequence_diagrammer.generate_sequence_diagram import sequenceDiagrammer
