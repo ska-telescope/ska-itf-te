@@ -92,13 +92,15 @@ class CBF:
     def get_talon_board_proxy(self, board_num) -> DeviceProxy:
         """.
 
+        :param board_num: _description_
+        :type board_num: _type_
         :return: _description_
         :rtype: DeviceProxy
         """
-
         dp = DeviceProxy(f"mid_csp_cbf/talon_board/{board_num:03}")
         assert dp.ping() > 0
         return dp
+
 
 class CSP:
     """Helper class containing CSP specific details such as device names and proxies."""
@@ -567,7 +569,7 @@ def _(telescope_handlers, receptor_ids, settings):
     # CBF On state indication is a combination of controller state and talon board health state
     wait_for_event(cbf.controller, "state", DevState.ON)
     if not sim_mode == "true":
-        for i in range(1, len(receptor_ids)+1):
+        for i in range(1, len(receptor_ids) + 1):
             talon_board_dp = cbf.get_talon_board_proxy(i)
             wait_for_event(talon_board_dp, "healthState", HealthState.OK)
 
