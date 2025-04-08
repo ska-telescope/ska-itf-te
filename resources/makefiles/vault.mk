@@ -98,6 +98,6 @@ vault-new-version: ## Create new version in Vault
 ##  VERBOSE=[Log level, i.e. "" for warning, "-v" for info or "-V" for debug]
 ##  make target for updating Vault version
 vault-get-config:  ## Get configuration
-	./scripts/mid_aiv_vault.py $(VERBOSE) -e --host $(VAULT_ADDR) --path $(DATACENTRE)/$(ENVIRONMENT) --data $(DATA_PATH)
-	cat $(DATA_PATH)/$(DATACENTRE)/$(ENVIRONMENT)/$(PRODUCT_NAME)/$(VALUES_FILENAME)
+	@./scripts/mid_aiv_vault.py $(VERBOSE) -e --host $(VAULT_ADDR) --path $(DATACENTRE)/$(ENVIRONMENT) --data $(DATA_PATH)
+	@cat $(DATA_PATH)/$(DATACENTRE)/$(ENVIRONMENT)/$(PRODUCT_NAME)/$(VALUES_FILENAME)
 	@echo
