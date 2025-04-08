@@ -566,7 +566,7 @@ def _(telescope_handlers, receptor_ids, settings):
     wait_for_event(tmc_central_node, "telescopeState", DevState.ON)
     # CBF On state indication is a combination of controller state and talon board health state
     wait_for_event(cbf.controller, "state", DevState.ON)
-    if not sim_mode:
+    if not sim_mode == "true":
         for i in range(1, len(receptor_ids)+1):
             talon_board_dp = cbf.get_talon_board_proxy(i)
             wait_for_event(talon_board_dp, "healthState", HealthState.OK)
