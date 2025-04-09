@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 26.1.1
+* [AT-2912] - Added ska-mid-cbf-tdc-tmleafnode chart to enable CBF verification tests. Disabled by default.
+* [AT-2917] - Upgraded CSP to v1.0.1
+
 ## 26.1.0
 * [AT-2906] - TMC name changes (ADR-9)
             - dish leafnode naming fixes (ADR-9)
@@ -9,9 +13,9 @@
             - Upgraded TMC
             - Upgraded CBF.MCS and CBF.EC
             - Upgraded Archiver
-            - Disabled Taranta (temporary - SKB-850}
-            - Disabled TangoGQL (temporary - SKB-850}
-            - Disabled CIA (temporary - SKB-850}
+            - Disabled Taranta (temporary - SKB-850)
+            - Disabled TangoGQL (temporary - SKB-850)
+            - Disabled CIA (temporary - SKB-850)
             - Disabled all tests except end2end test until name changes are incorporated into Skallop (ADR-9)
 * [AT-2897] - Upgraded Telescope Model to work with latest product versions
 
