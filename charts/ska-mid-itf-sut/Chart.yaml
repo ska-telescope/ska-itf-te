@@ -2,8 +2,8 @@ apiVersion: v2
 name: ska-mid-itf-sut
 description: An umbrella Helm chart for deployment of the System Under Test at the Mid ITF
 type: application
-version: 26.1.1
-appVersion: 26.1.1
+version: 26.1.2
+appVersion: 26.1.2
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
   # Tango Base & Deployment Charts: TangoDB, iTango, Tango Operator Utils
@@ -58,17 +58,17 @@ dependencies:
   #   repository: https://artefact.skao.int/repository/helm-internal
   #   condition: ska-ser-config-inspector.enabled
 
-  # # TARANTA SUITE
-  # - name: ska-tango-taranta
-  #   version: 2.13.1
-  #   repository: https://artefact.skao.int/repository/helm-internal
-  #   condition: ska-tango-taranta.enabled
-  # # MULTIDB TANGOGQL
-  # - name: ska-tango-tangogql-ariadne
-  #   version: 1.0.1
-  #   repository: https://artefact.skao.int/repository/helm-internal
-  #   condition: ska-taranta.enabled
-  #   alias: tangogql
+  # TARANTA SUITE
+  - name: ska-tango-taranta
+    version: 2.13.1
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-tango-taranta.enabled
+  # MULTIDB TANGOGQL
+  - name: ska-tango-tangogql-ariadne
+    version: 1.0.1
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-taranta.enabled
+    alias: tangogql
 
   # test helpers
   - name: ska-log-consumer

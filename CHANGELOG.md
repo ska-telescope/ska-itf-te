@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+## 26.1.2
+* [SKB-850] - Re-enable taranta
+
 ## 26.1.1
 * [AT-2912] - Added ska-mid-cbf-tdc-tmleafnode chart to enable CBF verification tests. Disabled by default.
 * [AT-2917] - Upgraded CSP to v1.0.1
