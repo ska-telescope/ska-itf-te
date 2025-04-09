@@ -1,0 +1,27 @@
+ska-tmc-mid:
+  deviceServers:
+    centralnode:
+      DishIDs:
+      - SKA001
+      - SKA036
+      - SKA063
+      - SKA100
+    dishleafnode:
+      instances:
+      - "001"
+      - "036"
+      - "063"
+      - "100"
+    subarraynode:
+      DishIDs:
+      - SKA001
+      - SKA036
+      - SKA063
+      - SKA100
+  global:
+    namespace_dish:
+      dish_names:
+      - tango://tango-databaseds.dish-lmc-ska001.svc.ska001.mid.internal.skao.int:10000/mid-dish/dish-manager/SKA001
+      - tango://tango-databaseds.dish-lmc-ska036.svc.ska036.mid.internal.skao.int:10000/mid-dish/dish-manager/SKA036
+      - tango://tango-databaseds.dish-lmc-ska063.svc.ska063.mid.internal.skao.int:10000/mid-dish/dish-manager/SKA063
+      - tango://tango-databaseds.dish-lmc-ska100.svc.ska100.mid.internal.skao.int:10000/mid-dish/dish-manager/SKA100
