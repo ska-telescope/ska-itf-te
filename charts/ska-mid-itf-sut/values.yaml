@@ -63,6 +63,11 @@ ska-mid-cbf-tdc-mcs:
     environment: "mid-itf"
     clusterDomain: "miditf.internal.skao.int"
 
+# CBF Delay model simulator
+# TEMPORARY for CBF Testing at KAPB. Default is False. VAULT will be overriden for KAPB
+ska-mid-cbf-tdc-tmleafnode:
+  enabled: false
+
 ska-mid-cbf-engineering-console:
   enabled: false
   # Comment section below to use engineering-console image from CAR

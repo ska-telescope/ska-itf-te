@@ -192,14 +192,14 @@ Web : http://za-itf-signal-generator.ad.skatelescope.org/webpages/web/html/ihp.p
 
 ## SPFC helm chart
 
-### Using ska-spfc-deployer helm chart
-The following steps below are a guideline on how to deploy the ska-spfc-deployer helm chart:
-To include the ska-spfc-deployer helm chart use the following layout below within your helm chart:
+### Using ska-mid-dish-spfc-deployer helm chart
+The following steps below are a guideline on how to deploy the ska-mid-dish-spfc-deployer helm chart:
+To include the ska-mid-dish-spfc-deployer helm chart use the following layout below within your helm chart:
 
-- name: ska-spfc-deployer
+- name: ska-mid-dish-spfc-deployer
     version: (use the latest version of the SPFC)
     repository: https://artefact.skao.int/repository/helm-internal
-    condition: ska-spfc-deployer.enabled
+    condition: ska-mid-dish-spfc-deployer.enabled
 
 Please ensure that the values.yaml file of your helm chart, has an entry under "global" indicating the DishID
 that the SPFC will be communicating with:
