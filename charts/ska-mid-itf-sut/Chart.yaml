@@ -58,17 +58,17 @@ dependencies:
   #   repository: https://artefact.skao.int/repository/helm-internal
   #   condition: ska-ser-config-inspector.enabled
 
-  # # TARANTA SUITE
-  # - name: ska-tango-taranta
-  #   version: 2.13.1
-  #   repository: https://artefact.skao.int/repository/helm-internal
-  #   condition: ska-tango-taranta.enabled
-  # # MULTIDB TANGOGQL
-  # - name: ska-tango-tangogql-ariadne
-  #   version: 1.0.1
-  #   repository: https://artefact.skao.int/repository/helm-internal
-  #   condition: ska-taranta.enabled
-  #   alias: tangogql
+  # TARANTA SUITE
+  - name: ska-tango-taranta
+    version: 2.13.1
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-tango-taranta.enabled
+  # MULTIDB TANGOGQL
+  - name: ska-tango-tangogql-ariadne
+    version: 1.0.1
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-taranta.enabled
+    alias: tangogql
 
   # test helpers
   - name: ska-log-consumer
