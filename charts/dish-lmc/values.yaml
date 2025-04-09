@@ -58,7 +58,7 @@ ska-mid-dish-spfrx-talondx-console:
   logging_level: 4
 
 # SPFC
-ska-spfc-deployer:
+ska-mid-dish-spfc-deployer:
   enabled: false
 
 # TARANTA SUITE
@@ -99,6 +99,7 @@ ska-tango-archiver:
   telescope_environment: MID-ITF
   configuration_manager: mid-eda/cm/01
   event_subscriber: mid-eda/es/01
+  configuration_file_url: https://gitlab.com/ska-telescope/ska-mid-itf/-/raw/26.1.1/tmdata/mid-itf-staging-archiver-configs/dish-lmc-ska001.yaml?ref_type=tags&inline=false
   archwizard_config: MyHDB=tango://tango-databaseds:10000/mid-eda/cm/01
   archviewer:
     instances:
