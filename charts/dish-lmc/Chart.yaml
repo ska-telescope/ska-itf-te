@@ -14,16 +14,16 @@ dependencies:
     version: 0.4.15
     repository: https://artefact.skao.int/repository/helm-internal
 
-  # # TARANTA APPLICATION
-  # - name: ska-tango-taranta
-  #   version: 2.13.1
-  #   repository: https://artefact.skao.int/repository/helm-internal
-  #   condition: ska-taranta.enabled
-  # - name: ska-tango-tangogql-ariadne
-  #   version: 1.0.1
-  #   repository: https://artefact.skao.int/repository/helm-internal
-  #   condition: ska-taranta.enabled
-  #   alias: ska-tango-tangogql
+  # TARANTA APPLICATION
+  - name: ska-tango-taranta
+    version: 2.13.1
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-taranta.enabled
+  - name: ska-tango-tangogql-ariadne
+    version: 1.0.1
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-taranta.enabled
+    alias: ska-tango-tangogql
 
   # DISH LMC CHART
   - name: ska-dish-lmc
