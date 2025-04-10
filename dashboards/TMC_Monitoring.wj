@@ -89,7 +89,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://ska_mid/tm_central/central_node",
+          "device": "taranta://mid-tmc/central-node/0",
           "attribute": "state",
           "label": "State"
         },
@@ -124,7 +124,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://ska_mid/tm_central/central_node",
+          "device": "taranta://mid-tmc/central-node/0",
           "attribute": "healthstate",
           "label": "healthState"
         },
@@ -159,7 +159,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://ska_mid/tm_central/central_node",
+          "device": "taranta://mid-tmc/central-node/0",
           "attribute": "versionid",
           "label": "versionId"
         },
@@ -217,7 +217,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://ska_mid/tm_central/central_node",
+          "device": "taranta://mid-tmc/central-node/0",
           "attribute": "telescopeavailability",
           "label": "telescopeAvailability"
         },
@@ -275,7 +275,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://ska_mid/tm_central/central_node",
+          "device": "taranta://mid-tmc/central-node/0",
           "attribute": "telescopestate",
           "label": "telescopeState"
         },
@@ -333,7 +333,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://ska_mid/tm_central/central_node",
+          "device": "taranta://mid-tmc/central-node/0",
           "attribute": "telescopehealthstate",
           "label": "telescopeHealthState"
         },
@@ -391,7 +391,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://ska_mid/tm_subarray_node/1",
+          "device": "taranta://mid-tmc/subarray/01",
           "attribute": "state",
           "label": "State"
         },
@@ -426,7 +426,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://ska_mid/tm_subarray_node/1",
+          "device": "taranta://mid-tmc/subarray/01",
           "attribute": "healthstate",
           "label": "healthState"
         },
@@ -461,7 +461,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://ska_mid/tm_subarray_node/1",
+          "device": "taranta://mid-tmc/subarray/01",
           "attribute": "versionid",
           "label": "versionId"
         },
@@ -2288,7 +2288,7 @@
       "type": "LED_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://ska_mid/tm_subarray_node/1",
+          "device": "taranta://mid-tmc/subarray/01",
           "attribute": "issubarrayavailable",
           "label": "isSubarrayAvailable"
         },
@@ -2632,7 +2632,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://ska_mid/tm_central/central_node",
+          "device": "taranta://mid-tmc/central-node/0",
           "attribute": "internalmodel",
           "label": "internalModel"
         },
@@ -2690,7 +2690,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://ska_mid/tm_subarray_node/1",
+          "device": "taranta://mid-tmc/subarray/01",
           "attribute": "obsstate",
           "label": "obsState"
         },
@@ -2725,7 +2725,7 @@
       "type": "LED_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://ska_mid/tm_central/central_node",
+          "device": "taranta://mid-tmc/central-node/0",
           "attribute": "telescopehealthstate",
           "label": "telescopeHealthState"
         },
@@ -2756,7 +2756,7 @@
       "type": "LED_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://ska_mid/tm_central/central_node",
+          "device": "taranta://mid-tmc/central-node/0",
           "attribute": "telescopehealthstate",
           "label": "telescopeHealthState"
         },
@@ -2787,7 +2787,7 @@
       "type": "LED_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://ska_mid/tm_central/central_node",
+          "device": "taranta://mid-tmc/central-node/0",
           "attribute": "telescopehealthstate",
           "label": "telescopeHealthState"
         },
@@ -3003,7 +3003,7 @@
       "type": "LED_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://ska_mid/tm_central/central_node",
+          "device": "taranta://mid-tmc/central-node/0",
           "attribute": "isdishvccconfigset",
           "label": "isDishVccConfigSet"
         },
