@@ -2197,7 +2197,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://mid-dish/leaf-node-dish/SKA001",
+          "device": "taranta://mid-tmc/leaf-node-dish/SKA001",
           "attribute": "versionid",
           "label": "versionId"
         },

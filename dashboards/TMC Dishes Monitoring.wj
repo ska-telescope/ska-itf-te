@@ -21,16 +21,16 @@
       "inputs": {
         "devices": [
           {
-            "device": "mid-dish/leaf-node-dish/SKA001"
+            "device": "mid-tmc/leaf-node-dish/SKA001"
           },
           {
-            "device": "mid-dish/leaf-node-dish/SKA036"
+            "device": "mid-tmc/leaf-node-dish/SKA036"
           },
           {
-            "device": "mid-dish/leaf-node-dish/SKA063"
+            "device": "mid-tmc/leaf-node-dish/SKA063"
           },
           {
-            "device": "mid-dish/leaf-node-dish/SKA100"
+            "device": "mid-tmc/leaf-node-dish/SKA100"
           }
         ],
         "precision": 2,
@@ -40,21 +40,21 @@
         "customAttributes": [
           {
             "attribute": {
-              "device": "mid-dish/leaf-node-dish/SKA001,mid-dish/leaf-node-dish/SKA036,mid-dish/leaf-node-dish/SKA063,mid-dish/leaf-node-dish/SKA100",
+              "device": "mid-tmc/leaf-node-dish/SKA001,mid-tmc/leaf-node-dish/SKA036,mid-tmc/leaf-node-dish/SKA063,mid-tmc/leaf-node-dish/SKA100",
               "attribute": "dishmasterdevname",
               "label": "dishMasterDevName"
             }
           },
           {
             "attribute": {
-              "device": "mid-dish/leaf-node-dish/SKA001,mid-dish/leaf-node-dish/SKA036,mid-dish/leaf-node-dish/SKA063,mid-dish/leaf-node-dish/SKA100",
+              "device": "mid-tmc/leaf-node-dish/SKA001,mid-tmc/leaf-node-dish/SKA036,mid-tmc/leaf-node-dish/SKA063,mid-tmc/leaf-node-dish/SKA100",
               "attribute": "buildstate",
               "label": "buildState"
             }
           },
           {
             "attribute": {
-              "device": "mid-dish/leaf-node-dish/SKA001,mid-dish/leaf-node-dish/SKA036,mid-dish/leaf-node-dish/SKA063,mid-dish/leaf-node-dish/SKA100",
+              "device": "mid-tmc/leaf-node-dish/SKA001,mid-tmc/leaf-node-dish/SKA036,mid-tmc/leaf-node-dish/SKA063,mid-tmc/leaf-node-dish/SKA100",
               "attribute": "issubsystemavailable",
               "label": "isSubsystemAvailable"
             }
