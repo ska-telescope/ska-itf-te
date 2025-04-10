@@ -2,6 +2,32 @@
 
 ## Unreleased
 
+## 26.1.2
+* [SKB-850] - Re-enable taranta
+
+## 26.1.1
+* [AT-2912] - Added ska-mid-cbf-tdc-tmleafnode chart to enable CBF verification tests. Disabled by default.
+* [AT-2917] - Upgraded CSP to v1.0.1
+
+## 26.1.0
+* [AT-2906] - TMC name changes (ADR-9)
+            - dish leafnode naming fixes (ADR-9)
+            - alarm rules in tests with new names (ADR-9)
+            - Upgraded TMC
+            - Upgraded CBF.MCS and CBF.EC
+            - Upgraded Archiver
+            - Disabled Taranta (temporary - SKB-850)
+            - Disabled TangoGQL (temporary - SKB-850)
+            - Disabled CIA (temporary - SKB-850)
+            - Disabled all tests except end2end test until name changes are incorporated into Skallop (ADR-9)
+* [AT-2897] - Upgraded Telescope Model to work with latest product versions
+
+## 26.0.0
+* [AT-2856] - upgraded and pulled newly-named DPD chart to 0.10.0
+* [AT-2811] - no longer creating our own PVC in DPD namespace - manage via Helm only
+* [AT-2855] - upgraded CSP.LMC to 1.0.0 and removed DishLMC custom image override
+* [AT-2843] - store command config strings as CI job artefacts
+
 ## 25.6.3
 * [AT-2354] - Output links to Grafana dashboards and Kibana logs for the SUT namespace whenever integration-test is called
 * [AT-2611] - Updated Ansible scripts with most recent users of the ITF jump host and corrected SPFRx network configurations

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ska-mid-itf"
-version = "25.6.3"
+version = "26.1.2"
 description = "Integration testing and deployment project for the Mid ITF"
 authors = ["ATLAS"]
 license = "BSD 3-Clause"
@@ -54,6 +54,7 @@ ipykernel = "^6.29.5"
 
 [tool.poetry.group.ansible.dependencies]
 ansible = "^9.3.0"
+ansible-compat = "^25.1.0"
 ansible-lint = { version = "^24.2.0", markers = "platform_system != 'Windows'" }
 
 [build-system]

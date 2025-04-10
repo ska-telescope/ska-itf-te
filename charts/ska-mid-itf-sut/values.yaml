@@ -63,6 +63,11 @@ ska-mid-cbf-tdc-mcs:
     environment: "mid-itf"
     clusterDomain: "miditf.internal.skao.int"
 
+# CBF Delay model simulator
+# TEMPORARY for CBF Testing at KAPB. Default is False. VAULT will be overriden for KAPB
+ska-mid-cbf-tdc-tmleafnode:
+  enabled: false
+
 ska-mid-cbf-engineering-console:
   enabled: false
   # Comment section below to use engineering-console image from CAR
@@ -94,7 +99,7 @@ ska-tmc-mid:
     centralnode:
       subarray_count: 1
       DishVccConfig:
-        DishVccUri: "car://gitlab.com/ska-telescope/ska-telmodel-data?0.1.0-rc-mid-itf#tmdata"
+        DishVccUri: "car://gitlab.com/ska-telescope/ska-telmodel-data?0.2.0-mid-itf#tmdata"
         DishVccFilePath: "instrument/ska1_mid_itf/ska-mid-cbf-system-parameters.json"
     cspsubarrayleafnode:
       TelmodelSource: gitlab://gitlab.com/ska-telescope/ska-mid-itf?main#tmdata
@@ -130,6 +135,8 @@ ska-sdp:
       storageClassName: ceph-cephfs
   ska-tango-base:
     enabled: false
+  ska-sdp-qa:
+    enabled: true
 
 # helpers
 ska-log-consumer:
