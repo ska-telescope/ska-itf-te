@@ -21,16 +21,16 @@
       "inputs": {
         "devices": [
           {
-            "device": "mid-tmc/leaf-node-dish/SKA001"
+            "device": "mid-tmc/leaf-node-dish/ska001"
           },
           {
-            "device": "mid-tmc/leaf-node-dish/SKA036"
+            "device": "mid-tmc/leaf-node-dish/ska036"
           },
           {
-            "device": "mid-tmc/leaf-node-dish/SKA063"
+            "device": "mid-tmc/leaf-node-dish/ska063"
           },
           {
-            "device": "mid-tmc/leaf-node-dish/SKA100"
+            "device": "mid-tmc/leaf-node-dish/ska100"
           }
         ],
         "precision": 2,
@@ -40,21 +40,21 @@
         "customAttributes": [
           {
             "attribute": {
-              "device": "mid-tmc/leaf-node-dish/SKA001,mid-tmc/leaf-node-dish/SKA036,mid-tmc/leaf-node-dish/SKA063,mid-tmc/leaf-node-dish/SKA100",
+              "device": "mid-tmc/leaf-node-dish/ska001,mid-tmc/leaf-node-dish/ska036,mid-tmc/leaf-node-dish/ska063,mid-tmc/leaf-node-dish/ska100",
               "attribute": "dishmasterdevname",
               "label": "dishMasterDevName"
             }
           },
           {
             "attribute": {
-              "device": "mid-tmc/leaf-node-dish/SKA001,mid-tmc/leaf-node-dish/SKA036,mid-tmc/leaf-node-dish/SKA063,mid-tmc/leaf-node-dish/SKA100",
+              "device": "mid-tmc/leaf-node-dish/ska001,mid-tmc/leaf-node-dish/ska036,mid-tmc/leaf-node-dish/ska063,mid-tmc/leaf-node-dish/ska100",
               "attribute": "buildstate",
               "label": "buildState"
             }
           },
           {
             "attribute": {
-              "device": "mid-tmc/leaf-node-dish/SKA001,mid-tmc/leaf-node-dish/SKA036,mid-tmc/leaf-node-dish/SKA063,mid-tmc/leaf-node-dish/SKA100",
+              "device": "mid-tmc/leaf-node-dish/ska001,mid-tmc/leaf-node-dish/ska036,mid-tmc/leaf-node-dish/ska063,mid-tmc/leaf-node-dish/ska100",
               "attribute": "issubsystemavailable",
               "label": "isSubsystemAvailable"
             }

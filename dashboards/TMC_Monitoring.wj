@@ -2113,7 +2113,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://mid-tmc/leaf-node-dish/SKA001",
+          "device": "taranta://mid-tmc/leaf-node-dish/ska001",
           "attribute": "state",
           "label": "State"
         },
@@ -2148,7 +2148,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://mid-tmc/leaf-node-dish/SKA001",
+          "device": "taranta://mid-tmc/leaf-node-dish/ska001",
           "attribute": "healthstate",
           "label": "healthState"
         },
@@ -2183,7 +2183,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://mid-tmc/leaf-node-dish/SKA001",
+          "device": "taranta://mid-tmc/leaf-node-dish/ska001",
           "attribute": "versionid",
           "label": "versionId"
         },
@@ -2218,7 +2218,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://mid-tmc/leaf-node-dish/SKA036",
+          "device": "taranta://mid-tmc/leaf-node-dish/ska036",
           "attribute": "state",
           "label": "State"
         },
@@ -2253,7 +2253,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://mid-tmc/leaf-node-dish/SKA036",
+          "device": "taranta://mid-tmc/leaf-node-dish/ska036",
           "attribute": "healthstate",
           "label": "healthState"
         },
@@ -2443,7 +2443,7 @@
       "type": "LED_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://mid-tmc/leaf-node-dish/SKA001",
+          "device": "taranta://mid-tmc/leaf-node-dish/ska001",
           "attribute": "issubsystemavailable",
           "label": "isSubsystemAvailable"
         },
@@ -2474,7 +2474,7 @@
       "type": "LED_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://mid-tmc/leaf-node-dish/SKA036",
+          "device": "taranta://mid-tmc/leaf-node-dish/ska036",
           "attribute": "issubsystemavailable",
           "label": "isSubsystemAvailable"
         },
@@ -2574,7 +2574,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://mid-tmc/leaf-node-dish/SKA036",
+          "device": "taranta://mid-tmc/leaf-node-dish/ska036",
           "attribute": "versionid",
           "label": "versionId"
         },
@@ -2841,7 +2841,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://mid-tmc/leaf-node-dish/SKA001",
+          "device": "taranta://mid-tmc/leaf-node-dish/ska001",
           "attribute": "dishmode",
           "label": "dishMode"
         },
@@ -2945,7 +2945,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://mid-tmc/leaf-node-dish/SKA036",
+          "device": "taranta://mid-tmc/leaf-node-dish/ska036",
           "attribute": "dishmode",
           "label": "dishMode"
         },
@@ -3150,7 +3150,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://mid-tmc/leaf-node-dish/SKA063",
+          "device": "taranta://mid-tmc/leaf-node-dish/ska063",
           "attribute": "state",
           "label": "State"
         },
@@ -3185,7 +3185,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://mid-tmc/leaf-node-dish/SKA100",
+          "device": "taranta://mid-tmc/leaf-node-dish/ska100",
           "attribute": "state",
           "label": "State"
         },
@@ -3220,7 +3220,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://mid-tmc/leaf-node-dish/SKA063",
+          "device": "taranta://mid-tmc/leaf-node-dish/ska063",
           "attribute": "healthstate",
           "label": "healthState"
         },
@@ -3255,7 +3255,7 @@
       "type": "LED_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://mid-tmc/leaf-node-dish/SKA001",
+          "device": "taranta://mid-tmc/leaf-node-dish/ska001",
           "attribute": "issubsystemavailable",
           "label": "isSubsystemAvailable"
         },
@@ -3286,7 +3286,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://mid-tmc/leaf-node-dish/SKA001",
+          "device": "taranta://mid-tmc/leaf-node-dish/ska001",
           "attribute": "versionid",
           "label": "versionId"
         },
@@ -3321,7 +3321,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://mid-tmc/leaf-node-dish/SKA001",
+          "device": "taranta://mid-tmc/leaf-node-dish/ska001",
           "attribute": "dishmode",
           "label": "dishMode"
         },
@@ -3356,7 +3356,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://mid-tmc/leaf-node-dish/SKA100",
+          "device": "taranta://mid-tmc/leaf-node-dish/ska100",
           "attribute": "healthstate",
           "label": "healthState"
         },
@@ -3391,7 +3391,7 @@
       "type": "LED_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://mid-tmc/leaf-node-dish/SKA100",
+          "device": "taranta://mid-tmc/leaf-node-dish/ska100",
           "attribute": "issubsystemavailable",
           "label": "isSubsystemAvailable"
         },
@@ -3422,7 +3422,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://mid-tmc/leaf-node-dish/SKA100",
+          "device": "taranta://mid-tmc/leaf-node-dish/ska100",
           "attribute": "versionid",
           "label": "versionId"
         },
@@ -3457,7 +3457,7 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://mid-tmc/leaf-node-dish/SKA100",
+          "device": "taranta://mid-tmc/leaf-node-dish/ska100",
           "attribute": "dishmode",
           "label": "dishMode"
         },
