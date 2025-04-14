@@ -1,6 +1,9 @@
 """."""
 
 from tango import DeviceProxy
+import logging
+
+logger = logging.getLogger()
 
 
 def test_devices_reachable():
@@ -14,3 +17,4 @@ def test_devices_reachable():
     )
 
     assert device.ping(), "Device is not reachable"
+    logger.info("Devices reachable")
