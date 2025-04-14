@@ -1,0 +1,41 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: test-job
+  namespace: integration-tests
+spec:
+  backoffLimit: 3
+  completionMode: NonIndexed
+  completions: 1
+  manualSelector: false
+  parallelism: 1
+  podReplacementPolicy: TerminatingOrFailed
+  suspend: false
+  template:
+    spec:
+      volumes:
+      - name: test-data-storage
+        persistentVolumeClaim:
+          claimName: pvc-test-data-storage
+      containers:
+      - name: test-end-to-end
+        image: registry.gitlab.com/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools:0.9.3
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: test-data-storage
+          mountPath: /data/test-reports
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        command: ["sh", "-c"]
+        args:
+        - |
+          git clone https://gitlab.com/ska-telescope/ska-mid-itf.git
+          cd ska-mid-itf && git checkout at-2938-job-based-e2e-testing
+          python3 -m pytest tests/smoke/ --log-file="/data/test-reports/$(date +'%Y-%m-%d_%H-%M-%S')_test-smoke.log" --log-level=DEBUG
+      dnsPolicy: ClusterFirst
+      restartPolicy: Never
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status: {}
