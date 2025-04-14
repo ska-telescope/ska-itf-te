@@ -67,8 +67,11 @@ flux-delete-kustomization: ## Delete kustomization
 ## VARS:
 ##  GIT_REPO=[Git repository name]
 ##  make target for getting current git branch
-get-current-branch: ## get current git branch
-	@echo $(GIT_BRANCH)
+flux-get-current-tracked-branch: ## get current git branch
+	CTX=$(shell kubectl config current-context)  # Should be infra:za-aa-k8s-master01-k8s
+	BRNCH=$(shell kubectl get gitrepositories.source.toolkit.fluxcd.io -n flux-services \
+		ska-mid-helmreleases -o jsonpath={.spec.ref.branch})
+	echo "Currently tracking $(CTX) from $(BRNCH)"
 
 ## TARGET: set-current-branch
 ## SYNOPSIS: target for setting current git branch
