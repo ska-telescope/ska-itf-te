@@ -298,7 +298,7 @@ def settings():
     :rtype: _type_
     """
     settings = {}
-    settings["cluster_domain"] = os.getenv("SUT_CLUSTER_DOMAIN")
+    settings["sut_cluster_domain"] = os.getenv("SUT_CLUSTER_DOMAIN")
     settings["SUT_namespace"] = os.getenv("KUBE_NAMESPACE")
     settings["data_dir"] = ".jupyter-notebooks/data/mid_telescope"
     settings["TMC_configs"] = f"{settings['data_dir']}/tmc"
@@ -385,7 +385,10 @@ def telescope_handlers(
     tmc = TMC()
     cbf = CBF()
     csp = CSP()
-    dishes = [Dish(settings["SUT_namespace"], receptor) for receptor in RECEPTORS]
+    dishes = [
+        Dish(settings["SUT_namespace"], receptor, cluster_domain=settings["sut_cluster_domain"])
+        for receptor in RECEPTORS
+    ]
 
     yield tmc, cbf, csp, dishes
     tmc.tear_down()
