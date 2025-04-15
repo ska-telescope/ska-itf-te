@@ -14,7 +14,7 @@ def test_devices_reachable():
     It creates device proxies to various tango devices and checks if they are reachable.
     """
     device = DeviceProxy(
-        "tango-databaseds.staging.svc.miditf.internal.skao.int:10000/mid-tmc/central-node/0"
+        "tango-databaseds.ska-mid-central-controller.svc.mid.internal.skao.int:10000/mid-tmc/central-node/0"
     )
 
     assert device.ping(), "Device is not reachable"
