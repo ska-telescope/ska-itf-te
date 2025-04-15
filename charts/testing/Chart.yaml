@@ -1,0 +1,6 @@
+apiVersion: v2
+name: ska-mid-testing
+description: An Helm chart which deploys test jobs
+type: application
+version: 0.0.1
+appVersion: 0.0.1
