@@ -145,15 +145,17 @@ class CSP:
 class Dish:
     """Helper class containing Dish specific details."""
 
-    def __init__(self, sut_namespace: str, dish_id: str):
+    def __init__(self, sut_namespace: str, dish_id: str, sut_cluster_domain: str):
         """.
 
+        :param sut_cluster_domain: Cluster domain of the central cluster
         :param sut_namespace: Namespace into which the SUT has been deployed
         :type sut_namespace: str
         :param dish_id: Dish ID with the SKA prefix e.g. SKA001
         :type dish_id: str
         """
         self.sut_namespace = sut_namespace
+        self.sut_cluster_domain = sut_cluster_domain
         self.dish_id = dish_id
         self.dish_tango_host = self.get_dish_tango_host()
 
@@ -174,6 +176,9 @@ class Dish:
         :return: _description_
         :rtype: str
         """
+        if self.sut_cluster_domain == "mid.internal.skao.int":
+            return f"dish-lmc-{str.lower(self.dish_id)}"
+
         if self.sut_namespace in ["staging", "integration"]:
             return f"{self.sut_namespace}-dish-lmc-{str.lower(self.dish_id)}"
         else:
@@ -186,7 +191,13 @@ class Dish:
         :rtype: _type_
         """
         dish_namespace = self.get_dish_namespace()
-        return f"tango-databaseds.{dish_namespace}.svc.miditf.internal.skao.int:10000"
+        if self.sut_cluster_domain == "mid.internal.skao.int":
+            return (
+                f"tango-databaseds.{dish_namespace}.svc"
+                f"{self.dish_id}.{self.sut_cluster_domain}:10000"
+            )
+
+        return f"tango-databaseds.{dish_namespace}.svc.{self.sut_cluster_domain}:10000"
 
     def check_proxies(self, proxies):
         """Ping device proxies to confirm connectivity.
@@ -287,7 +298,7 @@ def settings():
     :rtype: _type_
     """
     settings = {}
-    settings["cluster_domain"] = "miditf.internal.skao.int"
+    settings["cluster_domain"] = os.getenv("SUT_CLUSTER_DOMAIN")
     settings["SUT_namespace"] = os.getenv("KUBE_NAMESPACE")
     settings["data_dir"] = ".jupyter-notebooks/data/mid_telescope"
     settings["TMC_configs"] = f"{settings['data_dir']}/tmc"

@@ -1,7 +1,8 @@
 """."""
 
-from tango import DeviceProxy
 import logging
+
+from tango import DeviceProxy
 
 logger = logging.getLogger()
 

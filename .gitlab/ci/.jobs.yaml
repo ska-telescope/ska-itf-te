@@ -134,6 +134,7 @@ docs-build:
     when: always
   variables:
     INTEGRATION_TEST_SOURCE: tests/integration/tmc/test_end_to_end.py::test_e2e_via_tmc_slow
+    SUT_CLUSTER_DOMAIN: miditf.internal.skao.int
     E2E_TEST_EXECUTION_NAMESPACE: $KUBE_NAMESPACE
     SIM_MODE: false
     ADDMARKS: ""
