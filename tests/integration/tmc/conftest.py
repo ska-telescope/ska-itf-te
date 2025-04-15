@@ -339,7 +339,7 @@ def set_context(settings):
     CURRENT_TZ = os.environ.get("TZ")
 
     TANGO_HOST = (
-        f"tango-databaseds.{settings['SUT_namespace']}.svc.{settings['cluster_domain']}:10000"
+        f"tango-databaseds.{settings['SUT_namespace']}.svc.{settings['sut_cluster_domain']}:10000"
     )
     os.environ["TANGO_HOST"] = TANGO_HOST
     os.environ["TZ"] = "Africa/Johannesburg"
