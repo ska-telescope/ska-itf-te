@@ -386,7 +386,7 @@ def telescope_handlers(
     cbf = CBF()
     csp = CSP()
     dishes = [
-        Dish(settings["SUT_namespace"], receptor, cluster_domain=settings["sut_cluster_domain"])
+        Dish(settings["SUT_namespace"], receptor, settings["sut_cluster_domain"])
         for receptor in RECEPTORS
     ]
 
