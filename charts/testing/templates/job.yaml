@@ -47,9 +47,11 @@ spec:
         - name: SIM_MODE
           value: "true"
         - name: E2E_TEST_EXECUTION_NAMESPACE
-          value: "integration"
+          value: "ska-mid-central-controller"
         - name: KUBE_NAMESPACE
-          value: "integration"
+          value: "ska-mid-central-controller"
+        - name: SUT_CLUSTER_DOMAIN
+          value: "mid.internal.skao.int"
         command: ["sh", "-c"]
         args:
         - |
