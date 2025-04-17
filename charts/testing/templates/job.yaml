@@ -52,6 +52,8 @@ spec:
           value: "ska-mid-central-controller"
         - name: SUT_CLUSTER_DOMAIN
           value: "mid.internal.skao.int"
+        - name: DISH_IDS
+          value: "SKA001"
         command: ["sh", "-c"]
         args:
         - |
