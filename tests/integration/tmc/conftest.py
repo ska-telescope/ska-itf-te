@@ -311,19 +311,21 @@ def settings():
         os.getenv("GENERATE_SEQUENCE_DIAGRAM", "false").lower() == "true"
     )
     settings["artifact_dir"] = "config"
+    settings["dish_ids"] = os.getenv("DISH_IDS", "SKA001, SKA036, SKA063, SKA100")
 
     return settings
 
 
 # TODO: Consider removing this e.g. read from config file or feature file
 @pytest.fixture(scope="session")
-def receptor_ids():
+def receptor_ids(settings):
     """Fixture for generating list of receptors to be used in test.
 
+    :param settings: _description_
     :return: List of receptor IDs
     :rtype: _type_
     """
-    receptors = ["SKA001"]
+    receptors = [dish_id.strip() for dish_id in settings["dish_ids"].split()]
     return receptors
 
 
