@@ -126,6 +126,18 @@ docs-build:
     - exists:
         - charts/**/*
 
+.dish_logs_script: &get_dish_logs
+  - |
+    for DISH_ID in $DISH_IDS; do
+      if [[ -n "$CI_COMMIT_TAG" ]]; then
+        make dish-logs KUBE_NAMESPACE=staging-$KUBE_APP-$DISH_ID
+      elif [[ "$CI_COMMIT_BRANCH" != "$CI_DEFAULT_BRANCH" ]]; then
+        make dish-logs KUBE_NAMESPACE=ci-$KUBE_APP-$DISH_ID-$CI_COMMIT_REF_NAME
+      else
+        make dish-logs KUBE_NAMESPACE=integration-$KUBE_APP-$DISH_ID
+      fi
+    done
+    
 .test-end-to-end-with-hw:
   artifacts:
     paths:
@@ -157,18 +169,6 @@ docs-build:
   after-script:
     - make cbf-logs && make tmc-logs && make csp-logs
     - *get_dish_logs
-
-.dish_logs_script: &get_dish_logs
-  - |
-    for DISH_ID in $DISH_IDS; do
-      if [[ -n "$CI_COMMIT_TAG" ]]; then
-        make dish-logs KUBE_NAMESPACE=staging-$KUBE_APP-$DISH_ID
-      elif [[ "$CI_COMMIT_BRANCH" != "$CI_DEFAULT_BRANCH" ]]; then
-        make dish-logs KUBE_NAMESPACE=ci-$KUBE_APP-$DISH_ID-$CI_COMMIT_REF_NAME
-      else
-        make dish-logs KUBE_NAMESPACE=integration-$KUBE_APP-$DISH_ID
-      fi
-    done
 
 .test-telescope-on-with-hw:
   extends:
