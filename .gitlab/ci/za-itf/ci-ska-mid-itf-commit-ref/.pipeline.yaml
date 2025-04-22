@@ -104,6 +104,7 @@ k8s-test-runner:
   script:
     - make integration-test TANGO_HOST=$TANGO_DATABASE_DS.$KUBE_NAMESPACE.svc.$CLUSTER_DOMAIN:10000 || true
     - echo "Test command exit code - $(cat build/status)"
+    - make cbf-logs && make tmc-logs && make csp-logs
     - |
       if [[ 0 == "$(cat build/status)" || "$REMOVE_FAILED_TEST_DEPLOYMENT" == "true" ]]; then
         make remove-sut-deployment
@@ -116,8 +117,6 @@ k8s-test-runner:
       fi
     - '[ -f build/status ] || (echo "Something went wrong with the test (no build/status file); exit 1")'
     - exit $(cat build/status)
-  after_script:
-    - make cbf-logs && make tmc-logs && make csp-logs
   variables:
     DEBUG_ENTRYPOINT: "True"
     DEBUG_ENTRYPOINT_EXTENDED: "True"
