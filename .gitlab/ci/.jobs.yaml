@@ -128,16 +128,18 @@ docs-build:
 
 .dish_logs_script: &get_dish_logs
   - |
-    for DISH_ID in $DISH_IDS; do
-      $DISH_ID_LOWERCASE=${DISH_ID,,}
-      if [[ -n "$CI_COMMIT_TAG" ]]; then
-        make dish-logs KUBE_NAMESPACE=staging-dish-lmc-$DISH_ID_LOWERCASE
-      elif [[ "$CI_COMMIT_BRANCH" != "$CI_DEFAULT_BRANCH" ]]; then
-        make dish-logs KUBE_NAMESPACE=ci-dish-lmc-$DISH_ID_LOWERCASE-$CI_COMMIT_REF_NAME
-      else
-        make dish-logs KUBE_NAMESPACE=integration-dish-lmc-$DISH_ID_LOWERCASE
-      fi
-    done
+    bash .make/resources/gitlab_section.sh "Collecting Dish logs" bash -c '
+      for DISH_ID in $DISH_IDS; do
+        $DISH_ID_LOWERCASE=${DISH_ID,,}
+        if [[ -n "$CI_COMMIT_TAG" ]]; then
+          make dish-logs KUBE_NAMESPACE=staging-dish-lmc-$DISH_ID_LOWERCASE
+        elif [[ "$CI_COMMIT_BRANCH" != "$CI_DEFAULT_BRANCH" ]]; then
+          make dish-logs KUBE_NAMESPACE=ci-dish-lmc-$DISH_ID_LOWERCASE-$CI_COMMIT_REF_NAME
+        else
+          make dish-logs KUBE_NAMESPACE=integration-dish-lmc-$DISH_ID_LOWERCASE
+        fi
+      done
+    '
 
 .test-end-to-end-with-hw:
   artifacts:
@@ -168,7 +170,7 @@ docs-build:
     - '[ -f build/status ] || (echo "Something went wrong with the test (no build/status file); exit 1")'
     - exit $(cat build/status)
   after_script:
-    - make cbf-logs && make tmc-logs && make csp-logs
+    - bash .make/resources/gitlab_section.sh "Collecting SUT logs" make cbf-logs && make tmc-logs && make csp-logs
     - *get_dish_logs
 
 .test-telescope-on-with-hw:
