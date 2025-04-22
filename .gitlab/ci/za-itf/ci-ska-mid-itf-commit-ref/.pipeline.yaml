@@ -86,6 +86,7 @@ k8s-test-runner:
     paths:
       - "build/"
       - "config/"
+      - "logs/"
   extends:
     - .ci-env
   before_script:
@@ -98,7 +99,7 @@ k8s-test-runner:
     - bash .make/resources/gitlab_section.sh install "K8S Install" make k8s-install-chart
     - bash .make/resources/gitlab_section.sh wait "K8S wait" make k8s-wait
     - make itf-cbf-setup --dry
-    - mkdir -p build config
+    - mkdir -p build config logs
     - env > build/environment.txt
   script:
     - make integration-test TANGO_HOST=$TANGO_DATABASE_DS.$KUBE_NAMESPACE.svc.$CLUSTER_DOMAIN:10000 || true
@@ -114,6 +115,7 @@ k8s-test-runner:
         make links
       fi
     - '[ -f build/status ] || (echo "Something went wrong with the test (no build/status file); exit 1")'
+    - cd logs && make cbf-logs && make tmc-logs && make csp-logs
     - exit $(cat build/status)
   variables:
     DEBUG_ENTRYPOINT: "True"
