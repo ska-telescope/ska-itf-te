@@ -131,6 +131,7 @@ docs-build:
     paths:
       - build/sequence-diagram.puml
       - config/
+      - sut-logs/
     when: always
   variables:
     INTEGRATION_TEST_SOURCE: tests/integration/tmc/test_end_to_end.py::test_e2e_via_tmc_slow
@@ -153,6 +154,8 @@ docs-build:
     - make integration-test
     - '[ -f build/status ] || (echo "Something went wrong with the test (no build/status file); exit 1")'
     - exit $(cat build/status)
+  after-script:
+    - make cbf-logs && make tmc-logs && make csp-logs
 
 .test-telescope-on-with-hw:
   extends:
