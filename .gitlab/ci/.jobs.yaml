@@ -131,11 +131,11 @@ docs-build:
     for DISH_ID in $DISH_IDS; do
       DISH_ID_LOWERCASE=${DISH_ID,,}
       if [[ -n "$CI_COMMIT_TAG" ]]; then
-        bash .make/resources/gitlab_section.sh dish-$DISH_ID_LOWERCASE-logs "Collecting dish ${DISH_ID} logs" KUBE_NAMESPACE=staging-dish-lmc-$DISH_ID_LOWERCASE make dish-logs
+        bash .make/resources/gitlab_section.sh dish-$DISH_ID_LOWERCASE-logs "Collecting dish ${DISH_ID} logs" bash -c "KUBE_NAMESPACE=staging-dish-lmc-$DISH_ID_LOWERCASE make dish-logs"
       elif [[ "$CI_COMMIT_BRANCH" != "$CI_DEFAULT_BRANCH" ]]; then
-        bash .make/resources/gitlab_section.sh dish-$DISH_ID_LOWERCASE-logs "Collecting dish ${DISH_ID} logs" KUBE_NAMESPACE=ci-dish-lmc-$DISH_ID_LOWERCASE-$CI_COMMIT_REF_NAME make dish-logs
+        bash .make/resources/gitlab_section.sh dish-$DISH_ID_LOWERCASE-logs "Collecting dish ${DISH_ID} logs" bash -c "KUBE_NAMESPACE=ci-dish-lmc-$DISH_ID_LOWERCASE-$CI_COMMIT_REF_NAME make dish-logs"
       else
-        bash .make/resources/gitlab_section.sh dish-$DISH_ID_LOWERCASE-logs "Collecting dish ${DISH_ID} logs" KUBE_NAMESPACE=integration-dish-lmc-$DISH_ID_LOWERCASE make dish-logs
+        bash .make/resources/gitlab_section.sh dish-$DISH_ID_LOWERCASE-logs "Collecting dish ${DISH_ID} logs" bash -c "KUBE_NAMESPACE=integration-dish-lmc-$DISH_ID_LOWERCASE make dish-logs"
       fi
     done
 
