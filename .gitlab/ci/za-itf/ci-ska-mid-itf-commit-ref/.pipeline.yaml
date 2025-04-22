@@ -86,7 +86,7 @@ k8s-test-runner:
     paths:
       - "build/"
       - "config/"
-      - "sut-logs/"
+      - "logs/"
   extends:
     - .ci-env
   before_script:
