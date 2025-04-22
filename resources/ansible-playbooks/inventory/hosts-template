@@ -10,6 +10,12 @@ raspberry_pi-4 ansible_host=10.165.3.15 host_identifier="Raspberry Pi"
 talon-1 ansible_host=10.165.3.29 host_identifier="Talon 1"
 talon-2 ansible_host=10.165.3.30 host_identifier="Talon 2"
 
+; [talon_kapb]
+; talon-kapb-1
+; talon-kapb-2
+; talon-kapb-3
+; talon-kapb-4
+
 [talon:vars]
 ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p -q <AD_USER>@10.165.3.7"'
 ansible_user=root
