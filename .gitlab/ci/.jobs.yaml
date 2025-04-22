@@ -168,9 +168,9 @@ docs-build:
     - '[ -f build/status ] || (echo "Something went wrong with the test (no build/status file); exit 1")'
     - exit $(cat build/status)
   after_script:
-    - bash .make/resources/gitlab_section.sh sut-logs "Collecting CBF logs" bash -c "make cbf-logs"
-    - bash .make/resources/gitlab_section.sh sut-logs "Collecting TMC logs" bash -c "make tmc-logs"
-    - bash .make/resources/gitlab_section.sh sut-logs "Collecting CSP logs" bash -c "make csp-logs"
+    - bash .make/resources/gitlab_section.sh sut-logs "Collecting CBF logs" make cbf-logs
+    - bash .make/resources/gitlab_section.sh tmc-logs "Collecting TMC logs" make tmc-logs
+    - bash .make/resources/gitlab_section.sh csp-logs "Collecting CSP logs" make csp-logs
     - *get_dish_logs
 
 .test-telescope-on-with-hw:
