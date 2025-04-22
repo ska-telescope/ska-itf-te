@@ -31,7 +31,7 @@ spec:
         args:
         - |
           git clone https://gitlab.com/ska-telescope/ska-mid-itf.git
-          cd ska-mid-itf && git checkout at-2938-job-based-e2e-testing
+          cd ska-mid-itf && git checkout 26.1.2
           python3 -m pytest tests/smoke/ --log-file="/data/test-reports/$(date +'%Y-%m-%d_%H-%M-%S')_test-smoke.log" --log-level=DEBUG
       containers:
       - name: test-end-to-end
@@ -59,7 +59,7 @@ spec:
         - |
           rm -rf /app/.venv
           git clone https://gitlab.com/ska-telescope/ska-mid-itf.git
-          cd ska-mid-itf && git checkout at-2938-job-based-e2e-testing
+          cd ska-mid-itf && git checkout 26.1.2
           git submodule init
           git submodule update
           mkdir config
