@@ -85,6 +85,7 @@ k8s-test-runner:
     name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID"
     paths:
       - "build/"
+      - "config/"
   extends:
     - .ci-env
   before_script:
