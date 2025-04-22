@@ -86,7 +86,7 @@ k8s-test-runner:
     paths:
       - "build/"
       - "config/"
-      - "logs/"
+      - "sut-logs/"
   extends:
     - .ci-env
   before_script:
@@ -115,8 +115,9 @@ k8s-test-runner:
         make links
       fi
     - '[ -f build/status ] || (echo "Something went wrong with the test (no build/status file); exit 1")'
-    - cd logs && make cbf-logs && make tmc-logs && make csp-logs
     - exit $(cat build/status)
+  after_script:
+    - make cbf-logs && make tmc-logs && make csp-logs
   variables:
     DEBUG_ENTRYPOINT: "True"
     DEBUG_ENTRYPOINT_EXTENDED: "True"
