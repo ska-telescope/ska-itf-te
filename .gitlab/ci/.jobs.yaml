@@ -137,7 +137,7 @@ docs-build:
         make dish-logs KUBE_NAMESPACE=integration-$KUBE_APP-$DISH_ID
       fi
     done
-    
+
 .test-end-to-end-with-hw:
   artifacts:
     paths:
@@ -166,7 +166,7 @@ docs-build:
     - make integration-test
     - '[ -f build/status ] || (echo "Something went wrong with the test (no build/status file); exit 1")'
     - exit $(cat build/status)
-  after-script:
+  after_script:
     - make cbf-logs && make tmc-logs && make csp-logs
     - *get_dish_logs
 
