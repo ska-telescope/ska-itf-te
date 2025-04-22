@@ -1,6 +1,11 @@
 # Version History
 
 ## Unreleased
+## 26.3.0
+* [AT-2880] - end-to-end test improvements
+* [AT-2925] - Upgraded Taranta, Tango Base, Tango Util charts
+* [SDR-1415]- New TMC dashboards
+* [AT-2682] - Check CBF ON state in end-to-end test
 
 ## 26.1.2
 * [SKB-850] - Re-enable taranta
