@@ -300,7 +300,7 @@ def settings():
         os.getenv("GENERATE_SEQUENCE_DIAGRAM", "false").lower() == "true"
     )
     settings["artifact_dir"] = "config"
-    settings["dish_ids"] = os.getenv("DISH_IDS", "SKA001, SKA036, SKA063, SKA100")
+    settings["dish_ids"] = os.getenv("DISH_IDS", "SKA001 SKA036 SKA063 SKA100")
 
     return settings
 
