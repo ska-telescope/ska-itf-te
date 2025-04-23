@@ -41,8 +41,8 @@ csp-logs: ## Logs from all pods labelled subsystem=csp-lmc
 ##  make target for downloading all DISH related logs in a given namespace.
 ##  logs are placed in sut-logs/dish-logs/$date
 dish-logs: ## Logs from all pods labelled system=dish
-	@scripts/kubernetes/log_system.sh dsh ${KUBE_NAMESPACE}
-.PHONY: sdp-logs
+	@scripts/kubernetes/log_subsystem.sh ska-dish-lmc ${KUBE_NAMESPACE}
+.PHONY: dish-logs
 
 
 ## TARGET: sdp-logs
