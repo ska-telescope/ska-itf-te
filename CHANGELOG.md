@@ -5,8 +5,7 @@
 * [AT-2880] - Store SUT and Dish Kubernetes pod logs as artifacts during SW and HW test runs
             - Command configuration files stored as artifacts during SW and HW test runs
             - Use DISH_IDS environment variable to set receptors in E2E BDD tests
-
-* [AT-2938] - Use SPFC deployer v0.2.3 and include SKA036 archiver config
+* [AT-2938] - Add ska-mid-testing chart containing Kubernetes resources which enable E2E testing in the KAPB
 
 ## 26.1.2
 * [SKB-850] - Re-enable taranta
