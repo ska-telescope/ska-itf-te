@@ -130,6 +130,7 @@ k8s-test-runner:
     ADDMARKS: True
     MARKS: "'not hw_in_the_loop'"
     SIM_MODE: "true"
+    SUT_CLUSTER_DOMAIN: miditf.internal.skao.int
 
 stop-k8s-test-runner:
   tags:
