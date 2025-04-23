@@ -1,6 +1,7 @@
 # Version History
 
 ## Unreleased
+* [AT-2874] - Use SPFC deployer v0.2.3 and include SKA036 archiver config
 
 ## 26.1.2
 * [SKB-850] - Re-enable taranta
