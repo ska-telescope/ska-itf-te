@@ -33,6 +33,7 @@ class TMC:
         self.sdp_subarray_leaf_node = DeviceProxy("mid-tmc/subarray-leaf-node-sdp/01")
         self.csp_master_leaf_node = DeviceProxy("mid-tmc/leaf-node-csp/0")
         self.csp_subarray_leaf_node = DeviceProxy("mid-tmc/subarray-leaf-node-csp/01")
+        self.sdp_master_leaf_node = DeviceProxy("mid-tmc/leaf-node-sdp/0")
 
         proxies = [
             self.central_node,
