@@ -3,7 +3,7 @@
 
 OCI_BUILD_ADDITIONAL_ARGS += --cache-from registry.gitlab.com/ska-telescope/ska-mid-itf/ska-mid-itf-base:0.1.4
 
-HELM_CHARTS_TO_PUBLISH=dish-lmc ska-db-oda-mid-itf ska-mid-itf-ghosts ska-mid-itf-sut ska-mid-itf-dpd
+HELM_CHARTS_TO_PUBLISH=dish-lmc ska-db-oda-mid-itf ska-mid-itf-ghosts ska-mid-itf-sut ska-mid-itf-dpd ska-mid-cbf-engineering-console-cache
 PYTHON_VARS_AFTER_PYTEST= --disable-pytest-warnings
 POETRY_CONFIG_VIRTUALENVS_CREATE = true
 
@@ -72,17 +72,17 @@ DISH_LMC_EXTRA_PARAMS = \
 	--set global.tangodb_port=10000
 endif
 
-#TEMPORARY COMMIT - REMOVE ska-spfc-deployer.job.dish_index LINE AS SOON AS SPFC DEPLOYER IS UPDATED & RELEASED)
+#TEMPORARY COMMIT - REMOVE ska-mid-dish-spfc-deployer.job.dish_index LINE AS SOON AS SPFC DEPLOYER IS UPDATED & RELEASED)
 SPFC_IN_THE_LOOP ?= #Boolean flag to control deployment of the SPFC Tango device in a Dish
 SPFC_INSTANCE ?= that_one #Default value that needs to be overwritten during deployment
 ifeq ($(SPFC_IN_THE_LOOP), true)
 	DISH_LMC_EXTRA_PARAMS += \
 	--set ska-dish-lmc.ska-mid-dish-simulators.deviceServers.spfdevice.enabled=false \
 	--set ska-dish-lmc.ska-mid-dish-manager.dishmanager.spf.fqdn=$(DISH_ID)/spf/spfc \
-	--set ska-spfc-deployer.global.dish_index=$(DISH_ID) \
-	--set ska-spfc-deployer.enabled=true \
-	--set ska-spfc-deployer.job.namespace=$(KUBE_NAMESPACE) \
-	--set ska-spfc-deployer.instance=$(SPFC_INSTANCE)
+	--set ska-mid-dish-spfc-deployer.global.dish_id=$(DISH_ID) \
+	--set ska-mid-dish-spfc-deployer.enabled=true \
+	--set ska-mid-dish-spfc-deployer.job.namespace=$(KUBE_NAMESPACE) \
+	--set ska-mid-dish-spfc-deployer.instance=$(SPFC_INSTANCE)
 endif
 
 SPFRX_IN_THE_LOOP ?= #Boolean flag to control deployment of the device described in SPFRX_TANGO_INSTANCE, SPFRX_ADDRESS variables
@@ -155,7 +155,8 @@ ifeq ($(KUBE_NAMESPACE),staging)
 		--set ska-sdp.data-pvc.create.clone-pvc-namespace=shared-ska-dataproducts \
 		--set ska-sdp.data-pvc.create.enabled=true \
 		--set ska-sdp.data-pvc.create.size=2Ti \
-		--set ska-sdp.data-pvc.create.storageClassName=ceph-cephfs
+		--set ska-sdp.data-pvc.create.storageClassName=ceph-cephfs \
+		--set ska-sdp.data-pvc.pod.enabled=true
 endif
 
 # ifeq (wildcard($(KUBE_NAMESPACE),"ci-*")) # This will break - fix before push! block to be used in automated testing
@@ -303,6 +304,9 @@ include .make/raw.mk
 # include CBF configuration targets
 -include resources/makefiles/cbf-config.mk
 
+# include Taranta multiDB targets
+-include resources/makefiles/taranta.mk
+
 # include Xray uploads
 include .make/xray.mk
 
@@ -313,10 +317,15 @@ XRAY_TEST_RESULT_FILE ?= build/reports/cucumber.json
 XRAY_EXECUTION_CONFIG_FILE ?= tests/xray-config.json
 XRAY_EXTRA_OPTS=-v
 
-integration-test:
+CLUSTER_HEADLAMP_BASE_URL?=https://k8s.miditf.internal.skao.int/headlamp
+CLUSTER_DATACENTRE?=mid-itf
+CLUSTER_MONITOR?=mid-itf-monitor
+
+integration-test: k8s-info
 	@mkdir -p build
 	set -o pipefail; $(PYTHON_RUNNER) pytest $(INTEGRATION_TEST_SOURCE) $(INTEGRATION_TEST_ARGS); \
 	echo $$? > build/status
+	@mv sequence-diagram.puml build/sequence-diagram.puml 2>/dev/null || echo "sequence diagram not moved"
 
 upload-to-confluence:
 	@poetry run upload-to-confluence sut_config.yaml build/reports/cucumber.json
@@ -344,3 +353,6 @@ print-telescope-state:
 
 teardown-telescope:
 	@poetry run telescope_state_control --teardown -n ${E2E_TEST_EXECUTION_NAMESPACE} -d "${DISH_IDS}"
+
+teardown-telescope-to-pre-assign:
+	@poetry run telescope_state_control --teardown -n ${E2E_TEST_EXECUTION_NAMESPACE} -d "${DISH_IDS}" -c "ON" -b "STANDBY_FP"

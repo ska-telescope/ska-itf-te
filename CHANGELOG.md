@@ -1,6 +1,61 @@
 # Version History
 
 ## Unreleased
+* [AT-2874] - Use SPFC deployer v0.2.3 and include SKA036 archiver config
+
+## 26.1.2
+* [SKB-850] - Re-enable taranta
+
+## 26.1.1
+* [AT-2912] - Added ska-mid-cbf-tdc-tmleafnode chart to enable CBF verification tests. Disabled by default.
+* [AT-2917] - Upgraded CSP to v1.0.1
+
+## 26.1.0
+* [AT-2906] - TMC name changes (ADR-9)
+            - dish leafnode naming fixes (ADR-9)
+            - alarm rules in tests with new names (ADR-9)
+            - Upgraded TMC
+            - Upgraded CBF.MCS and CBF.EC
+            - Upgraded Archiver
+            - Disabled Taranta (temporary - SKB-850)
+            - Disabled TangoGQL (temporary - SKB-850)
+            - Disabled CIA (temporary - SKB-850)
+            - Disabled all tests except end2end test until name changes are incorporated into Skallop (ADR-9)
+* [AT-2897] - Upgraded Telescope Model to work with latest product versions
+
+## 26.0.0
+* [AT-2856] - upgraded and pulled newly-named DPD chart to 0.10.0
+* [AT-2811] - no longer creating our own PVC in DPD namespace - manage via Helm only
+* [AT-2855] - upgraded CSP.LMC to 1.0.0 and removed DishLMC custom image override
+* [AT-2843] - store command config strings as CI job artefacts
+
+## 25.6.3
+* [AT-2354] - Output links to Grafana dashboards and Kibana logs for the SUT namespace whenever integration-test is called
+* [AT-2611] - Updated Ansible scripts with most recent users of the ITF jump host and corrected SPFRx network configurations
+* [AT-2766] - SKB-606 resolutions:
+                Bumped TMC to v0.25.0;
+                Bumped SPFRx deployer to v0.5.0;
+                Bumped DishLMC chart to v7.0.0;
+                Added DishLMC patch image version 7.0.0-dev.ca11be44a (temporary workaroud);
+                Removed CSP SubarrayLeafnode patch image (workaround)
+
+* [AT-2805] - Gitlab e2e test job targets one specific test
+* [AT-2612] - PlantUML Sequence diagrammes generated while using Notebooks and during CI pipeline tests, saved with artefacts
+* [AT-2726] - Added pod to SDP namespace to check if PVC is available;
+              also moved PVC patch info
+
+## 25.6.2
+* [AT-2647] - Split end-to-end tests - ON and OFF commands now separated from Observation sequences
+
+## 25.6.1
+* [REL-1963] - fixed non-functional deployment of MultiDB Taranta
+
+## 25.6.0
+* [AT-2756] - updated Tango Util & Tango Base charts
+* [AT-2584] - MultiDB Taranta support
+
+## 25.5.0
+* [AT-2726] - Fixed SDP PVC patch Yaml file with correct labelling of PVC.
 
 ## 25.4.0
 * [AT-2624] - Readthedocs YAML updates

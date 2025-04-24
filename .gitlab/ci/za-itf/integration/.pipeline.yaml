@@ -6,7 +6,8 @@
     - .integration_rules
   variables:
     CONFIG: mid
-    HELM_RELEASE: "integration-$CI_COMMIT_REF_SLUG"
+    # HELM_RELEASE: "integration-$CI_COMMIT_REF_SLUG"
+    HELM_RELEASE: "integration-main"
     KUBE_NAMESPACE: "integration"
     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
     SERVICE_ACCOUNT: "ci-svc-integration"
@@ -24,7 +25,7 @@
     PDU_IP: "10.20.2.14"
     # HARDWARE AND DISH IN THE LOOP SETTINGS
     CBF_HW_IN_THE_LOOP: "false"
-    DISH_LMC_IN_THE_LOOP: "false" # TEMPORARY COMMIT - SET TO TRUE FOR FULL SYSTEM ONCE CONNECTION BUGS ARE SORTED - SEE SKB-309 AND FRIENDS
+    DISH_LMC_IN_THE_LOOP: "true"
 
 deploy-sut-integration:
   extends:
@@ -67,3 +68,40 @@ destroy-sut-integration:
       namespace: $KUBE_NAMESPACE
     url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
     action: stop
+
+.test-integration-rules:
+  rules:
+    - if: '$CI_COMMIT_TAG != null'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: manual
+      allow_failure: true
+    - when: never
+
+test-end-to-end-integration:
+  stage: test
+  extends:
+    - .integration-env
+    - .test-end-to-end-with-hw
+    - .test-integration-rules
+
+test-telescope-on-integration:
+  stage: test
+  extends:
+    - .integration-env
+    - .test-telescope-on-with-hw
+    - .test-integration-rules
+
+test-scan-integration:
+  stage: test
+  extends:
+    - .integration-env
+    - .test-scan-with-hw
+    - .test-integration-rules
+
+test-telescope-off-integration:
+  stage: test
+  extends:
+    - .integration-env
+    - .test-telescope-off-with-hw
+    - .test-integration-rules

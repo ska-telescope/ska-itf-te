@@ -11,7 +11,7 @@ from ska_control_model._dev_state import DevState
 
 # TODO: Get these  helper classes moved into utils
 from tests.integration.tmc.conftest import TMC, EventWaitTimeout, wait_for_event
-from utils.enums import DishMode
+from utils.enums import DishMode, PointingState
 
 # TODO: Think about passing an instance of logger, and not global logger
 logger = logging.getLogger()
@@ -31,7 +31,7 @@ class TelescopeState:
     :rtype: _type_
     """
 
-    telescope: DevState = DevState.OFF
+    central_node: DevState = DevState.OFF
     subarray: ObsState = ObsState.EMPTY
     csp: ObsState = ObsState.EMPTY
     sdp: ObsState = ObsState.EMPTY
@@ -46,7 +46,7 @@ class TelescopeState:
         dishes_str = ", ".join(f"{dish}: {mode.name}" for dish, mode in self.dishes.items())
         return (
             f"\nTelescope State:\n"
-            f"  Telescope: {self.telescope.name}\n"
+            f"  Central node: {self.central_node.name}\n"
             f"  Subarray: {self.subarray.name}\n"
             f"  CSP: {self.csp.name}\n"
             f"  SDP: {self.sdp.name}\n"
@@ -84,7 +84,7 @@ class TelescopeHandler:
 
         current_telescope_state = self.get_current_state()
         if current_telescope_state == desired_state:
-            logger.info(f"Telescope is already at the base state: {self.telescope_base_state}")
+            logger.info(f"Telescope is already at the base state")
             return
 
         # Teardown the dishes
@@ -147,7 +147,10 @@ class TelescopeHandler:
         # Re-evaluate telescope state
         current_telescope_state = self.get_current_state()
         if current_telescope_state != desired_state:
-            logger.error("Failed to teardown the telescope to the base state")
+            logger.error(
+                "Failed to teardown the telescope to the base state. This is "
+                "expected when the target central node state is OFF."
+            )
 
     def _teardown_dishes(self, current_dish_states: Dict[str, DishMode]):
         """Teardown dishes from current state down to the base state.
@@ -173,7 +176,6 @@ class TelescopeHandler:
                 # Teardown from OPERATE
                 if current_dish_states[dish_id] == DishMode.OPERATE:
                     dish.AbortCommands()
-                    dish.SetStandbyFPMode()
                     wait_for_event(dish, "dishMode", DishMode.STANDBY_FP, timeout=30)
                     dish.SetStandbyLPMode()
                     wait_for_event(dish, "dishMode", DishMode.STANDBY_LP, timeout=30)
@@ -189,6 +191,24 @@ class TelescopeHandler:
                     wait_for_event(dish, "dishMode", DishMode.STOW, timeout=30)
                     dish.SetStandbyLPMode()
                     wait_for_event(dish, "dishMode", DishMode.STANDBY_LP, timeout=30)
+
+            elif self.telescope_base_state.dishes[dish_id] == DishMode.STANDBY_FP:
+                # Teardown from OPERATE
+                if current_dish_states[dish_id] == DishMode.OPERATE:
+                    if dish.pointingState == PointingState.READY:
+                        logger.info(
+                            f"Dish {dish_id} pointing state is READY, so leaving dish in OPERATE"
+                        )
+                        continue
+
+                # Teardown from UNKNOWN
+                if current_dish_states[dish_id] == DishMode.UNKNOWN:
+                    dish.SetStowMode()
+                    wait_for_event(dish, "dishMode", DishMode.STOW, timeout=30)
+                    dish.SetStandbyLPMode()
+                    wait_for_event(dish, "dishMode", DishMode.STANDBY_LP, timeout=30)
+                    dish.SetStandbyFPMode()
+                    wait_for_event(dish, "dishMode", DishMode.STANDBY_FP, timeout=30)
             else:
                 logger.error(
                     f"Teardown of dish to {self.telescope_base_state.dishes[dish_id]}"
@@ -262,7 +282,7 @@ class TelescopeHandler:
 
             # Teardown from FAULT
             if current_state == ObsState.FAULT:
-                print(f"{subsystem} teardown from {ObsState.FAULT} note implemented")
+                print(f"{subsystem} teardown from {ObsState.FAULT} not implemented")
 
         else:
             print(f"Teardown of CSP to {self.telescope_base_state.csp} has not been implemented")

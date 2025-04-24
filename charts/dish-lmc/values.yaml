@@ -27,11 +27,12 @@ ska-dish-lmc:
     enabled: false
   ska-mid-dish-manager:
     enabled: true
-    dishmanager:
-      image:
-        registry: registry.gitlab.com/ska-telescope/ska-mid-dish-manager
-        image: ska-mid-dish-manager
-        tag: 6.0.2-dev.c0e478312
+    # Leaving this here just as an example
+    # dishmanager:
+    #   image:
+    #     registry: registry.gitlab.com/ska-telescope/ska-mid-dish-manager
+    #     image: ska-mid-dish-manager
+    #     tag: 7.0.0-dev.cdaaea0a2
   ska-mid-dish-ds-manager:
     enabled: true
   ska-mid-dish-simulators:
@@ -57,7 +58,7 @@ ska-mid-dish-spfrx-talondx-console:
   logging_level: 4
 
 # SPFC
-ska-spfc-deployer:
+ska-mid-dish-spfc-deployer:
   enabled: false
 
 # TARANTA SUITE
@@ -98,6 +99,7 @@ ska-tango-archiver:
   telescope_environment: MID-ITF
   configuration_manager: mid-eda/cm/01
   event_subscriber: mid-eda/es/01
+  configuration_file_url: https://gitlab.com/ska-telescope/ska-mid-itf/-/raw/26.1.1/tmdata/mid-itf-staging-archiver-configs/dish-lmc-ska001.yaml?ref_type=tags&inline=false
   archwizard_config: MyHDB=tango://tango-databaseds:10000/mid-eda/cm/01
   archviewer:
     instances:

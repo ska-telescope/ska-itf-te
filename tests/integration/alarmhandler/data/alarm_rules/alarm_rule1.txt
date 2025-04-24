@@ -1,1 +1,1 @@
-tag=SubarrayNode_obsstate_fault;formula=(ska_mid/subarray_node/1/obsState == 9);priority=log;group=none;message="alarm for subarray node obsstate fault"
+tag=SubarrayNode_obsstate_fault;formula=(mid-tmc/subarray/01/obsState == 9);priority=log;group=none;message="alarm for subarray node obsstate fault"

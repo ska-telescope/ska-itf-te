@@ -21,6 +21,9 @@ localhost-0 ansible_host=localhost ansible_connection=local host_identifier=Loca
 ansible_python_interpreter=python3
 ansible_user="<AD_USER>"
 
-# Raspberry Pi SPFC
-[raspberry_pi_spfc]
-raspberry_pi-4-spfc ansible_host=10.165.3.35 host_identifier="Raspberry Pi SPFC"
+# SPFRxs
+[spfrx]
+spfrx1 ansible_host=10.165.3.20 host_identifier="spfrx1"
+spfrx2 ansible_host=10.165.3.21 host_identifier="spfrx2"
+spfrx3 ansible_host=10.165.3.22 host_identifier="spfrx3"
+spfrx4 ansible_host=10.165.3.23 host_identifier="spfrx4"
