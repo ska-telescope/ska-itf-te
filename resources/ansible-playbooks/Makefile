@@ -77,6 +77,14 @@ setup_gaia_dry_run: setup ## Runs the full playbook against Gaia in dry-run mode
 	$(ANSIBLE_COMMAND_DRY_RUN) --limit gaia $(MKFILE_DIR)site.yml
 .PHONY: setup_gaia
 
+setup_talon_boards_kapb: setup ## Runs the full playbook against the Talon boards.
+	$(ANSIBLE_COMMAND) --limit talon_kapb $(MKFILE_DIR)site.yml
+.PHONY: setup_talon_boards_kapb
+
+setup_talon_boards_kapb_dry_run: setup ## Runs the full playbook against the Talon boards in dry-run mode.
+	$(ANSIBLE_COMMAND_DRY_RUN) --limit talon_kapb $(MKFILE_DIR)site.yml
+.PHONY: setup_talon_boards_kapb_dry_run
+
 setup_talon_boards: setup ## Runs the full playbook against the Talon boards.
 	$(ANSIBLE_COMMAND) --limit talon $(MKFILE_DIR)site.yml
 .PHONY: setup_talon
