@@ -244,7 +244,8 @@ def fxt_integration_test_exec_settings(
 
 @pytest.fixture(name="updated_session_exec_settings")
 def update_session_exec_settings(
-    session_exec_settings: fxt_types.session_exec_settings, sut_settings: SutTestSettings
+    session_exec_settings: fxt_types.session_exec_settings,
+    sut_settings: SutTestSettings,
 ):
     """_summary_.
 
@@ -419,7 +420,8 @@ def i_switch_off_the_telescope(
 
 @when(
     parsers.cfparse(
-        "I assign dishes: {dish_ids:DishName+} to the subarray", extra_types={"DishName": str}
+        "I assign dishes: {dish_ids:DishName+} to the subarray",
+        extra_types={"DishName": str},
     )
 )
 def i_assign_dishes_to_it(

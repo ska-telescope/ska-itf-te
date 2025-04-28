@@ -126,14 +126,29 @@ docs-build:
     - exists:
         - charts/**/*
 
+.dish_logs_script: &get_dish_logs
+  - |
+    for DISH_ID in $DISH_IDS; do
+      DISH_ID_LOWERCASE=${DISH_ID,,}
+      if [[ -n "$CI_COMMIT_TAG" ]]; then
+        bash .make/resources/gitlab_section.sh dish-$DISH_ID_LOWERCASE-logs "Collecting dish ${DISH_ID} logs" make dish-logs KUBE_NAMESPACE=staging-dish-lmc-$DISH_ID_LOWERCASE
+      elif [[ "$CI_COMMIT_BRANCH" != "$CI_DEFAULT_BRANCH" ]]; then
+        bash .make/resources/gitlab_section.sh dish-$DISH_ID_LOWERCASE-logs "Collecting dish ${DISH_ID} logs" make dish-logs KUBE_NAMESPACE=ci-dish-lmc-$DISH_ID_LOWERCASE-$CI_COMMIT_REF_NAME
+      else
+        bash .make/resources/gitlab_section.sh dish-$DISH_ID_LOWERCASE-logs "Collecting dish ${DISH_ID} logs" make dish-logs KUBE_NAMESPACE=integration-dish-lmc-$DISH_ID_LOWERCASE
+      fi
+    done
+
 .test-end-to-end-with-hw:
   artifacts:
     paths:
       - build/sequence-diagram.puml
       - config/
+      - logs/
     when: always
   variables:
     INTEGRATION_TEST_SOURCE: tests/integration/tmc/test_end_to_end.py::test_e2e_via_tmc_slow
+    SUT_CLUSTER_DOMAIN: miditf.internal.skao.int
     E2E_TEST_EXECUTION_NAMESPACE: $KUBE_NAMESPACE
     SIM_MODE: false
     ADDMARKS: ""
@@ -153,6 +168,11 @@ docs-build:
     - make integration-test
     - '[ -f build/status ] || (echo "Something went wrong with the test (no build/status file); exit 1")'
     - exit $(cat build/status)
+  after_script:
+    - bash .make/resources/gitlab_section.sh sut-logs "Collecting CBF logs" make cbf-logs
+    - bash .make/resources/gitlab_section.sh tmc-logs "Collecting TMC logs" make tmc-logs
+    - bash .make/resources/gitlab_section.sh csp-logs "Collecting CSP logs" make csp-logs
+    - *get_dish_logs
 
 .test-telescope-on-with-hw:
   extends:

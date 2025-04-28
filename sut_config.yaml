@@ -44,15 +44,15 @@ parts:
     version: "file://charts/ska-mid-itf-sut/Chart.yaml"
     dependencies: []
     alias: "Mid CBF MCS"
-  # ska-tango-taranta:
-  #   version: "file://charts/ska-mid-itf-sut/Chart.yaml"
-  #   dependencies: ["ska-tango-tangogql"]
-  #   alias: "SKA Taranta"
-  # ska-tango-tangogql-ariadne:
-  #   version: "file://charts/ska-mid-itf-sut/Chart.yaml"
-  #   dependencies: []
-  #   platformDependents: []
-  #   alias: "SKA TangoGQL"
+  ska-tango-taranta:
+    version: "file://charts/ska-mid-itf-sut/Chart.yaml"
+    dependencies: ["ska-tango-tangogql"]
+    alias: "SKA Taranta"
+  ska-tango-tangogql-ariadne:
+    version: "file://charts/ska-mid-itf-sut/Chart.yaml"
+    dependencies: []
+    platformDependents: []
+    alias: "SKA TangoGQL"
   ska-log-consumer:
     version: "file://charts/ska-mid-itf-sut/Chart.yaml"
     dependencies: []
