@@ -66,7 +66,15 @@
     },
     "runArgs": [
         // "--dns",
-        // "10.164.0.11"
+        // "192.168.10.1",
+        // "--dns-search",
+        // "ad.skatelescope.org",
+        // "--dns-search",
+        // "skatelescope.org",
+        // "--dns-search",
+        // "internal.skao.int",
+        "--dns",
+        "10.164.0.11",
         "--network",
         "host"
     ],
