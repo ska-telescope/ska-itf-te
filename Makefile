@@ -356,3 +356,10 @@ teardown-telescope:
 
 teardown-telescope-to-pre-assign:
 	@poetry run telescope_state_control --teardown -n ${E2E_TEST_EXECUTION_NAMESPACE} -d "${DISH_IDS}" -c "ON" -b "STANDBY_FP"
+
+DNS_PARAM?=--dns 10.20.0.21# Global DNS nameserver
+SERVICE_NAME?=tango-databaseds
+TANGO_HOST_DNS?=${SERVICE_NAME}.${KUBE_NAMESPACE}.svc.${CLUSTER_DOMAIN}:10000 # tango-databaseds.ska-mid-central-controller.svc.mid.internal.skao.int:10000
+BOOGIE_VERSION?=0.2.1
+boogie:
+	@docker run -e TANGO_HOST=${TANGO_HOST_DNS} ${DNS_PARAM} -it artefact.skao.int/ska-tango-images-tango-boogie:${BOOGIE_VERSION}
