@@ -19,7 +19,7 @@ spec:
           claimName: pvc-test-data-storage
       initContainers:
       - name: test-smoke
-        image: registry.gitlab.com/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools:0.9.3
+        image: registry.gitlab.com/ska-telescope/ska-mid-itf/ska-mid-itf:26.2.0-dev.cbf8f5714
         imagePullPolicy: IfNotPresent
         volumeMounts:
         - name: test-data-storage
@@ -30,12 +30,13 @@ spec:
         command: ["sh", "-c"]
         args:
         - |
-          git clone https://gitlab.com/ska-telescope/ska-mid-itf.git
-          cd ska-mid-itf && git checkout 26.1.2
-          python3 -m pytest tests/smoke/ --log-file="/data/test-reports/$(date +'%Y-%m-%d_%H-%M-%S')_test-smoke.log" --log-level=DEBUG
+          . .venv/bin/activate \
+          python3 -m pytest tests/smoke/ \
+          --log-cli-level=DEBUG \
+          --log-file="/data/test-reports/$(date +'%Y-%m-%d_%H-%M-%S')_test-smoke" 2>&1
       containers:
       - name: test-end-to-end
-        image: registry.gitlab.com/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools:0.9.3
+        image: registry.gitlab.com/ska-telescope/ska-mid-itf/ska-mid-itf:26.2.0-dev.cbf8f5714
         imagePullPolicy: IfNotPresent
         volumeMounts:
         - name: test-data-storage
@@ -57,14 +58,6 @@ spec:
         command: ["sh", "-c"]
         args:
         - |
-          rm -rf /app/.venv
-          git clone https://gitlab.com/ska-telescope/ska-mid-itf.git
-          cd ska-mid-itf && git checkout 26.1.2
-          git submodule init
-          git submodule update
-          mkdir config
-          poetry config virtualenvs.in-project true
-          poetry install
           . .venv/bin/activate
           pytest tests/integration/tmc/test_end_to_end.py::test_e2e_via_tmc \
           --log-cli-level=DEBUG \
