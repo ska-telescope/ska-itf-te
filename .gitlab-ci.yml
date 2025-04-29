@@ -86,7 +86,7 @@ xray-publish:
 oci-image-build:
   variables:
     OCI_BUILD_ADDITIONAL_ARGS: "--build-arg GIT_COMMIT_SHA=$(git rev-parse HEAD)"
-    CI_PROJECT_NAMESPACE: "ska-mid-testing"
+    OCI_IMAGE: "ska-mid-testing"
 
 docs-build-rtd:
   rules:
