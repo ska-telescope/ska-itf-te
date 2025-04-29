@@ -23,4 +23,4 @@ helm upgrade --install staging \
 --set ska-tango-archiver.enabled=false -f charts/ska-mid-itf-sut/tmc-values.yaml 
 --set ska-tmc-mid.deviceServers.mocks.enabled=false
 --set ska-tmc-mid.deviceServers.mocks.dish=false \
- ./charts/ska-mid-itf-sut/ --namespace staging
+ ./charts/ska-mid/ --namespace staging
