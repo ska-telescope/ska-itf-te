@@ -749,7 +749,6 @@ def a_tmc(receptor_ids):
     result = sdp_subarray_leaf_node.ping()
     assert result > 0
 
-    # receptors = ["SKA001", "SKA036", "SKA063", "SKA100"]
     receptors = receptor_ids
     for receptor in receptors:
         dish_leaf_node = tmc.get_dish_leaf_node_dp(receptor)
