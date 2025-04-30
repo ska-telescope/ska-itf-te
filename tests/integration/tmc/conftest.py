@@ -291,31 +291,31 @@ def wait_for_event(
     return result
 
 
-# TODO: Consider removing this e.g. read from config file or feature file
-@pytest.fixture(scope="session")
-def settings():
-    """Fixture for generating settings to be used in the test.
+# # TODO: Consider removing this e.g. read from config file or feature file
+# @pytest.fixture(scope="session")
+# def settings():
+#     """Fixture for generating settings to be used in the test.
 
-    :return: _description_
-    :rtype: _type_
-    """
-    settings = {}
-    settings["sut_cluster_domain"] = os.getenv("SUT_CLUSTER_DOMAIN")
-    settings["SUT_namespace"] = os.getenv("KUBE_NAMESPACE")
-    settings["data_dir"] = ".jupyter-notebooks/data/mid_telescope"
-    settings["TMC_configs"] = f"{settings['data_dir']}/tmc"
-    settings["expected_k_value"] = 1
-    settings["override_scan_duration"] = os.getenv("OVERRIDE_SCAN_DURATION")
-    settings["override_scan_band"] = os.getenv("OVERRIDE_SCAN_BAND")
-    settings["integration_factor"] = os.getenv("INTEGRATION_FACTOR")
-    settings["sim_mode"] = os.getenv("SIM_MODE", "false").lower()
-    settings["generate_sequence_diagram"] = (
-        os.getenv("GENERATE_SEQUENCE_DIAGRAM", "false").lower() == "true"
-    )
-    settings["artifact_dir"] = "config"
-    settings["dish_ids"] = os.getenv("DISH_IDS", "SKA001 SKA036 SKA063 SKA100")
+#     :return: _description_
+#     :rtype: _type_
+#     """
+#     settings = {}
+#     settings["sut_cluster_domain"] = os.getenv("SUT_CLUSTER_DOMAIN")
+#     settings["SUT_namespace"] = os.getenv("KUBE_NAMESPACE")
+#     settings["data_dir"] = ".jupyter-notebooks/data/mid_telescope"
+#     settings["TMC_configs"] = f"{settings['data_dir']}/tmc"
+#     settings["expected_k_value"] = 1
+#     settings["override_scan_duration"] = os.getenv("OVERRIDE_SCAN_DURATION")
+#     settings["override_scan_band"] = os.getenv("OVERRIDE_SCAN_BAND")
+#     settings["integration_factor"] = os.getenv("INTEGRATION_FACTOR")
+#     settings["sim_mode"] = os.getenv("SIM_MODE", "false").lower()
+#     settings["generate_sequence_diagram"] = (
+#         os.getenv("GENERATE_SEQUENCE_DIAGRAM", "false").lower() == "true"
+#     )
+#     settings["artifact_dir"] = "config"
+#     settings["dish_ids"] = os.getenv("DISH_IDS", "SKA001 SKA036 SKA063 SKA100")
 
-    return settings
+#     return settings
 
 
 # # TODO: Consider removing this e.g. read from config file or feature file
