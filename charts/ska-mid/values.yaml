@@ -26,6 +26,7 @@ ska-csp-lmc-mid:
 
 # ODA
 ska-db-oda-umbrella:
+  enabled: false
   ska-ser-skuid:
     skuid:
       config:
@@ -101,11 +102,11 @@ ska-mid-dish-spfc-deployer:
 
 # SPFRx
 ska-mid-dish-spfrx-talondx-console:
+  enabled: false
   address: 10.165.3.20
   bin: /usr/local/bin
   # console:
     #  version: 0.3.9 # Edit in Gitlab Environment
-  enabled: false
   instance: spfrx-20
   local_dir: artifacts
   logging_level: 4
@@ -113,12 +114,12 @@ ska-mid-dish-spfrx-talondx-console:
 
 # SDP
 ska-sdp:
+  enabled: true
   data-pvc:
     create:
       enabled: true
       size: 2Ti
       storageClassName: ceph-cephfs
-  enabled: true
   helmdeploy:
     enableNADClusterRole: true
   legacy_compatibility: true
@@ -147,6 +148,7 @@ ska-ser-config-inspector:
 
 # EDA
 ska-tango-archiver:
+  enabled: true
   archviewer:
     instances:
     - name: mid
@@ -159,7 +161,6 @@ ska-tango-archiver:
   configuration_manager: mid-eda/cm/01
   dbname: itf_eda
   dbuser: admin
-  enabled: true
   event_subscriber: mid-eda/es/01
   hostname: eda.ska-tango-archiver
   port: 5432
@@ -175,8 +176,8 @@ ska-tango-base:
 
 # TANGO DEPLOYMENT
 ska-tango-tangogql:
-  tangoDB: taranta  # This is the name of the TangoDB that should always be set first when deploying a multiDB Taranta system
   enabled: true
+  tangoDB: taranta  # This is the name of the TangoDB that should always be set first when deploying a multiDB Taranta system
   ska-tango-base:
     enabled: false
   ska-tango-examples:
