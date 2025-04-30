@@ -88,6 +88,13 @@ xray-publish:
 #     - when: never
 
 oci-image-build:
+  rules:
+    - when: never
+
+oci-image-build-testing:
+  extends:
+    - .image_builder_template
+  stage: build
   variables:
     OCI_BUILD_ADDITIONAL_ARGS: "--build-arg GIT_COMMIT_SHA=$(git rev-parse HEAD)"
     OCI_IMAGE: "ska-mid-testing"
