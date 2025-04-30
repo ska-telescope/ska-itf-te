@@ -18,12 +18,54 @@ from ska_ser_skallop.mvp_control.infra_mon.configuration import get_mvp_release
 from ska_ser_skallop.mvp_fixtures.fixtures import fxt_types
 from tango import DeviceProxy
 
+from tests.integration.tmc.conftest import TMC
+
 from .resources.models.base.states import ObsState
 from .resources.models.mvp_model.env import init_observation_config
 from .resources.models.obsconfig.base import DishName
 from .resources.models.obsconfig.config import Observation
 
 logger = logging.getLogger(__name__)
+
+
+# TODO: Consider removing this e.g. read from config file or feature file
+@pytest.fixture(scope="session")
+def settings():
+    """Fixture for generating settings to be used in the test.
+
+    :return: _description_
+    :rtype: _type_
+    """
+    settings = {}
+    settings["sut_cluster_domain"] = os.getenv("SUT_CLUSTER_DOMAIN")
+    settings["SUT_namespace"] = os.getenv("KUBE_NAMESPACE")
+    settings["data_dir"] = ".jupyter-notebooks/data/mid_telescope"
+    settings["TMC_configs"] = f"{settings['data_dir']}/tmc"
+    settings["expected_k_value"] = 1
+    settings["override_scan_duration"] = os.getenv("OVERRIDE_SCAN_DURATION")
+    settings["override_scan_band"] = os.getenv("OVERRIDE_SCAN_BAND")
+    settings["integration_factor"] = os.getenv("INTEGRATION_FACTOR")
+    settings["sim_mode"] = os.getenv("SIM_MODE", "false").lower()
+    settings["generate_sequence_diagram"] = (
+        os.getenv("GENERATE_SEQUENCE_DIAGRAM", "false").lower() == "true"
+    )
+    settings["artifact_dir"] = "config"
+    settings["dish_ids"] = os.getenv("DISH_IDS", "SKA001 SKA036 SKA063 SKA100")
+
+    return settings
+
+
+# TODO: Consider removing this e.g. read from config file or feature file
+@pytest.fixture(scope="session")
+def receptor_ids(settings):
+    """Fixture for generating list of receptors to be used in test.
+
+    :param settings: _description_
+    :return: List of receptor IDs
+    :rtype: _type_
+    """
+    receptors = [dish_id.strip() for dish_id in settings["dish_ids"].split()]
+    return receptors
 
 
 @pytest.fixture(name="check_infra_per_test", autouse=True)
@@ -673,41 +715,46 @@ def the_subarray_should_go_into_an_aborted_state(
 
 @given("a mid telescope")
 @given("a TMC")
-def a_tmc():
-    """Given a TMC."""
-    tel = names.TEL()
-    nr_of_subarrays = 1
+def a_tmc(receptor_ids):
+    """Given a TMC.
 
-    central_node_name = tel.tm.central_node
-    central_node = con_config.get_device_proxy(central_node_name)
-    result = central_node.ping()
+    :param receptor_ids: ids of the receptors available
+    :type receptor_ids: List of dish ids
+    """
+    tmc = TMC()
+    sdp_subarray_leaf_node = tmc.sdp_subarray_leaf_node
+    csp_subarray_leaf_node = tmc.csp_subarray_leaf_node
+
+    tmc_central_node = tmc.central_node
+    result = tmc_central_node.ping()
     assert result > 0
 
-    subarray_node = con_config.get_device_proxy(tel.tm.subarray(1))
-    result = subarray_node.ping()
+    tmc_subarray_node1 = tmc.subarray_node
+    result = tmc_subarray_node1.ping()
     assert result > 0
 
-    csp_master_leaf_node = con_config.get_device_proxy(tel.tm.csp_leaf_node)
+    csp_master_leaf_node = tmc.csp_master_leaf_node
     result = csp_master_leaf_node.ping()
     assert result > 0
 
-    sdp_master_leaf_node = con_config.get_device_proxy(tel.tm.sdp_leaf_node)
+    sdp_master_leaf_node = tmc.sdp_master_leaf_node
     result = sdp_master_leaf_node.ping()
     assert result > 0
 
-    csp_subarray_leaf_node = con_config.get_device_proxy(tel.tm.subarray(1).csp_leaf_node)
+    csp_subarray_leaf_node = tmc.csp_subarray_leaf_node
     result = csp_subarray_leaf_node.ping()
     assert result > 0
 
-    sdp_subarray_leaf_node = con_config.get_device_proxy(tel.tm.subarray(1).sdp_leaf_node)
+    sdp_subarray_leaf_node = tmc.sdp_subarray_leaf_node
     result = sdp_subarray_leaf_node.ping()
     assert result > 0
 
-    if tel.skamid:
-        for index in range(1, nr_of_subarrays + 1):
-            dish_leaf_nodes = con_config.get_device_proxy(tel.tm.dish_leafnode(index))
-            result = dish_leaf_nodes.ping()
-            assert result > 0
+    receptors = receptor_ids
+    for receptor in receptors:
+        dish_leaf_node = tmc.get_dish_leaf_node_dp(receptor)
+        logger.info("Dish Leaf Node devname: %s", dish_leaf_node.dev_name())
+        result = dish_leaf_node.ping()
+        assert result > 0
 
 
 @given("an alarm handler")
