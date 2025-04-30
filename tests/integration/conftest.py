@@ -28,6 +28,19 @@ from .resources.models.obsconfig.config import Observation
 logger = logging.getLogger(__name__)
 
 
+# TODO: Consider removing this e.g. read from config file or feature file
+@pytest.fixture(scope="session")
+def receptor_ids(settings):
+    """Fixture for generating list of receptors to be used in test.
+
+    :param settings: _description_
+    :return: List of receptor IDs
+    :rtype: _type_
+    """
+    receptors = [dish_id.strip() for dish_id in settings["dish_ids"].split()]
+    return receptors
+
+
 @pytest.fixture(name="check_infra_per_test", autouse=True)
 def fxt_check_infra_per_test(check_infra_per_session: Any) -> Any:
     """Set a fixture to automatically check infra per test.

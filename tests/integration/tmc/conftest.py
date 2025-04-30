@@ -318,17 +318,17 @@ def settings():
     return settings
 
 
-# TODO: Consider removing this e.g. read from config file or feature file
-@pytest.fixture(scope="session")
-def receptor_ids(settings):
-    """Fixture for generating list of receptors to be used in test.
+# # TODO: Consider removing this e.g. read from config file or feature file
+# @pytest.fixture(scope="session")
+# def receptor_ids(settings):
+#     """Fixture for generating list of receptors to be used in test.
 
-    :param settings: _description_
-    :return: List of receptor IDs
-    :rtype: _type_
-    """
-    receptors = [dish_id.strip() for dish_id in settings["dish_ids"].split()]
-    return receptors
+#     :param settings: _description_
+#     :return: List of receptor IDs
+#     :rtype: _type_
+#     """
+#     receptors = [dish_id.strip() for dish_id in settings["dish_ids"].split()]
+#     return receptors
 
 
 @pytest.fixture(autouse=True, scope="session")
