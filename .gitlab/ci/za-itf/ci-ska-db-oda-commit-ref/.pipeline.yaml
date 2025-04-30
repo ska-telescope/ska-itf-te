@@ -3,7 +3,7 @@
     - ska-k8srunner-za-itf
   variables:
     CONFIG: mid
-    K8S_CHART: ska-db-oda-mid-itf
+    K8S_CHART: ska-mid
     KUBE_APP: ska-db-oda
     INGRESS_HOST: "k8s.miditf.internal.skao.int"
     CLUSTER_DOMAIN: "miditf.internal.skao.int"
