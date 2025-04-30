@@ -87,10 +87,14 @@ dependencies:
     condition: ska-tango-taranta.enabled
     alias: ska-tango-tangogql
 
-  # SKA ODA
-  - name: ska-db-oda-umbrella
-    repository: https://artefact.skao.int/repository/helm-internal
-    version: 7.3.0
+  # NOTE:
+  # ska-db-oda-umbrella disabled due to unguarded 
+  # nginx.ingress.kubernetes.io/configuration-snippet.
+  # Re-enable when upstream allows disabling or guarding snippet annotations
+  # # SKA ODA
+  # - name: ska-db-oda-umbrella
+  #   repository: https://artefact.skao.int/repository/helm-internal
+  #   version: 7.3.0
 
   # AlarmHandler
   - name: ska-tango-alarmhandler
