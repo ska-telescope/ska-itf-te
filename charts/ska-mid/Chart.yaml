@@ -90,7 +90,7 @@ dependencies:
   # SKA ODA
   - name: ska-db-oda-umbrella
     repository: https://artefact.skao.int/repository/helm-internal
-    version: 1.9.0
+    version: 7.3.0
 
   # AlarmHandler
   - name: ska-tango-alarmhandler
