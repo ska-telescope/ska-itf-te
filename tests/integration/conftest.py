@@ -675,8 +675,12 @@ def the_subarray_should_go_into_an_aborted_state(
 
 @given("a mid telescope")
 @given("a TMC")
-def a_tmc():
-    """Given a TMC."""
+def a_tmc(receptor_ids):
+    """Given a TMC.
+
+    :param receptor_ids: ids of the receptors available
+    :type receptor_ids: List of dish ids
+    """
     tmc = TMC()
     sdp_subarray_leaf_node = tmc.sdp_subarray_leaf_node
     csp_subarray_leaf_node = tmc.csp_subarray_leaf_node
@@ -705,7 +709,8 @@ def a_tmc():
     result = sdp_subarray_leaf_node.ping()
     assert result > 0
 
-    receptors = ["SKA001", "SKA036", "SKA063", "SKA100"]
+    # receptors = ["SKA001", "SKA036", "SKA063", "SKA100"]
+    receptors = receptor_ids
     for receptor in receptors:
         dish_leaf_node = tmc.get_dish_leaf_node_dp(receptor)
         logger.info("Dish Leaf Node devname: %s", dish_leaf_node.dev_name())
