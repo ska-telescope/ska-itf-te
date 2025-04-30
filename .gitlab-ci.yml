@@ -93,7 +93,7 @@ oci-image-build-testing:
   stage: build
   variables:
     OCI_BUILD_ADDITIONAL_ARGS: "--build-arg GIT_COMMIT_SHA=$(git rev-parse HEAD)"
-    OCI_IMAGE: "ska-mid-testing"
+    OCI_IMAGES: "ska-mid-testing"
 
 docs-build-rtd:
   rules:
