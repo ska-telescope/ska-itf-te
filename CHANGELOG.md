@@ -1,6 +1,10 @@
 # Version History
 
 ## Unreleased
+* [AT-2936]
+  * Created `ska-mid` chart as a single consolidated chart
+  * Created `values_diff_merge.py` for helping combine two values files
+  * Removed `datacentres` folder and subfolders
 
 ## 26.3.0
 * [AT-2966]
