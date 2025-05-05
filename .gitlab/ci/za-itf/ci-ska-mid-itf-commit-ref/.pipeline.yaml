@@ -146,7 +146,8 @@ stop-k8s-test-runner:
 publish-k8s-test-results:
   stage: publish
   needs:
-    - k8s-test-runner
+    #- k8s-test-runner
+    - test-telescope-on
     - xray-publish
   tags:
     - ska-k8srunner-za-itf
