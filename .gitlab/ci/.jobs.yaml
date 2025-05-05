@@ -185,6 +185,8 @@ docs-build:
     - make integration-test
     - '[ -f build/status ] || (echo "Something went wrong with the test (no build/status file); exit 1")'
     - exit $(cat build/status)
+  rules: !reference [publish-k8s-test-results, rules]
+
 
 .test-scan-with-hw:
   extends:
