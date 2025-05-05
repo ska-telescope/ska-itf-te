@@ -145,6 +145,7 @@ docs-build:
       - build/sequence-diagram.puml
       - config/
       - logs/
+      - build/
     when: always
   variables:
     INTEGRATION_TEST_SOURCE: tests/integration/tmc/test_end_to_end.py::test_e2e_via_tmc_slow
@@ -161,7 +162,7 @@ docs-build:
     - "make help | grep k8s-test"
     - bash .make/resources/gitlab_section.sh poetry "Poetry Install" poetry install
     - export TANGO_HOST=tango-databaseds.$E2E_TEST_EXECUTION_NAMESPACE.svc.miditf.internal.skao.int:10000
-    - bash .make/resources/gitlab_section.sh template "Output deployment config information" make get-deployment-config-info
+    #- bash .make/resources/gitlab_section.sh template "Output deployment config information" make get-deployment-config-info #Uncomment before Merge
     - make print-telescope-state || true
   script:
     - make teardown-telescope || true
