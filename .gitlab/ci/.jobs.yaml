@@ -181,12 +181,6 @@ docs-build:
   variables:
     INTEGRATION_TEST_SOURCE: tests/integration/tmc/test_telescope_on.py::test_telescope_on_via_tmc
     ADDMARKS: ""
-  script:
-    - make teardown-telescope-to-pre-assign || true
-    - make integration-test
-    - '[ -f build/status ] || (echo "Something went wrong with the test (no build/status file); exit 1")'
-    - exit $(cat build/status)
-  rules: !reference [publish-k8s-test-results, rules]
 
 
 .test-scan-with-hw:

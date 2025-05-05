@@ -70,8 +70,6 @@ include:
 
 xray-publish:
   when: always
-  before_script:
-    - echo "XRAY_EXECUTION_CONFIG_FILE=${XRAY_EXECUTION_CONFIG_FILE}"
   rules: !reference [publish-k8s-test-results, rules]
 # python-build-for-publication:
 #   rules:

@@ -144,7 +144,7 @@ stop-k8s-test-runner:
     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
 
 publish-k8s-test-results:
-  stage: test #Change to publish before Merge
+  stage: publish
   needs:
     #- test-telescope-on
     - test-telescope-off
