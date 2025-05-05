@@ -146,8 +146,11 @@ stop-k8s-test-runner:
 publish-k8s-test-results:
   stage: publish
   needs:
-    #- k8s-test-runner
-    - test-telescope-on
+    #- test-telescope-on
+    - test-telescope-off
+    #- test-scan
+    #- test-end-to-end
+    #- k8s-test-runner #Uncomment before Merge
     - xray-publish
   tags:
     - ska-k8srunner-za-itf
@@ -160,8 +163,8 @@ publish-k8s-test-results:
   rules:
     - if: $CI_PIPELINE_SOURCE == "pipeline"
       when: never
-    - if: $CI_COMMIT_REF_NAME #Change to $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
-      when: manual #Change to when: manual before merge
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+      when: always
     - when: never
   script:
     - echo "Test result code from k8s-test-runner job was $(cat build/status)"
