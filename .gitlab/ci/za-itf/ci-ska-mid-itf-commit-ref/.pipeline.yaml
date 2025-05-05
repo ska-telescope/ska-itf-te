@@ -146,10 +146,10 @@ stop-k8s-test-runner:
 publish-k8s-test-results:
   stage: publish
   needs:
-    #- test-telescope-on
+    - test-telescope-on
     - test-telescope-off
-    #- test-scan
-    #- test-end-to-end
+    - test-scan
+    - test-end-to-end
     #- k8s-test-runner #Uncomment before Merge
     - xray-publish
   tags:
