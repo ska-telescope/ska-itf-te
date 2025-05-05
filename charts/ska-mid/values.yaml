@@ -1,8 +1,8 @@
 global:
   data-product-pvc-name: shared-dataproduct-pvc
-  dish_id: ska007
-  dish_suffix: elt/master
-  dishes: ["100"]
+  # dish_id: ska007
+  # dish_suffix: elt/master
+  # dishes: ["100"]
   exposeAllDS: true
   exposeDatabaseDS: true
   facility: mid-itf
@@ -16,7 +16,7 @@ global:
   raw_user_account: bond
   raw_user_pass: jamesbond
   tango_host: tango-databaseds:10000
-  tangodb_fqdn: localhost
+  # tangodb_fqdn: localhost
   tangodb_port: 10000
   use_aws: true
 
