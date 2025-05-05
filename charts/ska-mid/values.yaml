@@ -58,6 +58,13 @@ ska-dish-lmc:
   ska-tango-base:
     enabled: false
 
+# Commented out until needed
+# # DISH STRUCTURE SIMULATOR
+# ds-sim:
+#   instances:
+#     - dish-id: SKA001
+#       novnc-enabled: true
+
 # HELPER
 ska-log-consumer:
   enabled: false

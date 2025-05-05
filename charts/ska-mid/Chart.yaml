@@ -56,6 +56,12 @@ dependencies:
     version: 7.0.1
     repository: https://artefact.skao.int/repository/helm-internal
 
+  # NOTE: commented for now
+  # DISH STRUCTURE SIMULATOR
+  # - name: ska-te-dish-structure-simulator
+  #   version: 0.11.0
+  #   repository: https://artefact.skao.int/repository/helm-internal
+
   # SPFRx DEPLOYER CHART
   - name: ska-mid-dish-spfrx-talondx-console
     version: 0.5.0
