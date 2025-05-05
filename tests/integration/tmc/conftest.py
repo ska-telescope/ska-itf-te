@@ -510,14 +510,19 @@ def _(telescope_handlers, receptor_ids, settings):
     logger.debug(f"dish_config_json file contents: \n{dish_config_json}")
 
     k_value_correct = 1
-    if tmc_central_node.isDishVccConfigSet:
-        dish_vcc_config = json.loads(tmc.csp_master_leaf_node.dishVccConfig)
-        for receptor in RECEPTORS:
-            if dish_vcc_config["dish_parameters"][receptor]["k"] != 1:
-                k_value_correct = 0
-                break
+    raw_vcc_config = tmc.csp_master_leaf_node.dishVccConfig
 
-    if (not tmc_central_node.isDishVccConfigSet) or (not k_value_correct):
+    if tmc_central_node.isDishVccConfigSet and raw_vcc_config:
+        try:
+            dish_vcc_config = json.loads(tmc.csp_master_leaf_node.dishVccConfig)
+            for receptor in RECEPTORS:
+                if dish_vcc_config["dish_parameters"][receptor]["k"] != 1:
+                    k_value_correct = 0
+                    break
+        except json.JSONDecodeError:
+            logger.warning("dishVccConfig could not be decoded. Will re-load config.")
+
+    if not raw_vcc_config or not tmc_central_node.isDishVccConfigSet or not k_value_correct:
         tmc_central_node.LoadDishCfg(json.dumps(dish_config_json))
         wait_for_event(tmc_central_node, "isDishVccConfigSet", True)
 
