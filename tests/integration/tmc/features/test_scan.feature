@@ -3,6 +3,7 @@ Feature: Telescope scan test
 	Once the scan duration elapses, the scan is ended and resources released.
 	It is assumed that the telescope is in the ON state
 
+	@AT-2998 @AT-3001
 	Scenario: Perform a scan via TMC
 		Given an SUT deployment with 1 subarray
 		And a sequence diagrammer has optionally started listeing for events

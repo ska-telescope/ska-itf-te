@@ -314,7 +314,7 @@ include .make/xray.mk
 include resources/makefiles/logs.mk
 
 XRAY_TEST_RESULT_FILE ?= build/reports/cucumber.json
-XRAY_EXECUTION_CONFIG_FILE ?= tests/xray-config.json
+XRAY_EXECUTION_CONFIG_FILE ?= tests/xray-config-hw-tests.json
 XRAY_EXTRA_OPTS=-v
 
 CLUSTER_HEADLAMP_BASE_URL?=https://k8s.miditf.internal.skao.int/headlamp

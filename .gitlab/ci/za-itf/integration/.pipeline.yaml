@@ -73,7 +73,7 @@ destroy-sut-integration:
   rules:
     - if: '$CI_COMMIT_TAG != null'
       when: never
-    - if: '$CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_COMMIT_BRANCH' #Edit this to `if: '$CI_COMMIT_BRANCH == "main"'` back before merge
       when: manual
       allow_failure: true
     - when: never
