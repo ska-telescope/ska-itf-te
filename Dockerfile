@@ -1,12 +1,10 @@
-FROM registry.gitlab.com/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools:0.9.4-dev.c3fbb4a03
+FROM registry.gitlab.com/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools:0.9.4-dev.c55c75e99
 
 RUN rm -rf /app/.venv
 
-WORKDIR /app
-
-COPY . ./ska-mid-itf
-
 WORKDIR /app/ska-mid-itf
+
+COPY . .
 
 ARG GIT_COMMIT_SHA
 ENV GIT_COMMIT_SHA=$GIT_COMMIT_SHA
