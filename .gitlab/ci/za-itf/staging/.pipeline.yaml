@@ -26,7 +26,7 @@
     CBF_HW_IN_THE_LOOP: "true"
     DISH_LMC_IN_THE_LOOP: "true"
     # SDP CONFIGURATION FOR PERSISTENT DATA
-    DPD_PVC_NAME: staging-pvc
+    DPD_PVC_NAME: shared-dataproduct-pvc
 
 .staging_rules:
   # variables:

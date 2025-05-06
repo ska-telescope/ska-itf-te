@@ -143,9 +143,9 @@ ska-sdp:
 # SDP DPD
 ska-sdp-dataproduct-dashboard:
   dataProductPVC:
-    name: staging-pvc
+    existingClaim: shared-dataproduct-pvc
     create:
-      enabled: true
+      enabled: false
       size: 2Ti
       storageClassName: ceph-cephfs
   ingress:
