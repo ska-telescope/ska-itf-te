@@ -209,7 +209,7 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	$(EDA_PARAMS)
 
 
-TMC_VALUES_PATH?=charts/ska-mid-itf-sut/tmc-values.yaml
+TMC_VALUES_PATH?=charts/ska-mid/tmc-values.yaml
 ifneq ("$(wildcard $(TMC_VALUES_PATH))","")
 	K8S_EXTRA_PARAMS+=-f $(TMC_VALUES_PATH)
 endif
