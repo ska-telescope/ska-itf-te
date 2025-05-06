@@ -144,6 +144,7 @@ ska-sdp:
 # SDP DPD
 ska-sdp-dataproduct-dashboard:
   dataProductPVC:
+    name: shared-dataproduct-pvc
     existingClaim: shared-dataproduct-pvc
     create:
       enabled: false
