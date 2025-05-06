@@ -1,15 +1,16 @@
-{{- $dpd_pvc := .Values.ska-sdp-dataproduct-dashboard.dataProductPVC }}
-{{- if and $dpd_pvc.create.enabled (or (not $dpd_pvc.existingClaim) (eq $dpd_pvc.existingClaim "") ) }}
+---
+{{- $dpd_pvc := .Values.ska-sdp-dataproduct-dashboard.dataProductPVC -}}
+{{- if and $dpd_pvc.create.enabled (or (not $dpd_pvc.existingClaim) (eq $dpd_pvc.existingClaim "")) -}}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ $dpd_pvc.name | default "shared-dataproduct-pvc"}}
-  namespace: {{ .Release.Namespace }}
+  name: {{- $dpd_pvc.name | default "shared-dataproduct-pvc" -}}
+  namespace: {{- .Release.Namespace -}}
 spec:
   accessModes:
     - ReadWriteMany
   resources:
     requests:
-      storage: {{ $dpd_pvc.create.size | default "2Ti" }}
-  storageClassName: {{ $dpd_pvc.create.storageClassName | default "ceph-cephfs" }}
+      storage: {{- $dpd_pvc.create.size | default "2Ti" -}}
+  storageClassName: {{- $dpd_pvc.create.storageClassName | default "ceph-cephfs" -}}
 {{- end }}

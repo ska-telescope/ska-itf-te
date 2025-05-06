@@ -1,3 +1,4 @@
+---
 apiVersion: v2
 name: ska-mid
 description: An umbrella Helm chart for deployment of the Mid System
@@ -70,9 +71,9 @@ dependencies:
 
   # SPFC DEPLOYER CHART
   - name: ska-mid-dish-spfc-deployer
-    version: 0.2.3 
+    version: 0.2.3
     repository: https://artefact.skao.int/repository/helm-internal
-    #repository: https://gitlab.com/api/v4/projects/52159216/packages/helm/dev
+    # repository: https://gitlab.com/api/v4/projects/52159216/packages/helm/dev
     condition: ska-mid-dish-spfc-deployer.enabled
 
   # DATAPRODUCT DASHBOARD
@@ -94,7 +95,7 @@ dependencies:
     alias: ska-tango-tangogql
 
   # NOTE:
-  # ska-db-oda-umbrella disabled due to unguarded 
+  # ska-db-oda-umbrella disabled due to unguarded
   # nginx.ingress.kubernetes.io/configuration-snippet.
   # Re-enable when upstream allows disabling or guarding snippet annotations
   # # SKA ODA
