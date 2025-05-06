@@ -14,7 +14,7 @@ spec:
     command: ["sh", "-c", "sleep infinity"]
     volumeMounts:
     - name: test-data-storage
-      mountPath: /data/test-reports
+      mountPath: {{ .Values.mountPath }}
     env:
     - name: SIM_MODE
       value: "true"
