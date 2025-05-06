@@ -1,4 +1,4 @@
-FROM registry.gitlab.com/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools:0.9.4-dev.c55c75e99
+FROM registry.gitlab.com/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools:0.9.4-dev.c675313e3
 
 RUN rm -rf /app/.venv
 
