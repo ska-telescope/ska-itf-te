@@ -28,13 +28,9 @@
     HELM_RELEASE: test
 
 .dpd-install:
-  variables:
-    K8S_CHART_PARAMS: |
-      --set ska-sdp-dataproduct-dashboard.dataProductPVC.create.enabled=true \
-      --set ska-sdp-dataproduct-dashboard.dataProductPVC.existingClaim=""
   script:
     - make vars
-    - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart $K8S_CHART_PARAMS
+    - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart
     - bash .make/resources/gitlab_section.sh wait "Wait for installation" make k8s-wait
   after_script:
     - make dpd-links
