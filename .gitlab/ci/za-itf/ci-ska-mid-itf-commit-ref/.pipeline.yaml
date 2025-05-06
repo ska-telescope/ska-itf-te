@@ -146,10 +146,10 @@ stop-k8s-test-runner:
 publish-k8s-test-results:
   stage: publish
   needs:
-    - test-telescope-on
-    - test-telescope-off
-    - test-scan
-    - test-end-to-end
+    - test-telescope-on-staging
+    - test-telescope-off-staging
+    - test-scan-staging
+    - test-end-to-end-staging
     #- k8s-test-runner #Uncomment before Merge
     - xray-publish
   tags:
@@ -169,7 +169,7 @@ publish-k8s-test-results:
   script:
     - echo "Test result code from k8s-test-runner job was $(cat build/status)"
     - poetry install
-    - make upload-to-confluence
+  #- make upload-to-confluence Uncomment before Merge
 
 # ############################################
 # # Dish Strcuture Simulator related CICD jobs
