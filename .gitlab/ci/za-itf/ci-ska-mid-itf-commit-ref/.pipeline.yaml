@@ -146,11 +146,7 @@ stop-k8s-test-runner:
 publish-k8s-test-results:
   stage: publish
   needs:
-    - test-telescope-on-staging
-    - test-telescope-off-staging
-    - test-scan-staging
-    - test-end-to-end-staging
-    #- k8s-test-runner #Uncomment before Merge
+    - k8s-test-runner
     - xray-publish
   tags:
     - ska-k8srunner-za-itf
@@ -163,13 +159,13 @@ publish-k8s-test-results:
   rules:
     - if: $CI_PIPELINE_SOURCE == "pipeline"
       when: never
-    - if: $CI_COMMIT_REF_NAME #use $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH before Merge
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
       when: always
     - when: never
   script:
     - echo "Test result code from k8s-test-runner job was $(cat build/status)"
     - poetry install
-  #- make upload-to-confluence Uncomment before Merge
+    - make upload-to-confluence
 
 # ############################################
 # # Dish Strcuture Simulator related CICD jobs
