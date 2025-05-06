@@ -1,5 +1,5 @@
 ---
-{{-$dpd_pvc := .Values.ska-sdp-dataproduct-dashboard.dataProductPVC -}}
+{{- $dpd_pvc := index .Values "ska-sdp-dataproduct-dashboard" "dataProductPVC" -}}
 {{- if and $dpd_pvc.create.enabled (or (not $dpd_pvc.existingClaim) (eq $dpd_pvc.existingClaim "")) -}}
 apiVersion: v1
 kind: PersistentVolumeClaim
