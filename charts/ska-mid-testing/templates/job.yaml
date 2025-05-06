@@ -52,6 +52,7 @@ spec:
         command: ["sh", "-c"]
         args:
         - |
+          export PYTHONPATH=/app/ska-mid-itf/.venv/lib/python3.10/site-packages:$PYTHONPATH
           . .venv/bin/activate
           pytest tests/integration/tmc/test_end_to_end.py::test_e2e_via_tmc \
           --log-cli-level=DEBUG \
