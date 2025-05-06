@@ -1,4 +1,20 @@
 ---
+{{/*
+NOTE: This template conditionally creates a PersistentVolumeClaim (PVC) for the Data Product Dashboard.
+
+In SKAO Kubernetes clusters, the PVC is provisioned externally (e.g. via Infrastructure as Code) 
+and shared across namespaces. Therefore, PVC creation is **disabled by default** in this chart.
+
+This template remains in place to support **local development and test environments**, where 
+a temporary PVC may be created by setting:
+  dataProductPVC.create.enabled: true
+and omitting or leaving empty:
+  dataProductPVC.existingClaim
+
+For more info on shared PVC usage, see:
+https://developer.skao.int/projects/ska-dataproduct-dashboard/en/latest/developerguide/Deployment.html
+*/}}
+
 {{- $dpd_pvc := index .Values "ska-sdp-dataproduct-dashboard" "dataProductPVC" -}}
 {{- if and $dpd_pvc.create.enabled (or (not $dpd_pvc.existingClaim) (eq $dpd_pvc.existingClaim "")) -}}
 apiVersion: v1
