@@ -18,7 +18,7 @@ Feature: Telescope end to end signal chain test
 		Then the telescope is in the OFF state
 		And the respective dataproducts are available on the DPD
 
-	@AT-2349 @AT-1305
+	@AT-2349 @AT-3001
 	Scenario: End to End signal chain verification via TMC - With HW
 		Given an SUT deployment with 1 subarray
 		And a sequence diagrammer has optionally started listeing for events
