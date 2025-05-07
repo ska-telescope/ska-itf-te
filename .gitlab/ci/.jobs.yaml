@@ -183,7 +183,6 @@ docs-build:
     INTEGRATION_TEST_SOURCE: tests/integration/tmc/test_telescope_on.py::test_telescope_on_via_tmc
     ADDMARKS: ""
 
-
 .test-scan-with-hw:
   extends:
     - .test-end-to-end-with-hw
@@ -207,4 +206,3 @@ docs-build:
     - make integration-test
     - '[ -f build/status ] || (echo "Something went wrong with the test (no build/status file); exit 1")'
     - exit $(cat build/status)
-
