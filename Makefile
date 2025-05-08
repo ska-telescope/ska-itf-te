@@ -196,6 +196,9 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	--set ska-tango-base.xauthority=$(XAUTHORITY) \
 	--set ska-tango-base.jive.enabled=$(JIVE) \
 	--set ska-tango-base.itango.enabled=$(ITANGO_ENABLED) \
+	$(SUT_ENABLERS) \
+	$(DISH_ENABLERS) \
+	$(ODA_ENABLERS) \
 	$(SDP_PARAMS) \
 	$(ODA_PARAMS) \
 	$(DISH_LMC_PARAMS) \

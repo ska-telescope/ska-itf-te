@@ -1,0 +1,39 @@
+global:
+  ska-tango-archiver:
+    enabled: true
+
+ska-csp-lmc-mid:
+  enabled: true
+
+ska-log-consumer:
+  enabled: false
+
+ska-mid-cbf-engineering-console:
+  enabled: false
+
+ska-mid-cbf-tdc-mcs:
+  enabled: true
+
+ska-mid-cbf-tdc-tmleafnode:
+  enabled: false
+
+ska-mid-cbf-tmleafnode:
+  enabled: true
+
+ska-sdp:
+  enabled: true
+
+ska-ser-config-inspector:
+  enabled: true
+
+ska-tango-archiver:
+  enabled: true
+
+ska-tango-tangogql:
+  enabled: true
+
+ska-tango-taranta:
+  enabled: true
+
+ska-tmc-mid:
+  enabled: true

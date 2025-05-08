@@ -1,0 +1,20 @@
+ska-dish-lmc:
+  enabled: true
+
+ska-mid-dish-spfc-deployer:
+  enabled: false
+
+ska-mid-dish-spfrx-talondx-console:
+  enabled: false
+  
+ska-ser-config-inspector:
+  enabled: true
+  
+ska-tango-archiver:
+  enabled: true
+  
+ska-tango-tangogql:
+  enabled: true
+
+ska-tango-taranta:
+  enabled: true

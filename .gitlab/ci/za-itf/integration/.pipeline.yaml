@@ -18,6 +18,7 @@
     KUBE_APP: ska-mid-sut
     INGRESS_HOST: "k8s.miditf.internal.skao.int"
     CLUSTER_DOMAIN: "miditf.internal.skao.int"
+    SUT_ENABLERS: "-f .gitlab/ci/za-itf/integration/sut-integration-enablers.yaml"
     K8S_EXTRA_PARAMS: "--set global.ska-tango-archiver.enabled=true --set ska-tango-archiver.enabled=true --set ska-tango-archiver.dbuser=admin --set ska-tango-archiver.dbpassword=${EDA_DB_PASSWORD} --set ska-tango-archiver.archviewer.instances[0].timescale_login=admin:${EDA_DB_PASSWORD} --set ska-tango-archiver.archviewer.instances[0].timescale_databases=itf_eda --set ska-tango-archiver.archviewer.instances[0].timescale_host=10.164.11.33 --set ska-tango-archiver.archviewer.instances[0].name=mid"
     TANGO_DATABASE_DS: tango-databaseds
     K8S_AUTH_NAMESPACES: "$KUBE_NAMESPACE $KUBE_NAMESPACE_SDP"
