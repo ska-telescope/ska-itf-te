@@ -39,8 +39,7 @@
       "maps_to": {
         "default": "ITF-MID",
         "ITF-MID": "ITF-MID",
-        "dev": "dev-testing",
-        "PSI-MID-MDA": "PSI-MID-MDA"
+        "dev": "dev-testing"
       }
     }
   ],
