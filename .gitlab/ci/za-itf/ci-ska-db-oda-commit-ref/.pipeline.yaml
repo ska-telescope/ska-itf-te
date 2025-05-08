@@ -33,7 +33,7 @@ deploy-oda-on-demand:
   extends:
     - .oda-on-demand
   variables:
-    K8S_EXTRA_PARAMS: "-f charts/ska-db-oda-mid-itf/values-ci.yaml"
+    K8S_EXTRA_PARAMS: "--set ska-db-oda-umbrella.ska-ser-skuid.skuid.config.generator_id=miditfci"
   script:
     - make k8s-install-chart
   after_script:
@@ -60,8 +60,6 @@ destroy-oda-on-demand:
 deploy-oda-staging:
   extends:
     - .oda-staging
-  variables:
-    K8S_EXTRA_PARAMS: "-f charts/ska-db-oda-mid-itf/values-staging.yaml"
   script:
     - make k8s-install-chart
   after_script:
