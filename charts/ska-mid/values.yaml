@@ -141,18 +141,6 @@ ska-sdp:
   ska-tango-base:
     enabled: false
 
-# SDP DPD
-ska-sdp-dataproduct-dashboard:
-  dataProductPVC:
-    name: shared-dataproduct-pvc
-    existingClaim: shared-dataproduct-pvc
-    create:
-      enabled: false
-      size: 2Ti
-      storageClassName: ceph-cephfs
-  ingress:
-    hostname: https://k8s.miditf.internal.skao.int
-
 # CIA
 ska-ser-config-inspector:
   enabled: true
