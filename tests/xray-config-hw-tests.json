@@ -10,8 +10,8 @@
   "name": {
     "env": "CI_COMMIT_BRANCH",
     "maps_to": {
-      "default": "SKA Mid ITF SUT CI tests branch execution",
-      "main": "SKA Mid ITF SUT CI tests main branch execution"
+      "default": "SKA Mid ITF SUT with HW CI tests - branch execution",
+      "main": "SKA Mid ITF SUT with HW CI tests - main branch execution"
     }
   },
   "chart_info": {
@@ -65,6 +65,7 @@
   ],
   "environment_variables": [
     "CI_PIPELINE_URL",
+    "CI_JOB_URL",
     "CI_COMMIT_TITLE",
     "CI_JOB_STARTED_AT"
   ]
