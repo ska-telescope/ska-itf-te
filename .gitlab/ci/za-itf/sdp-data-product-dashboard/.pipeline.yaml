@@ -3,7 +3,7 @@
     - ska-k8srunner-za-itf
   variables:
     CONFIG: mid
-    K8S_CHART: ska-mid
+    K8S_CHART: ska-mid-itf-dpd
     KUBE_APP: ska-mid-itf-dpd
     KUBE_NAMESPACE_SDP: "ci-ska-mid-itf-$CI_COMMIT_REF_NAME-sdp"
     INGRESS_HOST: "k8s.miditf.internal.skao.int"
@@ -24,7 +24,7 @@
   stage: on_demand_itf_sut
   variables:
     KUBE_NAMESPACE: ci-ska-mid-itf-dpd-$CI_COMMIT_REF_NAME
-    DPD_PVC_NAME: shared-dataproduct-pvc
+    DPD_PVC_NAME: test-pvc
     HELM_RELEASE: test
 
 .dpd-install:
@@ -76,7 +76,7 @@ destroy-dpd-on-demand:
   variables:
     KUBE_NAMESPACE: shared-ska-dataproducts
     KUBE_NAMESPACE_SDP: staging-sdp
-    DPD_PVC_NAME: shared-dataproduct-pvc
+    DPD_PVC_NAME: staging-pvc
     HELM_RELEASE: staging
 
 deploy-dpd-staging:
