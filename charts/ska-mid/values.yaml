@@ -24,7 +24,7 @@ global:
 
 # CSP
 ska-csp-lmc-mid:
-  enabled: true
+  enabled: false
 
 # ODA
 ska-db-oda-umbrella:
@@ -36,6 +36,7 @@ ska-db-oda-umbrella:
 
 # DISH LMC
 ska-dish-lmc:
+  enabled: false
   ska-mid-dish-ds-manager:
     enabled: true
   ska-mid-dish-manager:
@@ -83,7 +84,7 @@ ska-mid-cbf-engineering-console:
 
 # CBF Talon Demonstration Correlator Master Control Software
 ska-mid-cbf-tdc-mcs:
-  enabled: true
+  enabled: false
   global:
     labels:
       skao.int/clone-pvc: cbf-ec-pvc
@@ -103,7 +104,7 @@ ska-mid-cbf-tdc-tmleafnode:
 
 # CBF leafnode
 ska-mid-cbf-tmleafnode:
-  enabled: true
+  enabled: false
 
 # SPFC
 ska-mid-dish-spfc-deployer:
@@ -123,7 +124,7 @@ ska-mid-dish-spfrx-talondx-console:
 
 # SDP
 ska-sdp:
-  enabled: true
+  enabled: false
   data-pvc:
     create:
       enabled: true
@@ -142,11 +143,11 @@ ska-sdp:
 
 # CIA
 ska-ser-config-inspector:
-  enabled: true
+  enabled: false
 
 # EDA
 ska-tango-archiver:
-  enabled: true
+  enabled: false
   archviewer:
     instances:
       - name: mid
@@ -174,7 +175,7 @@ ska-tango-base:
 
 # TANGO DEPLOYMENT
 ska-tango-tangogql:
-  enabled: true
+  enabled: false
   tangoDB: taranta  # This is the name of the TangoDB that should always be set first when deploying a multiDB Taranta system
   ska-tango-base:
     enabled: false
@@ -183,7 +184,7 @@ ska-tango-tangogql:
 
 # TARANTA
 ska-tango-taranta:
-  enabled: true
+  enabled: false
   ingress:
     enabled: true
     nginx: true
@@ -201,6 +202,7 @@ ska-tango-taranta:
 
 # TMC
 ska-tmc-mid:
+  enabled: false
   deviceServers:
     mocks:
       enabled: true
