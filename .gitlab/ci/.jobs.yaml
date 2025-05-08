@@ -174,7 +174,7 @@ docs-build:
     - bash .make/resources/gitlab_section.sh tmc-logs "Collecting TMC logs" make tmc-logs
     - bash .make/resources/gitlab_section.sh csp-logs "Collecting CSP logs" make csp-logs
     - *get_dish_logs
-    - bash .make/resources/gitlab_section.sh xray-publish "Publish xray results" make xray-publish
+    - make xray-publish
 
 .test-telescope-on-with-hw:
   extends:
