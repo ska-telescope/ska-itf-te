@@ -185,9 +185,9 @@ ska-tango-tangogql:
 # TARANTA
 ska-tango-taranta:
   enabled: true
-  # ingress:
-  #   enabled: true
-  #   nginx: true
+  ingress:
+    enabled: true
+    nginx: true
   # tango_dbs: [] # This is an empty list if there are no connections to external tangoDBs. Override during deploy-time using `helm install --set ...`
   TANGO_DBS: ["ska001", "ska036", "ska063", "ska100"]
   tangogql:
