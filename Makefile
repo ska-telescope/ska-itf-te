@@ -251,7 +251,7 @@ PYTHON_VARS_AFTER_PYTEST ?= -v
 
 # Add cucumber/json reports only for this test
 ifeq ($(MAKECMDGOALS),k8s-test)
-# execute in truel context; add BDD test results to be uploaded to xray
+# execute in true context; add BDD test results to be uploaded to xray
 PYTHON_VARS_AFTER_PYTEST += --true-context --cucumberjson=build/reports/cucumber.json \
 	--json-report --json-report-file=build/reports/report.json
 

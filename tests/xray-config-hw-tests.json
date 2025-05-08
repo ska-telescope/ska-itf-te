@@ -1,0 +1,79 @@
+{
+  "test_plans": [
+    {
+      "select_from_tag": {
+        "AT-3001": "AT-3001",
+        "default": "AT-3001"
+      }
+    }
+  ],
+  "name": {
+    "env": "CI_COMMIT_BRANCH",
+    "maps_to": {
+      "default": "SKA Mid ITF SUT with HW CI tests - branch execution",
+      "main": "SKA Mid ITF SUT with HW CI tests - main branch execution"
+    }
+  },
+  "chart_info": {
+    "env": "DEPLOYMENT_CONFIGURATION",
+    "maps_to": {
+      "default": "charts/ska-mid-itf-sut/Chart.yaml"
+    }
+  },
+  "test_report": "build/reports/report.json",
+  "jira_url": "https://jira.skatelescope.org",
+  "project": {
+    "id": "AT",
+    "issuetype_id": 11602,
+    "customfield_mapping": {
+      "start_date": "customfield_11918",
+      "end_date": "customfield_11917",
+      "test_plans": "customfield_11927",
+      "test_environments": "customfield_11925"
+    }
+  },
+  "description": "Test execution results as generated from git@gitlab.com:ska-telescope/ska-mid-itf\n",
+  "test_environments": [
+    {
+      "env": "TEST_ENV",
+      "maps_to": {
+        "default": "ITF-MID",
+        "ITF-MID": "ITF-MID",
+        "dev": "dev-testing"
+      }
+    }
+  ],
+  "labels": [
+    {
+      "env": "CI_COMMIT_BRANCH",
+      "maps_to": {
+        "default": "branch",
+        "master": "master",
+        "main": "main"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "env": "CI_COMMIT_BRANCH",
+      "maps_to": {
+        "default": "",
+        "master": "PI26",
+        "main": "PI26"
+      }
+    }
+  ],
+  "environment_variables": [
+    "CI_PIPELINE_URL",
+    "CI_COMMIT_TITLE",
+    "CI_JOB_STARTED_AT",
+    "CI_JOB_URL",
+    "DISH_LMC_IN_THE_LOOP",
+    "CBF_HW_IN_THE_LOOP",
+    "SPFRX_IN_THE_LOOP",
+    "SPFC_IN_THE_LOOP",
+    "CI_PIPELINE_URL",
+    "CI_COMMIT_TITLE",
+    "CI_JOB_STARTED_AT"
+  ]
+}
