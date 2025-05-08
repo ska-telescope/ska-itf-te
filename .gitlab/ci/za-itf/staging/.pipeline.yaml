@@ -32,9 +32,9 @@
   # variables:
   #   K8S_INSTALL_FROM_CAR: "true" ### TEMPORARY COMMIT: NOT WORKING ###
   rules:
-    - if: $CI_PIPELINE_SOURCE == "pipeline"
+    - if: $CI_COMMIT_BRANCH #Change to if: $CI_PIPELINE_SOURCE == "pipeline" before merge
       when: never
-    - if: "$CI_COMMIT_TAG != null"
+    - if: $CI_COMMIT_BRANCH #Change to if: "$CI_COMMIT_TAG != null" before merge
       when: manual
       variables:
         KUBE_NAMESPACE_PREFIX: staging-dish-lmc-
