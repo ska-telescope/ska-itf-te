@@ -15,4 +15,4 @@ RUN git checkout $GIT_COMMIT_SHA && \
     mkdir -p config && \
     poetry config virtualenvs.in-project true && \
     rm -rf .venv && \
-    poetry install
+    poetry install --no-cache
