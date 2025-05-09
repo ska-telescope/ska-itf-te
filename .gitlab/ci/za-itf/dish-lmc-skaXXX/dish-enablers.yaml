@@ -1,3 +1,7 @@
+global:
+  ska-tango-archiver:
+    enabled: true
+
 ska-tango-alarmhandler:
   enabled: false
 
