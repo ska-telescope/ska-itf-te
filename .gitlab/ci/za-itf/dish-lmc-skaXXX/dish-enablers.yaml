@@ -1,10 +1,43 @@
+ska-tango-alarmhandler:
+  enabled: false
+
+ska-csp-lmc-mid:
+  enabled: false
+
+ska-dataproduct-dashboard:
+  enabled: false
+
+ska-db-oda-umbrella:
+  enabled: false
+
 ska-dish-lmc:
   enabled: true
+
+ska-ds-sim:
+  enabled: false
+
+ska-log-consumer:
+  enabled: false
+
+ska-mid-cbf-engineering-console:
+  enabled: false
+
+ska-mid-cbf-tdc-mcs:
+  enabled: false
+
+ska-mid-cbf-tdc-tmleafnode:
+  enabled: false
+
+ska-mid-cbf-tmleafnode:
+  enabled: false
 
 ska-mid-dish-spfc-deployer:
   enabled: false
 
 ska-mid-dish-spfrx-talondx-console:
+  enabled: false
+
+ska-sdp:
   enabled: false
   
 ska-ser-config-inspector:
@@ -18,3 +51,9 @@ ska-tango-tangogql:
 
 ska-tango-taranta:
   enabled: true
+
+ska-tmc-mid:
+  enabled: false
+
+temp_sdp_pvc:
+  enabled: false

@@ -5,10 +5,10 @@ ska-csp-lmc-mid:
   enabled: false
 
 ska-dataproduct-dashboard:
-  enabled: false
+  enabled: true
 
 ska-db-oda-umbrella:
-  enabled: true
+  enabled: false
 
 ska-dish-lmc:
   enabled: false

@@ -199,6 +199,7 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	$(SUT_ENABLERS) \
 	$(DISH_ENABLERS) \
 	$(ODA_ENABLERS) \
+	$(DPD_ENABLERS) \
 	$(SDP_PARAMS) \
 	$(ODA_PARAMS) \
 	$(DISH_LMC_PARAMS) \

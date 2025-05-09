@@ -1,6 +1,5 @@
 ---
 global:
-  data-product-pvc-name: shared-dataproduct-pvc
   # Avoid overriding dynamic chart values here.
   # Dish ID and environment should be passed via pipeline variables
   # dish_id: ska007
@@ -22,6 +21,10 @@ global:
   # tangodb_fqdn: localhost
   tangodb_port: 10000
   use_aws: true
+
+# Alarm Handler
+ska-tango-alarmhandler:
+  enabled: false
 
 # CSP
 ska-csp-lmc-mid:
@@ -73,7 +76,7 @@ ska-dish-lmc:
     enabled: false
 
 # DISH STRUCTURE SIMULATOR
-ds-sim:
+ska-ds-sim:
   enabled: false
   instances:
     - dish-id: SKA001
@@ -251,5 +254,6 @@ ska-tmc-mid:
 
 # Temporary configuration for PVC
 temp_sdp_pvc:
+  enabled: false
   dpd_namespace: ska-dpd
   dpd_pvc: shared-mnl
