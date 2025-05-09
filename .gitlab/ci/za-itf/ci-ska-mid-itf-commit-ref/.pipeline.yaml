@@ -159,7 +159,7 @@ publish-k8s-test-results:
   rules:
     - if: $CI_PIPELINE_SOURCE == "pipeline"
       when: never
-    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_REF_NAME #Change to $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
       when: always
     - when: never
   script:
@@ -200,17 +200,17 @@ remove-aa05-ds-sim:
 
 .test-ci-rules:
   rules:
-    - if: $CI_COMMIT_BRANCH #Change to if: $EXECUTE_E2E_WITH_HW == "true" before merge
+    - if: $EXECUTE_E2E_WITH_HW == "true"
       when: on_success
       allow_failure: true
-    - if: $CI_COMMIT_BRANCH #Change toif: $CI_COMMIT_TAG before merge
-      when: manual
-    - if: $CI_COMMIT_BRANCH #Change to if: '$CI_COMMIT_BRANCH == "main"' before merge
-      when: manual
-    - if: $CI_COMMIT_BRANCH #Change to if: $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_TAG
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event"
       when: manual
       allow_failure: true
-    - when: manual
+    - when: never
 
 test-end-to-end:
   stage: test
