@@ -52,6 +52,12 @@ dependencies:
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-sdp.enabled
 
+  # DPD
+  - name: ska-dataproduct-dashboard
+    version: 0.10.0
+    repository: https://artefact.skao.int/repository/helm-internal
+    alias: ska-sdp-dataproduct-dashboard
+
   # DISH LMC CHART
   - name: ska-dish-lmc
     version: 7.0.1

@@ -1,5 +1,6 @@
 ---
 global:
+  data-product-pvc-name: shared-dataproduct-pvc
   # Avoid overriding dynamic chart values here.
   # Dish ID and environment should be passed via pipeline variables
   # dish_id: ska007
@@ -25,6 +26,18 @@ global:
 # CSP
 ska-csp-lmc-mid:
   enabled: false
+
+# DATAPRODUCT DASHBOARD
+ska-dataproduct-dashboard:
+  enabled: false
+  ingress:
+    hostname: https://k8s.miditf.internal.skao.int
+  dataProductPVC:
+    name: shared-dataproduct-pvc
+    create:
+      enabled: false
+      size: 2Ti
+      storageClassName: ceph-cephfs
 
 # ODA
 ska-db-oda-umbrella:
