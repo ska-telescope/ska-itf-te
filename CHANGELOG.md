@@ -1,10 +1,10 @@
 # Version History
 
 ## Unreleased
-
-## 26.3.0
 * [AT-2782]
   * Added Hardware in the loop XRay tests that upload results to confluence page.
+
+## 26.3.0
 * [AT-2966]
   * Modified Spookd Values to move resources to cloud04
 * [AT-2880]
