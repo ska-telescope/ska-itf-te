@@ -4,9 +4,6 @@ ska-tango-alarmhandler:
 ska-csp-lmc-mid:
   enabled: false
 
-ska-dataproduct-dashboard:
-  enabled: false
-
 ska-db-oda-umbrella:
   enabled: true
 

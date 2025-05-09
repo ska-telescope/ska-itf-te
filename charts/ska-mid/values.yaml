@@ -30,18 +30,6 @@ ska-tango-alarmhandler:
 ska-csp-lmc-mid:
   enabled: false
 
-# DATAPRODUCT DASHBOARD
-ska-dataproduct-dashboard:
-  enabled: false
-  ingress:
-    hostname: https://k8s.miditf.internal.skao.int
-  dataProductPVC:
-    name: shared-dataproduct-pvc
-    create:
-      enabled: false
-      size: 2Ti
-      storageClassName: ceph-cephfs
-
 # ODA
 ska-db-oda-umbrella:
   enabled: false
