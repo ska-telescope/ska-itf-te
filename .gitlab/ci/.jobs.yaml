@@ -177,8 +177,6 @@ docs-build:
     - bash .make/resources/gitlab_section.sh csp-logs "Collecting CSP logs" make csp-logs
     - *get_dish_logs
     - make xray-publish
-    - echo "About to publish to Confluence page PAGE_ID = $PAGE_ID"
-    - echo "Confluence page URL = $CONFLUENCE_PAGE"
     - make upload-to-confluence
 
 .test-telescope-on-with-hw:
