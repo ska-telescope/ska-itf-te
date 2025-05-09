@@ -53,21 +53,21 @@ spookd:
           env:
             IP: 10.165.3.33
     - hosts:
-        - za-itf-cloud03 #randomly chosen
+        - za-itf-cloud03 # Randomly chosen
       devices:
         - resourceName: miditf/rxpu-2
           instanceID: "0001"
           env:
             IP: 10.165.3.21
     - hosts:
-        - za-itf-cloud05 #randomly chosen
+        - za-itf-cloud04 # Updated since cloud05's demise
       devices:
         - resourceName: miditf/rxpu-3
           instanceID: "0001"
           env:
             IP: 10.165.3.22
     - hosts:
-        - za-itf-cloud05 #randomly chosen
+        - za-itf-cloud04 # Updated since cloud05's demise
       devices:
         - resourceName: miditf/rxpu-4
           instanceID: "0001"
