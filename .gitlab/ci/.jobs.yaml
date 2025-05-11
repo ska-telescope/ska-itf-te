@@ -178,6 +178,7 @@ docs-build:
     - *get_dish_logs
     - make xray-publish
     - make upload-to-confluence
+    - echo "##### Results uploaded to https://conflu""ence.skatelescope.org/x/PHWUEg #####"
 
 .test-telescope-on-with-hw:
   extends:
