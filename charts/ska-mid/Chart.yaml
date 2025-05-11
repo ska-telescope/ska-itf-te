@@ -67,6 +67,7 @@ dependencies:
   - name: ska-te-dish-structure-simulator
     version: 0.11.0
     repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-ds-sim.enabled
     alias: ska-ds-sim
 
   # SPFC DEPLOYER CHART
