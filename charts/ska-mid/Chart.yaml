@@ -62,6 +62,7 @@ dependencies:
   - name: ska-dish-lmc
     version: 7.0.1
     repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-dish-lmc.enabled
 
   # DISH STRUCTURE SIMULATOR
   - name: ska-te-dish-structure-simulator
