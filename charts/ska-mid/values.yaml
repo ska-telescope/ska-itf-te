@@ -190,7 +190,7 @@ ska-tango-base:
     use_pv: true
 
 # TANGO DEPLOYMENT
-ska-tango-tangogql:
+tangogql:
   enabled: false
   tangoDB: taranta  # This is the name of the TangoDB that should always be set first when deploying a multiDB Taranta system
   ska-tango-base:

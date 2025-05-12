@@ -50,7 +50,7 @@ ska-ser-config-inspector:
 ska-tango-archiver:
   enabled: true
 
-ska-tango-tangogql:
+tangogql:
   enabled: true
 
 ska-tango-taranta:

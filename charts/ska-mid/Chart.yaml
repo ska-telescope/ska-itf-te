@@ -96,7 +96,7 @@ dependencies:
     version: 1.0.1
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tango-taranta.enabled
-    alias: ska-tango-tangogql
+    alias: tangogql
 
   # NOTE:
   # ska-db-oda-umbrella disabled due to unguarded

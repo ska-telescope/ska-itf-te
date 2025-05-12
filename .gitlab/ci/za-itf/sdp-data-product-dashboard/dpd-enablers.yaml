@@ -46,7 +46,7 @@ ska-ser-config-inspector:
 ska-tango-archiver:
   enabled: false
   
-ska-tango-tangogql:
+tangogql:
   enabled: false
 
 ska-tango-taranta:
