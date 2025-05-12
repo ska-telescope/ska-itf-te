@@ -157,6 +157,8 @@ docs-build:
     ADDMARKS: ""
     MARKS: ""
     PYTEST_ADDOPTS: --log-cli-level=INFO
+    BASE_URL: confluence
+    TLD_URL: skatelescope
   before_script:
     - make vars
     - mkdir -p config
@@ -178,8 +180,7 @@ docs-build:
     - *get_dish_logs
     - make xray-publish
     - make upload-to-confluence
-    - echo "##### Results uploaded to <a href='https://confluence.skatelescope.org/x/PHWUEg' target='_blank'>this confluence page</a> #####"
-
+    - echo "##### Results uploaded to https://${BASE_URL}.${TLD_URL}.org/x/PHWUEg  #####"
 
 .test-telescope-on-with-hw:
   extends:
