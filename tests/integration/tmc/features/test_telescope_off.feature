@@ -5,8 +5,5 @@ Feature: Telescope OFF test
     @AT-2996 @AT-3001
 	Scenario: Telescope OFF via TMC
         Given an SUT deployment with 1 subarray
-        And a sequence diagrammer has optionally started listening for events
-        And CSP in adminMode online
-        And the Telescope is in the ON state
         When I turn OFF the telescope
         Then the telescope is in the OFF state
