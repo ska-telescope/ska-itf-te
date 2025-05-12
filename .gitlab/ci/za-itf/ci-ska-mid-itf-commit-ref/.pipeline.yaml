@@ -169,7 +169,7 @@ publish-k8s-test-results:
     - make upload-to-confluence
 
 # ############################################
-# # Dish Strcuture Simulator related CICD jobs
+# # Dish Structure Simulator related CICD jobs
 # ############################################
 deploy-aa05-ds-sim:
   extends:
