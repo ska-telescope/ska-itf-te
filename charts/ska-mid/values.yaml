@@ -1,5 +1,6 @@
 ---
 global:
+  data-product-pvc-name: shared-dataproduct-pvc
   # Avoid overriding dynamic chart values here.
   # Dish ID and environment should be passed via pipeline variables
   # dish_id: ska007

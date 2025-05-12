@@ -9,7 +9,6 @@
     INGRESS_HOST: "k8s.miditf.internal.skao.int"
     CLUSTER_DOMAIN: "miditf.internal.skao.int"
     DPD_ENABLERS: "-f .gitlab/ci/za-itf/sdp-data-product-dashboard/dpd-enablers.yaml"
-    K8S_EXTRA_PARAMS: "--set global.data-product-pvc-name=shared-dataproduct-pvc"
     MINIKUBE: "false"
   environment:
     name: sut/dpd/$KUBE_NAMESPACE
@@ -26,6 +25,7 @@
   stage: on_demand_itf_sut
   variables:
     KUBE_NAMESPACE: ci-ska-mid-itf-dpd-$CI_COMMIT_REF_NAME
+    K8S_EXTRA_PARAMS: "--set global.data-product-pvc-name=test-pvc"
     DPD_PVC_NAME: test-pvc
     HELM_RELEASE: test
 
@@ -78,6 +78,7 @@ destroy-dpd-on-demand:
   variables:
     KUBE_NAMESPACE: shared-ska-dataproducts
     KUBE_NAMESPACE_SDP: staging-sdp
+    K8S_EXTRA_PARAMS: "--set global.data-product-pvc-name=staging-pvc"
     DPD_PVC_NAME: staging-pvc
     HELM_RELEASE: staging
 
