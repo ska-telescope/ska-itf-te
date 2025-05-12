@@ -1,6 +1,10 @@
 # Version History
 
 ## Unreleased
+
+* [AT-2782]
+  * Added Hardware in the loop XRay tests that upload results to confluence page.
+
 * [AT-3002]
   * Upgraded CBF MCS to 1.3.0 and SDP to 1.1.2
   * Added exception handling for cspmasterleafnode.dishvccconfig check
