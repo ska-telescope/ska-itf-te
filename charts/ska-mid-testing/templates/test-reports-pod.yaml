@@ -16,12 +16,10 @@ spec:
     - name: test-data-storage
       mountPath: {{ .Values.mountPath }}
     env:
-    - name: SIM_MODE
-      value: "true"
-    - name: E2E_TEST_EXECUTION_NAMESPACE
-      value: "integration"
-    - name: KUBE_NAMESPACE
-      value: "integration"
+    {{- range $key, $value := .Values.environment }}
+      - name: {{ $key }}
+        value: "{{ $value }}"
+    {{- end }}
   dnsPolicy: ClusterFirst
   restartPolicy: Always
 status: {}
