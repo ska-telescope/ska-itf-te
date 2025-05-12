@@ -1,7 +1,7 @@
 image:
   registry: registry.gitlab.com/ska-telescope/ska-mid-itf
   image: ska-mid-testing
-  tag: 26.3.0-dev.cd5ba24e4
+  tag: 26.4.0-rc.4-dev.c041dacb0
   pullPolicy: IfNotPresent
 
 environment:
