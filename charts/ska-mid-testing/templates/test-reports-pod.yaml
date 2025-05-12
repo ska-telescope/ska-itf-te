@@ -10,7 +10,7 @@ spec:
       claimName: pvc-test-data-storage
   containers:
   - image: {{ .Values.image.registry }}/{{ .Values.image.image }}:{{ .Values.image.tag }}
-    name: pod
+    name: test-reports-reader
     command: ["sh", "-c", "sleep infinity"]
     volumeMounts:
     - name: test-data-storage
