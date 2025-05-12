@@ -30,11 +30,14 @@ spec:
         command: ["sh", "-c"]
         args:
         - |
-          export PYTHONPATH=/app/ska-mid-itf/.venv/lib/python3.10/site-packages:$PYTHONPATH
+          TEST_REPORT_DIR="{{ .Values.mountPath }}/$(date +'%Y-%m-%d_%H-%M-%S')"
+          mkdir -p "$TEST_REPORT_DIR"
+          echo "$TEST_REPORT_DIR" > {{ .Values.mountPath }}/test_report_dir.txt
           . .venv/bin/activate
+          export PYTHONPATH=/app/ska-mid-itf/.venv/lib/python3.10/site-packages:$PYTHONPATH
           python3 -m pytest tests/smoke/ \
           --log-cli-level=DEBUG \
-          --log-file="{{ .Values.mountPath }}/$(date +'%Y-%m-%d_%H-%M-%S')_test-smoke" 2>&1
+          --log-file="$TEST_REPORT_DIR/$(date +'%Y-%m-%d_%H-%M-%S')_test-smoke" 2>&1
       containers:
       - name: test-end-to-end
         image: {{ .Values.image.registry }}/{{ .Values.image.image }}:{{ .Values.image.tag }}
@@ -53,11 +56,12 @@ spec:
         command: ["sh", "-c"]
         args:
         - |
-          export PYTHONPATH=/app/ska-mid-itf/.venv/lib/python3.10/site-packages:$PYTHONPATH
+          TEST_REPORT_DIR=$(cat {{ .Values.mountPath }}/test_report_dir.txt)
           . .venv/bin/activate
+          export PYTHONPATH=/app/ska-mid-itf/.venv/lib/python3.10/site-packages:$PYTHONPATH
           python3 -m pytest tests/integration/tmc/test_end_to_end.py::test_e2e_via_tmc \
           --log-cli-level=DEBUG \
-          --log-file="{{ .Values.mountPath }}/$(date +'%Y-%m-%d_%H-%M-%S')_test-end-to-end.log" 2>&1
+          --log-file="$TEST_REPORT_DIR/$(date +'%Y-%m-%d_%H-%M-%S')_test-end-to-end.log" 2>&1
       dnsPolicy: ClusterFirst
       restartPolicy: Never
       schedulerName: default-scheduler
