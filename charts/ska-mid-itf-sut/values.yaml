@@ -99,8 +99,8 @@ ska-tmc-mid:
         DishVccUri: "car://gitlab.com/ska-telescope/ska-telmodel-data?0.1.0-rc-mid-itf#tmdata"
         DishVccFilePath: "instrument/ska1_mid_itf/ska-mid-cbf-system-parameters.json"
     cspsubarrayleafnode:
-      TelmodelSource: gitlab://gitlab.com/ska-telescope/ska-mid-itf?main#tmdata
-      TelmodelPath: instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json
+      TelmodelSource: gitlab://gitlab.com/ska-telescope/ska-mid-itf?26.4.0-rc.8#tmdata
+      TelmodelPath: instrument/ska1_mid_itf/layout/aa05-delay-itf-layout.json
       # DelayCadence: 10.0
       # DelayValidityPeriod: 20.0
       # DelayModelTimeInAdvance: 30
