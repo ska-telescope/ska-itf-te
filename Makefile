@@ -138,7 +138,7 @@ endif
 
 ifneq ($(DPD_PVC_NAME),)
 	SDP_EXTRA_PARAMS += \
-	--set ska-sdp-dataproduct-dashboard.dataProductPVC.name=$(DPD_PVC_NAME) \
+	--set ska-dataproduct-dashboard.dataProductPVC.name=$(DPD_PVC_NAME) \
 	--set global.data-product-pvc-name=$(DPD_PVC_NAME)
 endif
 
@@ -150,7 +150,7 @@ ifeq ($(KUBE_NAMESPACE),staging)
 # - https://gitlab.com/ska-telescope/sdp/ska-sdp-integration/-/blob/0.21.0/charts/ska-sdp/templates/pvc.yaml
 	SDP_EXTRA_PARAMS += \
 		--set global.data-product-pvc-name=staging-pvc \
-		--set ska-sdp-dataproduct-dashboard.dataProductPVC.name=staging-pvc \
+		--set ska-dataproduct-dashboard.dataProductPVC.name=staging-pvc \
 		--set ska-sdp.data-pvc.create.clone-pvc=staging-pvc \
 		--set ska-sdp.data-pvc.create.clone-pvc-namespace=shared-ska-dataproducts \
 		--set ska-sdp.data-pvc.create.enabled=true \

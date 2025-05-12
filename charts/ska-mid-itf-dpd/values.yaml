@@ -1,6 +1,6 @@
 global:
   data-product-pvc-name: shared-dataproduct-pvc
-ska-sdp-dataproduct-dashboard:
+ska-dataproduct-dashboard:
   ingress:
     hostname: https://k8s.miditf.internal.skao.int
   dataProductPVC:
