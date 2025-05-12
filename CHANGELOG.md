@@ -11,7 +11,7 @@
   * Added exception handling for cspmasterleafnode.dishvccconfig check
   * Removed override of global.dish_suffix in SUT values
 * [AT-3033]
-  * Updated TMC version to 1.0.0.git s
+  * Updated TMC version to 1.0.0.
 
 ## 26.3.0
 * [AT-2966]
