@@ -3,8 +3,8 @@ apiVersion: v2
 name: ska-mid
 description: An umbrella Helm chart for deployment of the Mid System
 type: application
-version: 26.4.0-rc.4
-appVersion: 26.4.0-rc.4
+version: 26.4.0-rc.6
+appVersion: 26.4.0-rc.6
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
   # Tango Base & Deployment Charts: TangoDB, iTango, Tango Operator Utils
@@ -17,7 +17,7 @@ dependencies:
 
   # Mid TMC
   - name: ska-tmc-mid
-    version: 1.0.0-rc.2
+    version: 1.0.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tmc-mid.enabled
 
@@ -51,13 +51,6 @@ dependencies:
     version: 1.1.2
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-sdp.enabled
-
-  # DPD
-  - name: ska-dataproduct-dashboard
-    version: 0.10.0
-    repository: https://artefact.skao.int/repository/helm-internal
-    condition: ska-dataproduct-dashboard.enabled
-    alias: ska-dataproduct-dashboard
 
   # DISH LMC CHART
   - name: ska-dish-lmc
@@ -112,6 +105,12 @@ dependencies:
     version: 0.4.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tango-alarmhandler.enabled
+
+  # DPD
+  - name: ska-dataproduct-dashboard
+    version: 0.10.0
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-dataproduct-dashboard.enabled
 
   # EDA
   - name: ska-tango-archiver
