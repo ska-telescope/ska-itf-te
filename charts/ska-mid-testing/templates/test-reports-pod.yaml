@@ -15,11 +15,6 @@ spec:
     volumeMounts:
     - name: test-data-storage
       mountPath: {{ .Values.mountPath }}
-    env:
-    {{- range $key, $value := .Values.environment }}
-      - name: {{ $key }}
-        value: "{{ $value }}"
-    {{- end }}
   dnsPolicy: ClusterFirst
   restartPolicy: Always
 status: {}
