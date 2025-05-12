@@ -4,7 +4,7 @@ metadata:
   name: test-job
   namespace: integration-tests
 spec:
-  backoffLimit: 1
+  backoffLimit: 0
   completionMode: NonIndexed
   completions: 1
   manualSelector: false
