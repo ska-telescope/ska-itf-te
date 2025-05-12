@@ -144,7 +144,7 @@ stop-k8s-test-runner:
     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
 
 publish-k8s-test-results:
-  stage: test
+  stage: publish
   needs:
     - k8s-test-runner
     - xray-publish
@@ -156,12 +156,17 @@ publish-k8s-test-results:
       - "build/"
   extends:
     - .ci-env
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "pipeline"
+      when: never
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+      when: always
+    - when: never
   script:
     - echo "Test result code from k8s-test-runner job was $(cat build/status)"
     - poetry install
     - make upload-to-confluence
-    - echo "##### Results uploaded to https://confluence.skatelescope.org/x/arzVDQ '#####'"
-  when: manual
+    - echo "##### Results uploaded to https://confluence.skatelescope.org/x/arzVDQ #####"
 
 # ############################################
 # # Dish Structure Simulator related CICD jobs
