@@ -330,7 +330,6 @@ integration-test: k8s-info
 
 upload-to-confluence:
 	@poetry run upload-to-confluence sut_config.yaml build/reports/cucumber.json
-	@echo "##### Results uploaded to https://confluence.skatelescope.org/x/arzVDQ #####"
 
 get-deployment-config-info:
 	@helm -n $(KUBE_NAMESPACE) get values $(HELM_RELEASE)
