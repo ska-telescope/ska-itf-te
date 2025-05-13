@@ -15,7 +15,6 @@ variables:
   # DEPLOY_IMAGE: $CI_REGISTRY/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools:0.9.3
   MCS_CONFIG_FILE_PATH: resources/mcs
   DISH_IDS: "SKA001 SKA036 SKA063 SKA100" # SKA063 SKA100 Add additional Dishes back when adding their pipelines in this order"
-  CS_IMAGE: $CAR_OCI_REGISTRY_HOST/ska-mid-testing:$OCI_TAG
 
   # PYTEST_SUBSYS_MARK: (csp_startup or sdp or eda)
   # K8S_INSTALL_FROM_CAR: "false"remove redundant cache
@@ -100,6 +99,15 @@ oci-image-build-testing:
   variables:
     OCI_BUILD_ADDITIONAL_ARGS: "--build-arg GIT_COMMIT_SHA=$(git rev-parse HEAD)"
     OCI_IMAGES: "ska-mid-testing"
+
+container_scanning:
+  rules:
+    - if: $CI_COMMIT_TAG
+      variables:
+        CS_IMAGE: "${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}/ska-mid-testing:${CI_COMMIT_TAG}"
+    - when: always
+      variables:
+        CS_IMAGE: "${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}/ska-mid-testing:${CI_COMMIT_SHORT_SHA}"
 
 docs-build-rtd:
   rules:
