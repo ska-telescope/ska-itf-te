@@ -130,16 +130,16 @@
                 "geocentric": {
                     "interface": "https://schema.skao.int/ska-telmodel-layout-geocentric/1.0",
                     "coordinate_frame": "ITRF",
-                    "x": 5109284.987466058,
-                    "y": 2006824.2736620354,
-                    "z": -3239100.2108731195
+                    "x": 5109058.062517257,
+                    "y": 2007302.435599506,
+                    "z": -3239167.000445203
                 },
                 "geodetic": {
                     "interface": "https://schema.skao.int/ska-telmodel-layout-geodetic/1.0",
                     "coordinate_frame": "WGS84",
-                    "lat": -30.71260458,
-                    "lon": 21.44390058,
-                    "h": 1095.239
+                    "lat": -30.71329,
+                    "lon": 21.449412,
+                    "h": 1098.074
                 }
             },
             "fixed_delays": [
@@ -148,7 +148,7 @@
                     "fixed_delay_id": "FIX_H",
                     "polarisation": 0,
                     "units": "m",
-                    "delay": 2.0
+                    "delay": 0.0
                 },
                 {
                     "interface": "https://schema.skao.int/ska-telmodel-layout-receptor-fixed-delay/0.0",
@@ -170,16 +170,16 @@
                 "geocentric": {
                     "interface": "https://schema.skao.int/ska-telmodel-layout-geocentric/1.0",
                     "coordinate_frame": "ITRF",
-                    "x": 5109284.987466058,
-                    "y": 2006824.2736620354,
-                    "z": -3239100.2108731195
+                    "x": 5109058.062517257,
+                    "y": 2007302.435599506,
+                    "z": -3239167.000445203
                 },
                 "geodetic": {
                     "interface": "https://schema.skao.int/ska-telmodel-layout-geodetic/1.0",
                     "coordinate_frame": "WGS84",
-                    "lat": -30.71260458,
-                    "lon": 21.44390058,
-                    "h": 1095.239
+                    "lat": -30.71329,
+                    "lon": 21.449412,
+                    "h": 1098.074
                 }
             },
             "fixed_delays": [
@@ -210,16 +210,16 @@
                 "geocentric": {
                     "interface": "https://schema.skao.int/ska-telmodel-layout-geocentric/1.0",
                     "coordinate_frame": "ITRF",
-                    "x": 5109284.987466058,
-                    "y": 2006824.2736620354,
-                    "z": -3239100.2108731195
+                    "x": 5109058.062517257,
+                    "y": 2007302.435599506,
+                    "z": -3239167.000445203
                 },
                 "geodetic": {
                     "interface": "https://schema.skao.int/ska-telmodel-layout-geodetic/1.0",
                     "coordinate_frame": "WGS84",
-                    "lat": -30.71260458,
-                    "lon": 21.44390058,
-                    "h": 1095.239
+                    "lat": -30.71329,
+                    "lon": 21.449412,
+                    "h": 1098.074
                 }
             },
             "fixed_delays": [
@@ -250,16 +250,16 @@
                 "geocentric": {
                     "interface": "https://schema.skao.int/ska-telmodel-layout-geocentric/1.0",
                     "coordinate_frame": "ITRF",
-                    "x": 5109284.987466058,
-                    "y": 2006824.2736620354,
-                    "z": -3239100.2108731195
+                    "x": 5109058.062517257,
+                    "y": 2007302.435599506,
+                    "z": -3239167.000445203
                 },
                 "geodetic": {
                     "interface": "https://schema.skao.int/ska-telmodel-layout-geodetic/1.0",
                     "coordinate_frame": "WGS84",
-                    "lat": -30.71260458,
-                    "lon": 21.44390058,
-                    "h": 1095.239
+                    "lat": -30.71329,
+                    "lon": 21.449412,
+                    "h": 1098.074
                 }
             },
             "fixed_delays": [

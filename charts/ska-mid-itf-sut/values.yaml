@@ -99,8 +99,8 @@ ska-tmc-mid:
         DishVccUri: "car:ska-telmodel-data?0.1.0-rc-mid-itf#tmdata"
         DishVccFilePath: "instrument/ska1_mid_itf/ska-mid-cbf-system-parameters.json"
     cspsubarrayleafnode:
-      TelmodelSource: car:ska-mid-itf?26.4.0-rc.9#tmdata
-      TelmodelPath: instrument/ska1_mid_itf/layout/aa05-delay-itf-layout.json
+      TelmodelSource: car:ska-mid-itf?26.4.0-rc.10#tmdata
+      TelmodelPath: instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json
       # DelayCadence: 10.0
       # DelayValidityPeriod: 20.0
       # DelayModelTimeInAdvance: 30
