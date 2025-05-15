@@ -37,10 +37,10 @@ class LogParserHelper:
 
         self.track_load_table_count = 0
         self.brand_new_diagram = True
-        self.current_timestamp: datetime = datetime.now()
-        self.current_reference_timestamp: datetime = datetime.now()
+        self.current_timestamp = datetime.now()
+        self.current_reference_timestamp = datetime.now()
         self.reference_timestamp_set = False
-        self.fresh_reference_timestamp: bool = True
+        self.fresh_reference_timestamp = True
 
     def handle_lrc_result_log(self, cleaned_device: str, message: str):
         '''Handles parsing of longRunningCommandResult logs and updates the sequence diagram'''
