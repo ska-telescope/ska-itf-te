@@ -283,3 +283,7 @@ class LogParserHelper:
     def set_current_timestamp(self, timestamp_dt: datetime):
         '''Set the current_timestamp class variable'''
         self.current_timestamp = timestamp_dt
+
+        if self.brand_new_diagram:
+            # Set the reference to the first timestamp logged at the start for extra safety
+            self.current_reference_timestamp = timestamp_dt

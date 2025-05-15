@@ -47,8 +47,8 @@ class EventsAndLogsFileParser(LogParser):
             use_new_pages: bool=True,
             group_devices: bool=True,
             include_lrc_ids: bool=False,
-            include_absolute_timestamps=False, 
-            include_relative_timestamps=True,
+            include_absolute_timestamps: bool=False, 
+            include_relative_timestamps: bool=True,
             ):
         super().__init__()
 
