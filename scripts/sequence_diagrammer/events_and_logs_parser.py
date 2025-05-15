@@ -1,6 +1,7 @@
 import os
 import re
 import sys
+from datetime import datetime
 from typing import Match
 
 # Local imports
@@ -46,21 +47,29 @@ class EventsAndLogsFileParser(LogParser):
             use_new_pages: bool=True,
             group_devices: bool=True,
             include_lrc_ids: bool=False,
+            include_absolute_timestamps=False, 
+            include_relative_timestamps=True,
             ):
         super().__init__()
 
         self.limit_track_load_table_calls = limit_track_load_table_calls
         self.show_events = show_events
         self.show_component_state_updates = show_component_state_updates
-        self.include_dividers = include_dividers
-        self.use_new_pages = use_new_pages
         self.group_devices = group_devices
         self.include_lrc_ids = include_lrc_ids
+
+        # If both timestamp types are accidentally turned on, default to relative as SEs say it's more valuable
+        if include_absolute_timestamps and include_relative_timestamps:
+            include_absolute_timestamps = False
 
         self.sequence_diagram = PlantUMLSequenceDiagram()
         self.log_parse_helper = LogParserHelper(
             self.sequence_diagram,
             self.get_likely_caller_from_hierarchy,
+            include_dividers,
+            use_new_pages,
+            include_absolute_timestamps,
+            include_relative_timestamps,
         )
 
         self.device_hierarchy = device_hierarchy
@@ -145,6 +154,9 @@ class EventsAndLogsFileParser(LogParser):
         # _component_state_changed|dish_manager_cm.py#390|tango-device:mid-dish/dish-manager/SKA001|...
         cleaned_device = get_cleaned_device_name(device, 'log')
 
+        timestamp_dt = datetime.fromtimestamp(float(prefix.split('-')[0].strip()))
+        self.log_parse_helper.set_current_timestamp(timestamp_dt)
+
         if action in ['update_long_running_command_result', 'update_command_result']:
             # <prefix>|<date>|INFO|longRunningCommandResult|update_long_running_command_result|<log_line>|
             # tango-device:ska_mid/tm_subarray_node/1|Received longRunningCommandResult event for device:
@@ -159,7 +171,7 @@ class EventsAndLogsFileParser(LogParser):
         elif action == '_debug_patch':
             # <prefix>|<date>|DEBUG|<runner|_debug_patch|<log_line>|tango-device:ska_mid/tm_central/central_node|
             # -> CentralNodeMid.TelescopeOn()
-            self.log_parse_helper.handle_debug_patch_log(cleaned_device, message, self.use_new_pages, self.actor, self.include_dividers)
+            self.log_parse_helper.handle_debug_patch_log(cleaned_device, message, self.actor)
 
         elif action == '_set_k_numbers_to_dish':
             # <prefix>|<date>|INFO|<runner>|_set_k_numbers_to_dish|<log_line>|
@@ -208,6 +220,9 @@ class EventsAndLogsFileParser(LogParser):
         cleaned_device = get_cleaned_device_name(device, "event")
         caller = self.get_likely_caller_from_hierarchy(cleaned_device)
 
+        timestamp_dt = datetime.fromtimestamp(float(prefix.split('-')[0].strip()))
+        self.log_parse_helper.set_current_timestamp = timestamp_dt
+
         if "longrunningcommand" in event_attr:
             self.handle_lrc_event_log(cleaned_device, caller, event_attr, val)
         elif self.show_events:
@@ -247,8 +262,11 @@ class EventsAndLogsFileParser(LogParser):
                     and status != "STAGING"
                 ):
                     self.running_lrc_status_updates[lrc_id].append(status)
+                    note = f'""{lrc_id if self.include_lrc_ids else method_name}"" -> {status}'
+                    note = self.log_parse_helper.format_note_with_timestamp(note)
+
                     self.sequence_diagram.add_command_response(
-                        device, caller, f'""{lrc_id if self.include_lrc_ids else method_name}"" -> {status}'
+                        device, caller, note
                     )
         elif "longrunningcommandprogress" in event_attr:
             lrc_progresses = LRC_TUPLE_REGEX_PATTERN.findall(val)
@@ -256,8 +274,12 @@ class EventsAndLogsFileParser(LogParser):
                 # Only show progress updates for methods which have been staged
                 if lrc_id in self.running_lrc_status_updates:
                     method_name = self.get_method_from_lrc_id(lrc_id)
+
+                    note = f'""{lrc_id if self.include_lrc_ids else method_name}"" -> {progress}'
+                    note = self.log_parse_helper.format_note_with_timestamp(note)
+
                     self.sequence_diagram.add_command_call(
-                        device, device, f'""{lrc_id if self.include_lrc_ids else method_name}"" -> {progress}'
+                        device, device, note
                     )
         elif event_attr == "longrunningcommandresult":
             pass
