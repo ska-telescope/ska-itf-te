@@ -270,6 +270,11 @@ class LogParserHelper:
 
     # Add timestamps to commands and responses if flags say so
     def format_note_with_timestamp(self, note: str) -> str:
+        if not self.reference_timestamp_set:
+            # Set the reference to the first timestamp drawn in the puml
+            self.current_reference_timestamp = self.current_timestamp
+            self.reference_timestamp_set = True
+
         if self.include_relative_timestamps and not self.fresh_reference_timestamp:
             delta_str = self.format_timestamp_delta(
                 self.current_timestamp, self.current_reference_timestamp
@@ -286,7 +291,3 @@ class LogParserHelper:
     def set_current_timestamp(self, timestamp_dt: datetime):
         '''Set the current_timestamp class variable'''
         self.current_timestamp = timestamp_dt
-
-        if self.brand_new_diagram:
-            # Set the reference to the first timestamp logged at the start for extra safety
-            self.current_reference_timestamp = timestamp_dt
