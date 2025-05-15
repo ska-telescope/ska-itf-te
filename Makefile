@@ -79,10 +79,10 @@ ifeq ($(SPFC_IN_THE_LOOP), true)
 	DISH_LMC_EXTRA_PARAMS += \
 	--set ska-dish-lmc.ska-mid-dish-simulators.deviceServers.spfdevice.enabled=false \
 	--set ska-dish-lmc.ska-mid-dish-manager.dishmanager.spf.fqdn=$(DISH_ID)/spf/spfc \
-	--set ska-mid-dish-spfc-deployer.global.dish_id=$(DISH_ID) \
-	--set ska-mid-dish-spfc-deployer.enabled=true \
-	--set ska-mid-dish-spfc-deployer.job.namespace=$(KUBE_NAMESPACE) \
-	--set ska-mid-dish-spfc-deployer.instance=$(SPFC_INSTANCE)
+	--set spfc.tango_host=$(TANGO_HOST) \
+	--set global.dish_id=$(DISH_ID) --set ip_address=$(IP_ADDRESS) \
+	--set user=$(SPFC_USER) --set private_key=$(SPFC_PRIVATE_KEY) \
+	--set namespace=$(KUBE_NAMESPACE) --set global.cluster_domain=$(CLUSTER_DOMAIN)
 endif
 
 SPFRX_IN_THE_LOOP ?= #Boolean flag to control deployment of the device described in SPFRX_TANGO_INSTANCE, SPFRX_ADDRESS variables
@@ -248,7 +248,7 @@ PYTHON_VARS_AFTER_PYTEST ?= -v
 
 # Add cucumber/json reports only for this test
 ifeq ($(MAKECMDGOALS),k8s-test)
-# execute in true context; add BDD test results to be uploaded to xray
+# execute in truel context; add BDD test results to be uploaded to xray
 PYTHON_VARS_AFTER_PYTEST += --true-context --cucumberjson=build/reports/cucumber.json \
 	--json-report --json-report-file=build/reports/report.json
 
@@ -329,6 +329,7 @@ integration-test: k8s-info
 
 upload-to-confluence:
 	@poetry run upload-to-confluence sut_config.yaml build/reports/cucumber.json
+	@echo "##### Results uploaded to https://confluence.skatelescope.org/x/arzVDQ #####"
 
 get-deployment-config-info:
 	@helm -n $(KUBE_NAMESPACE) get values $(HELM_RELEASE)
