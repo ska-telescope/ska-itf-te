@@ -15,7 +15,7 @@ class TalonBoardCommandExecutor:
     slot_number_pattern = r"Currently loaded slot: (\d+)"
 
     def __init__(self, ip: str, user: str):
-        """Initializes the TalonBoardCommandExecutor with the IP and user for SSH."""
+
         self.ip = ip
         self.user = user
 
@@ -26,7 +26,9 @@ class TalonBoardCommandExecutor:
 
         try:
             result = subprocess.run(
-                ["ssh", f"{self.user}@{self.ip}", command], capture_output=True, timeout=timeout
+                ["ssh", f"{self.user}@{self.ip}", command, "-o StrictHostKeyChecking=no"],
+                capture_output=True,
+                timeout=timeout,
             )
         except subprocess.TimeoutExpired:
             error_string = f"Could not communicate with Talon board {talon_board}"
