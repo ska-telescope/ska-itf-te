@@ -16,7 +16,7 @@ spec:
       volumes:
       - name: test-data-storage
         persistentVolumeClaim:
-          claimName: {{ .Values.test_reports_pvc }}
+          claimName: {{ .Values.testReportsPVC }}
       initContainers:
       - name: test-smoke
         image: {{ .Values.image.registry }}/{{ .Values.image.image }}:{{ .Values.image.tag }}

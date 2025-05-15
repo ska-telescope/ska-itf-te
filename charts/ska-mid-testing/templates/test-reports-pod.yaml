@@ -7,7 +7,7 @@ spec:
   volumes:
   - name: test-data-storage
     persistentVolumeClaim:
-      claimName: pvc-test-data-storage
+      claimName: {{ .Values.testReportsPVC }}
   containers:
   - image: {{ .Values.image.registry }}/{{ .Values.image.image }}:{{ .Values.image.tag }}
     name: test-reports-reader
