@@ -79,7 +79,6 @@ ifeq ($(SPFC_IN_THE_LOOP), true)
 	DISH_LMC_EXTRA_PARAMS += \
 	--set ska-dish-lmc.ska-mid-dish-simulators.deviceServers.spfdevice.enabled=false \
 	--set ska-dish-lmc.ska-mid-dish-manager.dishmanager.spf.fqdn=$(DISH_ID)/spf/spfc \
-	--set spfc.tango_host=$(TANGO_HOST) \
 	--set global.dish_id=$(DISH_ID) --set ip_address=$(IP_ADDRESS) \
 	--set user=$(SPFC_USER) --set private_key=$(SPFC_PRIVATE_KEY) \
 	--set namespace=$(KUBE_NAMESPACE) --set global.cluster_domain=$(CLUSTER_DOMAIN)
