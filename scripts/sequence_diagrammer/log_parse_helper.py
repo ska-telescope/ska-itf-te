@@ -184,8 +184,10 @@ class LogParserHelper:
                 # Reduce "TrackLoadTable" commands from the diagram
                 if method == "TrackLoadTable":
                     self.track_load_table_count += 1
-                    if limit_track_load_table_calls \
-                        and self.track_load_table_count > TRACK_LOAD_TABLE_LIMIT:
+                    if (
+                        limit_track_load_table_calls
+                        and self.track_load_table_count > TRACK_LOAD_TABLE_LIMIT
+                    ):
                         return
 
                 caller = self.get_likely_caller_from_hierarchy(device)
@@ -204,8 +206,10 @@ class LogParserHelper:
                 # Reduce "TrackLoadTable" commands from the diagram
                 if method == 'TrackLoadTable':
                     self.track_load_table_count += 1
-                    if limit_track_load_table_calls \
-                        and self.track_load_table_count > TRACK_LOAD_TABLE_LIMIT:
+                    if (
+                        limit_track_load_table_calls
+                        and self.track_load_table_count > TRACK_LOAD_TABLE_LIMIT
+                    ):
                         return
 
                 # The ResultCode.QUEUED logs seem to be delayed and duplicated so exclude them
