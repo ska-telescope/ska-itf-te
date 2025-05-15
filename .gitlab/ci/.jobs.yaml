@@ -151,6 +151,8 @@ docs-build:
     SUT_CLUSTER_DOMAIN: miditf.internal.skao.int
     E2E_TEST_EXECUTION_NAMESPACE: $KUBE_NAMESPACE
     XRAY_EXECUTION_CONFIG_FILE: tests/xray-config-hw-tests.json
+    PAGE_ID: 311719228
+    CONFLUENCE_PAGE: https://confluence.skatelescope.org/x/PHWUEg
     SIM_MODE: false
     ADDMARKS: ""
     MARKS: ""
@@ -175,7 +177,9 @@ docs-build:
     - bash .make/resources/gitlab_section.sh csp-logs "Collecting CSP logs" make csp-logs
     - *get_dish_logs
     - make xray-publish
-
+    - make upload-to-confluence
+    - echo "Results uploaded to https://confluence.skatelescope.org/x/PHWUEg"
+    
 .test-telescope-on-with-hw:
   extends:
     - .test-end-to-end-with-hw
