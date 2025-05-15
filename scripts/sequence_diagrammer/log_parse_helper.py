@@ -262,18 +262,20 @@ class LogParserHelper:
         )
 
     def format_timestamp(self, timestamp_dt: datetime) -> str:
+        '''Format a datetime object into a string with millisecond precision'''
         timestamp_str = (
             timestamp_dt.strftime('%Y-%m-%dT%H:%M:%S') + f'.{timestamp_dt.microsecond // 1000:03d}'
         )
         return timestamp_str
 
     def format_timestamp_delta(self, current: datetime, reference: datetime) -> str:
+        '''Return the time delta between two datetimes as a +X.XXXs string'''
         delta_dt = current - reference
         delta_str = f'+{delta_dt.total_seconds():.3f}s'
         return delta_str
 
-    # Add timestamps to commands and responses if flags say so
     def format_note_with_timestamp(self, note: str) -> str:
+        '''Add absolute or relative timestamp prefix to a note based on configuration'''
         if not self.reference_timestamp_set:
             # Set the reference to the first timestamp drawn in the puml
             self.current_reference_timestamp = self.current_timestamp
