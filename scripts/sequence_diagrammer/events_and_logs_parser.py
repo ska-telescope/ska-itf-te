@@ -102,7 +102,7 @@ class EventsAndLogsFileParser(LogParser):
         title = f"Sequence diagram generated from\n{cleaned_log_file_name}".encode(
             "unicode_escape"
         ).decode("utf-8")
-        
+
         if not actor:
             actor = self.device_hierarchy[0][0]
 
@@ -131,7 +131,7 @@ class EventsAndLogsFileParser(LogParser):
                     previous_group = current_group
 
                 self.sequence_diagram.add_participant(device)
-        
+
         if self.group_devices:
             self.sequence_diagram.end_box()
 
@@ -145,10 +145,10 @@ class EventsAndLogsFileParser(LogParser):
 
     def log_callback(self, prefix: str, iso_date_string: str, log_level: str,
                      runner: str, action: str, log_line: str, device: str, message: str):
-        # Ignore empty devices        
+        # Ignore empty devices
         if device == "":
             return
-        
+
         # Example log message:
         # 1724676115.079 -  Log  - 1|2024-08-26T12:41:55.079Z|DEBUG|Thread-9 (_event_consumer)|
         # _component_state_changed|dish_manager_cm.py#390|tango-device:mid-dish/dish-manager/SKA001|...
@@ -171,13 +171,15 @@ class EventsAndLogsFileParser(LogParser):
         elif action == '_debug_patch':
             # <prefix>|<date>|DEBUG|<runner|_debug_patch|<log_line>|tango-device:ska_mid/tm_central/central_node|
             # -> CentralNodeMid.TelescopeOn()
-            self.log_parse_helper.handle_debug_patch_log(cleaned_device, message, self.actor)
+            self.log_parse_helper.handle_debug_patch_log(
+                cleaned_device, message, [self.actor, self.device_hierarchy[0][1]]
+            )
 
         elif action == '_set_k_numbers_to_dish':
             # <prefix>|<date>|INFO|<runner>|_set_k_numbers_to_dish|<log_line>|
             # tango-device:ska_mid/tm_central/central_node|Invoking SetKValue on dish adapter ska_mid/tm_leaf_node/d0001
             self.log_parse_helper.handle_set_k_numbers_to_dish_log(cleaned_device, message)
-        
+
         elif action in ['turn_on_csp', 'turn_on_sdp', 'turn_off_csp', 'turn_off_sdp']:
             # <prefix>|<date>|INFO|<runner>|turn_on_csp|<log_line>|tango-device:ska_mid/tm_central/central_node|
             # Invoking On command for ska_mid/tm_leaf_node/csp_master devices
@@ -208,7 +210,7 @@ class EventsAndLogsFileParser(LogParser):
             self.log_parse_helper.component_state_update_cb(cleaned_device, message)
 
     def event_callback(self, prefix, device: str, event_attr, val):
-        # Ignore empty devices        
+        # Ignore empty devices
         if device == "":
             return
 

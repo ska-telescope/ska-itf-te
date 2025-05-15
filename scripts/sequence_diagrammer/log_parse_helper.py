@@ -39,6 +39,7 @@ class LogParserHelper:
         self.brand_new_diagram = True
         self.current_timestamp: datetime = datetime.now()
         self.current_reference_timestamp: datetime = datetime.now()
+        self.reference_timestamp_set = False
         self.fresh_reference_timestamp: bool = True
 
     def handle_lrc_result_log(self, cleaned_device: str, message: str):
@@ -77,7 +78,7 @@ class LogParserHelper:
 
             self.generic_command_match_handling(match, cleaned_device)
 
-    def handle_debug_patch_log(self, cleaned_device: str, message: str, actor: str,):
+    def handle_debug_patch_log(self, cleaned_device: str, message: str, actors: list,):
         '''Handles parsing of _debug_patch logs and updates the sequence diagram'''
         match = DEBUG_PATCH_FORWARD_REGEX_PATTERN.search(message)
         if match:
@@ -93,7 +94,9 @@ class LogParserHelper:
                 likely_caller = self.get_likely_caller_from_hierarchy(likely_caller)
 
             # Use new pages for major notebook commands to split the images
-            if (self.use_new_pages or self.include_relative_timestamps) and likely_caller == actor:
+            if (
+                self.use_new_pages or self.include_relative_timestamps
+            ) and likely_caller in actors:
                 # Use major commands as time reference points
                 self.current_reference_timestamp = self.current_timestamp
                 # We don't want a new page on the very first command
@@ -104,7 +107,7 @@ class LogParserHelper:
                 self.fresh_reference_timestamp = True
 
             # Create a divider if a new notebook command was run
-            if self.include_dividers and likely_caller == actor:
+            if self.include_dividers and likely_caller in actors:
                 self.sequence_diagram.add_divider(command_name)
 
             note = f'""{target_class}.{command_name}""'
