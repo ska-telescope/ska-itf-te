@@ -1,14 +1,13 @@
 """."""
 
 import logging
-import yaml
-import pytest
 import os
 
+import pytest
+import yaml
 from tango import DeviceProxy
 
 from utils.talon_communication import TalonBoardCommandExecutor
-
 
 logger = logging.getLogger(__name__)
 
@@ -30,7 +29,10 @@ def test_devices_reachable():
 
 @pytest.mark.hw_in_the_loop
 def test_qspi_version():
-    """Checked whether the QSPI version on each Talon Board is the expected version."""
+    """Check QSPI version.
+
+    Check whether the QSPI version on each ITF CBF Talon Board is the expected version.
+    """
     # Get CBF Talon IPs
     cwd = os.getcwd()
     hw_config_path = f"{cwd}/resources/mcs/hw_config.yaml"
