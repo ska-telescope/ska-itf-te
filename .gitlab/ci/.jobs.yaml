@@ -165,6 +165,7 @@ docs-build:
     - bash .make/resources/gitlab_section.sh poetry "Poetry Install" poetry install
     - export TANGO_HOST=tango-databaseds.$E2E_TEST_EXECUTION_NAMESPACE.svc.miditf.internal.skao.int:10000
     - bash .make/resources/gitlab_section.sh template "Output deployment config information" make get-deployment-config-info
+    - bash .make/resources/gitlab_section.sh template "Check deployed container images match Helm values" make deployment-images-check
     - make print-telescope-state || true
   script:
     - make teardown-telescope || true
