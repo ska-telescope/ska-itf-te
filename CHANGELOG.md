@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* [AT-3168]
+  * Upgraded Taranta to 2.14.1
 * [AT-2782]
   * Added Hardware in the loop XRay tests that upload results to confluence page.
 
