@@ -166,10 +166,6 @@ class EventsAndLogsFileParser(LogParser):
 
         timestamp_dt = datetime.fromtimestamp(float(prefix.split('-')[0].strip()))
 
-        print("DEBUG callable check:", callable(self.log_parse_helper.set_current_timestamp))
-        print("DEBUG type:", type(self.log_parse_helper.set_current_timestamp))
-        print("DEBUG value:", self.log_parse_helper.set_current_timestamp)
-
         self.log_parse_helper.set_current_timestamp(timestamp_dt)
 
         if action in ['update_long_running_command_result', 'update_command_result']:
