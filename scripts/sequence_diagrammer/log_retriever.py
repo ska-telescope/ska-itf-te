@@ -9,7 +9,13 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Directory of the script
 SUBMODULE_PATH = os.path.abspath(os.path.join(BASE_DIR, "../../.jupyter-notebooks/src"))
 sys.path.append(SUBMODULE_PATH)
 
-from notebook_tools.sequence_diagram_setup import *
+from notebook_tools.sequence_diagram_setup import (
+    # Regex patterns
+    ISO_DATE_STRING_PATTERN,
+    # Constants
+    DEBUG_LOG_TIME_ADJUSTMENT_SECONDS,
+    GENERAL_LOG_TIME_ADJUSTMENT_SECONDS,
+)
 
 class LogRetriever:
     """Class with function to get the pod logs from kubectl"""

@@ -13,7 +13,17 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Directory of the script
 SUBMODULE_PATH = os.path.abspath(os.path.join(BASE_DIR, "../../.jupyter-notebooks/src"))
 sys.path.append(SUBMODULE_PATH)
 
-from notebook_tools.sequence_diagram_setup import *
+from notebook_tools.sequence_diagram_setup import (
+    # Regex patterns
+    LOG_REGEX_PATTERN,
+    EVENT_REGEX_PATTERN,
+    LRC_TUPLE_REGEX_PATTERN,
+    # Enums
+    DeviceGroup,
+    # Functions
+    determine_box_name_and_colour,
+    get_cleaned_device_name,
+)
 
 class LogParser:
     def __init__(self):

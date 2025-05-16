@@ -13,7 +13,23 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Directory of the script
 SUBMODULE_PATH = os.path.abspath(os.path.join(BASE_DIR, "../../.jupyter-notebooks/src"))
 sys.path.append(SUBMODULE_PATH)
 
-from notebook_tools.sequence_diagram_setup import *
+from notebook_tools.sequence_diagram_setup import (
+    # Regex patterns
+    LOG_LRC_RESULT_REGEX_PATTERN,
+    INVOKE_EXECUTE_COMMAND_REGEX_PATTERN,
+    DEBUG_PATCH_FORWARD_REGEX_PATTERN,
+    K_VALUES_TO_DISH_REGEX_PATTERN,
+    CSP_SDP_ON_OFF_COMMAND_REGEX_PATTERN,
+    INVOKING_COMMAND_REGEX_PATTERN,
+    COMMAND_INVOKED_REGEX_PATTERN,
+    CSP_SDP_RELEASE_RESOURCES_COMMAND_REGEX_PATTERN,
+    INCOMING_COMMAND_CALL_REGEX_PATTERN,
+    RETURN_COMMAND_CALL_REGEX_PATTERN,
+    # Constants
+    TRACK_LOAD_TABLE_LIMIT,
+    # Functions
+    get_cleaned_device_name,
+)
 
 
 class LogParserHelper:

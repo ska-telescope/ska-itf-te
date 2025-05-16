@@ -14,7 +14,12 @@ SUBMODULE_PATH = os.path.abspath(os.path.join(BASE_DIR, "../../.jupyter-notebook
 sys.path.append(SUBMODULE_PATH)
 
 from ska_mid_jupyter_notebooks.helpers.configuration import get_dish_namespace
-from notebook_tools.sequence_diagram_setup import *
+from notebook_tools.sequence_diagram_setup import (
+    # Functions
+    define_pods_for_logs,
+    define_tracked_device_trls,
+    setup_device_hierarchy,
+)
 
 
 class sequenceDiagrammer:
