@@ -238,7 +238,7 @@ class EventsAndLogsFileParser(LogParser):
         caller = self.get_likely_caller_from_hierarchy(cleaned_device)
 
         timestamp_dt = datetime.fromtimestamp(float(prefix.split('-')[0].strip()))
-        self.log_parse_helper.set_current_timestamp = timestamp_dt
+        self.log_parse_helper.set_current_timestamp(timestamp_dt)
 
         if "longrunningcommand" in event_attr:
             self.handle_lrc_event_log(cleaned_device, caller, event_attr, val)
