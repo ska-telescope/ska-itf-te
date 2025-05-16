@@ -53,6 +53,9 @@ include:
     file: "gitlab-ci/includes/xray-publish.gitlab-ci.yml"
   - project: "ska-telescope/ska-mid-itf-engineering-tools"
     file: .gitlab/ci/check-dependencies/.pipeline.yaml
+  - project: 'ska-telescope/templates-repository'
+    file: 'gitlab-ci/includes/tmdata.gitlab-ci.yml'
+
 
   - local: .gitlab/ci/.jobs.yaml
   - local: .gitlab/ci/.rules.yaml
@@ -67,6 +70,7 @@ include:
   - local: .gitlab/ci/za-itf/ci-ska-db-oda-commit-ref/.pipeline.yaml
   - local: .gitlab/ci/za-itf/sdp-data-product-dashboard/.pipeline.yaml
   - local: .gitlab/ci/za-itf/cbf-engineering-console/.pipeline.yaml
+
 
 xray-publish:
   when: always
