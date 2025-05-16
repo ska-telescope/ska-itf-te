@@ -170,6 +170,23 @@ pvc-patch-delete: ## Delete PVC in the SDP namespace in case one exists that was
 pvc-patch-apply: ## Create PVC in the SDP namespace for data product sharing
 	@kubectl apply -f .gitlab/ci/za-itf/staging/sdp-vis-receive-pvc.yaml -n $(KUBE_NAMESPACE_SDP)
 
+## TARGET: deployment-images-check
+## SYNOPSIS: make deployment-images-check
+## DESCRIPTION:
+##   Validates that container images running in the namespace match those
+##   specified in the Helm chart values.yaml files.
+## VARS:
+##   KUBE_NAMESPACE=<namespace to check>
+##   CHART_DIR=<chart directory>
+##   VALUES_FILE=<values.yaml file>
+deployment-images-check:
+	@echo "Extracting expected images from Helm template log and deployed container images from namespace"
+	@grep -oE 'image: [^ ]+' template.log | awk '{print $$2}' | sort | uniq > expected-images.txt
+	@kubectl get pods -n $(KUBE_NAMESPACE)-o jsonpath="{range .items[*]}{range .spec.containers[*]}{.name}:{.image}{'\n'}{end}{end}" | sort | uniq > deployed-images.txt
+	@echo "Comparing expected vs deployed images""
+	@$(PROJECT_ROOT)/scripts/kubernetes/compare_deployed_images.sh expected-images.txt deployed-images.txt
+.PHONY: deployment-images-check
+
 vars:
 	$(info KUBE_NAMESPACE: $(KUBE_NAMESPACE))
 	$(info #####################################)
