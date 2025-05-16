@@ -81,8 +81,10 @@ ifeq ($(SPFC_IN_THE_LOOP), true)
 	--set ska-dish-lmc.ska-mid-dish-manager.dishmanager.spf.fqdn=$(DISH_ID)/spf/spfc \
 	--set ska-mid-dish-spfc-deployer.global.dish_id=$(DISH_ID) \
 	--set ska-mid-dish-spfc-deployer.enabled=true \
-	--set ska-mid-dish-spfc-deployer.job.namespace=$(KUBE_NAMESPACE) \
+	--set ska-mid-dish-spfc-deployer.namespace=$(KUBE_NAMESPACE) \
 	--set ska-mid-dish-spfc-deployer.private_key=$(SPFC_PRIVATE_KEY) \
+	--set ska-mid-dish-spfc-deployer.user=$(SPFC_USER) \
+	--set ska-mid-dish-spfc-deployer.ip_address=$(IP_ADDRESS) \
 	--set ska-mid-dish-spfc-deployer.instance=$(SPFC_INSTANCE)
 
 endif
