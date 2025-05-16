@@ -6,6 +6,8 @@
   * Removed `ska-mid-itf-sut`, `dish-lmc`, `dish-structure-simulators`, `ska-db-oda-mid-itf`, `ska-mid-itf-dpd` chart folders
   * Created `values_diff_merge.py` script for helping combine two values files
   * Removed `datacentres` folder and subfolders - no longer needed in this repo
+* [AT-3168]
+  * Upgraded Taranta to 2.14.1
 * [AT-2782]
   * Added Hardware in the loop XRay tests that upload results to confluence page.
 * [AT-3002]
