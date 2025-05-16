@@ -82,6 +82,7 @@ ifeq ($(SPFC_IN_THE_LOOP), true)
 	--set ska-mid-dish-spfc-deployer.global.dish_id=$(DISH_ID) \
 	--set ska-mid-dish-spfc-deployer.enabled=true \
 	--set ska-mid-dish-spfc-deployer.job.namespace=$(KUBE_NAMESPACE) \
+	--set ska-mid-dish-spfc-deployer.private_key=$(DISH_ID) \
 	--set ska-mid-dish-spfc-deployer.instance=$(SPFC_INSTANCE)
 
 endif
