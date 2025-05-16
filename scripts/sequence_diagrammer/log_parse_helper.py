@@ -106,7 +106,7 @@ class LogParserHelper:
 
             # Most of these logs are directly called from the notebook
             # Small trick for setting the notebook as the caller for all mid subarray calls
-            if target_class == 'SubarrayNodeMid':
+            if target_class == 'MidTmcSubarray':
                 likely_caller = self.get_likely_caller_from_hierarchy(likely_caller)
 
             # Use new pages for major notebook commands to split the images
@@ -115,6 +115,7 @@ class LogParserHelper:
             ) and likely_caller in actors:
                 # Use major commands as time reference points
                 self.current_reference_timestamp = self.current_timestamp
+
                 # We don't want a new page on the very first command
                 # Only split on the major commands that either come from test to
                 # central node, or from central node to subarray node
@@ -124,8 +125,12 @@ class LogParserHelper:
                 self.brand_new_diagram = False
                 self.fresh_reference_timestamp = True
 
-            # Create a divider if a new notebook command was run
-            if self.include_dividers and likely_caller in actors:
+            # Create a divider if a new major command was run
+            if (
+                self.include_dividers
+                and likely_caller in actors
+                and target_class in ("MidTmcCentralNode", "MidTmcSubarray")
+            ):
                 self.sequence_diagram.add_divider(command_name)
 
             note = f'""{target_class}.{command_name}""'
