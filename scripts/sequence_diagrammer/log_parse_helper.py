@@ -116,7 +116,9 @@ class LogParserHelper:
                 # Use major commands as time reference points
                 self.current_reference_timestamp = self.current_timestamp
                 # We don't want a new page on the very first command
-                if not self.brand_new_diagram:
+                # Only split on the major commands that either come from test to
+                # central node, or from central node to subarray node
+                if not self.brand_new_diagram and target_class in ("MidTmcCentralNode", "MidTmcSubarray"):
                     self.sequence_diagram.add_new_page(command_name)
 
                 self.brand_new_diagram = False
