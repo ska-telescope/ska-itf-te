@@ -11,5 +11,5 @@ environment:
   SUT_CLUSTER_DOMAIN: "mid.internal.skao.int"
   DISH_IDS: "SKA001"
 
-test_reports_pvc: pvc-test-data-storage
+testReportsPVC: pvc-test-data-storage
 mountPath: /data/test-reports
