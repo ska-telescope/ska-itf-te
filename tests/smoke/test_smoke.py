@@ -1,7 +1,6 @@
 """."""
 
 import logging
-import os
 
 import pytest
 import yaml
@@ -34,7 +33,7 @@ def test_qspi_version():
     Check whether the QSPI version on each ITF CBF Talon Board is the expected version.
     """
     # Get CBF Talon IPs
-    hw_config_relative_path = f"resources/mcs/hw_config.yaml"
+    hw_config_relative_path = "resources/mcs/hw_config.yaml"
     talon_board_hw_config = {}
 
     with open(hw_config_relative_path, "r") as f:
