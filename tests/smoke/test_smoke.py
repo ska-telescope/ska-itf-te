@@ -41,12 +41,17 @@ def test_qspi_version():
     with open(hw_config_path, "r") as f:
         talon_board_hw_config = yaml.safe_load(f)["talon_board"]
 
-    # TODO: Get bitstream version from spfrx_boardmap.json
-    expected_qspi_version = "1.0.1"
+    # TODO: Read CBF Engineering console version from chart
+    cbf_engineering_console_version = "1.1.3"
 
-    # Get actual QSPI version from talonboards
+    fpga_bitstream_version = TalonBoardCommandExecutor.get_fpga_bitstream_version(
+        cbf_engineering_console_version
+    )
+    logger.info(f"FPGA bitstream version: {fpga_bitstream_version}")
+
     user = "root"
 
+    # Get actual QSPI version from talonboards and compare with expected version
     for talon_board in talon_board_hw_config.keys():
         ip = talon_board_hw_config[talon_board]
 
@@ -71,7 +76,11 @@ def test_qspi_version():
 
         logger.info(f"Talon {talon_board} QSPI version: {qspi_version}")
 
-        assert qspi_version == expected_qspi_version, (
-            f"Expected Talon board {talon_board} QSPI version {expected_qspi_version}"
-            f", but got {qspi_version}"
+        qspi_version_compatible = TalonBoardCommandExecutor.check_qspi_version(
+            fpga_bitstream_version, qspi_version
+        )
+
+        assert qspi_version_compatible, (
+            f"QSPI version {qspi_version} loaded on Talon board {talon_board} is not compatible "
+            f"with FPGA bitstream version {fpga_bitstream_version}"
         )
