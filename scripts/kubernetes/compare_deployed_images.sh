@@ -8,8 +8,15 @@ declare -A expected_versions
 
 # Build map of expected images
 while IFS=":" read -r name image; do
-  name=$(echo "$name" | xargs)
-  image=$(echo "$image" | xargs)
+  # Sanitise both name and image
+  name="${name//\"/}"   # remove quotes
+  name="${name## }"     # trim leading space
+  name="${name%% }"     # trim trailing space
+
+  image="${image//\"/}"
+  image="${image## }"
+  image="${image%% }"
+
   if [[ -n "$name" && -n "$image" ]]; then
     expected_versions["$name"]="$image"
   fi
