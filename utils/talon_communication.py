@@ -1,6 +1,8 @@
+import logging
 import re
 import subprocess
-import logging
+
+import requests
 
 logger = logging.getLogger(__name__)
 
@@ -75,3 +77,49 @@ class TalonBoardCommandExecutor:
             return None
 
         return qspi_version
+
+    @staticmethod
+    def get_fpga_bitstream_version(cbf_engineering_console_version: str) -> str:
+        """Determine the expected QSPI version based on the FPGA bitstream version.
+
+        For compatibility the QSPI version shall match the Major and Minor version of the FPGA bitstream.
+        The FPGA bitstream version is fetched from the talondx_boardmap.json file in the CBF engineering console repo
+        given the version of the CBF engineering console deployed.
+        """
+
+        talondx_boardmap_link = (
+            "https://gitlab.com/ska-telescope/ska-mid-cbf-engineering-console"
+            f"/-/raw/{cbf_engineering_console_version}/src/ska_mid_cbf_engineering_console"
+            "/deployer/talondx_config/talondx_boardmap.json"
+        )
+
+        response = requests.get(talondx_boardmap_link, timeout=5)
+
+        if response.status_code != 200:
+            error_string = f"Failed to fetch talondx_boardmap.json from {talondx_boardmap_link}"
+            logger.error(error_string)
+            return None
+
+        try:
+            talondx_boardmap = response.json()
+        except ValueError:
+            error_string = f"Failed to parse talondx_boardmap.json: {response.text}"
+            logger.error(error_string)
+            return None
+
+        fpga_bitstream_version = talondx_boardmap["fpga_bitstreams"][0]["version"]
+
+        return fpga_bitstream_version
+
+    @staticmethod
+    def check_qspi_version(fpga_bitstream_version: str, actual_qspi_version: str):
+        """Compares fpga_bitstream version with the QSPI version loaded on the Talon board. Returns True if they match."""
+        # Dropping patch version. QSPI version expected to match only major and minor version of
+        # of the fpga bitstream version going forward.
+        major, minor, *_ = fpga_bitstream_version.split(".")
+        expected_qspi_version = f"{major}.{minor}"
+
+        # TODO: Remove once semantic versioning is used for QSPI version
+        expected_qspi_version = "1.0.1"
+
+        return expected_qspi_version == actual_qspi_version
