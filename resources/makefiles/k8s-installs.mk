@@ -1,4 +1,4 @@
-PROJECT_ROOT ?= ../../	
+PROJECT_ROOT ?= ../..
 
 ## TARGET: itf-ds-sim-links
 ## SYNOPSIS: make itf-ds-sim-links
