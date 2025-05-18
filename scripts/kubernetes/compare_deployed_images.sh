@@ -13,7 +13,7 @@ while IFS=":" read -r _ image; do
 done < "$expected_file"
 
 # Compare deployed images
-while IFS=":" read -r name deployed_image; do
+while IFS=":" read -r name deployed_image || [[ -n "$name" ]]; do
   expected_image="${expected_versions[$name]:-}"
 
   if [[ -z "$expected_image" ]]; then
