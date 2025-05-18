@@ -34,15 +34,21 @@ def test_qspi_version():
     Check whether the QSPI version on each ITF CBF Talon Board is the expected version.
     """
     # Get CBF Talon IPs
-    cwd = os.getcwd()
-    hw_config_path = f"{cwd}/resources/mcs/hw_config.yaml"
+    hw_config_relative_path = f"resources/mcs/hw_config.yaml"
     talon_board_hw_config = {}
 
-    with open(hw_config_path, "r") as f:
+    with open(hw_config_relative_path, "r") as f:
         talon_board_hw_config = yaml.safe_load(f)["talon_board"]
 
-    # TODO: Read CBF Engineering console version from chart
-    cbf_engineering_console_version = "1.1.3"
+    # Get CBF Engineering console version
+    umbrella_chart_relative_path = "charts/ska-mid-itf-sut/Chart.yaml"
+    with open(umbrella_chart_relative_path, "r") as f:
+        sut_chart = yaml.safe_load(f)
+
+        for dependency in sut_chart["dependencies"]:
+            if dependency["name"] == "ska-mid-cbf-engineering-console":
+                cbf_engineering_console_version = dependency["version"]
+                break
 
     fpga_bitstream_version = TalonBoardCommandExecutor.get_fpga_bitstream_version(
         cbf_engineering_console_version
