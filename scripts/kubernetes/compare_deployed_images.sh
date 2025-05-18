@@ -7,10 +7,18 @@ deployed_file="$2"
 declare -A expected_versions
 
 # Build map of expected images
-while IFS=":" read -r _ image; do
-  name=$(basename "$image" | cut -d':' -f1)
-  expected_versions["$name"]="$image"
+while IFS=":" read -r name image; do
+  name=$(echo "$name" | xargs)
+  image=$(echo "$image" | xargs)
+  if [[ -n "$name" && -n "$image" ]]; then
+    expected_versions["$name"]="$image"
+  fi
 done < "$expected_file"
+
+echo "[DEBUG] Loaded expected images:"
+for k in "${!expected_versions[@]}"; do
+  echo "  $k -> ${expected_versions[$k]}"
+done
 
 # Compare deployed images
 while IFS=":" read -r name deployed_image || [[ -n "$name" ]]; do
