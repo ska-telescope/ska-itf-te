@@ -6,6 +6,14 @@
   * Removed `ska-mid-itf-sut`, `dish-lmc`, `dish-structure-simulators`, `ska-db-oda-mid-itf`, `ska-mid-itf-dpd` chart folders
   * Created `values_diff_merge.py` script for helping combine two values files
   * Removed `datacentres` folder and subfolders - no longer needed in this repo
+
+## 26.4.0
+* [AT-3238]
+  * Upload Xray test results to Test Executions in the XTP project instead of AT project
+* [AT-3179]
+  * [Updated Dish locations and VisRx in AssignResources JSON]
+* [AT-2977]
+  * Upgraded MCS 1.3.2
 * [AT-3168]
   * Upgraded Taranta to 2.14.1
 * [AT-2782]
