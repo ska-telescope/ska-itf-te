@@ -29,7 +29,7 @@ for name in "${!expected_versions[@]}"; do
   deployed_image="${deployed_versions[$name]:-}"
 
   if [[ -z "$deployed_image" ]]; then
-    echo "[WARN] $name is expected with $expected_image, but not deployed"
+    echo "[DEBUG] $name is expected with $expected_image, but not deployed"
     continue
   fi
 
