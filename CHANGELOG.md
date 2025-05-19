@@ -1,7 +1,13 @@
 # Version History
 
-## Unreleased
+## 26.4.0
 
+* [AT-3238]
+  * Upload Xray test results to Test Executions in the XTP project instead of AT project
+* [AT-3179]
+  * [Updated Dish locations and VisRx in AssignResources JSON]
+* [AT-2977]
+  * Upgraded MCS 1.3.2
 * [AT-3168]
   * Upgraded Taranta to 2.14.1
 * [AT-2782]
