@@ -23,8 +23,8 @@
   "test_report": "build/reports/report.json",
   "jira_url": "https://jira.skatelescope.org",
   "project": {
-    "id": "AT",
-    "issuetype_id": 11602,
+    "id": "XTP",
+    "issuetype_id": 20787,
     "customfield_mapping": {
       "start_date": "customfield_11918",
       "end_date": "customfield_11917",
