@@ -29,7 +29,6 @@ def merge_all_values(chart_dirs, output_path="charts/ska-mid/values.yaml", flatt
     for chart_dir in chart_dirs:
         chart_name = get_chart_name(chart_dir)
         values_path = os.path.join(chart_dir, "values.yaml")
-
         if not os.path.exists(values_path):
             print(f"⚠️  Skipping {chart_dir}, no values.yaml found.")
             continue
