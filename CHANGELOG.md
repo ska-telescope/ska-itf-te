@@ -1,12 +1,12 @@
 # Version History
 
 ## Unreleased
-
+* [AT-3031]
+  * Log container version information before running test jobs in the pipelines
 * [AT-3168]
   * Upgraded Taranta to 2.14.1
 * [AT-2782]
-  * Added Hardware in the loop XRay tests that upload results to confluence page.
-
+  * Added Hardware in the loop XRay tests that upload results to confluence page
 * [AT-3002]
   * Upgraded CBF MCS to 1.3.1 and SDP to 1.1.2
   * Added exception handling for cspmasterleafnode.dishvccconfig check
