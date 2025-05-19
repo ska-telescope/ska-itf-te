@@ -25,6 +25,7 @@ from notebook_tools.sequence_diagram_setup import (
     get_cleaned_device_name,
 )
 
+
 class LogParser:
     def __init__(self):
         self.log_pattern_callbacks: list[tuple[str, callable]] = []

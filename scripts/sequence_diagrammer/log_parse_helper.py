@@ -135,7 +135,6 @@ class LogParserHelper:
 
             note = f'""{target_class}.{command_name}""'
             note = self.format_note_with_timestamp(note)
-
             # Add an arrow to the sequence diagram from the likely caller to the target device
             self.sequence_diagram.add_command_call(
                 likely_caller, cleaned_device, note
@@ -216,7 +215,6 @@ class LogParserHelper:
                 caller = self.get_likely_caller_from_hierarchy(device)
                 note = f'""{method}""'
                 note = self.format_note_with_timestamp(note)
-
                 self.sequence_diagram.add_command_call(caller, device, note)
 
         elif "<-" in message:
@@ -240,10 +238,8 @@ class LogParserHelper:
                     return
 
                 caller = self.get_likely_caller_from_hierarchy(device)
-
                 note = f'""{method}"" -> {return_val}'
                 note = self.format_note_with_timestamp(note)
-
                 self.sequence_diagram.add_command_response(
                     device, caller, note
                 )
@@ -278,7 +274,6 @@ class LogParserHelper:
 
         note = f'""{command_name}""'
         note = self.format_note_with_timestamp(note)
-
         # Add an arrow to the sequence diagram
         self.sequence_diagram.add_command_call(
             cleaned_device, cleaned_target_device, note

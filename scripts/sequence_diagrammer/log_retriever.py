@@ -17,6 +17,7 @@ from notebook_tools.sequence_diagram_setup import (
     GENERAL_LOG_TIME_ADJUSTMENT_SECONDS,
 )
 
+
 class LogRetriever:
     """Class with function to get the pod logs from kubectl"""
     def get_iso_date_string_from_string(self, val: str):
