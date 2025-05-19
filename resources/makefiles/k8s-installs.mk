@@ -181,7 +181,7 @@ pvc-patch-apply: ## Create PVC in the SDP namespace for data product sharing
 ##   VALUES_FILE=<values.yaml file>
 deployment-images-check:
 	@echo "Extracting expected images from Helm template log and deployed container images from namespace"
-	@grep -E 'name: |image:' template.log | sed 's/^ *//' | paste - - | sed 's/name: //;s/image: /:/' | sort | uniq > expected-images.txt
+	@yq e '.items[].spec.template.spec.containers[] | .name + ":" + .image' template.log | sort | uniq > expected-images.txt
 	@kubectl get pods -n $(KUBE_NAMESPACE) -o jsonpath="{range .items[*]}{range .spec.containers[*]}{.name}:{.image}{'\n'}{end}{end}" | sort | uniq > deployed-images.txt
 	@echo "Comparing expected vs deployed images"
 	@$(PROJECT_ROOT)/scripts/kubernetes/compare_deployed_images.sh expected-images.txt deployed-images.txt
