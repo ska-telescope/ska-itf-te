@@ -92,7 +92,7 @@ oci-image-build:
 oci-image-build-testing:
   extends:
     - .image_builder_template
-  stage: build
+  stage: publish
   variables:
     OCI_BUILD_ADDITIONAL_ARGS: "--build-arg GIT_COMMIT_SHA=$(git rev-parse HEAD)"
     OCI_IMAGES: "ska-mid-testing"
