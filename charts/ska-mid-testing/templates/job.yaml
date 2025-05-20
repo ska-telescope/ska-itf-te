@@ -4,7 +4,7 @@ metadata:
   name: test-job
   namespace: integration-tests
 spec:
-  backoffLimit: 1
+  backoffLimit: 0
   completionMode: NonIndexed
   completions: 1
   manualSelector: false
@@ -16,59 +16,52 @@ spec:
       volumes:
       - name: test-data-storage
         persistentVolumeClaim:
-          claimName: pvc-test-data-storage
+          claimName: {{ .Values.testReportsPVC }}
       initContainers:
       - name: test-smoke
-        image: registry.gitlab.com/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools:0.9.3
-        imagePullPolicy: IfNotPresent
+        image: {{ .Values.image.registry }}/{{ .Values.image.image }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{.Values.image.pullPolicy}}
         volumeMounts:
         - name: test-data-storage
-          mountPath: /data/test-reports
+          mountPath: {{ .Values.mountPath }}
         resources: {}
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         command: ["sh", "-c"]
         args:
         - |
-          git clone https://gitlab.com/ska-telescope/ska-mid-itf.git
-          cd ska-mid-itf && git checkout 26.1.2
-          python3 -m pytest tests/smoke/ --log-file="/data/test-reports/$(date +'%Y-%m-%d_%H-%M-%S')_test-smoke.log" --log-level=DEBUG
+          TEST_REPORT_DIR="{{ .Values.mountPath }}/$(date +'%Y-%m-%d_%H-%M-%S')"
+          mkdir -p "$TEST_REPORT_DIR"
+          echo "$TEST_REPORT_DIR" > {{ .Values.mountPath }}/test_report_dir.txt
+          . .venv/bin/activate
+          export PYTHONPATH=/app/ska-mid-itf/.venv/lib/python3.10/site-packages:$PYTHONPATH
+          python3 -m pytest tests/smoke/ \
+          --log-cli-level=DEBUG \
+          --log-file="$TEST_REPORT_DIR/$(date +'%Y-%m-%d_%H-%M-%S')_test-smoke" 2>&1
       containers:
       - name: test-end-to-end
-        image: registry.gitlab.com/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools:0.9.3
-        imagePullPolicy: IfNotPresent
+        image: {{ .Values.image.registry }}/{{ .Values.image.image }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{.Values.image.pullPolicy}}
         volumeMounts:
         - name: test-data-storage
-          mountPath: /data/test-reports
+          mountPath: {{ .Values.mountPath }}
         resources: {}
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         env:
-        - name: SIM_MODE
-          value: "true"
-        - name: E2E_TEST_EXECUTION_NAMESPACE
-          value: "ska-mid-central-controller"
-        - name: KUBE_NAMESPACE
-          value: "ska-mid-central-controller"
-        - name: SUT_CLUSTER_DOMAIN
-          value: "mid.internal.skao.int"
-        - name: DISH_IDS
-          value: "SKA001"
+        {{- range $key, $value := .Values.environment }}
+          - name: {{ $key }}
+            value: "{{ $value }}"
+        {{- end }}
         command: ["sh", "-c"]
         args:
         - |
-          rm -rf /app/.venv
-          git clone https://gitlab.com/ska-telescope/ska-mid-itf.git
-          cd ska-mid-itf && git checkout 26.1.2
-          git submodule init
-          git submodule update
-          mkdir config
-          poetry config virtualenvs.in-project true
-          poetry install
+          TEST_REPORT_DIR=$(cat {{ .Values.mountPath }}/test_report_dir.txt)
           . .venv/bin/activate
-          pytest tests/integration/tmc/test_end_to_end.py::test_e2e_via_tmc \
+          export PYTHONPATH=/app/ska-mid-itf/.venv/lib/python3.10/site-packages:$PYTHONPATH
+          python3 -m pytest tests/integration/tmc/test_end_to_end.py::test_e2e_via_tmc \
           --log-cli-level=DEBUG \
-          --log-file="/data/test-reports/$(date +'%Y-%m-%d_%H-%M-%S')_test-end-to-end.log" 2>&1
+          --log-file="$TEST_REPORT_DIR/$(date +'%Y-%m-%d_%H-%M-%S')_test-end-to-end.log" 2>&1
       dnsPolicy: ClusterFirst
       restartPolicy: Never
       schedulerName: default-scheduler
