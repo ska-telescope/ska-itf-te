@@ -101,11 +101,10 @@ class TalonBoardCommandExecutor:
     def get_fpga_bitstream_version(cbf_engineering_console_version: str) -> str:
         """Determine the expected QSPI version based on the FPGA bitstream version.
 
-        For compatibility the QSPI version shall match the Major and Minor version of the FPGA bitstream.
-        The FPGA bitstream version is fetched from the talondx_boardmap.json file in the CBF engineering console repo
-        given the version of the CBF engineering console deployed.
+        For compatibility the QSPI version shall match the Major and Minor version of the FPGA
+        bitstream. The FPGA bitstream version is fetched from the talondx_boardmap.json file in the
+        CBF engineering console repo given the version of the CBF engineering console deployed.
         """
-
         talondx_boardmap_link = (
             "https://gitlab.com/ska-telescope/ska-mid-cbf-engineering-console"
             f"/-/raw/{cbf_engineering_console_version}/src/ska_mid_cbf_engineering_console"
@@ -132,13 +131,20 @@ class TalonBoardCommandExecutor:
 
     @staticmethod
     def check_qspi_version(fpga_bitstream_version: str, actual_qspi_version: str):
-        """Compares fpga_bitstream version with the QSPI version loaded on the Talon board. Returns True if they match."""
+        """Determines if bistream version is compatible with the QSPI version.
+
+        Compares fpga_bitstream version with the QSPI version loaded on the Talon board to
+        determine compatibility. Returns True if they are compatible.
+        """
         # Dropping patch version. QSPI version expected to match only major and minor version of
         # of the fpga bitstream version going forward.
         major, minor, *_ = fpga_bitstream_version.split(".")
-        expected_qspi_version = f"{major}.{minor}"
+        expected_qspi_major_minor = f"{major}.{minor}"
+        major, minor, *_ = actual_qspi_version.split(".")
+        actual_qspi_major_minor = f"{major}.{minor}"
 
-        # TODO: Remove once semantic versioning is used for QSPI version
-        expected_qspi_version = "1.0.1"
+        # TODO: Remove once the agreed upon version compatibility is provided
+        if fpga_bitstream_version == "1.1.0" and actual_qspi_version == "1.0.1":
+            return True
 
-        return expected_qspi_version == actual_qspi_version
+        return expected_qspi_major_minor == actual_qspi_major_minor
