@@ -32,7 +32,7 @@ ska-mid-cbf-tdc-mcs:
 ska-mid-cbf-tdc-tmleafnode:
   enabled: false
 
-ska-mid-cbf-tmleafnode:
+ska-mid-cbf-tdc-tmleafnode:
   enabled: false
 
 ska-mid-dish-spfc-deployer:

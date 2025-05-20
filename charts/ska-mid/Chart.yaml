@@ -7,13 +7,25 @@ version: 26.5.0-rc.1
 appVersion: 26.5.0-rc.1
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
-  # Tango Base & Deployment Charts: TangoDB, iTango, Tango Operator Utils
+  # Tango DataBase, iTango, Optional tools, Tango Operator Utilility chart - always enabled
   - name: ska-tango-base
     version: 0.4.18
     repository: https://artefact.skao.int/repository/helm-internal
   - name: ska-tango-util
     version: 0.4.18
     repository: https://artefact.skao.int/repository/helm-internal
+
+  # EDA
+  - name: ska-tango-archiver
+    version: 2.9.1
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-tango-archiver.enabled
+
+  # AlarmHandler
+  - name: ska-tango-alarmhandler
+    version: 0.4.0
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-tango-alarmhandler.enabled
 
   # Mid TMC
   - name: ska-tmc-mid
@@ -33,8 +45,7 @@ dependencies:
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-mid-cbf-tdc-mcs.enabled
 
-  # Mid CBF TM Simulator
-  # Temporary only for CBF internal testing at the KAPB
+  # Mid CBF TM Simulator - temporary only for CBF internal testing at the KAPB
   - name: ska-mid-cbf-tdc-tmleafnode
     version: 1.2.1
     repository: https://artefact.skao.int/repository/helm-internal
@@ -100,23 +111,11 @@ dependencies:
   #   repository: https://artefact.skao.int/repository/helm-internal
   #   version: 7.3.0
 
-  # AlarmHandler
-  - name: ska-tango-alarmhandler
-    version: 0.4.0
-    repository: https://artefact.skao.int/repository/helm-internal
-    condition: ska-tango-alarmhandler.enabled
-
   # DPD
   - name: ska-dataproduct-dashboard
     version: 0.10.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-dataproduct-dashboard.enabled
-
-  # EDA
-  - name: ska-tango-archiver
-    version: 2.9.1
-    repository: https://artefact.skao.int/repository/helm-internal
-    condition: ska-tango-archiver.enabled
 
   # Configuration Inspector API
   # Gitlab Location: https://gitlab.com/ska-telescope/ska-ser-config-inspector
