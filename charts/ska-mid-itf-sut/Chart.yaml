@@ -60,7 +60,7 @@ dependencies:
 
   # TARANTA SUITE
   - name: ska-tango-taranta
-    version: 2.13.1
+    version: 2.14.2
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tango-taranta.enabled
   # MULTIDB TANGOGQL
