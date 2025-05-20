@@ -36,8 +36,8 @@
     - make links
     - |
       if [ "$CBF_HW_IN_THE_LOOP" == "true" ]; then
-        bash .make/resources/gitlab_section.sh dress-rehearsal "Check steps that will be followed first" make itf-cbf-setup --dry;
-        bash .make/resources/gitlab_section.sh dress-rehearsal "Check Talon status" make itf-cbf-talonlru-status && sleep 1;
+        bash .make/resources/gitlab_section.sh dress-rehearsal-1 "Check steps that will be followed first" make itf-cbf-setup --dry;
+        bash .make/resources/gitlab_section.sh dress-rehearsal-2 "Check Talon status" make itf-cbf-talonlru-status && sleep 1;
         bash .make/resources/gitlab_section.sh cbf-lru-on "Switch On Talon" make itf-cbf-talonlru-on && sleep 45;
         bash .make/resources/gitlab_section.sh smoketest-cbf-firmware "Smoke Test CBF firmware compatibility" pytest tests/smoke/ -m 'requires_talons_on'  || true
         bash .make/resources/gitlab_section.sh talon_off "Switch off Talon" make itf-cbf-talonlru-off && sleep 3;
