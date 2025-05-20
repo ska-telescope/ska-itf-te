@@ -66,7 +66,7 @@ def test_qspi_version():
             talon_board, "qspi_version_check"
         )
         if command_result is None:
-            pytest.fail(f"Failed to execute command on Talon board {talon_board}")
+            pytest.fail(f"Failed to execute command successfully on Talon board {talon_board}")
 
         # Get currently loaded slot
         slot_number = talon_board_command_executor.get_currently_loaded_slot(command_result)

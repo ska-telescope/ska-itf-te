@@ -31,14 +31,14 @@ class TalonBoardCommandExecutor:
                 [
                     "ssh",
                     f"{self.user}@{self.ip}",
-                    command,
                     "-o StrictHostKeyChecking=no -o HostKeyAlgorithms=+ssh-rsa "
                     "-o PubkeyAcceptedAlgorithms=+ssh-rsa",
+                    command,
                 ],
                 capture_output=True,
                 timeout=timeout,
             )
-            logger.info(result)
+            logger.debug(result)
         except subprocess.TimeoutExpired:
             error_string = f"Could not communicate with Talon board {talon_board}"
             logger.error(error_string)
@@ -50,6 +50,13 @@ class TalonBoardCommandExecutor:
         except Exception as e:
             error_string = f"Failed to run command successfully on Talon board {talon_board}: {e}"
             logger.error(error_string)
+            return None
+
+        if result.returncode != 0:
+            logger.error(
+                f"Failed to run command successfully on Talon board {talon_board}: "
+                f"{result.stderr.decode()}"
+            )
             return None
 
         result_string = result.stdout.decode()
