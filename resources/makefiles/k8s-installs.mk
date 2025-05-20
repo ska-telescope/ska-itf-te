@@ -170,6 +170,27 @@ pvc-patch-delete: ## Delete PVC in the SDP namespace in case one exists that was
 pvc-patch-apply: ## Create PVC in the SDP namespace for data product sharing
 	@kubectl apply -f .gitlab/ci/za-itf/staging/sdp-vis-receive-pvc.yaml -n $(KUBE_NAMESPACE_SDP)
 
+
+DEPLOYED_CHART?=
+DEPLOYED_DEPENDENCIES?=
+## TARGET: deployed-charts
+## SYNOPSIS: make deployed-charts
+## HOOKS: none
+## VARS:
+##   DEPLOYED_CHART = The deployed umbrella chart name
+##   DEPLOYED_DEPENDENCIES = The deployed dependencies of the umbrella chart
+##  make target for extracting currently deployed charts and their dependencies
+deployed-charts:
+	@OUTPUT="$$(make integration-test)"; \
+	DEPLOYED_CHART="$$(echo "$$OUTPUT" | awk '/Chart: ska-mid-itf-sut-/ { sub(/^.*Chart: /, ""); print; exit }')"; \
+	DEPLOYED_DEPENDENCIES="$$(echo "$$OUTPUT" | awk '\
+		/^   Dependencies:/ { f=1; next } \
+		f && /^\s+\*/ { sub(/\|.*/, ""); sub(/^[[:space:]]*\*[[:space:]]*/, ""); s = s "\"" $$0 "\", " } \
+		f && NF==0 { print substr(s,1,length(s)-2); exit }')"; \
+	echo "DEPLOYED_CHART=$$DEPLOYED_CHART"; \
+	echo "DEPLOYED_DEPENDENCIES=[$$DEPLOYED_DEPENDENCIES]"
+
+#@python3 ../../../tests/xray/itf_deployed_charts.py $(DEPLOYED_CHART) $(DEPLOYED_DEPENDENCIES)
 vars:
 	$(info KUBE_NAMESPACE: $(KUBE_NAMESPACE))
 	$(info #####################################)
