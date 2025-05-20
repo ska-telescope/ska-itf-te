@@ -1,6 +1,7 @@
 import os
 import re
 import sys
+from datetime import datetime
 from typing import Match
 
 # Local imports
@@ -12,7 +13,18 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Directory of the script
 SUBMODULE_PATH = os.path.abspath(os.path.join(BASE_DIR, "../../.jupyter-notebooks/src"))
 sys.path.append(SUBMODULE_PATH)
 
-from notebook_tools.sequence_diagram_setup import *
+from notebook_tools.sequence_diagram_setup import (
+    # Regex patterns
+    LOG_REGEX_PATTERN,
+    EVENT_REGEX_PATTERN,
+    LRC_TUPLE_REGEX_PATTERN,
+    # Enums
+    DeviceGroup,
+    # Functions
+    determine_box_name_and_colour,
+    get_cleaned_device_name,
+)
+
 
 class LogParser:
     def __init__(self):
@@ -46,21 +58,29 @@ class EventsAndLogsFileParser(LogParser):
             use_new_pages: bool=True,
             group_devices: bool=True,
             include_lrc_ids: bool=False,
+            include_absolute_timestamps: bool=False, 
+            include_relative_timestamps: bool=True,
             ):
         super().__init__()
 
         self.limit_track_load_table_calls = limit_track_load_table_calls
         self.show_events = show_events
         self.show_component_state_updates = show_component_state_updates
-        self.include_dividers = include_dividers
-        self.use_new_pages = use_new_pages
         self.group_devices = group_devices
         self.include_lrc_ids = include_lrc_ids
+
+        # If both timestamp types are accidentally turned on, default to relative as SEs say it's more valuable
+        if include_absolute_timestamps and include_relative_timestamps:
+            include_absolute_timestamps = False
 
         self.sequence_diagram = PlantUMLSequenceDiagram()
         self.log_parse_helper = LogParserHelper(
             self.sequence_diagram,
             self.get_likely_caller_from_hierarchy,
+            include_dividers,
+            use_new_pages,
+            include_absolute_timestamps,
+            include_relative_timestamps,
         )
 
         self.device_hierarchy = device_hierarchy
@@ -93,7 +113,7 @@ class EventsAndLogsFileParser(LogParser):
         title = f"Sequence diagram generated from\n{cleaned_log_file_name}".encode(
             "unicode_escape"
         ).decode("utf-8")
-        
+
         if not actor:
             actor = self.device_hierarchy[0][0]
 
@@ -122,7 +142,7 @@ class EventsAndLogsFileParser(LogParser):
                     previous_group = current_group
 
                 self.sequence_diagram.add_participant(device)
-        
+
         if self.group_devices:
             self.sequence_diagram.end_box()
 
@@ -136,14 +156,18 @@ class EventsAndLogsFileParser(LogParser):
 
     def log_callback(self, prefix: str, iso_date_string: str, log_level: str,
                      runner: str, action: str, log_line: str, device: str, message: str):
-        # Ignore empty devices        
+        # Ignore empty devices
         if device == "":
             return
-        
+
         # Example log message:
         # 1724676115.079 -  Log  - 1|2024-08-26T12:41:55.079Z|DEBUG|Thread-9 (_event_consumer)|
         # _component_state_changed|dish_manager_cm.py#390|tango-device:mid-dish/dish-manager/SKA001|...
         cleaned_device = get_cleaned_device_name(device, 'log')
+
+        timestamp_dt = datetime.fromtimestamp(float(prefix.split('-')[0].strip()))
+
+        self.log_parse_helper.set_current_timestamp(timestamp_dt)
 
         if action in ['update_long_running_command_result', 'update_command_result']:
             # <prefix>|<date>|INFO|longRunningCommandResult|update_long_running_command_result|<log_line>|
@@ -159,13 +183,15 @@ class EventsAndLogsFileParser(LogParser):
         elif action == '_debug_patch':
             # <prefix>|<date>|DEBUG|<runner|_debug_patch|<log_line>|tango-device:ska_mid/tm_central/central_node|
             # -> CentralNodeMid.TelescopeOn()
-            self.log_parse_helper.handle_debug_patch_log(cleaned_device, message, self.use_new_pages, self.actor, self.include_dividers)
+            self.log_parse_helper.handle_debug_patch_log(
+                cleaned_device, message, [self.actor, self.device_hierarchy[0][1]]
+            )
 
         elif action == '_set_k_numbers_to_dish':
             # <prefix>|<date>|INFO|<runner>|_set_k_numbers_to_dish|<log_line>|
             # tango-device:ska_mid/tm_central/central_node|Invoking SetKValue on dish adapter ska_mid/tm_leaf_node/d0001
             self.log_parse_helper.handle_set_k_numbers_to_dish_log(cleaned_device, message)
-        
+
         elif action in ['turn_on_csp', 'turn_on_sdp', 'turn_off_csp', 'turn_off_sdp']:
             # <prefix>|<date>|INFO|<runner>|turn_on_csp|<log_line>|tango-device:ska_mid/tm_central/central_node|
             # Invoking On command for ska_mid/tm_leaf_node/csp_master devices
@@ -196,7 +222,7 @@ class EventsAndLogsFileParser(LogParser):
             self.log_parse_helper.component_state_update_cb(cleaned_device, message)
 
     def event_callback(self, prefix, device: str, event_attr, val):
-        # Ignore empty devices        
+        # Ignore empty devices
         if device == "":
             return
 
@@ -207,6 +233,9 @@ class EventsAndLogsFileParser(LogParser):
         #   longrunningcommandstatus	('1726641882.6817706_174896405886953_AssignResources', 'STAGING')
         cleaned_device = get_cleaned_device_name(device, "event")
         caller = self.get_likely_caller_from_hierarchy(cleaned_device)
+
+        timestamp_dt = datetime.fromtimestamp(float(prefix.split('-')[0].strip()))
+        self.log_parse_helper.set_current_timestamp(timestamp_dt)
 
         if "longrunningcommand" in event_attr:
             self.handle_lrc_event_log(cleaned_device, caller, event_attr, val)
@@ -247,8 +276,11 @@ class EventsAndLogsFileParser(LogParser):
                     and status != "STAGING"
                 ):
                     self.running_lrc_status_updates[lrc_id].append(status)
+                    note = f'""{lrc_id if self.include_lrc_ids else method_name}"" -> {status}'
+                    note = self.log_parse_helper.format_note_with_timestamp(note)
+
                     self.sequence_diagram.add_command_response(
-                        device, caller, f'""{lrc_id if self.include_lrc_ids else method_name}"" -> {status}'
+                        device, caller, note
                     )
         elif "longrunningcommandprogress" in event_attr:
             lrc_progresses = LRC_TUPLE_REGEX_PATTERN.findall(val)
@@ -256,8 +288,12 @@ class EventsAndLogsFileParser(LogParser):
                 # Only show progress updates for methods which have been staged
                 if lrc_id in self.running_lrc_status_updates:
                     method_name = self.get_method_from_lrc_id(lrc_id)
+
+                    note = f'""{lrc_id if self.include_lrc_ids else method_name}"" -> {progress}'
+                    note = self.log_parse_helper.format_note_with_timestamp(note)
+
                     self.sequence_diagram.add_command_call(
-                        device, device, f'""{lrc_id if self.include_lrc_ids else method_name}"" -> {progress}'
+                        device, device, note
                     )
         elif event_attr == "longrunningcommandresult":
             pass

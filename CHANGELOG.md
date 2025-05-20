@@ -3,6 +3,8 @@
 ## Unreleased
 * [AT-3031]
   * Log container version information before running test jobs in the pipelines
+* [AT-2968]
+  * Add flags to enable relative timestamps (default enabled) and absolute timestamps (default disabled) to generated sequence diagrams
 
 ## 26.4.0
 * [AT-3238]
@@ -14,7 +16,7 @@
 * [AT-3168]
   * Upgraded Taranta to 2.14.1
 * [AT-2782]
-  * Added Hardware in the loop XRay tests that upload results to confluence page
+  * Added Hardware in the loop XRay tests that upload results to confluence page.
 * [AT-3002]
   * Upgraded CBF MCS to 1.3.1 and SDP to 1.1.2
   * Added exception handling for cspmasterleafnode.dishvccconfig check
