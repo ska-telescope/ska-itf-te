@@ -31,7 +31,8 @@ class TalonBoardCommandExecutor:
                 [
                     "ssh",
                     f"{self.user}@{self.ip}",
-                    "-o StrictHostKeyChecking=no -o HostKeyAlgorithms=+ssh-rsa "
+                    "-o StrictHostKeyChecking=no",
+                    "-o HostKeyAlgorithms=+ssh-rsa",
                     "-o PubkeyAcceptedAlgorithms=+ssh-rsa",
                     command,
                 ],
