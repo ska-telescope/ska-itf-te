@@ -38,6 +38,7 @@ class TalonBoardCommandExecutor:
                 capture_output=True,
                 timeout=timeout,
             )
+            logger.info(result)
         except subprocess.TimeoutExpired:
             error_string = f"Could not communicate with Talon board {talon_board}"
             logger.error(error_string)
