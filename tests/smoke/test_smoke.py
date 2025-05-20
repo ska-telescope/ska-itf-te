@@ -26,6 +26,7 @@ def test_devices_reachable():
     logger.info("Devices reachable")
 
 
+@pytest.mark.requires_talons_on
 @pytest.mark.hw_in_the_loop
 def test_qspi_version():
     """Check QSPI version.
