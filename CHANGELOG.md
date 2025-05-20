@@ -1,6 +1,9 @@
 # Version History
 
 ## Unreleased
+
+* [AT-3241]
+  * Patch Taranta version
 * [AT-2968]
   * Add flags to enable relative timestamps (default enabled) and absolute timestamps (default disabled) to generated sequence diagrams
 * [AT-2950]
