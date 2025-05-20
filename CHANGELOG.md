@@ -8,7 +8,10 @@
   * Removed `datacentres` folder and subfolders - no longer needed in this repo
 * [AT-2968]
   * Add flags to enable relative timestamps (default enabled) and absolute timestamps (default disabled) to generated sequence diagrams
-
+* [AT-2950]
+  * Add oci-image-build-testing job to publish ska-mid-testing image
+  * Use engineering console v0.10.0 in pipelines and devcontainer
+  
 ## 26.4.0
 * [AT-3238]
   * Upload Xray test results to Test Executions in the XTP project instead of AT project
