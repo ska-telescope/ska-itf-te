@@ -28,7 +28,13 @@ class TalonBoardCommandExecutor:
 
         try:
             result = subprocess.run(
-                ["ssh", f"{self.user}@{self.ip}", command, "-o StrictHostKeyChecking=no"],
+                [
+                    "ssh",
+                    f"{self.user}@{self.ip}",
+                    command,
+                    "-o StrictHostKeyChecking=no -o HostKeyAlgorithms=+ssh-rsa "
+                    "-o PubkeyAcceptedAlgorithms=+ssh-rsa",
+                ],
                 capture_output=True,
                 timeout=timeout,
             )
