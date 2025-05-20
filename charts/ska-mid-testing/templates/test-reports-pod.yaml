@@ -7,21 +7,14 @@ spec:
   volumes:
   - name: test-data-storage
     persistentVolumeClaim:
-      claimName: pvc-test-data-storage
+      claimName: {{ .Values.testReportsPVC }}
   containers:
-  - image: registry.gitlab.com/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools:0.9.3
-    name: pod
+  - image: {{ .Values.image.registry }}/{{ .Values.image.image }}:{{ .Values.image.tag }}
+    name: test-reports-reader
     command: ["sh", "-c", "sleep infinity"]
     volumeMounts:
     - name: test-data-storage
-      mountPath: /data/test-reports
-    env:
-    - name: SIM_MODE
-      value: "true"
-    - name: E2E_TEST_EXECUTION_NAMESPACE
-      value: "integration"
-    - name: KUBE_NAMESPACE
-      value: "integration"
+      mountPath: {{ .Values.mountPath }}
   dnsPolicy: ClusterFirst
   restartPolicy: Always
 status: {}
