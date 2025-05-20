@@ -314,6 +314,10 @@ include .make/xray.mk
 # include logging tools
 include resources/makefiles/logs.mk
 
+# include Telescope Model targets
+include .make/tmdata.mk
+
+
 XRAY_TEST_RESULT_FILE ?= build/reports/cucumber.json
 XRAY_EXECUTION_CONFIG_FILE ?= tests/xray-config.json
 XRAY_EXTRA_OPTS=-v
