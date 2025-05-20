@@ -376,6 +376,6 @@ test-e2e-kapb:
 	  make k8s-template-chart > /dev/null 2>&1
 	@yq eval-all 'select(.kind == "Job" and .metadata.name == "test-job")' manifests.yaml > test-job.yaml
 	kubectl apply -f test-job.yaml
-	sleep 5
-	@echo "Test job started"
+	kubectl wait jobs -n integration-tests -l job-name=test-job --for=condition=complete --timeout="180s"
+	@echo "Test job completed"
 	@rm test-job.yaml manifests.yaml || true
