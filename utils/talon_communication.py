@@ -36,6 +36,10 @@ class TalonBoardCommandExecutor:
             error_string = f"Could not communicate with Talon board {talon_board}"
             logger.error(error_string)
             return None
+        except PermissionError:
+            error_string = f"Permission denied when trying to access Talon board {talon_board}"
+            logger.error(error_string)
+            return None
         except Exception as e:
             error_string = f"Failed to run command successfully on Talon board {talon_board}: {e}"
             logger.error(error_string)
