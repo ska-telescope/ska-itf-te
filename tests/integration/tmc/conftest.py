@@ -90,6 +90,7 @@ class CBF:
         self.controller = DeviceProxy("mid_csp_cbf/sub_elt/controller")
         self.subarray = DeviceProxy("mid_csp_cbf/sub_elt/subarray_01")
         self.fspcorrsubarray = DeviceProxy("mid_csp_cbf/fspcorrsubarray/01_01")
+        # self.bite = DeviceProxy("mid_csp_cbf/ec/bite")
 
     def get_talon_board_proxy(self, board_num) -> DeviceProxy:
         """.
@@ -826,3 +827,110 @@ def _(pb_and_eb_ids):
     pb_id, eb_id = pb_and_eb_ids
 
     assert True
+
+
+@when("I generate BITE data")
+def _(settings, telescope_handlers, bite_test_id):
+
+    _, cbf, _, _ = telescope_handlers
+
+    cbf_controller = cbf.controller
+    bite = cbf.bite
+
+    # Parent directory to use to get config files.
+    DATA_DIR = settings["data_dir"]
+
+    # Config file directories
+    CBF_CONFIGS = os.path.join(DATA_DIR, "cbf")
+    CBF_INPUT_DIR = os.path.join(CBF_CONFIGS, "cbf_input_data")
+
+    # Config files needed for BITE generation
+    CBF_INPUT_FILE = f"{CBF_INPUT_DIR}/cbf_input_data.json"
+    BITE_CONFIG_FILE = f"{CBF_INPUT_DIR}/bite_config_parameters/bite_configs.json"
+    FILTERS_FILE = f"{CBF_INPUT_DIR}/bite_config_parameters/filters.json"
+
+    files = [
+        CBF_INPUT_FILE,
+        BITE_CONFIG_FILE,
+        FILTERS_FILE,
+    ]
+
+    for file in files:
+        if os.path.isfile(file):
+            logger.debug(f"{file} exists: ✔️")
+        else:
+            logger.error(f"{file} does not exist ❌")
+
+    with open(CBF_INPUT_FILE, encoding="utf-8") as f:
+        cbf_input_json_raw = json.load(f)["cbf_input_data"]
+
+    logger.info("\nList of Test IDs in the cbf_input_data.json file")
+    for element in cbf_input_json_raw:
+        logger.debug("  - " + element)
+
+        dishVccConfig = json.loads(cbf_controller.sysparam)
+        logger.debug(f"dishVccConfig from CSP Master: \n{dishVccConfig}\n")
+
+        with open(CBF_INPUT_FILE, encoding="utf-8") as f:
+            cbf_input_json = json.load(f)["cbf_input_data"][bite_test_id]
+            receptors = cbf_input_json["receptors"]
+
+            # ensure that the k-values in the cbf_input_json correctly match
+            # the k-values from the dishVccConfig that was loaded in earlier
+            for receptor in receptors:
+                dish_id = receptor["dish_id"]
+                k_value = dishVccConfig["dish_parameters"][dish_id]["k"]
+                receptor["sample_rate_k"] = k_value
+
+        cbf_input_data = json.dumps(cbf_input_json)
+        logger.info(f"CBF Input Data used to generate BITE data: {cbf_input_data}")
+
+    bite.load_cbf_input_data(cbf_input_data)
+
+    with open(BITE_CONFIG_FILE, encoding="utf-8") as f:
+        bite_config_data = json.dumps(json.load(f))
+        # print("BITE configs:\n")
+        # print(bite_config_data)
+
+    bite.load_bite_config_data(bite_config_data)
+
+    with open(FILTERS_FILE, encoding="utf-8") as f:
+        filter_data = json.dumps(json.load(f))
+        # print("Filters:\n")
+        # print(filter_data)
+
+    bite.load_filter_data(filter_data)
+    sleep(10)
+
+    logger.info("Generating BITE data")
+    bite.set_timeout_millis(240000)
+    bite.generate_bite_data()
+    sleep(150)
+    bite.set_timeout_millis(6000)
+
+
+@when("I start LSTV replay")
+def _(telescope_handlers):
+    logger.info("Starting LSTV replay")
+    _, cbf, _, _ = telescope_handlers
+
+    bite = cbf.bite
+
+    bite.start_lstv_replay()
+
+
+@when("I stop LSTV replay")
+def _():
+    logger.info("Stopping LSTV replay")
+    _, cbf, _, _ = telescope_handlers
+
+    bite = cbf.bite
+
+    bite.stop_lstv_replay()
+
+
+@pytest.fixture
+def bite_test_id(settings, receptor_ids):
+    # num_receptors = len(receptor_ids)
+    # return test_id = f"talons 001-{num_receptors:03} gaussian noise"  # UPDATE THIS FOR RUN
+    return "talon-001 basic gaussian noise"

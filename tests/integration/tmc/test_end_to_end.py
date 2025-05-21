@@ -31,6 +31,19 @@ def test_e2e_via_tmc_slow():
         SUT_NAMESPACE = os.getenv("KUBE_NAMESPACE")
 
 
+@pytest.mark.hw_in_the_loop
+@scenario(
+    "features/tmc_end_to_end.feature",
+    "End to End signal chain verification via TMC with BITE data",
+)
+def test_e2e_via_tmc_slow_with_bite():
+    """."""
+    global SUT_NAMESPACE
+
+    if not (SUT_NAMESPACE := os.getenv("E2E_TEST_EXECUTION_NAMESPACE")):
+        SUT_NAMESPACE = os.getenv("KUBE_NAMESPACE")
+
+
 @then("the telescope is in the OFF state")
 def _(telescope_handlers):
     """Check that the telescope is in the OFF state.
