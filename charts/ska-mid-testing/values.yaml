@@ -1,16 +1,16 @@
 image:
   registry: registry.gitlab.com/ska-telescope/ska-mid-itf
   image: ska-mid-testing
-  tag: 26.4.0-rc.4-dev.c041dacb0
+  tag: 26.4.3-rc.2-dev.cc8c00e47
   pullPolicy: IfNotPresent
 
 environment:
   E2E_TEST_EXECUTION_NAMESPACE: "ska-mid-central-controller"
   KUBE_NAMESPACE: "ska-mid-central-controller"
-  SIM_MODE: "true"
+  SIM_MODE: "false"
   SUT_CLUSTER_DOMAIN: "mid.internal.skao.int"
   DISH_IDS: "SKA001"
 
 testReportsPVC: pvc-test-data-storage
 mountPath: /data/test-reports
-E2ETest: tests/integration/tmc/test_end_to_end.py::test_e2e_via_tmc
+E2ETest: tests/integration/tmc/test_end_to_end.py::test_e2e_via_tmc_slow_with_bite
