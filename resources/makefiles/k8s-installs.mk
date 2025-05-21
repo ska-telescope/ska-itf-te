@@ -177,7 +177,6 @@ pvc-patch-apply: ## Create PVC in the SDP namespace for data product sharing
 ##   specified in the Helm chart values.yaml files.
 ## VARS:
 ##   KUBE_NAMESPACE=<namespace to check>
-##   CHART_DIR=<chart directory>
 ##   VALUES_FILE=<values.yaml file>
 deployment-images-check:
 	@echo "Extracting expected images from Helm template log and deployed container images from namespace"
@@ -192,11 +191,11 @@ deployment-images-check:
 ## DESCRIPTION:
 ##   Compares default chart images to ITF-rendered ones to find overrides.
 ## VARS:
-##   CHART_DIR=<chart directory>
+##   SUT_CHART_DIR=Location of the SUT chart. Required: errors out if not set.
 
 check-image-overrides:
 	@echo "Checking for overridden container images from chart defaults"
-	@$(PROJECT_ROOT)/scripts/kubernetes/compare_overridden_images.sh $(CHART_DIR) expected-images.txt
+	@$(PROJECT_ROOT)/scripts/kubernetes/compare_overridden_images.sh $(SUT_CHART_DIR) expected-images.txt
 .PHONY: check-image-overrides
 
 vars:
