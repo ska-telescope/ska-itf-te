@@ -6,10 +6,11 @@ image:
 environment:
   E2E_TEST_EXECUTION_NAMESPACE: "ska-mid-central-controller"
   KUBE_NAMESPACE: "ska-mid-central-controller"
-  SIM_MODE: "true"
+  SIM_MODE: "false"
   SUT_CLUSTER_DOMAIN: "mid.internal.skao.int"
   DISH_IDS: "SKA001"
 testReportsPVC: pvc-test-data-storage
 mountPath: /data/test-reports
 CBFMCSconfigMountPath: /app/ska-mid/resources/mcs
 E2ETest: tests/integration/tmc/test_end_to_end.py::test_e2e_via_tmc
+
