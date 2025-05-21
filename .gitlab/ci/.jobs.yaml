@@ -51,7 +51,7 @@
       fi
     - env | grep RUNNER_AFTER_SCRIPT_TIMEOUT
     - bash .make/resources/gitlab_section.sh template "Output deployment config information" make get-deployment-config-info
-    - bash .make/resources/gitlab_section.sh smoketests "Smoke Test Deployment" "pytest tests/smoke/ -m 'not requires_talons_on'"" || true
+    - bash .make/resources/gitlab_section.sh smoketests "Smoke Test Deployment" "pytest tests/smoke/ -m 'not requires_talons_on'" || true
   after_script:
     - make links
   artifacts:
