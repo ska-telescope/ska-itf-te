@@ -836,7 +836,7 @@ def _(telescope_handlers):
 
     _, cbf, _, _ = telescope_handlers
 
-    ec_deployer = DeviceProxy("mid_csp_cbf/ec/deployer")
+    ec_deployer = cbf.ec_deployer
 
     ec_deployer.targetTalons = [1, 2, 3, 4]
     ec_deployer.generate_config_jsons()
