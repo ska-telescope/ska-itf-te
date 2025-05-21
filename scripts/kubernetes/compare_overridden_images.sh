@@ -13,7 +13,7 @@ echo "Rendering default images from $chart_dir ..."
 # Recursively find subcharts (directories with Chart.yaml)
 find "$chart_dir" -name 'Chart.yaml' -exec dirname {} \; | while read subchart; do
   echo "[DEBUG] Template default for $subchart"
-  helm template "$subchart" --no-values > tmp.yaml || true
+  helm template "$subchart" > tmp.yaml || true
   yq e '.. | select(has("containers")) | .containers[] | .name + ":" + .image' tmp.yaml >> "$default_images_file"
 done
 
