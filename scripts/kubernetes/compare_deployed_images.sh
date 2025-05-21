@@ -21,7 +21,7 @@ while IFS=":" read -r name image_tag || [[ -n "$name" ]]; do
   [[ -n "$name" && -n "$image_tag" ]] && deployed_versions["$name"]="$image_tag"
 done < "$deployed_file"
 
-echo "[DEBUG] Checking deployed vs expected container versions..."
+echo "Checking deployed vs expected container versions..."
 
 # Check all expected containers
 for name in "${!expected_versions[@]}"; do

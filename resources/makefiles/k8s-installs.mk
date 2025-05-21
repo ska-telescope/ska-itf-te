@@ -187,6 +187,18 @@ deployment-images-check:
 	@$(PROJECT_ROOT)/scripts/kubernetes/compare_deployed_images.sh expected-images.txt deployed-images.txt
 .PHONY: deployment-images-check
 
+## TARGET: check-image-overrides
+## SYNOPSIS: make check-image-overrides
+## DESCRIPTION:
+##   Compares default chart images to ITF-rendered ones to find overrides.
+## VARS:
+##   CHART_DIR=<chart directory>
+
+check-image-overrides:
+	@echo "Checking for overridden container images from chart defaults"
+	@$(PROJECT_ROOT)/scripts/kubernetes/compare_overridden_images.sh $(CHART_DIR) expected-images.txt
+.PHONY: check-image-overrides
+
 vars:
 	$(info KUBE_NAMESPACE: $(KUBE_NAMESPACE))
 	$(info #####################################)
