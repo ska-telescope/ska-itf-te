@@ -90,7 +90,7 @@ class CBF:
         self.controller = DeviceProxy("mid_csp_cbf/sub_elt/controller")
         self.subarray = DeviceProxy("mid_csp_cbf/sub_elt/subarray_01")
         self.fspcorrsubarray = DeviceProxy("mid_csp_cbf/fspcorrsubarray/01_01")
-        # self.bite = DeviceProxy("mid_csp_cbf/ec/bite")
+        self.bite = DeviceProxy("mid_csp_cbf/ec/bite")
 
     def get_talon_board_proxy(self, board_num) -> DeviceProxy:
         """.
