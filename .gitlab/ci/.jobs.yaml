@@ -36,8 +36,10 @@
     - make links
     - |
       if [ "$CBF_HW_IN_THE_LOOP" == "true" ]; then
-        bash .make/resources/gitlab_section.sh dress-rehearsal "Check steps that will be followed first" make itf-cbf-setup --dry;
-        bash .make/resources/gitlab_section.sh dress-rehearsal "Check Talon status" make itf-cbf-talonlru-status && sleep 1;
+        bash .make/resources/gitlab_section.sh dress-rehearsal-1 "Check steps that will be followed first" make itf-cbf-setup --dry;
+        bash .make/resources/gitlab_section.sh dress-rehearsal-2 "Check Talon status" make itf-cbf-talonlru-status && sleep 1;
+        bash .make/resources/gitlab_section.sh cbf-lru-on "Switch On Talon" make itf-cbf-talonlru-on && sleep 45;
+        bash .make/resources/gitlab_section.sh smoketest-cbf-firmware "Smoke Test CBF firmware compatibility" "SMOKE_TEST_MARKS=requires_talons_on make smoke-tests" || true
         bash .make/resources/gitlab_section.sh talon_off "Switch off Talon" make itf-cbf-talonlru-off && sleep 3;
         bash .make/resources/gitlab_section.sh mcs_config "Configure MCS" make itf-cbf-config-mcs && sleep 3;
         bash .make/resources/gitlab_section.sh talon_on "Talon Tango ON" make itf-cbf-tango-on && sleep 3;
@@ -49,7 +51,7 @@
       fi
     - env | grep RUNNER_AFTER_SCRIPT_TIMEOUT
     - bash .make/resources/gitlab_section.sh template "Output deployment config information" make get-deployment-config-info
-    - bash .make/resources/gitlab_section.sh smoketest "Smoke Test Deployment" pytest tests/smoke/ || true
+    - SMOKE_TEST_MARKS="not requires_talons_on" make smoke-tests || true
   after_script:
     - make links
   artifacts:
@@ -61,6 +63,8 @@
     SWITCH_CSP_ON: "false"
     SUT_CHART_DIR: ${CI_PROJECT_DIR}/charts/ska-mid
     RUNNER_AFTER_SCRIPT_TIMEOUT: 6m
+    SMOKE_TEST_SOURCE: tests/smoke
+    MARK_NO_TALONS: "not requires_talons_on"
 
 .info:
   stage: deploy
