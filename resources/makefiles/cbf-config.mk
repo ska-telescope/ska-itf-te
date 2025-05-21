@@ -31,6 +31,19 @@ itf-cbf-talonlru-off: ## Switch off the Talon LRU specified
 	./talon_power_apc.sh lru1 off && \
 	./talon_power_apc.sh lru2 off
 
+## TARGET: itf-cbf-talonlru-on
+## SYNOPSIS: make itf-cbf-talonlru-on
+## HOOKS: none
+## VARS: 
+##	HW_CONFIG_FILE_PATH=[scripts path] (default value: resources/talon)
+##  make target for switching on the Talon LRU
+
+itf-cbf-talonlru-on: ## Switch on the Talon LRU specified
+	@[[ -f  $(HW_CONFIG_FILE_PATH)/talon_power_apc.sh ]] || exit 404;
+	@cd $(HW_CONFIG_FILE_PATH) && \
+	./talon_power_apc.sh lru1 on && \
+	./talon_power_apc.sh lru2 on
+
 ## TARGET: itf-cbf-config-mcs
 ## SYNOPSIS: make itf-cbf-config-mcs
 ## HOOKS: none

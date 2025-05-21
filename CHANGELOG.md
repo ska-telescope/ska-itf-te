@@ -10,6 +10,8 @@
 * [AT-2950]
   * Add oci-image-build-testing job to publish ska-mid-testing image
   * Use engineering console v0.10.0 in pipelines and devcontainer
+* [AT-2676]
+  * Add smoke test to verify FPGA bitstream compatibility with FPGA firmware ("QSPI")
   
 ## 26.4.0
 * [AT-3238]
