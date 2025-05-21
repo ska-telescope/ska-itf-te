@@ -91,6 +91,7 @@ class CBF:
         self.subarray = DeviceProxy("mid_csp_cbf/sub_elt/subarray_01")
         self.fspcorrsubarray = DeviceProxy("mid_csp_cbf/fspcorrsubarray/01_01")
         self.bite = DeviceProxy("mid_csp_cbf/ec/bite")
+        self.ec_deployer = DeviceProxy("mid_csp_cbf/ec/deployer")
 
     def get_talon_board_proxy(self, board_num) -> DeviceProxy:
         """.
@@ -827,6 +828,22 @@ def _(pb_and_eb_ids):
     pb_id, eb_id = pb_and_eb_ids
 
     assert True
+
+
+@given("hps devices are configured")
+def _(telescope_handlers):
+    logger.info("Configuring HPS devices")
+
+    _, cbf, _, _ = telescope_handlers
+
+    ec_deployer = DeviceProxy("mid_csp_cbf/ec/deployer")
+
+    ec_deployer.targetTalons = [1, 2, 3, 4]
+    ec_deployer.generate_config_jsons()
+    ec_deployer.set_timeout_millis(600000)
+    ec_deployer.download_artifacts()
+    ec_deployer.configure_db()
+    ec_deployer.set_timeout_millis(3000)
 
 
 @when("I generate BITE data")
