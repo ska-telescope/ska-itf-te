@@ -138,7 +138,7 @@ class TalonBoardCommandExecutor:
 
     @staticmethod
     def check_qspi_version(fpga_bitstream_version: str, actual_qspi_version: str):
-        """Determines if bistream version is compatible with the QSPI version.
+        """Determines if bitstream version is compatible with the QSPI version.
 
         Compares fpga_bitstream version with the QSPI version loaded on the Talon board to
         determine compatibility. Returns True if they are compatible.
