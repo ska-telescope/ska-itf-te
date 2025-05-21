@@ -119,10 +119,6 @@ ska-mid-cbf-tdc-mcs:
 ska-mid-cbf-tdc-tmleafnode:
   enabled: false
 
-# CBF leafnode
-ska-mid-cbf-tdc-tmleafnode:
-  enabled: false
-
 # SPFC
 ska-mid-dish-spfc-deployer:
   enabled: false
