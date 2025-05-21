@@ -841,7 +841,8 @@ def _(telescope_handlers):
     ec_deployer.targetTalons = [1, 2, 3, 4]
     ec_deployer.generate_config_jsons()
     ec_deployer.set_timeout_millis(600000)
-    ec_deployer.download_artifacts()
+    # TODO: Run only if the relevant artefacts are not already present
+    # ec_deployer.download_artifacts()
     ec_deployer.configure_db()
     ec_deployer.set_timeout_millis(3000)
 
