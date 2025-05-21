@@ -13,7 +13,7 @@ class TalonBoardCommandExecutor:
     command_map = {
         "qspi_version_check": "qspi_partition.sh -i",
     }
-
+    qspi_check_command = "qspi_partition.sh -i"
     slot_number_pattern = r"Currently loaded slot: (\d+)"
 
     def __init__(self, ip: str, user: str):
@@ -125,13 +125,20 @@ class TalonBoardCommandExecutor:
             logger.error(error_string)
             return None
 
-        fpga_bitstream_version = talondx_boardmap["fpga_bitstreams"][0]["version"]
+        fpga_bitstream_version = next(
+            (
+                bitstream_info["version"]
+                for bitstream_info in talondx_boardmap["fpga_bitstreams"]
+                if bitstream_info["fsp_mode"] == "corr"
+            ),
+            None,
+        )
 
         return fpga_bitstream_version
 
     @staticmethod
     def check_qspi_version(fpga_bitstream_version: str, actual_qspi_version: str):
-        """Determines if bitstream version is compatible with the QSPI version.
+        """Determines if bistream version is compatible with the QSPI version.
 
         Compares fpga_bitstream version with the QSPI version loaded on the Talon board to
         determine compatibility. Returns True if they are compatible.
