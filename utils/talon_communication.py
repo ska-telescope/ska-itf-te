@@ -13,7 +13,7 @@ class TalonBoardCommandExecutor:
     command_map = {
         "qspi_version_check": "qspi_partition.sh -i",
     }
-    qspi_check_command = "qspi_partition.sh -i"
+
     slot_number_pattern = r"Currently loaded slot: (\d+)"
 
     def __init__(self, ip: str, user: str):

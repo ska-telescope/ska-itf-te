@@ -38,7 +38,7 @@ itf-cbf-talonlru-off: ## Switch off the Talon LRU specified
 ##	HW_CONFIG_FILE_PATH=[scripts path] (default value: resources/talon)
 ##  make target for switching on the Talon LRU
 
-itf-cbf-talonlru-on: ## Switch off the Talon LRU specified
+itf-cbf-talonlru-on: ## Switch on the Talon LRU specified
 	@[[ -f  $(HW_CONFIG_FILE_PATH)/talon_power_apc.sh ]] || exit 404;
 	@cd $(HW_CONFIG_FILE_PATH) && \
 	./talon_power_apc.sh lru1 on && \
