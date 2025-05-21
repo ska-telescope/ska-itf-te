@@ -43,8 +43,10 @@ MARKS ?=## Additional Marks to add to pytests
 # telescope (e.g. TEL=mid or TEL=low) thereafter followed by additional filters
 ifneq ($(ADDMARKS),)
 	_MARKS ?= -m $(MARKS)
+	_SMOKE_TEST_MARKS ?= -m $(SMOKE_TEST_MARKS)
 else
-_MARKS ?= 
+_MARKS ?=
+_SMOKE_TEST_MARKS ?=
 endif
 EXIT_AT_FAIL ?=True## whether the pytest should exit immediately upon failure
 ifneq ($(EXIT_AT_FAIL),false)
@@ -55,6 +57,8 @@ endif
 
 INTEGRATION_TEST_SOURCE ?= tests/integration
 INTEGRATION_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(_MARKS) $(_COUNTS) $(EXIT) $(PYTEST_ADDOPTS)
+
+SMOKE_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(SMOKE_TEST_MARKS) $(_COUNTS) $(EXIT) $(PYTEST_ADDOPTS)
 
 TMC_PARAMS ?=
 ifeq ($(DISH_LMC_IN_THE_LOOP),true)
@@ -375,3 +379,7 @@ test-e2e-kapb:
 	kubectl wait jobs -n integration-tests -l job-name=test-job --for=condition=complete --timeout="180s"
 	@echo "Test job completed"
 	@rm test-job.yaml manifests.yaml || true
+	
+smoke-tests:
+	set -o pipefail; $(PYTHON_RUNNER) pytest $(SMOKE_TEST_SOURCE) $(SMOKE_TEST_ARGS);
+	echo $$? > build/status
