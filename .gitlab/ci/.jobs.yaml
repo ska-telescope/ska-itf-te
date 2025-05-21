@@ -51,7 +51,7 @@
       fi
     - env | grep RUNNER_AFTER_SCRIPT_TIMEOUT
     - bash .make/resources/gitlab_section.sh template "Output deployment config information" make get-deployment-config-info
-    - bash .make/resources/gitlab_section.sh smoketests "Smoke Test Deployment" "SMOKE_TEST_MARKS='not requires_talons_on' make smoke-tests" || true
+    - SMOKE_TEST_MARKS="not requires_talons_on" make smoke-tests || true
   after_script:
     - make links
   artifacts:
@@ -64,6 +64,7 @@
     SUT_CHART_DIR: ${CI_PROJECT_DIR}/charts/ska-mid-itf-sut
     RUNNER_AFTER_SCRIPT_TIMEOUT: 6m
     SMOKE_TEST_SOURCE: tests/smoke
+    MARK_NO_TALONS: "not requires_talons_on"
 
 .info:
   stage: deploy
