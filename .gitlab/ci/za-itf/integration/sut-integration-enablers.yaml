@@ -1,63 +1,77 @@
-global:
-  ska-tango-archiver:
-    enabled: true
 
-ska-tango-alarmhandler:
-  enabled: true
+# Tango Base & Deployment Charts: TangoDB, iTango, Tango Operator Utils
 
-ska-csp-lmc-mid:
-  enabled: true
-
-ska-dataproduct-dashboard:
-  enabled: false
-
-ska-db-oda-umbrella:
-  enabled: false
-
-ska-dish-lmc:
-  enabled: false
-
-ska-ds-sim:
-  enabled: false
-
-ska-log-consumer:
-  enabled: false
-
-ska-mid-cbf-engineering-console:
-  enabled: false
-
-ska-mid-cbf-tdc-mcs:
-  enabled: true
-
-ska-mid-cbf-tdc-tmleafnode:
-  enabled: false
-
-ska-mid-cbf-tmleafnode:
-  enabled: true
-
-ska-mid-dish-spfc-deployer:
-  enabled: false
-
-ska-mid-dish-spfrx-talondx-console:
-  enabled: false
-
-ska-sdp:
-  enabled: true
-
-ska-ser-config-inspector:
-  enabled: false
-
-ska-tango-archiver:
-  enabled: true
-
-tangogql:
-  enabled: true
-
-ska-tango-taranta:
-  enabled: true
-
+# Mid TMC
 ska-tmc-mid:
   enabled: true
 
+# Mid CSP LMC
+ska-csp-lmc-mid:
+  enabled: true
+
+# Mid CBF TDC MCS
+ska-mid-cbf-tdc-mcs:
+  enabled: true
+
+# Mid CBF TM Simulator - temporary only for CBF internal testing at the KAPB
+ska-mid-cbf-tdc-tmleafnode:
+  enabled: true
+
+# Mid CBF EC
+ska-mid-cbf-engineering-console:
+  enabled: false
+
+# SDP
+ska-sdp:
+  enabled: true
+
+# DISH LMC CHART
+ska-dish-lmc:
+  enabled: false
+
+# DISH STRUCTURE SIMULATOR
+ska-ds-sim:
+  enabled: false
+
+# SPFC DEPLOYER CHART
+ska-mid-dish-spfc-deployer:
+  enabled: false
+
+# SPFRx DEPLOYER CHART
+ska-mid-dish-spfrx-talondx-console:
+  enabled: false
+
+# TARANTA SUITE
+ska-tango-taranta:
+  enabled: true
+
+# MULTIDB TANGOGQL
+tangogql:
+  enabled: true
+
+# AlarmHandler
+ska-tango-alarmhandler:
+  enabled: true
+
+# DPD
+ska-dataproduct-dashboard:
+  enabled: false
+
+# EDA
+ska-tango-archiver:
+  enabled: true
+
+# Test helpers
+ska-log-consumer:
+  enabled: false
+
+# Uncategorized
+global:
+  ska-tango-archiver:
+    enabled: true
+ska-db-oda-umbrella:
+  enabled: false
+ska-ser-config-inspector:
+  enabled: false
 temp_sdp_pvc:
   enabled: true

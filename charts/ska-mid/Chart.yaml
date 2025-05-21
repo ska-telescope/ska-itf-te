@@ -33,8 +33,7 @@ dependencies:
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-mid-cbf-tdc-mcs.enabled
 
-  # Mid CBF TM Simulator
-  # Temporary only for CBF internal testing at the KAPB
+  # Mid CBF TM Simulator - temporary only for CBF internal testing at the KAPB
   - name: ska-mid-cbf-tdc-tmleafnode
     version: 1.2.1
     repository: https://artefact.skao.int/repository/helm-internal

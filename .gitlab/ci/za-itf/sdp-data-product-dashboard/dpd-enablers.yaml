@@ -1,59 +1,74 @@
-ska-tango-alarmhandler:
-  enabled: false
 
-ska-csp-lmc-mid:
-  enabled: false
+# Tango Base & Deployment Charts: TangoDB, iTango, Tango Operator Utils
 
-ska-dataproduct-dashboard:
-  enabled: true
-
-ska-db-oda-umbrella:
-  enabled: false
-
-ska-dish-lmc:
-  enabled: false
-
-ska-ds-sim:
-  enabled: false
-
-ska-log-consumer:
-  enabled: false
-
-ska-mid-cbf-engineering-console:
-  enabled: false
-
-ska-mid-cbf-tdc-mcs:
-  enabled: false
-
-ska-mid-cbf-tdc-tmleafnode:
-  enabled: false
-
-ska-mid-cbf-tmleafnode:
-  enabled: false
-
-ska-mid-dish-spfc-deployer:
-  enabled: false
-
-ska-mid-dish-spfrx-talondx-console:
-  enabled: false
-
-ska-sdp:
-  enabled: false
-  
-ska-ser-config-inspector:
-  enabled: false
-  
-ska-tango-archiver:
-  enabled: false
-  
-tangogql:
-  enabled: false
-
-ska-tango-taranta:
-  enabled: false
-
+# Mid TMC
 ska-tmc-mid:
   enabled: false
 
+# Mid CSP LMC
+ska-csp-lmc-mid:
+  enabled: false
+
+# Mid CBF TDC MCS
+ska-mid-cbf-tdc-mcs:
+  enabled: false
+
+# Mid CBF TM Simulator - temporary only for CBF internal testing at the KAPB
+ska-mid-cbf-tdc-tmleafnode:
+  enabled: false
+
+# Mid CBF EC
+ska-mid-cbf-engineering-console:
+  enabled: false
+
+# SDP
+ska-sdp:
+  enabled: false
+
+# DISH LMC CHART
+ska-dish-lmc:
+  enabled: false
+
+# DISH STRUCTURE SIMULATOR
+ska-ds-sim:
+  enabled: false
+
+# SPFC DEPLOYER CHART
+ska-mid-dish-spfc-deployer:
+  enabled: false
+
+# SPFRx DEPLOYER CHART
+ska-mid-dish-spfrx-talondx-console:
+  enabled: false
+
+# TARANTA SUITE
+ska-tango-taranta:
+  enabled: false
+
+# MULTIDB TANGOGQL
+tangogql:
+  enabled: false
+
+# AlarmHandler
+ska-tango-alarmhandler:
+  enabled: false
+
+# DPD
+ska-dataproduct-dashboard:
+  enabled: true
+
+# EDA
+ska-tango-archiver:
+  enabled: false
+
+# Test helpers
+ska-log-consumer:
+  enabled: false
+
+# Uncategorized
+ska-db-oda-umbrella:
+  enabled: false
+ska-ser-config-inspector:
+  enabled: false
 temp_sdp_pvc:
   enabled: false
