@@ -36,3 +36,10 @@ while IFS=":" read -r name image || [[ -n "$name" ]]; do
     echo "[OVERRIDE] $name image overridden: default='$default' vs values='$image'"
   fi
 done < "$overridden_file"
+
+# Detect new containers not present in defaults
+while IFS=":" read -r name image || [[ -n "$name" ]]; do
+  if [[ -z "${default_images[$name]:-}" ]]; then
+    echo "[OVERRIDE] $name is introduced only via values: '$image'"
+  fi
+done < "$overridden_file"
