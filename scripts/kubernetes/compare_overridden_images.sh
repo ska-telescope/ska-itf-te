@@ -14,8 +14,11 @@ echo "Rendering default images from $chart_dir ..."
 find "$chart_dir" -name 'Chart.yaml' -exec dirname {} \; | while read subchart; do
   echo "[DEBUG] Template default for $subchart"
   helm template "$subchart" > tmp.yaml || true
-  yq e '.. | select(has("containers")) | .containers[] | .name + ":" + .image' tmp.yaml >> "$default_images_file"
+  yq e '.. | select(has("containers")) | .containers[] | select(has("name") and has("image")) | .name + ":" + .image' >> "$default_images_file"
 done
+
+# Clean and filter invalid entries
+grep -vE '^---|^:$|^\s*$' "$default_images_file" > tmp_cleaned.txt && mv tmp_cleaned.txt "$default_images_file"
 
 sort -u "$default_images_file" -o "$default_images_file"
 sort -u "$overridden_file" -o "$overridden_file"
