@@ -41,7 +41,7 @@ def test_qspi_version():
         talon_board_hw_config = yaml.safe_load(f)["talon_board"]
 
     # Get CBF Engineering console version
-    umbrella_chart_relative_path = "charts/ska-mid-itf-sut/Chart.yaml"
+    umbrella_chart_relative_path = "charts/ska-mid/Chart.yaml"
     with open(umbrella_chart_relative_path, "r") as f:
         sut_chart = yaml.safe_load(f)
 
