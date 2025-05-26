@@ -1,4 +1,4 @@
-# ska-mid-itf Readme
+# ska-mid Readme
 
 Welcome to the Mid ITF Tests project. Here you can find methods to connect to hosts in the Mid Integration Test Facility (ITF) network, System Under Test (SUT) and Test Equipment (TE), as well as tests (BDD and python tests) and scripts for interacting with the SUT and TE.
 
