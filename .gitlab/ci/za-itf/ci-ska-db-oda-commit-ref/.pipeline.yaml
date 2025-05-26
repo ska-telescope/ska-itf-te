@@ -3,10 +3,11 @@
     - ska-k8srunner-za-itf
   variables:
     CONFIG: mid
-    K8S_CHART: ska-db-oda-mid-itf
+    K8S_CHART: ska-mid
     KUBE_APP: ska-db-oda
     INGRESS_HOST: "k8s.miditf.internal.skao.int"
     CLUSTER_DOMAIN: "miditf.internal.skao.int"
+    ODA_ENABLERS: "-f .gitlab/ci/za-itf/ci-ska-db-oda-commit-ref/oda-enablers.yaml"
     TANGO_DATABASE_DS: tango-databaseds
     MINIKUBE: "false"
     CLUSTER_DOMAIN_POSTFIX: miditf.internal.skao.int
@@ -33,7 +34,7 @@ deploy-oda-on-demand:
   extends:
     - .oda-on-demand
   variables:
-    K8S_EXTRA_PARAMS: "-f charts/ska-db-oda-mid-itf/values-ci.yaml"
+    K8S_EXTRA_PARAMS: "--set ska-db-oda-umbrella.ska-ser-skuid.skuid.config.generator_id=miditfci"
   script:
     - make k8s-install-chart
   after_script:
@@ -60,8 +61,6 @@ destroy-oda-on-demand:
 deploy-oda-staging:
   extends:
     - .oda-staging
-  variables:
-    K8S_EXTRA_PARAMS: "-f charts/ska-db-oda-mid-itf/values-staging.yaml"
   script:
     - make k8s-install-chart
   after_script:

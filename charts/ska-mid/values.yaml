@@ -1,0 +1,256 @@
+---
+global:
+  data-product-pvc-name: shared-dataproduct-pvc
+  # Avoid overriding dynamic chart values here.
+  # Dish ID and environment should be passed via pipeline variables
+  # dish_id: ska007
+  # dish_suffix: elt/master
+  # dishes: ["100"]
+  exposeAllDS: true
+  exposeDatabaseDS: true
+  facility: mid-itf
+  minikube: false
+  operator: true
+  ska-tango-archiver:
+    enabled: true
+  sub-system:
+    ska-tango-base:
+      enabled: false
+  raw_user_account: bond
+  raw_user_pass: jamesbond
+  tango_host: tango-databaseds:10000
+  # tangodb_fqdn: localhost
+  tangodb_port: 10000
+  use_aws: true
+
+# Alarm Handler
+ska-tango-alarmhandler:
+  enabled: false
+
+# CSP
+ska-csp-lmc-mid:
+  enabled: false
+
+# DATAPRODUCT DASHBOARD
+ska-dataproduct-dashboard:
+  enabled: false
+  ingress:
+    hostname: https://k8s.miditf.internal.skao.int
+  dataProductPVC:
+    name: shared-dataproduct-pvc
+    create:
+      enabled: false
+      size: 2Ti
+      storageClassName: ceph-cephfs
+
+# ODA
+ska-db-oda-umbrella:
+  enabled: false
+  ska-ser-skuid:
+    skuid:
+      config:
+        generator_id: miditf
+
+# DISH LMC
+ska-dish-lmc:
+  enabled: false
+  ska-mid-dish-ds-manager:
+    enabled: true
+  ska-mid-dish-manager:
+    enabled: true
+    # Leaving this here just as an example
+    # dishmanager:
+    #   image:
+    #     image: ska-mid-dish-manager
+    #     registry: registry.gitlab.com/ska-telescope/ska-mid-dish-manager
+    #     tag: 7.0.0-dev.cdaaea0a2
+  ska-mid-dish-simulators:
+    enabled: true
+    deviceServers:
+      spfdevice:
+        enabled: true
+      spfrxdevice:
+        enabled: true
+    dsOpcuaSimulator:
+      enabled: true
+  ska-tango-base:
+    enabled: false
+
+# DISH STRUCTURE SIMULATOR
+ska-ds-sim:
+  enabled: false
+  instances:
+    - dish-id: SKA001
+      novnc-enabled: true
+
+# HELPER
+ska-log-consumer:
+  enabled: false
+
+# CBF EC
+ska-mid-cbf-engineering-console:
+  enabled: false
+  # Comment section below to use engineering-console image from CAR
+  # Uncomment section below to use engineering-console image from gitlab
+  # engineeringconsole:
+  #   image:
+  #     registry: registry.gitlab.com/ska-telescope/ska-mid-cbf-engineering-console
+  #     image: ska-mid-cbf-engineering-console
+  #     tag: 0.10.8-dev.c9206d147
+  #     pullPolicy: IfNotPresent
+
+# CBF Talon Demonstration Correlator Master Control Software
+ska-mid-cbf-tdc-mcs:
+  enabled: false
+  global:
+    labels:
+      skao.int/clone-pvc: cbf-ec-pvc
+      skao.int/clone-pvc-namespace: cbf-engineering-console
+  hostInfo:
+    clusterDomain: miditf.internal.skao.int
+    environment: mid-itf
+  num_subarrays: 3
+  pvc:
+    storageClassName: ceph-cephfs
+    volumeMode: Filesystem
+
+# CBF Delay model simulator
+# TEMPORARY for CBF Testing at KAPB. Default is False. VAULT will be overwritten for KAPB
+ska-mid-cbf-tdc-tmleafnode:
+  enabled: false
+
+# SPFC
+ska-mid-dish-spfc-deployer:
+  enabled: false
+
+# SPFRx
+ska-mid-dish-spfrx-talondx-console:
+  enabled: false
+  address: 10.165.3.20
+  bin: /usr/local/bin
+  # console:
+  #   version: 0.3.9 # Edit in Gitlab Environment
+  instance: spfrx-20
+  local_dir: artifacts
+  logging_level: 4
+  scripts_dir: scripts
+
+# SDP
+ska-sdp:
+  enabled: false
+  data-pvc:
+    create:
+      enabled: true
+      size: 2Ti
+      storageClassName: ceph-cephfs
+  helmdeploy:
+    enableNADClusterRole: true
+  legacy_compatibility: true
+  lmc:
+    prefix: mid
+    nsubarray: 3
+  ska-sdp-qa:
+    enabled: true
+  ska-tango-base:
+    enabled: false
+
+# CIA
+ska-ser-config-inspector:
+  enabled: false
+
+# EDA
+ska-tango-archiver:
+  enabled: false
+  archviewer:
+    instances:
+      - name: mid
+        timescale_host: 10.164.11.33
+        # keep below field empty if db names are unknown, app will display all dbs present
+        # e.g: timescale_databases: ""
+        timescale_databases: itf_eda
+  archwizard_config: MyHDB=tango://tango-databaseds:10000/mid-eda/cm/01
+  configuration_file_url: https://gitlab.com/ska-telescope/ska-mid-itf/-/raw/26.1.1/tmdata/mid-itf-staging-archiver-configs/dish-lmc-ska001.yaml?ref_type=tags&inline=false
+  configuration_manager: mid-eda/cm/01
+  dbname: itf_eda
+  dbuser: admin
+  event_subscriber: mid-eda/es/01
+  hostname: eda.ska-tango-archiver
+  port: 5432
+  telescope: SKA-mid
+  telescope_environment: MID-ITF
+
+# TANGO BASE
+ska-tango-base:
+  itango:
+    enabled: true
+  tangodb:
+    use_pv: true
+
+# TANGO DEPLOYMENT
+tangogql:
+  enabled: false
+  tangoDB: taranta  # This is the name of the TangoDB that should always be set first when deploying a multiDB Taranta system
+  ska-tango-base:
+    enabled: false
+  ska-tango-examples:
+    enabled: false
+
+# TARANTA
+ska-tango-taranta:
+  enabled: false
+  ingress:
+    enabled: true
+    nginx: true
+  # tango_dbs: [] # This is an empty list if there are no connections to external tangoDBs. Override during deploy-time using `helm install --set ...`
+  TANGO_DBS: ["ska001", "ska036", "ska063", "ska100"]
+  tangogql:
+    replicas: 1
+    resources:
+      limits:
+        cpu: 1000m  # 1000m = 1 CPU
+        memory: 1024Mi  # 1024Mi = 1 GB mem
+      requests:
+        cpu: 600m   # 600m = 0.6 CPU
+        memory: 512Mi   # 512Mi = 0.5 GB mem
+
+# TMC
+ska-tmc-mid:
+  enabled: false
+  deviceServers:
+    mocks:
+      enabled: true
+      csp: false
+      dish: true
+      sdp: false
+    centralnode:
+      DishVccConfig:
+        DishVccUri: "car:ska-telmodel-data?0.1.0-rc-mid-itf#tmdata"
+        DishVccFilePath: "instrument/ska1_mid_itf/ska-mid-cbf-system-parameters.json"
+      subarray_count: 1
+    cspsubarrayleafnode:
+      CommandTimeOut: 300
+      # DelayCadence: 10.0
+      # DelayModelTimeInAdvance: 30
+      # DelayValidityPeriod: 20.0
+      # SleepTime: 1.5
+      TelmodelSource: car:ska-mid-itf?main#tmdata
+      TelmodelPath: instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json
+    sdpsubarrayleafnode:
+      CommandTimeout: 90
+    subarraynode:
+      CommandTimeOut: 300
+      CspScanInterfaceURL: https://schema.skao.int/ska-csp-scan/2.2   # TEMPORARY COMMIT - not to be overwritten in makefile
+  resources:
+    # limits:
+    #   cpu: 800m
+    requests:
+      cpu: 400m
+  ska-tango-base:
+    enabled: false
+  telescope: SKA-mid
+
+# Temporary configuration for PVC
+temp_sdp_pvc:
+  enabled: false
+  dpd_namespace: ska-dpd
+  dpd_pvc: shared-mnl

@@ -1,3 +1,5 @@
+# Note: this is brought over from charts/dish-lmc/dish-lmc-ska036.yaml but may be old
+# The one in the AA folder is currently being used by dish SKA036
 db: tango-databaseds.ci-dish-lmc-ska036-at-2226-determine-stable-versions.svc.miditf.internal.skao.int:10000
 manager: mid-eda/cm/01
 archiver: mid-eda/es/01

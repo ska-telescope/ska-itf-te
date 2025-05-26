@@ -3,7 +3,7 @@
 
 OCI_BUILD_ADDITIONAL_ARGS += --cache-from registry.gitlab.com/ska-telescope/ska-mid-itf/ska-mid-itf-base:0.1.4
 
-HELM_CHARTS_TO_PUBLISH=dish-lmc ska-db-oda-mid-itf ska-mid-itf-ghosts ska-mid-itf-sut ska-mid-itf-dpd ska-mid-cbf-engineering-console-cache
+HELM_CHARTS_TO_PUBLISH=ska-mid ska-mid-itf-ghosts ska-mid-cbf-engineering-console-cache
 PYTHON_VARS_AFTER_PYTEST= --disable-pytest-warnings
 POETRY_CONFIG_VIRTUALENVS_CREATE = true
 
@@ -143,7 +143,7 @@ endif
 
 ifneq ($(DPD_PVC_NAME),)
 	SDP_EXTRA_PARAMS += \
-	--set ska-sdp-dataproduct-dashboard.dataProductPVC.name=$(DPD_PVC_NAME) \
+	--set ska-dataproduct-dashboard.dataProductPVC.name=$(DPD_PVC_NAME) \
 	--set global.data-product-pvc-name=$(DPD_PVC_NAME)
 endif
 
@@ -155,7 +155,7 @@ ifeq ($(KUBE_NAMESPACE),staging)
 # - https://gitlab.com/ska-telescope/sdp/ska-sdp-integration/-/blob/0.21.0/charts/ska-sdp/templates/pvc.yaml
 	SDP_EXTRA_PARAMS += \
 		--set global.data-product-pvc-name=staging-pvc \
-		--set ska-sdp-dataproduct-dashboard.dataProductPVC.name=staging-pvc \
+		--set ska-dataproduct-dashboard.dataProductPVC.name=staging-pvc \
 		--set ska-sdp.data-pvc.create.clone-pvc=staging-pvc \
 		--set ska-sdp.data-pvc.create.clone-pvc-namespace=shared-ska-dataproducts \
 		--set ska-sdp.data-pvc.create.enabled=true \
@@ -211,15 +211,19 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	$(K8S_TEST_RUNNER_PARAMS) \
 	$(TMC_PARAMS) \
 	$(CSP_PARAMS) \
-	$(EDA_PARAMS)
+	$(EDA_PARAMS) \
+	$(SUT_ENABLERS) \
+	$(DISH_ENABLERS) \
+	$(ODA_ENABLERS) \
+	$(DPD_ENABLERS) \
 
 
-TMC_VALUES_PATH?=charts/ska-mid-itf-sut/tmc-values.yaml
+TMC_VALUES_PATH?=charts/ska-mid/tmc-values.yaml
 ifneq ("$(wildcard $(TMC_VALUES_PATH))","")
 	K8S_EXTRA_PARAMS+=-f $(TMC_VALUES_PATH)
 endif
 ifneq ("$(wildcard $(SUT_CHART_DIR))","")
-	K8S_EXTRA_PARAMS+=-f charts/ska-mid-itf-sut/values.yaml
+	K8S_EXTRA_PARAMS+=-f charts/ska-mid/values.yaml
 endif
 
 

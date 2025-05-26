@@ -27,7 +27,7 @@
     - .ska036-env
   when: manual
   # variables:
-  #   DISH_LMC_EXTRA_PARAMS: -f charts/dish-lmc/values-cetc.yaml --set ska-dish-lmc.ska-mid-dish-ds-manager.dishstructuremanager.dsSim.fqdn=$DS_SIM_OPCUA_FQDN
+  #   DISH_LMC_EXTRA_PARAMS: -f charts/ska-mid/values-cetc.yaml --set ska-dish-lmc.ska-mid-dish-ds-manager.dishstructuremanager.dsSim.fqdn=$DS_SIM_OPCUA_FQDN
   environment:
     on_stop: 2-uninstall-dishlmc-ska036
 

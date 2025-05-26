@@ -12,7 +12,7 @@
     MINIKUBE: "false"
     CLUSTER_DOMAIN: miditf.internal.skao.int
     INGRESS_HOST: k8s.miditf.internal.skao.int
-    K8S_CHART: dish-structure-simulators
+    K8S_CHART: ska-mid
     KUBE_NAMESPACE: ds-sim-$DISH_ID
     KUBE_APP: ds-sim
     NEXUS_CACHE: NEXUS_CACHE
