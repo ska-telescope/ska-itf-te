@@ -12,10 +12,30 @@ echo "Rendering default images from $chart_dir ..."
 
 # Recursively find subcharts (directories with Chart.yaml)
 find "$chart_dir" -name 'Chart.yaml' -exec dirname {} \; | while read subchart; do
-  helm template "$(basename "$subchart")" "$subchart" --values /dev/null 2>/dev/null \
-  | yq -o=json e '.. | select(has("containers")) | .containers[] | select(has("name") and has("image")) | .name + ":" + .image' \
-  | sed 's/^"//;s/"$//' \
-  >> "$default_images_file"
+  echo "Found $subchart"
+
+  # Step 1: Helm template into a temp file
+  tmp_output=$(mktemp)
+  chart_name="$(basename "$subchart")"
+
+  if ! helm template "$chart_name" "$subchart" --values /dev/null > "$tmp_output" 2>/dev/null; then
+    echo "[WARN] Failed to render $subchart — skipping."
+    rm -f "$tmp_output"
+    continue
+  fi
+
+  # Step 2: Use yq to extract valid container image lines
+  tmp_filtered=$(mktemp)
+  if ! yq -o=json e '.. | select(has("containers")) | .containers[] | select(has("name") and has("image")) | .name + ":" + .image' "$tmp_output" > "$tmp_filtered" 2>/dev/null; then
+    echo "[WARN] yq failed to parse output from $subchart — skipping."
+    rm -f "$tmp_output" "$tmp_filtered"
+    continue
+  fi
+
+  # Step 3: Strip quotes and append to master list
+  sed 's/^"//;s/"$//' "$tmp_filtered" >> "$default_images_file"
+
+  rm -f "$tmp_output" "$tmp_filtered"
 done
 
 # Sort and dedupe
