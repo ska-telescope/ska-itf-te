@@ -33,7 +33,7 @@ parts:
       - "ska-te-dish-structure-simulator"
     alias: "Dish LMC"
   ska-te-dish-structure-simulator:
-    version: "file://charts/dish-structure-simulators/Chart.yaml"
+    version: "file://charts/ska-mid/Chart.yaml"
     dependencies: []
     alias: "DS Simulator"
   ska-csp-lmc-mid:
