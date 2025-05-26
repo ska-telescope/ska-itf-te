@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-chart_dir="$1"                         # charts/ska-mid-itf-sut
-overridden_file="$2"                  # build/expected-images.txt
+chart_dir="$1"          # e.g. charts/ska-mid-itf-sut
+overridden_file="$2"    # e.g. build/expected-images.txt
 default_images_file="default-images.txt"
 
 echo "Rendering default images from $chart_dir ..."
@@ -12,15 +12,13 @@ echo "Rendering default images from $chart_dir ..."
 
 # Recursively find subcharts (directories with Chart.yaml)
 find "$chart_dir" -name 'Chart.yaml' -exec dirname {} \; | while read subchart; do
-  echo "[DEBUG] Template default for $subchart"
   helm template "$(basename "$subchart")" "$subchart" --values /dev/null 2>/dev/null \
-  | yq e '.. | select(has("containers")) | .containers[] | select(has("name") and has("image")) | .name + ":" + .image' \
+  | yq -o=json e '.. | select(has("containers")) | .containers[] | select(has("name") and has("image")) | .name + ":" + .image' \
+  | sed 's/^"//;s/"$//' \
   >> "$default_images_file"
 done
 
-# Clean and filter invalid entries
-grep -vE '^---|^:$|^\s*$' "$default_images_file" > tmp_cleaned.txt && mv tmp_cleaned.txt "$default_images_file"
-
+# Sort and dedupe
 sort -u "$default_images_file" -o "$default_images_file"
 sort -u "$overridden_file" -o "$overridden_file"
 
@@ -33,7 +31,7 @@ while IFS=":" read -r name image || [[ -n "$name" ]]; do
   default_images["$name"]="$image"
 done < "$default_images_file"
 
-# Compare to overridden images
+# Compare overridden to default
 while IFS=":" read -r name image || [[ -n "$name" ]]; do
   default="${default_images[$name]:-}"
   if [[ -n "$default" && "$default" != "$image" ]]; then
@@ -41,7 +39,7 @@ while IFS=":" read -r name image || [[ -n "$name" ]]; do
   fi
 done < "$overridden_file"
 
-# Detect new containers not present in defaults
+# Detect new containers introduced by values
 while IFS=":" read -r name image || [[ -n "$name" ]]; do
   if [[ -z "${default_images[$name]:-}" ]]; then
     echo "[OVERRIDE] $name is introduced only via values: '$image'"
