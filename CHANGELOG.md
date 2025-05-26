@@ -12,6 +12,8 @@
   * Use engineering console v0.10.0 in pipelines and devcontainer
 * [AT-2676]
   * Add smoke test to verify FPGA bitstream compatibility with FPGA firmware ("QSPI")
+* [AT-3029]
+  * Update SPFC deployer version to 0.2.4
   
 ## 26.4.0
 * [AT-3238]
