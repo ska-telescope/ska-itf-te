@@ -161,7 +161,7 @@ docs-build:
     ADDMARKS: ""
     MARKS: ""
     PYTEST_ADDOPTS: --log-cli-level=INFO
-    SUT_CHART_DIR: ${CI_PROJECT_DIR}/charts/ska-mid-itf-sut
+    SUT_CHART_DIR: ${CI_PROJECT_DIR}/charts/ska-mid
   before_script:
     - make vars
     - mkdir -p config

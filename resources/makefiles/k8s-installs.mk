@@ -192,7 +192,7 @@ deployment-images-check:
 ##   Compares default chart images to ITF-rendered ones to find overrides.
 ## VARS:
 ##   SUT_CHART_DIR=Location of the SUT chart. Required: errors out if not set.
-check-image-overrides: export SUT_CHART_DIR ?= charts/ska-mid-itf-sut
+check-image-overrides: export SUT_CHART_DIR ?= charts/ska-mid
 check-image-overrides:
 	@echo "Checking for overridden container images from chart defaults"
 	@echo "Using $(SUT_CHART_DIR) as chart directory"

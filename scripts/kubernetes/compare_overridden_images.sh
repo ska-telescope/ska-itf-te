@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-chart_dir="$1"          # e.g. charts/ska-mid-itf-sut
+chart_dir="$1"          # e.g. charts/ska-mid
 overridden_file="$2"    # e.g. build/expected-images.txt
 default_images_file="default-images.txt"
 
