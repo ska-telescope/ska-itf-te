@@ -1,65 +1,30 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-chart_dir="$1"          # e.g. charts/ska-mid
-overridden_file="$2"    # e.g. build/expected-images.txt
-default_images_file="default-images.txt"
+chart_dir="$1"
+echo "Scanning chart directory for image overrides: $chart_dir"
 
-echo "Rendering default images from $chart_dir ..."
+# Find all values.yaml files in the chart directory tree
+values_files=$(find "$chart_dir" -type f -name "values.yaml")
 
-# Clean file before writing
-: > "$default_images_file"
+found=0
 
-echo "Rendering default images from $chart_dir ..."
+for file in $values_files; do
+  echo "Checking $file"
 
-# Render top-level chart without any values
-tmp_output=$(mktemp)
-chart_name="$(basename "$chart_dir")"
+  # Search for image overrides (tag, image, registry)
+  overrides=$(yq e '.. | select(tag == "!!map") | select(has("image")) | .image | select(has("tag") or has("registry") or has("image"))' "$file")
 
-if ! helm template "$chart_name" "$chart_dir" --values /dev/null > "$tmp_output" 2>/dev/null; then
-  echo "[ERROR] Failed to render chart from $chart_dir"
-  exit 1
-fi
-
-# Extract container image definitions from default render
-tmp_filtered=$(mktemp)
-if ! yq -o=json e '.. | select(has("containers")) | .containers[] | select(has("name") and has("image")) | .name + ":" + .image' "$tmp_output" > "$tmp_filtered" 2>/dev/null; then
-  echo "[ERROR] yq failed to extract containers"
-  rm -f "$tmp_output" "$tmp_filtered"
-  exit 1
-fi
-
-# Clean quotes and write to final list
-sed 's/^"//;s/"$//' "$tmp_filtered" >> "$default_images_file"
-
-rm -f "$tmp_output" "$tmp_filtered"
-
-# Sort and dedupe
-sort -u "$default_images_file" -o "$default_images_file"
-sort -u "$overridden_file" -o "$overridden_file"
-
-echo "Comparing values-rendered vs default chart images..."
-echo "Default images rendered from chart:"
-cat "$default_images_file"
-
-declare -A default_images
-
-# Load default images
-while IFS=":" read -r name image || [[ -n "$name" ]]; do
-  default_images["$name"]="$image"
-done < "$default_images_file"
-
-# Compare overridden to default
-while IFS=":" read -r name image || [[ -n "$name" ]]; do
-  default="${default_images[$name]:-}"
-  if [[ -n "$default" && "$default" != "$image" ]]; then
-    echo "[OVERRIDE] $name image overridden: default='$default' vs values='$image'"
+  if [[ -n "$overrides" ]]; then
+    echo "[OVERRIDES] Found explicit image overrides in: $file"
+    echo "$overrides"
+    echo
+    found=1
   fi
-done < "$overridden_file"
+done
 
-# Detect new containers introduced by values
-while IFS=":" read -r name image || [[ -n "$name" ]]; do
-  if [[ -z "${default_images[$name]:-}" ]]; then
-    echo "[OVERRIDE] $name is introduced only via values: '$image'"
-  fi
-done < "$overridden_file"
+if [[ "$found" -eq 1 ]]; then
+  echo "[INFO] Explicit container image overrides detected in chart values"
+else
+  echo "[INFO] No image overrides found in any values.yaml"
+fi

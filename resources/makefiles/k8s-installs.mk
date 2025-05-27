@@ -194,9 +194,8 @@ deployment-images-check:
 ##   SUT_CHART_DIR=Location of the SUT chart. Required: errors out if not set.
 check-image-overrides: export SUT_CHART_DIR ?= charts/ska-mid
 check-image-overrides:
-	@echo "Checking for overridden container images from chart defaults"
-	@echo "Using $(SUT_CHART_DIR) as chart directory"
-	@$(PROJECT_ROOT)/scripts/kubernetes/compare_overridden_images.sh $(SUT_CHART_DIR) expected-images.txt
+	@echo "Using $(SUT_CHART_DIR) as chart directory to check for overridden images"
+	@$(PROJECT_ROOT)/scripts/kubernetes/compare_overridden_images.sh $(SUT_CHART_DIR)
 .PHONY: check-image-overrides
 
 vars:
