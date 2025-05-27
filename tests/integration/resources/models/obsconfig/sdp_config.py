@@ -648,8 +648,8 @@ class ExecutionBlockSpecs(ScanTypes, Channelization, Polarisations, Fields, Targ
 class SdpConfig(Dishes, ExecutionBlockSpecs, ProcessingBlockSpec):
     """A class representing SDP configuration."""
 
-    sdp_assign_resources_schema = "https://schema.skao.int/ska-sdp-assignres/0.4"
-    sdp_configure_scan_schema = "https://schema.skao.int/ska-sdp-configure/0.3"
+    sdp_assign_resources_schema = "https://schema.skao.int/ska-sdp-assignres/1.0"
+    sdp_configure_scan_schema = "https://schema.skao.int/ska-sdp-configure/1.0"
 
     def __init__(
         self,
