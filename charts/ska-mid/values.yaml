@@ -126,7 +126,7 @@ ska-mid-dish-spfc-deployer:
     registry: registry.gitlab.com/ska-telescope/ska-mid-dish-spfc-deployer
     # registry: artefact.skao.int
     image: ska-mid-dish-spfc-deployer
-    tag: 0.2.4-dev.c84c1ea61
+    tag: 0.2.5-rc.1
     pullPolicy: IfNotPresent
 
 # SPFRx
