@@ -619,7 +619,7 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids, scan_band, settings):
 
     logger.info(f"PB ID: {pb_id}, EB ID: {eb_id}")
 
-    logger.debug(json.dumps(assign_resources_json))
+    logger.info(json.dumps(assign_resources_json))
 
     assign_resources_artifact_path = f"{settings['artifact_dir']}/assign_resources.json"
     with open(assign_resources_artifact_path, "w") as assign_resources_config_file:
