@@ -1,8 +1,11 @@
 # Version History
 
 ## Unreleased
-* [AT-3031]
-  * Log container version information before running test jobs in the pipelines
+* [AT-2936] & [AT-3026]
+  * Created `ska-mid` chart as a single consolidated chart and adjusted gitlab pipelines and other references accordingly
+  * Removed `ska-mid-itf-sut`, `dish-lmc`, `dish-structure-simulators`, `ska-db-oda-mid-itf`, `ska-mid-itf-dpd` chart folders
+  * Created `values_diff_merge.py` script for helping combine two values files
+  * Removed `datacentres` folder and subfolders - no longer needed in this repo* [AT-3031]
 * [AT-3241]
   * Patch Taranta version
 * [AT-2968]
@@ -14,7 +17,9 @@
   * Add smoke test to verify FPGA bitstream compatibility with FPGA firmware ("QSPI")
 * [AT-3029]
   * Update SPFC deployer version to 0.2.4
-  
+* [AT-3031]
+  * Log container version information before running test jobs in the pipelines
+
 ## 26.4.0
 * [AT-3238]
   * Upload Xray test results to Test Executions in the XTP project instead of AT project

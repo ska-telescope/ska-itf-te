@@ -1,0 +1,137 @@
+---
+apiVersion: v2
+name: ska-mid
+description: An umbrella Helm chart for deployment of the Mid System
+type: application
+version: 26.5.0-rc.2
+appVersion: 26.5.0-rc.2
+icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
+dependencies:
+  # Tango Base & Deployment Charts: TangoDB, iTango, Tango Operator Utils
+  - name: ska-tango-base
+    version: 0.4.18
+    repository: https://artefact.skao.int/repository/helm-internal
+  - name: ska-tango-util
+    version: 0.4.18
+    repository: https://artefact.skao.int/repository/helm-internal
+
+  # Mid TMC
+  - name: ska-tmc-mid
+    version: 1.0.0
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-tmc-mid.enabled
+
+  # Mid CSP LMC
+  - name: ska-csp-lmc-mid
+    version: 1.0.1
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-csp-lmc-mid.enabled
+
+  # Mid CBF TDC MCS
+  - name: ska-mid-cbf-tdc-mcs
+    version: 1.3.2
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-mid-cbf-tdc-mcs.enabled
+
+  # Mid CBF TM Simulator - temporary only for CBF internal testing at the KAPB
+  - name: ska-mid-cbf-tdc-tmleafnode
+    version: 1.2.1
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-mid-cbf-tdc-tmleafnode.enabled
+
+  # Mid CBF EC
+  - name: ska-mid-cbf-engineering-console
+    version: 1.1.3
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-mid-cbf-engineering-console.enabled
+
+  # SDP
+  - name: ska-sdp
+    version: 1.1.2
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-sdp.enabled
+
+  # DISH LMC CHART
+  - name: ska-dish-lmc
+    version: 7.0.1
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-dish-lmc.enabled
+
+  # DISH STRUCTURE SIMULATOR
+  - name: ska-te-dish-structure-simulator
+    version: 0.11.0
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-ds-sim.enabled
+    alias: ska-ds-sim
+
+  # SPFC DEPLOYER CHART
+  - name: ska-mid-dish-spfc-deployer
+    version: 0.2.4
+    repository: https://artefact.skao.int/repository/helm-internal
+    # repository: https://gitlab.com/api/v4/projects/52159216/packages/helm/dev
+    condition: ska-mid-dish-spfc-deployer.enabled
+
+  # SPFRx DEPLOYER CHART
+  - name: ska-mid-dish-spfrx-talondx-console
+    version: 0.5.0
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-mid-dish-spfrx-talondx-console.enabled
+
+  # TARANTA SUITE
+  - name: ska-tango-taranta
+    version: 2.14.2
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-tango-taranta.enabled
+
+  # MULTIDB TANGOGQL
+  - name: ska-tango-tangogql-ariadne
+    version: 1.0.1
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-tango-taranta.enabled
+    alias: tangogql
+
+  # NOTE:
+  # ska-db-oda-umbrella disabled due to unguarded
+  # nginx.ingress.kubernetes.io/configuration-snippet.
+  # Re-enable when upstream allows disabling or guarding snippet annotations
+  # # SKA ODA
+  # - name: ska-db-oda-umbrella
+  #   repository: https://artefact.skao.int/repository/helm-internal
+  #   version: 7.3.0
+
+  # AlarmHandler
+  - name: ska-tango-alarmhandler
+    version: 0.4.0
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-tango-alarmhandler.enabled
+
+  # DPD
+  - name: ska-dataproduct-dashboard
+    version: 0.10.0
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-dataproduct-dashboard.enabled
+
+  # EDA
+  - name: ska-tango-archiver
+    version: 2.9.1
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-tango-archiver.enabled
+
+  # Configuration Inspector API
+  # Gitlab Location: https://gitlab.com/ska-telescope/ska-ser-config-inspector
+  # Releases: https://gitlab.com/ska-telescope/ska-ser-config-inspector/-/releases
+  # - name: ska-ser-config-inspector
+  #   version: 0.2.3 # check latest version
+  #   repository: https://artefact.skao.int/repository/helm-internal
+  #   condition: ska-ser-config-inspector.enabled
+
+  # Test helpers
+  - name: ska-log-consumer
+    version: 0.1.6
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-log-consumer.enabled
+
+  # EXAMPLE DEV CHART: DON'T DELETE THIS SECTION
+  # - name: ska-sdp
+  #   version: 0.19.0-dev.c651132b9
+  #   repository: https://gitlab.com/api/v4/projects/21141217/packages/helm/dev

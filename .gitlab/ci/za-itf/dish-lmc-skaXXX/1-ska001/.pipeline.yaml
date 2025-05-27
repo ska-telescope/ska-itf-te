@@ -19,7 +19,7 @@
   #   - deploy-ds-sim-ska001
   # when: on_success
   # variables:
-  #   DISH_LMC_EXTRA_PARAMS: -f charts/dish-lmc/values-cetc.yaml --set ska-dish-lmc.ska-mid-dish-ds-manager.dishstructuremanager.dsSim.fqdn=$DS_SIM_OPCUA_FQDN
+  #   DISH_LMC_EXTRA_PARAMS: -f charts/ska-mid/values-cetc.yaml --set ska-dish-lmc.ska-mid-dish-ds-manager.dishstructuremanager.dsSim.fqdn=$DS_SIM_OPCUA_FQDN
   when: manual
   environment:
     on_stop: 1-uninstall-dishlmc-ska001
@@ -30,7 +30,7 @@
     - .ska001-env
   when: manual
   # variables:
-  #   DISH_LMC_EXTRA_PARAMS: -f charts/dish-lmc/values-cetc.yaml --set ska-dish-lmc.ska-mid-dish-ds-manager.dishstructuremanager.dsSim.fqdn=$DS_SIM_OPCUA_FQDN
+  #   DISH_LMC_EXTRA_PARAMS: -f charts/ska-mid/values-cetc.yaml --set ska-dish-lmc.ska-mid-dish-ds-manager.dishstructuremanager.dsSim.fqdn=$DS_SIM_OPCUA_FQDN
   environment:
     on_stop: 1-uninstall-dishlmc-ska001
 

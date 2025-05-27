@@ -53,7 +53,7 @@ Deployment
 Deployment of the SUT
 =====================
 The deployment repository for the SKA Mid Software used to be Skampi. This has now been replaced by the machinery present in this repo.
-The SUT is defined in the `ska-mid-itf-sut` chart and can be deployed using the following jobs:
+The SUT is defined in the `ska-mid` chart and can be deployed using the following jobs:
 
 1. `deploy-sut-on-demand` (manual): creates a short-lived deployment to a `ci-ska-mid-itf-$CI_COMMIT_REF_NAME` namespace. This is intended for testing and debugging and can be deployed from any branch.
 2. `deploy-sut-integration` (manual): creates a long-lived deployment to the `integration` namespace. This can only be deployed from the main branch.
