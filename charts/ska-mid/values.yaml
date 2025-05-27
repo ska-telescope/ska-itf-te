@@ -122,6 +122,12 @@ ska-mid-cbf-tdc-tmleafnode:
 # SPFC
 ska-mid-dish-spfc-deployer:
   enabled: false
+  image:
+    registry: registry.gitlab.com/ska-telescope/ska-mid
+    # registry: artefact.skao.int
+    image: ska-mid-dish-spfc-deployer
+    tag: 0.2.4-dev.c84c1ea61
+    pullPolicy: IfNotPresent
 
 # SPFRx
 ska-mid-dish-spfrx-talondx-console:
