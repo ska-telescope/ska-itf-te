@@ -10,39 +10,37 @@ echo "Rendering default images from $chart_dir ..."
 # Clean file before writing
 : > "$default_images_file"
 
-# Recursively find subcharts (directories with Chart.yaml)
-find "$chart_dir" -name 'Chart.yaml' -exec dirname {} \; | while read subchart; do
-  echo "Found $subchart"
+echo "Rendering default images from $chart_dir ..."
 
-  # Step 1: Helm template into a temp file
-  tmp_output=$(mktemp)
-  chart_name="$(basename "$subchart")"
+# Render top-level chart without any values
+tmp_output=$(mktemp)
+chart_name="$(basename "$chart_dir")"
 
-  if ! helm template "$chart_name" "$subchart" --values /dev/null > "$tmp_output" 2>/dev/null; then
-    echo "[WARN] Failed to render $subchart — skipping."
-    rm -f "$tmp_output"
-    continue
-  fi
+if ! helm template "$chart_name" "$chart_dir" --values /dev/null > "$tmp_output" 2>/dev/null; then
+  echo "[ERROR] Failed to render chart from $chart_dir"
+  exit 1
+fi
 
-  # Step 2: Use yq to extract valid container image lines
-  tmp_filtered=$(mktemp)
-  if ! yq -o=json e '.. | select(has("containers")) | .containers[] | select(has("name") and has("image")) | .name + ":" + .image' "$tmp_output" > "$tmp_filtered" 2>/dev/null; then
-    echo "[WARN] yq failed to parse output from $subchart — skipping."
-    rm -f "$tmp_output" "$tmp_filtered"
-    continue
-  fi
-
-  # Step 3: Strip quotes and append to master list
-  sed 's/^"//;s/"$//' "$tmp_filtered" >> "$default_images_file"
-
+# Extract container image definitions from default render
+tmp_filtered=$(mktemp)
+if ! yq -o=json e '.. | select(has("containers")) | .containers[] | select(has("name") and has("image")) | .name + ":" + .image' "$tmp_output" > "$tmp_filtered" 2>/dev/null; then
+  echo "[ERROR] yq failed to extract containers"
   rm -f "$tmp_output" "$tmp_filtered"
-done
+  exit 1
+fi
+
+# Clean quotes and write to final list
+sed 's/^"//;s/"$//' "$tmp_filtered" >> "$default_images_file"
+
+rm -f "$tmp_output" "$tmp_filtered"
 
 # Sort and dedupe
 sort -u "$default_images_file" -o "$default_images_file"
 sort -u "$overridden_file" -o "$overridden_file"
 
 echo "Comparing values-rendered vs default chart images..."
+echo "Default images rendered from chart:"
+cat "$default_images_file"
 
 declare -A default_images
 
