@@ -5,7 +5,7 @@
   * Created `ska-mid` chart as a single consolidated chart and adjusted gitlab pipelines and other references accordingly
   * Removed `ska-mid-itf-sut`, `dish-lmc`, `dish-structure-simulators`, `ska-db-oda-mid-itf`, `ska-mid-itf-dpd` chart folders
   * Created `values_diff_merge.py` script for helping combine two values files
-  * Removed `datacentres` folder and subfolders - no longer needed in this repo* [AT-3031]
+  * Removed `datacentres` folder and subfolders - no longer needed in this repo
 * [AT-3241]
   * Patch Taranta version
 * [AT-2968]
