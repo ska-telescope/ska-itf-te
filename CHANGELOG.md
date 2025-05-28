@@ -17,7 +17,9 @@
   * Add smoke test to verify FPGA bitstream compatibility with FPGA firmware ("QSPI")
 * [AT-3029]
   * Update SPFC deployer version to 0.2.4
-  
+* [AT-3031]
+  * Log container version information before running test jobs in the pipelines
+
 ## 26.4.0
 * [AT-3238]
   * Upload Xray test results to Test Executions in the XTP project instead of AT project
