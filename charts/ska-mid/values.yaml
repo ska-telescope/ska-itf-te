@@ -233,7 +233,7 @@ ska-tmc-mid:
       # DelayModelTimeInAdvance: 30
       # DelayValidityPeriod: 20.0
       # SleepTime: 1.5
-      TelmodelSource: car:ska-mid-itf?main#tmdata
+      TelmodelSource: car:ska-mid?main#tmdata
       TelmodelPath: instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json
     sdpsubarrayleafnode:
       CommandTimeout: 90
