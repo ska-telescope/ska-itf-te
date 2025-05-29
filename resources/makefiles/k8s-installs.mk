@@ -1,4 +1,4 @@
-PROJECT_ROOT ?= ../../	
+PROJECT_ROOT ?= ../..
 
 ## TARGET: itf-ds-sim-links
 ## SYNOPSIS: make itf-ds-sim-links
@@ -169,6 +169,34 @@ pvc-patch-delete: ## Delete PVC in the SDP namespace in case one exists that was
 
 pvc-patch-apply: ## Create PVC in the SDP namespace for data product sharing
 	@kubectl apply -f .gitlab/ci/za-itf/staging/sdp-vis-receive-pvc.yaml -n $(KUBE_NAMESPACE_SDP)
+
+## TARGET: deployment-images-check
+## SYNOPSIS: make deployment-images-check
+## DESCRIPTION:
+##   Validates that container images running in the namespace match those
+##   specified in the Helm chart values.yaml files.
+## VARS:
+##   KUBE_NAMESPACE=<namespace to check>
+##   VALUES_FILE=<values.yaml file>
+deployment-images-check:
+	@echo "Extracting expected images from Helm template log and deployed container images from namespace"
+	@yq e '.. | select(has("containers")) | .containers[] | .name + ":" + .image' build/manifests.yaml | sort | uniq > expected-images.txt
+	@kubectl get pods -n $(KUBE_NAMESPACE) -o jsonpath="{range .items[*]}{range .spec.containers[*]}{.name}:{.image}{'\n'}{end}{end}" | sort | uniq > deployed-images.txt
+	@echo "Comparing expected vs deployed images"
+	@$(PROJECT_ROOT)/scripts/kubernetes/compare_deployed_images.sh expected-images.txt deployed-images.txt
+.PHONY: deployment-images-check
+
+## TARGET: check-image-overrides
+## SYNOPSIS: make check-image-overrides
+## DESCRIPTION:
+##   Compares default chart images to ITF-rendered ones to find overrides.
+## VARS:
+##   SUT_CHART_DIR=Location of the SUT chart. Required: errors out if not set.
+check-image-overrides: export SUT_CHART_DIR ?= charts/ska-mid
+check-image-overrides:
+	@echo "Using $(SUT_CHART_DIR) as chart directory to check for overridden images"
+	@$(PROJECT_ROOT)/scripts/kubernetes/compare_overridden_images.sh $(SUT_CHART_DIR)
+.PHONY: check-image-overrides
 
 vars:
 	$(info KUBE_NAMESPACE: $(KUBE_NAMESPACE))

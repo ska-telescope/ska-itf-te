@@ -56,8 +56,7 @@ def merge_all_values(chart_dirs, output_path="charts/ska-mid/values.yaml", flatt
 if __name__ == "__main__":
     chart_folders = [
         "charts/ska-mid-itf-dpd",
-        "charts/dish-lmc",
-        "charts/ska-mid-itf-sut",
+        "charts/ska-mid",
         # "charts/ska-mid-cbf-engineering-console-cache",
     ]
     merge_all_values(chart_folders)
