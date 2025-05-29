@@ -85,7 +85,7 @@ dependencies:
 
   # MULTIDB TANGOGQL
   - name: ska-tango-tangogql-ariadne
-    version: 1.0.1
+    version: 1.0.3
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tango-taranta.enabled
     alias: tangogql
