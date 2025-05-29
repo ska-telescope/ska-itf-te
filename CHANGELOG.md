@@ -21,6 +21,12 @@
   * Log container version information before running test jobs in the pipelines
 * [AT-3256]
   * Add rule to exclude `oci-image-publish` jobs from our (tagged) pipelines
+* [AT-3250]
+  * from Jupyter notebooks submodule update:
+    * Updated vis receive to 5.4.0
+    * Updated coordinates to correct error of Polaris Australis (field a in assign resources)
+    * Updated telmodel source uri to change from ska-mid-itf to ska-mid
+  * updated SDP to 1.2.0 and ska-sdp-qa values to not use vault
 
 ## 26.4.0
 * [AT-3238]
