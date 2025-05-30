@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3258]
+  * Upgraded Engineering Console versions for SPFRx and CBF Talon boards, for upgrading QSPI versions
 * [AT-2936] & [AT-3026]
   * Created `ska-mid` chart as a single consolidated chart and adjusted gitlab pipelines and other references accordingly
   * Removed `ska-mid-itf-sut`, `dish-lmc`, `dish-structure-simulators`, `ska-db-oda-mid-itf`, `ska-mid-itf-dpd` chart folders
