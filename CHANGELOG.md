@@ -1,13 +1,10 @@
 # Version History
 
 ## Unreleased
-<<<<<<< HEAD
-
-## 26.5.0
-=======
+* [AT-3274]
+  * update SDP to 1.2.1
 * [AT-3258]
   * Upgraded Engineering Console versions for SPFRx and CBF Talon boards, for upgrading QSPI versions
->>>>>>> main
 * [AT-2936] & [AT-3026]
   * Created `ska-mid` chart as a single consolidated chart and adjusted gitlab pipelines and other references accordingly
   * Removed `ska-mid-itf-sut`, `dish-lmc`, `dish-structure-simulators`, `ska-db-oda-mid-itf`, `ska-mid-itf-dpd` chart folders
@@ -34,7 +31,7 @@
     * Updated coordinates to correct error of Polaris Australis (field a in assign resources)
     * Updated telmodel source uri to change from ska-mid-itf to ska-mid
   * updated SDP to 1.2.0 and ska-sdp-qa values to not use vault
-
+  
 ## 26.4.0
 * [AT-3238]
   * Upload Xray test results to Test Executions in the XTP project instead of AT project
