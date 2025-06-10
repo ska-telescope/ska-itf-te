@@ -34,7 +34,9 @@
     * Updated coordinates to correct error of Polaris Australis (field a in assign resources)
     * Updated telmodel source uri to change from ska-mid-itf to ska-mid
   * updated SDP to 1.2.0 and ska-sdp-qa values to not use vault
-
+* [AT-3259]
+  * update SDP to 1.2.1
+  
 ## 26.4.0
 * [AT-3238]
   * Upload Xray test results to Test Executions in the XTP project instead of AT project
