@@ -4,28 +4,31 @@ import logging
 
 import pytest
 import yaml
-import os
 from tango import DeviceProxy
 
 from utils.talon_communication import TalonBoardCommandExecutor
 
 logger = logging.getLogger(__name__)
 
+
 @pytest.fixture(scope="session")
 def settings():
-    """Fixture to set up the test environment."""
+    """Fixture to set up the test environment.
+
+    :return: Smoke test configuration
+    :rtype: Dict
+    """
     settings = {}
 
     # Get CBF Talon IPs
     hw_config_relative_path = "resources/mcs/hw_config.yaml"
-    talon_board_hw_config = {}
-
     with open(hw_config_relative_path, "r") as f:
         talon_board_ips = yaml.safe_load(f)["talon_board"]
-    
+
     settings["talon_board_ips"] = talon_board_ips
 
     return settings
+
 
 def test_devices_reachable():
     """Tests connectivity to tango devices.
@@ -48,6 +51,9 @@ def test_qspi_version(settings):
     """Check QSPI version.
 
     Check whether the QSPI version on each ITF CBF Talon Board is the expected version.
+
+    :param settings: Smoke test configuration
+    :type settings: Dict
     """
     talon_board_ips = settings["talon_board_ips"]
 
