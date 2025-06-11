@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-2676]
+  * Fixed issue executing CBF firmware compatibility smoke test with env vars in gitlab script
 * [AT-3274]
   * update SDP to 1.2.1
 * [AT-3258]
