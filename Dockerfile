@@ -2,7 +2,7 @@ FROM registry.gitlab.com/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf
 
 RUN rm -rf /app/.venv
 
-WORKDIR /app/ska-mid-itf
+WORKDIR /app/ska-mid
 
 COPY . .
 
