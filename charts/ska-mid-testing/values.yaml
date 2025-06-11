@@ -1,5 +1,5 @@
 image:
-  registry: registry.gitlab.com/ska-telescope/ska-mid-itf
+  registry: registry.gitlab.com/ska-telescope/ska-mid
   image: ska-mid-testing
   tag: 26.4.0-rc.4-dev.c041dacb0
   pullPolicy: IfNotPresent
@@ -13,3 +13,4 @@ environment:
 
 testReportsPVC: pvc-test-data-storage
 mountPath: /data/test-reports
+CBFMCSconfigMountPath: /app/ska-mid/resources/mcs
