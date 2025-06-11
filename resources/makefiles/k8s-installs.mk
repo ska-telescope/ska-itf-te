@@ -180,8 +180,9 @@ DEPLOYED_DEPENDENCIES?=
 ##   DEPLOYED_CHART = The deployed umbrella chart name
 ##   DEPLOYED_DEPENDENCIES = The deployed dependencies of the umbrella chart
 ##  make target for extracting currently deployed charts and their dependencies
+
 deployed-charts:
-	@OUTPUT="$$(make integration-test)"; \
+	@OUTPUT="$$(make k8s-namespace-info)"; \
 	DEPLOYED_CHART="$$(echo "$$OUTPUT" | awk '/Chart: ska-mid-itf-sut-/ { sub(/^.*Chart: /, ""); print; exit }')"; \
 	DEPLOYED_DEPENDENCIES="$$(echo "$$OUTPUT" | awk '\
 		/^   Dependencies:/ { f=1; next } \

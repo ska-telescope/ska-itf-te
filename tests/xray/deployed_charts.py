@@ -23,11 +23,11 @@ def main():
     try:
         deps = json.loads(args.dependencies_json)
     except json.JSONDecodeError as e:
-        print("❌ JSON decode error:", e)
+        print("JSON decode error:", e)
         return
 
-    print(f"✅ Chart: {args.chart_name}")
-    print("✅ Dependencies:")
+    print(f"Chart: {args.chart_name}")
+    print("Dependencies:")
     for dep in deps:
         print(f" - {dep.strip()}")
 
