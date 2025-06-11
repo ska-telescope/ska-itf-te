@@ -4,12 +4,28 @@ import logging
 
 import pytest
 import yaml
+import os
 from tango import DeviceProxy
 
 from utils.talon_communication import TalonBoardCommandExecutor
 
 logger = logging.getLogger(__name__)
 
+@pytest.fixture(scope="session")
+def settings():
+    """Fixture to set up the test environment."""
+    settings = {}
+
+    # Get CBF Talon IPs
+    hw_config_relative_path = "resources/mcs/hw_config.yaml"
+    talon_board_hw_config = {}
+
+    with open(hw_config_relative_path, "r") as f:
+        talon_board_ips = yaml.safe_load(f)["talon_board"]
+    
+    settings["talon_board_ips"] = talon_board_ips
+
+    return settings
 
 def test_devices_reachable():
     """Tests connectivity to tango devices.
@@ -28,17 +44,12 @@ def test_devices_reachable():
 
 @pytest.mark.requires_talons_on
 @pytest.mark.hw_in_the_loop
-def test_qspi_version():
+def test_qspi_version(settings):
     """Check QSPI version.
 
     Check whether the QSPI version on each ITF CBF Talon Board is the expected version.
     """
-    # Get CBF Talon IPs
-    hw_config_relative_path = "resources/mcs/hw_config.yaml"
-    talon_board_hw_config = {}
-
-    with open(hw_config_relative_path, "r") as f:
-        talon_board_hw_config = yaml.safe_load(f)["talon_board"]
+    talon_board_ips = settings["talon_board_ips"]
 
     # Get CBF Engineering console version
     umbrella_chart_relative_path = "charts/ska-mid/Chart.yaml"
@@ -58,9 +69,7 @@ def test_qspi_version():
     user = "root"
 
     # Get actual QSPI version from talonboards and compare with expected version
-    for talon_board in talon_board_hw_config.keys():
-        ip = talon_board_hw_config[talon_board]
-
+    for talon_board, ip in talon_board_ips.items():
         talon_board_command_executor = TalonBoardCommandExecutor(ip, user)
         command_result = talon_board_command_executor.execute_command(
             talon_board, "qspi_version_check"
