@@ -41,7 +41,6 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
-*/Chart.lock
 *.tgz
 
 
@@ -185,7 +184,6 @@ PrivateRules.mak
 # helm stuff
 charts/ska-mid/tmc-values.yaml
 charts/test-parent/charts/*
-Chart.lock
 manifests.yaml*
 MANIFEST.skao.int
 pytest-logs.txt
