@@ -6,8 +6,6 @@
   * no more turning TalonLRUs off and on during pipeline runs
 * [AT-3274]
   * update SDP to 1.2.1
-
-## 26.5.0
 * [AT-3258]
   * Upgraded Engineering Console versions for SPFRx and CBF Talon boards, for upgrading QSPI versions
 * [AT-2936] & [AT-3026]
