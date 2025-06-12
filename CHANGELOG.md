@@ -1,6 +1,9 @@
 # Version History
 
 ## Unreleased
+
+* [AT-3260] 
+  * no more turning TalonLRUs off and on during pipeline runs
 * [AT-3274]
   * update SDP to 1.2.1
 * [AT-3258]
