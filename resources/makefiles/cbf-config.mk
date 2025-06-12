@@ -116,4 +116,4 @@ itf-cbf-tango-on:
 ##  make target for registering the deviceservers in the TangoDB.
 
 
-itf-cbf-setup: itf-cbf-talonlru-off itf-cbf-config-mcs  itf-cbf-tango-on
+itf-cbf-setup: itf-cbf-config-mcs  itf-cbf-tango-on
