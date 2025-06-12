@@ -166,7 +166,9 @@ publish-k8s-test-results:
   script:
     - echo "Test result code from k8s-test-runner job was $(cat build/status)"
     - poetry install
+    - make get-deployed-charts
     - make upload-to-confluence
+    - make remove-deployed-charts
     - echo "Results uploaded to https://confluence.skatelescope.org/x/arzVDQ"
 
 # ############################################
