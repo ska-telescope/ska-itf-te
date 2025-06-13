@@ -237,17 +237,6 @@ get-deployed-charts:
 	}' > $(DEPLOYED_CHART)
 .PHONY: get-deployed-charts
 
-## TARGET: remove-deployed-charts
-## SYNOPSIS: make remove-deployed-charts
-## HOOKS: none
-## VARS:
-##   DEPLOYED_CHART = The deployed umbrella chart name
-##  make target for removing the file containing the deployed charts
-##  that was created by the get-deployed-charts target temporarily.
-remove-deployed-charts:
-	@rm -f $(DEPLOYED_CHART)
-.PHONY: remove-deployed-charts
-
 vars:
 	$(info KUBE_NAMESPACE: $(KUBE_NAMESPACE))
 	$(info #####################################)
