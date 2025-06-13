@@ -3,8 +3,8 @@ apiVersion: v2
 name: ska-mid
 description: An umbrella Helm chart for deployment of the Mid System
 type: application
-version: 26.5.0
-appVersion: 26.5.0
+version: 27.0.0
+appVersion: 27.0.0
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
   # Tango Base & Deployment Charts: TangoDB, iTango, Tango Operator Utils
@@ -35,7 +35,7 @@ dependencies:
 
   # Mid CBF TM Simulator - temporary only for CBF internal testing at the KAPB
   - name: ska-mid-cbf-tdc-tmleafnode
-    version: 1.2.1
+    version: 1.3.2
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-mid-cbf-tdc-tmleafnode.enabled
 
@@ -66,7 +66,7 @@ dependencies:
 
   # SPFC DEPLOYER CHART
   - name: ska-mid-dish-spfc-deployer
-    version: 0.2.4
+    version: 0.2.5
     repository: https://artefact.skao.int/repository/helm-internal
     # repository: https://gitlab.com/api/v4/projects/52159216/packages/helm/dev
     condition: ska-mid-dish-spfc-deployer.enabled

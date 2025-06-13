@@ -1,6 +1,12 @@
 # Version History
 
 ## Unreleased
+
+## 27.0.0
+* [AT-3260] 
+  * no more turning TalonLRUs off and on during pipeline runs
+* [AT-3254]
+  * Fixed SPFC image version used in deployer chart
 * [AT-3274]
   * update SDP to 1.2.1
 * [AT-3258]

@@ -1,6 +1,6 @@
 # ska-mid Readme
 
-Welcome to the Mid ITF Tests project. Here you can find methods to connect to hosts in the Mid Integration Test Facility (ITF) network, System Under Test (SUT) and Test Equipment (TE), as well as tests (BDD and python tests) and scripts for interacting with the SUT and TE.
+Welcome to the SKA Mid project. This project contains the Helm Chart for deploying the SKA Mid software, called (guess?) ``ska-mid``. This chart is deployed in the ITF as well as in the KAPB cluster and DishLMC hosts, using enabler flags on the values files to control what software is to be deployed. Here you can also find methods to connect to hosts in the Mid Integration Test Facility (ITF) network, System Under Test (SUT) and Test Equipment (TE), as well as tests (BDD and python tests) and scripts for interacting with the SUT and TE.
 
 Control can be done using Taranta Dashboards and Jupyter Notebooks. Links to the Taranta Dashboards of the deployed system are available from the CI Pipeline job logs. Please refer to [Mid ITF Gitlab Pipelines](https://confluence.skatelescope.org/display/SE/Mid+ITF+Gitlab+Pipelines) in the SKAO Confluence for details on how to access and control the SUT.
 
@@ -25,9 +25,9 @@ You need to be on the SKAO ITF VPN (connect via AnyConnect client) - see instruc
 
 Populate your `PrivateRules.mak` file with make variables if you are testing / developing from a local machine.
 
-## Copy the KUBECONFIG file
+## infraHQ
 
-The KUBECONFIG file enables access to the cluster resources. You'll need it to inspect deployments, or to *start an iTango session* (see below). You can get the KUBECONFIG from the CI pipeline of your deployment - follow the instructions on <https://confluence.skatelescope.org/display/SE/%5BAT-474%5D+-+Demo+how+to+continue+developing+ITF+Test+Equipment+charts>. You could also try `make copy-kubeconfig` if you feel brave.
+To connect to the relevant clusters, you need the correct permissions and also have infra installed on your machine. See [Confluence page](https://confluence.skatelescope.org/x/NoxRDg) for more information.
 
 ## Run iTango
 
