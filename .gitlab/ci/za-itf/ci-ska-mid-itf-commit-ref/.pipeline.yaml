@@ -164,6 +164,7 @@ publish-k8s-test-results:
       when: always
     - when: never
   script:
+    - make get-deployed-charts
     - echo "Test result code from k8s-test-runner job was $(cat build/status)"
     - poetry install
     - make upload-to-confluence
