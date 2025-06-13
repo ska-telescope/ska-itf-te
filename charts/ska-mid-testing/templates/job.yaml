@@ -17,9 +17,12 @@ spec:
       - name: test-data-storage
         persistentVolumeClaim:
           claimName: {{ .Values.testReportsPVC }}
+      - name: cbf-ec-clone-pvc
+        persistentVolumeClaim:
+          claimName: cbf-ec-clone-pvc
       - name: talon-hw-config-volume
         configMap:
-          name: hwconfig-configmap
+          name: cbf-hwconfig-configmap
           items:
           - key: hw_config.yaml
             path: hw_config.yaml
@@ -30,6 +33,8 @@ spec:
         volumeMounts:
         - name: test-data-storage
           mountPath: {{ .Values.mountPath }}
+        - name: cbf-ec-clone-pvc
+          mountPath: /cbf-ec
         - name: talon-hw-config-volume
           mountPath: {{ .Values.CBFMCSconfigMountPath }}
         resources: {}
