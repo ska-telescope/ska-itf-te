@@ -86,7 +86,7 @@ class TalonBoardCommandExecutor:
 
     def get_qspi_version(self, slot_number: str, qspi_check_command_result: str):
         """Determine the QSPI version loaded at the given slot (partition)"""
-        qspi_version_pattern = rf"partition\{{{slot_number}\}}_hash,[^_]*_version:(.*)"
+        qspi_version_pattern = rf"partition\{{{slot_number}\}}_version,(.*)"
         qspi_version_match = re.search(qspi_version_pattern, qspi_check_command_result)
         if qspi_version_match:
             qspi_version = qspi_version_match.group(1)
@@ -94,6 +94,9 @@ class TalonBoardCommandExecutor:
             error_string = f"Failed to find QSPI version in result: {qspi_check_command_result}"
             logger.error(error_string)
             return None
+        
+        # Get version number only from package name
+        qspi_version = qspi_version.rsplit("-", 1)[-1]
 
         return qspi_version
 
