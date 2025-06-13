@@ -225,12 +225,8 @@ get-deployed-charts:
 		name = fields[1]; \
 		gsub(/^[ \t]+|[ \t]+$$/, "", name); \
 		version_field = fields[2]; \
-		if (match(version_field, /\|[ \t]*([0-9a-zA-Z.\-+]+)[ \t]*Available!/, m)) { \
-		version = m[1]; \
-		} else { \
 		split(version_field, parts, "|"); \
 		version = parts[1]; \
-		} \
 		gsub(/^[ \t]+|[ \t]+$$/, "", version); \
 		print "  - name: " name; \
 		print "    version: " version; \
