@@ -1,11 +1,11 @@
 """."""
 
+import hashlib
 import logging
+import os
 
 import pytest
 import yaml
-import os
-import hashlib
 from tango import DeviceProxy
 
 from utils.talon_communication import TalonBoardCommandExecutor
@@ -98,14 +98,17 @@ def test_qspi_bitstream_compatibility(settings):
         logger.info(f"Talon {talon_board} loaded slot: {slot_number}")
 
         # Get bitstream version at slot
-        loaded_bitstream_version = talon_board_command_executor.get_bitstream_version(slot_number, command_result)
+        loaded_bitstream_version = talon_board_command_executor.get_bitstream_version(
+            slot_number, command_result
+        )
         if loaded_bitstream_version is None:
             pytest.fail(f"Failed to get bitstream version on Talon board {talon_board}")
 
         logger.info(f"Talon {talon_board} bitstream version: {loaded_bitstream_version}")
 
         # Generate CBF bitstream MD5 checksum (expected bitstream checksum)
-        rpd_path = f"{settings['cbf_ec_mount_path']}/fpga-talon/bin/talon_dx-tdc_base-tdc_vcc_processing-application.hps.rpd"
+        rpd_dir = f"{settings['cbf_ec_mount_path']}/fpga-talon/bin"
+        rpd_path = f"{rpd_dir}/talon_dx-tdc_base-tdc_vcc_processing-application.hps.rpd"
         bitstream_md5_hash = hashlib.md5()
         with open(rpd_path, "rb") as rpd_file:
             raw_data = rpd_file.read()
@@ -123,7 +126,10 @@ def test_qspi_bitstream_compatibility(settings):
 
         # Check compatibility
         bitstream_compatible = TalonBoardCommandExecutor.check_bitstream_compatibility(
-            fpga_bitstream_version, loaded_bitstream_version, bitstream_checksum, loaded_bitstream_checksum
+            fpga_bitstream_version,
+            loaded_bitstream_version,
+            bitstream_checksum,
+            loaded_bitstream_checksum,
         )
 
         assert bitstream_compatible, (
