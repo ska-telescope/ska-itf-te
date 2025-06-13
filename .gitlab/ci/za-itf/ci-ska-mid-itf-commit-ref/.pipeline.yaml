@@ -166,9 +166,7 @@ publish-k8s-test-results:
   script:
     - echo "Test result code from k8s-test-runner job was $(cat build/status)"
     - poetry install
-    - make get-deployed-charts
-    - echo "Custom helm chart created?" && ls -all && cat DeployedChart.yaml
-    - make upload-to-confluence -d
+    - make upload-to-confluence
     - echo "Results uploaded to https://confluence.skatelescope.org/x/arzVDQ"
 
 # ############################################
