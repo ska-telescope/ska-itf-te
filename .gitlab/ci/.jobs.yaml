@@ -181,6 +181,7 @@ docs-build:
     - bash .make/resources/gitlab_section.sh tmc-logs "Collecting TMC logs" make tmc-logs
     - bash .make/resources/gitlab_section.sh csp-logs "Collecting CSP logs" make csp-logs
     - *get_dish_logs
+    - make get-deployed-charts
     - make xray-publish
     - make upload-to-confluence
     - echo "Results uploaded to https://confluence.skatelescope.org/x/PHWUEg"

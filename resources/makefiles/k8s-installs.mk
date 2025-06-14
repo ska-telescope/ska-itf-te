@@ -198,6 +198,41 @@ check-image-overrides:
 	@$(PROJECT_ROOT)/scripts/kubernetes/compare_overridden_images.sh $(SUT_CHART_DIR)
 .PHONY: check-image-overrides
 
+DEPLOYED_CHART ?= DeployedChart.yaml
+## TARGET: get-deployed-charts
+## SYNOPSIS: make get-deployed-charts
+## HOOKS: none
+## VARS:
+##   DEPLOYED_CHART = The deployed umbrella chart name
+##  make target for extracting currently deployed charts and their dependencies
+##  temporarily saves the output to a file called DeployedChart.yaml
+
+get-deployed-charts:
+	@make k8s-namespace-info | awk '/Installed Helm charts:/ {found=1; next} found' | awk '\
+	BEGIN { printed_chart = 0 } \
+	/^ *Chart:/ && !printed_chart { \
+		match($$0, /Chart:[[:space:]]*([a-zA-Z0-9._-]+)-([0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?)/, parts); \
+		print "---"; \
+		print "apiVersion: v2"; \
+		print "name: " parts[1]; \
+		print "version: " parts[2]; \
+		print "dependencies:"; \
+		printed_chart = 1; \
+	} \
+	/^\s*\*/ { \
+		gsub(/\*/, "", $$0); \
+		split($$0, fields, "@"); \
+		name = fields[1]; \
+		gsub(/^[ \t]+|[ \t]+$$/, "", name); \
+		version_field = fields[2]; \
+		split(version_field, parts, "|"); \
+		version = parts[1]; \
+		gsub(/^[ \t]+|[ \t]+$$/, "", version); \
+		print "  - name: " name; \
+		print "    version: " version; \
+	}' > $(DEPLOYED_CHART)
+.PHONY: get-deployed-charts
+
 vars:
 	$(info KUBE_NAMESPACE: $(KUBE_NAMESPACE))
 	$(info #####################################)

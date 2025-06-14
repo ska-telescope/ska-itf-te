@@ -17,7 +17,7 @@
   "chart_info": {
     "env": "DEPLOYMENT_CONFIGURATION",
     "maps_to": {
-      "default": "charts/ska-mid/Chart.yaml"
+      "default": "DeployedChart.yaml"
     }
   },
   "test_report": "build/reports/report.json",
