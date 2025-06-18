@@ -84,19 +84,31 @@ class TalonBoardCommandExecutor:
 
         return slot_number
 
-    def get_bitstream_version(self, slot_number: str, qspi_check_command_result: str):
+    def get_loaded_bitstream_version(self, slot_number: str, qspi_check_command_result: str):
         """Determine the QSPI version loaded at the given slot (partition)"""
-        qspi_version_pattern = rf"partition\{{{slot_number}\}}_version,(.*)"
+        qspi_version_pattern = rf"partition\{{{slot_number}\}}_version,.*-(\d+\.\d+\.\d+)"
+        legacy_qspi_version_pattern = rf"partition\{{{slot_number}\}}_hash,[^_]+_version:(\d+\.\d+\.\d+)"
+        version_pattern = r'\d+\.\d+\.\d+'
+        is_legacy = False
+
         qspi_version_match = re.search(qspi_version_pattern, qspi_check_command_result)
+
+        # Check if the version is reported in legacy form
+        if not qspi_version_match:
+            qspi_version_match = re.search(legacy_qspi_version_pattern, qspi_check_command_result)
+
         if qspi_version_match:
             qspi_version = qspi_version_match.group(1)
         else:
             error_string = f"Failed to find QSPI version in result: {qspi_check_command_result}"
             logger.error(error_string)
             return None
-        
-        # Get version number only from package name
-        qspi_version = qspi_version.rsplit("-", 1)[-1]
+
+        # Check that a valid version was retrieved
+        if not re.fullmatch(version_pattern, qspi_version):
+            error_string = f"QSPI version could not be parsed correctly"
+            logger.error(error_string)
+            return None
 
         return qspi_version
     
