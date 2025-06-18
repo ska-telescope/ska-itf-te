@@ -3,6 +3,8 @@
 ## Unreleased
 * [AT-3276] 
   * Fix bug in teardown tool occuring when tearing dishes down from dish mode Operate
+* [MAP-377]
+  * Add OS shutdown command to gracefully shut down the talon boards prior to powering off the LRU
 
 ## 27.0.0
 * [AT-3260] 
