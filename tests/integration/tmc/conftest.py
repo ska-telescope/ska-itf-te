@@ -841,7 +841,8 @@ def _(telescope_handlers):
     ec_deployer.targetTalons = [1, 2, 3, 4]
     ec_deployer.generate_config_jsons()
     ec_deployer.set_timeout_millis(600000)
-    # TODO: Run only if the relevant artefacts are not already present
+    # TODO: Run only if the relevant artefacts are not already present.
+    # TODO: Find a way to intelligently check if the correct artefacts are already present
     # ec_deployer.download_artifacts()
     ec_deployer.configure_db()
     ec_deployer.set_timeout_millis(3000)
