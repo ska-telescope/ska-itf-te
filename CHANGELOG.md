@@ -5,6 +5,8 @@
   * Fix bug in teardown tool occuring when tearing dishes down from dish mode Operate
 
 ## 27.0.0
+* [AT-3272] 
+  * change top level domain of DB host
 * [AT-3260] 
   * no more turning TalonLRUs off and on during pipeline runs
 * [AT-3254]
