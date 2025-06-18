@@ -2,6 +2,8 @@
 
 LRU=$1
 STATE=$2
+SSH_TIMEOUT_IN_SECONDS="5"
+SLEEP_TIMEOUT_FOR_SHUTDOWN_CMD="15"
 
 DIR_PATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
@@ -25,9 +27,13 @@ fi
 if [[ "$LRU" == "lru1" ]]; then
 	OUTLET1="17"
 	OUTLET2="18"
+	TALON_A="talon1"
+	TALON_B="talon2"
 elif [[ "$LRU" == "lru2" ]]; then
 	OUTLET1="12"
 	OUTLET2="13"
+	TALON_A="talon3"
+	TALON_B="talon4"
 else
 	echo "ERROR: Unknown LRU \"$LRU\". No OUTLETS assigned."
 	exit 1
@@ -35,9 +41,17 @@ fi
 
 
 if [[ "$STATE" =~ on|On|ON ]]; then
-	$APC_PDU_SCRIPT on $OUTLET1 $OUTLET2
+	#$APC_PDU_SCRIPT on $OUTLET1 $OUTLET2
 elif [[ "$STATE" =~ off|Off|OFF ]]; then
-	$APC_PDU_SCRIPT off $OUTLET1 $OUTLET2
+
+	echo "Shutting down ${TALON_A}..."
+	ssh -o ConnectTimeout=$SSH_TIMEOUT_IN_SECONDS root@${TALON_A} -n shutdown now
+	echo "Shutting down ${TALON_B}..."
+	ssh -o ConnectTimeout=$SSH_TIMEOUT_IN_SECONDS root@${TALON_B} -n shutdown now
+	echo "Sleeping for ${SLEEP_TIMEOUT_FOR_SHUTDOWN_CMD} seconds..."
+	sleep $SLEEP_TIMEOUT_FOR_SHUTDOWN_CMD
+
+	# $APC_PDU_SCRIPT off $OUTLET1 $OUTLET2
 elif [[ "$STATE" == "" ]]; then
 	$APC_PDU_SCRIPT status $OUTLET1 $OUTLET2
 else
