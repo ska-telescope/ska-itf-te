@@ -27,13 +27,13 @@ fi
 if [[ "$LRU" == "lru1" ]]; then
 	OUTLET1="17"
 	OUTLET2="18"
-	TALON_A="talon1"
-	TALON_B="talon2"
+	TALON_A="10.165.3.29"
+	TALON_B="10.165.3.30"
 elif [[ "$LRU" == "lru2" ]]; then
 	OUTLET1="12"
 	OUTLET2="13"
-	TALON_A="talon3"
-	TALON_B="talon4"
+	TALON_A="10.165.3.31"
+	TALON_B="10.165.3.32"
 else
 	echo "ERROR: Unknown LRU \"$LRU\". No OUTLETS assigned."
 	exit 1
