@@ -98,7 +98,7 @@ def test_qspi_bitstream_compatibility(settings):
         logger.info(f"Talon {talon_board} loaded slot: {slot_number}")
 
         # Get bitstream version at slot
-        loaded_bitstream_version = talon_board_command_executor.get_bitstream_version(
+        loaded_bitstream_version = talon_board_command_executor.get_loaded_bitstream_version(
             slot_number, command_result
         )
         if loaded_bitstream_version is None:
