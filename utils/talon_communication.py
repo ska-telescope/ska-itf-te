@@ -113,7 +113,7 @@ class TalonBoardCommandExecutor:
         return qspi_version
     
     def get_bitstream_checksum(self, slot_number: str, qspi_check_command_result: str):
-        bitstream_checksum_pattern = rf"^partition\{{{slot_number}\}}_hash,([a-fA-F0-9]+)(?:_version:\d+\.\d+\.\d+)?$"
+        bitstream_checksum_pattern = rf"partition\{{{slot_number}\}}_hash,([a-fA-F0-9]+)(?:_version:\d+\.\d+\.\d+)?"
         bitstream_checksum_match = re.match(bitstream_checksum_pattern, qspi_check_command_result)
 
         if bitstream_checksum_match:
