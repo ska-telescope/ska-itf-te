@@ -399,7 +399,7 @@ CBF_BITSTREAM_RPD_SOURCE_POD ?= ds-cbfcontroller-controller-0
 CBF_BITSTREAM_RPD_SOURCE_POD_NAMESPACE ?= staging
 
 copy-cbf-bitstream-rpd:
-	make k8s-file-copy \
+	@make k8s-file-copy \
 		SOURCE_FILEPATH="${CBF_BITSTREAM_RPD_SOURCE_FILEPATH}" \
 		SOURCE_FILENAME="${CBF_BITSTREAM_RPD_FILENAME}" \
 		SOURCE_POD="${CBF_BITSTREAM_RPD_SOURCE_POD}" \
