@@ -11,4 +11,3 @@ environment:
   DISH_IDS: "SKA001"
 testReportsPVC: pvc-test-data-storage
 mountPath: /data/test-reports
-CBFMCSconfigMountPath: /app/ska-mid/resources/mcs
