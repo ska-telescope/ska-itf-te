@@ -133,7 +133,7 @@ docs-build:
   - |
     for DISH_ID in $DISH_IDS; do
       DISH_ID_LOWERCASE=${DISH_ID,,}
-      if [[ -n "$CI_COMMIT_TAG" ]]; then
+      if [[ -n "$CI_COMMIT_TAG" ]] || [[ "$CI_PIPELINE_SOURCE" == "schedule" ]]; then
         bash .make/resources/gitlab_section.sh dish-$DISH_ID_LOWERCASE-logs "Collecting dish ${DISH_ID} logs" make dish-logs KUBE_NAMESPACE=staging-dish-lmc-$DISH_ID_LOWERCASE
       elif [[ "$CI_COMMIT_BRANCH" != "$CI_DEFAULT_BRANCH" ]]; then
         bash .make/resources/gitlab_section.sh dish-$DISH_ID_LOWERCASE-logs "Collecting dish ${DISH_ID} logs" make dish-logs KUBE_NAMESPACE=ci-dish-lmc-$DISH_ID_LOWERCASE-$CI_COMMIT_REF_NAME
@@ -182,6 +182,7 @@ docs-build:
     - bash .make/resources/gitlab_section.sh tmc-logs "Collecting TMC logs" make tmc-logs
     - bash .make/resources/gitlab_section.sh csp-logs "Collecting CSP logs" make csp-logs
     - *get_dish_logs
+    - make get-deployed-charts
     - make xray-publish
     - make upload-to-confluence
     - echo "Results uploaded to https://confluence.skatelescope.org/x/PHWUEg"
