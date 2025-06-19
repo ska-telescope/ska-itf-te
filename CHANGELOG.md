@@ -9,7 +9,7 @@
   * Fix bug collecting dish logs during scheduled pipeline runs
 * [AT-3261] 
   * Add bitstream checksum based CBF firmware compatibility test
-  * Extend smoke test tooling for KAPB
+  * Extend smoke test tooling for KAPB and pickup talon IPs automatically in KAPB
 
 ## 27.0.0
 * [AT-3260] 
