@@ -34,7 +34,7 @@ spec:
         - name: test-data-storage
           mountPath: {{ .Values.mountPath }}
         - name: cbf-ec-clone-pvc
-          mountPath: /cbf-ec
+          mountPath: /app/cbf-ec
         - name: talon-hw-config-volume
           mountPath: {{ .Values.CBFMCSconfigMountPath }}
         resources: {}

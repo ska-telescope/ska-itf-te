@@ -387,3 +387,11 @@ test-e2e-kapb:
 smoke-tests:
 	set -o pipefail; $(PYTHON_RUNNER) pytest $(SMOKE_TEST_SOURCE) $(SMOKE_TEST_ARGS);
 	echo $$? > build/status
+
+k8s-file-copy:
+	[ -z "$$TARGET_DIR" ] && TARGET_DIR="$$HOME/cbf-ec"; \
+	[ -z "$$SOURCE_DIR" ] && SOURCE_DIR="/app/mnt/talondx-config/fpga-talon/bin"; \
+	[ -z "$$SOURCE_FILENAME" ] && SOURCE_FILENAME="talon_dx-tdc_base-tdc_vcc_processing-application.hps.rpd"; \
+	[ -z "$$SOURCE_FILEPATH" ] && SOURCE_FILEPATH="$$SOURCE_DIR/$$SOURCE_FILENAME"; \
+	[ -z "$$COPY_NAMESPACE" ] && COPY_NAMESPACE="staging"; \
+	kubectl cp -n $$COPY_NAMESPACE ds-cbfcontroller-controller-0:$$SOURCE_FILEPATH $$TARGET_DIR/$$SOURCE_FILENAME

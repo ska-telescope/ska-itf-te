@@ -23,7 +23,7 @@ def settings():
     settings = {}
 
     # Path where the CBF EC clone PVC volume is mounted
-    CBF_EC_MOUNT_PATH = os.environ.get("CBF_EC_MOUNT_PATH", "/cbf-ec")
+    CBF_EC_MOUNT_PATH = os.environ.get("CBF_EC_MOUNT_PATH", "/app/cbf-ec")
 
     # Get CBF Talon IPs
     hw_config_relative_path = "resources/mcs/hw_config.yaml"
