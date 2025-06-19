@@ -34,6 +34,11 @@ def settings():
 
     settings["cbf_ec_mount_path"] = CBF_EC_MOUNT_PATH
 
+    # Get SPFRX IPs
+
+    # Populate settings object with spfrx talon board ips
+    # settings["spfrx_talon_board_ips"] = ""
+
     return settings
 
 
@@ -138,3 +143,27 @@ def test_qspi_bitstream_compatibility(settings):
             f"Checksum computed from CBF EC: {bitstream_checksum}, "
             f"Checksum reported on Talon board slot {slot_number}: {loaded_bitstream_checksum}. "
         )
+
+
+def test_spfrx_qspi_bitstream_compatibility(settings):
+    """Check QSPI bitstream version for SPFRX Talon Boards.
+
+    :param settings: Smoke test configuration
+    :type settings: Dict
+    """
+    # spfrx_talon_board_ips = settings["spfrx_talon_board_ips"]
+
+    # Get CBF Engineering console version from charts/ska-mid/Chart.yaml
+
+    # Get actual bitstream version from talonboards and compare with expected version
+
+    # Get currently loaded slot (talon_board_command_executor.get_currently_loaded_slot())
+
+    # Get bitstream version at slot (talon_board_command_executor.get_loaded_bitstream_version())
+
+    # Check compatibility (talon_board_command_executor.check_spfrx_bitstream_compatibility())
+
+    # bitstream_compatible = expected == actual_loaded
+
+    # assert bitstream_compatible
+    pass

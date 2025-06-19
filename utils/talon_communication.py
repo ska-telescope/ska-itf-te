@@ -199,3 +199,21 @@ class TalonBoardCommandExecutor:
         bitstream_checksum_based_compatibility = (actual_bitstream_checksum == expected_bitstream_checksum)
 
         return bitstream_checksum_based_compatibility
+
+    @staticmethod
+    def check_spfrx_bitstream_compatibility(expected_bitstream_version: str, actual_bitstream_version: str, expected_bitstream_checksum: str, actual_bitstream_checksum: str):
+        """Applies the logic to determine if the SPFRx QSPI bitstream is compatible with the SPFRx Talon firmware.
+        """
+        pass
+    
+    def get_rxpu_bitstream_version(spfrx_engineering_console_version: str) -> str:
+        """Determine the expected SPFRx QSPI version based on the FPGA bitstream version.
+        """
+        # Download spfrx_boardmap for given SPFRx engineering console version
+        spfrx_boardmap = (
+            f"https://gitlab.com/ska-telescope/ska-mid-dish-spfrx-talondx-console/-/raw/{spfrx_engineering_console_version}/images/ska-mid-dish-spfrx-talondx-console-deploy/spfrx_config/spfrx_boardmap.json?ref_type=tags&inline=false"
+        )
+
+        # Get fpga_bitstreams.version from spfrx_boardmap.json
+
+        # return fpga_bitstream_version
