@@ -13,4 +13,3 @@ environment:
 
 testReportsPVC: pvc-test-data-storage
 mountPath: /data/test-reports
-CBFMCSconfigMountPath: /app/ska-mid/resources/mcs
