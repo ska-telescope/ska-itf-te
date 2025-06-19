@@ -389,9 +389,19 @@ smoke-tests:
 	echo $$? > build/status
 
 k8s-file-copy:
-	[ -z "$$TARGET_DIR" ] && TARGET_DIR="$$HOME/cbf-ec"; \
-	[ -z "$$SOURCE_DIR" ] && SOURCE_DIR="/app/mnt/talondx-config/fpga-talon/bin"; \
-	[ -z "$$SOURCE_FILENAME" ] && SOURCE_FILENAME="talon_dx-tdc_base-tdc_vcc_processing-application.hps.rpd"; \
-	[ -z "$$SOURCE_FILEPATH" ] && SOURCE_FILEPATH="$$SOURCE_DIR/$$SOURCE_FILENAME"; \
-	[ -z "$$COPY_NAMESPACE" ] && COPY_NAMESPACE="staging"; \
-	kubectl cp -n $$COPY_NAMESPACE ds-cbfcontroller-controller-0:$$SOURCE_FILEPATH $$TARGET_DIR/$$SOURCE_FILENAME
+	kubectl cp -n ${COPY_NAMESPACE} ${SOURCE_POD}:${SOURCE_FILEPATH} ${TARGET_DIR}/${SOURCE_FILENAME}
+
+CBF_BITSTREAM_RPD_TARGET_DIR ?= ${HOME}/cbf-ec
+CBF_BITSTREAM_RPD_SOURCE_DIR ?= /app/mnt/talondx-config/fpga-talon/bin
+CBF_BITSTREAM_RPD_FILENAME ?= talon_dx-tdc_base-tdc_vcc_processing-application.hps.rpd
+CBF_BITSTREAM_RPD_SOURCE_FILEPATH := ${CBF_BITSTREAM_RPD_SOURCE_DIR}/${CBF_BITSTREAM_RPD_FILENAME}
+CBF_BITSTREAM_RPD_SOURCE_POD ?= ds-cbfcontroller-controller-0
+CBF_BITSTREAM_RPD_SOURCE_POD_NAMESPACE ?= staging
+
+copy-cbf-bitstream-rpd:
+	make k8s-file-copy \
+		SOURCE_FILEPATH="${CBF_BITSTREAM_RPD_SOURCE_FILEPATH}" \
+		SOURCE_FILENAME="${CBF_BITSTREAM_RPD_FILENAME}" \
+		SOURCE_POD="${CBF_BITSTREAM_RPD_SOURCE_POD}" \
+		TARGET_DIR="${CBF_BITSTREAM_RPD_TARGET_DIR}" \
+		COPY_NAMESPACE="${CBF_BITSTREAM_RPD_SOURCE_POD_NAMESPACE}"
