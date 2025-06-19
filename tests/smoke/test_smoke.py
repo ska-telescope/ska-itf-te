@@ -35,9 +35,11 @@ def settings():
     settings["cbf_ec_mount_path"] = CBF_EC_MOUNT_PATH
 
     # Get SPFRX IPs
+    spfrx_hw_config_relative_path = "resources/mcs/spfrx_hw_config.yaml"
+    with open(spfrx_hw_config_relative_path, "r") as f:
+        spfrx_talon_board_ips = yaml.safe_load(f)["talon_board"]
 
-    # Populate settings object with spfrx talon board ips
-    # settings["spfrx_talon_board_ips"] = ""
+    settings["spfrx_talon_board_ips"] = spfrx_talon_board_ips
 
     return settings
 
@@ -151,18 +153,54 @@ def test_spfrx_qspi_bitstream_compatibility(settings):
     :param settings: Smoke test configuration
     :type settings: Dict
     """
-    # spfrx_talon_board_ips = settings["spfrx_talon_board_ips"]
+    spfrx_talon_board_ips = settings["spfrx_talon_board_ips"]
 
     # Get CBF Engineering console version from charts/ska-mid/Chart.yaml
+    umbrella_chart_relative_path = "charts/ska-mid/Chart.yaml"
+    with open(umbrella_chart_relative_path, "r") as f:
+        sut_chart = yaml.safe_load(f)
 
+        for dependency in sut_chart["dependencies"]:
+            if dependency["name"] == "ska-mid-dish-spfrx-talondx-console":
+                spfrx_cbf_engineering_console_version = dependency["version"]
+                break
+
+    spfrx_bitstream_version = TalonBoardCommandExecutor.get_spfrx_bitstream_version(
+        spfrx_cbf_engineering_console_version
+    )
+    logger.info(f"FPGA bitstream version: {spfrx_bitstream_version}")
+
+    user = "root"
     # Get actual bitstream version from talonboards and compare with expected version
+    for talon_board, ip in spfrx_talon_board_ips.items():
+        talon_board_command_executor = TalonBoardCommandExecutor(ip, user)
+        command_result = talon_board_command_executor.execute_command(
+            talon_board, "qspi_partition.sh -i"
+        )
+        if command_result is None:
+            pytest.fail(f"Failed to execute command successfully on Talon board {talon_board}")
+    # Get currently loaded slot
+    slot_number = talon_board_command_executor.get_currently_loaded_slot(command_result)
+    if slot_number is None:
+        pytest.fail(f"Failed to get currently used slot on Talon board {talon_board}")
 
-    # Get currently loaded slot (talon_board_command_executor.get_currently_loaded_slot())
+    logger.info(f"Talon {talon_board} loaded slot: {slot_number}")
 
-    # Get bitstream version at slot (talon_board_command_executor.get_loaded_bitstream_version())
+    # Get bitstream version at slot
+    loaded_bitstream_version = talon_board_command_executor.get_loaded_bitstream_version(
+        slot_number, command_result
+    )
+    if loaded_bitstream_version is None:
+        pytest.fail(f"Failed to get bitstream version on Talon board {talon_board}")
 
-    # Check compatibility (talon_board_command_executor.check_spfrx_bitstream_compatibility())
-
+    logger.info(f"SPFRx Talon {talon_board} bitstream version: {loaded_bitstream_version}")
+    # Check compatibility
+    bitstream_compatible = TalonBoardCommandExecutor.check_spfrx_bitstream_compatibility (
+        spfrx_bitstream_version,
+        loaded_bitstream_version,
+        bitstream_checksum,
+        loaded_bitstream_checksum,
+    )
     # bitstream_compatible = expected == actual_loaded
 
     # assert bitstream_compatible
