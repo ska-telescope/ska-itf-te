@@ -17,15 +17,6 @@ spec:
       - name: test-data-storage
         persistentVolumeClaim:
           claimName: {{ .Values.testReportsPVC }}
-      - name: cbf-ec-clone-pvc
-        persistentVolumeClaim:
-          claimName: cbf-ec-clone-pvc
-      - name: talon-hw-config-volume
-        configMap:
-          name: cbf-hwconfig-configmap
-          items:
-          - key: hw_config.yaml
-            path: hw_config.yaml
       initContainers:
       - name: test-smoke
         image: {{ .Values.image.registry }}/{{ .Values.image.image }}:{{ .Values.image.tag }}
