@@ -64,7 +64,7 @@ def test_qspi_bitstream_compatibility(settings):
     """
     talon_board_ips = settings["talon_board_ips"]
 
-    # Get CBF Engineering console version
+    # Get CBF Engineering console version and expected fpga bitstream version
     umbrella_chart_relative_path = "charts/ska-mid/Chart.yaml"
     with open(umbrella_chart_relative_path, "r") as f:
         sut_chart = yaml.safe_load(f)
@@ -77,7 +77,18 @@ def test_qspi_bitstream_compatibility(settings):
     fpga_bitstream_version = TalonBoardCommandExecutor.get_fpga_bitstream_version(
         cbf_engineering_console_version
     )
+
     logger.info(f"FPGA bitstream version: {fpga_bitstream_version}")
+
+    # Generate CBF bitstream MD5 checksum (expected bitstream checksum)
+    rpd_dir = f"{settings['cbf_ec_mount_path']}/fpga-talon/bin"
+    rpd_path = f"{rpd_dir}/talon_dx-tdc_base-tdc_vcc_processing-application.hps.rpd"
+    bitstream_md5_hash = hashlib.md5()
+    with open(rpd_path, "rb") as rpd_file:
+        raw_data = rpd_file.read()
+        bitstream_md5_hash.update(raw_data)
+    bitstream_checksum = bitstream_md5_hash.hexdigest()
+    logger.info(f"Expected bitstream checksum: {bitstream_checksum}")
 
     user = "root"
 
@@ -105,16 +116,6 @@ def test_qspi_bitstream_compatibility(settings):
             pytest.fail(f"Failed to get bitstream version on Talon board {talon_board}")
 
         logger.info(f"Talon {talon_board} bitstream version: {loaded_bitstream_version}")
-
-        # Generate CBF bitstream MD5 checksum (expected bitstream checksum)
-        rpd_dir = f"{settings['cbf_ec_mount_path']}/fpga-talon/bin"
-        rpd_path = f"{rpd_dir}/talon_dx-tdc_base-tdc_vcc_processing-application.hps.rpd"
-        bitstream_md5_hash = hashlib.md5()
-        with open(rpd_path, "rb") as rpd_file:
-            raw_data = rpd_file.read()
-            bitstream_md5_hash.update(raw_data)
-        bitstream_checksum = bitstream_md5_hash.hexdigest()
-        logger.info(f"Expected bitstream checksum: {bitstream_checksum}")
 
         # Get actual bitstream checksum reported at talon slot
         loaded_bitstream_checksum = talon_board_command_executor.get_bitstream_checksum(
