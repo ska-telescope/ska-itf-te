@@ -386,6 +386,7 @@ test-e2e-kapb:
 	
 smoke-tests:
 	set -o pipefail; $(PYTHON_RUNNER) pytest $(SMOKE_TEST_SOURCE) $(SMOKE_TEST_ARGS);
+	mkdir -p build/status
 	echo $$? > build/status
 
 k8s-file-copy:
