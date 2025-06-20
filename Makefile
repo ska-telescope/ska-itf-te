@@ -356,9 +356,10 @@ env:
 	env
 
 post-set-release:
-	@cur_rel= && \
-	./scripts/release/update_chart_version.sh $(shell awk -F= '/^release=/{print $$2}' .release) sut_config.yaml;
-	@echo "Updated SUT Config graph reflecting Mid ITF latest version."
+	@CURRENT_RELEASE=$$(awk -F= '/^release=/{print $$2}' .release); \
+	./scripts/release/update_chart_version.sh $$CURRENT_RELEASE sut_config.yaml; \
+	./scripts/release/update_testing_image_tag.sh $$CURRENT_RELEASE charts/ska-mid-testing/values.yaml; \
+	echo "Updated SUT Config graph reflecting Mid ITF latest version."
 
 print-telescope-state:
 	@poetry run telescope_state_control --print-state -n ${E2E_TEST_EXECUTION_NAMESPACE} -d "${DISH_IDS}"
