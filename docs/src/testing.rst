@@ -64,4 +64,69 @@ End()
 ReleaseAllResources()
 =====================
 
+================
+Testing tools
+================
 
+ska-mid-testing chart (WIP)
+===========================
+
+The `ska-mid-testing` Helm chart (Work In Progress) provides resources and utilities 
+for executing integration and system tests in the Mid-AA environment. It includes a 
+configurable test job for executing smoke and end-to-end tests as well as supporting 
+resources to facilitate automated and manual testing and reporting workflows.
+
+Key features
+------------
+
+- Test job which executes the *test_e2e_via_tmc* end-to-end test in main container, 
+  and smoke tests from the tests/smoke in init container.
+- Provides configurability for targeting different namespaces and environments using 
+  environment variables set in values.yaml.
+- Supports both software-only and hardware-in-the-loop testing scenarios.
+- Includes test reporting and report storage and retrieval capabilities.
+
+Executing tests in KAPB using the ska-mid-testing chart resources
+-----------------------------------------------------------------
+Run the following from the root of the ska-mid repository after connecting to 
+the appropriate VPN:
+
+.. code-block:: bash
+
+   make test-e2e-kapb
+
+Observing smoke and end-to-end test results
+-------------------------------------------
+1. Shell into the `test-reports-reader` pod in the `integration-tests` namespace 
+   in the za-aa-k8s-master01-k8s cluster:
+   .. code-block:: bash
+
+      kubectl exec -it -n integration-tests test-reports-reader -- /bin/bash
+
+2. Navigate to the `/data/test-reports` directory where the reports can be found 
+   in timestamped folders.
+
+================
+Smoke test suite
+================
+
+The smoke test suite is a collection of basic tests designed to verify the 
+basic health of the deployed system. A high level overview of the tests in 
+the suite is provided below.
+
+CBF firmware compatibility test overview (test_qspi_bitstream_compatibility)
+============================================================================
+The CBF firmware compatibility test is designed to verify that the deployed 
+CBF TDC MCS software is compatible with the CBF firmware loaded on the CBF 
+talon boards. This test checks compatibility in two ways: version compatibility 
+and bitstream checksum compatibility. Version compatibility test checks that the 
+firmware version reported at active slot on the talon board has the same 
+Major.Minor version of the fpga_bitstream version reported in talondx_boardmap.json 
+of the deployed CBF engineering console. Bitstream checksum compatibility test 
+checks that the MD5 checksum of the processing bitstream rpd in the engineering 
+console PVC matches the checksum (hash) reported by the talon board for the 
+active slot.
+
+The following environment variables are used to configure the test:
+
+- CBF_EC_MOUNT_PATH: Directory where the CBF engineering console PVC is mounted.
