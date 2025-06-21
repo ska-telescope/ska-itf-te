@@ -67,7 +67,7 @@ class TalonBoardCommandExecutor:
     def get_command(self, command_name: str):
         """Uses command name to get the command string from the command map."""
         if command_name not in self.command_map:
-            logger.error(f"Command {self.command} not found in command map. Check command name.")
+            logger.error(f"Command {command_name} not found in command map. Check command name.")
             return None
 
         return self.command_map[command_name]
@@ -201,30 +201,16 @@ class TalonBoardCommandExecutor:
         return bitstream_checksum_based_compatibility
 
     @staticmethod
-    def check_spfrx_bitstream_compatibility(expected_bitstream_version: str, actual_bitstream_version: str, expected_bitstream_checksum: str, actual_bitstream_checksum: str):
+    def check_spfrx_bitstream_compatibility(expected_bitstream_version: str, actual_bitstream_version: str):
         """Applies the logic to determine if the SPFRx QSPI bitstream is compatible with the SPFRx Talon firmware.
         """
-        # Dropping patch version. QSPI version expected to match only major and minor version of
-        # of the fpga bitstream version going forward.
-        major, minor, *_ = expected_bitstream_version.split(".")
-        expected_bitstream_major_minor = f"{major}.{minor}"
-        major, minor, *_ = actual_bitstream_version.split(".")
-        actual_bitstream_major_minor = f"{major}.{minor}"
-
-        version_based_compatibility = (expected_bitstream_major_minor == actual_bitstream_major_minor)
-
-        # TODO: Remove once the agreed upon version compatibility is provided
-        if expected_bitstream_version == "1.0.0" and actual_bitstream_version == "1.0.0":
-            version_based_compatibility = True
-
-        if not version_based_compatibility:
-            logger.warning(
-                f"SPFRx version based compatibility check failed. Expected bitstream version: {expected_bitstream_version}, SPFRx Talon allowed bitstream version: {actual_bitstream_version}"
-            )
         
-        bitstream_checksum_based_compatibility = (actual_bitstream_checksum == expected_bitstream_checksum)
-
-        return bitstream_checksum_based_compatibility
+        bitstream_compatible  = (expected_bitstream_version == actual_bitstream_version)
+        if not bitstream_compatible :
+            logger.warning(
+                f"SPFRx version bitstream compatibility check failed. Expected bitstream version: {expected_bitstream_version}, SPFRx Talon allowed bitstream version: {actual_bitstream_version}"
+            )
+        return bitstream_compatible 
     
     @staticmethod
     def get_spfrx_bitstream_version(spfrx_engineering_console_version: str) -> str:
@@ -260,7 +246,7 @@ class TalonBoardCommandExecutor:
             ),
             None,
         )
-
+        
         return spfrx_bitstream_version
 
         
