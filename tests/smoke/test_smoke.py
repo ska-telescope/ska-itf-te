@@ -124,26 +124,37 @@ def test_qspi_bitstream_compatibility(settings):
 
         logger.info(f"Talon {talon_board} bitstream version: {loaded_bitstream_version}")
 
+        # Generate CBF bitstream MD5 checksum (expected bitstream checksum)
+        rpd_dir = f"{settings['cbf_ec_mount_path']}/fpga-talon/bin"
+        rpd_path = f"{rpd_dir}/talon_dx-tdc_base-tdc_vcc_processing-application.hps.rpd"
+        bitstream_md5_hash = hashlib.md5()
+        with open(rpd_path, "rb") as rpd_file:
+            raw_data = rpd_file.read()
+            bitstream_md5_hash.update(raw_data)
+        expected_bitstream_checksum = bitstream_md5_hash.hexdigest()
+        logger.info(f"Expected bitstream checksum: {expected_bitstream_checksum}")
+
         # Get actual bitstream checksum reported at talon slot
-        loaded_bitstream_checksum = talon_board_command_executor.get_bitstream_checksum(
+        actual_loaded_bitstream_checksum = talon_board_command_executor.get_bitstream_checksum(
             slot_number, command_result
         )
-        if loaded_bitstream_checksum is None:
+        if actual_loaded_bitstream_checksum is None:
             pytest.fail(f"Failed to get bitstream checksum on Talon board {talon_board}")
-        logger.info(f"Talon {talon_board} bitstream checksum: {loaded_bitstream_checksum}")
+        logger.info(f"Talon {talon_board} bitstream checksum: {actual_loaded_bitstream_checksum}")
 
         # Check compatibility
         bitstream_compatible = TalonBoardCommandExecutor.check_bitstream_compatibility(
             fpga_bitstream_version,
             loaded_bitstream_version,
-            bitstream_checksum,
-            loaded_bitstream_checksum,
+            expected_bitstream_checksum,
+            actual_loaded_bitstream_checksum,
         )
 
         assert bitstream_compatible, (
             f"Bitstream compatibility check failed for Talon board {talon_board}. "
-            f"Checksum computed from CBF EC: {bitstream_checksum}, "
-            f"Checksum reported on Talon board slot {slot_number}: {loaded_bitstream_checksum}. "
+            f"Checksum computed from CBF EC: {expected_bitstream_checksum}, "
+            f"Checksum reported on Talon board slot {slot_number}: "
+            f"{actual_loaded_bitstream_checksum}."
         )
 
 
@@ -170,38 +181,43 @@ def test_spfrx_qspi_bitstream_compatibility(settings):
     )
     logger.info(f"FPGA bitstream version: {spfrx_bitstream_version}")
 
-    user = "root"
     # Get actual bitstream version from talonboards and compare with expected version
+    user = "root"
     for talon_board, ip in spfrx_talon_board_ips.items():
         talon_board_command_executor = TalonBoardCommandExecutor(ip, user)
         command_result = talon_board_command_executor.execute_command(
-            talon_board, "qspi_partition.sh -i"
+            talon_board, "qspi_version_check"
         )
         if command_result is None:
             pytest.fail(f"Failed to execute command successfully on Talon board {talon_board}")
-    # Get currently loaded slot
-    slot_number = talon_board_command_executor.get_currently_loaded_slot(command_result)
-    if slot_number is None:
-        pytest.fail(f"Failed to get currently used slot on Talon board {talon_board}")
+        # Get currently loaded slot
+        slot_number = talon_board_command_executor.get_currently_loaded_slot(command_result)
+        if slot_number is None:
+            pytest.fail(f"Failed to get currently used slot on Talon board {talon_board}")
 
-    logger.info(f"Talon {talon_board} loaded slot: {slot_number}")
+        logger.info(f"Talon {talon_board} loaded slot: {slot_number}")
 
-    # Get bitstream version at slot
-    loaded_bitstream_version = talon_board_command_executor.get_loaded_bitstream_version(
-        slot_number, command_result
-    )
-    if loaded_bitstream_version is None:
-        pytest.fail(f"Failed to get bitstream version on Talon board {talon_board}")
+        # Get bitstream version at slot
+        loaded_bitstream_version = talon_board_command_executor.get_loaded_bitstream_version(
+            slot_number, command_result
+        )
+        if loaded_bitstream_version is None:
+            pytest.fail(f"Failed to get bitstream version on Talon board {talon_board}")
+        logger.info(f"SPFRx Talon {talon_board} bitstream version: {loaded_bitstream_version}")
 
-    logger.info(f"SPFRx Talon {talon_board} bitstream version: {loaded_bitstream_version}")
-    # Check compatibility
-    bitstream_compatible = TalonBoardCommandExecutor.check_spfrx_bitstream_compatibility (
-        spfrx_bitstream_version,
-        loaded_bitstream_version,
-        bitstream_checksum,
-        loaded_bitstream_checksum,
-    )
-    # bitstream_compatible = expected == actual_loaded
+        # Get actual bitstream version reported at talon slot
+        actual_loaded_bitstream_version = talon_board_command_executor.get_spfrx_bitstream_version(
+            loaded_bitstream_version
+        )
+        if actual_loaded_bitstream_version is None:
+            pytest.fail(f"Failed to get bitstream version on Talon board {talon_board}")
+        logger.info(f"Talon {talon_board} bitstream version: {actual_loaded_bitstream_version}")
 
-    # assert bitstream_compatible
-    pass
+        logger.info(f"Expected bitstream version: {loaded_bitstream_version}")
+        # Check compatibility
+        bitstream_compatible = TalonBoardCommandExecutor.check_spfrx_bitstream_compatibility(
+            loaded_bitstream_version,
+            actual_loaded_bitstream_version,
+        )
+        bitstream_compatible = loaded_bitstream_version == actual_loaded_bitstream_version
+        assert bitstream_compatible
