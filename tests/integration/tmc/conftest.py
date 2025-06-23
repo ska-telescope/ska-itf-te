@@ -950,6 +950,15 @@ def _():
 
 @pytest.fixture
 def bite_test_id(settings, receptor_ids):
+    """Generate test ID for BITE data generation.
+
+    :param settings: _description_
+    :type settings: Dict
+    :param receptor_ids: _description_
+    :type receptor_ids: _type_
+    :return: _description_
+    :rtype: String
+    """
     # num_receptors = len(receptor_ids)
     # return test_id = f"talons 001-{num_receptors:03} gaussian noise"  # UPDATE THIS FOR RUN
     return "talon-001 basic gaussian noise"
