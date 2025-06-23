@@ -84,10 +84,21 @@ class TalonBoardCommandExecutor:
 
         return slot_number
 
-    def get_qspi_version(self, slot_number: str, qspi_check_command_result: str):
+    def get_loaded_bitstream_version(self, slot_number: str, qspi_check_command_result: str):
         """Determine the QSPI version loaded at the given slot (partition)"""
-        qspi_version_pattern = rf"partition\{{{slot_number}\}}_hash,[^_]*_version:(.*)"
+        # Positive match expected for: partition{<slot_number>}_version,/home/ska-mid-cbf-talondx-1.1.1
+        qspi_version_pattern = rf"partition\{{{slot_number}\}}_version,.*-(\d+\.\d+\.\d+)"
+        # Positive match expected for: partition{<slot_number>}_hash,cb2926c_version:1.1.1
+        legacy_qspi_version_pattern = rf"partition\{{{slot_number}\}}_hash,[^_]+_version:(\d+\.\d+\.\d+)"
+        version_pattern = r'\d+\.\d+\.\d+'
+        is_legacy = False
+
         qspi_version_match = re.search(qspi_version_pattern, qspi_check_command_result)
+
+        # Check if the version is reported in legacy form
+        if not qspi_version_match:
+            qspi_version_match = re.search(legacy_qspi_version_pattern, qspi_check_command_result)
+
         if qspi_version_match:
             qspi_version = qspi_version_match.group(1)
         else:
@@ -95,7 +106,28 @@ class TalonBoardCommandExecutor:
             logger.error(error_string)
             return None
 
+        # Check that a valid version was retrieved
+        if not re.fullmatch(version_pattern, qspi_version):
+            error_string = f"QSPI version could not be parsed correctly"
+            logger.error(error_string)
+            return None
+
         return qspi_version
+    
+    def get_bitstream_checksum(self, slot_number: str, qspi_check_command_result: str):
+         # Positive match expected for: partition{<slot_number>}_hash,cb2926c_version:1.1.1 and 
+         # partition{<slot_number>}_hash,cb2926c
+        bitstream_checksum_pattern = rf"partition\{{{slot_number}\}}_hash,([a-fA-F0-9]+)(?:_version:\d+\.\d+\.\d+)?"
+        bitstream_checksum_match = re.search(bitstream_checksum_pattern, qspi_check_command_result)
+
+        if bitstream_checksum_match:
+            bitstream_checksum = bitstream_checksum_match.group(1)
+        else:
+            error_string = f"Failed to find Bitstream hash in result: {qspi_check_command_result}"
+            logger.error(error_string)
+            return None
+
+        return bitstream_checksum      
 
     @staticmethod
     def get_fpga_bitstream_version(cbf_engineering_console_version: str) -> str:
@@ -137,21 +169,33 @@ class TalonBoardCommandExecutor:
         return fpga_bitstream_version
 
     @staticmethod
-    def check_qspi_version(fpga_bitstream_version: str, actual_qspi_version: str):
-        """Determines if bitstream version is compatible with the QSPI version.
+    def check_bitstream_compatibility(expected_bitstream_version: str, actual_bitstream_version: str, expected_bitstream_checksum: str, actual_bitstream_checksum: str):
+        """Applies the logic to determine if the CBF software is compatible with the Talon firmware.
 
         Compares fpga_bitstream version with the QSPI version loaded on the Talon board to
-        determine compatibility. Returns True if they are compatible.
+        determine compatibility. Logs a warning if the versions are not compatible.
+
+        Compares the expected bitstream checksum with the actual bitstream checksum reported on the Talon board.
+        Returns True if the versions are compatible, False otherwise.
         """
         # Dropping patch version. QSPI version expected to match only major and minor version of
         # of the fpga bitstream version going forward.
-        major, minor, *_ = fpga_bitstream_version.split(".")
-        expected_qspi_major_minor = f"{major}.{minor}"
-        major, minor, *_ = actual_qspi_version.split(".")
-        actual_qspi_major_minor = f"{major}.{minor}"
+        major, minor, *_ = expected_bitstream_version.split(".")
+        expected_bitstream_major_minor = f"{major}.{minor}"
+        major, minor, *_ = actual_bitstream_version.split(".")
+        actual_bitstream_major_minor = f"{major}.{minor}"
+
+        version_based_compatibility = (expected_bitstream_major_minor == actual_bitstream_major_minor)
 
         # TODO: Remove once the agreed upon version compatibility is provided
-        if fpga_bitstream_version == "1.1.0" and actual_qspi_version == "1.0.1":
-            return True
+        if expected_bitstream_version == "1.1.0" and actual_bitstream_version == "1.0.1":
+            version_based_compatibility = True
 
-        return expected_qspi_major_minor == actual_qspi_major_minor
+        if not version_based_compatibility:
+            logger.warning(
+                f"Version based compatibility check failed. Expected bitstream version: {expected_bitstream_version}, Talon allowed bitstream version: {actual_bitstream_version}"
+            )
+        
+        bitstream_checksum_based_compatibility = (actual_bitstream_checksum == expected_bitstream_checksum)
+
+        return bitstream_checksum_based_compatibility

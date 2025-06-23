@@ -1,15 +1,14 @@
 image:
-  registry: registry.gitlab.com/ska-telescope/ska-mid-itf
+  registry: registry.gitlab.com/ska-telescope/ska-mid
   image: ska-mid-testing
-  tag: 26.4.0-rc.4-dev.c041dacb0
+  tag: 27.0.0-dev.cb2244b6f
   pullPolicy: IfNotPresent
-
 environment:
   E2E_TEST_EXECUTION_NAMESPACE: "ska-mid-central-controller"
   KUBE_NAMESPACE: "ska-mid-central-controller"
   SIM_MODE: "true"
   SUT_CLUSTER_DOMAIN: "mid.internal.skao.int"
   DISH_IDS: "SKA001"
-
 testReportsPVC: pvc-test-data-storage
 mountPath: /data/test-reports
+CBFMCSconfigMountPath: /app/ska-mid/resources/mcs
