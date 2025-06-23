@@ -123,9 +123,9 @@ and bitstream checksum compatibility. Version compatibility test checks that the
 firmware version reported at active slot on the talon board has the same 
 Major.Minor version of the fpga_bitstream version reported in talondx_boardmap.json 
 of the deployed CBF engineering console. Bitstream checksum compatibility test 
-checks that the MD5 checksum of the processing bitstream rpd in the engineering 
-console PVC matches the checksum (hash) reported by the talon board for the 
-active slot.
+checks that the MD5 checksum of the processing bitstream raw programming data (RPD) 
+file in the engineering console PVC matches the checksum (hash) reported by the 
+talon board for the active slot.
 
 The following environment variables are used to configure the test:
 
