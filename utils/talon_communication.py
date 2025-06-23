@@ -86,7 +86,9 @@ class TalonBoardCommandExecutor:
 
     def get_loaded_bitstream_version(self, slot_number: str, qspi_check_command_result: str):
         """Determine the QSPI version loaded at the given slot (partition)"""
+        # Positive match expected for: partition{<slot_number>}_version,/home/ska-mid-cbf-talondx-1.1.1
         qspi_version_pattern = rf"partition\{{{slot_number}\}}_version,.*-(\d+\.\d+\.\d+)"
+        # Positive match expected for: partition{<slot_number>}_hash,cb2926c_version:1.1.1
         legacy_qspi_version_pattern = rf"partition\{{{slot_number}\}}_hash,[^_]+_version:(\d+\.\d+\.\d+)"
         version_pattern = r'\d+\.\d+\.\d+'
         is_legacy = False
@@ -113,6 +115,8 @@ class TalonBoardCommandExecutor:
         return qspi_version
     
     def get_bitstream_checksum(self, slot_number: str, qspi_check_command_result: str):
+         # Positive match expected for: partition{<slot_number>}_hash,cb2926c_version:1.1.1 and 
+         # partition{<slot_number>}_hash,cb2926c
         bitstream_checksum_pattern = rf"partition\{{{slot_number}\}}_hash,([a-fA-F0-9]+)(?:_version:\d+\.\d+\.\d+)?"
         bitstream_checksum_match = re.search(bitstream_checksum_pattern, qspi_check_command_result)
 
