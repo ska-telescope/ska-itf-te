@@ -86,11 +86,15 @@ class CBF:
     """Helper class containing CBF specific details such as device names and proxies."""
 
     def __init__(self, cbf_sim_mode: bool = True):
-        """."""
+        """.
+
+        :param cbf_sim_mode: CBF simulation mode, defaults to True
+        :type cbf_sim_mode: bool
+        """
         self.controller = DeviceProxy("mid_csp_cbf/sub_elt/controller")
         self.subarray = DeviceProxy("mid_csp_cbf/sub_elt/subarray_01")
         self.fspcorrsubarray = DeviceProxy("mid_csp_cbf/fspcorrsubarray/01_01")
-        if (cbf_sim_mode):
+        if not cbf_sim_mode:
             self.bite = DeviceProxy("mid_csp_cbf/ec/bite")
             self.ec_deployer = DeviceProxy("mid_csp_cbf/ec/deployer")
         self.cbf_sim_mode = cbf_sim_mode
