@@ -7,6 +7,9 @@ SLEEP_TIMEOUT_FOR_SHUTDOWN_CMD="15"
 
 DIR_PATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
+# Get Talon IP addresses from hw_config.yaml
+HW_CONFIG_YAML="../mcs/hw_config.yaml"
+
 APC_PDU_SCRIPT=./apc_pdu.expect
 
 USAGE_BANNER="Usage: ./talon_power_lru.sh LRU [STATE]
@@ -27,13 +30,13 @@ fi
 if [[ "$LRU" == "lru1" ]]; then
 	OUTLET1="17"
 	OUTLET2="18"
-	TALON_A="10.165.3.29"
-	TALON_B="10.165.3.30"
+	TALON_A=$(yq '.talon_board["001"]' "$HW_CONFIG_YAML")
+	TALON_B=$(yq '.talon_board["002"]' "$HW_CONFIG_YAML")
 elif [[ "$LRU" == "lru2" ]]; then
 	OUTLET1="12"
 	OUTLET2="13"
-	TALON_A="10.165.3.31"
-	TALON_B="10.165.3.32"
+	TALON_A=$(yq '.talon_board["003"]' "$HW_CONFIG_YAML")
+	TALON_B=$(yq '.talon_board["004"]' "$HW_CONFIG_YAML")
 else
 	echo "ERROR: Unknown LRU \"$LRU\". No OUTLETS assigned."
 	exit 1
