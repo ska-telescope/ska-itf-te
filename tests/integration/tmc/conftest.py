@@ -85,13 +85,14 @@ class TMC:
 class CBF:
     """Helper class containing CBF specific details such as device names and proxies."""
 
-    def __init__(self):
+    def __init__(self, cbf_sim_mode: bool = True):
         """."""
         self.controller = DeviceProxy("mid_csp_cbf/sub_elt/controller")
         self.subarray = DeviceProxy("mid_csp_cbf/sub_elt/subarray_01")
         self.fspcorrsubarray = DeviceProxy("mid_csp_cbf/fspcorrsubarray/01_01")
         self.bite = DeviceProxy("mid_csp_cbf/ec/bite")
         self.ec_deployer = DeviceProxy("mid_csp_cbf/ec/deployer")
+        self.cbf_sim_mode = True
 
     def get_talon_board_proxy(self, board_num) -> DeviceProxy:
         """.
@@ -349,7 +350,7 @@ def telescope_handlers(
     logger.info(f"Using the following SUT Tango host: {os.getenv('TANGO_HOST')}")
     RECEPTORS = receptor_ids
     tmc = TMC()
-    cbf = CBF()
+    cbf = CBF(settings["sim_mode"])
     csp = CSP()
     dishes = [
         Dish(settings["SUT_namespace"], receptor, settings["sut_cluster_domain"])
@@ -436,14 +437,6 @@ def _(telescope_handlers, settings):
     assert csp_control.ping() > 0
 
     sim_mode = settings["sim_mode"]
-
-    if sim_mode in ["false", "0", ""]:
-        sim_mode = False
-    elif sim_mode in ["true", "1"]:
-        sim_mode = True
-    else:
-        logging.error("SIM_MODE is invalid")
-        pytest.fail("SIM_MODE not correctly specified")
 
     # reset_csp_adminmode = (sim_mode != csp_control.cbfSimulationMode) and (
     #     (csp_control.adminMode == 0)
@@ -553,7 +546,7 @@ def _(telescope_handlers, receptor_ids, settings):
     wait_for_event(tmc_central_node, "telescopeState", DevState.ON)
     # CBF On state indication is a combination of controller state and talon board health state
     wait_for_event(cbf.controller, "state", DevState.ON)
-    if not sim_mode == "true":
+    if not sim_mode:
         for i in range(1, len(receptor_ids) + 1):
             talon_board_dp = cbf.get_talon_board_proxy(i)
             wait_for_event(talon_board_dp, "healthState", HealthState.OK)

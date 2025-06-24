@@ -45,7 +45,14 @@ def settings():
     settings["override_scan_duration"] = os.getenv("OVERRIDE_SCAN_DURATION")
     settings["override_scan_band"] = os.getenv("OVERRIDE_SCAN_BAND")
     settings["integration_factor"] = os.getenv("INTEGRATION_FACTOR")
-    settings["sim_mode"] = os.getenv("SIM_MODE", "false").lower()
+    sim_mode = os.getenv("SIM_MODE", "false").lower()
+    if sim_mode in ["false", "0", ""]:
+        settings["sim_mode"] = False
+    elif sim_mode in ["true", "1"]:
+        settings["sim_mode"] = True
+    else:
+        logging.error("SIM_MODE is invalid")
+        pytest.fail("SIM_MODE not correctly specified")
     settings["generate_sequence_diagram"] = (
         os.getenv("GENERATE_SEQUENCE_DIAGRAM", "false").lower() == "true"
     )
