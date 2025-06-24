@@ -924,7 +924,6 @@ def _(settings, telescope_handlers, bite_test_id):
     logger.info("Generating BITE data")
     bite.set_timeout_millis(240000)
     bite.generate_bite_data()
-    sleep(150)
     bite.set_timeout_millis(6000)
 
 
