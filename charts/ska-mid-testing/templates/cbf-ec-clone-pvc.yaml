@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: cbf-ec-clone-pvc
+  namespace: integration-tests
+  labels:
+    skao.int/clone-pvc: cbf-ec-pvc
+    skao.int/clone-pvc-namespace:  cbf-engineering-console
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: ceph-cephfs
+  volumeMode: Filesystem

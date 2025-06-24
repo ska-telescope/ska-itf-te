@@ -1,6 +1,8 @@
 """."""
 
+import hashlib
 import logging
+import os
 
 import pytest
 import yaml
@@ -9,6 +11,30 @@ from tango import DeviceProxy
 from utils.talon_communication import TalonBoardCommandExecutor
 
 logger = logging.getLogger(__name__)
+
+
+@pytest.fixture(scope="session")
+def settings():
+    """Fixture to set up the test environment.
+
+    :return: Smoke test configuration
+    :rtype: Dict
+    """
+    settings = {}
+
+    # Path where the CBF EC clone PVC volume is mounted
+    CBF_EC_MOUNT_PATH = os.environ.get("CBF_EC_MOUNT_PATH", "/app/cbf-ec")
+
+    # Get CBF Talon IPs
+    hw_config_relative_path = "resources/mcs/hw_config.yaml"
+    with open(hw_config_relative_path, "r") as f:
+        talon_board_ips = yaml.safe_load(f)["talon_board"]
+
+    settings["talon_board_ips"] = talon_board_ips
+
+    settings["cbf_ec_mount_path"] = CBF_EC_MOUNT_PATH
+
+    return settings
 
 
 def test_devices_reachable():
@@ -28,19 +54,17 @@ def test_devices_reachable():
 
 @pytest.mark.requires_talons_on
 @pytest.mark.hw_in_the_loop
-def test_qspi_version():
-    """Check QSPI version.
+def test_qspi_bitstream_compatibility(settings):
+    """Check QSPI bitstream version.
 
-    Check whether the QSPI version on each ITF CBF Talon Board is the expected version.
+    Check whether the firmware version on each ITF CBF Talon Board is the expected version.
+
+    :param settings: Smoke test configuration
+    :type settings: Dict
     """
-    # Get CBF Talon IPs
-    hw_config_relative_path = "resources/mcs/hw_config.yaml"
-    talon_board_hw_config = {}
+    talon_board_ips = settings["talon_board_ips"]
 
-    with open(hw_config_relative_path, "r") as f:
-        talon_board_hw_config = yaml.safe_load(f)["talon_board"]
-
-    # Get CBF Engineering console version
+    # Get CBF Engineering console version and expected fpga bitstream version
     umbrella_chart_relative_path = "charts/ska-mid/Chart.yaml"
     with open(umbrella_chart_relative_path, "r") as f:
         sut_chart = yaml.safe_load(f)
@@ -53,14 +77,23 @@ def test_qspi_version():
     fpga_bitstream_version = TalonBoardCommandExecutor.get_fpga_bitstream_version(
         cbf_engineering_console_version
     )
+
     logger.info(f"FPGA bitstream version: {fpga_bitstream_version}")
+
+    # Generate CBF bitstream MD5 checksum (expected bitstream checksum)
+    rpd_dir = f"{settings['cbf_ec_mount_path']}/fpga-talon/bin"
+    rpd_path = f"{rpd_dir}/talon_dx-tdc_base-tdc_vcc_processing-application.hps.rpd"
+    bitstream_md5_hash = hashlib.md5()
+    with open(rpd_path, "rb") as rpd_file:
+        raw_data = rpd_file.read()
+        bitstream_md5_hash.update(raw_data)
+    bitstream_checksum = bitstream_md5_hash.hexdigest()
+    logger.info(f"Expected bitstream checksum: {bitstream_checksum}")
 
     user = "root"
 
-    # Get actual QSPI version from talonboards and compare with expected version
-    for talon_board in talon_board_hw_config.keys():
-        ip = talon_board_hw_config[talon_board]
-
+    # Get actual bitstream version from talonboards and compare with expected version
+    for talon_board, ip in talon_board_ips.items():
         talon_board_command_executor = TalonBoardCommandExecutor(ip, user)
         command_result = talon_board_command_executor.execute_command(
             talon_board, "qspi_version_check"
@@ -75,18 +108,33 @@ def test_qspi_version():
 
         logger.info(f"Talon {talon_board} loaded slot: {slot_number}")
 
-        # Get QSPI version at slot
-        qspi_version = talon_board_command_executor.get_qspi_version(slot_number, command_result)
-        if qspi_version is None:
-            pytest.fail(f"Failed to get QSPI version on Talon board {talon_board}")
+        # Get bitstream version at slot
+        loaded_bitstream_version = talon_board_command_executor.get_loaded_bitstream_version(
+            slot_number, command_result
+        )
+        if loaded_bitstream_version is None:
+            pytest.fail(f"Failed to get bitstream version on Talon board {talon_board}")
 
-        logger.info(f"Talon {talon_board} QSPI version: {qspi_version}")
+        logger.info(f"Talon {talon_board} bitstream version: {loaded_bitstream_version}")
 
-        qspi_version_compatible = TalonBoardCommandExecutor.check_qspi_version(
-            fpga_bitstream_version, qspi_version
+        # Get actual bitstream checksum reported at talon slot
+        loaded_bitstream_checksum = talon_board_command_executor.get_bitstream_checksum(
+            slot_number, command_result
+        )
+        if loaded_bitstream_checksum is None:
+            pytest.fail(f"Failed to get bitstream checksum on Talon board {talon_board}")
+        logger.info(f"Talon {talon_board} bitstream checksum: {loaded_bitstream_checksum}")
+
+        # Check compatibility
+        bitstream_compatible = TalonBoardCommandExecutor.check_bitstream_compatibility(
+            fpga_bitstream_version,
+            loaded_bitstream_version,
+            bitstream_checksum,
+            loaded_bitstream_checksum,
         )
 
-        assert qspi_version_compatible, (
-            f"QSPI version {qspi_version} loaded on Talon board {talon_board} is not compatible "
-            f"with FPGA bitstream version {fpga_bitstream_version}"
+        assert bitstream_compatible, (
+            f"Bitstream compatibility check failed for Talon board {talon_board}. "
+            f"Checksum computed from CBF EC: {bitstream_checksum}, "
+            f"Checksum reported on Talon board slot {slot_number}: {loaded_bitstream_checksum}. "
         )

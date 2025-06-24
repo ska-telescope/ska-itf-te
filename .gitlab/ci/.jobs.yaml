@@ -39,7 +39,8 @@
         bash .make/resources/gitlab_section.sh dress-rehearsal-1 "Check steps that will be followed first" make itf-cbf-setup --dry;
         bash .make/resources/gitlab_section.sh dress-rehearsal-2 "Check Talon status" make itf-cbf-talonlru-status && sleep 1;
         bash .make/resources/gitlab_section.sh cbf-lru-on "Switch On Talon" make itf-cbf-talonlru-on && sleep 45;
-        bash .make/resources/gitlab_section.sh smoketest-cbf-firmware "Smoke Test CBF firmware compatibility" env SMOKE_TEST_MARKS=requires_talons_on env ADDMARKS=true make smoke-tests || true;
+        bash .make/resources/gitlab_section.sh copy-cbf-bitstream-rpd "Copy CBF Bitstream RPD" make copy-cbf-bitstream-rpd;
+        bash .make/resources/gitlab_section.sh smoketest-cbf-firmware "Smoke Test CBF firmware compatibility" env SMOKE_TEST_MARKS=requires_talons_on env ADDMARKS=true env CBF_EC_MOUNT_PATH='.' make smoke-tests || true;
         bash .make/resources/gitlab_section.sh mcs_config "Configure MCS" make itf-cbf-config-mcs && sleep 3;
         bash .make/resources/gitlab_section.sh talon_on "Talon Tango ON" make itf-cbf-tango-on && sleep 3;
       fi
@@ -132,7 +133,7 @@ docs-build:
   - |
     for DISH_ID in $DISH_IDS; do
       DISH_ID_LOWERCASE=${DISH_ID,,}
-      if [[ -n "$CI_COMMIT_TAG" ]]; then
+      if [[ -n "$CI_COMMIT_TAG" ]] || [[ "$CI_PIPELINE_SOURCE" == "schedule" ]]; then
         bash .make/resources/gitlab_section.sh dish-$DISH_ID_LOWERCASE-logs "Collecting dish ${DISH_ID} logs" make dish-logs KUBE_NAMESPACE=staging-dish-lmc-$DISH_ID_LOWERCASE
       elif [[ "$CI_COMMIT_BRANCH" != "$CI_DEFAULT_BRANCH" ]]; then
         bash .make/resources/gitlab_section.sh dish-$DISH_ID_LOWERCASE-logs "Collecting dish ${DISH_ID} logs" make dish-logs KUBE_NAMESPACE=ci-dish-lmc-$DISH_ID_LOWERCASE-$CI_COMMIT_REF_NAME

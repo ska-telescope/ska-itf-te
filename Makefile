@@ -356,9 +356,10 @@ env:
 	env
 
 post-set-release:
-	@cur_rel= && \
-	./scripts/release/update_chart_version.sh $(shell awk -F= '/^release=/{print $$2}' .release) sut_config.yaml;
-	@echo "Updated SUT Config graph reflecting Mid ITF latest version."
+	@CURRENT_RELEASE=$$(awk -F= '/^release=/{print $$2}' .release); \
+	./scripts/release/update_chart_version.sh $$CURRENT_RELEASE sut_config.yaml; \
+	./scripts/release/update_testing_image_tag.sh $$CURRENT_RELEASE charts/ska-mid-testing/values.yaml; \
+	echo "Updated SUT Config graph reflecting Mid ITF latest version."
 
 print-telescope-state:
 	@poetry run telescope_state_control --print-state -n ${E2E_TEST_EXECUTION_NAMESPACE} -d "${DISH_IDS}"
@@ -386,4 +387,23 @@ test-e2e-kapb:
 	
 smoke-tests:
 	set -o pipefail; $(PYTHON_RUNNER) pytest $(SMOKE_TEST_SOURCE) $(SMOKE_TEST_ARGS);
+	mkdir -p build
 	echo $$? > build/status
+
+k8s-file-copy:
+	kubectl cp -n ${COPY_NAMESPACE} ${SOURCE_POD}:${SOURCE_FILEPATH} ${TARGET_DIR}/${SOURCE_FILENAME}
+
+CBF_EC_MOUNT_PATH ?= "./fpga-talon/bin"
+CBF_BITSTREAM_RPD_SOURCE_DIR ?= /app/mnt/talondx-config/fpga-talon/bin
+CBF_BITSTREAM_RPD_FILENAME ?= talon_dx-tdc_base-tdc_vcc_processing-application.hps.rpd
+CBF_BITSTREAM_RPD_SOURCE_FILEPATH := ${CBF_BITSTREAM_RPD_SOURCE_DIR}/${CBF_BITSTREAM_RPD_FILENAME}
+CBF_BITSTREAM_RPD_SOURCE_POD ?= ds-cbfcontroller-controller-0
+CBF_BITSTREAM_RPD_SOURCE_POD_NAMESPACE ?= staging
+
+copy-cbf-bitstream-rpd:
+	@make k8s-file-copy \
+		SOURCE_FILEPATH="${CBF_BITSTREAM_RPD_SOURCE_FILEPATH}" \
+		SOURCE_FILENAME="${CBF_BITSTREAM_RPD_FILENAME}" \
+		SOURCE_POD="${CBF_BITSTREAM_RPD_SOURCE_POD}" \
+		TARGET_DIR="${CBF_EC_MOUNT_PATH}" \
+		COPY_NAMESPACE="${CBF_BITSTREAM_RPD_SOURCE_POD_NAMESPACE}"
