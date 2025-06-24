@@ -1,12 +1,12 @@
 # Version History
 
 ## Unreleased
+* [MAP-377]
+  * Add OS shutdown command to gracefully shut down the talon boards prior to powering off the LRU
 * [AT-3276] 
   * Fix bug in teardown tool occuring when tearing dishes down from dish mode Operate
 * [AT-3272] 
   * change top level domain of DB host for archiver config
-* [MAP-377]
-  * Add OS shutdown command to gracefully shut down the talon boards prior to powering off the LRU
 * [AT-2992] 
   * Fix bug collecting dish logs during scheduled pipeline runs
 * [AT-3261] 
