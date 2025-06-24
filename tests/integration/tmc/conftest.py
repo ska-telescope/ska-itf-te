@@ -876,9 +876,9 @@ def _(settings, telescope_handlers, bite_test_id):
 
     for file in files:
         if os.path.isfile(file):
-            logger.debug(f"{file} exists: ✔️")
+            logger.debug(f"{file} exists")
         else:
-            logger.error(f"{file} does not exist ❌")
+            logger.error(f"{file} does not exist")
 
     with open(CBF_INPUT_FILE, encoding="utf-8") as f:
         cbf_input_json_raw = json.load(f)["cbf_input_data"]
