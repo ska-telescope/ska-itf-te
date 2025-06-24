@@ -90,9 +90,10 @@ class CBF:
         self.controller = DeviceProxy("mid_csp_cbf/sub_elt/controller")
         self.subarray = DeviceProxy("mid_csp_cbf/sub_elt/subarray_01")
         self.fspcorrsubarray = DeviceProxy("mid_csp_cbf/fspcorrsubarray/01_01")
-        self.bite = DeviceProxy("mid_csp_cbf/ec/bite")
-        self.ec_deployer = DeviceProxy("mid_csp_cbf/ec/deployer")
-        self.cbf_sim_mode = True
+        if (cbf_sim_mode):
+            self.bite = DeviceProxy("mid_csp_cbf/ec/bite")
+            self.ec_deployer = DeviceProxy("mid_csp_cbf/ec/deployer")
+        self.cbf_sim_mode = cbf_sim_mode
 
     def get_talon_board_proxy(self, board_num) -> DeviceProxy:
         """.
@@ -141,10 +142,12 @@ class CSP:
             self.control.cbfSimulationMode = 1
             sleep(5)  # TODO: Enable use of events to check simulationmode
             # wait_for_event(self.control, "cbfSimulationMode", 1)
+            self.cbf_sim_mode = simulation_mode
         else:
             self.control.cbfSimulationMode = 0
             sleep(5)  # TODO: Enable use of events to check simulationmode
             # wait_for_event(self.control, "cbfSimulationMode", 1)
+            self.cbf_sim_mode = simulation_mode
 
 
 class Dish:
