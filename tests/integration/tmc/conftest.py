@@ -938,7 +938,7 @@ def _(telescope_handlers):
 
 
 @when("I stop LSTV replay")
-def _():
+def _(telescope_handlers):
     logger.info("Stopping LSTV replay")
     _, cbf, _, _ = telescope_handlers
 
