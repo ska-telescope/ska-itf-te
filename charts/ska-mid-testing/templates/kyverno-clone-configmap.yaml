@@ -1,0 +1,25 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: clone-cbf-hwconfigmap
+spec:
+  rules:
+    - name: clone-configmap-on-source-create
+      match:
+        any:
+          - resources:
+              kinds:
+                - ConfigMap
+              namespaces:
+                - ska-mid-central-controller
+              names:
+                - hwconfig-configmap
+      generate:
+        apiVersion: v1 
+        kind: ConfigMap
+        name: cbf-hwconfig-configmap
+        namespace: integration-tests
+        synchronize: true
+        clone:
+          namespace: ska-mid-central-controller
+          name: hwconfig-configmap
