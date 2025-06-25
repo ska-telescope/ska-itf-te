@@ -22,4 +22,3 @@ spec:
         synchronize: true
         clone:
           namespace: ska-mid-central-controller
-          name: hwconfig-configmap

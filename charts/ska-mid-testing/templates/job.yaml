@@ -26,7 +26,6 @@ spec:
           items:
           - key: hw_config.yaml
             path: hw_config.yaml
-
       initContainers:
       - name: test-smoke
         image: {{ .Values.image.registry }}/{{ .Values.image.image }}:{{ .Values.image.tag }}
