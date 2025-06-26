@@ -34,6 +34,7 @@ Feature: Telescope end to end signal chain test
 		Then the telescope is in the OFF state
 		And the respective dataproducts are available on the DPD
 	
+	@AT-3297 @AT-3001
 	Scenario: End to End signal chain verification via TMC with BITE data
 		Given an SUT deployment with 1 subarray
 		And a sequence diagrammer has optionally started listeing for events
