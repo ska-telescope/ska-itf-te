@@ -497,7 +497,8 @@ def _(telescope_handlers, receptor_ids, settings):
     sim_mode = settings["sim_mode"]
 
     # Load DishVCCConfig
-    CBF_CONFIGS = f"{settings['data_dir']}/cbf"
+    CONFIG_DATA_DIR = settings["data_dir"]
+    CBF_CONFIGS = os.path.join(CONFIG_DATA_DIR, "cbf")
     DISH_CONFIG_FILE = f"{CBF_CONFIGS}/sys_params/load_dish_config.json"
 
     with open(DISH_CONFIG_FILE, encoding="utf-8") as f:
@@ -830,8 +831,13 @@ def _(pb_and_eb_ids):
     assert True
 
 
-@given("hps devices are configured")
+@given("HPS devices are configured")
 def _(telescope_handlers):
+    """Generate talon configuration files and download CBF artefacts if necessary.
+
+    :param telescope_handlers: _description_
+    :type telescope_handlers: _type_
+    """
     logger.info("Configuring HPS devices")
 
     _, cbf, _, _ = telescope_handlers
@@ -850,23 +856,32 @@ def _(telescope_handlers):
 
 @when("I generate BITE data")
 def _(settings, telescope_handlers, bite_test_id):
+    """Generate CBF BITE data using BITE configuraiton files.
+
+    :param settings: _description_
+    :type settings: _type_
+    :param telescope_handlers: _description_
+    :type telescope_handlers: _type_
+    :param bite_test_id: _description_
+    :type bite_test_id: _type_
+    """
 
     _, cbf, _, _ = telescope_handlers
 
     cbf_controller = cbf.controller
     bite = cbf.bite
 
-    # Parent directory to use to get config files.
-    DATA_DIR = settings["data_dir"]
+    CONFIG_DATA_DIR = settings["data_dir"]
+    CBF_INPUT_DATA_DIR = os.path.join(CONFIG_DATA_DIR, "cbf/cbf_input_data")
 
-    # Config file directories
-    CBF_CONFIGS = os.path.join(DATA_DIR, "cbf")
-    CBF_INPUT_DIR = os.path.join(CBF_CONFIGS, "cbf_input_data")
+    # File containing BITE config selectors and receptor sampling settings
+    CBF_INPUT_FILE = os.path.join(CBF_INPUT_DATA_DIR, "cbf_input_data.json")
 
-    # Config files needed for BITE generation
-    CBF_INPUT_FILE = f"{CBF_INPUT_DIR}/cbf_input_data.json"
-    BITE_CONFIG_FILE = f"{CBF_INPUT_DIR}/bite_config_parameters/bite_configs.json"
-    FILTERS_FILE = f"{CBF_INPUT_DIR}/bite_config_parameters/filters.json"
+    # File containing BITE configs
+    BITE_CONFIG_FILE = os.path.join(CBF_INPUT_DATA_DIR, "bite_config_parameters/bite_configs.json")
+
+    # File containing BITE data filter configs
+    FILTERS_FILE = os.path.join(CBF_INPUT_DATA_DIR, "bite_config_parameters/filters.json")
 
     files = [
         CBF_INPUT_FILE,
@@ -875,60 +890,56 @@ def _(settings, telescope_handlers, bite_test_id):
     ]
 
     for file in files:
-        if os.path.isfile(file):
-            logger.debug(f"{file} exists")
-        else:
-            logger.error(f"{file} does not exist")
+        if not os.path.isfile(file):
+            error = f"{file} does not exist"
+            logger.error(error)
+            pytest.fail(error)
+
+    dishVccConfig = json.loads(cbf_controller.sysparam)
+    logger.debug(f"dishVccConfig from CSP Master: \n{dishVccConfig}\n")
 
     with open(CBF_INPUT_FILE, encoding="utf-8") as f:
-        cbf_input_json_raw = json.load(f)["cbf_input_data"]
+        cbf_input_config = json.load(f)["cbf_input_data"][bite_test_id]
+        receptors = cbf_input_config["receptors"]
 
-    logger.info("\nList of Test IDs in the cbf_input_data.json file")
-    for element in cbf_input_json_raw:
-        logger.debug("  - " + element)
+        # Use same k-value as in current dishVccConfig
+        for receptor in receptors:
+            dish_id = receptor["dish_id"]
+            k_value = dishVccConfig["dish_parameters"][dish_id]["k"]
+            receptor["sample_rate_k"] = k_value
 
-        dishVccConfig = json.loads(cbf_controller.sysparam)
-        logger.debug(f"dishVccConfig from CSP Master: \n{dishVccConfig}\n")
+    cbf_input_data_json = json.dumps(cbf_input_config)
 
-        with open(CBF_INPUT_FILE, encoding="utf-8") as f:
-            cbf_input_json = json.load(f)["cbf_input_data"][bite_test_id]
-            receptors = cbf_input_json["receptors"]
+    logger.info(f"CBF input data being used to generate BITE data: {cbf_input_data_json}")
 
-            # ensure that the k-values in the cbf_input_json correctly match
-            # the k-values from the dishVccConfig that was loaded in earlier
-            for receptor in receptors:
-                dish_id = receptor["dish_id"]
-                k_value = dishVccConfig["dish_parameters"][dish_id]["k"]
-                receptor["sample_rate_k"] = k_value
-
-        cbf_input_data = json.dumps(cbf_input_json)
-        logger.info(f"CBF Input Data used to generate BITE data: {cbf_input_data}")
-
-    bite.load_cbf_input_data(cbf_input_data)
+    bite.load_cbf_input_data(cbf_input_data_json)
 
     with open(BITE_CONFIG_FILE, encoding="utf-8") as f:
-        bite_config_data = json.dumps(json.load(f))
-        # print("BITE configs:\n")
-        # print(bite_config_data)
+        bite_config_data_json = json.dumps(json.load(f))
 
-    bite.load_bite_config_data(bite_config_data)
+    bite.load_bite_config_data(bite_config_data_json)
 
     with open(FILTERS_FILE, encoding="utf-8") as f:
-        filter_data = json.dumps(json.load(f))
-        # print("Filters:\n")
-        # print(filter_data)
+        filter_data_json = json.dumps(json.load(f))
 
-    bite.load_filter_data(filter_data)
+    bite.load_filter_data(filter_data_json)
+
+    # Wait for bite config and filter data to be loaded
     sleep(10)
 
-    logger.info("Generating BITE data")
     bite.set_timeout_millis(240000)
+    logger.info("Generating data using CBF BITE")
     bite.generate_bite_data()
     bite.set_timeout_millis(6000)
 
 
 @when("I start LSTV replay")
 def _(telescope_handlers):
+    """Start Long Sequence Test Vectors (LSTV) replay into CBF.
+
+    :param telescope_handlers: _description_
+    :type telescope_handlers: _type_
+    """
     logger.info("Starting LSTV replay")
     _, cbf, _, _ = telescope_handlers
 
@@ -939,6 +950,11 @@ def _(telescope_handlers):
 
 @when("I stop LSTV replay")
 def _(telescope_handlers):
+    """Stop LSTV replay into CBF.
+
+    :param telescope_handlers: _description_
+    :type telescope_handlers: _type_
+    """
     logger.info("Stopping LSTV replay")
     _, cbf, _, _ = telescope_handlers
 
@@ -948,16 +964,29 @@ def _(telescope_handlers):
 
 
 @pytest.fixture
-def bite_test_id(settings, receptor_ids):
+def bite_test_id(settings):
     """Generate test ID for BITE data generation.
 
     :param settings: _description_
     :type settings: Dict
-    :param receptor_ids: _description_
-    :type receptor_ids: _type_
     :return: _description_
     :rtype: String
     """
-    # num_receptors = len(receptor_ids)
-    # return test_id = f"talons 001-{num_receptors:03} gaussian noise"  # UPDATE THIS FOR RUN
-    return "talon-001 basic gaussian noise"
+    # TODO: Move to settings
+    BITE_TEST_SELECTOR = os.environ.get("BITE_TEST_SELECTOR", "talon-001 basic gaussian noise")
+
+    CONFIG_DATA_DIR = settings["data_dir"]
+    CBF_INPUT_DATA_DIR = os.path.join(CONFIG_DATA_DIR, "cbf/cbf_input_data")
+
+    # File containing BITE config selectors and receptor sampling settings
+    CBF_INPUT_FILE = os.path.join(CBF_INPUT_DATA_DIR, "cbf_input_data.json")
+
+    with open(CBF_INPUT_FILE, encoding="utf-8") as f:
+        cbf_input_configs = json.load(f)["cbf_input_data"]
+    
+    if not BITE_TEST_SELECTOR in cbf_input_configs:
+        error = f"Invalid BITE test selector. {BITE_TEST_SELECTOR} not found in {CBF_INPUT_FILE}"
+        logger.error(error)
+        pytest.fail(error)
+
+    return BITE_TEST_SELECTOR
