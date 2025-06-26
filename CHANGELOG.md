@@ -10,6 +10,9 @@
 * [AT-3261] 
   * Add bitstream checksum based CBF firmware compatibility test
   * Extend smoke test tooling for KAPB and pickup talon IPs automatically in KAPB
+* [AT-3242] 
+  * Add E2E BDD test for executing a scan with data generated using CBF BITE
+  * Enable execution of the test in the KAPB
 
 ## 27.0.0
 * [AT-3260] 
