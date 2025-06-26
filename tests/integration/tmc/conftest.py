@@ -967,6 +967,8 @@ def _(telescope_handlers):
 def bite_test_id(settings):
     """Generate test ID for BITE data generation.
 
+    Reads the BITE_TEST_SELECTOR environment variable. Defaults to 'talon-001 basic gaussian noise' if unset.
+
     :param settings: _description_
     :type settings: Dict
     :return: _description_
@@ -985,7 +987,7 @@ def bite_test_id(settings):
         cbf_input_configs = json.load(f)["cbf_input_data"]
     
     if not BITE_TEST_SELECTOR in cbf_input_configs:
-        error = f"Invalid BITE test selector. {BITE_TEST_SELECTOR} not found in {CBF_INPUT_FILE}"
+        error = f"Invalid BITE test selector. '{BITE_TEST_SELECTOR}' not found in {CBF_INPUT_FILE}"
         logger.error(error)
         pytest.fail(error)
 
