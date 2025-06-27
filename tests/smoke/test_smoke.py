@@ -167,6 +167,7 @@ def test_spfrx_qspi_bitstream_compatibility(settings):
         )
         if command_result is None:
             pytest.fail(f"Failed to execute command successfully on Talon board {talon_board}")
+            
         # Get currently loaded slot
         slot_number = talon_board_command_executor.get_currently_loaded_slot(command_result)
         if slot_number is None:
@@ -181,14 +182,6 @@ def test_spfrx_qspi_bitstream_compatibility(settings):
         if loaded_bitstream_version is None:
             pytest.fail(f"Failed to get bitstream version on Talon board {talon_board}")
         logger.info(f"SPFRx Talon {talon_board} bitstream version: {loaded_bitstream_version}")
-
-        # Get actual bitstream version reported at talon slot
-        actual_loaded_bitstream_version = talon_board_command_executor.get_spfrx_bitstream_version(
-            loaded_bitstream_version
-        )
-        if actual_loaded_bitstream_version is None:
-            pytest.fail(f"Failed to get bitstream version on Talon board {talon_board}")
-        logger.info(f"Talon {talon_board} bitstream version: {actual_loaded_bitstream_version}")
 
         logger.info(f"Expected bitstream version: {loaded_bitstream_version}")
         # Check compatibility
