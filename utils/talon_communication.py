@@ -213,13 +213,13 @@ class TalonBoardCommandExecutor:
         return bitstream_compatible 
     
     @staticmethod
-    def get_spfrx_bitstream_version(spfrx_engineering_console_version: str) -> str:
+    def get_spfrx_bitstream_version(spfrx_console_version: str) -> str:
         """Determine the expected SPFRx QSPI version based on the FPGA bitstream version.
         """
-        # Download spfrx_boardmap for given SPFRx engineering console version
+        # Download spfrx_boardmap for given SPFRx console version
         spfrx_boardmap_link = (
             "https://gitlab.com/ska-telescope/ska-mid-dish-spfrx-talondx-console"
-            f"/-/raw/{spfrx_engineering_console_version}/images/ska-mid-dish-spfrx-talondx-console-deploy"
+            f"/-/raw/{spfrx_console_version}/images/ska-mid-dish-spfrx-talondx-console-deploy"
             f"/spfrx_config/spfrx_boardmap.json?ref_type=tags&inline=false"
         )
 
