@@ -35,7 +35,7 @@ def settings():
     settings["cbf_ec_mount_path"] = CBF_EC_MOUNT_PATH
 
     # Get SPFRX IPs
-    spfrx_hw_config_relative_path = "resources/mcs/spfrx_hw_config.yaml"
+    spfrx_hw_config_relative_path = "resources/spfrx/spfrx_hw_config.yaml"
     with open(spfrx_hw_config_relative_path, "r") as f:
         spfrx_talon_board_ips = yaml.safe_load(f)["talon_board"]
 
