@@ -73,13 +73,7 @@ def test_qspi_bitstream_compatibility(settings):
 
     # Get CBF Engineering console version and expected fpga bitstream version
     umbrella_chart_relative_path = "charts/ska-mid/Chart.yaml"
-    with open(umbrella_chart_relative_path, "r") as f:
-        sut_chart = yaml.safe_load(f)
-
-        for dependency in sut_chart["dependencies"]:
-            if dependency["name"] == "ska-mid-cbf-engineering-console":
-                cbf_engineering_console_version = dependency["version"]
-                break
+    cbf_engineering_console_version = get_chart_dependency_version(umbrella_chart_relative_path, "ska-mid-cbf-engineering-console")
 
     fpga_bitstream_version = TalonBoardCommandExecutor.get_fpga_bitstream_version(
         cbf_engineering_console_version
@@ -155,18 +149,12 @@ def test_spfrx_qspi_bitstream_compatibility(settings):
     """
     spfrx_talon_board_ips = settings["spfrx_talon_board_ips"]
 
-    # Get CBF Engineering console version from charts/ska-mid/Chart.yaml
+    # Get SPFRx console version from charts/ska-mid/Chart.yaml
     umbrella_chart_relative_path = "charts/ska-mid/Chart.yaml"
-    with open(umbrella_chart_relative_path, "r") as f:
-        sut_chart = yaml.safe_load(f)
-
-        for dependency in sut_chart["dependencies"]:
-            if dependency["name"] == "ska-mid-dish-spfrx-talondx-console":
-                spfrx_cbf_engineering_console_version = dependency["version"]
-                break
+    spfrx_talondx_console_version = get_chart_dependency_version(umbrella_chart_relative_path, "ska-mid-dish-spfrx-talondx-console")
 
     spfrx_bitstream_version = TalonBoardCommandExecutor.get_spfrx_bitstream_version(
-        spfrx_cbf_engineering_console_version
+        spfrx_talondx_console_version
     )
     logger.info(f"FPGA bitstream version: {spfrx_bitstream_version}")
 
