@@ -73,7 +73,9 @@ def test_qspi_bitstream_compatibility(settings):
 
     # Get CBF Engineering console version and expected fpga bitstream version
     umbrella_chart_relative_path = "charts/ska-mid/Chart.yaml"
-    cbf_engineering_console_version = get_chart_dependency_version(umbrella_chart_relative_path, "ska-mid-cbf-engineering-console")
+    cbf_engineering_console_version = get_chart_dependency_version(
+        umbrella_chart_relative_path, "ska-mid-cbf-engineering-console"
+    )
 
     fpga_bitstream_version = TalonBoardCommandExecutor.get_fpga_bitstream_version(
         cbf_engineering_console_version
@@ -151,7 +153,9 @@ def test_spfrx_qspi_bitstream_compatibility(settings):
 
     # Get SPFRx console version from charts/ska-mid/Chart.yaml
     umbrella_chart_relative_path = "charts/ska-mid/Chart.yaml"
-    spfrx_talondx_console_version = get_chart_dependency_version(umbrella_chart_relative_path, "ska-mid-dish-spfrx-talondx-console")
+    spfrx_talondx_console_version = get_chart_dependency_version(
+        umbrella_chart_relative_path, "ska-mid-dish-spfrx-talondx-console"
+    )
 
     spfrx_bitstream_version = TalonBoardCommandExecutor.get_spfrx_bitstream_version(
         spfrx_talondx_console_version
@@ -167,7 +171,7 @@ def test_spfrx_qspi_bitstream_compatibility(settings):
         )
         if command_result is None:
             pytest.fail(f"Failed to execute command successfully on Talon board {talon_board}")
-            
+
         # Get currently loaded slot
         slot_number = talon_board_command_executor.get_currently_loaded_slot(command_result)
         if slot_number is None:
@@ -191,6 +195,7 @@ def test_spfrx_qspi_bitstream_compatibility(settings):
 
         assert bitstream_compatible
 
+
 def get_chart_dependency_version(umbrella_chart_relative_path: str, dependency_name: str):
     """Get dependency version from umbrella chart.
 
@@ -209,5 +214,5 @@ def get_chart_dependency_version(umbrella_chart_relative_path: str, dependency_n
             if dependency["name"] == dependency_name:
                 version = dependency["version"]
                 break
-    
+
     return version
