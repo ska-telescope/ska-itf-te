@@ -210,3 +210,24 @@ def test_spfrx_qspi_bitstream_compatibility(settings):
         )
         bitstream_compatible = loaded_bitstream_version == actual_loaded_bitstream_version
         assert bitstream_compatible
+
+def get_chart_dependency_version(umbrella_chart_relative_path: str, dependency_name: str):
+    """Get dependency version from umbrella chart.
+
+    :param umbrella_chart_relative_path: Path (relative to repo root) to the umbrella chart
+    :type umbrella_chart_relative_path: str
+    :param dependency_name: Name of the dependency to look for
+    :type dependency_name: str
+    :return: Version of the dependency, returns None if not found
+    :rtype: str | None
+    """
+    version = None
+    with open(umbrella_chart_path, "r") as f:
+        chart = yaml.safe_load(f)
+
+        for dependency in chart["dependencies"]:
+            if dependency["name"] == dependency_name:
+                version = dependency["version"]
+                break
+    
+    return version
