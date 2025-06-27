@@ -183,8 +183,6 @@ def test_spfrx_qspi_bitstream_compatibility(settings):
             pytest.fail(f"Failed to get bitstream version on Talon board {talon_board}")
         logger.info(f"SPFRx Talon {talon_board} bitstream version: {loaded_bitstream_version}")
 
-        logger.info(f"Expected bitstream version: {loaded_bitstream_version}")
-
         # Check compatibility
         bitstream_compatible = TalonBoardCommandExecutor.check_spfrx_bitstream_compatibility(
             loaded_bitstream_version,
@@ -204,7 +202,7 @@ def get_chart_dependency_version(umbrella_chart_relative_path: str, dependency_n
     :rtype: str | None
     """
     version = None
-    with open(umbrella_chart_path, "r") as f:
+    with open(umbrella_chart_relative_path, "r") as f:
         chart = yaml.safe_load(f)
 
         for dependency in chart["dependencies"]:
