@@ -404,7 +404,7 @@ def _(telescope_handlers):
     pass
 
 
-@given("a sequence diagrammer has optionally started listeing for events")
+@given("a sequence diagrammer has optionally started listening for events")
 def _(sequence_diagrammer, settings):
     """Start listening for tango events and register test finaliser.
 
