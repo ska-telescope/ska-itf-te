@@ -844,6 +844,7 @@ def _(telescope_handlers):
 
     ec_deployer = cbf.ec_deployer
 
+    # TODO: Tie this in with test config to avoid hardcoding here
     ec_deployer.targetTalons = [1, 2, 3, 4]
     ec_deployer.generate_config_jsons()
     ec_deployer.set_timeout_millis(900000)
