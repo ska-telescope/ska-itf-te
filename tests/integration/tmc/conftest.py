@@ -85,11 +85,19 @@ class TMC:
 class CBF:
     """Helper class containing CBF specific details such as device names and proxies."""
 
-    def __init__(self):
-        """."""
+    def __init__(self, cbf_sim_mode: bool = True):
+        """.
+
+        :param cbf_sim_mode: CBF simulation mode, defaults to True
+        :type cbf_sim_mode: bool
+        """
         self.controller = DeviceProxy("mid_csp_cbf/sub_elt/controller")
         self.subarray = DeviceProxy("mid_csp_cbf/sub_elt/subarray_01")
         self.fspcorrsubarray = DeviceProxy("mid_csp_cbf/fspcorrsubarray/01_01")
+        if not cbf_sim_mode:
+            self.bite = DeviceProxy("mid_csp_cbf/ec/bite")
+            self.ec_deployer = DeviceProxy("mid_csp_cbf/ec/deployer")
+        self.cbf_sim_mode = cbf_sim_mode
 
     def get_talon_board_proxy(self, board_num) -> DeviceProxy:
         """.
@@ -138,10 +146,12 @@ class CSP:
             self.control.cbfSimulationMode = 1
             sleep(5)  # TODO: Enable use of events to check simulationmode
             # wait_for_event(self.control, "cbfSimulationMode", 1)
+            self.cbf_sim_mode = simulation_mode
         else:
             self.control.cbfSimulationMode = 0
             sleep(5)  # TODO: Enable use of events to check simulationmode
             # wait_for_event(self.control, "cbfSimulationMode", 1)
+            self.cbf_sim_mode = simulation_mode
 
 
 class Dish:
@@ -347,7 +357,7 @@ def telescope_handlers(
     logger.info(f"Using the following SUT Tango host: {os.getenv('TANGO_HOST')}")
     RECEPTORS = receptor_ids
     tmc = TMC()
-    cbf = CBF()
+    cbf = CBF(settings["sim_mode"])
     csp = CSP()
     dishes = [
         Dish(settings["SUT_namespace"], receptor, settings["sut_cluster_domain"])
@@ -394,7 +404,7 @@ def _(telescope_handlers):
     pass
 
 
-@given("a sequence diagrammer has optionally started listeing for events")
+@given("a sequence diagrammer has optionally started listening for events")
 def _(sequence_diagrammer, settings):
     """Start listening for tango events and register test finaliser.
 
@@ -434,14 +444,6 @@ def _(telescope_handlers, settings):
     assert csp_control.ping() > 0
 
     sim_mode = settings["sim_mode"]
-
-    if sim_mode in ["false", "0", ""]:
-        sim_mode = False
-    elif sim_mode in ["true", "1"]:
-        sim_mode = True
-    else:
-        logging.error("SIM_MODE is invalid")
-        pytest.fail("SIM_MODE not correctly specified")
 
     # reset_csp_adminmode = (sim_mode != csp_control.cbfSimulationMode) and (
     #     (csp_control.adminMode == 0)
@@ -495,7 +497,8 @@ def _(telescope_handlers, receptor_ids, settings):
     sim_mode = settings["sim_mode"]
 
     # Load DishVCCConfig
-    CBF_CONFIGS = f"{settings['data_dir']}/cbf"
+    CONFIG_DATA_DIR = settings["data_dir"]
+    CBF_CONFIGS = os.path.join(CONFIG_DATA_DIR, "cbf")
     DISH_CONFIG_FILE = f"{CBF_CONFIGS}/sys_params/load_dish_config.json"
 
     with open(DISH_CONFIG_FILE, encoding="utf-8") as f:
@@ -551,7 +554,7 @@ def _(telescope_handlers, receptor_ids, settings):
     wait_for_event(tmc_central_node, "telescopeState", DevState.ON)
     # CBF On state indication is a combination of controller state and talon board health state
     wait_for_event(cbf.controller, "state", DevState.ON)
-    if not sim_mode == "true":
+    if not sim_mode:
         for i in range(1, len(receptor_ids) + 1):
             talon_board_dp = cbf.get_talon_board_proxy(i)
             wait_for_event(talon_board_dp, "healthState", HealthState.OK)
@@ -826,3 +829,167 @@ def _(pb_and_eb_ids):
     pb_id, eb_id = pb_and_eb_ids
 
     assert True
+
+
+@given("HPS devices are configured")
+def _(telescope_handlers):
+    """Generate talon configuration files and download CBF artefacts if necessary.
+
+    :param telescope_handlers: _description_
+    :type telescope_handlers: _type_
+    """
+    logger.info("Configuring HPS devices")
+
+    _, cbf, _, _ = telescope_handlers
+
+    ec_deployer = cbf.ec_deployer
+
+    # TODO: Tie this in with test config to avoid hardcoding here
+    ec_deployer.targetTalons = [1, 2, 3, 4]
+    ec_deployer.generate_config_jsons()
+    ec_deployer.set_timeout_millis(900000)
+    # TODO: Run only if the relevant artefacts are not already present.
+    # TODO: Find a way to intelligently check if the correct artefacts are already present
+    # ec_deployer.download_artifacts()
+    ec_deployer.configure_db()
+    ec_deployer.set_timeout_millis(3000)
+
+
+@when("I generate BITE data")
+def _(settings, telescope_handlers, bite_test_id):
+    """Generate CBF BITE data using BITE configuraiton files.
+
+    :param settings: _description_
+    :type settings: _type_
+    :param telescope_handlers: _description_
+    :type telescope_handlers: _type_
+    :param bite_test_id: _description_
+    :type bite_test_id: _type_
+    """
+    _, cbf, _, _ = telescope_handlers
+
+    cbf_controller = cbf.controller
+    bite = cbf.bite
+
+    CONFIG_DATA_DIR = settings["data_dir"]
+    CBF_INPUT_DATA_DIR = os.path.join(CONFIG_DATA_DIR, "cbf/cbf_input_data")
+
+    # File containing BITE config selectors and receptor sampling settings
+    CBF_INPUT_FILE = os.path.join(CBF_INPUT_DATA_DIR, "cbf_input_data.json")
+
+    # File containing BITE configs
+    BITE_CONFIG_FILE = os.path.join(CBF_INPUT_DATA_DIR, "bite_config_parameters/bite_configs.json")
+
+    # File containing BITE data filter configs
+    FILTERS_FILE = os.path.join(CBF_INPUT_DATA_DIR, "bite_config_parameters/filters.json")
+
+    files = [
+        CBF_INPUT_FILE,
+        BITE_CONFIG_FILE,
+        FILTERS_FILE,
+    ]
+
+    for file in files:
+        if not os.path.isfile(file):
+            error = f"{file} does not exist"
+            logger.error(error)
+            pytest.fail(error)
+
+    dishVccConfig = json.loads(cbf_controller.sysparam)
+    logger.debug(f"dishVccConfig from CSP Master: \n{dishVccConfig}\n")
+
+    with open(CBF_INPUT_FILE, encoding="utf-8") as f:
+        cbf_input_config = json.load(f)["cbf_input_data"][bite_test_id]
+        receptors = cbf_input_config["receptors"]
+
+        # Use same k-value as in current dishVccConfig
+        for receptor in receptors:
+            dish_id = receptor["dish_id"]
+            k_value = dishVccConfig["dish_parameters"][dish_id]["k"]
+            receptor["sample_rate_k"] = k_value
+
+    cbf_input_data_json = json.dumps(cbf_input_config)
+
+    logger.info(f"CBF input data being used to generate BITE data: {cbf_input_data_json}")
+
+    bite.load_cbf_input_data(cbf_input_data_json)
+
+    with open(BITE_CONFIG_FILE, encoding="utf-8") as f:
+        bite_config_data_json = json.dumps(json.load(f))
+
+    bite.load_bite_config_data(bite_config_data_json)
+
+    with open(FILTERS_FILE, encoding="utf-8") as f:
+        filter_data_json = json.dumps(json.load(f))
+
+    bite.load_filter_data(filter_data_json)
+
+    # Wait for bite config and filter data to be loaded
+    sleep(10)
+
+    bite.set_timeout_millis(240000)
+    logger.info("Generating data using CBF BITE")
+    bite.generate_bite_data()
+    bite.set_timeout_millis(6000)
+
+
+@when("I start LSTV replay")
+def _(telescope_handlers):
+    """Start Long Sequence Test Vectors (LSTV) replay into CBF.
+
+    :param telescope_handlers: _description_
+    :type telescope_handlers: _type_
+    """
+    logger.info("Starting LSTV replay")
+    _, cbf, _, _ = telescope_handlers
+
+    bite = cbf.bite
+
+    bite.start_lstv_replay()
+
+
+@when("I stop LSTV replay")
+def _(telescope_handlers):
+    """Stop LSTV replay into CBF.
+
+    :param telescope_handlers: _description_
+    :type telescope_handlers: _type_
+    """
+    logger.info("Stopping LSTV replay")
+    _, cbf, _, _ = telescope_handlers
+
+    bite = cbf.bite
+
+    bite.stop_lstv_replay()
+
+
+@pytest.fixture
+def bite_test_id(settings):
+    """Generate test ID for BITE data generation.
+
+    Reads the BITE_TEST_SELECTOR environment variable.
+    Defaults to 'talon-001 basic gaussian noise' if unset.
+
+    :param settings: _description_
+    :type settings: Dict
+    :return: _description_
+    :rtype: String
+    """
+    # TODO: Move to settings
+    BITE_TEST_SELECTOR = os.environ.get("BITE_TEST_SELECTOR", "talon-001 basic gaussian noise")
+
+    CONFIG_DATA_DIR = settings["data_dir"]
+    CBF_INPUT_DATA_DIR = os.path.join(CONFIG_DATA_DIR, "cbf/cbf_input_data")
+
+    # File containing BITE config selectors and receptor sampling settings
+    CBF_INPUT_FILE = os.path.join(CBF_INPUT_DATA_DIR, "cbf_input_data.json")
+
+    with open(CBF_INPUT_FILE, encoding="utf-8") as f:
+        cbf_input_configs = json.load(f)["cbf_input_data"]
+
+    if BITE_TEST_SELECTOR not in cbf_input_configs:
+        error = f"Invalid BITE test selector. '{BITE_TEST_SELECTOR}' not found in {CBF_INPUT_FILE}"
+        logger.error(error)
+        pytest.fail(error)
+
+    return BITE_TEST_SELECTOR

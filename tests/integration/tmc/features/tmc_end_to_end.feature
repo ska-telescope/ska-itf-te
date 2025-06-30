@@ -21,12 +21,32 @@ Feature: Telescope end to end signal chain test
 	@AT-2349 @AT-3001
 	Scenario: End to End signal chain verification via TMC - With HW
 		Given an SUT deployment with 1 subarray
-		And a sequence diagrammer has optionally started listeing for events
+		And a sequence diagrammer has optionally started listening for events
 		And CSP in adminMode online
 		When I turn ON the telescope
 		And I assign resources for a band 1 scan
 		And configure it for a band 1 scan
 		And I start a scan for 120 seconds
+		And I end the scan
+		And I end the observation
+		And I release resources
+		And I turn OFF the telescope
+		Then the telescope is in the OFF state
+		And the respective dataproducts are available on the DPD
+	
+	@AT-3297 @AT-3001
+	Scenario: End to End signal chain verification via TMC with BITE data
+		Given an SUT deployment with 1 subarray
+		And a sequence diagrammer has optionally started listening for events
+		And HPS devices are configured
+		And CSP in adminMode online
+		When I turn ON the telescope
+		And I generate BITE data
+		And I assign resources for a band 1 scan
+		And I start LSTV replay
+		And configure it for a band 1 scan
+		And I start a scan for 120 seconds
+		And I stop LSTV replay
 		And I end the scan
 		And I end the observation
 		And I release resources
