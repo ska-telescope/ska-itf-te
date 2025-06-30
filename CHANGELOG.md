@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [MAP-377]
+  * Add OS shutdown command to gracefully shut down the talon boards prior to powering off the LRU
 * [AT-3276] 
   * Fix bug in teardown tool occuring when tearing dishes down from dish mode Operate
 * [AT-3272] 
@@ -10,10 +12,12 @@
 * [AT-3261] 
   * Add bitstream checksum based CBF firmware compatibility test
   * Extend smoke test tooling for KAPB and pickup talon IPs automatically in KAPB
+* [AT-3269] 
+  * Add spfrx firmware compatibility test
 * [AT-3242] 
   * Add E2E BDD test for executing a scan with data generated using CBF BITE
   * Enable execution of the test in the KAPB
-
+  
 ## 27.0.0
 * [AT-3260] 
   * no more turning TalonLRUs off and on during pipeline runs

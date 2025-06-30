@@ -199,3 +199,52 @@ class TalonBoardCommandExecutor:
         bitstream_checksum_based_compatibility = (actual_bitstream_checksum == expected_bitstream_checksum)
 
         return bitstream_checksum_based_compatibility
+    
+    @staticmethod
+    def check_spfrx_bitstream_compatibility(expected_bitstream_version: str, actual_bitstream_version: str):
+        """Applies the logic to determine if the SPFRx QSPI bitstream is compatible with the SPFRx Talon firmware.
+        """
+        
+        bitstream_compatible  = (expected_bitstream_version == actual_bitstream_version)
+        if not bitstream_compatible :
+            logger.warning(
+                f"SPFRx version bitstream compatibility check failed. Expected bitstream version: {expected_bitstream_version}, SPFRx Talon allowed bitstream version: {actual_bitstream_version}"
+            )
+        return bitstream_compatible 
+    
+    @staticmethod
+    def get_spfrx_bitstream_version(spfrx_console_version: str) -> str:
+        """Determine the expected SPFRx QSPI version based on the FPGA bitstream version.
+        """
+        # Download spfrx_boardmap for given SPFRx console version
+        spfrx_boardmap_link = (
+            "https://gitlab.com/ska-telescope/ska-mid-dish-spfrx-talondx-console"
+            f"/-/raw/{spfrx_console_version}/images/ska-mid-dish-spfrx-talondx-console-deploy"
+            f"/spfrx_config/spfrx_boardmap.json?ref_type=tags&inline=false"
+        )
+
+        response = requests.get(spfrx_boardmap_link, timeout=5)
+
+        if response.status_code != 200:
+            error_string = f"Failed to fetch talondx_boardmap.json from {spfrx_boardmap_link}"
+            logger.error(error_string)
+            return None
+
+        try:
+            talondx_boardmap = response.json()
+        except ValueError:
+            error_string = f"Failed to parse talondx_boardmap.json: {response.text}"
+            logger.error(error_string)
+            return None
+
+        # Get fpga_bitstreams.version from spfrx_boardmap.json
+        spfrx_bitstream_version = next(
+            (
+                bitstream_info["version"]
+                for bitstream_info in talondx_boardmap["fpga_bitstreams"]
+                if bitstream_info.get("raw", {}).get("base_filename") == "ska-mid-spfrx-talondx"
+            ),
+            None,
+        )
+        
+        return spfrx_bitstream_version
