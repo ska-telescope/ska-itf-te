@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 @pytest.fixture(scope="module")
-def settings():
+def deployment_smoke_test_settings(settings):
     """Deployment smoke test settings.
 
     TODO: Couple with integration test settings
@@ -19,20 +19,21 @@ def settings():
     :return: _description_
     :rtype: _type_
     """
-    settings = {}
-    settings["SUT_namespace"] = "staging"
-    settings["helm_releases"] = ["central-controller", "ska001-dish"]
-    settings["receptors"] = ["SKA001"]
-    settings["cluster_domain"] = "miditf.internal.skao.int"
+    deployment_smoke_test_settings = {}
+    deployment_smoke_test_settings["SUT_namespace"] = settings["SUT_namespace"]
+    deployment_smoke_test_settings["receptors"] = settings["dish_ids"]
+    deployment_smoke_test_settings["cluster_domain"] = settings["sut_cluster_domain"]
+    deployment_smoke_test_settings["helm_releases"] = ["central-controller", "ska001-dish"]
+    logger.info(deployment_smoke_test_settings)
 
-    return settings
+    return deployment_smoke_test_settings
 
 
-def test_helm_install(settings):
-    """Checks that the HelmReleases successfully installed all charts.
+def test_helm_install(deployment_smoke_test_settings):
+    """Checks that the HelmReleasesi successfully installed all charts.
 
-    :param settings: Deployment smoke test settings
-    :type settings: dict
+    :param deployment_smoke_test_settings: Deployment smoke test settings
+    :type deployment_smoke_test_settings: dict
     """
     # Load kubeconfig and initialize client
     config.load_kube_config()
@@ -52,9 +53,11 @@ def test_helm_install(settings):
     # Check that there are helmreleases in the namespace
     assert helm_releases_list, f"No HelmReleases found in namespace: {helmrelease_namespace}"
 
-    # Get helmrelease of interest
-    helmrelease_names = settings["helm_releases"]
+    helmrelease_names = deployment_smoke_test_settings["helm_releases"]
+
+    # Find details of helmreleases of interest
     for helm_release_name in helmrelease_names:
+        # Get helmrelease of interest
         helm_release = next(
             (
                 helm_release
@@ -67,15 +70,23 @@ def test_helm_install(settings):
         if helm_release is not None:
             status = helm_release.get("status", {})
             conditions = status.get("conditions", [])
+
+            # Find the Ready condition
             ready_condition = next(
-                (cond for cond in conditions if cond.get("type") == "Ready"), None
+                (condition for condition in conditions if condition.get("type") == "Ready"), None
             )
-            ready_status = ready_condition.get("status") if ready_condition else "Unknown"
+
+            # Get ready status, message, chart and chart version
+            ready_status = ready_condition.get("status") if ready_condition else None
             ready_condition_message = (
-                ready_condition.get("message") if ready_condition else "No message available"
+                ready_condition.get("message") if ready_condition else None
             )
+            chart = helm_release.get("spec", {}).get("chart", {}).get("spec", {}).get("chart")
+            version = helm_release.get("spec", {}).get("chart", {}).get("spec", {}).get("version")
+
             logger.debug(f"HelmRelease {helm_release_name} Message: {ready_condition_message}")
             logger.info(f"HelmRelease {helm_release_name} Ready: {ready_status}")
+            logger.info(f"HelmRelease {helm_release_name} chart: {chart}, version: {version}")
         else:
             logger.info(
                 f"HelmRelease {helm_release_name} not found in namespace: {helmrelease_namespace}"
@@ -88,14 +99,14 @@ def test_helm_install(settings):
         )
 
 
-def test_device_servers(settings):
+def test_device_servers(deployment_smoke_test_settings):
     """Checks that the deployed Tango device servers are present and running.
 
-    :param settings: Deployment smoke test settings
-    :type settings: dict
+    :param deployment_smoke_test_settings: Deployment smoke test settings
+    :type deployment_smoke_test_settings: dict
     """
     # Load kubeconfig and initialize client
-    namespace = settings["SUT_namespace"]
+    namespace = deployment_smoke_test_settings["SUT_namespace"]
     config.load_kube_config()
     crd_api = client.CustomObjectsApi()
 
@@ -124,15 +135,15 @@ def test_device_servers(settings):
         assert state == "Running", f"DeviceServer {name} not running. Actual state: {state}"
         
 
-def test_telescope_state(settings):
+def test_telescope_state(deployment_smoke_test_settings):
     """Checks that the telescope is in a usable state.
 
-    :param settings: Deployment smoke test settings
-    :type settings: dict
+    :param deployment_smoke_test_settings: Deployment smoke test settings
+    :type deployment_smoke_test_settings: dict
     """
-    namespace = settings["SUT_namespace"]
-    cluster_domain = settings["cluster_domain"]
-    receptors = settings["receptors"]
+    namespace = deployment_smoke_test_settings["SUT_namespace"]
+    cluster_domain = deployment_smoke_test_settings["cluster_domain"]
+    receptors = deployment_smoke_test_settings["receptors"]
 
     # Base state (telescope=OFF, Subarray,CSP,SDP=EMPTY, dishes=STANBY_LP)
     telescope_state_off = TelescopeState()
