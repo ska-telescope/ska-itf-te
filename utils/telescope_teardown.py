@@ -57,7 +57,7 @@ class TelescopeState:
 class TelescopeHandler:
     """Class containing methods to manipulate the state ofthe telescope under TMC control."""
 
-    def __init__(self, sut_namespace: str, dish_ids: List[str]):
+    def __init__(self, sut_namespace: str, cluster_domain: str, dish_ids: List[str]):
         """_summary_.
 
         :param sut_namespace: _description_
@@ -67,7 +67,7 @@ class TelescopeHandler:
         """
         self.sut_namespace = sut_namespace
         os.environ["TANGO_HOST"] = (
-            f"tango-databaseds.{self.sut_namespace}.svc.miditf.internal.skao.int:10000"
+            f"tango-databaseds.{self.sut_namespace}.svc.{cluster_domain}:10000"
         )
         self.tmc = TMC()
         base_dish_states = {dish_id: DishMode.STANDBY_LP for dish_id in dish_ids}
