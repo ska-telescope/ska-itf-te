@@ -73,8 +73,8 @@ dependencies:
 
   # SPFRx DEPLOYER CHART
   - name: ska-mid-dish-spfrx-talondx-console
-    version: 1.0.0
-    repository: https://artefact.skao.int/repository/helm-internal
+    version: 1.0.1-dev.c2bd06a7f
+    repository: https://gitlab.com/api/v4/projects/45166302/packages/helm/dev
     condition: ska-mid-dish-spfrx-talondx-console.enabled
 
   # TARANTA SUITE
