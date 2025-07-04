@@ -3,6 +3,9 @@ import subprocess
 import logging
 from kubernetes import client, config
 
+from ska_control_model._dev_state import DevState
+from utils.telescope_teardown import TelescopeState, TelescopeHandler
+
 logger = logging.getLogger(__name__)
 
 @pytest.fixture(scope="module")
@@ -14,6 +17,8 @@ def settings():
     settings = {}
     settings["SUT_namespace"] = "staging"
     settings["helm_releases"] = ["central-controller", "ska001-dish"]
+    settings["receptors"] = ["SKA001"]
+    settings["cluster_domain"] = "miditf.internal.skao.int"
 
     return settings
 
@@ -91,5 +96,26 @@ def test_device_servers(settings):
         assert state == "Running", f"DeviceServer {name} not running. Actual state: {state}"
 
 
-def test_telescope_state():
-    pass
+def test_telescope_state(settings):
+    """ Checks that the telescope is in a usable state.
+    """
+    namespace = settings["SUT_namespace"]
+    cluster_domain = settings["cluster_domain"]
+    receptors = settings["receptors"]
+
+    # Base state (telescope=OFF, Subarray,CSP,SDP=EMPTY, dishes=STANBY_LP)
+    telescope_state_off = TelescopeState()
+
+    # Also a valid base state, pending TMC state aggregation improvement
+    telescope_state_off_central_node_unknown = TelescopeState(central_node = DevState.UNKNOWN)
+
+    # List of expected "healthy" telescope states
+    allowed_states = [telescope_state_off_central_node_unknown, telescope_state_off]
+
+    # Get the current telescope state
+    telescope_handler = TelescopeHandler(namespace, cluster_domain, receptors)
+    current_state = telescope_handler.get_current_state()
+
+    assert current_state in allowed_states, (
+        f"Expected telescope state to be one of: {allowed_states},\n\nActual telescope state: {current_state}"
+    )
