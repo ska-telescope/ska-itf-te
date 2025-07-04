@@ -12,7 +12,7 @@ def settings():
     """
 
     settings = {}
-    settings["SUT_namespace"] = "ska-mid-central-controller"
+    settings["SUT_namespace"] = "staging"
     settings["helm_releases"] = ["central-controller", "ska001-dish"]
 
     return settings
@@ -89,7 +89,7 @@ def test_device_servers(settings):
         logger.debug(f"{name}, {state}")
         
         assert state == "Running", f"DeviceServer {name} not running. Actual state: {state}"
-        
+
 
 def test_telescope_state():
     pass
