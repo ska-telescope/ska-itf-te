@@ -6,22 +6,25 @@ from kubernetes import client, config
 
 from ska_control_model._dev_state import DevState
 from utils.telescope_teardown import TelescopeState, TelescopeHandler
+from utils.enums import DishMode
 
 logger = logging.getLogger(__name__)
 
 
 @pytest.fixture(scope="module")
-def deployment_smoke_test_settings(settings):
+def deployment_smoke_test_settings(settings, receptor_ids):
     """Deployment smoke test settings.
 
-    TODO: Couple with integration test settings
-
+    :param settings: _description_
+    :type settings: _type_
+    :param receptor_ids: _description_
+    :type receptor_ids: _type_
     :return: _description_
     :rtype: _type_
     """
     deployment_smoke_test_settings = {}
     deployment_smoke_test_settings["SUT_namespace"] = settings["SUT_namespace"]
-    deployment_smoke_test_settings["receptors"] = settings["dish_ids"]
+    deployment_smoke_test_settings["receptors"] = receptor_ids
     deployment_smoke_test_settings["cluster_domain"] = settings["sut_cluster_domain"]
     deployment_smoke_test_settings["helm_releases"] = ["central-controller", "ska001-dish"]
     logger.info(deployment_smoke_test_settings)
@@ -78,9 +81,7 @@ def test_helm_install(deployment_smoke_test_settings):
 
             # Get ready status, message, chart and chart version
             ready_status = ready_condition.get("status") if ready_condition else None
-            ready_condition_message = (
-                ready_condition.get("message") if ready_condition else None
-            )
+            ready_condition_message = ready_condition.get("message") if ready_condition else None
             chart = helm_release.get("spec", {}).get("chart", {}).get("spec", {}).get("chart")
             version = helm_release.get("spec", {}).get("chart", {}).get("spec", {}).get("version")
 
@@ -133,7 +134,7 @@ def test_device_servers(deployment_smoke_test_settings):
         logger.debug(f"{name}, {state}")
 
         assert state == "Running", f"DeviceServer {name} not running. Actual state: {state}"
-        
+
 
 def test_telescope_state(deployment_smoke_test_settings):
     """Checks that the telescope is in a usable state.
@@ -146,10 +147,13 @@ def test_telescope_state(deployment_smoke_test_settings):
     receptors = deployment_smoke_test_settings["receptors"]
 
     # Base state (telescope=OFF, Subarray,CSP,SDP=EMPTY, dishes=STANBY_LP)
-    telescope_state_off = TelescopeState()
+    base_dish_states = {receptor: DishMode.STANDBY_LP for receptor in receptors}
+    telescope_state_off = TelescopeState(dishes=base_dish_states)
 
     # Also a valid base state, pending TMC state aggregation improvement
-    telescope_state_off_central_node_unknown = TelescopeState(central_node=DevState.UNKNOWN)
+    telescope_state_off_central_node_unknown = TelescopeState(
+        central_node=DevState.UNKNOWN, dishes=base_dish_states
+    )
 
     # List of expected "healthy" telescope states
     allowed_states = [telescope_state_off_central_node_unknown, telescope_state_off]
@@ -162,4 +166,3 @@ def test_telescope_state(deployment_smoke_test_settings):
         "Expected telescope state to be one of: "
         f"{allowed_states},\n\nActual telescope state: {current_state}"
     )
-    
