@@ -4,7 +4,7 @@ import pytest
 import os
 import logging
 
-logger = logging.getLogger()
+logger = logging.getLogger(__name__)
 
 
 # TODO: Consider removing this e.g. read from config file or feature file
