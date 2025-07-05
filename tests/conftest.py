@@ -2,6 +2,9 @@
 
 import pytest
 import os
+import logging
+
+logger = logging.getLogger()
 
 
 # TODO: Consider removing this e.g. read from config file or feature file
@@ -27,7 +30,7 @@ def settings():
     elif sim_mode in ["true", "1"]:
         settings["sim_mode"] = True
     else:
-        logging.error("SIM_MODE is invalid")
+        logger.error("SIM_MODE is invalid")
         pytest.fail("SIM_MODE not correctly specified")
     settings["generate_sequence_diagram"] = (
         os.getenv("GENERATE_SEQUENCE_DIAGRAM", "false").lower() == "true"
