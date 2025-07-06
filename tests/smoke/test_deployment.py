@@ -109,7 +109,8 @@ def test_helm_install(deployment_smoke_test_settings):
                 f"Status: {ready_status}. Message: {ready_condition_message}"
             )
 
-    # Check that the chart of interest has been deployed in miditf (Flux not being used in ITF env yet)
+    # Check that the chart of interest has been deployed in miditf
+    # (Flux not being used in ITF env yet)
     deployed_chart_name = deployment_smoke_test_settings["chart_name"]
     if deployment_smoke_test_settings["cluster_domain"] == "miditf.internal.skao.int":
         namespace = deployment_smoke_test_settings["SUT_namespace"]
@@ -133,6 +134,7 @@ def test_helm_install(deployment_smoke_test_settings):
             assert False, f"{deployed_chart_name} chart has not been deployed"
 
     logger.info("Chart installation is complete")
+
 
 def test_device_servers(deployment_smoke_test_settings):
     """Checks that the deployed Tango device servers are present and running.
@@ -169,6 +171,7 @@ def test_device_servers(deployment_smoke_test_settings):
 
         assert state == "Running", f"DeviceServer {name} not running. Actual state: {state}"
     logger.info("All device servers are running")
+
 
 def test_telescope_state(deployment_smoke_test_settings):
     """Checks that the telescope is in a usable state.
