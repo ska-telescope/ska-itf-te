@@ -1,14 +1,15 @@
 """Deployment smoke tests."""
 
-import pytest
-import logging
-from kubernetes import client, config
-import subprocess
 import json
+import logging
+import subprocess
 
+import pytest
+from kubernetes import client, config
 from ska_control_model._dev_state import DevState
-from utils.telescope_teardown import TelescopeState, TelescopeHandler
+
 from utils.enums import DishMode
+from utils.telescope_teardown import TelescopeHandler, TelescopeState
 
 logger = logging.getLogger(__name__)
 logging.getLogger("kubernetes.client.rest").setLevel(logging.WARNING)

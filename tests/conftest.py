@@ -1,8 +1,9 @@
 """."""
 
-import pytest
-import os
 import logging
+import os
+
+import pytest
 
 logger = logging.getLogger(__name__)
 
