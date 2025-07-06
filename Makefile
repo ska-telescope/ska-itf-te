@@ -29,7 +29,6 @@ DOCS_SPHINXBUILD = poetry run python3 -msphinx
 PYTHON_TEST_FILE = tests/unit/ tests/functional/
 PYTHON_LINT_TARGET ?= tests/
 PYTHON_SWITCHES_FOR_FLAKE8 += --extend-ignore=F824
-DISH_ID = SKA001
 
 ifneq ($(COUNT),)
 # Dashcount is a synthesis of testcount as input user variable and is used to
