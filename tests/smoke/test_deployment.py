@@ -11,7 +11,7 @@ from utils.telescope_teardown import TelescopeState, TelescopeHandler
 from utils.enums import DishMode
 
 logger = logging.getLogger(__name__)
-
+logging.getLogger("kubernetes.client.rest").setLevel(logging.WARNING)
 
 @pytest.fixture(scope="module")
 def deployment_smoke_test_settings(settings, receptor_ids):
@@ -167,7 +167,6 @@ def test_device_servers(deployment_smoke_test_settings):
         name = device_server["metadata"]["name"]
         status = device_server.get("status", {})
         state = status.get("state")
-        logger.debug(f"{name}, {state}")
 
         assert state == "Running", f"DeviceServer {name} not running. Actual state: {state}"
     logger.info("All device servers are running")
