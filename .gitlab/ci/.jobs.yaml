@@ -51,7 +51,7 @@
       fi
     - env | grep RUNNER_AFTER_SCRIPT_TIMEOUT
     - bash .make/resources/gitlab_section.sh template "Output deployment config information" make get-deployment-config-info
-    - ADDMARKS=true SMOKE_TEST_MARKS='not requires_talons_on' make smoke-tests || true
+    - SUT_CLUSTER_DOMAIN=miditf.internal.skao.int ADDMARKS=true SMOKE_TEST_MARKS="not requires_talons_on" make smoke-tests || true
   after_script:
     - make links
   artifacts:
