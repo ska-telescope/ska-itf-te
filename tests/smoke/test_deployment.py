@@ -29,6 +29,7 @@ def deployment_smoke_test_settings(settings, receptor_ids):
     deployment_smoke_test_settings["receptors"] = receptor_ids
     deployment_smoke_test_settings["cluster_domain"] = settings["sut_cluster_domain"]
     deployment_smoke_test_settings["helm_releases"] = ["central-controller", "ska001-dish"]
+    deployment_smoke_test_settings["chart_name"] = "ska-mid"
     logger.info(deployment_smoke_test_settings)
 
     return deployment_smoke_test_settings
@@ -108,24 +109,30 @@ def test_helm_install(deployment_smoke_test_settings):
                 f"Status: {ready_status}. Message: {ready_condition_message}"
             )
 
-    # Check that the ska-mid SUT has been deployed in miditf (Flux not being used in ITF env yet)
+    # Check that the chart of interest has been deployed in miditf (Flux not being used in ITF env yet)
+    deployed_chart_name = deployment_smoke_test_settings["chart_name"]
     if deployment_smoke_test_settings["cluster_domain"] == "miditf.internal.skao.int":
         namespace = deployment_smoke_test_settings["SUT_namespace"]
         result = subprocess.run(
             ["helm", "list", "-n", namespace, "--output", "json"], stdout=subprocess.PIPE
         )
         helm_list = json.loads(result.stdout)
+        chart_deployed = False
+        # Get name and status of deployed charts, look for ska-mid successfull deployment
         for chart in helm_list:
             chart_name = chart.get("chart")
             status = chart.get("status")
-            logger.debug(f"Helm chart {chart_name} status: {status}")
-            if "ska-mid-" in chart:
+            logger.info(f"Helm chart {chart_name} status: {status}")
+            if f"{deployed_chart_name}-" in chart_name:
                 assert (
                     status == "deployed"
                 ), f"Helm chart {chart_name} is not deployed. Status: {status}"
-            else:
-                assert False, "ska-mid chart has not been deployed"
+                chart_deployed = True
 
+        if not chart_deployed:
+            assert False, f"{deployed_chart_name} chart has not been deployed"
+
+    logger.info("Chart installation is complete")
 
 def test_device_servers(deployment_smoke_test_settings):
     """Checks that the deployed Tango device servers are present and running.
@@ -161,7 +168,7 @@ def test_device_servers(deployment_smoke_test_settings):
         logger.debug(f"{name}, {state}")
 
         assert state == "Running", f"DeviceServer {name} not running. Actual state: {state}"
-
+    logger.info("All device servers are running")
 
 def test_telescope_state(deployment_smoke_test_settings):
     """Checks that the telescope is in a usable state.
@@ -193,3 +200,5 @@ def test_telescope_state(deployment_smoke_test_settings):
         "Expected telescope state to be one of: "
         f"{allowed_states},\n\nActual telescope state: {current_state}"
     )
+
+    logger.info("Telescope is in a useable state")
