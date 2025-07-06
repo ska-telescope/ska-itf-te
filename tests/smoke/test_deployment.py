@@ -3,6 +3,8 @@
 import pytest
 import logging
 from kubernetes import client, config
+import subprocess
+import json
 
 from ska_control_model._dev_state import DevState
 from utils.telescope_teardown import TelescopeState, TelescopeHandler
@@ -42,62 +44,87 @@ def test_helm_install(deployment_smoke_test_settings):
     config.load_kube_config()
     crd_api = client.CustomObjectsApi()
 
-    helmrelease_namespace = "flux-services"
-    group = "helm.toolkit.fluxcd.io"
-    version = "v2"
-    plural = "helmreleases"
+    if deployment_smoke_test_settings["cluster_domain"] == "mid.internal.skao.int":
+        helmrelease_namespace = "flux-services"
+        group = "helm.toolkit.fluxcd.io"
+        version = "v2"
+        plural = "helmreleases"
 
-    # Get list of helmreleases in the namespace
-    helm_releases = crd_api.list_namespaced_custom_object(
-        group, version, helmrelease_namespace, plural
-    )
-    helm_releases_list = helm_releases.get("items", [])
-
-    # Check that there are helmreleases in the namespace
-    assert helm_releases_list, f"No HelmReleases found in namespace: {helmrelease_namespace}"
-
-    helmrelease_names = deployment_smoke_test_settings["helm_releases"]
-
-    # Find details of helmreleases of interest
-    for helm_release_name in helmrelease_names:
-        # Get helmrelease of interest
-        helm_release = next(
-            (
-                helm_release
-                for helm_release in helm_releases_list
-                if helm_release["metadata"]["name"] == helm_release_name
-            ),
-            None,
+        # Get list of helmreleases in the namespace
+        helm_releases = crd_api.list_namespaced_custom_object(
+            group, version, helmrelease_namespace, plural
         )
+        helm_releases_list = helm_releases.get("items", [])
 
-        if helm_release is not None:
-            status = helm_release.get("status", {})
-            conditions = status.get("conditions", [])
+        # Check that there are helmreleases in the namespace
+        assert helm_releases_list, f"No HelmReleases found in namespace: {helmrelease_namespace}"
 
-            # Find the Ready condition
-            ready_condition = next(
-                (condition for condition in conditions if condition.get("type") == "Ready"), None
+        helmrelease_names = deployment_smoke_test_settings["helm_releases"]
+
+        # Find details of helmreleases of interest
+        for helm_release_name in helmrelease_names:
+            # Get helmrelease of interest
+            helm_release = next(
+                (
+                    helm_release
+                    for helm_release in helm_releases_list
+                    if helm_release["metadata"]["name"] == helm_release_name
+                ),
+                None,
             )
 
-            # Get ready status, message, chart and chart version
-            ready_status = ready_condition.get("status") if ready_condition else None
-            ready_condition_message = ready_condition.get("message") if ready_condition else None
-            chart = helm_release.get("spec", {}).get("chart", {}).get("spec", {}).get("chart")
-            version = helm_release.get("spec", {}).get("chart", {}).get("spec", {}).get("version")
+            if helm_release is not None:
+                status = helm_release.get("status", {})
+                conditions = status.get("conditions", [])
 
-            logger.debug(f"HelmRelease {helm_release_name} Message: {ready_condition_message}")
-            logger.info(f"HelmRelease {helm_release_name} Ready: {ready_status}")
-            logger.info(f"HelmRelease {helm_release_name} chart: {chart}, version: {version}")
-        else:
-            logger.info(
-                f"HelmRelease {helm_release_name} not found in namespace: {helmrelease_namespace}"
+                # Find the Ready condition
+                ready_condition = next(
+                    (condition for condition in conditions if condition.get("type") == "Ready"),
+                    None,
+                )
+
+                # Get ready status, message, chart and chart version
+                ready_status = ready_condition.get("status") if ready_condition else None
+                ready_condition_message = (
+                    ready_condition.get("message") if ready_condition else None
+                )
+                chart = helm_release.get("spec", {}).get("chart", {}).get("spec", {}).get("chart")
+                version = (
+                    helm_release.get("spec", {}).get("chart", {}).get("spec", {}).get("version")
+                )
+
+                logger.debug(f"HelmRelease {helm_release_name} Message: {ready_condition_message}")
+                logger.info(f"HelmRelease {helm_release_name} Ready: {ready_status}")
+                logger.info(f"HelmRelease {helm_release_name} chart: {chart}, version: {version}")
+            else:
+                logger.info(
+                    f"HelmRelease {helm_release_name} not found "
+                    f"in namespace: {helmrelease_namespace}"
+                )
+
+            # Check that all helmreleases are ready
+            assert ready_status == "True", (
+                f"HelmRelease {helm_release_name} is not ready. "
+                f"Status: {ready_status}. Message: {ready_condition_message}"
             )
 
-        # Check that all helmreleases are ready
-        assert ready_status == "True", (
-            f"HelmRelease {helm_release_name} is not ready. "
-            f"Status: {ready_status}. Message: {ready_condition_message}"
+    # Check that the ska-mid SUT has been deployed in miditf (Flux not being used in ITF env yet)
+    if deployment_smoke_test_settings["cluster_domain"] == "miditf.internal.skao.int":
+        namespace = deployment_smoke_test_settings["SUT_namespace"]
+        result = subprocess.run(
+            ["helm", "list", "-n", namespace, "--output", "json"], stdout=subprocess.PIPE
         )
+        helm_list = json.loads(result.stdout)
+        for chart in helm_list:
+            chart_name = chart.get("chart")
+            status = chart.get("status")
+            logger.debug(f"Helm chart {chart_name} status: {status}")
+            if "ska-mid-" in chart:
+                assert (
+                    status == "deployed"
+                ), f"Helm chart {chart_name} is not deployed. Status: {status}"
+            else:
+                assert False, "ska-mid chart has not been deployed"
 
 
 def test_device_servers(deployment_smoke_test_settings):
