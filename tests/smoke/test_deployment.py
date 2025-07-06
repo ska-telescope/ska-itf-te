@@ -13,6 +13,7 @@ from utils.enums import DishMode
 logger = logging.getLogger(__name__)
 logging.getLogger("kubernetes.client.rest").setLevel(logging.WARNING)
 
+
 @pytest.fixture(scope="module")
 def deployment_smoke_test_settings(settings, receptor_ids):
     """Deployment smoke test settings.
