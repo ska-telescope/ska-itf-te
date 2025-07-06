@@ -19,12 +19,12 @@ logging.getLogger("kubernetes.client.rest").setLevel(logging.WARNING)
 def deployment_smoke_test_settings(settings, receptor_ids):
     """Deployment smoke test settings.
 
-    :param settings: _description_
-    :type settings: _type_
-    :param receptor_ids: _description_
-    :type receptor_ids: _type_
-    :return: _description_
-    :rtype: _type_
+    :param settings: Global settings 
+    :type settings: dict
+    :param receptor_ids: List of receptors (dishes) in deployment
+    :type receptor_ids: list
+    :return: Deployment smoke test settings
+    :rtype: dict
     """
     deployment_smoke_test_settings = {}
     deployment_smoke_test_settings["SUT_namespace"] = settings["SUT_namespace"]
