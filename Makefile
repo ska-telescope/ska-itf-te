@@ -43,7 +43,7 @@ MARKS ?=## Additional Marks to add to pytests
 # telescope (e.g. TEL=mid or TEL=low) thereafter followed by additional filters
 ifneq ($(ADDMARKS),)
 	_MARKS ?= -m $(MARKS)
-	_SMOKE_TEST_MARKS ?= -m $(SMOKE_TEST_MARKS)
+	_SMOKE_TEST_MARKS ?= -m "$(SMOKE_TEST_MARKS)"
 else
 _MARKS ?=
 _SMOKE_TEST_MARKS ?=
