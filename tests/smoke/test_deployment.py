@@ -19,7 +19,7 @@ logging.getLogger("kubernetes.client.rest").setLevel(logging.WARNING)
 def deployment_smoke_test_settings(settings, receptor_ids):
     """Deployment smoke test settings.
 
-    :param settings: Global settings 
+    :param settings: Global settings
     :type settings: dict
     :param receptor_ids: List of receptors (dishes) in deployment
     :type receptor_ids: list
