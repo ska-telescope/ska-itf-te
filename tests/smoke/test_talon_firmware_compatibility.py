@@ -45,13 +45,13 @@ def talon_firmware_compatibility_settings():
 
 @pytest.mark.requires_talons_on
 @pytest.mark.hw_in_the_loop
-def test_qspi_bitstream_compatibility(settings):
+def test_qspi_bitstream_compatibility(talon_firmware_compatibility_settings):
     """Check QSPI bitstream version.
 
     Check whether the firmware version on each ITF CBF Talon Board is the expected version.
 
-    :param settings: Smoke test configuration
-    :type settings: Dict
+    :param talon_firmware_compatibility_settings: Smoke test configuration
+    :type talon_firmware_compatibility_settings: Dict
     """
     settings = talon_firmware_compatibility_settings
 
@@ -133,8 +133,8 @@ def test_qspi_bitstream_compatibility(settings):
 def test_spfrx_qspi_bitstream_compatibility(talon_firmware_compatibility_settings):
     """Check QSPI bitstream version for SPFRX Talon Boards.
 
-    :param settings: Smoke test configuration
-    :type settings: Dict
+    :param talon_firmware_compatibility_settings: Smoke test configuration
+    :type talon_firmware_compatibility_settings: Dict
     """
     settings = talon_firmware_compatibility_settings
 
