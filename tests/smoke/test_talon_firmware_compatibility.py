@@ -6,7 +6,6 @@ import os
 
 import pytest
 import yaml
-from tango import DeviceProxy
 
 from utils.talon_communication import TalonBoardCommandExecutor
 
@@ -42,7 +41,6 @@ def settings():
     settings["spfrx_talon_board_ips"] = spfrx_talon_board_ips
 
     return settings
-
 
 
 @pytest.mark.requires_talons_on
@@ -129,6 +127,7 @@ def test_qspi_bitstream_compatibility(settings):
         )
 
 
+@pytest.mark.requires_talons_on
 def test_spfrx_qspi_bitstream_compatibility(settings):
     """Check QSPI bitstream version for SPFRX Talon Boards.
 

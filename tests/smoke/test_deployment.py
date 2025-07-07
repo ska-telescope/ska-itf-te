@@ -7,12 +7,10 @@ import subprocess
 import pytest
 from kubernetes import client, config
 from ska_control_model._dev_state import DevState
-
 from tango import DeviceProxy
 
 from utils.enums import DishMode
 from utils.telescope_teardown import TelescopeHandler, TelescopeState
-from tests.integration.tmc.conftest import TMC
 
 logger = logging.getLogger(__name__)
 logging.getLogger("kubernetes.client.rest").setLevel(logging.WARNING)
@@ -210,21 +208,23 @@ def test_telescope_state(deployment_smoke_test_settings):
 
     logger.info("Telescope is in a useable state")
 
+
 def test_devices_reachable(deployment_smoke_test_settings):
     """Tests connectivity to tango devices.
 
     This is a simple smoke test to check if the required devices are reachable.
     It creates device proxies to various tango devices and checks if they are reachable.
+
+    :param deployment_smoke_test_settings: Deployment smoke test settings
+    :type deployment_smoke_test_settings: dict
     """
     sut_namespace = deployment_smoke_test_settings["SUT_namespace"]
     cluster_domain = deployment_smoke_test_settings["cluster_domain"]
     central_node = DeviceProxy(
-        f"tango-databaseds.{sut_namespace}.svc.{cluster_domain}"
-        ":10000/mid-tmc/central-node/0"
+        f"tango-databaseds.{sut_namespace}.svc.{cluster_domain}" ":10000/mid-tmc/central-node/0"
     )
     subarray_node = DeviceProxy(
-        f"tango-databaseds.{sut_namespace}.svc.{cluster_domain}"
-        ":10000/mid-tmc/central-node/0"
+        f"tango-databaseds.{sut_namespace}.svc.{cluster_domain}" ":10000/mid-tmc/central-node/0"
     )
 
     devices = [central_node, subarray_node]
