@@ -6,6 +6,7 @@ import subprocess
 
 import pytest
 from kubernetes import client, config
+from kubernetes.config.config_exception import ConfigException
 from ska_control_model._dev_state import DevState
 from tango import DeviceProxy
 
@@ -38,14 +39,15 @@ def deployment_smoke_test_settings(settings, receptor_ids):
     return deployment_smoke_test_settings
 
 
-def test_helm_install(deployment_smoke_test_settings):
+def test_helm_install(deployment_smoke_test_settings, k8s_config):
     """Checks that the HelmReleasesi successfully installed all charts.
 
     :param deployment_smoke_test_settings: Deployment smoke test settings
     :type deployment_smoke_test_settings: dict
+    :param k8s_config: Fixture providing Kubernetes configuration
+    :type k8s_config: fixture
     """
-    # Load kubeconfig and initialize client
-    config.load_kube_config()
+    # Initialize Kubernetes client
     crd_api = client.CustomObjectsApi()
 
     if deployment_smoke_test_settings["cluster_domain"] == "mid.internal.skao.int":
@@ -139,16 +141,18 @@ def test_helm_install(deployment_smoke_test_settings):
     logger.info("Chart installation is complete")
 
 
-def test_device_servers(deployment_smoke_test_settings):
+def test_device_servers(deployment_smoke_test_settings, k8s_config):
     """Checks that the deployed Tango device servers are present and running.
 
     :param deployment_smoke_test_settings: Deployment smoke test settings
     :type deployment_smoke_test_settings: dict
+    :param k8s_config: Fixture providing Kubernetes configuration
+    :type k8s_config: fixture
     """
-    # Load kubeconfig and initialize client
-    namespace = deployment_smoke_test_settings["SUT_namespace"]
-    config.load_kube_config()
+    # Initialize Kubernetes client
     crd_api = client.CustomObjectsApi()
+
+    namespace = deployment_smoke_test_settings["SUT_namespace"]
 
     group = "tango.tango-controls.org"
     version = "v2"
@@ -233,3 +237,23 @@ def test_devices_reachable(deployment_smoke_test_settings):
         assert device.ping(), f"Device {device.name} is not reachable"
 
     logger.info("Central node and subarray node are reachable")
+
+
+@pytest.fixture(scope="session")
+def k8s_config():
+    """Load Kubernetes configuration.
+
+    Gets kuberenetes config using either kubeconfig or in-cluster service account config.
+    :raises RuntimeError: If neither kubeconfig nor in-cluster config can be loaded
+    """
+    try:
+        config.load_kube_config()
+        logger.debug("Loaded local kubeconfig")
+    except ConfigException:
+        try:
+            config.load_incluster_config()
+            logger.debug("Loaded in-cluster config")
+        except ConfigException:
+            raise RuntimeError(
+                "Failed to load Kubernetes config from both kubeconfig and in-cluster"
+            )
