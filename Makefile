@@ -90,8 +90,10 @@ ifeq ($(SPFC_IN_THE_LOOP), true)
 	--set ska-mid-dish-spfc-deployer.job.namespace=$(KUBE_NAMESPACE) \
 	--set ska-mid-dish-spfc-deployer.instance=$(SPFC_INSTANCE) \
 	--set ip_address=$(SPFC_IP_ADDRESS) \
-	--set user=$(SPFC_USER) --set private_key=$(SPFC_PRIVATE_KEY)  --set global.use_tango_db=$(USE_TANGO_DB) \
-	--set global.cluster_domain=$(CLUSTER_DOMAIN) --set update_firmware=$(UPDATE_FIRMWARE)
+	--set user=$(SPFC_USER) --set private_key=$(SPFC_PRIVATE_KEY) \
+	--set global.use_tango_db=$(USE_TANGO_DB) \
+	--set global.cluster_domain=$(CLUSTER_DOMAIN) \
+	--set update_firmware=$(UPDATE_FIRMWARE)
 endif
 
 SPFRX_IN_THE_LOOP ?= #Boolean flag to control deployment of the device described in SPFRX_TANGO_INSTANCE, SPFRX_ADDRESS variables
