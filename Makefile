@@ -87,14 +87,14 @@ ifeq ($(SPFC_IN_THE_LOOP), true)
 	--set ska-dish-lmc.ska-mid-dish-manager.dishmanager.spf.fqdn=$(DISH_ID)/spf/spfc \
 	--set ska-mid-dish-spfc-deployer.global.dish_id=$(DISH_ID) \
 	--set ska-mid-dish-spfc-deployer.enabled=true \
-	--set ska-mid-dish-spfc-deployer.job.namespace=$(KUBE_NAMESPACE) \
+	--set ska-mid-dish-spfc-deployer.namespace=$(KUBE_NAMESPACE) \
 	--set ska-mid-dish-spfc-deployer.instance=$(SPFC_INSTANCE) \
-	--set ip_address=$(SPFC_IP_ADDRESS) \
-	--set user=$(SPFC_USER) \
-	--set private_key=$(SPFC_PRIVATE_KEY) \
-	--set global.use_tango_db=$(USE_TANGO_DB) \
-	--set global.cluster_domain=$(CLUSTER_DOMAIN) \
-	--set update_firmware=$(UPDATE_FIRMWARE)
+	--set ska-mid-dish-spfc-deployer.ip_address=$(SPFC_IP_ADDRESS) \
+	--set ska-mid-dish-spfc-deployer.user=$(SPFC_USER) \
+	--set ska-mid-dish-spfc-deployer.private_key=$(SPFC_PRIVATE_KEY) \
+	--set ska-mid-dish-spfc-deployer.global.use_tango_db=$(USE_TANGO_DB) \
+	--set ska-mid-dish-spfc-deployer.update_firmware=$(UPDATE_FIRMWARE) \
+	--set global.cluster_domain=$(CLUSTER_DOMAIN)
 endif
 
 SPFRX_IN_THE_LOOP ?= #Boolean flag to control deployment of the device described in SPFRX_TANGO_INSTANCE, SPFRX_ADDRESS variables
