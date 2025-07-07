@@ -13,13 +13,13 @@ logger = logging.getLogger(__name__)
 
 
 @pytest.fixture(scope="session")
-def settings():
+def talon_firmware_compatibility_settings():
     """Fixture to set up the test environment.
 
     :return: Smoke test configuration
     :rtype: Dict
     """
-    settings = {}
+    talon_firmware_compatibility_settings = {}
 
     # Path where the CBF EC clone PVC volume is mounted
     CBF_EC_MOUNT_PATH = os.environ.get("CBF_EC_MOUNT_PATH", "/app/cbf-ec")
@@ -29,18 +29,18 @@ def settings():
     with open(hw_config_relative_path, "r") as f:
         talon_board_ips = yaml.safe_load(f)["talon_board"]
 
-    settings["talon_board_ips"] = talon_board_ips
+    talon_firmware_compatibility_settings["talon_board_ips"] = talon_board_ips
 
-    settings["cbf_ec_mount_path"] = CBF_EC_MOUNT_PATH
+    talon_firmware_compatibility_settings["cbf_ec_mount_path"] = CBF_EC_MOUNT_PATH
 
     # Get SPFRX IPs
     spfrx_hw_config_relative_path = "resources/spfrx/spfrx_hw_config.yaml"
     with open(spfrx_hw_config_relative_path, "r") as f:
         spfrx_talon_board_ips = yaml.safe_load(f)["talon_board"]
 
-    settings["spfrx_talon_board_ips"] = spfrx_talon_board_ips
+    talon_firmware_compatibility_settings["spfrx_talon_board_ips"] = spfrx_talon_board_ips
 
-    return settings
+    return talon_firmware_compatibility_settings
 
 
 @pytest.mark.requires_talons_on
@@ -53,6 +53,8 @@ def test_qspi_bitstream_compatibility(settings):
     :param settings: Smoke test configuration
     :type settings: Dict
     """
+    settings = talon_firmware_compatibility_settings
+
     talon_board_ips = settings["talon_board_ips"]
 
     # Get CBF Engineering console version and expected fpga bitstream version
@@ -128,12 +130,14 @@ def test_qspi_bitstream_compatibility(settings):
 
 
 @pytest.mark.requires_talons_on
-def test_spfrx_qspi_bitstream_compatibility(settings):
+def test_spfrx_qspi_bitstream_compatibility(talon_firmware_compatibility_settings):
     """Check QSPI bitstream version for SPFRX Talon Boards.
 
     :param settings: Smoke test configuration
     :type settings: Dict
     """
+    settings = talon_firmware_compatibility_settings
+
     spfrx_talon_board_ips = settings["spfrx_talon_board_ips"]
 
     # Get SPFRx console version from charts/ska-mid/Chart.yaml
