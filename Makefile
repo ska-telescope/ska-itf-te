@@ -386,7 +386,7 @@ test-e2e-kapb:
 	@rm test-job.yaml manifests.yaml || true
 	
 smoke-tests:
-	set -o pipefail; $(PYTHON_RUNNER) pytest $(SMOKE_TEST_SOURCE) $(SMOKE_TEST_ARGS);
+	set -o pipefail; $(PYTHON_RUNNER) pytest $(SMOKE_TEST_SOURCE) $(SMOKE_TEST_ARGS) --log-cli-level=INFO;
 	mkdir -p build
 	echo $$? > build/status
 
