@@ -1,4 +1,4 @@
-db: tango-databaseds.dish-lmc-ska001.svc.ska100.mid.internal.skao.int:10000
+db: tango-databaseds.dish-lmc-ska100.svc.ska100.mid.internal.skao.int:10000
 manager: mid-eda/cm/01
 archiver: mid-eda/es/01
 
