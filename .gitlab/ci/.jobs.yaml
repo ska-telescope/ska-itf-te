@@ -40,9 +40,9 @@
         bash .make/resources/gitlab_section.sh dress-rehearsal-2 "Check Talon status" make itf-cbf-talonlru-status && sleep 1;
         bash .make/resources/gitlab_section.sh cbf-lru-on "Switch On Talon" make itf-cbf-talonlru-on && sleep 45;
         bash .make/resources/gitlab_section.sh copy-cbf-bitstream-rpd "Copy CBF Bitstream RPD" make copy-cbf-bitstream-rpd;
-        bash .make/resources/gitlab_section.sh smoketest-cbf-firmware "Smoke Test CBF firmware compatibility" env SMOKE_TEST_MARKS=requires_talons_on env ADDMARKS=true env CBF_EC_MOUNT_PATH='.' make smoke-tests || true;
         bash .make/resources/gitlab_section.sh mcs_config "Configure MCS" make itf-cbf-config-mcs && sleep 3;
         bash .make/resources/gitlab_section.sh talon_on "Talon Tango ON" make itf-cbf-tango-on && sleep 3;
+        bash .make/resources/gitlab_section.sh smoketest-cbf-firmware "Smoke Test CBF firmware compatibility" env SMOKE_TEST_MARKS=requires_talons_on env ADDMARKS=true env CBF_EC_MOUNT_PATH='.' make smoke-tests;
       fi
     - make pvc-patch-apply
     - |
@@ -53,7 +53,7 @@
     - bash .make/resources/gitlab_section.sh template "Output deployment config information" make get-deployment-config-info
     - export SUT_CLUSTER_DOMAIN=miditf.internal.skao.int ADDMARKS=true SMOKE_TEST_MARKS="not requires_talons_on"
     - chmod +x .make/resources/gitlab_section.sh
-    - .make/resources/gitlab_section.sh smoketest-general "More smoke tests" make smoke-tests || true
+    - .make/resources/gitlab_section.sh smoketest-general "More smoke tests" make smoke-tests
   after_script:
     - make links
   artifacts:
