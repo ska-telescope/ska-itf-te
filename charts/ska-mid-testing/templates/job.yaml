@@ -13,6 +13,7 @@ spec:
   suspend: false
   template:
     spec:
+      serviceAccountName: integration-test-executor
       volumes:
       - name: test-data-storage
         persistentVolumeClaim:
@@ -40,6 +41,11 @@ spec:
         resources: {}
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
+        env:
+        {{- range $key, $value := .Values.environment }}
+          - name: {{ $key }}
+            value: "{{ $value }}"
+        {{- end }}
         command: ["sh", "-c"]
         args:
         - |
