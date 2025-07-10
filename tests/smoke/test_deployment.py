@@ -47,7 +47,7 @@ def test_helm_install(deployment_smoke_test_settings, k8s_config):
     :param k8s_config: Fixture providing Kubernetes configuration
     :type k8s_config: fixture
     """
-    # Initialize Kubernetes client
+    # Initialise Kubernetes client
     crd_api = client.CustomObjectsApi()
 
     if deployment_smoke_test_settings["cluster_domain"] == "mid.internal.skao.int":
@@ -149,7 +149,7 @@ def test_device_servers(deployment_smoke_test_settings, k8s_config):
     :param k8s_config: Fixture providing Kubernetes configuration
     :type k8s_config: fixture
     """
-    # Initialize Kubernetes client
+    # Initialise Kubernetes client
     crd_api = client.CustomObjectsApi()
 
     namespace = deployment_smoke_test_settings["SUT_namespace"]
@@ -228,7 +228,7 @@ def test_devices_reachable(deployment_smoke_test_settings):
         f"tango-databaseds.{sut_namespace}.svc.{cluster_domain}" ":10000/mid-tmc/central-node/0"
     )
     subarray_node = DeviceProxy(
-        f"tango-databaseds.{sut_namespace}.svc.{cluster_domain}" ":10000/mid-tmc/central-node/0"
+        f"tango-databaseds.{sut_namespace}.svc.{cluster_domain}" ":10000/mid-tmc/subarray/01"
     )
 
     devices = [central_node, subarray_node]
