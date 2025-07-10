@@ -6,7 +6,6 @@ import os
 
 import pytest
 import yaml
-from tango import DeviceProxy
 
 from utils.talon_communication import TalonBoardCommandExecutor
 
@@ -14,13 +13,13 @@ logger = logging.getLogger(__name__)
 
 
 @pytest.fixture(scope="session")
-def settings():
+def talon_firmware_compatibility_settings():
     """Fixture to set up the test environment.
 
     :return: Smoke test configuration
     :rtype: Dict
     """
-    settings = {}
+    talon_firmware_compatibility_settings = {}
 
     # Path where the CBF EC clone PVC volume is mounted
     CBF_EC_MOUNT_PATH = os.environ.get("CBF_EC_MOUNT_PATH", "/app/cbf-ec")
@@ -30,45 +29,32 @@ def settings():
     with open(hw_config_relative_path, "r") as f:
         talon_board_ips = yaml.safe_load(f)["talon_board"]
 
-    settings["talon_board_ips"] = talon_board_ips
+    talon_firmware_compatibility_settings["talon_board_ips"] = talon_board_ips
 
-    settings["cbf_ec_mount_path"] = CBF_EC_MOUNT_PATH
+    talon_firmware_compatibility_settings["cbf_ec_mount_path"] = CBF_EC_MOUNT_PATH
 
     # Get SPFRX IPs
     spfrx_hw_config_relative_path = "resources/spfrx/spfrx_hw_config.yaml"
     with open(spfrx_hw_config_relative_path, "r") as f:
         spfrx_talon_board_ips = yaml.safe_load(f)["talon_board"]
 
-    settings["spfrx_talon_board_ips"] = spfrx_talon_board_ips
+    talon_firmware_compatibility_settings["spfrx_talon_board_ips"] = spfrx_talon_board_ips
 
-    return settings
-
-
-def test_devices_reachable():
-    """Tests connectivity to tango devices.
-
-    This is a simple smoke test to check if the required devices are reachable.
-    It creates device proxies to various tango devices and checks if they are reachable.
-    """
-    device = DeviceProxy(
-        "tango-databaseds.ska-mid-central-controller.svc.mid.internal.skao.int"
-        ":10000/mid-tmc/central-node/0"
-    )
-
-    assert device.ping(), "Device is not reachable"
-    logger.info("Devices reachable")
+    return talon_firmware_compatibility_settings
 
 
 @pytest.mark.requires_talons_on
 @pytest.mark.hw_in_the_loop
-def test_qspi_bitstream_compatibility(settings):
+def test_qspi_bitstream_compatibility(talon_firmware_compatibility_settings):
     """Check QSPI bitstream version.
 
     Check whether the firmware version on each ITF CBF Talon Board is the expected version.
 
-    :param settings: Smoke test configuration
-    :type settings: Dict
+    :param talon_firmware_compatibility_settings: Smoke test configuration
+    :type talon_firmware_compatibility_settings: Dict
     """
+    settings = talon_firmware_compatibility_settings
+
     talon_board_ips = settings["talon_board_ips"]
 
     # Get CBF Engineering console version and expected fpga bitstream version
@@ -143,12 +129,15 @@ def test_qspi_bitstream_compatibility(settings):
         )
 
 
-def test_spfrx_qspi_bitstream_compatibility(settings):
+@pytest.mark.requires_talons_on
+def test_spfrx_qspi_bitstream_compatibility(talon_firmware_compatibility_settings):
     """Check QSPI bitstream version for SPFRX Talon Boards.
 
-    :param settings: Smoke test configuration
-    :type settings: Dict
+    :param talon_firmware_compatibility_settings: Smoke test configuration
+    :type talon_firmware_compatibility_settings: Dict
     """
+    settings = talon_firmware_compatibility_settings
+
     spfrx_talon_board_ips = settings["spfrx_talon_board_ips"]
 
     # Get SPFRx console version from charts/ska-mid/Chart.yaml

@@ -43,7 +43,7 @@ MARKS ?=## Additional Marks to add to pytests
 # telescope (e.g. TEL=mid or TEL=low) thereafter followed by additional filters
 ifneq ($(ADDMARKS),)
 	_MARKS ?= -m $(MARKS)
-	_SMOKE_TEST_MARKS ?= -m $(SMOKE_TEST_MARKS)
+	_SMOKE_TEST_MARKS ?= -m "$(SMOKE_TEST_MARKS)"
 else
 _MARKS ?=
 _SMOKE_TEST_MARKS ?=
@@ -386,7 +386,7 @@ test-e2e-kapb:
 	@rm test-job.yaml manifests.yaml || true
 	
 smoke-tests:
-	set -o pipefail; $(PYTHON_RUNNER) pytest $(SMOKE_TEST_SOURCE) $(SMOKE_TEST_ARGS);
+	set -o pipefail; $(PYTHON_RUNNER) pytest $(SMOKE_TEST_SOURCE) $(SMOKE_TEST_ARGS) --log-cli-level=INFO;
 	mkdir -p build
 	echo $$? > build/status
 

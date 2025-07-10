@@ -17,6 +17,8 @@
 * [AT-3242] 
   * Add E2E BDD test for executing a scan with data generated using CBF BITE
   * Enable execution of the test in the KAPB
+* [AT-2934] 
+  * Add basic deployment health smoke tests
   
 ## 27.0.0
 * [AT-3260] 
