@@ -14,7 +14,7 @@ parser = argparse.ArgumentParser(
     prog="Telescope control", description="Telescope monitoring and manipulation", epilog=""
 )
 parser.add_argument("-p", "--print-state", action="store_true", help="Print telescope state")
-parser.add_argument("--print-base-state", action="store_true", help="Print telescope state")
+parser.add_argument("--print-base-state", action="store_true", help="Print base telescope state")
 parser.add_argument("-n", "--namespace", help="Specify namespace to execute against")
 parser.add_argument(
     "-d", "--dish-ids", help="Provide dish ID's as a space seperated string e.g. 'SKA001 SKA036'"
@@ -31,6 +31,9 @@ parser.add_argument(
 parser.add_argument(
     "-b", "--dish-base-state", help="Provide the base dish state e.g. STANDBY_FP"
 )
+parser.add_argument(
+    "-k", "--cluster-domain", default="miditf.internal.skao.int", help="Provide cluster domain (default: miditf.internal.skao.int)"
+)
 args = parser.parse_args()
 
 
@@ -43,7 +46,7 @@ def main(args=args):
     
     if args.namespace and args.dish_ids:
         dish_ids = args.dish_ids.split(" ")
-        telescope = TelescopeHandler(args.namespace, dish_ids)
+        telescope = TelescopeHandler(args.namespace, args.cluster_domain, dish_ids)
         initial_dish_base_state = {dish_id: DishMode.STANDBY_LP for dish_id in dish_ids}
         base_state = TelescopeState(dishes=initial_dish_base_state)
 
