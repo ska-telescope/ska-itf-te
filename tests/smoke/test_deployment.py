@@ -124,7 +124,7 @@ def test_helm_install(deployment_smoke_test_settings, k8s_config):
         )
         helm_list = json.loads(result.stdout)
         chart_deployed = False
-        # Get name and status of deployed charts, look for ska-mid successfull deployment
+        # Get name and status of deployed charts, look for ska-mid successful deployment
         for chart in helm_list:
             chart_name = chart.get("chart")
             status = chart.get("status")
