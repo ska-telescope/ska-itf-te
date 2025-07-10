@@ -234,9 +234,13 @@ def test_devices_reachable(deployment_smoke_test_settings):
     devices = [central_node, subarray_node]
 
     for device in devices:
-        assert device.ping(), f"Device {device.name} is not reachable"
+        try:
+            device.ping()
+        except Exception as e:
+            logger.debug(e)
+            pytest.fail(f"Device {device.name} is not reachable")
 
-    logger.info("Central node and subarray node are reachable")
+    logger.info(f"Checked devices reachable: {', '.join([device.name() for device in devices])}")
 
 
 @pytest.fixture(scope="session")
