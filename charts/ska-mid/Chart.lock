@@ -31,7 +31,7 @@ dependencies:
   version: 0.11.0
 - name: ska-mid-dish-spfc-deployer
   repository: https://gitlab.com/api/v4/projects/68468774/packages/helm/dev
-  version: 0.2.5-dev.c6082bc82
+  version: 0.2.5-dev.cff27bfdb
 - name: ska-mid-dish-spfrx-talondx-console
   repository: https://artefact.skao.int/repository/helm-internal
   version: 1.0.0
@@ -53,5 +53,5 @@ dependencies:
 - name: ska-log-consumer
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.1.6
-digest: sha256:d05b206b81e07ec69af7dd6269cf4dec4d5707bffbb3e4c712468b95e020029a
-generated: "2025-07-12T23:45:26.871127275+02:00"
+digest: sha256:fe92c74dce63b2544d81bbff9a627b8501b4e20855f133dfc866884755c2940f
+generated: "2025-07-13T19:25:06.004374966+02:00"
