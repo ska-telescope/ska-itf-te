@@ -145,10 +145,12 @@ def test_spfrx_qspi_bitstream_compatibility(talon_firmware_compatibility_setting
     spfrx_talondx_console_version = get_chart_dependency_version(
         umbrella_chart_relative_path, "ska-mid-dish-spfrx-talondx-console"
     )
+    print(f">>>>>>>>>>>>>spfrx_talondx_console_version={spfrx_talondx_console_version}<<<<<<<<<<<<<<<<<")
 
     spfrx_bitstream_version = TalonBoardCommandExecutor.get_spfrx_bitstream_version(
         spfrx_talondx_console_version
     )
+    print(f">>>>>>>>>>>>>spfrx_bitstream_version={spfrx_bitstream_version}<<<<<<<<<<<<<<<<<")
     logger.info(f"FPGA bitstream version: {spfrx_bitstream_version}")
 
     # Get actual bitstream version from talonboards and compare with expected version

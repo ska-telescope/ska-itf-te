@@ -220,7 +220,7 @@ class TalonBoardCommandExecutor:
         spfrx_boardmap_link = (
             "https://gitlab.com/ska-telescope/ska-mid-dish-spfrx-talondx-console"
             f"/-/raw/{spfrx_console_version}/images/ska-mid-dish-spfrx-talondx-console-deploy"
-            f"/spfrx_config/spfrx_boardmap.json?ref_type=tags&inline=false"
+            f"/spfrx_config/spfrx_boardmap.json"
         )
 
         response = requests.get(spfrx_boardmap_link, timeout=5)
@@ -238,13 +238,8 @@ class TalonBoardCommandExecutor:
             return None
 
         # Get fpga_bitstreams.version from spfrx_boardmap.json
-        spfrx_bitstream_version = next(
-            (
-                bitstream_info["version"]
-                for bitstream_info in talondx_boardmap["fpga_bitstreams"]
-                if bitstream_info.get("raw", {}).get("base_filename") == "ska-mid-spfrx-talondx"
-            ),
-            None,
+        spfrx_bitstream_version = (
+            talondx_boardmap.get("fpga_bitstreams", [{}])[0].get("version")
         )
-        
+
         return spfrx_bitstream_version
