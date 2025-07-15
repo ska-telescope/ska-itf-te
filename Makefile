@@ -94,6 +94,7 @@ ifeq ($(SPFC_IN_THE_LOOP), true)
 	--set ska-mid-dish-spfc-deployer.private_key=$(SPFC_PRIVATE_KEY) \
 	--set ska-mid-dish-spfc-deployer.use_tango_db=$(USE_TANGO_DB) \
 	--set ska-mid-dish-spfc-deployer.update_firmware=$(UPDATE_FIRMWARE) \
+	--set ska-mid-dish-spfc-deployer.simulated_mode=$(SIMULATED_MODE) \
 	--set ska-mid-dish-spfc-deployer.artefact_token=$(ARTEFACT_TOKEN) \
 	--set global.cluster_domain=$(CLUSTER_DOMAIN)
 endif
