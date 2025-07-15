@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+
+## 27.1.0
 * [MAP-377]
   * Add OS shutdown command to gracefully shut down the talon boards prior to powering off the LRU
 * [AT-3276] 
