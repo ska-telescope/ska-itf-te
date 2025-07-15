@@ -19,6 +19,8 @@
   * Enable execution of the test in the KAPB
 * [AT-2934] 
   * Add basic deployment health smoke tests
+* [AT-3318]
+  * Update of ska-mid-dish-spfrx-talondx-console to 1.1.0
   
 ## 27.0.0
 * [AT-3260] 
