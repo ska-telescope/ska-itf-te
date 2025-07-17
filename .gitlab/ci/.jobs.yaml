@@ -171,7 +171,6 @@ docs-build:
     - "make help | grep k8s-test"
     - bash .make/resources/gitlab_section.sh poetry "Poetry Install" poetry install
     - export TANGO_HOST=tango-databaseds.$E2E_TEST_EXECUTION_NAMESPACE.svc.miditf.internal.skao.int:10000
-    - bash .make/resources/gitlab_section.sh template "Output deployment config information" make get-deployment-config-info
     - bash .make/resources/gitlab_section.sh deployed-image-check "Check deployed container images match Helm values" make deployment-images-check
     - bash .make/resources/gitlab_section.sh default-image-check "Check if our values override any default container images" make check-image-overrides
     - make print-telescope-state || true
@@ -189,6 +188,7 @@ docs-build:
     - make xray-publish
     - make upload-to-confluence
     - echo "Results uploaded to https://confluence.skatelescope.org/x/PHWUEg"
+    - bash .make/resources/gitlab_section.sh template "Output deployment config information" make get-deployment-config-info
     
 .test-telescope-on-with-hw:
   extends:
