@@ -39,7 +39,7 @@ Feature: Telescope end to end signal chain test
 		Given an SUT deployment with 1 subarray
 		And a sequence diagrammer has optionally started listening for events
 		And CSP in adminMode online
-		When I optionally turn ON the telescope
+		When I turn ON the telescope
 		And I assign resources for a band 1 scan
 		And configure it for a band 1 scan
 		And I start a scan for 120 seconds
