@@ -1,7 +1,7 @@
 Feature: Telescope end to end signal chain test
 	In this test the telescope is controlled via TMC. The telescope is taken from
 	the telescope OFF state through loadDishCfg, TelescopeOn, AssignResources, ConfigureScan,
-	Scan, EndScan, End and finally telescope OFF. I.e. the full signal chain is tested.
+	Scan, EndScan, End and finally, in some scenarios, telescope OFF. I.e. the full signal chain is tested.
 
 	@AT-2305 @AT-1305
 	Scenario: End to End signal chain verification via TMC
@@ -32,6 +32,21 @@ Feature: Telescope end to end signal chain test
 		And I release resources
 		And I turn OFF the telescope
 		Then the telescope is in the OFF state
+		And the respective dataproducts are available on the DPD
+
+	@AT-3322 @AT-3001
+	Scenario: End to End signal chain verification via TMC without telescope OFF
+		Given an SUT deployment with 1 subarray
+		And a sequence diagrammer has optionally started listening for events
+		And CSP in adminMode online
+		When I optionally turn ON the telescope
+		And I assign resources for a band 1 scan
+		And configure it for a band 1 scan
+		And I start a scan for 120 seconds
+		And I end the scan
+		And I end the observation
+		And I release resources
+		Then the telescope is in the released-resources state
 		And the respective dataproducts are available on the DPD
 	
 	@AT-3297 @AT-3001
