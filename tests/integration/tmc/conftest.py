@@ -440,7 +440,6 @@ def _(telescope_handlers, settings):
 
     _, cbf, csp, _ = telescope_handlers
     csp_control = csp.control
-    csp_subarray = csp.subarray
     cbf_subarray = cbf.subarray
 
     assert csp_control.ping() > 0
