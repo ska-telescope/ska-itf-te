@@ -438,7 +438,7 @@ def _(telescope_handlers, settings):
     """
     logger.info("Setting CSP adminmode")
 
-    _, _, csp, _ = telescope_handlers
+    _, cbf, csp, _ = telescope_handlers
     csp_control = csp.control
     csp_subarray = csp.subarray
     cbf_subarray = cbf.subarray
