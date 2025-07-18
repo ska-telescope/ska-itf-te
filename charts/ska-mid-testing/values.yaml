@@ -1,7 +1,7 @@
 image:
   registry: registry.gitlab.com/ska-telescope/ska-mid
   image: ska-mid-testing
-  tag: 27.0.0-dev.c0d0560d9
+  tag: 27.1.0
   pullPolicy: IfNotPresent
 environment:
   E2E_TEST_EXECUTION_NAMESPACE: "ska-mid-central-controller"
@@ -13,4 +13,3 @@ testReportsPVC: pvc-test-data-storage
 mountPath: /data/test-reports
 CBFMCSconfigMountPath: /app/ska-mid/resources/mcs
 E2ETest: tests/integration/tmc/test_end_to_end.py::test_e2e_via_tmc_slow_with_bite
-

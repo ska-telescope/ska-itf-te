@@ -1,6 +1,9 @@
 # Version History
 
 ## Unreleased
+* [AT-3314]
+  * Update AssignResources call in conftest.py to invoke central node instead of subarray node
+## 27.1.0
 * [MAP-377]
   * Add OS shutdown command to gracefully shut down the talon boards prior to powering off the LRU
 * [AT-3276] 
@@ -19,6 +22,8 @@
   * Enable execution of the test in the KAPB
 * [AT-2934] 
   * Add basic deployment health smoke tests
+* [AT-3318]
+  * Update of ska-mid-dish-spfrx-talondx-console to 1.1.0
   
 ## 27.0.0
 * [AT-3260] 
