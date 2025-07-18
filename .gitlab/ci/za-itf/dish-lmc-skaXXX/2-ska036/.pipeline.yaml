@@ -9,7 +9,7 @@
     SPFRX_IN_THE_LOOP: "false"
     SPFC_IN_THE_LOOP: "false"
     SPFC_INSTANCE: spfc-prod
-    DISH_LMC_EXTRA_PARAMS: "--set ska-tango-archiver.configuration_file_url=https://gitlab.com/ska-telescope/ska-mid/-/raw/at-3311-eda-config-all-dishes/tmdata/mid-itf-staging-archiver-configs/dish-lmc-ska036.yaml?inline=false"
+    DISH_LMC_EDA_PARAMS: "--set ska-tango-archiver.configuration_file_url=https://gitlab.com/ska-telescope/ska-mid/-/raw/at-3311-eda-config-all-dishes/tmdata/mid-itf-staging-archiver-configs/dish-lmc-ska036.yaml?inline=false"
 
 2-deploy-dishlmc-ska036:
   extends:
