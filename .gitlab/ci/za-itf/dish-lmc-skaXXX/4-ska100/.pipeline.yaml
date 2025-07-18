@@ -8,6 +8,7 @@
     SPFRX_ADDRESS: 10.165.3.23
     SPFRX_IN_THE_LOOP: "false"
     SPFC_IN_THE_LOOP: "false"
+    DISH_LMC_EXTRA_PARAMS: "--set ska-tango-archiver.configuration_file_url=https://gitlab.com/ska-telescope/ska-mid/-/raw/at-3311-eda-config-all-dishes/tmdata/mid-itf-staging-archiver-configs/dish-lmc-ska100.yaml?inline=false"
 
 4-deploy-dishlmc-ska100:
   extends:
