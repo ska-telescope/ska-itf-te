@@ -441,6 +441,7 @@ def _(telescope_handlers, settings):
     _, _, csp, _ = telescope_handlers
     csp_control = csp.control
     csp_subarray = csp.subarray
+    cbf_subarray = cbf.subarray
 
     assert csp_control.ping() > 0
 
@@ -463,7 +464,7 @@ def _(telescope_handlers, settings):
 
     csp_control.adminMode = 0
     wait_for_event(csp_control, "adminMode", 0)
-    csp_subarray.adminMode = 0
+    cbf_subarray.adminMode = 0
     sleep(15)  # TODO: Find out exactly why this is needed
 
     logger.info(
