@@ -31,6 +31,7 @@ ska-tango-alarmhandler:
 ska-csp-lmc-mid:
   enabled: false
   defaultAdminMode: 1
+  numSubarrays: 3
 
 # DATAPRODUCT DASHBOARD
 ska-dataproduct-dashboard:
