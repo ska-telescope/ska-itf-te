@@ -463,8 +463,6 @@ def _(telescope_handlers, settings):
 
     csp_control.adminMode = 0
     wait_for_event(csp_control, "adminMode", 0)
-    sleep(10)
-    cbf_subarray.adminMode = 0
     sleep(15)  # TODO: Find out exactly why this is needed
 
     logger.info(
