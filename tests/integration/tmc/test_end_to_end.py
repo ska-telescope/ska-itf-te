@@ -82,7 +82,7 @@ def _(settings, receptor_ids):
     telescope_handler = TelescopeHandler(
         settings["SUT_namespace"], settings["sut_cluster_domain"], receptor_ids
     )
-    current_telescope_state = telescope_handler.get_telescope_state()
+    current_telescope_state = telescope_handler.get_current_state()
 
     assert current_telescope_state in [released_resources_state_1, released_resources_state_2]
 
