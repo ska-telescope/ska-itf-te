@@ -511,9 +511,9 @@ def _(telescope_handlers, receptor_ids, settings):
     dish_config_json["tm_data_sources"][
         0
     ] = "car://gitlab.com/ska-telescope/ska-telmodel-data?0.1.0-rc-mid-itf#tmdata"
-    dish_config_json["tm_data_filepath"] = (
-        "instrument/ska1_mid_itf/ska-mid-cbf-system-parameters.json"
-    )
+    dish_config_json[
+        "tm_data_filepath"
+    ] = "instrument/ska1_mid_itf/ska-mid-cbf-system-parameters.json"
     logger.debug(f"dish_config_json file contents: \n{dish_config_json}")
 
     k_value_correct = 1
@@ -552,7 +552,7 @@ def _(telescope_handlers, receptor_ids, settings):
     assert csp_subarray_leaf_node.cspSubarrayObsState == ObsState.EMPTY
     assert sdp_subarray_leaf_node.sdpSubarrayObsState == ObsState.EMPTY
 
-    if tmc_central_node.telescopeState == DevState.ON:
+    if tmc_central_node.telescopeState == DevState.ON and cbf.controller.state == DevState.ON:
         logger.info("Telescope is already in the ON state. Not issuing TelescopeOn command.")
     else:
         # Turn ON the telescope
