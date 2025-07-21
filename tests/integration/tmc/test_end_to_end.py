@@ -94,8 +94,17 @@ def _(telescope_handlers):
     :param telescope_handlers: _description_
     :type telescope_handlers: _type_
     """
-    tmc, _, _, _ = telescope_handlers
+    off_state_1 = TelescopeState(
+        dishes={receptor_id: DishMode.STANDBY_LP for receptor_id in receptor_ids}
+    )
 
-    tmc_central_node = tmc.central_node
+    # Due to known issue with state aggregation for telescopeState
+    off_state_2 = deepcopy(off_state_1)
+    off_state_2.central_node = DevState.UNKNOWN
 
-    assert tmc_central_node.telescopeState in [DevState.OFF, DevState.UNKNOWN]
+    telescope_handler = TelescopeHandler(
+        settings["SUT_namespace"], settings["sut_cluster_domain"], receptor_ids
+    )
+    current_telescope_state = telescope_handler.get_current_state()
+
+    assert current_telescope_state in [off_state_1, off_state_2]
