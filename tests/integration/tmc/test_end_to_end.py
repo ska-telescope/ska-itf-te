@@ -5,7 +5,7 @@ from copy import deepcopy
 
 import pytest
 from pytest_bdd import scenario, then
-from tango import DevState
+from ska_control_model._dev_state import DevState
 
 from utils.enums import DishMode
 from utils.telescope_teardown import TelescopeHandler, TelescopeState
