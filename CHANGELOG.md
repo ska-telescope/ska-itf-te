@@ -1,6 +1,9 @@
 # Version History
 
 ## Unreleased
+* [AT-3306]
+  * Add new E2E test which does not call telescope OFF at the end
+  * TelescopeON only called if telescope is not already ON
 
 ## 27.1.0
 * [MAP-377]
