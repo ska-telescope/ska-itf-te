@@ -788,7 +788,7 @@ def _(telescope_handlers):
     sdp_subarray_leaf_node = tmc.sdp_subarray_leaf_node
     csp_subarray_leaf_node = tmc.csp_subarray_leaf_node
 
-    tmc.central_node.ReleaseResources()
+    tmc.central_node.ReleaseResources("01")
     wait_for_event(sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.EMPTY)
     wait_for_event(csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.EMPTY)
     wait_for_event(tmc_subarray_node, "obsState", ObsState.EMPTY)
