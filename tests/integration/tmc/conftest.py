@@ -331,6 +331,8 @@ def set_context(settings):
 def pb_and_eb_ids(settings) -> Tuple[str, str]:
     """Fixture for generating pb and eb ids for the scan.
 
+    :param settings: test settings
+    :type settings: dict
     :return: pb_id and eb_id for use in the assign_resources.json
     :rtype: Tuple[str, str]
     """
@@ -567,7 +569,10 @@ def _(telescope_handlers, receptor_ids, settings):
 
     assert tmc_central_node.telescopeState == DevState.ON
     for receptor in RECEPTORS:
-        assert tmc.get_dish_leaf_node_dp(receptor).dishMode in [DishMode.STANDBY_FP, DishMode.OPERATE]
+        assert tmc.get_dish_leaf_node_dp(receptor).dishMode in [
+            DishMode.STANDBY_FP,
+            DishMode.OPERATE,
+        ]
 
 
 @when(
@@ -1000,6 +1005,7 @@ def bite_test_id(settings):
 
     return BITE_TEST_SELECTOR
 
+
 @then("the telescope is in the released-resources state")
 def _(telescope_handlers, receptor_ids):
     """Check that the telescope is in the released-resources state.
@@ -1011,4 +1017,3 @@ def _(telescope_handlers, receptor_ids):
     """
     logger.info("Checking telescope state")
     _, cbf, _, _ = telescope_handlers
-
