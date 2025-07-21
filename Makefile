@@ -68,6 +68,7 @@ endif
 
 DISH_LMC_INITIAL_PARAMS ?=
 DISH_LMC_EXTRA_PARAMS ?=
+DISH_LMC_EDA_PARAMS ?=
 
 ifneq ($(DISH_ID),)
 DISH_LMC_EXTRA_PARAMS = \
@@ -126,7 +127,7 @@ ifeq ($(CBF_HW_IN_THE_LOOP),true)
 	CSP_PARAMS += --set ska-mid-cbf-engineering-console.enabled=true
 endif
 
-DISH_LMC_PARAMS ?= $(DISH_LMC_INITIAL_PARAMS) $(DISH_LMC_EXTRA_PARAMS)
+DISH_LMC_PARAMS ?= $(DISH_LMC_INITIAL_PARAMS) $(DISH_LMC_EXTRA_PARAMS) $(DISH_LMC_EDA_PARAMS)
 
 SKUID_URL ?= ska-ser-skuid-test-svc.$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN):9870
 ODA_PARAMS ?= --set ska-db-oda-umbrella.ska-db-oda.rest.skuid.url=$(SKUID_URL)
