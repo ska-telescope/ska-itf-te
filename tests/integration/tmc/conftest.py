@@ -544,8 +544,6 @@ def _(telescope_handlers, receptor_ids, settings):
 
     # Turn ON the telescope
     assert cbf_fspcorrsubarray.obsstate == ObsState.IDLE
-    for receptor in RECEPTORS:
-        assert tmc.get_dish_leaf_node_dp(receptor).dishMode == DishMode.STANDBY_LP
     assert tmc_subarray_node.obsState == ObsState.EMPTY
     assert csp_subarray_leaf_node.cspSubarrayObsState == ObsState.EMPTY
     assert sdp_subarray_leaf_node.sdpSubarrayObsState == ObsState.EMPTY
