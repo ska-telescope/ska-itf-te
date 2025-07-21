@@ -639,7 +639,7 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids, scan_band, settings):
     with open(assign_resources_artifact_path, "w") as assign_resources_config_file:
         json.dump(assign_resources_json, assign_resources_config_file, indent=4)
 
-    tmc.subarray_node.AssignResources(json.dumps(assign_resources_json))
+    tmc.central_node.AssignResources(json.dumps(assign_resources_json))
     wait_for_event(cbf_subarray, "obsState", ObsState.IDLE)
     wait_for_event(sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.IDLE)
     wait_for_event(csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.IDLE)
