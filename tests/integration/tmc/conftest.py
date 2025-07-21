@@ -550,8 +550,14 @@ def _(telescope_handlers, receptor_ids, settings):
     assert csp_subarray_leaf_node.cspSubarrayObsState == ObsState.EMPTY
     assert sdp_subarray_leaf_node.sdpSubarrayObsState == ObsState.EMPTY
 
-    tmc_central_node.TelescopeOn()
-    wait_for_event(tmc_central_node, "telescopeState", DevState.ON)
+    if tmc_central_node.telescopeState == DevState.ON:
+        logger.info("Telescope is already in the ON state. Not issuing TelescopeOn command.")
+    else:
+        # Turn ON the telescope
+        logger.info("Issuing ON command")
+        tmc_central_node.TelescopeOn()
+        wait_for_event(tmc_central_node, "telescopeState", DevState.ON)
+
     # CBF On state indication is a combination of controller state and talon board health state
     wait_for_event(cbf.controller, "state", DevState.ON)
     if not sim_mode:
@@ -993,3 +999,16 @@ def bite_test_id(settings):
         pytest.fail(error)
 
     return BITE_TEST_SELECTOR
+
+@then("the telescope is in the released-resources state")
+def _(telescope_handlers, receptor_ids):
+    """Check that the telescope is in the released-resources state.
+
+    :param telescope_handlers: _description_
+    :type telescope_handlers: _type_
+    :param receptor_ids: _description_
+    :type receptor_ids: _type_
+    """
+    logger.info("Checking telescope state")
+    _, cbf, _, _ = telescope_handlers
+
