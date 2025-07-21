@@ -328,7 +328,7 @@ def set_context(settings):
 
 
 @pytest.fixture(scope="session")
-def pb_and_eb_ids() -> Tuple[str, str]:
+def pb_and_eb_ids(settings) -> Tuple[str, str]:
     """Fixture for generating pb and eb ids for the scan.
 
     :return: pb_id and eb_id for use in the assign_resources.json
@@ -337,8 +337,10 @@ def pb_and_eb_ids() -> Tuple[str, str]:
     time_now = localtime()
     date = strftime("%Y%m%d", time_now)
     time_now = strftime("%H%M%S", time_now)
-    eb_id = f"eb-test-{date}-{time_now}"
-    pb_id = f"pb-test-{date}-{time_now}"
+    eb_id_prefix = settings["eb_id_prefix"]
+    pb_id_prefix = settings["pb_id_prefix"]
+    eb_id = f"{eb_id_prefix}-{date}-{time_now}"
+    pb_id = f"{pb_id_prefix}-{date}-{time_now}"
     return pb_id, eb_id
 
 

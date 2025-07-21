@@ -38,7 +38,8 @@ def settings():
     )
     settings["artifact_dir"] = "config"
     settings["dish_ids"] = os.getenv("DISH_IDS", "SKA001 SKA036 SKA063 SKA100")
-
+    settings["eb_id_prefix"] = os.getenv("EB_ID_PREFIX", "eb-test")
+    settings["pb_id_prefix"] = os.getenv("PB_ID_PREFIX", "pb-test")
     return settings
 
 
