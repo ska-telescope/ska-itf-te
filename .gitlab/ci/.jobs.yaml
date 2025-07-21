@@ -33,12 +33,12 @@
         bash .make/resources/gitlab_section.sh install "Installing $K8S_CHART Charts from CAR" make k8s-install-chart-car
       fi
     - bash .make/resources/gitlab_section.sh wait-ns "Wait namespace resources" make k8s-wait
-    - make links
     - |
       if [ "$CBF_HW_IN_THE_LOOP" == "true" ]; then
         bash .make/resources/gitlab_section.sh dress-rehearsal-1 "Check steps that will be followed first" make itf-cbf-setup --dry;
         bash .make/resources/gitlab_section.sh dress-rehearsal-2 "Check Talon status" make itf-cbf-talonlru-status && sleep 1;
-        bash .make/resources/gitlab_section.sh cbf-lru-on "Switch On Talon" make itf-cbf-talonlru-on && sleep 45;
+        bash .make/resources/gitlab_section.sh cbf-lru-off "Switch Off Talon(s)" make itf-cbf-talonlru-off && sleep 3;
+        bash .make/resources/gitlab_section.sh cbf-lru-on "Switch On Talon(s)" make itf-cbf-talonlru-on && sleep 45;
         bash .make/resources/gitlab_section.sh copy-cbf-bitstream-rpd "Copy CBF Bitstream RPD" make copy-cbf-bitstream-rpd;
         bash .make/resources/gitlab_section.sh mcs_config "Configure MCS" make itf-cbf-config-mcs && sleep 3;
         bash .make/resources/gitlab_section.sh talon_on "Talon Tango ON" make itf-cbf-tango-on && sleep 3;
@@ -50,12 +50,12 @@
         bash .make/resources/gitlab_section.sh install_tangoGQL "Install TangoGQL for multiDB" make taranta-deploy-all-tangogql-instances;
       fi
     - env | grep RUNNER_AFTER_SCRIPT_TIMEOUT
-    - bash .make/resources/gitlab_section.sh template "Output deployment config information" make get-deployment-config-info
     - export SUT_CLUSTER_DOMAIN=miditf.internal.skao.int ADDMARKS=true SMOKE_TEST_MARKS="not requires_talons_on"
     - chmod +x .make/resources/gitlab_section.sh
     - .make/resources/gitlab_section.sh smoketest-general "More smoke tests" make smoke-tests
   after_script:
     - make links
+    - bash .make/resources/gitlab_section.sh deployment-config "Output deployment config information" make get-deployment-config-info
   artifacts:
     name: "$CI_PROJECT_NAME-$CI_PIPELINE_ID-$CI_JOB_STAGE-$CI_JOB_NAME"
     paths:
@@ -170,7 +170,6 @@ docs-build:
     - "make help | grep k8s-test"
     - bash .make/resources/gitlab_section.sh poetry "Poetry Install" poetry install
     - export TANGO_HOST=tango-databaseds.$E2E_TEST_EXECUTION_NAMESPACE.svc.miditf.internal.skao.int:10000
-    - bash .make/resources/gitlab_section.sh template "Output deployment config information" make get-deployment-config-info
     - bash .make/resources/gitlab_section.sh deployed-image-check "Check deployed container images match Helm values" make deployment-images-check
     - bash .make/resources/gitlab_section.sh default-image-check "Check if our values override any default container images" make check-image-overrides
     - make print-telescope-state || true
@@ -188,6 +187,7 @@ docs-build:
     - make xray-publish
     - make upload-to-confluence
     - echo "Results uploaded to https://confluence.skatelescope.org/x/PHWUEg"
+    - bash .make/resources/gitlab_section.sh deployment-config "Output deployment config information" make get-deployment-config-info
     
 .test-telescope-on-with-hw:
   extends:

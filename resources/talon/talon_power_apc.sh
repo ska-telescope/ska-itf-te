@@ -47,9 +47,19 @@ if [[ "$STATE" =~ on|On|ON ]]; then
 	$APC_PDU_SCRIPT on $OUTLET1 $OUTLET2
 elif [[ "$STATE" =~ off|Off|OFF ]]; then
 	echo "Shutting down ${TALON_A}..."
-	ssh -o ConnectTimeout=$SSH_TIMEOUT_IN_SECONDS root@${TALON_A} -n shutdown now
+	ssh \
+		-o HostKeyAlgorithms=+ssh-rsa \
+		-o PubkeyAcceptedAlgorithms=+ssh-rsa \
+		-o StrictHostKeyChecking=no \
+		-o ConnectTimeout=$SSH_TIMEOUT_IN_SECONDS \
+		root@${TALON_A} -n shutdown now
 	echo "Shutting down ${TALON_B}..."
-	ssh -o ConnectTimeout=$SSH_TIMEOUT_IN_SECONDS root@${TALON_B} -n shutdown now
+	ssh \
+		-o HostKeyAlgorithms=+ssh-rsa \
+		-o PubkeyAcceptedAlgorithms=+ssh-rsa \
+		-o StrictHostKeyChecking=no \
+		-o ConnectTimeout=$SSH_TIMEOUT_IN_SECONDS \
+		root@${TALON_B} -n shutdown now
 	echo "Sleeping for ${SLEEP_TIMEOUT_FOR_SHUTDOWN_CMD} seconds..."
 	sleep $SLEEP_TIMEOUT_FOR_SHUTDOWN_CMD
 
