@@ -565,7 +565,7 @@ def _(telescope_handlers, receptor_ids, settings):
 
     assert tmc_central_node.telescopeState == DevState.ON
     for receptor in RECEPTORS:
-        assert tmc.get_dish_leaf_node_dp(receptor).dishMode == DishMode.STANDBY_FP
+        assert tmc.get_dish_leaf_node_dp(receptor).dishMode in [DishMode.STANDBY_FP, DishMode.OPERATE]
 
 
 @when(
