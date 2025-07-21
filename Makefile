@@ -85,7 +85,7 @@ ifeq ($(SPFC_IN_THE_LOOP), true)
 	--set ska-dish-lmc.ska-mid-dish-simulators.deviceServers.spfdevice.enabled=false \
 	--set ska-dish-lmc.ska-mid-dish-manager.dishmanager.spf.fqdn=$(DISH_ID)/spf/spfc \
 	--set ska-mid-dish-spfc-deployer.global.dish_id=$(DISH_ID) \
-	--set ska-mid-dish-spfc-deployer.enabled=true \
+	--set ska-mid-dish-spfc-deployer.enabled=false \
 	--set ska-mid-dish-spfc-deployer.job.namespace=$(KUBE_NAMESPACE) \
 	--set ska-mid-dish-spfc-deployer.instance=$(SPFC_INSTANCE)
 endif
