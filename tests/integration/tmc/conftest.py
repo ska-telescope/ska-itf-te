@@ -12,8 +12,7 @@ from typing import Any, Generator, List, Tuple
 import pytest
 from pytest_bdd import given, parsers, then, when
 from ska_control_model import HealthState, ObsState
-from ska_control_model._dev_state import DevState
-from tango import DeviceProxy, EventType
+from tango import DeviceProxy, EventType, DevState
 
 from scripts.sequence_diagrammer.generate_sequence_diagram import sequenceDiagrammer
 from utils.enums import DishMode
