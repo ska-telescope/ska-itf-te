@@ -152,7 +152,7 @@ docs-build:
       - build/
     when: always
   variables:
-    INTEGRATION_TEST_SOURCE: tests/integration/tmc/test_end_to_end.py::test_e2e_via_tmc_slow
+    INTEGRATION_TEST_SOURCE: tests/integration/tmc/test_end_to_end.py::test_e2e_via_tmc_slow_without_off
     SUT_CLUSTER_DOMAIN: miditf.internal.skao.int
     E2E_TEST_EXECUTION_NAMESPACE: $KUBE_NAMESPACE
     XRAY_EXECUTION_CONFIG_FILE: tests/xray-config-hw-tests.json
