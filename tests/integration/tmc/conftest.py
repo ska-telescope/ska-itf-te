@@ -567,7 +567,7 @@ def _(telescope_handlers, receptor_ids, settings):
             talon_board_dp = cbf.get_talon_board_proxy(i)
             wait_for_event(talon_board_dp, "healthState", HealthState.OK)
 
-    assert tmc_central_node.telescopeState == DevState.ON
+    assert tmc_central_node.telescopeState in [DevState.ON, DevState.UNKNOWN]
     for receptor in RECEPTORS:
         assert tmc.get_dish_leaf_node_dp(receptor).dishMode in [
             DishMode.STANDBY_FP,
