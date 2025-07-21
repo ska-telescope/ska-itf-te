@@ -9,8 +9,8 @@ environment:
   SIM_MODE: "false"
   SUT_CLUSTER_DOMAIN: "mid.internal.skao.int"
   DISH_IDS: "SKA001"
-  PB_ID_PREFIX: "pb-ska001_saiv_integration"
-  EB_ID_PREFIX: "eb-ska001_saiv_integration"
+  PB_ID_PREFIX: "pb-ska001saiv"
+  EB_ID_PREFIX: "eb-ska001saiv"
 testReportsPVC: pvc-test-data-storage
 mountPath: /data/test-reports
 CBFMCSconfigMountPath: /app/ska-mid/resources/mcs
