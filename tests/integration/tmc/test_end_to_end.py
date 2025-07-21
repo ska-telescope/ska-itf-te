@@ -88,11 +88,13 @@ def _(settings, receptor_ids):
 
 
 @then("the telescope is in the OFF state")
-def _(telescope_handlers):
+def _(settings, receptor_ids):
     """Check that the telescope is in the OFF state.
 
-    :param telescope_handlers: _description_
-    :type telescope_handlers: _type_
+    :param settings: _description_
+    :type settings: _type_
+    :param receptor_ids: _description_
+    :type receptor_ids: _type_
     """
     off_state_1 = TelescopeState(
         dishes={receptor_id: DishMode.STANDBY_LP for receptor_id in receptor_ids}
