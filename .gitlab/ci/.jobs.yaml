@@ -66,6 +66,7 @@
     SUT_CHART_DIR: ${CI_PROJECT_DIR}/charts/ska-mid
     RUNNER_AFTER_SCRIPT_TIMEOUT: 6m
     SMOKE_TEST_SOURCE: tests/smoke
+    CBF_BITSTREAM_RPD_SOURCE_POD_NAMESPACE: ${KUBE_NAMESPACE}
 
 .info:
   stage: deploy
