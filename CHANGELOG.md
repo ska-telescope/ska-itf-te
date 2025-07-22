@@ -6,6 +6,9 @@
   * TelescopeON only called if telescope is not already ON
 * [AT-3314]
   * Update AssignResources call in conftest.py to invoke central node instead of subarray node
+  * Update AssignResources and ReleaseResources calls in conftest.py to invoke central node instead of subarray node
+* [AT-3311]
+  * Extend EDA config to all 4 ITF dishes
 
 ## 27.1.0
 * [MAP-377]
