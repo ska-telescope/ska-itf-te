@@ -1,7 +1,7 @@
 image:
   registry: registry.gitlab.com/ska-telescope/ska-mid
   image: ska-mid-testing
-  tag: 27.1.0-dev.c92a68486
+  tag: 27.1.0-dev.caef66650
   pullPolicy: IfNotPresent
 environment:
   E2E_TEST_EXECUTION_NAMESPACE: "ska-mid-central-controller"
@@ -11,6 +11,7 @@ environment:
   DISH_IDS: "SKA001"
   PB_ID_PREFIX: "pb-ska001saiv"
   EB_ID_PREFIX: "eb-ska001saiv"
+  OVERRIDE_SCAN_BAND: "2"
 testReportsPVC: pvc-test-data-storage
 mountPath: /data/test-reports
 CBFMCSconfigMountPath: /app/ska-mid/resources/mcs
