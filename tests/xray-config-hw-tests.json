@@ -32,7 +32,7 @@
       "test_environments": "customfield_11925"
     }
   },
-  "description": "Test execution results as generated from git@gitlab.com:ska-telescope/ska-mid-itf\n",
+  "description": "Test execution results as generated from git@gitlab.com:ska-telescope/ska-mid\n",
   "test_environments": [
     {
       "env": "TEST_ENV",

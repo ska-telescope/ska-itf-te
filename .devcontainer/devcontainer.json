@@ -1,5 +1,5 @@
 {
-    "name": "ska-mid-itf devcontainer",
+    "name": "ska-mid devcontainer",
     "dockerFile": "Dockerfile",
     "context": "..",
     // Set *default* container specific settings.json values on container create.
@@ -74,7 +74,7 @@
     // therefore manualy uncomment it in your branch if you want to use K8s
     /*
     "mounts": [
-        "source=${localEnv:HOME}${localEnv:USERPROFILE}code/skampi-code2/ska-skampi,target=/workspaces/ska-mid-itf/build2/,type=bind,consistency=cached",
+        "source=${localEnv:HOME}${localEnv:USERPROFILE}code/skampi-code2/ska-skampi,target=/workspaces/ska-mid/build2/,type=bind,consistency=cached",
         "source=${localEnv:HOME}${localEnv:USERPROFILE},target=/home/tango/host,type=bind,consistency=cached",
         "source=${localEnv:HOME}${localEnv:USERPROFILE}/.kube,target=/home/tango/.kube,type=bind,consistency=cached"
     ],*/

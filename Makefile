@@ -1,7 +1,7 @@
 # include your own private variables for custom deployment configuration
 -include PrivateRules.mak
 
-OCI_BUILD_ADDITIONAL_ARGS += --cache-from registry.gitlab.com/ska-telescope/ska-mid-itf/ska-mid-itf-base:0.1.4
+OCI_BUILD_ADDITIONAL_ARGS += --cache-from registry.gitlab.com/ska-telescope/ska-mid/ska-mid-base:0.1.4
 
 HELM_CHARTS_TO_PUBLISH=ska-mid ska-mid-itf-ghosts ska-mid-cbf-engineering-console-cache
 PYTHON_VARS_AFTER_PYTEST= --disable-pytest-warnings
