@@ -47,13 +47,13 @@ dependencies:
 
   # SDP
   - name: ska-sdp
-    version: 1.2.1
+    version: 1.2.3
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-sdp.enabled
 
   # DISH LMC CHART
   - name: ska-dish-lmc
-    version: 7.0.1
+    version: 8.1.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-dish-lmc.enabled
 
