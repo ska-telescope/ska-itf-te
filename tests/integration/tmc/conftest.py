@@ -788,7 +788,16 @@ def _(telescope_handlers):
     sdp_subarray_leaf_node = tmc.sdp_subarray_leaf_node
     csp_subarray_leaf_node = tmc.csp_subarray_leaf_node
 
-    tmc_subarray_node.ReleaseAllResources()
+    input_string_json = {
+        "interface": "https://schema.skao.int/ska-tmc-releaseresources/2.0",
+        "transaction_id": "txn-....-00001",
+        "subarray_id": 1,
+        "release_all": True,
+        "receptor_ids": [],
+    }
+    input_string = json.dumps(input_string_json)
+    tmc.central_node.ReleaseResources(input_string)
+
     wait_for_event(sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.EMPTY)
     wait_for_event(csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.EMPTY)
     wait_for_event(tmc_subarray_node, "obsState", ObsState.EMPTY)

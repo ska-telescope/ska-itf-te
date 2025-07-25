@@ -129,6 +129,7 @@ def test_qspi_bitstream_compatibility(talon_firmware_compatibility_settings):
         )
 
 
+@pytest.mark.skip(reason="Test fails in pipelines. Awaiting resolution of bug AT-3329")
 @pytest.mark.requires_talons_on
 def test_spfrx_qspi_bitstream_compatibility(talon_firmware_compatibility_settings):
     """Check QSPI bitstream version for SPFRX Talon Boards.
