@@ -189,17 +189,40 @@ def test_telescope_state(deployment_smoke_test_settings):
     cluster_domain = deployment_smoke_test_settings["cluster_domain"]
     receptors = deployment_smoke_test_settings["receptors"]
 
-    # Base state (telescope=OFF, Subarray,CSP,SDP=EMPTY, dishes=STANBY_LP)
-    base_dish_states = {receptor: DishMode.STANDBY_LP for receptor in receptors}
-    telescope_state_off = TelescopeState(dishes=base_dish_states)
+    base_dish_states_standby_lp = {receptor: DishMode.STANDBY_LP for receptor in receptors}
+    base_dish_states_standby_fp = {receptor: DishMode.STANDBY_FP for receptor in receptors}
+    base_dish_states_operate = {receptor: DishMode.OPERATE for receptor in receptors}
 
-    # Also a valid base state, pending TMC state aggregation improvement
+    # Telescope Off base state (Central node: OFF; Subbarray node, CSP subarrayleaf node,
+    # and SDP subarray leaf node: EMPTY; Dishes: STANDBY_LP)
+    telescope_state_off = TelescopeState(dishes=base_dish_states_standby_lp)
+
+    # Also a valid telescope OFF base state, pending TMC state aggregation improvement
+    # Telescope Off base state (Central node: UNKNOWN; Subbarray node, CSP subarrayleaf
+    # node, and SDP subarray leaf node: EMPTY; Dishes: STANDBY_LP)
     telescope_state_off_central_node_unknown = TelescopeState(
-        central_node=DevState.UNKNOWN, dishes=base_dish_states
+        central_node=DevState.UNKNOWN, dishes=base_dish_states_standby_lp
     )
 
-    # List of expected "healthy" telescope states
-    allowed_states = [telescope_state_off_central_node_unknown, telescope_state_off]
+    # Telescope On base state (Central node: ON; Subbarray node, CSP subarrayleaf node,
+    # and SDP subarray leaf node: EMPTY; Dishes: OPERATE)
+    telescope_state_on_operate = TelescopeState(
+        central_node=DevState.ON, dishes=base_dish_states_operate
+    )
+
+    # Telescope Off base state (Central node: ON; Subbarray node, CSP subarrayleaf node,
+    # and SDP subarray leaf node: EMPTY; Dishes: STANDBY_FP)
+    telescope_state_on_standby = TelescopeState(
+        central_node=DevState.ON, dishes=base_dish_states_standby_fp
+    )
+
+    # List of expected "healthy" telescope states supported as a starting point by existing tests
+    allowed_states = [
+        telescope_state_off_central_node_unknown,
+        telescope_state_off,
+        telescope_state_on_operate,
+        telescope_state_on_standby,
+    ]
 
     # Get the current telescope state
     telescope_handler = TelescopeHandler(namespace, cluster_domain, receptors)
