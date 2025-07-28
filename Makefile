@@ -340,7 +340,7 @@ integration-test: k8s-info
 	set -o pipefail; \
 	$(PYTHON_RUNNER) pytest $(INTEGRATION_TEST_SOURCE) $(INTEGRATION_TEST_ARGS); \
 	MY_STATUS=$$?; \
-	@mv sequence-diagram.puml build/sequence-diagram.puml 2>/dev/null || echo "sequence diagram not moved" \
+	@mv sequence-diagram.puml build/sequence-diagram.puml 2>/dev/null || echo "sequence diagram not moved"; \
 	echo $$MY_STATUS > build/status
 
 upload-to-confluence:
