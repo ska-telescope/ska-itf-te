@@ -53,5 +53,5 @@ dependencies:
 - name: ska-log-consumer
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.1.6
-digest: sha256:78461543b60ebe3dfbed08ae1b9bda685c9c87e95178691631294c60c1cae460
-generated: "2025-07-25T11:02:57.541318067+02:00"
+digest: sha256:5fff91ce39d124c62c6e1d4528621864292addb1a3660eb82074041ff2937c0c
+generated: "2025-07-28T11:47:00.582070489+02:00"
