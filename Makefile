@@ -338,8 +338,8 @@ CLUSTER_MONITOR?=mid-itf-monitor
 integration-test: k8s-info
 	@mkdir -p build
 	set -o pipefail; $(PYTHON_RUNNER) pytest $(INTEGRATION_TEST_SOURCE) $(INTEGRATION_TEST_ARGS); \
-	@mv sequence-diagram.puml build/sequence-diagram.puml 2>/dev/null || echo "sequence diagram not moved"
 	echo $$? > build/status
+	@mv sequence-diagram.puml build/sequence-diagram.puml 2>/dev/null || echo "sequence diagram not moved"
 
 upload-to-confluence:
 	@poetry run upload-to-confluence sut_config.yaml build/reports/cucumber.json
