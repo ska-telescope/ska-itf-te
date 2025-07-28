@@ -44,7 +44,7 @@ MARKS ?=## Additional Marks to add to pytests
 # telescope (e.g. TEL=mid or TEL=low) thereafter followed by additional filters
 ifneq ($(ADDMARKS),)
 	_MARKS ?= -m $(MARKS)
-	_SMOKE_TEST_MARKS ?= -m $(SMOKE_TEST_MARKS)
+	_SMOKE_TEST_MARKS ?= -m "$(SMOKE_TEST_MARKS)"
 else
 _MARKS ?=
 _SMOKE_TEST_MARKS ?=
@@ -69,6 +69,7 @@ endif
 
 DISH_LMC_INITIAL_PARAMS ?=
 DISH_LMC_EXTRA_PARAMS ?=
+DISH_LMC_EDA_PARAMS ?=
 
 ifneq ($(DISH_ID),)
 DISH_LMC_EXTRA_PARAMS = \
@@ -135,7 +136,7 @@ ifeq ($(CBF_HW_IN_THE_LOOP),true)
 	CSP_PARAMS += --set ska-mid-cbf-engineering-console.enabled=true
 endif
 
-DISH_LMC_PARAMS ?= $(DISH_LMC_INITIAL_PARAMS) $(DISH_LMC_EXTRA_PARAMS)
+DISH_LMC_PARAMS ?= $(DISH_LMC_INITIAL_PARAMS) $(DISH_LMC_EXTRA_PARAMS) $(DISH_LMC_EDA_PARAMS)
 
 SKUID_URL ?= ska-ser-skuid-test-svc.$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN):9870
 ODA_PARAMS ?= --set ska-db-oda-umbrella.ska-db-oda.rest.skuid.url=$(SKUID_URL)
@@ -395,7 +396,7 @@ test-e2e-kapb:
 	@rm test-job.yaml manifests.yaml || true
 	
 smoke-tests:
-	set -o pipefail; $(PYTHON_RUNNER) pytest $(SMOKE_TEST_SOURCE) $(SMOKE_TEST_ARGS);
+	set -o pipefail; $(PYTHON_RUNNER) pytest $(SMOKE_TEST_SOURCE) $(SMOKE_TEST_ARGS) --log-cli-level=INFO;
 	mkdir -p build
 	echo $$? > build/status
 

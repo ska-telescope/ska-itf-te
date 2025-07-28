@@ -1,6 +1,12 @@
 # Version History
 
 ## Unreleased
+* [AT-3314]
+  * Update AssignResources and ReleaseResources calls in conftest.py to invoke central node instead of subarray node
+* [AT-3311]
+  * Extend EDA config to all 4 ITF dishes
+
+## 27.1.0
 * [MAP-377]
   * Add OS shutdown command to gracefully shut down the talon boards prior to powering off the LRU
 * [AT-3276] 
@@ -17,6 +23,10 @@
 * [AT-3242] 
   * Add E2E BDD test for executing a scan with data generated using CBF BITE
   * Enable execution of the test in the KAPB
+* [AT-2934] 
+  * Add basic deployment health smoke tests
+* [AT-3318]
+  * Update of ska-mid-dish-spfrx-talondx-console to 1.1.0
   
 ## 27.0.0
 * [AT-3260] 
