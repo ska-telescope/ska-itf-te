@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3289]
+  * Update Updated SPFC deployer
 * [AT-3314]
   * Update AssignResources and ReleaseResources calls in conftest.py to invoke central node instead of subarray node
 * [AT-3311]
