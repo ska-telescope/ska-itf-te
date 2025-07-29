@@ -12,7 +12,9 @@
 * [AT-3320]
   * Update Jupyter Notebook to change to the sdp assign resources schema to 1.0
   * Update Chart for TMC Revision 1.4
-
+* [AT-3340]
+  * Create vcc-config-parameters file in repo (copied from telmodel-data repo)
+  
 ## 27.1.0
 * [MAP-377]
   * Add OS shutdown command to gracefully shut down the talon boards prior to powering off the LRU
