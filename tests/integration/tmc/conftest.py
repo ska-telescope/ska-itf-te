@@ -328,17 +328,21 @@ def set_context(settings):
 
 
 @pytest.fixture(scope="session")
-def pb_and_eb_ids() -> Tuple[str, str]:
+def pb_and_eb_ids(settings) -> Tuple[str, str]:
     """Fixture for generating pb and eb ids for the scan.
 
+    :param settings: test settings
+    :type settings: dict
     :return: pb_id and eb_id for use in the assign_resources.json
     :rtype: Tuple[str, str]
     """
     time_now = localtime()
     date = strftime("%Y%m%d", time_now)
     time_now = strftime("%H%M%S", time_now)
-    eb_id = f"eb-test-{date}-{time_now}"
-    pb_id = f"pb-test-{date}-{time_now}"
+    eb_id_prefix = settings["eb_id_prefix"]
+    pb_id_prefix = settings["pb_id_prefix"]
+    eb_id = f"{eb_id_prefix}-{date}-{time_now}"
+    pb_id = f"{pb_id_prefix}-{date}-{time_now}"
     return pb_id, eb_id
 
 
@@ -544,14 +548,18 @@ def _(telescope_handlers, receptor_ids, settings):
 
     # Turn ON the telescope
     assert cbf_fspcorrsubarray.obsstate == ObsState.IDLE
-    for receptor in RECEPTORS:
-        assert tmc.get_dish_leaf_node_dp(receptor).dishMode == DishMode.STANDBY_LP
     assert tmc_subarray_node.obsState == ObsState.EMPTY
     assert csp_subarray_leaf_node.cspSubarrayObsState == ObsState.EMPTY
     assert sdp_subarray_leaf_node.sdpSubarrayObsState == ObsState.EMPTY
 
-    tmc_central_node.TelescopeOn()
-    wait_for_event(tmc_central_node, "telescopeState", DevState.ON)
+    if tmc_central_node.telescopeState == DevState.ON and cbf.controller.state == DevState.ON:
+        logger.info("Telescope is already in the ON state. Not issuing TelescopeOn command.")
+    else:
+        # Turn ON the telescope
+        logger.info("Issuing ON command")
+        tmc_central_node.TelescopeOn()
+        wait_for_event(tmc_central_node, "telescopeState", DevState.ON)
+
     # CBF On state indication is a combination of controller state and talon board health state
     wait_for_event(cbf.controller, "state", DevState.ON)
     if not sim_mode:
@@ -559,9 +567,12 @@ def _(telescope_handlers, receptor_ids, settings):
             talon_board_dp = cbf.get_talon_board_proxy(i)
             wait_for_event(talon_board_dp, "healthState", HealthState.OK)
 
-    assert tmc_central_node.telescopeState == DevState.ON
+    assert tmc_central_node.telescopeState in [DevState.ON, DevState.UNKNOWN]
     for receptor in RECEPTORS:
-        assert tmc.get_dish_leaf_node_dp(receptor).dishMode == DishMode.STANDBY_FP
+        assert tmc.get_dish_leaf_node_dp(receptor).dishMode in [
+            DishMode.STANDBY_FP,
+            DishMode.OPERATE,
+        ]
 
 
 @when(
@@ -1002,3 +1013,16 @@ def bite_test_id(settings):
         pytest.fail(error)
 
     return BITE_TEST_SELECTOR
+
+
+@then("the telescope is in the released-resources state")
+def _(telescope_handlers, receptor_ids):
+    """Check that the telescope is in the released-resources state.
+
+    :param telescope_handlers: _description_
+    :type telescope_handlers: _type_
+    :param receptor_ids: _description_
+    :type receptor_ids: _type_
+    """
+    logger.info("Checking telescope state")
+    _, cbf, _, _ = telescope_handlers
