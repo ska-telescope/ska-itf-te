@@ -8,6 +8,13 @@
   * Update AssignResources and ReleaseResources calls in conftest.py to invoke central node instead of subarray node
 * [AT-3311]
   * Extend EDA config to all 4 ITF dishes
+* [AT-3296]
+  * Update SDP to 1.2.3 and dish-lmc to 8.1.0
+    * This also required a vis-receive update to 5.4.3 (in submodule)
+    * As well as tango utils and tango base to upgrade to 0.4.22
+* [AT-3320]
+  * Update Jupyter Notebook to change to the sdp assign resources schema to 1.0
+  * Update Chart for TMC Revision 1.4
 
 ## 27.1.0
 * [MAP-377]
