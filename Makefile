@@ -78,7 +78,7 @@ DISH_LMC_EXTRA_PARAMS = \
 	--set global.tangodb_port=10000
 endif
 
-#TEMPORARY COMMIT - REMOVE ska-mid-dish-spfc-deployer.job.dish_index LINE AS SOON AS SPFC DEPLOYER IS UPDATED & RELEASED)
+#TEMPORARY COMMIT - REMOVE --set ska-mid-dish-spfc-deployer.enabled=false LINE AS SOON AS SPFC DEPLOYER IS UPDATED & RELEASED)
 SPFC_IN_THE_LOOP ?= #Boolean flag to control deployment of the SPFC Tango device in a Dish
 SPFC_INSTANCE ?= that_one #Default value that needs to be overwritten during deployment
 ifeq ($(SPFC_IN_THE_LOOP), true)
@@ -86,7 +86,7 @@ ifeq ($(SPFC_IN_THE_LOOP), true)
 	--set ska-dish-lmc.ska-mid-dish-simulators.deviceServers.spfdevice.enabled=false \
 	--set ska-dish-lmc.ska-mid-dish-manager.dishmanager.spf.fqdn=$(DISH_ID)/spf/spfc \
 	--set ska-mid-dish-spfc-deployer.global.dish_id=$(DISH_ID) \
-	--set ska-mid-dish-spfc-deployer.enabled=true \
+	--set ska-mid-dish-spfc-deployer.enabled=false \
 	--set ska-mid-dish-spfc-deployer.job.namespace=$(KUBE_NAMESPACE) \
 	--set ska-mid-dish-spfc-deployer.instance=$(SPFC_INSTANCE)
 endif

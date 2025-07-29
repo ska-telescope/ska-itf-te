@@ -1,6 +1,9 @@
 # Version History
 
 ## Unreleased
+* [AT-3306]
+  * Add new E2E test which does not call telescope OFF at the end
+  * TelescopeON only called if telescope is not already ON
 * [AT-3314]
   * Update AssignResources and ReleaseResources calls in conftest.py to invoke central node instead of subarray node
 * [AT-3311]
