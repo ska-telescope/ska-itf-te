@@ -204,6 +204,10 @@ def test_telescope_state(deployment_smoke_test_settings):
         central_node=DevState.UNKNOWN, dishes=base_dish_states_standby_lp
     )
 
+    telescope_state_on_central_node_unknown_operate = TelescopeState(
+        central_node=DevState.UNKNOWN, dishes=base_dish_states_operate
+    )
+
     # Telescope On base state (Central node: ON; Subbarray node, CSP subarrayleaf node,
     # and SDP subarray leaf node: EMPTY; Dishes: OPERATE)
     telescope_state_on_operate = TelescopeState(
@@ -222,6 +226,7 @@ def test_telescope_state(deployment_smoke_test_settings):
         telescope_state_off,
         telescope_state_on_operate,
         telescope_state_on_standby,
+        telescope_state_on_central_node_unknown_operate,
     ]
 
     # Get the current telescope state
