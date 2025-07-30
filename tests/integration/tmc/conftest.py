@@ -562,7 +562,7 @@ def _(telescope_handlers, receptor_ids, settings):
 
     # CBF On state indication is a combination of controller state and talon board health state
     wait_for_event(cbf.controller, "state", DevState.ON)
-    
+
     # TEMP COMMIT: Seems like CBF requires all 4 talons to be healthy
     number_of_talons = 4
 
