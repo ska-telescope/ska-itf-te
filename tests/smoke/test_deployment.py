@@ -220,6 +220,13 @@ def test_telescope_state(deployment_smoke_test_settings):
         central_node=DevState.ON, dishes=base_dish_states_standby_fp
     )
 
+    # Also a valid telescope OFF base state, pending TMC state aggregation improvement
+    # Telescope Off base state (Central node: UNKNOWN; Subbarray node, CSP subarrayleaf
+    # node, and SDP subarray leaf node: EMPTY; Dishes: STANDBY_FP)
+    telescope_state_on_central_node_unknown_standby = TelescopeState(
+        central_node=DevState.UNKNOWN, dishes=base_dish_states_standby_fp
+    )
+
     # List of expected "healthy" telescope states supported as a starting point by existing tests
     allowed_states = [
         telescope_state_off_central_node_unknown,
@@ -227,6 +234,7 @@ def test_telescope_state(deployment_smoke_test_settings):
         telescope_state_on_operate,
         telescope_state_on_standby,
         telescope_state_on_central_node_unknown_operate,
+        telescope_state_on_central_node_unknown_standby
     ]
 
     # Get the current telescope state
