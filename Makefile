@@ -390,7 +390,7 @@ test-e2e-kapb:
 	  HELM_RELEASE=testing; \
 	  K8S_UMBRELLA_CHART_PATH=$$CWD/charts/ska-mid-testing; \
 	  K8S_CHARTS=$$CWD/charts/ska-mid-testing; \
-	  make k8s-template-chart > /dev/null 2>&1
+	  make k8s-template-chart || { echo "Failed to generate manifests.yaml"; exit 1; }
 	)
 	@yq eval-all 'select(.kind == "Job" and .metadata.name == "test-job")' manifests.yaml > test-job.yaml
 	kubectl apply -f test-job.yaml
