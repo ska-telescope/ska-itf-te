@@ -510,7 +510,7 @@ def _(telescope_handlers, receptor_ids, settings):
 
     dish_config_json["tm_data_sources"][0] = "car:ska-mid?27.2.0-rc.7-k-value-testing#tmdata"
     dish_config_json["tm_data_filepath"] = (
-        "instrument/ska1_mid_itf/ska-mid-cbf-system-parameters.json"
+        "instrument/ska1_mid_itf/vcc-config/ska-mid-cbf-system-parameters.json"
     )
     logger.debug(f"dish_config_json file contents: \n{dish_config_json}")
 
