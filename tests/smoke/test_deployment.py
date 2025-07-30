@@ -234,7 +234,7 @@ def test_telescope_state(deployment_smoke_test_settings):
         telescope_state_on_operate,
         telescope_state_on_standby,
         telescope_state_on_central_node_unknown_operate,
-        telescope_state_on_central_node_unknown_standby
+        telescope_state_on_central_node_unknown_standby,
     ]
 
     # Get the current telescope state
