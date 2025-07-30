@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=resources/schemas/config-schema.json
 name: ska-mid
-version: 27.2.0-rc.7-k-value-testing
+version: 27.2.0-rc.8
 parts:
   ska-tango-base:
     version: "file://charts/ska-mid/Chart.yaml"
