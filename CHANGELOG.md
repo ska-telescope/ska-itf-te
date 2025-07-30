@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+
+## 27.3.0
 * [AT-3289]
   * Update Updated SPFC deployer
 * [AT-3306]
