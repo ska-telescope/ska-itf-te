@@ -228,7 +228,7 @@ ska-tmc-mid:
     centralnode:
       DishVccConfig:
         DishVccUri: "car:ska-mid?main#tmdata"
-        DishVccFilePath: "tmdata/instrument/ska1_mid_itf/vcc-config/ska-mid-cbf-system-parameters.json"
+        DishVccFilePath: "instrument/ska1_mid_itf/vcc-config/ska-mid-cbf-system-parameters.json"
       subarray_count: 1
     cspsubarrayleafnode:
       CommandTimeOut: 300

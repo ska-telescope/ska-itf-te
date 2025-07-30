@@ -510,7 +510,7 @@ def _(telescope_handlers, receptor_ids, settings):
 
     dish_config_json["tm_data_sources"][
         0
-    ] = "car://gitlab.com/ska-telescope/ska-telmodel-data?0.1.0-rc-mid-itf#tmdata"
+    ] = "car:ska-mid?main#tmdata"
     dish_config_json["tm_data_filepath"] = (
         "instrument/ska1_mid_itf/ska-mid-cbf-system-parameters.json"
     )
