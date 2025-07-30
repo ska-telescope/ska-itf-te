@@ -384,14 +384,7 @@ teardown-telescope-to-pre-assign:
 test-e2e-kapb:
 	infra use za-aa-k8s-master01-k8s
 	kubectl delete job test-job -n integration-tests || true
-	@( \
-	  CWD=$$(pwd); \
-	  KUBE_NAMESPACE=integration-tests; \
-	  HELM_RELEASE=testing; \
-	  K8S_UMBRELLA_CHART_PATH=$$CWD/charts/ska-mid-testing; \
-	  K8S_CHARTS=$$CWD/charts/ska-mid-testing; \
-	  make k8s-template-chart || { echo "Failed to generate manifests.yaml"; exit 1; }; \
-	)
+	CWD=$$(pwd) KUBE_NAMESPACE=integration-tests HELM_RELEASE=testing K8S_UMBRELLA_CHART_PATH=$$CWD/charts/ska-mid-testing K8S_CHARTS=$$CWD/charts/ska-mid-testing make k8s-template-chart
 	@yq eval-all 'select(.kind == "Job" and .metadata.name == "test-job")' manifests.yaml > test-job.yaml
 	kubectl apply -f test-job.yaml
 	kubectl wait jobs -n integration-tests -l job-name=test-job --for=condition=complete --timeout="180s"
