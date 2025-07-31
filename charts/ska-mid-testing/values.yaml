@@ -9,8 +9,8 @@ environment:
   SIM_MODE: "false"
   SUT_CLUSTER_DOMAIN: "mid.internal.skao.int"
   DISH_IDS: "SKA001"
-  PB_ID_PREFIX: "pb-ska001saivdemo"
-  EB_ID_PREFIX: "eb-ska001saivdemo"
+  PB_ID_PREFIX: "pb-ska001demo"
+  EB_ID_PREFIX: "eb-ska001demo"
   OVERRIDE_SCAN_BAND: "2"
   OVERRIDE_SCAN_DURATION: "300"
 testReportsPVC: pvc-test-data-storage
