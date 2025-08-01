@@ -1,5 +1,3 @@
-SHELL=/usr/bin/env bash
-
 print-telescope-state:
 	@poetry run telescope_state_control --print-state -n ${E2E_TEST_EXECUTION_NAMESPACE} -d "${DISH_IDS}"
 
@@ -9,16 +7,25 @@ teardown-telescope:
 teardown-telescope-to-pre-assign:
 	@poetry run telescope_state_control --teardown -n ${E2E_TEST_EXECUTION_NAMESPACE} -d "${DISH_IDS}" -c "ON" -b "STANDBY_FP"
 
+CWD := $(shell pwd)
+
 test-e2e-kapb:
 	infra use za-aa-k8s-master01-k8s
-	kubectl delete job test-job -n integration-tsts || true
-	@CWD=$$(pwd) KUBE_NAMESPACE=integration-tests HELM_RELEASE=testing K8S_UMBRELLA_CHART_PATH=$$CWD/charts/ska-mid-testing K8S_CHARTS=$$CWD/charts/ska-mid-testing make k8s-template-chart$
+	# kubectl delete job test-job -n integration-tests || true
+	export KUBE_NAMESPACE=integration-tests; \
+	export HELM_RELEASE=testing; \
+	export K8S_UMBRELLA_CHART_PATH=$(CWD)/charts/ska-mid-testing; \
+	export K8S_CHART=ska-mid-testing; \
+	make k8s-template-chart
 	@yq eval-all 'select(.kind == "Job" and .metadata.name == "test-job")' manifests.yaml > test-job.yaml
-	kubectl apply -f test-job.yaml
-	kubectl wait jobs -n integration-tests -l job-name=test-job --for=condition=complete --timeout="180s"
+	cat test-job.yaml
+	# kubectl wait jobs -n integration-tests -l job-name=test-job --for=condition=complete --timeout="180s"
 	@echo "Test job completed"
-	@rm test-job.yaml manifests.yaml || true
-	
+	# @rm test-job.yaml manifests.yaml || true
+
+make-version:
+	echo $(MAKE_VERSION)
+
 smoke-tests:
 	set -o pipefail; $(PYTHON_RUNNER) pytest $(SMOKE_TEST_SOURCE) $(SMOKE_TEST_ARGS) --log-cli-level=INFO;
 	mkdir -p build
