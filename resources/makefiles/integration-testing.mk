@@ -11,17 +11,16 @@ CWD := $(shell pwd)
 
 test-e2e-kapb:
 	infra use za-aa-k8s-master01-k8s
-	# kubectl delete job test-job -n integration-tests || true
+	kubectl delete job test-job -n integration-tests || true
 	export KUBE_NAMESPACE=integration-tests; \
 	export HELM_RELEASE=testing; \
 	export K8S_UMBRELLA_CHART_PATH=$(CWD)/charts/ska-mid-testing; \
 	export K8S_CHART=ska-mid-testing; \
-	make k8s-template-chart
+	make k8s-template-chart > /dev/null
 	@yq eval-all 'select(.kind == "Job" and .metadata.name == "test-job")' manifests.yaml > test-job.yaml
-	cat test-job.yaml
-	# kubectl wait jobs -n integration-tests -l job-name=test-job --for=condition=complete --timeout="180s"
+	kubectl wait jobs -n integration-tests -l job-name=test-job --for=condition=complete --timeout="180s"
 	@echo "Test job completed"
-	# @rm test-job.yaml manifests.yaml || true
+	@rm test-job.yaml manifests.yaml || true
 
 make-version:
 	echo $(MAKE_VERSION)
