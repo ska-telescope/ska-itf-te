@@ -128,6 +128,7 @@ def test_qspi_bitstream_compatibility(talon_firmware_compatibility_settings):
             f"Checksum reported on Talon board slot {slot_number}: {loaded_bitstream_checksum}. "
         )
 
+
 @pytest.mark.requires_talons_on
 def test_spfrx_qspi_bitstream_compatibility(talon_firmware_compatibility_settings):
     """Check QSPI bitstream version for SPFRX Talon Boards.
