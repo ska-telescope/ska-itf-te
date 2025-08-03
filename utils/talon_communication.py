@@ -1,8 +1,8 @@
+import json5
 import logging
 import re
-import subprocess
-
 import requests
+import subprocess
 
 logger = logging.getLogger(__name__)
 
@@ -220,18 +220,19 @@ class TalonBoardCommandExecutor:
         spfrx_boardmap_link = (
             "https://gitlab.com/ska-telescope/ska-mid-dish-spfrx-talondx-console"
             f"/-/raw/{spfrx_console_version}/images/ska-mid-dish-spfrx-talondx-console-deploy"
-            f"/spfrx_config/spfrx_boardmap.json?ref_type=tags&inline=false"
+            f"/spfrx_config/spfrx_boardmap.json?ref_type=tags&inline=true"
         )
 
         response = requests.get(spfrx_boardmap_link, timeout=5)
-
         if response.status_code != 200:
             error_string = f"Failed to fetch talondx_boardmap.json from {spfrx_boardmap_link}"
             logger.error(error_string)
             return None
 
         try:
-            talondx_boardmap = response.json()
+            # Replace <k-value> with "<k-value>" to ensure valid JSON
+            response = response.text.replace('"NominalKValue": <k-value>,','"NominalKValue": "<k-value>",')
+            talondx_boardmap = json5.loads(response)
         except ValueError:
             error_string = f"Failed to parse talondx_boardmap.json: {response.text}"
             logger.error(error_string)

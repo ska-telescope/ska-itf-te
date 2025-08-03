@@ -42,6 +42,8 @@
         bash .make/resources/gitlab_section.sh copy-cbf-bitstream-rpd "Copy CBF Bitstream RPD" make copy-cbf-bitstream-rpd;
         bash .make/resources/gitlab_section.sh mcs_config "Configure MCS" make itf-cbf-config-mcs && sleep 3;
         bash .make/resources/gitlab_section.sh talon_on "Talon Tango ON" make itf-cbf-tango-on && sleep 3;
+      fi
+      if ["$CBF_HW_IN_THE_LOOP" == "true"] && ["$DISH_LMC_IN_THE_LOOP" == "true"]; then
         bash .make/resources/gitlab_section.sh smoketest-cbf-firmware "Smoke Test CBF firmware compatibility" env SMOKE_TEST_MARKS=requires_talons_on env ADDMARKS=true env CBF_EC_MOUNT_PATH='.' make smoke-tests;
       fi
     - make pvc-patch-apply
