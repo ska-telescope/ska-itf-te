@@ -184,13 +184,13 @@ ska-tango-archiver:
 
 # TANGO BASE and UTILS
 ska-tango-base:
-  enabled: false
+  enabled: true
   itango:
     enabled: true
   tangodb:
     use_pv: true
 ska-tango-util:
-  enabled: false
+  enabled: true
 
 # TANGO DEPLOYMENT
 tangogql:
