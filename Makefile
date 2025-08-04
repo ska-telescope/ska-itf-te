@@ -29,6 +29,7 @@ DOCS_SPHINXBUILD = poetry run python3 -msphinx
 PYTHON_TEST_FILE = tests/unit/ tests/functional/
 PYTHON_LINT_TARGET ?= tests/
 PYTHON_SWITCHES_FOR_FLAKE8 += --extend-ignore=F824
+
 ifneq ($(COUNT),)
 # Dashcount is a synthesis of testcount as input user variable and is used to
 # run a paricular test/s multiple times. If no testcount is set then the entire
@@ -86,9 +87,18 @@ ifeq ($(SPFC_IN_THE_LOOP), true)
 	--set ska-dish-lmc.ska-mid-dish-simulators.deviceServers.spfdevice.enabled=false \
 	--set ska-dish-lmc.ska-mid-dish-manager.dishmanager.spf.fqdn=$(DISH_ID)/spf/spfc \
 	--set ska-mid-dish-spfc-deployer.global.dish_id=$(DISH_ID) \
-	--set ska-mid-dish-spfc-deployer.enabled=false \
-	--set ska-mid-dish-spfc-deployer.job.namespace=$(KUBE_NAMESPACE) \
-	--set ska-mid-dish-spfc-deployer.instance=$(SPFC_INSTANCE)
+	--set ska-mid-dish-spfc-deployer.enabled=true \
+	--set ska-mid-dish-spfc-deployer.namespace=$(KUBE_NAMESPACE) \
+	--set ska-mid-dish-spfc-deployer.instance=$(SPFC_INSTANCE) \
+	--set ska-mid-dish-spfc-deployer.ip_address=$(SPFC_IP_ADDRESS) \
+	--set ska-mid-dish-spfc-deployer.user=$(SPFC_USER) \
+	--set ska-mid-dish-spfc-deployer.private_key=$(SPFC_PRIVATE_KEY) \
+	--set ska-mid-dish-spfc-deployer.use_tango_db=$(USE_TANGO_DB) \
+	--set ska-mid-dish-spfc-deployer.update_firmware=$(UPDATE_FIRMWARE) \
+	--set ska-mid-dish-spfc-deployer.spfc_simulated_mode=$(SPFC_SIMULATED_MODE) \
+	--set ska-mid-dish-spfc-deployer.artefact_token=$(ARTEFACT_TOKEN) \
+	--set ska-mid-dish-spfc-deployer.dns_service=$(DNS_SERVICE) \
+	--set global.cluster_domain=$(CLUSTER_DOMAIN)
 endif
 
 SPFRX_IN_THE_LOOP ?= #Boolean flag to control deployment of the device described in SPFRX_TANGO_INSTANCE, SPFRX_ADDRESS variables
