@@ -8,10 +8,14 @@ global:
       enabled: false
 
 ska-tango-base:
+  enabled: false
   itango:
     enabled: false
   tangodb:
     use_pv: false
+    
+ska-tango-utils:
+  enabled: false
 
 # Mid TMC
 ska-tmc-mid:
