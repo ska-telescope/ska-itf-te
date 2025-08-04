@@ -1,7 +1,9 @@
 # Version History
 
 ## Unreleased
-
+* [AT-3343]
+  * Made test-e2e-kapb target compatible on macbooks running GNU make 3.8
+  
 ## 27.3.0
 * [AT-3289]
   * Update Updated SPFC deployer
