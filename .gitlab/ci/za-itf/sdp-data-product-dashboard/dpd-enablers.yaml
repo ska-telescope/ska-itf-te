@@ -6,6 +6,8 @@ global:
   sub-system:
     ska-tango-base:
       enabled: false
+  exposeAllDS: true
+  exposeDatabaseDS: true
 
 ska-tango-base:
   enabled: false
@@ -13,7 +15,7 @@ ska-tango-base:
     enabled: false
   tangodb:
     use_pv: false
-    
+
 ska-tango-utils:
   enabled: false
 
