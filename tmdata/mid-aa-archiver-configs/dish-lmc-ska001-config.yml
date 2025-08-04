@@ -160,3 +160,1343 @@ configuration:
       code_push_event: True
     trackProgramMode:
       code_push_event: True
+
+- class: Spf1
+  attributes:
+    b1Amp2HCurrent:
+      code_push_event: true
+    b1Amp2HPowerState:
+      code_push_event: true
+    b1Amp2HVoltage:
+      code_push_event: true
+    b1Amp2VCurrent:
+      code_push_event: true
+    b1Amp2VPowerState:
+      code_push_event: true
+    b1Amp2VVoltage:
+      code_push_event: true
+    b1AnalogueInterfaceTemp:
+      code_push_event: true
+    b1BodyTemp:
+      code_push_event: true
+    b1CalSourceCurrent:
+      code_push_event: true
+    b1CalSourcePidCurrent:
+      code_push_event: true
+    b1CalSourcePidPowerState:
+      code_push_event: true
+    b1CalSourcePidTempSetPoint:
+      code_push_event: true
+    b1CalSourcePowerState:
+      code_push_event: true
+    b1CalSourceTemp:
+      code_push_event: true
+    b1CalSourceVoltage:
+      code_push_event: true
+    b1CapTime2OpFull:
+      code_push_event: true
+    b1CapabilityState:
+      code_push_event: true
+    b1ControlRegister:
+      code_push_event: true
+    b1ControllerCurrent:
+      code_push_event: true
+    b1ControllerTemp:
+      code_push_event: true
+    b1ControllerVoltage:
+      code_push_event: true
+    b1DefaultCalSourcePidTempSetPoint:
+      code_push_event: true
+    b1DefaultLnaHPidTempSetPoint:
+      code_push_event: true
+    b1DefaultLnaVPidTempSetPoint:
+      code_push_event: true
+    b1DefaultStartState:
+      code_push_event: true
+    b1ErrorRegister:
+      code_push_event: true
+    b1ExpectedOnline:
+      code_push_event: true
+    b1FwVersion:
+      code_push_event: true
+    b1HardwareDetected:
+      code_push_event: true
+    b1HealthState:
+      code_push_event: true
+    b1InterfaceType:
+      code_push_event: true
+    b1LnaHDrainCurrent:
+      code_push_event: true
+    b1LnaHDrainCurrent1:
+      code_push_event: true
+    b1LnaHDrainCurrent2:
+      code_push_event: true
+    b1LnaHDrainVoltage:
+      code_push_event: true
+    b1LnaHDrainVoltage1:
+      code_push_event: true
+    b1LnaHDrainVoltage2:
+      code_push_event: true
+    b1LnaHGateVoltage:
+      code_push_event: true
+    b1LnaHGateVoltage1:
+      code_push_event: true
+    b1LnaHGateVoltage2:
+      code_push_event: true
+    b1LnaHMeanGain:
+      code_push_event: true
+    b1LnaHPidPowerState:
+      code_push_event: true
+    b1LnaHPidTempSetPoint:
+      code_push_event: true
+    b1LnaHPowerState:
+      code_push_event: true
+    b1LnaHSerialNumber:
+      code_push_event: true
+    b1LnaHTemp:
+      code_push_event: true
+    b1LnaPidCurrent:
+      code_push_event: true
+    b1LnaVDrainCurrent:
+      code_push_event: true
+    b1LnaVDrainCurrent1:
+      code_push_event: true
+    b1LnaVDrainCurrent2:
+      code_push_event: true
+    b1LnaVDrainVoltage:
+      code_push_event: true
+    b1LnaVDrainVoltage1:
+      code_push_event: true
+    b1LnaVDrainVoltage2:
+      code_push_event: true
+    b1LnaVGateVoltage:
+      code_push_event: true
+    b1LnaVGateVoltage1:
+      code_push_event: true
+    b1LnaVGateVoltage2:
+      code_push_event: true
+    b1LnaVMeanGain:
+      code_push_event: true
+    b1LnaVPidCurrent:
+      code_push_event: true
+    b1LnaVPidPowerState:
+      code_push_event: true
+    b1LnaVPidTempSetPoint:
+      code_push_event: true
+    b1LnaVPowerState:
+      code_push_event: true
+    b1LnaVSerialNumber:
+      code_push_event: true
+    b1LnaVTemp:
+      code_push_event: true
+    b1OpTime:
+      code_push_event: true
+    b1OperatingState:
+      code_push_event: true
+    b1Psu9VRectifiedVoltage:
+      code_push_event: true
+    b1PsuAnalogue15VRegulatorTemp:
+      code_push_event: true
+    b1PsuAnalogue6VRegulatorTemp:
+      code_push_event: true
+    b1PsuDigital6VRegulatorTemp:
+      code_push_event: true
+    b1SerialNumber:
+      code_push_event: true
+    b1SpdHealth:
+      code_push_event: true
+    b1StateMachineState:
+      code_push_event: true
+    b1SwVersion:
+      code_push_event: true
+    b1TotOpTime:
+      code_push_event: true
+    b1ErrorCode:
+      code_push_event: true
+
+- class: Spf2
+  attributes:
+    b2CapabilityState:
+      code_push_event: true
+    b2OperatingState:
+      code_push_event: true
+    b2HealthState:
+      code_push_event: true
+    b2ExpectedOnline:
+      code_push_event: true
+    serialNumber:
+      code_push_event: true
+    fwVersion:
+      code_push_event: true
+    controllerVolt:
+      code_push_event: true
+    controllerCurrent:
+      code_push_event: true
+    controllerTemp:
+      code_push_event: true
+    psuAnalogue6vRectifiedVolt:
+      code_push_event: true
+    psuAnalogue6vRegulatorTemp:
+      code_push_event: true
+    psuAnalogue15vRegulatorTemp:
+      code_push_event: true
+    psuDigital6vRegulatorTemp:
+      code_push_event: true
+    lnaHDrainVoltage1:
+      code_push_event: true
+    lnaHDrainVoltage2:
+      code_push_event: true
+    lnaHDrainVoltage3:
+      code_push_event: true
+    lnaHDrainCurrent1:
+      code_push_event: true
+    lnaHDrainCurrent2:
+      code_push_event: true
+    lnaHDrainCurrent3:
+      code_push_event: true
+    lnaHGateVoltage1:
+      code_push_event: true
+    lnaHGateVoltage2:
+      code_push_event: true
+    lnaHGateVoltage3:
+      code_push_event: true
+    lnaVDrainVoltage1:
+      code_push_event: true
+    lnaVDrainVoltage2:
+      code_push_event: true
+    lnaVDrainVoltage3:
+      code_push_event: true
+    lnaVDrainCurrent1:
+      code_push_event: true
+    lnaVDrainCurrent2:
+      code_push_event: true
+    lnaVDrainCurrent3:
+      code_push_event: true
+    lnaVGateVoltage1:
+      code_push_event: true
+    lnaVGateVoltage2:
+      code_push_event: true
+    lnaVGateVoltage3:
+      code_push_event: true
+    b2Amp2HVoltage:
+      code_push_event: true
+    b2Amp2HCurrent:
+      code_push_event: true
+    b2Amp2VVoltage:
+      code_push_event: true
+    b2Amp2VCurrent:
+      code_push_event: true
+    b2CalSourceVoltage:
+      code_push_event: true
+    b2CalSourceCurrent:
+      code_push_event: true
+    b2CalSourceTemp:
+      code_push_event: true
+    b2CalSourcePidCurrent:
+      code_push_event: true
+    b2LnaPidCurrent:
+      code_push_event: true
+    b2CryoPressure:
+      code_push_event: true
+    b2ManifoldPressure:
+      code_push_event: true
+    b2LnaTemp:
+      code_push_event: true
+    b2OmtTemp:
+      code_push_event: true
+    b2ColdheadStage1Temp:
+      code_push_event: true
+    b2BodyTemp:
+      code_push_event: true
+    b2AnalogueInterfaceTemp:
+      code_push_event: true
+    b2PsuMotorPosSupplyCurrent:
+      code_push_event: true
+    b2PsuMotorNegSupplyCurrent:
+      code_push_event: true
+    b2PsuMotorDriverTemp:
+      code_push_event: true
+    b2LnaHPowerState:
+      code_push_event: true
+    b2LnaVPowerState:
+      code_push_event: true
+    b2Amp2HPowerState:
+      code_push_event: true
+    b2Amp2VPowerState:
+      code_push_event: true
+    lnaIlluminationEnabled:
+      code_push_event: true
+    b2LnaHIlluminationEnabled:
+      code_push_event: true
+    b2LnaVIlluminationEnabled:
+      code_push_event: true
+    b2CalSourcePowerState:
+      code_push_event: true
+    b2CalSourcePidPowerState:
+      code_push_event: true
+    b2LnaPidPowerState:
+      code_push_event: true
+    b2CryoMotorState:
+      code_push_event: true
+    b2CryoMotorSpeed:
+      code_push_event: true
+    b2VaValveState:
+      code_push_event: true
+    b2OpTime:
+      code_push_event: true
+    b2CryoMotorTime:
+      code_push_event: true
+    b2VaValveOpenTime:
+      code_push_event: true
+    b2TotOpTime:
+      code_push_event: true
+    b2CapTime2OpFull:
+      code_push_event: true
+    b2LnaHMeanGain:
+      code_push_event: true
+    b2LnaVMeanGain:
+      code_push_event: true
+    hardwareDetected:
+      code_push_event: true
+    b2DefaultStartState:
+      code_push_event: true
+    b2LnaPidTempSetPoint:
+      code_push_event: true
+    b2CalSourcePidTempSetPoint:
+      code_push_event: true
+    controlRegister:
+      code_push_event: true
+    stateMachineState:
+      code_push_event: true
+    swVersion:
+      code_push_event: true
+    lnaHSerialNumber:
+      code_push_event: true
+    lnaVSerialNumber:
+      code_push_event: true
+    b2DefaultLnaPidTempSetPoint:
+      code_push_event: true
+    b2DefaultCalSourcePidTempSetPoint:
+      code_push_event: true
+    errorRegister:
+      code_push_event: true
+    b2LnaHDrainVoltage:
+      code_push_event: true
+    b2LnaHDrainCurrent:
+      code_push_event: true
+    b2LnaHGateVoltage:
+      code_push_event: true
+    b2LnaVDrainVoltage:
+      code_push_event: true
+    b2LnaVDrainCurrent:
+      code_push_event: true
+    b2LnaVGateVoltage:
+      code_push_event: true
+    b2CoolDownCounter:
+      code_push_event: true
+    b2SpdHealth:
+      code_push_event: true
+    b2InterfaceType:
+      code_push_event: true
+    lnaHBiasVoltage:
+      code_push_event: true
+    lnaHBiasCurrent:
+      code_push_event: true
+    lnaVBiasVoltage:
+      code_push_event: true
+    lnaVBiasCurrent:
+      code_push_event: true
+    b2ErrorCode:
+      code_push_event: true
+    b2ServiceErrorCode:
+      code_push_event: true
+
+- class: Spf345
+  attributes:
+    b345ActiveBand:
+      code_push_event: true
+    b345AnaBoardSerialNr:
+      code_push_event: true
+    b345AnalogueInterfaceTemp:
+      code_push_event: true
+    b345BodyTemp:
+      code_push_event: true
+    b345CalSourcePowerState:
+      code_push_event: true
+    b345CalSourceTemp:
+      code_push_event: true
+    b345CalSourceTempSetPoint:
+      code_push_event: true
+    b345CapTime2OpFull:
+      code_push_event: true
+    b345ColdHeadCycles:
+      code_push_event: true
+    b345ColdheadStage1Temp:
+      code_push_event: true
+    b345ColdheadStage2Temp:
+      code_push_event: true
+    b345ControlRegister:
+      code_push_event: true
+    b345CoolDownCounter:
+      code_push_event: true
+    b345CryoMotorSpeed:
+      code_push_event: true
+    b345CryoMotorState:
+      code_push_event: true
+    b345CryoMotorTime:
+      code_push_event: true
+    b345CryoPressure:
+      code_push_event: true
+    b345DefaultCalSourceTempSetPoint:
+      code_push_event: true
+    b345DefaultStartState:
+      code_push_event: true
+    b345DevSwVersion:
+      code_push_event: true
+    b345DigBoardSerialNr:
+      code_push_event: true
+    b345DigitalInterfaceTemp:
+      code_push_event: true
+    b345ErrorRegister:
+      code_push_event: true
+    b345ExpectedOnline:
+      code_push_event: true
+    b345FwVersion:
+      code_push_event: true
+    b345HealthState:
+      code_push_event: true
+    b345HwDetected:
+      code_push_event: true
+    b345InterfaceType:
+      code_push_event: true
+    b345ManifoldPressure:
+      code_push_event: true
+    b345NegHeaterPowerState:
+      code_push_event: true
+    b345OpTime:
+      code_push_event: true
+    b345OperatingState:
+      code_push_event: true
+    b345SerialNr:
+      code_push_event: true
+    b345SpdHealth:
+      code_push_event: true
+    b345StateMachineState:
+      code_push_event: true
+    b345SwVersion:
+      code_push_event: true
+    b345TotOpTime:
+      code_push_event: true
+    b345VaTurboState:
+      code_push_event: true
+    b345VaValveOpenTime:
+      code_push_event: true
+    b345VaValveState:
+      code_push_event: true
+    b3CapTime2OpFull:
+      code_push_event: true
+    b3CapabilityState:
+      code_push_event: true
+    b3DefaultLnaPidTempSetPoint:
+      code_push_event: true
+    b3DefaultWarmPlateTempSetPoint:
+      code_push_event: true
+    b3HealthState:
+      code_push_event: true
+    b3LnaHDrainCurrent:
+      code_push_event: true
+    b3LnaHDrainVoltage:
+      code_push_event: true
+    b3LnaHGateVoltage:
+      code_push_event: true
+    b3LnaHMeanGain:
+      code_push_event: true
+    b3LnaPidCurrent:
+      code_push_event: true
+    b3LnaPidTempSetPoint:
+      code_push_event: true
+    b3LnaPowerState:
+      code_push_event: true
+    b3LnaTemp:
+      code_push_event: true
+    b3LnaVDrainCurrent:
+      code_push_event: true
+    b3LnaVDrainVoltage:
+      code_push_event: true
+    b3LnaVGateVoltage:
+      code_push_event: true
+    b3LnaVMeanGain:
+      code_push_event: true
+    b3OmtTemp:
+      code_push_event: true
+    b3PidPowerState:
+      code_push_event: true
+    b3WarmPlateTemp:
+      code_push_event: true
+    b3WarmPlateTempSetPoint:
+      code_push_event: true
+    b4CapTime2OpFull:
+      code_push_event: true
+    b4CapabilityState:
+      code_push_event: true
+    b4DefaultLnaPidTempSetPoint:
+      code_push_event: true
+    b4DefaultWarmPlateTempSetPoint:
+      code_push_event: true
+    b4HealthState:
+      code_push_event: true
+    b4LnaHDrainCurrent:
+      code_push_event: true
+    b4LnaHDrainVoltage:
+      code_push_event: true
+    b4LnaHGateVoltage:
+      code_push_event: true
+    b4LnaHMeanGain:
+      code_push_event: true
+    b4LnaPidCurrent:
+      code_push_event: true
+    b4LnaPidTempSetPoint:
+      code_push_event: true
+    b4LnaPowerState:
+      code_push_event: true
+    b4LnaTemp:
+      code_push_event: true
+    b4LnaVDrainCurrent:
+      code_push_event: true
+    b4LnaVDrainVoltage:
+      code_push_event: true
+    b4LnaVGateVoltage:
+      code_push_event: true
+    b4LnaVMeanGain:
+      code_push_event: true
+    b4OmtTemp:
+      code_push_event: true
+    b4PidPowerState:
+      code_push_event: true
+    b4WarmPlateTemp:
+      code_push_event: true
+    b4WarmPlateTempSetPoint:
+      code_push_event: true
+    b5aCapTime2OpFull:
+      code_push_event: true
+    b5aCapabilityState:
+      code_push_event: true
+    b5aDefaultLnaPidTempSetPoint:
+      code_push_event: true
+    b5aDefaultWarmPlateTempSetPoint:
+      code_push_event: true
+    b5aHealthState:
+      code_push_event: true
+    b5aHornTemp:
+      code_push_event: true
+    b5aLnaHDrainCurrent:
+      code_push_event: true
+    b5aLnaHDrainVoltage:
+      code_push_event: true
+    b5aLnaHGateVoltage:
+      code_push_event: true
+    b5aLnaHMeanGain:
+      code_push_event: true
+    b5aLnaPidCurrent:
+      code_push_event: true
+    b5aLnaPidTempSetPoint:
+      code_push_event: true
+    b5aLnaPowerState:
+      code_push_event: true
+    b5aLnaTemp:
+      code_push_event: true
+    b5aLnaVDrainCurrent:
+      code_push_event: true
+    b5aLnaVDrainVoltage:
+      code_push_event: true
+    b5aLnaVGateVoltage:
+      code_push_event: true
+    b5aLnaVMeanGain:
+      code_push_event: true
+    b5aOmtTemp:
+      code_push_event: true
+    b5aPidPowerState:
+      code_push_event: true
+    b5aWarmPlateTemp:
+      code_push_event: true
+    b5aWarmPlateTempSetPoint:
+      code_push_event: true
+    b5bCapTime2OpFull:
+      code_push_event: true
+    b5bCapabilityState:
+      code_push_event: true
+    b5bDefaultLnaPidTempSetPoint:
+      code_push_event: true
+    b5bDefaultWarmPlateTempSetPoint:
+      code_push_event: true
+    b5bHealthState:
+      code_push_event: true
+    b5bHornTemp:
+      code_push_event: true
+    b5bLnaHDrainCurrent:
+      code_push_event: true
+    b5bLnaHDrainVoltage:
+      code_push_event: true
+    b5bLnaHGateVoltage:
+      code_push_event: true
+    b5bLnaHMeanGain:
+      code_push_event: true
+    b5bLnaPidCurrent:
+      code_push_event: true
+    b5bLnaPidTempSetPoint:
+      code_push_event: true
+    b5bLnaPowerState:
+      code_push_event: true
+    b5bLnaTemp:
+      code_push_event: true
+    b5bLnaVDrainCurrent:
+      code_push_event: true
+    b5bLnaVDrainVoltage:
+      code_push_event: true
+    b5bLnaVGateVoltage:
+      code_push_event: true
+    b5bLnaVMeanGain:
+      code_push_event: true
+    b5bOmtTemp:
+      code_push_event: true
+    b5bPidPowerState:
+      code_push_event: true
+    b5bWarmPlateTemp:
+      code_push_event: true
+    b5bWarmPlateTempSetPoint:
+      code_push_event: true
+    b6CapTime2OpFull:
+      code_push_event: true
+    b6CapabilityState:
+      code_push_event: true
+    b6DefaultLnaPidTempSetPoint:
+      code_push_event: true
+    b6DefaultWarmPlateTempSetPoint:
+      code_push_event: true
+    b6HealthState:
+      code_push_event: true
+    b6HornTemp:
+      code_push_event: true
+    b6LnaHDrainCurrent:
+      code_push_event: true
+    b6LnaHDrainVoltage:
+      code_push_event: true
+    b6LnaHGateVoltage:
+      code_push_event: true
+    b6LnaHMeanGain:
+      code_push_event: true
+    b6LnaPidCurrent:
+      code_push_event: true
+    b6LnaPidTempSetPoint:
+      code_push_event: true
+    b6LnaPowerState:
+      code_push_event: true
+    b6LnaTemp:
+      code_push_event: true
+    b6LnaVDrainCurrent:
+      code_push_event: true
+    b6LnaVDrainVoltage:
+      code_push_event: true
+    b6LnaVGateVoltage:
+      code_push_event: true
+    b6LnaVMeanGain:
+      code_push_event: true
+    b6OmtTemp:
+      code_push_event: true
+    b6PidPowerState:
+      code_push_event: true
+    b6WarmPlateTemp:
+      code_push_event: true
+    b6WarmPlateTempSetPoint:
+      code_push_event: true
+    b345ErrorCode:
+      code_push_event: true
+    b345LnaSerialNumbers:
+      code_push_event: true
+    b345TSensSerialNumbers:
+      code_push_event: true
+    b345LnaHBias:
+      code_push_event: true
+    b345LnaVBias:
+      code_push_event: true
+
+- class: Spfc
+  attributes:
+    b1Amp2HCurrent:
+      code_push_event: true
+    b1Amp2HPowerState:
+      code_push_event: true
+    b1Amp2HVoltage:
+      code_push_event: true
+    b1Amp2VCurrent:
+      code_push_event: true
+    b1Amp2VPowerState:
+      code_push_event: true
+    b1Amp2VVoltage:
+      code_push_event: true
+    b1AnalogueInterfaceTemp:
+      code_push_event: true
+    b1BodyTemp:
+      code_push_event: true
+    b1CalSourceCurrent:
+      code_push_event: true
+    b1CalSourcePidCurrent:
+      code_push_event: true
+    b1CalSourcePidPowerState:
+      code_push_event: true
+    b1CalSourcePidTempSetPoint:
+      code_push_event: true
+    b1CalSourcePowerState:
+      code_push_event: true
+    b1CalSourceTemp:
+      code_push_event: true
+    b1CalSourceVoltage:
+      code_push_event: true
+    b1CapTime2OpFull:
+      code_push_event: true
+    b1CapabilityState:
+      code_push_event: true
+    b1DefaultCalSourcePidTempSetPoint:
+      code_push_event: true
+    b1DefaultLnaHPidTempSetPoint:
+      code_push_event: true
+    b1DefaultLnaVPidTempSetPoint:
+      code_push_event: true
+    b1DefaultStartState:
+      code_push_event: true
+    b1EstimatePowerConsumption:
+      code_push_event: true
+    b1ExpectedOnline:
+      code_push_event: true
+    b1HealthState:
+      code_push_event: true
+    b1LnaHDrainCurrent:
+      code_push_event: true
+    b1LnaHDrainVoltage:
+      code_push_event: true
+    b1LnaHGateVoltage:
+      code_push_event: true
+    b1LnaHMeanGain:
+      code_push_event: true
+    b1LnaHPidPowerState:
+      code_push_event: true
+    b1LnaHPidTempSetPoint:
+      code_push_event: true
+    b1LnaHPowerState:
+      code_push_event: true
+    b1LnaHTemp:
+      code_push_event: true
+    b1LnaPidCurrent:
+      code_push_event: true
+    b1LnaVDrainCurrent:
+      code_push_event: true
+    b1LnaVDrainVoltage:
+      code_push_event: true
+    b1LnaVGateVoltage:
+      code_push_event: true
+    b1LnaVMeanGain:
+      code_push_event: true
+    b1LnaVPidCurrent:
+      code_push_event: true
+    b1LnaVPidPowerState:
+      code_push_event: true
+    b1LnaVPidTempSetPoint:
+      code_push_event: true
+    b1LnaVPowerState:
+      code_push_event: true
+    b1LnaVTemp:
+      code_push_event: true
+    b1OpTime:
+      code_push_event: true
+    b1OperatingState:
+      code_push_event: true
+    b1SpdHealth:
+      code_push_event: true
+    b1TotOpTime:
+      code_push_event: true
+    b2Amp2HCurrent:
+      code_push_event: true
+    b2Amp2HPowerState:
+      code_push_event: true
+    b2Amp2HVoltage:
+      code_push_event: true
+    b2Amp2VCurrent:
+      code_push_event: true
+    b2Amp2VPowerState:
+      code_push_event: true
+    b2Amp2VVoltage:
+      code_push_event: true
+    b2AnalogueInterfaceTemp:
+      code_push_event: true
+    b2BodyTemp:
+      code_push_event: true
+    b2CalSourceCurrent:
+      code_push_event: true
+    b2CalSourcePidCurrent:
+      code_push_event: true
+    b2CalSourcePidPowerState:
+      code_push_event: true
+    b2CalSourcePidTempSetPoint:
+      code_push_event: true
+    b2CalSourcePowerState:
+      code_push_event: true
+    b2CalSourceTemp:
+      code_push_event: true
+    b2CalSourceVoltage:
+      code_push_event: true
+    b2CapTime2OpFull:
+      code_push_event: true
+    b2CapabilityState:
+      code_push_event: true
+    b2ColdheadStage1Temp:
+      code_push_event: true
+    b2CoolDownCounter:
+      code_push_event: true
+    b2CryoMotorSpeed:
+      code_push_event: true
+    b2CryoMotorState:
+      code_push_event: true
+    b2CryoMotorTime:
+      code_push_event: true
+    b2CryoPressure:
+      code_push_event: true
+    b2DefaultCalSourcePidTempSetPoint:
+      code_push_event: true
+    b2DefaultLnaPidTempSetPoint:
+      code_push_event: true
+    b2DefaultStartState:
+      code_push_event: true
+    b2EstimatePowerConsumption:
+      code_push_event: true
+    b2ExpectedOnline:
+      code_push_event: true
+    b2HealthState:
+      code_push_event: true
+    b2LnaHDrainCurrent:
+      code_push_event: true
+    b2LnaHDrainVoltage:
+      code_push_event: true
+    b2LnaHGateVoltage:
+      code_push_event: true
+    b2LnaHIlluminationEnabled:
+      code_push_event: true
+    b2LnaHMeanGain:
+      code_push_event: true
+    b2LnaHPowerState:
+      code_push_event: true
+    b2LnaPidCurrent:
+      code_push_event: true
+    b2LnaPidPowerState:
+      code_push_event: true
+    b2LnaPidTempSetPoint:
+      code_push_event: true
+    b2LnaTemp:
+      code_push_event: true
+    b2LnaVDrainCurrent:
+      code_push_event: true
+    b2LnaVDrainVoltage:
+      code_push_event: true
+    b2LnaVGateVoltage:
+      code_push_event: true
+    b2LnaVIlluminationEnabled:
+      code_push_event: true
+    b2LnaVMeanGain:
+      code_push_event: true
+    b2LnaVPowerState:
+      code_push_event: true
+    b2OmtTemp:
+      code_push_event: true
+    b2OpTime:
+      code_push_event: true
+    b2OperatingState:
+      code_push_event: true
+    b2PsuMotorDriverTemp:
+      code_push_event: true
+    b2SpdHealth:
+      code_push_event: true
+    b2TotOpTime:
+      code_push_event: true
+    b2VaValveOpenTime:
+      code_push_event: true
+    b2VaValveState:
+      code_push_event: true
+    b345AnalogueInterfaceTemp:
+      code_push_event: true
+    b345BodyTemp:
+      code_push_event: true
+    b345CalSourcePowerState:
+      code_push_event: true
+    b345CalSourceTemp:
+      code_push_event: true
+    b345CalSourceTempSetPoint:
+      code_push_event: true
+    b345ColdHeadCycles:
+      code_push_event: true
+    b345ColdHeadStage1Temp:
+      code_push_event: true
+    b345ColdHeadStage2Temp:
+      code_push_event: true
+    b345CoolDownCounter:
+      code_push_event: true
+    b345CryoMotorSpeed:
+      code_push_event: true
+    b345CryoMotorState:
+      code_push_event: true
+    b345CryoMotorTime:
+      code_push_event: true
+    b345CryoPressure:
+      code_push_event: true
+    b345DefaultCalSourceTempSetPoint:
+      code_push_event: true
+    b345DefaultStartState:
+      code_push_event: true
+    b345DigitalInterfaceTemp:
+      code_push_event: true
+    b345EstimatePowerConsumption:
+      code_push_event: true
+    b345ExpectedOnline:
+      code_push_event: true
+    b345HealthState:
+      code_push_event: true
+    b345ManifoldPressure:
+      code_push_event: true
+    b345NegHeaterPowerState:
+      code_push_event: true
+    b345OpTime:
+      code_push_event: true
+    b345OperatingState:
+      code_push_event: true
+    b345SpdHealth:
+      code_push_event: true
+    b345TotOpTime:
+      code_push_event: true
+    b345VaTurboState:
+      code_push_event: true
+    b345VaValveOpenTime:
+      code_push_event: true
+    b345VaValveState:
+      code_push_event: true
+    b3CapTime2OpFull:
+      code_push_event: true
+    b3CapabilityState:
+      code_push_event: true
+    b3DefaultLnaPidTempSetPoint:
+      code_push_event: true
+    b3DefaultWarmPlateTempSetPoint:
+      code_push_event: true
+    b3LnaHDrainCurrent:
+      code_push_event: true
+    b3LnaHDrainVoltage:
+      code_push_event: true
+    b3LnaHGateVoltage:
+      code_push_event: true
+    b3LnaHMeanGain:
+      code_push_event: true
+    b3LnaPidCurrent:
+      code_push_event: true
+    b3LnaPidTempSetPoint:
+      code_push_event: true
+    b3LnaPowerState:
+      code_push_event: true
+    b3LnaTemp:
+      code_push_event: true
+    b3LnaVDrainCurrent:
+      code_push_event: true
+    b3LnaVDrainVoltage:
+      code_push_event: true
+    b3LnaVGateVoltage:
+      code_push_event: true
+    b3LnaVMeanGain:
+      code_push_event: true
+    b3OmtTemp:
+      code_push_event: true
+    b3PidPowerState:
+      code_push_event: true
+    b3WarmPlateTemp:
+      code_push_event: true
+    b3WarmPlateTempSetPoint:
+      code_push_event: true
+    b4CapTime2OpFull:
+      code_push_event: true
+    b4CapabilityState:
+      code_push_event: true
+    b4DefaultLnaPidTempSetPoint:
+      code_push_event: true
+    b4DefaultWarmPlateTempSetPoint:
+      code_push_event: true
+    b4LnaHDrainCurrent:
+      code_push_event: true
+    b4LnaHDrainVoltage:
+      code_push_event: true
+    b4LnaHGateVoltage:
+      code_push_event: true
+    b4LnaHMeanGain:
+      code_push_event: true
+    b4LnaPidCurrent:
+      code_push_event: true
+    b4LnaPidTempSetPoint:
+      code_push_event: true
+    b4LnaPowerState:
+      code_push_event: true
+    b4LnaTemp:
+      code_push_event: true
+    b4LnaVDrainCurrent:
+      code_push_event: true
+    b4LnaVDrainVoltage:
+      code_push_event: true
+    b4LnaVGateVoltage:
+      code_push_event: true
+    b4LnaVMeanGain:
+      code_push_event: true
+    b4OmtTemp:
+      code_push_event: true
+    b4PidPowerState:
+      code_push_event: true
+    b4WarmPlateTemp:
+      code_push_event: true
+    b4WarmPlateTempSetPoint:
+      code_push_event: true
+    b5aCapTime2OpFull:
+      code_push_event: true
+    b5aCapabilityState:
+      code_push_event: true
+    b5aDefaultLnaPidTempSetPoint:
+      code_push_event: true
+    b5aDefaultWarmPlateTempSetPoint:
+      code_push_event: true
+    b5aHornTemp:
+      code_push_event: true
+    b5aLnaHDrainCurrent:
+      code_push_event: true
+    b5aLnaHDrainVoltage:
+      code_push_event: true
+    b5aLnaHGateVoltage:
+      code_push_event: true
+    b5aLnaHMeanGain:
+      code_push_event: true
+    b5aLnaPidCurrent:
+      code_push_event: true
+    b5aLnaPidTempSetPoint:
+      code_push_event: true
+    b5aLnaPowerState:
+      code_push_event: true
+    b5aLnaTemp:
+      code_push_event: true
+    b5aLnaVDrainCurrent:
+      code_push_event: true
+    b5aLnaVDrainVoltage:
+      code_push_event: true
+    b5aLnaVGateVoltage:
+      code_push_event: true
+    b5aLnaVMeanGain:
+      code_push_event: true
+    b5aOmtTemp:
+      code_push_event: true
+    b5aPidPowerState:
+      code_push_event: true
+    b5aWarmPlateTemp:
+      code_push_event: true
+    b5aWarmPlateTempSetPoint:
+      code_push_event: true
+    b5bCapTime2OpFull:
+      code_push_event: true
+    b5bCapabilityState:
+      code_push_event: true
+    b5bDefaultLnaPidTempSetPoint:
+      code_push_event: true
+    b5bDefaultWarmPlateTempSetPoint:
+      code_push_event: true
+    b5bHornTemp:
+      code_push_event: true
+    b5bLnaHDrainCurrent:
+      code_push_event: true
+    b5bLnaHDrainVoltage:
+      code_push_event: true
+    b5bLnaHGateVoltage:
+      code_push_event: true
+    b5bLnaHMeanGain:
+      code_push_event: true
+    b5bLnaPidCurrent:
+      code_push_event: true
+    b5bLnaPidTempSetPoint:
+      code_push_event: true
+    b5bLnaPowerState:
+      code_push_event: true
+    b5bLnaTemp:
+      code_push_event: true
+    b5bLnaVDrainCurrent:
+      code_push_event: true
+    b5bLnaVDrainVoltage:
+      code_push_event: true
+    b5bLnaVGateVoltage:
+      code_push_event: true
+    b5bLnaVMeanGain:
+      code_push_event: true
+    b5bOmtTemp:
+      code_push_event: true
+    b5bPidPowerState:
+      code_push_event: true
+    b5bWarmPlateTemp:
+      code_push_event: true
+    b5bWarmPlateTempSetPoint:
+      code_push_event: true
+    b6CapTime2OpFull:
+      code_push_event: true
+    b6CapabilityState:
+      code_push_event: true
+    b6DefaultLnaPidTempSetPoint:
+      code_push_event: true
+    b6DefaultWarmPlateTempSetPoint:
+      code_push_event: true
+    b6HornTemp:
+      code_push_event: true
+    b6LnaHDrainCurrent:
+      code_push_event: true
+    b6LnaHDrainVoltage:
+      code_push_event: true
+    b6LnaHGateVoltage:
+      code_push_event: true
+    b6LnaHMeanGain:
+      code_push_event: true
+    b6LnaPidCurrent:
+      code_push_event: true
+    b6LnaPidTempSetPoint:
+      code_push_event: true
+    b6LnaPowerState:
+      code_push_event: true
+    b6LnaTemp:
+      code_push_event: true
+    b6LnaVDrainCurrent:
+      code_push_event: true
+    b6LnaVDrainVoltage:
+      code_push_event: true
+    b6LnaVGateVoltage:
+      code_push_event: true
+    b6LnaVMeanGain:
+      code_push_event: true
+    b6OmtTemp:
+      code_push_event: true
+    b6PidPowerState:
+      code_push_event: true
+    b6WarmPlateTemp:
+      code_push_event: true
+    b6WarmPlateTempSetPoint:
+      code_push_event: true
+    bandInFocus:
+      code_push_event: true
+    heCompMotorTemp:
+      code_push_event: true
+    heCompReturnPressure:
+      code_push_event: true
+    heCompSupplyPressure:
+      code_push_event: true
+    heCompSupplyTemp:
+      code_push_event: true
+    heCompressorPowerState:
+      code_push_event: true
+    heErrorRegister:
+      code_push_event: true
+    heEstimatePowerConsumption:
+      code_push_event: true
+    heExpectedOnline:
+      code_push_event: true
+    heHealthState:
+      code_push_event: true
+    heHwState:
+      code_push_event: true
+    heOpTime:
+      code_push_event: true
+    heOperatingState:
+      code_push_event: true
+    heStateMachineState:
+      code_push_event: true
+    heTotOpTime:
+      code_push_event: true
+    healthState:
+      code_push_event: true
+    interfaceType:
+      code_push_event: true
+    logToSdCard:
+      code_push_event: true
+    operatingMode:
+      code_push_event: true
+    powerState:
+      code_push_event: true
+    sdCardState:
+      code_push_event: true
+    spfcEstimatePowerConsumption:
+      code_push_event: true
+    spfcExpectedOnline:
+      code_push_event: true
+    spfcHealthState:
+      code_push_event: true
+    spfcOpTime:
+      code_push_event: true
+    spfcSupplyCurrent:
+      code_push_event: true
+    spfcSupplyVoltage:
+      code_push_event: true
+    spfcTemp:
+      code_push_event: true
+    spfcTotOpTime:
+      code_push_event: true
+    startupStatus:
+      code_push_event: true
+    vaEstimatePowerConsumption:
+      code_push_event: true
+    vaExpectedOnline:
+      code_push_event: true
+    vaHealthState:
+      code_push_event: true
+    vaHwState:
+      code_push_event: true
+    vaOpTime:
+      code_push_event: true
+    vaOperatingState:
+      code_push_event: true
+    vaPumpPowerState:
+      code_push_event: true
+    vaPurgeValveState:
+      code_push_event: true
+    vaRequestedTimeLeft:
+      code_push_event: true
+    vaStateMachineState:
+      code_push_event: true
+    vaTotOpTime:
+      code_push_event: true
+    setOperateModeProgress:
+      code_push_event: true
+    setStandbyLPModeProgress:
+      code_push_event: true
+    setMaintenanceModeProgress:
+      code_push_event: true
+    shutdownProgress:
+      code_push_event: true
+    setB1FeedFullPerfModeProgress:
+      code_push_event: true
+    setB2FeedFullPerfModeProgress:
+      code_push_event: true
+    setB345FeedFullPerfModeProgress:
+      code_push_event: true
+    setB1FeedRegenerationModeProgress:
+      code_push_event: true
+    setB2FeedRegenerationModeProgress:
+      code_push_event: true
+    setB345FeedRegenerationModeProgress:
+      code_push_event: true
+    setB1FeedStandbyLPModeProgress:
+      code_push_event: true
+    setB2FeedStandbyLPModeProgress:
+      code_push_event: true
+    setB345FeedStandbyLPModeProgress:
+      code_push_event: true
+    serialNumbers:
+      code_push_event: true
+    swVersions:
+      code_push_event: true
+    fwVersions:
+      code_push_event: true
+    setB1FeedMaintenanceModeProgress:
+      code_push_event: true
+    setB2FeedMaintenanceModeProgress:
+      code_push_event: true
+    setB345FeedMaintenanceModeProgress:
+      code_push_event: true
+    heRequestStatus:
+      code_push_event: true
+    vaRequestStatus:
+      code_push_event: true
+    b1ErrorCode:
+      code_push_event: true
+    b2ErrorCode:
+      code_push_event: true
+    b345ErrorCode:
+      code_push_event: true
+    serviceErrorCode:
+      code_push_event: true
+    setB1FeedOperateModeProgress:
+      code_push_event: true
+    setB2FeedOperateModeProgress:
+      code_push_event: true
+    setB345FeedOperateModeProgress:
+      code_push_event: true
+
+- class: SpfHe
+  attributes:
+    compressorDiffPressure:
+      code_push_event: true
+    compressorMotorTemp:
+      code_push_event: true
+    compressorReturnPressure:
+      code_push_event: true
+    compressorState:
+      code_push_event: true
+    compressorSupplyPressure:
+      code_push_event: true
+    compressorSupplyTemp:
+      code_push_event: true
+    controllerCurrent:
+      code_push_event: true
+    controllerState:
+      code_push_event: true
+    controllerTemp:
+      code_push_event: true
+    controllerVolt:
+      code_push_event: true
+    currentOperationalTime:
+      code_push_event: true
+    errorRegister:
+      code_push_event: true
+    expectedOnline:
+      code_push_event: true
+    fwVersion:
+      code_push_event: true
+    heInterfaceType:
+      code_push_event: true
+    healthState:
+      code_push_event: true
+    hwStatus:
+      code_push_event: true
+    operatingState:
+      code_push_event: true
+    pressureOk:
+      code_push_event: true
+    serialNumber:
+      code_push_event: true
+    swVersion:
+      code_push_event: true
+    totalOperationalTime:
+      code_push_event: true
+    requestStatus:
+      code_push_event: true
+
+- class: SpfVac
+  attributes:
+    controllerState:
+      code_push_event: true
+    currentOperationalTime:
+      code_push_event: true
+    expectedOnline:
+      code_push_event: true
+    healthState:
+      code_push_event: true
+    hwStatus:
+      code_push_event: true
+    operatingState:
+      code_push_event: true
+    pumpState:
+      code_push_event: true
+    purgeValveState:
+      code_push_event: true
+    requestedTimeLeft:
+      code_push_event: true
+    serialNumber:
+      code_push_event: true
+    swVersion:
+      code_push_event: true
+    totalOperationalTime:
+      code_push_event: true
+    vaInterfaceType:
+      code_push_event: true
+    requestStatus:
+      code_push_event: true

@@ -1,6 +1,12 @@
 # Version History
 
 ## Unreleased
+* [AT-3343]
+  * Made test-e2e-kapb target compatible on macbooks running GNU make 3.8
+  
+## 27.3.0
+* [AT-3289]
+  * Update Updated SPFC deployer
 * [AT-3306]
   * Add new E2E test which does not call telescope OFF at the end
   * TelescopeON only called if telescope is not already ON
@@ -15,7 +21,9 @@
 * [AT-3320]
   * Update Jupyter Notebook to change to the sdp assign resources schema to 1.0
   * Update Chart for TMC Revision 1.4
-
+* [AT-3340]
+  * Create vcc-config-parameters file in repo (copied from telmodel-data repo)
+  
 ## 27.1.0
 * [MAP-377]
   * Add OS shutdown command to gracefully shut down the talon boards prior to powering off the LRU

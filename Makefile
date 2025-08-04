@@ -29,6 +29,7 @@ DOCS_SPHINXBUILD = poetry run python3 -msphinx
 PYTHON_TEST_FILE = tests/unit/ tests/functional/
 PYTHON_LINT_TARGET ?= tests/
 PYTHON_SWITCHES_FOR_FLAKE8 += --extend-ignore=F824
+
 ifneq ($(COUNT),)
 # Dashcount is a synthesis of testcount as input user variable and is used to
 # run a paricular test/s multiple times. If no testcount is set then the entire
@@ -86,9 +87,18 @@ ifeq ($(SPFC_IN_THE_LOOP), true)
 	--set ska-dish-lmc.ska-mid-dish-simulators.deviceServers.spfdevice.enabled=false \
 	--set ska-dish-lmc.ska-mid-dish-manager.dishmanager.spf.fqdn=$(DISH_ID)/spf/spfc \
 	--set ska-mid-dish-spfc-deployer.global.dish_id=$(DISH_ID) \
-	--set ska-mid-dish-spfc-deployer.enabled=false \
-	--set ska-mid-dish-spfc-deployer.job.namespace=$(KUBE_NAMESPACE) \
-	--set ska-mid-dish-spfc-deployer.instance=$(SPFC_INSTANCE)
+	--set ska-mid-dish-spfc-deployer.enabled=true \
+	--set ska-mid-dish-spfc-deployer.namespace=$(KUBE_NAMESPACE) \
+	--set ska-mid-dish-spfc-deployer.instance=$(SPFC_INSTANCE) \
+	--set ska-mid-dish-spfc-deployer.ip_address=$(SPFC_IP_ADDRESS) \
+	--set ska-mid-dish-spfc-deployer.user=$(SPFC_USER) \
+	--set ska-mid-dish-spfc-deployer.private_key=$(SPFC_PRIVATE_KEY) \
+	--set ska-mid-dish-spfc-deployer.use_tango_db=$(USE_TANGO_DB) \
+	--set ska-mid-dish-spfc-deployer.update_firmware=$(UPDATE_FIRMWARE) \
+	--set ska-mid-dish-spfc-deployer.spfc_simulated_mode=$(SPFC_SIMULATED_MODE) \
+	--set ska-mid-dish-spfc-deployer.artefact_token=$(ARTEFACT_TOKEN) \
+	--set ska-mid-dish-spfc-deployer.dns_service=$(DNS_SERVICE) \
+	--set global.cluster_domain=$(CLUSTER_DOMAIN)
 endif
 
 SPFRX_IN_THE_LOOP ?= #Boolean flag to control deployment of the device described in SPFRX_TANGO_INSTANCE, SPFRX_ADDRESS variables
@@ -326,6 +336,9 @@ include resources/makefiles/logs.mk
 # include Telescope Model targets
 include .make/tmdata.mk
 
+# include testing tools
+include resources/makefiles/integration-testing.mk
+
 
 XRAY_TEST_RESULT_FILE ?= build/reports/cucumber.json
 XRAY_EXECUTION_CONFIG_FILE ?= tests/xray-config.json
@@ -363,50 +376,3 @@ post-set-release:
 	./scripts/release/update_chart_version.sh $$CURRENT_RELEASE sut_config.yaml; \
 	./scripts/release/update_testing_image_tag.sh $$CURRENT_RELEASE charts/ska-mid-testing/values.yaml; \
 	echo "Updated SUT Config graph reflecting Mid ITF latest version."
-
-print-telescope-state:
-	@poetry run telescope_state_control --print-state -n ${E2E_TEST_EXECUTION_NAMESPACE} -d "${DISH_IDS}"
-
-teardown-telescope:
-	@poetry run telescope_state_control --teardown -n ${E2E_TEST_EXECUTION_NAMESPACE} -d "${DISH_IDS}"
-
-teardown-telescope-to-pre-assign:
-	@poetry run telescope_state_control --teardown -n ${E2E_TEST_EXECUTION_NAMESPACE} -d "${DISH_IDS}" -c "ON" -b "STANDBY_FP"
-
-test-e2e-kapb:
-	infra use za-aa-k8s-master01-k8s
-	kubectl delete job test-job -n integration-tests || true
-	@CWD=$$(pwd) \
-	  KUBE_NAMESPACE=integration-tests \
-	  HELM_RELEASE=testing  \
-	  K8S_UMBRELLA_CHART_PATH=$$CWD/charts/ska-mid-testing \
-	  K8S_CHARTS=$$CWD/charts/ska-mid-testing \
-	  make k8s-template-chart > /dev/null 2>&1
-	@yq eval-all 'select(.kind == "Job" and .metadata.name == "test-job")' manifests.yaml > test-job.yaml
-	kubectl apply -f test-job.yaml
-	kubectl wait jobs -n integration-tests -l job-name=test-job --for=condition=complete --timeout="180s"
-	@echo "Test job completed"
-	@rm test-job.yaml manifests.yaml || true
-	
-smoke-tests:
-	set -o pipefail; $(PYTHON_RUNNER) pytest $(SMOKE_TEST_SOURCE) $(SMOKE_TEST_ARGS) --log-cli-level=INFO;
-	mkdir -p build
-	echo $$? > build/status
-
-k8s-file-copy:
-	kubectl cp -n ${COPY_NAMESPACE} ${SOURCE_POD}:${SOURCE_FILEPATH} ${TARGET_DIR}/${SOURCE_FILENAME}
-
-CBF_EC_MOUNT_PATH ?= "./fpga-talon/bin"
-CBF_BITSTREAM_RPD_SOURCE_DIR ?= /app/mnt/talondx-config/fpga-talon/bin
-CBF_BITSTREAM_RPD_FILENAME ?= talon_dx-tdc_base-tdc_vcc_processing-application.hps.rpd
-CBF_BITSTREAM_RPD_SOURCE_FILEPATH := ${CBF_BITSTREAM_RPD_SOURCE_DIR}/${CBF_BITSTREAM_RPD_FILENAME}
-CBF_BITSTREAM_RPD_SOURCE_POD ?= ds-cbfcontroller-controller-0
-CBF_BITSTREAM_RPD_SOURCE_POD_NAMESPACE ?= staging
-
-copy-cbf-bitstream-rpd:
-	@make k8s-file-copy \
-		SOURCE_FILEPATH="${CBF_BITSTREAM_RPD_SOURCE_FILEPATH}" \
-		SOURCE_FILENAME="${CBF_BITSTREAM_RPD_FILENAME}" \
-		SOURCE_POD="${CBF_BITSTREAM_RPD_SOURCE_POD}" \
-		TARGET_DIR="${CBF_EC_MOUNT_PATH}" \
-		COPY_NAMESPACE="${CBF_BITSTREAM_RPD_SOURCE_POD_NAMESPACE}"
