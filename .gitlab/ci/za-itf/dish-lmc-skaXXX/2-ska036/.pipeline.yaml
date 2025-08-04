@@ -10,7 +10,7 @@
     SPFC_IN_THE_LOOP: "false"
     SPFC_INSTANCE: spfc-prod
     # Remember to explicitly quote the URL to prevent parsing errors
-    DISH_LMC_EDA_PARAMS: '--set ska-tango-archiver.configuration_file_url="https://gitlab.com/ska-telescope/ska-mid/-/raw/27.2.0-rc.2/tmdata/mid-itf-staging-archiver-configs/dish-lmc-ska036.yaml?ref_type=tags&inline=false"'
+    DISH_LMC_EDA_PARAMS: '--set ska-tango-archiver.configuration_file_url="https://gitlab.com/ska-telescope/ska-mid/-/raw/27.3.0/tmdata/mid-itf-staging-archiver-configs/dish-lmc-ska036.yaml?ref_type=tags&inline=false"'
 
 2-deploy-dishlmc-ska036:
   extends:
