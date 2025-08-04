@@ -18,6 +18,7 @@ test-e2e-kapb:
 	export K8S_CHART=ska-mid-testing; \
 	make k8s-template-chart > /dev/null
 	@yq eval-all 'select(.kind == "Job" and .metadata.name == "test-job")' manifests.yaml > test-job.yaml
+	kubectl apply -f test-job.yaml
 	kubectl wait jobs -n integration-tests -l job-name=test-job --for=condition=complete --timeout="180s"
 	@echo "Test job completed"
 	@rm test-job.yaml manifests.yaml || true
