@@ -1,5 +1,11 @@
 
 # Tango Base & Deployment Charts: TangoDB, iTango, Tango Operator Utils
+# TANGO BASE
+ska-tango-base:
+  itango:
+    enabled: false
+  tangodb:
+    use_pv: false
 
 # Mid TMC
 ska-tmc-mid:
