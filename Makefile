@@ -350,7 +350,7 @@ CLUSTER_MONITOR?=mid-itf-monitor
 
 integration-test: k8s-info
 	@mkdir -p build
-	@set -o pipefail; \
+	set -o pipefail; \
 	$(PYTHON_RUNNER) pytest $(INTEGRATION_TEST_SOURCE) $(INTEGRATION_TEST_ARGS); \
 	MY_STATUS=$$?; \
 	mv sequence-diagram.puml build/sequence-diagram.puml 2>/dev/null || echo "sequence diagram not moved"; \
