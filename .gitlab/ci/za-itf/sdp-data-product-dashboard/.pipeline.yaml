@@ -11,6 +11,7 @@
     DPD_ENABLERS: "-f .gitlab/ci/za-itf/sdp-data-product-dashboard/dpd-enablers.yaml"
     MINIKUBE: "false"
     ITANGO_ENABLED: "false"
+    SKA_TANGO_OPERATOR: "false"
   environment:
     name: sut/dpd/$KUBE_NAMESPACE
   when: manual
