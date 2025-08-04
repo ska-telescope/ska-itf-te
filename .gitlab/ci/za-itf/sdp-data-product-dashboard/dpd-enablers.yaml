@@ -1,6 +1,9 @@
 
 # Tango Base & Deployment Charts: TangoDB, iTango, Tango Operator Utils
 # TANGO BASE
+global:
+  operator: false
+  
 ska-tango-base:
   itango:
     enabled: false
