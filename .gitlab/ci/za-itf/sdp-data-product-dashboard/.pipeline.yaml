@@ -12,6 +12,8 @@
     MINIKUBE: "false"
     ITANGO_ENABLED: "false"
     SKA_TANGO_OPERATOR: "false"
+    EXPOSE_All_DS: "false"
+    EXPOSE_DATABASE_DS: "false"
   environment:
     name: sut/dpd/$KUBE_NAMESPACE
   when: manual
