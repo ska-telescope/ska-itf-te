@@ -11,9 +11,11 @@ dependencies:
   - name: ska-tango-base
     version: 0.4.22
     repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-tango-base.enabled
   - name: ska-tango-util
     version: 0.4.22
     repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-tango-util.enabled
 
   # Mid TMC
   - name: ska-tmc-mid
