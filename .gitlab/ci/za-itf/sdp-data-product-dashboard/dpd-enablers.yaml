@@ -1,20 +1,7 @@
 
 # Tango Base & Deployment Charts: TangoDB, iTango, Tango Operator Utils
-# TANGO BASE
-global:
-  operator: false
-  sub-system:
-    ska-tango-base:
-      enabled: false
-  exposeAllDS: false
-  exposeDatabaseDS: false
-
 ska-tango-base:
   enabled: false
-  itango:
-    enabled: false
-  tangodb:
-    use_pv: false
 
 ska-tango-utils:
   enabled: false
