@@ -134,7 +134,7 @@ ska-mid-dish-spfrx-talondx-console:
   local_dir: artifacts
   logging_level: 4
   scripts_dir: scripts
-
+  k_value: 1111
 # SDP
 ska-sdp:
   enabled: false
