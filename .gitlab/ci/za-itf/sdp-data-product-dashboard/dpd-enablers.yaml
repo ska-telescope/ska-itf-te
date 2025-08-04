@@ -6,8 +6,8 @@ global:
   sub-system:
     ska-tango-base:
       enabled: false
-  exposeAllDS: true
-  exposeDatabaseDS: true
+  exposeAllDS: false
+  exposeDatabaseDS: false
 
 ska-tango-base:
   enabled: false
