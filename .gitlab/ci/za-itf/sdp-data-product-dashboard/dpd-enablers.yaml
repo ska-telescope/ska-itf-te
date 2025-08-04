@@ -3,7 +3,10 @@
 # TANGO BASE
 global:
   operator: false
-  
+  sub-system:
+    ska-tango-base:
+      enabled: false
+
 ska-tango-base:
   itango:
     enabled: false
