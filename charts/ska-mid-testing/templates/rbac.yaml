@@ -5,58 +5,58 @@ metadata:
   name: integration-test-executor
   namespace: integration-tests
 ---
-  apiVersion: rbac.authorization.k8s.io/v1
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: read-only-pods-deviceservers
+  namespace: ska-mid-central-controller
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list"]
+- apiGroups: ["tango.tango-controls.org"]
+  resources: ["deviceservers"]
+  verbs: ["get", "list"]
+- apiGroups: ["helm.toolkit.fluxcd.io"]
+  resources: ["helmreleases"]
+  verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: integration-tests-executor-access
+  namespace: ska-mid-central-controller
+subjects:
+- kind: ServiceAccount
+  name: integration-test-executor
+  namespace: integration-tests
+roleRef:
   kind: Role
-  metadata:
-    name: read-only-pods-deviceservers
-    namespace: ska-mid-central-controller
-  rules:
-  - apiGroups: [""]
-    resources: ["pods"]
-    verbs: ["get", "list"]
-  - apiGroups: ["tango.tango-controls.org"]
-    resources: ["deviceservers"]
-    verbs: ["get", "list"]
-  - apiGroups: ["helm.toolkit.fluxcd.io"]
-    resources: ["helmreleases"]
-    verbs: ["get", "list", "watch"]
+  name: read-only-pods-deviceservers
+  apiGroup: rbac.authorization.k8s.io
 ---
-  apiVersion: rbac.authorization.k8s.io/v1
-  kind: RoleBinding
-  metadata:
-    name: integration-tests-executor-access
-    namespace: ska-mid-central-controller
-  subjects:
-  - kind: ServiceAccount
-    name: integration-test-executor
-    namespace: integration-tests
-  roleRef:
-    kind: Role
-    name: read-only-pods-deviceservers
-    apiGroup: rbac.authorization.k8s.io
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: read-only-helmreleases
+  namespace: flux-services
+rules:
+- apiGroups: ["helm.toolkit.fluxcd.io"]
+  resources: ["helmreleases"]
+  verbs: ["get", "list", "watch"]
 ---
-  apiVersion: rbac.authorization.k8s.io/v1
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: integration-tests-executor-access
+  namespace: flux-services
+subjects:
+- kind: ServiceAccount
+  name: integration-test-executor
+  namespace: integration-tests
+roleRef:
   kind: Role
-  metadata:
-    name: read-only-helmreleases
-    namespace: flux-services
-  rules:
-  - apiGroups: ["helm.toolkit.fluxcd.io"]
-    resources: ["helmreleases"]
-    verbs: ["get", "list", "watch"]
----
-  apiVersion: rbac.authorization.k8s.io/v1
-  kind: RoleBinding
-  metadata:
-    name: integration-tests-executor-access
-    namespace: flux-services
-  subjects:
-  - kind: ServiceAccount
-    name: integration-test-executor
-    namespace: integration-tests
-  roleRef:
-    kind: Role
-    name: read-only-helmreleases
-    apiGroup: rbac.authorization.k8s.io
+  name: read-only-helmreleases
+  apiGroup: rbac.authorization.k8s.io
 
 

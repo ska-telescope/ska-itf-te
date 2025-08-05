@@ -560,8 +560,12 @@ def _(telescope_handlers, receptor_ids, settings):
 
     # CBF On state indication is a combination of controller state and talon board health state
     wait_for_event(cbf.controller, "state", DevState.ON)
+
+    # TEMP COMMIT: Seems like CBF requires all 4 talons to be healthy
+    number_of_talons = 4
+
     if not sim_mode:
-        for i in range(1, len(receptor_ids) + 1):
+        for i in range(1, number_of_talons + 1):
             talon_board_dp = cbf.get_talon_board_proxy(i)
             wait_for_event(talon_board_dp, "healthState", HealthState.OK)
 
