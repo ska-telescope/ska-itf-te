@@ -111,7 +111,7 @@ class StartUpStep(base.StartUpStep, LogEnabled, WithCommandID):
 
         dish_cfg = {
             "interface": "https://schema.skao.int/ska-mid-cbf-initsysparam/1.0",
-            "tm_data_sources": ["car:ska-mid?27.2.0-rc.9-k-value-testing#tmdata"],
+            "tm_data_sources": ["car:ska-mid?27.3.0#tmdata"],
             "tm_data_filepath": "instrument/ska1_mid_itf/vcc-config/"
             "ska-mid-cbf-system-parameters.json",
         }

@@ -227,7 +227,7 @@ ska-tmc-mid:
       sdp: false
     centralnode:
       DishVccConfig:
-        DishVccUri: "car:ska-mid?27.2.0-rc.9-k-value-testing#tmdata"
+        DishVccUri: "car:ska-mid?27.3.0#tmdata"
         DishVccFilePath: "instrument/ska1_mid_itf/vcc-config/ska-mid-cbf-system-parameters.json"
       subarray_count: 1
     cspsubarrayleafnode:
