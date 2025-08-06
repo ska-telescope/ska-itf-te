@@ -220,7 +220,7 @@ class TalonBoardCommandExecutor:
         spfrx_boardmap_link = (
             "https://gitlab.com/ska-telescope/ska-mid-dish-spfrx-talondx-console"
             f"/-/raw/{spfrx_console_version}/images/ska-mid-dish-spfrx-talondx-console-deploy"
-            f"/spfrx_config/spfrx_boardmap.json?ref_type=tags&inline=true"
+            f"/spfrx_config/spfrx_boardmap.json?ref_type=tags&inline=false"
         )
 
         response = requests.get(spfrx_boardmap_link, timeout=5)
