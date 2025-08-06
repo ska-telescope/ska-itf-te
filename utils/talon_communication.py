@@ -1,4 +1,4 @@
-import json5
+import json
 import logging
 import re
 import requests
@@ -231,8 +231,8 @@ class TalonBoardCommandExecutor:
 
         try:
             # Replace <k-value> with "<k-value>" to ensure valid JSON
-            response = response.text.replace('"NominalKValue": <k-value>,','"NominalKValue": "<k-value>",')
-            talondx_boardmap = json5.loads(response)
+            response_text = response.text.replace('"NominalKValue": <k-value>,','"NominalKValue": "<k-value>",')
+            talondx_boardmap = json.loads(response_text)
         except ValueError:
             error_string = f"Failed to parse talondx_boardmap.json: {response.text}"
             logger.error(error_string)
