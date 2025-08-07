@@ -55,6 +55,9 @@
   script:
     - bash .make/resources/gitlab_section.sh poetry "Poetry Install" poetry install
     - export PATH=.venv/bin:${PATH} # TEMPORARY COMMIT: fix in one place
+    - poetry run python3 -c "import ska_telmodel; print(ska_telmodel.__file__)"
+    - poetry add ska-telmodel@1.13.0 --lock
+    - poetry run python3 -c "import ska_telmodel; print(ska_telmodel.__file__)"
     - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart;
     - bash .make/resources/gitlab_section.sh wait "Wait for completion" make k8s-wait
     - make itf-dish-links
