@@ -66,6 +66,7 @@
     - poetry add ska-telmodel@1.13.0 --lock
     - poetry install --only main
 
+    - git config --global --add safe.directory /app/ska-mid-itf-engineering-tools
 
     - poetry run python3 -c "import ska_telmodel; print(ska_telmodel.__file__)"
     - |
