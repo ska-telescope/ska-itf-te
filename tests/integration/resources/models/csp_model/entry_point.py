@@ -111,11 +111,9 @@ class StartUpStep(base.StartUpStep, LogEnabled, WithCommandID):
 
         dish_cfg = {
             "interface": "https://schema.skao.int/ska-mid-cbf-initsysparam/1.0",
-            "tm_data_sources": [
-                "car://gitlab.com/ska-telescope"
-                "/ska-telmodel-data?ska-sdp-tmlite-repository-1.0.0#tmdata"
-            ],
-            "tm_data_filepath": "instrument/ska1_mid_psi/ska-mid-cbf-system-parameters.json",
+            "tm_data_sources": ["car:ska-mid?27.3.0#tmdata"],
+            "tm_data_filepath": "instrument/ska1_mid_itf/vcc-config/"
+            "ska-mid-cbf-system-parameters.json",
         }
 
         load_cfg_id = self.csp_controller.command_inout("loadDishCfg", json.dumps(dish_cfg))
