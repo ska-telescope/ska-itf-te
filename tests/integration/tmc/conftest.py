@@ -508,7 +508,7 @@ def _(telescope_handlers, receptor_ids, settings):
     with open(DISH_CONFIG_FILE, encoding="utf-8") as f:
         dish_config_json = json.load(f)
 
-    dish_config_json["tm_data_sources"][0] = "car:ska-mid?27.3.0#tmdata"
+    dish_config_json["tm_data_sources"][0] = "car:ska-mid?27.3.1-rc.4-k-value-100-set#tmdata"
     dish_config_json["tm_data_filepath"] = (
         "instrument/ska1_mid_itf/vcc-config/ska-mid-cbf-system-parameters.json"
     )
@@ -521,7 +521,7 @@ def _(telescope_handlers, receptor_ids, settings):
         try:
             dish_vcc_config = json.loads(tmc.csp_master_leaf_node.dishVccConfig)
             for receptor in RECEPTORS:
-                if dish_vcc_config["dish_parameters"][receptor]["k"] != 1:
+                if dish_vcc_config["dish_parameters"][receptor]["k"] != 100:
                     is_k_value_correct = False
                     break
         except json.JSONDecodeError:
