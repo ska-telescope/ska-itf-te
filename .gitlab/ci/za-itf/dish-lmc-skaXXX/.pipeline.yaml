@@ -61,7 +61,8 @@
     - bash .make/resources/gitlab_section.sh wait "Wait for SPFRx deployment completion - check logs on k9s" make k8s-wait KUBE_APP=spfrx
     - |
       if [ "$SPFRX_IN_THE_LOOP" == "true" ]; then
-        bash .make/resources/gitlab_section.sh test-spfrx-qspi-bitstream-compatibility "Smoke Test SPFRx QSPI bitstream compatibility" pytest tests/smoke/test_talon_firmware_compatibility.py::test_spfrx_qspi_bitstream_compatibility;
+        export SUT_CLUSTER_DOMAIN=miditf.internal.skao.int ADDMARKS=true SMOKE_TEST_MARKS=dish_deployment
+        bash .make/resources/gitlab_section.sh test-spfrx-qspi-bitstream-compatibility "Smoke Test SPFRx QSPI bitstream compatibility" make smoke-tests
       fi
   after_script:
     - bash .make/resources/gitlab_section.sh deployment-config "Output deployment config information" make k8s-template-chart
