@@ -53,6 +53,7 @@
     - bash .make/resources/gitlab_section.sh vars "Print vars" make vars
     - if ! [[ "$DISH_IDS" =~ .*${DISH_ID^^}.* ]]; then echo "DISH_IDS $DISH_IDS not matching $DISH_ID; exiting..." && exit 1; fi
   script:
+    - bash .make/resources/gitlab_section.sh poetry "Clear Cache before Poetry Install" poetry cache clear pypi --all --no-interaction || true
     - bash .make/resources/gitlab_section.sh poetry "Poetry Install" poetry install
     - export PATH=.venv/bin:${PATH} # TEMPORARY COMMIT: fix in one place
     - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart;
