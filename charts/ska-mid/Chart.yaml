@@ -3,8 +3,8 @@ apiVersion: v2
 name: ska-mid
 description: An umbrella Helm chart for deployment of the Mid System
 type: application
-version: 27.3.1-rc.7-k-value-100-set
-appVersion: 27.3.1-rc.7-k-value-100-set
+version: 27.3.1-rc.8-k-value-100-set
+appVersion: 27.3.1-rc.8-k-value-100-set
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
   # Tango Base & Deployment Charts: TangoDB, iTango, Tango Operator Utils
