@@ -256,7 +256,7 @@ ska-tmc-mid:
       sdp: false
     centralnode:
       DishVccConfig:
-        DishVccUri: "https://gitlab.com/ska-telescope/ska-mid/-/tree/at-3354-kvalue-100-testing?ref_type=heads"
+        DishVccUri: "car:ska-mid?27.3.1-rc.6-k-value-100-set#tmdata"
         DishVccFilePath: "instrument/ska1_mid_itf/vcc-config/ska-mid-cbf-system-parameters.json"
       subarray_count: 1
     cspsubarrayleafnode:
