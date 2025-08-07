@@ -56,14 +56,18 @@
   script:
     - bash .make/resources/gitlab_section.sh poetry "Poetry Install" poetry install
     - export PATH=.venv/bin:${PATH} # TEMPORARY COMMIT: fix in one place
-    - poetry remove ska-telmodel || true
-    - poetry add ska-telmodel@1.13.0 --lock
-    - poetry install --only main
-    - poetry run python3 -c "import ska_telmodel; print(ska_telmodel.__file__)"
     - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart;
     - bash .make/resources/gitlab_section.sh wait "Wait for completion" make k8s-wait
     - make itf-dish-links
     - bash .make/resources/gitlab_section.sh wait "Wait for SPFRx deployment completion - check logs on k9s" make k8s-wait KUBE_APP=spfrx
+    - cd /app/ska-mid-itf-engineering-tools && rm -rf .venv && poetry env use python3.10 && poetry install
+  
+    - poetry remove ska-telmodel || true
+    - poetry add ska-telmodel@1.13.0 --lock
+    - poetry install --only main
+
+
+    - poetry run python3 -c "import ska_telmodel; print(ska_telmodel.__file__)"
     - |
       if [ "$SPFRX_IN_THE_LOOP" == "true" || true ]; then
         python3 -c "import subprocess; print(subprocess.check_output(['pip', 'list']).decode())"
