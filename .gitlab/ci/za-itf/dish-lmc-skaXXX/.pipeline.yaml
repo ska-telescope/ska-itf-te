@@ -54,8 +54,8 @@
     - if ! [[ "$DISH_IDS" =~ .*${DISH_ID^^}.* ]]; then echo "DISH_IDS $DISH_IDS not matching $DISH_ID; exiting..." && exit 1; fi
   script:
     - bash .make/resources/gitlab_section.sh poetry "Poetry Install" poetry install
-    - export PATH=.venv/bin:${PATH} # TEMPORARY COMMIT: fix in one place
-    - poetry run python3 -c "import ska_telmodel; print(ska_telmodel.__file__)"
+    #- export PATH=.venv/bin:${PATH} # TEMPORARY COMMIT: fix in one place
+    - export PATH="$(poetry env info --path)/bin:$PATH"
     - poetry add ska-telmodel@1.13.0 --lock
     - poetry run python3 -c "import ska_telmodel; print(ska_telmodel.__file__)"
     - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart;
