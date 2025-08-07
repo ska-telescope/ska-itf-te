@@ -61,8 +61,8 @@
     - bash .make/resources/gitlab_section.sh wait "Wait for SPFRx deployment completion - check logs on k9s" make k8s-wait KUBE_APP=spfrx
     - |
       if [ "$SPFRX_IN_THE_LOOP" == "true" || true ]; then
+        python3 -c "import subprocess; print(subprocess.check_output(['pip', 'list']).decode())"
         export SUT_CLUSTER_DOMAIN=miditf.internal.skao.int ADDMARKS=true SMOKE_TEST_MARKS=dish_deployment
-        chmod +x .make/resources/gitlab_section.sh
         .make/resources/gitlab_section.sh test-spfrx-qspi-bitstream-compatibility "Smoke Test SPFRx QSPI bitstream compatibility" make smoke-tests
       fi
 
