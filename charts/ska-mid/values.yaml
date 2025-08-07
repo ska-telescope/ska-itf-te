@@ -134,7 +134,7 @@ ska-mid-dish-spfrx-talondx-console:
   local_dir: artifacts
   logging_level: 4
   scripts_dir: scripts
-
+  # k_value: 1111  # used to set k value to a value other than 1 - around as a result of spfrx limitation
 # SDP
 ska-sdp:
   enabled: false
@@ -230,8 +230,8 @@ ska-tmc-mid:
       sdp: false
     centralnode:
       DishVccConfig:
-        DishVccUri: "car:ska-telmodel-data?0.1.0-rc-mid-itf#tmdata"
-        DishVccFilePath: "instrument/ska1_mid_itf/ska-mid-cbf-system-parameters.json"
+        DishVccUri: "car:ska-mid?27.3.0#tmdata"
+        DishVccFilePath: "instrument/ska1_mid_itf/vcc-config/ska-mid-cbf-system-parameters.json"
       subarray_count: 1
     cspsubarrayleafnode:
       CommandTimeOut: 300
