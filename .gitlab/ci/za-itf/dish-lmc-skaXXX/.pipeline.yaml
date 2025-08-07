@@ -62,7 +62,8 @@
     - |
       if [ "$SPFRX_IN_THE_LOOP" == "true" ]; then
         export SUT_CLUSTER_DOMAIN=miditf.internal.skao.int ADDMARKS=true SMOKE_TEST_MARKS=dish_deployment
-        bash .make/resources/gitlab_section.sh test-spfrx-qspi-bitstream-compatibility "Smoke Test SPFRx QSPI bitstream compatibility" make smoke-tests
+        chmod +x .make/resources/gitlab_section.sh
+        .make/resources/gitlab_section.sh test-spfrx-qspi-bitstream-compatibility "Smoke Test SPFRx QSPI bitstream compatibility" make smoke-tests
       fi
 
 
