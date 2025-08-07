@@ -70,11 +70,16 @@
 
     - poetry run python3 -c "import ska_telmodel; print(ska_telmodel.__file__)"
     - |
-      if [ "$SPFRX_IN_THE_LOOP" == "true" || true ]; then
-        python3 -c "import subprocess; print(subprocess.check_output(['pip', 'list']).decode())";
-        export SUT_CLUSTER_DOMAIN=miditf.internal.skao.int ADDMARKS=true SMOKE_TEST_MARKS=dish_deployment;
-        chmod +x .make/resources/gitlab_section.sh;
-        .make/resources/gitlab_section.sh test-spfrx-qspi-bitstream-compatibility "Smoke Test SPFRx QSPI bitstream compatibility" make smoke-tests;
+      if [ "$SPFRX_IN_THE_LOOP" == "true" ]; then
+        export SUT_CLUSTER_DOMAIN=miditf.internal.skao.int
+        export ADDMARKS=true 
+        export SMOKE_TEST_MARKS=dish_deployment;
+        chmod +x .make/resources/gitlab_section.sh
+        
+        # Run the smoke testand print capture logs
+        .make/resources/gitlab_section.sh test-spfrx-qspi-bitstream-compatibility \
+          "Smoke Test SPFRx QSPI bitstream compatibility" \
+          make smoke-tests
       fi
 
 
