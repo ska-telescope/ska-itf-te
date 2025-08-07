@@ -1,0 +1,59 @@
+db: tango-databaseds.ska-mid-central-controller.svc.mid.internal.skao.int:10000
+manager: mid-eda/cm/01
+archiver: mid-eda/es/01
+configuration:
+- class: MidTmcCentralNode
+  attributes:
+    healthState:
+      code_push_event: true
+    adminMode:
+      code_push_event: true
+    controlMode:
+      code_push_event: true
+    simulationMode:
+      code_push_event: true
+    testMode:
+      code_push_event: true
+    lrcFinished:
+      code_push_event: true
+    longRunningCommandResult:
+      code_push_event: true
+    commandedState:
+      code_push_event: true
+    lastDeviceInfoChanged:
+      code_push_event: true
+    telescopeHealthState:
+      code_push_event: true
+    telescopeState:
+      code_push_event: true
+    tmOpState:
+      code_push_event: true
+    telescopeAvailability:
+      code_push_event: true
+    imaging:
+      code_push_event: true
+    isDishVccConfigSet:
+      code_push_event: true
+    DishVccCommandStatus:
+      code_push_event: true
+    DishVccValidationStatus:
+      code_push_event: true
+    lrcQueue:
+      code_push_event: true
+    lrcExecuting:
+      code_push_event: true
+    longRunningCommandStatus:
+      code_push_event: true
+    longRunningCommandsInQueue:
+      code_push_event: true
+    longRunningCommandIDsInQueue:
+      code_push_event: true
+    longRunningCommandInProgress:
+      code_push_event: true
+    longRunningCommandProgress:
+      code_push_event: true
+    State:
+      code_push_event: true
+    Status:
+      code_push_event: true
+
