@@ -182,6 +182,7 @@ ifeq ($(findstring ci-,$(KUBE_NAMESPACE)),ci-)
 		--set ska-sdp.data-pvc.create.clone-pvc=test-pvc \
 		--set ska-sdp.data-pvc.create.clone-pvc-namespace=ci-ska-mid-itf-dpd-$(CI_COMMIT_REF_NAME) \
 		--set ska-sdp.data-pvc.create.enabled=true \
+		--set ska-sdp.data-pvc.create.size=100Gi \
 		--set ska-sdp.data-pvc.create.storageClassName=ceph-cephfs \
 		--set ska-sdp.data-pvc.pod.enabled=true
 endif
