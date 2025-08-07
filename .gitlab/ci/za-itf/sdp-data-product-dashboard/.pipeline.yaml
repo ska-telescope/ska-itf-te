@@ -25,7 +25,7 @@
   stage: on_demand_itf_sut
   variables:
     KUBE_NAMESPACE: ci-ska-mid-itf-dpd-$CI_COMMIT_REF_NAME
-    K8S_EXTRA_PARAMS: "--set global.data-product-pvc-name=test-pvc"
+    K8S_EXTRA_PARAMS: "--set global.data-product-pvc-name=test-pvc --set ska-dataproduct-dashboard.dataProductPVC.create.enabled=true --set ska-dataproduct-dashboard.dataProductPVC.create.size=100Gi"
     DPD_PVC_NAME: test-pvc
     HELM_RELEASE: test
 
