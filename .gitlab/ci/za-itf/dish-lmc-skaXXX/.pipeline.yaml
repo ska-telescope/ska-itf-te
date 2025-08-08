@@ -79,7 +79,7 @@
         # Run the smoke test and print capture logs
         .make/resources/gitlab_section.sh test-spfrx-qspi-bitstream-compatibility \
           "Smoke Test SPFRx QSPI bitstream compatibility" \
-          make --debug=v --warn-undefined-variables smoke-tests
+          make --debug=v --warn-undefined-variables --always-make smoke-tests
       fi
 
   after_script:

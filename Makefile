@@ -360,6 +360,7 @@ get-deployment-config-info:
 	@mkdir -p build
 	@mv manifests.yaml build/manifests.yaml
 	@echo "Find the chart template used to deploy all the things in the job artefacts - look for manifests.yaml."
+
 .PHONY: get-deployment-config-info
 
 env:
