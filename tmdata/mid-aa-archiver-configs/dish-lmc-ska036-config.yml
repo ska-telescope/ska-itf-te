@@ -3,163 +3,924 @@ manager: mid-eda/cm/01
 archiver: mid-eda/es/01
 
 configuration:
-- class: DishManager
-  attributes:
-    achievedpointing:
-      code_push_event: True
-    achievedtargetlock:
-      code_push_event: True
-    actStaticOffsetValueEl:
-      code_push_event: True
-    actStaticOffsetValueXel:
-      code_push_event: True
-    attenuationpolh:
-      code_push_event: True
-    attenuationpolv:
-      code_push_event: True
-    azimuthOverWrap:
-      code_push_event: True
-    b1capabilitystate:
-      code_push_event: True
-    b2capabilitystate:
-      code_push_event: True
-    b3capabilitystate:
-      code_push_event: True
-    b4capabilitystate:
-      code_push_event: True
-    b5acapabilitystate:
-      code_push_event: True
-    b5bcapabilitystate:
-      code_push_event: True
-    band1pointingmodelparams:
-      code_push_event: True
-    band1SamplerFrequency:
-      code_push_event: True
-    band2pointingmodelparams:
-      code_push_event: True
-    band2SamplerFrequency:
-      code_push_event: True
-    band3pointingmodelparams:
-      code_push_event: True
-    band3SamplerFrequency:
-      code_push_event: True
-    band4pointingmodelparams:
-      code_push_event: True
-    band4SamplerFrequency:
-      code_push_event: True
-    band5aSamplerFrequency:
-      code_push_event: True
-    band5bSamplerFrequency:
-      code_push_event: True
-    buildstate:
-      code_push_event: True
-    capturing:
-      code_push_event: True
-    configuredband:
-      code_push_event: True
-    configureTargetLock:
-      code_push_event: True
-    desiredPointingAz:
-      code_push_event: True
-    desiredPointingEl:
-      code_push_event: True
-    dishmode:
-      code_push_event: True
-    dshMaxShortTermPower:
-      code_push_event: True
-    dshPowerCurtailment:
-      code_push_event: True
-    dsConnectionState:
-      code_push_event: True
-    frequencyResponse:
-      code_push_event: True
-    healthstate:
-      code_push_event: True
-    ignoreSpf:
-      code_push_event: True
-    ignoreSpfrx:
-      code_push_event: True
-    kvalue:
-      code_push_event: True
-    lastCommandedMode:
-      code_push_event: True
-    noiseDiodeConfig:
-      code_push_event: True
-    noiseDiodeMode:
-      code_push_event: True
-    periodicNoiseDiodePars:
-      code_push_event: True
-    pointingBufferSize:
-      code_push_event: True
-    pointingstate:
-      code_push_event: True
-    polyTrack:
-      code_push_event: True
-    programTrackTable:
-      code_push_event: True
-    pseudoRandomNoiseDiodePars:
-      code_push_event: True
-    scanID:
-      code_push_event: True
-    spfConnectionState:
-      code_push_event: True
-    spfrxConnectionState:
-      code_push_event: True
-    trackInterpolationMode:
-      code_push_event: True
-    trackProgramMode:
-      code_push_event: True
-    trackTableLoadMode:
-      code_push_event: True
-
 - class: DSManager
   attributes:
-    achievedpointing:
-      code_push_event: True
+    buildState:
+      code_push_event: true
+    healthState:
+      code_push_event: true
+    adminMode:
+      code_push_event: true
+    controlMode:
+      code_push_event: true
+    simulationMode:
+      code_push_event: true
+    testMode:
+      code_push_event: true
+    lrcFinished:
+      code_push_event: true
+    longRunningCommandResult:
+      code_push_event: true
+    commandedState:
+      code_push_event: true
+    connectionState:
+      code_push_event: true
+    powerState:
+      code_push_event: true
+    operatingMode:
+      code_push_event: true
+    indexerPosition:
+      code_push_event: true
+    pointingState:
+      code_push_event: true
     achievedTargetLock:
-      code_push_event: True
-    actStaticOffsetValueEl:
-      code_push_event: True
-    actStaticOffsetValueXel:
-      code_push_event: True
-    azimuthSpeed:
-      code_push_event: True
-    band1pointingmodelparams:
-      code_push_event: True
-    band2pointingmodelparams:
-      code_push_event: True
-    band3pointingmodelparams:
-      code_push_event: True
-    band4pointingmodelparams:
-      code_push_event: True
-    buildstate:
-      code_push_event: True
-    configureTargetLock:
-      code_push_event: True
+      code_push_event: true
+    achievedPointing:
+      code_push_event: true
     currentPointing:
-      code_push_event: True
-    desiredpointingAz:
-      code_push_event: True
-    desiredpointingEl:
-      code_push_event: True
-    dscstate:
-      code_push_event: True
-    elevationSpeed:
-      code_push_event: True
-    healthstate:
-      code_push_event: True
-    indexerposition:
-      code_push_event: True
-    operatingmode:
-      code_push_event: True
-    pointingstate:
-      code_push_event: True
-    powerstate:
-      code_push_event: True
+      code_push_event: true
+    desiredPointingAz:
+      code_push_event: true
+    desiredPointingEl:
+      code_push_event: true
+    actStaticOffsetValueXel:
+      code_push_event: true
+    actStaticOffsetValueEl:
+      code_push_event: true
+    trackTableCurrentIndex:
+      code_push_event: true
+    trackTableEndIndex:
+      code_push_event: true
+    band0PointingModelParams:
+      code_push_event: true
+    band1PointingModelParams:
+      code_push_event: true
+    band2PointingModelParams:
+      code_push_event: true
+    band3PointingModelParams:
+      code_push_event: true
+    band4PointingModelParams:
+      code_push_event: true
+    band5aPointingModelParams:
+      code_push_event: true
+    band5bPointingModelParams:
+      code_push_event: true
+    dscState:
+      code_push_event: true
     trackInterpolationMode:
-      code_push_event: True
+      code_push_event: true
+    azimuthSpeed:
+      code_push_event: true
+    elevationSpeed:
+      code_push_event: true
     trackProgramMode:
-      code_push_event: True
+      code_push_event: true
+    configureTargetLock:
+      code_push_event: true
+    lastCommandUpdate:
+      code_push_event: true
+    lrcQueue:
+      code_push_event: true
+    lrcExecuting:
+      code_push_event: true
+    longRunningCommandStatus:
+      code_push_event: true
+    longRunningCommandsInQueue:
+      code_push_event: true
+    longRunningCommandIDsInQueue:
+      code_push_event: true
+    longRunningCommandInProgress:
+      code_push_event: true
+    longRunningCommandProgress:
+      code_push_event: true
+    Azimuth_Status_Active:
+      code_push_event: true
+    Azimuth_Status_AllActive:
+      code_push_event: true
+    Azimuth_Status_AxisMoving:
+      code_push_event: true
+    Azimuth_Status_AxisState:
+      code_push_event: true
+    Azimuth_Status_encBoxOp:
+      code_push_event: true
+    Azimuth_Status_EStop:
+      code_push_event: true
+    Azimuth_Status_Exceed:
+      code_push_event: true
+    Azimuth_Status_InitOk:
+      code_push_event: true
+    Azimuth_Status_LimOverride:
+      code_push_event: true
+    Azimuth_Status_p_Act:
+      code_push_event: true
+    Azimuth_Status_p_Dev:
+      code_push_event: true
+    Azimuth_Status_p_Enc:
+      code_push_event: true
+    Azimuth_Status_p_PointCorr:
+      code_push_event: true
+    Azimuth_Status_p_Set:
+      code_push_event: true
+    Azimuth_Status_p_Shape:
+      code_push_event: true
+    Azimuth_Status_posDevOk:
+      code_push_event: true
+    Azimuth_Status_Ready:
+      code_push_event: true
+    Azimuth_Status_Reset:
+      code_push_event: true
+    Azimuth_Status_SectorSw:
+      code_push_event: true
+    Azimuth_Status_StowPos_Minus:
+      code_push_event: true
+    Azimuth_Status_StowPos_Plus:
+      code_push_event: true
+    Azimuth_Status_TorqueBias:
+      code_push_event: true
+    Azimuth_Status_TorqueTotal:
+      code_push_event: true
+    Azimuth_Status_v_Act:
+      code_push_event: true
+    Azimuth_Status_v_SetMax:
+      code_push_event: true
+    Azimuth_Status_v_Shape:
+      code_push_event: true
+    Azimuth_ErrorStatus_errErrorActive:
+      code_push_event: true
+    Azimuth_ErrorStatus_errFieldBus:
+      code_push_event: true
+    Azimuth_ErrorStatus_errLim2CCW:
+      code_push_event: true
+    Azimuth_ErrorStatus_errLim2CW:
+      code_push_event: true
+    Azimuth_ErrorStatus_errLimV_Err:
+      code_push_event: true
+    Azimuth_ErrorStatus_errMotComm:
+      code_push_event: true
+    Azimuth_ErrorStatus_errMotEnc:
+      code_push_event: true
+    Azimuth_ErrorStatus_errMotor:
+      code_push_event: true
+    Azimuth_ErrorStatus_errMotReady:
+      code_push_event: true
+    Azimuth_ErrorStatus_errOverride:
+      code_push_event: true
+    Azimuth_ErrorStatus_errP_DevExceed:
+      code_push_event: true
+    Azimuth_ErrorStatus_errP_RangeExceed:
+      code_push_event: true
+    Azimuth_ErrorStatus_errPosEnc:
+      code_push_event: true
+    Azimuth_ErrorStatus_errPosEnc_Fo:
+      code_push_event: true
+    Azimuth_ErrorStatus_errPower:
+      code_push_event: true
+    Azimuth_ErrorStatus_errV_DevExceed:
+      code_push_event: true
+    Azimuth_ErrorStatus_errV_MotExceed:
+      code_push_event: true
+    Azimuth_MotorOne_ErrorCode:
+      code_push_event: true
+    Azimuth_MotorOne_mActTorq:
+      code_push_event: true
+    Azimuth_MotorOne_mActVelocity:
+      code_push_event: true
+    Azimuth_MotorOne_MotorOverload:
+      code_push_event: true
+    Azimuth_MotorOne_MotorTemp:
+      code_push_event: true
+    Azimuth_MotorOne_RateOfUtil:
+      code_push_event: true
+    Azimuth_MotorTwo_ErrorCode:
+      code_push_event: true
+    Azimuth_MotorTwo_mActTorq:
+      code_push_event: true
+    Azimuth_MotorTwo_mActVelocity:
+      code_push_event: true
+    Azimuth_MotorTwo_MotorOverload:
+      code_push_event: true
+    Azimuth_MotorTwo_MotorTemp:
+      code_push_event: true
+    Azimuth_MotorTwo_RateOfUtil:
+      code_push_event: true
+    Azimuth_WarningStatus_waParamFault:
+      code_push_event: true
+    Azimuth_WarningStatus_waOverride:
+      code_push_event: true
+    Azimuth_WarningStatus_waMotReady:
+      code_push_event: true
+    Azimuth_WarningStatus_waMotWarn:
+      code_push_event: true
+    Azimuth_WarningStatus_waMmaxExceeded:
+      code_push_event: true
+    Azimuth_WarningStatus_waLim1CW:
+      code_push_event: true
+    Azimuth_WarningStatus_waLim1CCW:
+      code_push_event: true
+    Azimuth_WarningStatus_waLimSoftCW:
+      code_push_event: true
+    Azimuth_WarningStatus_waLimSoftCCW:
+      code_push_event: true
+    Azimuth_WarningStatus_waPosEncWarn:
+      code_push_event: true
+    Azimuth_WarningStatus_waStowPinsDep:
+      code_push_event: true
+    Azimuth_WarningStatus_waVelLimit:
+      code_push_event: true
+    CommandArbiter_Status_LastCmdResponse:
+      code_push_event: true
+    CommandArbiter_Status_LastLoadMode:
+      code_push_event: true
+    CommandArbiter_Status_LastTiltOn:
+      code_push_event: true
+    CommandArbiter_Status_AxisSelect:
+      code_push_event: true
+    Elevation_Status_Active:
+      code_push_event: true
+    Elevation_Status_AllActive:
+      code_push_event: true
+    Elevation_Status_AxisMoving:
+      code_push_event: true
+    Elevation_Status_AxisState:
+      code_push_event: true
+    Elevation_Status_encBoxOp:
+      code_push_event: true
+    Elevation_Status_EStop:
+      code_push_event: true
+    Elevation_Status_Exceed:
+      code_push_event: true
+    Elevation_Status_InitOk:
+      code_push_event: true
+    Elevation_Status_LimOverride:
+      code_push_event: true
+    Elevation_Status_p_Act:
+      code_push_event: true
+    Elevation_Status_p_Dev:
+      code_push_event: true
+    Elevation_Status_p_Enc:
+      code_push_event: true
+    Elevation_Status_p_PointCorr:
+      code_push_event: true
+    Elevation_Status_p_Set:
+      code_push_event: true
+    Elevation_Status_p_Shape:
+      code_push_event: true
+    Elevation_Status_posDevOk:
+      code_push_event: true
+    Elevation_Status_Ready:
+      code_push_event: true
+    Elevation_Status_Reset:
+      code_push_event: true
+    Elevation_Status_SectorSw:
+      code_push_event: true
+    Elevation_Status_StowPos_Minus:
+      code_push_event: true
+    Elevation_Status_StowPos_Plus:
+      code_push_event: true
+    Elevation_Status_TorqueBias:
+      code_push_event: true
+    Elevation_Status_TorqueTotal:
+      code_push_event: true
+    Elevation_Status_v_Act:
+      code_push_event: true
+    Elevation_Status_v_SetMax:
+      code_push_event: true
+    Elevation_Status_v_Shape:
+      code_push_event: true
+    Elevation_ErrorStatus_errErrorActive:
+      code_push_event: true
+    Elevation_ErrorStatus_errFieldBus:
+      code_push_event: true
+    Elevation_ErrorStatus_errLim2CCW:
+      code_push_event: true
+    Elevation_ErrorStatus_errLim2CW:
+      code_push_event: true
+    Elevation_ErrorStatus_errLimV_Err:
+      code_push_event: true
+    Elevation_ErrorStatus_errMotComm:
+      code_push_event: true
+    Elevation_ErrorStatus_errMotEnc:
+      code_push_event: true
+    Elevation_ErrorStatus_errMotor:
+      code_push_event: true
+    Elevation_ErrorStatus_errMotReady:
+      code_push_event: true
+    Elevation_ErrorStatus_errOverride:
+      code_push_event: true
+    Elevation_ErrorStatus_errP_DevExceed:
+      code_push_event: true
+    Elevation_ErrorStatus_errP_RangeExceed:
+      code_push_event: true
+    Elevation_ErrorStatus_errPosEnc:
+      code_push_event: true
+    Elevation_ErrorStatus_errPosEnc_Fo:
+      code_push_event: true
+    Elevation_ErrorStatus_errPower:
+      code_push_event: true
+    Elevation_ErrorStatus_errV_DevExceed:
+      code_push_event: true
+    Elevation_ErrorStatus_errV_MotExceed:
+      code_push_event: true
+    Elevation_MotorOne_ErrorCode:
+      code_push_event: true
+    Elevation_MotorOne_mActTorq:
+      code_push_event: true
+    Elevation_MotorOne_mActVelocity:
+      code_push_event: true
+    Elevation_MotorOne_MotorOverload:
+      code_push_event: true
+    Elevation_MotorOne_MotorTemp:
+      code_push_event: true
+    Elevation_MotorOne_RateOfUtil:
+      code_push_event: true
+    Elevation_MotorTwo_ErrorCode:
+      code_push_event: true
+    Elevation_MotorTwo_mActTorq:
+      code_push_event: true
+    Elevation_MotorTwo_mActVelocity:
+      code_push_event: true
+    Elevation_MotorTwo_MotorOverload:
+      code_push_event: true
+    Elevation_MotorTwo_MotorTemp:
+      code_push_event: true
+    Elevation_MotorTwo_RateOfUtil:
+      code_push_event: true
+    Elevation_WarningStatus_waParamFault:
+      code_push_event: true
+    Elevation_WarningStatus_waOverride:
+      code_push_event: true
+    Elevation_WarningStatus_waMotReady:
+      code_push_event: true
+    Elevation_WarningStatus_waMotWarn:
+      code_push_event: true
+    Elevation_WarningStatus_waMmaxExceeded:
+      code_push_event: true
+    Elevation_WarningStatus_waLim1CW:
+      code_push_event: true
+    Elevation_WarningStatus_waLim1CCW:
+      code_push_event: true
+    Elevation_WarningStatus_waLimSoftCW:
+      code_push_event: true
+    Elevation_WarningStatus_waLimSoftCCW:
+      code_push_event: true
+    Elevation_WarningStatus_waPosEncWarn:
+      code_push_event: true
+    Elevation_WarningStatus_waStowPinsDep:
+      code_push_event: true
+    Elevation_WarningStatus_waVelLimit:
+      code_push_event: true
+    FeedIndexer_Status_Active:
+      code_push_event: true
+    FeedIndexer_Status_AllActive:
+      code_push_event: true
+    FeedIndexer_Status_AxisState:
+      code_push_event: true
+    FeedIndexer_Status_encBoxOp:
+      code_push_event: true
+    FeedIndexer_Status_EStop:
+      code_push_event: true
+    FeedIndexer_Status_Exceed:
+      code_push_event: true
+    FeedIndexer_Status_InitOk:
+      code_push_event: true
+    FeedIndexer_Status_LimOverride:
+      code_push_event: true
+    FeedIndexer_Status_p_Act:
+      code_push_event: true
+    FeedIndexer_Status_p_Dev:
+      code_push_event: true
+    FeedIndexer_Status_p_Enc:
+      code_push_event: true
+    FeedIndexer_Status_p_PointCorr:
+      code_push_event: true
+    FeedIndexer_Status_p_Set:
+      code_push_event: true
+    FeedIndexer_Status_p_Shape:
+      code_push_event: true
+    FeedIndexer_Status_posDevOk:
+      code_push_event: true
+    FeedIndexer_Status_Ready:
+      code_push_event: true
+    FeedIndexer_Status_Reset:
+      code_push_event: true
+    FeedIndexer_Status_SectorSw:
+      code_push_event: true
+    FeedIndexer_Status_StowPos_Minus:
+      code_push_event: true
+    FeedIndexer_Status_StowPos_Plus:
+      code_push_event: true
+    FeedIndexer_Status_TorqueBias:
+      code_push_event: true
+    FeedIndexer_Status_TorqueTotal:
+      code_push_event: true
+    FeedIndexer_Status_v_Act:
+      code_push_event: true
+    FeedIndexer_Status_v_SetMax:
+      code_push_event: true
+    FeedIndexer_Status_v_Shape:
+      code_push_event: true
+    FeedIndexer_ErrorStatus_errErrorActive:
+      code_push_event: true
+    FeedIndexer_ErrorStatus_errFieldBus:
+      code_push_event: true
+    FeedIndexer_ErrorStatus_errLim2CCW:
+      code_push_event: true
+    FeedIndexer_ErrorStatus_errLim2CW:
+      code_push_event: true
+    FeedIndexer_ErrorStatus_errLimV_Err:
+      code_push_event: true
+    FeedIndexer_ErrorStatus_errMotComm:
+      code_push_event: true
+    FeedIndexer_ErrorStatus_errMotEnc:
+      code_push_event: true
+    FeedIndexer_ErrorStatus_errMotor:
+      code_push_event: true
+    FeedIndexer_ErrorStatus_errMotReady:
+      code_push_event: true
+    FeedIndexer_ErrorStatus_errOverride:
+      code_push_event: true
+    FeedIndexer_ErrorStatus_errP_DevExceed:
+      code_push_event: true
+    FeedIndexer_ErrorStatus_errP_RangeExceed:
+      code_push_event: true
+    FeedIndexer_ErrorStatus_errPosEnc:
+      code_push_event: true
+    FeedIndexer_ErrorStatus_errPosEnc_Fo:
+      code_push_event: true
+    FeedIndexer_ErrorStatus_errPower:
+      code_push_event: true
+    FeedIndexer_ErrorStatus_errV_DevExceed:
+      code_push_event: true
+    FeedIndexer_ErrorStatus_errV_MotExceed:
+      code_push_event: true
+    FeedIndexer_MotorOne_ErrorCode:
+      code_push_event: true
+    FeedIndexer_MotorOne_mActTorq:
+      code_push_event: true
+    FeedIndexer_MotorOne_mActVelocity:
+      code_push_event: true
+    FeedIndexer_MotorOne_MotorOverload:
+      code_push_event: true
+    FeedIndexer_MotorOne_MotorTemp:
+      code_push_event: true
+    FeedIndexer_MotorOne_RateOfUtil:
+      code_push_event: true
+    FeedIndexer_MotorTwo_ErrorCode:
+      code_push_event: true
+    FeedIndexer_MotorTwo_mActTorq:
+      code_push_event: true
+    FeedIndexer_MotorTwo_mActVelocity:
+      code_push_event: true
+    FeedIndexer_MotorTwo_MotorOverload:
+      code_push_event: true
+    FeedIndexer_MotorTwo_MotorTemp:
+      code_push_event: true
+    FeedIndexer_MotorTwo_RateOfUtil:
+      code_push_event: true
+    FeedIndexer_WarningStatus_waParamFault:
+      code_push_event: true
+    FeedIndexer_WarningStatus_waOverride:
+      code_push_event: true
+    FeedIndexer_WarningStatus_waMotReady:
+      code_push_event: true
+    FeedIndexer_WarningStatus_waMotWarn:
+      code_push_event: true
+    FeedIndexer_WarningStatus_waMmaxExceeded:
+      code_push_event: true
+    FeedIndexer_WarningStatus_waLim1CW:
+      code_push_event: true
+    FeedIndexer_WarningStatus_waLim1CCW:
+      code_push_event: true
+    FeedIndexer_WarningStatus_waLimSoftCW:
+      code_push_event: true
+    FeedIndexer_WarningStatus_waLimSoftCCW:
+      code_push_event: true
+    FeedIndexer_WarningStatus_waPosEncWarn:
+      code_push_event: true
+    FeedIndexer_WarningStatus_waStowPinsDep:
+      code_push_event: true
+    FeedIndexer_WarningStatus_waVelLimit:
+      code_push_event: true
+    Management_ErrorStatus_errAuthLost:
+      code_push_event: true
+    Management_ErrorStatus_errAzimuth:
+      code_push_event: true
+    Management_ErrorStatus_errCmd:
+      code_push_event: true
+    Management_ErrorStatus_errElevation:
+      code_push_event: true
+    Management_ErrorStatus_errFeedindexer:
+      code_push_event: true
+    Management_ErrorStatus_errGeneral:
+      code_push_event: true
+    Management_ErrorStatus_errMngmnt:
+      code_push_event: true
+    Management_ErrorStatus_errPoint:
+      code_push_event: true
+    Management_ErrorStatus_errPwr24VDC:
+      code_push_event: true
+    Management_ErrorStatus_errPwr400VAC:
+      code_push_event: true
+    Management_ErrorStatus_errPwr600VDC:
+      code_push_event: true
+    Management_ErrorStatus_errPwrMeterComms:
+      code_push_event: true
+    Management_ErrorStatus_errSafety:
+      code_push_event: true
+    Management_ErrorStatus_errStwPin:
+      code_push_event: true
+    Management_ErrorStatus_errTiltOneComms:
+      code_push_event: true
+    Management_ErrorStatus_errTiltOneIoUnit:
+      code_push_event: true
+    Management_ErrorStatus_errTiltTwoComms:
+      code_push_event: true
+    Management_ErrorStatus_errTiltTwoIoUnit:
+      code_push_event: true
+    Management_ErrorStatus_errTime:
+      code_push_event: true
+    Management_ErrorStatus_errTrack:
+      code_push_event: true
+    Management_NamePlate_DishId:
+      code_push_event: true
+    Management_NamePlate_DishStructureSerialNo:
+      code_push_event: true
+    Management_NamePlate_DscSoftwareVersion:
+      code_push_event: true
+    Management_NamePlate_IcdVersion:
+      code_push_event: true
+    Management_NamePlate_RunHours:
+      code_push_event: true
+    Management_NamePlate_TotalDist_Az:
+      code_push_event: true
+    Management_NamePlate_TotalDist_El_deg:
+      code_push_event: true
+    Management_NamePlate_TotalDist_El_m:
+      code_push_event: true
+    Management_NamePlate_TotalDist_Fi:
+      code_push_event: true
+    Management_PowerStatus_ActPwrCnsm:
+      code_push_event: true
+    Management_PowerStatus_cbEMISC:
+      code_push_event: true
+    Management_PowerStatus_cbFan_PSC:
+      code_push_event: true
+    Management_PowerStatus_cbHe_Comp:
+      code_push_event: true
+    Management_PowerStatus_cbPDU_Fi:
+      code_push_event: true
+    Management_PowerStatus_CurrentPh1:
+      code_push_event: true
+    Management_PowerStatus_CurrentPh2:
+      code_push_event: true
+    Management_PowerStatus_CurrentPh3:
+      code_push_event: true
+    Management_PowerStatus_FrequencyPh1:
+      code_push_event: true
+    Management_PowerStatus_FrequencyPh2:
+      code_push_event: true
+    Management_PowerStatus_FrequencyPh3:
+      code_push_event: true
+    Management_PowerStatus_PowerFactor:
+      code_push_event: true
+    Management_PowerStatus_VoltagePh1:
+      code_push_event: true
+    Management_PowerStatus_VoltagePh2:
+      code_push_event: true
+    Management_PowerStatus_VoltagePh3:
+      code_push_event: true
+    Management_PowerStatus_SpdFnctnl_PDU1:
+      code_push_event: true
+    Management_PowerStatus_SpdFnctnl_PDU2:
+      code_push_event: true
+    Management_Status_HHP_Az:
+      code_push_event: true
+    Management_Status_HHP_Dir_Minus:
+      code_push_event: true
+    Management_Status_HHP_Dir_Plus:
+      code_push_event: true
+    Management_Status_HHP_El:
+      code_push_event: true
+    Management_Status_HHP_Fi:
+      code_push_event: true
+    Management_TempHumidStatus_HumidDriveCab:
+      code_push_event: true
+    Management_TempHumidStatus_HumidPSC_Inlet:
+      code_push_event: true
+    Management_TempHumidStatus_HumidPSC_Outlet:
+      code_push_event: true
+    Management_TempHumidStatus_TempDriveCab:
+      code_push_event: true
+    Management_TempHumidStatus_TempEMISC_Outlet:
+      code_push_event: true
+    Management_TempHumidStatus_TempPSC_Inlet:
+      code_push_event: true
+    Management_TempHumidStatus_TempPSC_Outlet:
+      code_push_event: true
+    Management_WarningStatus_waAzimuth:
+      code_push_event: true
+    Management_WarningStatus_waCmd:
+      code_push_event: true
+    Management_WarningStatus_waDoorDrive:
+      code_push_event: true
+    Management_WarningStatus_waDoorEMISC:
+      code_push_event: true
+    Management_WarningStatus_waDoorPED:
+      code_push_event: true
+    Management_WarningStatus_waDoorPSC:
+      code_push_event: true
+    Management_WarningStatus_waElevation:
+      code_push_event: true
+    Management_WarningStatus_waFeedindexer:
+      code_push_event: true
+    Management_WarningStatus_waHatchAzBearing:
+      code_push_event: true
+    Management_WarningStatus_waHatchPscRoof:
+      code_push_event: true
+    Management_WarningStatus_waHornOn:
+      code_push_event: true
+    Management_WarningStatus_waMngmnt:
+      code_push_event: true
+    Management_WarningStatus_waOverTempDrive:
+      code_push_event: true
+    Management_WarningStatus_waOverTempEMISC:
+      code_push_event: true
+    Management_WarningStatus_waOverTempPED:
+      code_push_event: true
+    Management_WarningStatus_waOverTempPSC:
+      code_push_event: true
+    Management_WarningStatus_waPoint:
+      code_push_event: true
+    Management_WarningStatus_waSafe2ApproachLight:
+      code_push_event: true
+    Management_WarningStatus_waSafety:
+      code_push_event: true
+    Management_WarningStatus_waStwPin:
+      code_push_event: true
+    Management_WarningStatus_waTime:
+      code_push_event: true
+    Management_WarningStatus_waTrack:
+      code_push_event: true
+    Pointing_Status_ActAmbTemp_East:
+      code_push_event: true
+    Pointing_Status_ActAmbTemp_South:
+      code_push_event: true
+    Pointing_Status_ActAmbTemp_West:
+      code_push_event: true
+    Pointing_Status_AmbTempCorrActive:
+      code_push_event: true
+    Pointing_Status_AmbTempCorrVal_Az:
+      code_push_event: true
+    Pointing_Status_AmbTempCorrVal_El:
+      code_push_event: true
+    Pointing_Status_BandForCorr:
+      code_push_event: true
+    Pointing_Status_StaticPmCorrVal_Az:
+      code_push_event: true
+    Pointing_Status_StaticPmCorrVal_El:
+      code_push_event: true
+    Pointing_Status_TotalPointCorr_Az:
+      code_push_event: true
+    Pointing_Status_TotalPointCorr_El:
+      code_push_event: true
+    Pointing_Status_StaticCorrActive:
+      code_push_event: true
+    Pointing_Status_TiltCorrActive:
+      code_push_event: true
+    Pointing_Status_TiltOne_On:
+      code_push_event: true
+    Pointing_Status_TiltTemp_One:
+      code_push_event: true
+    Pointing_Status_TiltTemp_Two:
+      code_push_event: true
+    Pointing_Status_TiltTwo_On:
+      code_push_event: true
+    Pointing_Status_TiltXArcsec_One:
+      code_push_event: true
+    Pointing_Status_TiltXArcsec_Two:
+      code_push_event: true
+    Pointing_Status_TiltXFilt_One:
+      code_push_event: true
+    Pointing_Status_TiltXFilt_Two:
+      code_push_event: true
+    Pointing_Status_TiltXRaw_mV_One:
+      code_push_event: true
+    Pointing_Status_TiltXRaw_mV_Two:
+      code_push_event: true
+    Pointing_Status_TiltYArcsec_One:
+      code_push_event: true
+    Pointing_Status_TiltYArcsec_Two:
+      code_push_event: true
+    Pointing_Status_TiltYFilt_One:
+      code_push_event: true
+    Pointing_Status_TiltYFilt_Two:
+      code_push_event: true
+    Pointing_Status_TiltYRaw_mV_One:
+      code_push_event: true
+    Pointing_Status_TiltYRaw_mV_Two:
+      code_push_event: true
+    Pointing_Status_TiltCorrVal_Az:
+      code_push_event: true
+    Pointing_Status_TiltCorrVal_El:
+      code_push_event: true
+    Pointing_AmbTempParameters_AmbTempParam1:
+      code_push_event: true
+    Pointing_AmbTempParameters_AmbTempParam2:
+      code_push_event: true
+    Pointing_AmbTempParameters_AmbTempParam3:
+      code_push_event: true
+    Pointing_AmbTempParameters_AmbTempParam4:
+      code_push_event: true
+    Pointing_AmbTempParameters_AmbTempParam5:
+      code_push_event: true
+    Pointing_AmbTempParameters_AmbTempParam6:
+      code_push_event: true
+    Pointing_AmbTempParameters_Filt_dt:
+      code_push_event: true
+    Pointing_StaticPmParameters_Dimensions:
+      code_push_event: true
+    Pointing_StaticPmParameters_IndexMin:
+      code_push_event: true
+    Pointing_StaticPmParameters_IndexMax:
+      code_push_event: true
+    TiltmeterParameters_One_Tiltmeter_serial_no:
+      code_push_event: true
+    TiltmeterParameters_One_tilt_temp_scale:
+      code_push_event: true
+    TiltmeterParameters_One_x_filt_dt:
+      code_push_event: true
+    TiltmeterParameters_One_x_off:
+      code_push_event: true
+    TiltmeterParameters_One_x_offTC:
+      code_push_event: true
+    TiltmeterParameters_One_x_scale:
+      code_push_event: true
+    TiltmeterParameters_One_x_scaleTC:
+      code_push_event: true
+    TiltmeterParameters_One_x_zero:
+      code_push_event: true
+    TiltmeterParameters_One_x_zeroTC:
+      code_push_event: true
+    TiltmeterParameters_One_y_filt_dt:
+      code_push_event: true
+    TiltmeterParameters_One_y_off:
+      code_push_event: true
+    TiltmeterParameters_One_y_offTC:
+      code_push_event: true
+    TiltmeterParameters_One_y_scale:
+      code_push_event: true
+    TiltmeterParameters_One_y_scaleTC:
+      code_push_event: true
+    TiltmeterParameters_One_y_zero:
+      code_push_event: true
+    TiltmeterParameters_One_y_zeroTC:
+      code_push_event: true
+    TiltmeterParameters_Two_Tiltmeter_serial_no:
+      code_push_event: true
+    TiltmeterParameters_Two_tilt_temp_scale:
+      code_push_event: true
+    TiltmeterParameters_Two_x_filt_dt:
+      code_push_event: true
+    TiltmeterParameters_Two_x_off:
+      code_push_event: true
+    TiltmeterParameters_Two_x_offTC:
+      code_push_event: true
+    TiltmeterParameters_Two_x_scale:
+      code_push_event: true
+    TiltmeterParameters_Two_x_scaleTC:
+      code_push_event: true
+    TiltmeterParameters_Two_x_zero:
+      code_push_event: true
+    TiltmeterParameters_Two_x_zeroTC:
+      code_push_event: true
+    TiltmeterParameters_Two_y_filt_dt:
+      code_push_event: true
+    TiltmeterParameters_Two_y_off:
+      code_push_event: true
+    TiltmeterParameters_Two_y_offTC:
+      code_push_event: true
+    TiltmeterParameters_Two_y_scale:
+      code_push_event: true
+    TiltmeterParameters_Two_y_scaleTC:
+      code_push_event: true
+    TiltmeterParameters_Two_y_zero:
+      code_push_event: true
+    TiltmeterParameters_Two_y_zeroTC:
+      code_push_event: true
+    Safety_Status_AutoStowActive:
+      code_push_event: true
+    Safety_Status_Axes_InitFault:
+      code_push_event: true
+    Safety_Status_EStopFi:
+      code_push_event: true
+    Safety_Status_EStopHHP:
+      code_push_event: true
+    Safety_Status_EStopPed:
+      code_push_event: true
+    Safety_Status_EStopTurnhead:
+      code_push_event: true
+    Safety_Status_HatchAzBearing:
+      code_push_event: true
+    Safety_Status_HatchTurnheadRoof:
+      code_push_event: true
+    Safety_Status_InterlockClearable:
+      code_push_event: true
+    Safety_Status_Lim2_CCW_Az:
+      code_push_event: true
+    Safety_Status_Lim2_CCW_Fi:
+      code_push_event: true
+    Safety_Status_Lim2_CW_Az:
+      code_push_event: true
+    Safety_Status_Lim2_CW_Fi:
+      code_push_event: true
+    Safety_Status_Lim2_Dn_El:
+      code_push_event: true
+    Safety_Status_Lim2_Up_El:
+      code_push_event: true
+    Safety_Status_SafetyLockout_Az:
+      code_push_event: true
+    Safety_Status_SafetyLockout_El:
+      code_push_event: true
+    Safety_Status_SafetyLockout_Fi:
+      code_push_event: true
+    Safety_Status_SafetyState:
+      code_push_event: true
+    Safety_Status_STO_Az:
+      code_push_event: true
+    Safety_Status_STO_El:
+      code_push_event: true
+    Safety_Status_STO_Fi:
+      code_push_event: true
+    Safety_Status_StowPinStatus:
+      code_push_event: true
+    Time_cds_Status_DscTimeSyncSource:
+      code_push_event: true
+    Time_cds_Status_LeapSecPTP:
+      code_push_event: true
+    Time_cds_Status_TAIoffset:
+      code_push_event: true
+    Time_cds_Status_TimeSourceAddrNTP:
+      code_push_event: true
+    Time_cds_Status_TimeSynced:
+      code_push_event: true
+    Time_cds_Status_UTCtoSkaEpochSec:
+      code_push_event: true
+    Tracking_Status_OnSourceDev:
+      code_push_event: true
+    Tracking_Status_tr_initOk:
+      code_push_event: true
+    Tracking_Status_tr_obj_valid:
+      code_push_event: true
+    Tracking_Status_tr_selPoly:
+      code_push_event: true
+    Tracking_Status_tr_TimeRemaining:
+      code_push_event: true
+    Tracking_Status_tr_valid:
+      code_push_event: true
+    Tracking_PolyStatus_act_PolyValue_Az:
+      code_push_event: true
+    Tracking_PolyStatus_act_PolyValue_El:
+      code_push_event: true
+    Tracking_PolyStatus_pts_Completed:
+      code_push_event: true
+    Tracking_PolyStatus_pts_DataValid:
+      code_push_event: true
+    Tracking_PolyStatus_pts_Err:
+      code_push_event: true
+    Tracking_PolyStatus_pts_InterpolError:
+      code_push_event: true
+    Tracking_PolyStatus_pts_Running:
+      code_push_event: true
+    Tracking_PolyStatus_pts_StartPos:
+      code_push_event: true
+    Tracking_PolyStatus_pts_TimeDistFault:
+      code_push_event: true
+    Tracking_PolyStatus_pts_TrackId_Err:
+      code_push_event: true
+    Tracking_TableStatus_act_pt_value_Az:
+      code_push_event: true
+    Tracking_TableStatus_act_pt_value_El:
+      code_push_event: true
+    Tracking_TableStatus_pts_Completed:
+      code_push_event: true
+    Tracking_TableStatus_pts_DataValid:
+      code_push_event: true
+    Tracking_TableStatus_pts_Err:
+      code_push_event: true
+    Tracking_TableStatus_pts_Interpol:
+      code_push_event: true
+    Tracking_TableStatus_pts_InterpolError:
+      code_push_event: true
+    Tracking_TableStatus_pts_Running:
+      code_push_event: true
+    Tracking_TableStatus_pts_StartPos:
+      code_push_event: true
+    Tracking_TableStatus_pts_TableAlmostFull:
+      code_push_event: true
+    State:
+      code_push_event: true
+    Status:
+      code_push_event: true
 
 - class: Spf1
   attributes:
