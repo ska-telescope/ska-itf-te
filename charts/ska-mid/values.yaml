@@ -43,13 +43,22 @@ ska-dataproduct-dashboard:
       size: 2Ti
       storageClassName: ceph-cephfs
 
-# ODA
-ska-db-oda-umbrella:
-  enabled: false
-  ska-ser-skuid:
-    skuid:
-      config:
-        generator_id: miditf
+# OSO
+ska-oso-integration:
+  enabled: true
+  ska-db-oda-umbrella:
+    ska-ser-skuid:
+      skuid:
+        config:
+          generator_id: miditf
+  
+# # ODA
+# ska-db-oda-umbrella:
+#   enabled: false
+#   ska-ser-skuid:
+#     skuid:
+#       config:
+#         generator_id: miditf
 
 # DISH LMC
 ska-dish-lmc:

@@ -53,6 +53,12 @@ dependencies:
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-sdp.enabled
 
+  # OSO integration
+  - name: ska-oso-integration
+    version: 0.1.1
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-oso-integration.enabled
+
   # DISH LMC CHART
   - name: ska-dish-lmc
     version: 8.1.0
