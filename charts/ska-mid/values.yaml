@@ -45,7 +45,7 @@ ska-dataproduct-dashboard:
 
 # OSO
 ska-oso-integration:
-  enabled: true
+  enabled: false
   ska-db-oda-umbrella:
     ska-ser-skuid:
       skuid:
