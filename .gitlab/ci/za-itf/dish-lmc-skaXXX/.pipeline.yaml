@@ -60,10 +60,12 @@
     - make itf-dish-links
     - bash .make/resources/gitlab_section.sh wait "Wait for SPFRx deployment completion - check logs on k9s" make k8s-wait KUBE_APP=spfrx
     - |
-      export SUT_CLUSTER_DOMAIN=miditf.internal.skao.int ADDMARKS=true SMOKE_TEST_MARKS=dish_deployment
-      unset PYTHONPATH
-      chmod +x .make/resources/gitlab_section.sh
-      .make/resources/gitlab_section.sh test-spfrx-qspi-bitstream-compatibility "Smoke Test SPFRx QSPI bitstream compatibility" make smoke-tests
+      if [ "$SPFRX_IN_THE_LOOP" == "true" ]; then
+        export SUT_CLUSTER_DOMAIN=miditf.internal.skao.int ADDMARKS=true SMOKE_TEST_MARKS=dish_deployment
+        unset PYTHONPATH
+        chmod +x .make/resources/gitlab_section.sh
+        .make/resources/gitlab_section.sh test-spfrx-qspi-bitstream-compatibility "Smoke Test SPFRx QSPI bitstream compatibility" make smoke-tests
+      fi
   after_script:
     - bash .make/resources/gitlab_section.sh deployment-config "Output deployment config information" make k8s-template-chart
   extends:
