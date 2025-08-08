@@ -360,7 +360,6 @@ get-deployment-config-info:
 	@mkdir -p build
 	@mv manifests.yaml build/manifests.yaml
 	@echo "Find the chart template used to deploy all the things in the job artefacts - look for manifests.yaml."
-
 .PHONY: get-deployment-config-info
 
 env:
@@ -400,6 +399,7 @@ smoke-tests:
 	set -o pipefail; $(PYTHON_RUNNER) pytest $(SMOKE_TEST_SOURCE) $(SMOKE_TEST_ARGS) --log-cli-level=INFO;
 	mkdir -p build
 	echo $$? > build/status
+.PHONY: smoke-tests
 
 k8s-file-copy:
 	kubectl cp -n ${COPY_NAMESPACE} ${SOURCE_POD}:${SOURCE_FILEPATH} ${TARGET_DIR}/${SOURCE_FILENAME}
