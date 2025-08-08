@@ -7,7 +7,7 @@ dependencies:
   version: 0.4.22
 - name: ska-tmc-mid
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.4.0
+  version: 1.5.0
 - name: ska-csp-lmc-mid
   repository: https://artefact.skao.int/repository/helm-internal
   version: 1.0.1
@@ -53,5 +53,5 @@ dependencies:
 - name: ska-log-consumer
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.1.6
-digest: sha256:e2744b66b99c59e2efc7b6c2b11790750ddb17e2f04c96485c38be302569fbc2
-generated: "2025-08-04T18:45:13.647866164+02:00"
+digest: sha256:392fa482bb59559a88bf191939a6cfbaa88c1db3125ed11e4a835dd6ff9ceeb6
+generated: "2025-08-08T16:15:22.079286444+02:00"
