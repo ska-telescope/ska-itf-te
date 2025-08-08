@@ -9,6 +9,8 @@
   * Point ITF dish EDA config files to tag 27.3.0
 * [AT-3341]
   * update the source of the ska-mid-cbf-system-parameters
+* [AT-3355]
+  * upate ska-tmc-mid release to 1.5.0
   
 ## 27.3.0
 * [AT-3289]
