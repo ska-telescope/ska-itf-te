@@ -175,6 +175,18 @@ ifeq ($(KUBE_NAMESPACE),staging)
 		--set ska-sdp.data-pvc.pod.enabled=true
 endif
 
+ifeq ($(findstring ci-,$(KUBE_NAMESPACE)),ci-)
+	SDP_EXTRA_PARAMS += \
+		--set global.data-product-pvc-name=test-pvc \
+		--set ska-dataproduct-dashboard.dataProductPVC.name=test-pvc \
+		--set ska-sdp.data-pvc.create.clone-pvc=test-pvc \
+		--set ska-sdp.data-pvc.create.clone-pvc-namespace=ci-ska-mid-itf-dpd-$(CI_COMMIT_REF_NAME) \
+		--set ska-sdp.data-pvc.create.enabled=true \
+		--set ska-sdp.data-pvc.create.size=100Gi \
+		--set ska-sdp.data-pvc.create.storageClassName=ceph-cephfs \
+		--set ska-sdp.data-pvc.pod.enabled=true
+endif
+
 # ifeq (wildcard($(KUBE_NAMESPACE),"ci-*")) # This will break - fix before push! block to be used in automated testing
 # 	SDP_EXTRA_PARAMS += \
 # 	--set global.data-product-pvc-name=$(DPD_PVC_NAME)
