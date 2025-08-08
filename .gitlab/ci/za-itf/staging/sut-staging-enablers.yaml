@@ -25,6 +25,10 @@ ska-mid-cbf-engineering-console:
 ska-sdp:
   enabled: true
 
+# OSO
+ska-oso-integration:
+  enabled: true
+
 # DISH LMC CHART
 ska-dish-lmc:
   enabled: false
