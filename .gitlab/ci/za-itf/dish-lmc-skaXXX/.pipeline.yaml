@@ -70,7 +70,7 @@
 
     - poetry run python3 -c "import ska_telmodel; print(ska_telmodel.__file__)"
     - |
-      if [ "$SPFRX_IN_THE_LOOP" == "true" ]; then
+      if [ "$SPFRX_IN_THE_LOOP" == "true" || true]; then
         export SUT_CLUSTER_DOMAIN=miditf.internal.skao.int
         export ADDMARKS=true 
         export SMOKE_TEST_MARKS=dish_deployment;
