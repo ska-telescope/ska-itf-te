@@ -182,12 +182,15 @@ ska-tango-archiver:
   telescope: SKA-mid
   telescope_environment: MID-ITF
 
-# TANGO BASE
+# TANGO BASE and UTILS
 ska-tango-base:
+  enabled: true
   itango:
     enabled: true
   tangodb:
     use_pv: true
+ska-tango-util:
+  enabled: true
 
 # TANGO DEPLOYMENT
 tangogql:

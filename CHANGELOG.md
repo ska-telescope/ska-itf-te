@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3253]
+  * Fixed dpd deployment jobs post ska-mid chart refactor
 * [AT-3343]
   * Made test-e2e-kapb target compatible on macbooks running GNU make 3.8
 * [AT-3324]
