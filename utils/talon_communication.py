@@ -1,8 +1,8 @@
+import json
 import logging
 import re
-import subprocess
-
 import requests
+import subprocess
 
 logger = logging.getLogger(__name__)
 
@@ -224,14 +224,15 @@ class TalonBoardCommandExecutor:
         )
 
         response = requests.get(spfrx_boardmap_link, timeout=5)
-
         if response.status_code != 200:
             error_string = f"Failed to fetch talondx_boardmap.json from {spfrx_boardmap_link}"
             logger.error(error_string)
             return None
 
         try:
-            talondx_boardmap = response.json()
+            # Replace <k-value> with "<k-value>" to ensure valid JSON
+            response_text = response.text.replace('"NominalKValue": <k-value>,','"NominalKValue": "<k-value>",')
+            talondx_boardmap = json.loads(response_text)
         except ValueError:
             error_string = f"Failed to parse talondx_boardmap.json: {response.text}"
             logger.error(error_string)

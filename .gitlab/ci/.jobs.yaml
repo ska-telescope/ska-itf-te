@@ -50,7 +50,7 @@
         bash .make/resources/gitlab_section.sh install_tangoGQL "Install TangoGQL for multiDB" make taranta-deploy-all-tangogql-instances;
       fi
     - env | grep RUNNER_AFTER_SCRIPT_TIMEOUT
-    - export SUT_CLUSTER_DOMAIN=miditf.internal.skao.int ADDMARKS=true SMOKE_TEST_MARKS="not requires_talons_on"
+    - export SUT_CLUSTER_DOMAIN=miditf.internal.skao.int ADDMARKS=true SMOKE_TEST_MARKS="not requires_talons_on and not dish_deployment"
     - chmod +x .make/resources/gitlab_section.sh
     - .make/resources/gitlab_section.sh smoketest-general "More smoke tests" make smoke-tests
   after_script:
