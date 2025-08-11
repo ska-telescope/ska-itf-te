@@ -148,7 +148,7 @@
                     "fixed_delay_id": "FIX_H",
                     "polarisation": 0,
                     "units": "m",
-                    "delay": 0.0
+                    "delay": 1.0
                 },
                 {
                     "interface": "https://schema.skao.int/ska-telmodel-layout-receptor-fixed-delay/0.0",
