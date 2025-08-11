@@ -189,8 +189,6 @@ ifeq ($(FEATURE_BRANCH_DEPLOYMENT),true)
 	SDP_EXTRA_PARAMS += \
 		--set global.data-product-pvc-name=test-pvc \
 		--set ska-dataproduct-dashboard.dataProductPVC.name=test-pvc \
-		--set ska-sdp.data-pvc.create.clone-pvc=test-pvc \
-		--set ska-sdp.data-pvc.create.clone-pvc-namespace=ci-ska-mid-itf-dpd-$(CI_COMMIT_REF_NAME) \
 		--set ska-sdp.data-pvc.create.enabled=true \
 		--set ska-sdp.data-pvc.create.size=100Gi \
 		--set ska-sdp.data-pvc.create.storageClassName=ceph-cephfs \
