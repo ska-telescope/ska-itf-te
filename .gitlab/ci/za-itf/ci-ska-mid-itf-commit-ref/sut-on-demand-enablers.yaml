@@ -75,7 +75,7 @@ ska-tango-alarmhandler:
 
 # DPD
 ska-dataproduct-dashboard:
-  enabled: false
+  enabled: true
 
 # EDA
 ska-tango-archiver:

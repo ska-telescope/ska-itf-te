@@ -188,12 +188,20 @@ ifeq ($(KUBE_NAMESPACE),staging)
 		--set ska-sdp.data-pvc.pod.enabled=true
 endif
 
-ifeq ($(findstring ci-,$(KUBE_NAMESPACE)),ci-)
+FEATURE_BRANCH_DEPLOYMENT := true
+ifeq ($(filter ci-%,$(KUBE_NAMESPACE)),$(KUBE_NAMESPACE))
+ifneq ($(CI_COMMIT_TAG),)
+FEATURE_BRANCH_DEPLOYMENT := false
+else ifeq ($(CI_COMMIT_BRANCH),$(CI_DEFAULT_BRANCH))
+FEATURE_BRANCH_DEPLOYMENT := false
+endif
+endif
+
+# Configure test-pvc for feature branch deployments
+ifeq ($(FEATURE_BRANCH_DEPLOYMENT),true)
 	SDP_EXTRA_PARAMS += \
 		--set global.data-product-pvc-name=test-pvc \
 		--set ska-dataproduct-dashboard.dataProductPVC.name=test-pvc \
-		--set ska-sdp.data-pvc.create.clone-pvc=test-pvc \
-		--set ska-sdp.data-pvc.create.clone-pvc-namespace=ci-ska-mid-itf-dpd-$(CI_COMMIT_REF_NAME) \
 		--set ska-sdp.data-pvc.create.enabled=true \
 		--set ska-sdp.data-pvc.create.size=100Gi \
 		--set ska-sdp.data-pvc.create.storageClassName=ceph-cephfs \
