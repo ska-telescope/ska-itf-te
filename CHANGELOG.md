@@ -2,7 +2,7 @@
 
 ## Unreleased
 * [AT-3356]
-  * Fixed bug causing tagged pipeline and feature branch deployments to be dependent on prescence of test-pvc
+  * Fixed bug causing tagged pipeline and feature branch deployments to be dependent on presence of test-pvc
 * [AT-3253]
   * Fixed dpd deployment jobs post ska-mid chart refactor
 * [AT-3343]
