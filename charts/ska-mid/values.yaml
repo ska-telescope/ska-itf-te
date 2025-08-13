@@ -30,6 +30,7 @@ ska-tango-alarmhandler:
 # CSP
 ska-csp-lmc-mid:
   enabled: false
+  defaultAdminMode: 1
 
 # DATAPRODUCT DASHBOARD
 ska-dataproduct-dashboard:
@@ -43,13 +44,38 @@ ska-dataproduct-dashboard:
       size: 2Ti
       storageClassName: ceph-cephfs
 
-# ODA
-ska-db-oda-umbrella:
+# OSO
+ska-oso-integration:
   enabled: false
-  ska-ser-skuid:
-    skuid:
-      config:
-        generator_id: miditf
+  ska-oso-slt-services:
+    secretProvider:
+      enabled: false
+  ska-db-oda-umbrella:
+    enabled: true
+    ska-ser-skuid:
+      skuid:
+        config:
+          generator_id: miditf
+    pgadmin4:
+      enabled: false
+    vault:
+      enabled: false
+    postgresql:
+      enabled: true
+      auth:
+        postgresPassword: localpassword
+        existingSecret: false
+  ska-oso-pht-services:
+    secretProvider:
+      enabled: false
+  
+# # ODA
+# ska-db-oda-umbrella:
+#   enabled: false
+#   ska-ser-skuid:
+#     skuid:
+#       config:
+#         generator_id: miditf
 
 # DISH LMC
 ska-dish-lmc:
@@ -242,7 +268,7 @@ ska-tmc-mid:
       TelmodelSource: car:ska-mid?27.4.0-rc.6#tmdata
       TelmodelPath: instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json
     sdpsubarrayleafnode:
-      CommandTimeout: 90
+      CommandTimeOut: 240
     subarraynode:
       CommandTimeOut: 300
       CspScanInterfaceURL: https://schema.skao.int/ska-csp-scan/2.2   # TEMPORARY COMMIT - not to be overwritten in makefile
