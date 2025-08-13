@@ -268,7 +268,7 @@ ska-tmc-mid:
       TelmodelSource: car:ska-mid?main#tmdata
       TelmodelPath: instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json
     sdpsubarrayleafnode:
-      CommandTimeout: 90
+      CommandTimeOut: 240
     subarraynode:
       CommandTimeOut: 300
       CspScanInterfaceURL: https://schema.skao.int/ska-csp-scan/2.2   # TEMPORARY COMMIT - not to be overwritten in makefile
