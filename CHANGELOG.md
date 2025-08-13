@@ -1,6 +1,11 @@
 # Version History
 
 ## Unreleased
+* [AT-2702]
+  * Add `ska-oso-integration` (v 0.1.1) chart to `ska-mid` for OSO deployments
+  * Update to `ska-mid-cbf-tdc-mcs` 1.3.4
+  * Update to `ska-mid-cbf-engineering-console` 1.1.5
+  * Use `ska-csp-lmc-mid` 1.2.0-rc.1
 * [AT-3356]
   * Fixed bug causing tagged pipeline and feature branch deployments to be dependent on presence of test-pvc
 * [AT-3253]

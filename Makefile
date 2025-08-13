@@ -22,6 +22,8 @@ TANGO_HOST ?= tango-databaseds:10000## TANGO_HOST connection to the Tango DS
 TANGO_SERVER_PORT ?= 45450## TANGO_SERVER_PORT - fixed listening port for local server
 CLUSTER_DOMAIN = miditf.internal.skao.int## Domain used for naming Tango Device Servers
 INGRESS_HOST = k8s.$(CLUSTER_DOMAIN)## Tango host, cluster domain, what are all these things???
+INGRESS_PROTOCOL ?= https
+KUBE_HOST ?= $(INGRESS_PROTOCOL)://$(INGRESS_HOST)
 ITANGO_ENABLED ?= true## ITango enabled in ska-tango-base
 PYTHON_RUNNER = poetry run python3 -m
 PYTHON_LINE_LENGTH = 99
@@ -142,6 +144,17 @@ DISH_LMC_PARAMS ?= $(DISH_LMC_INITIAL_PARAMS) $(DISH_LMC_EXTRA_PARAMS) $(DISH_LM
 SKUID_URL ?= ska-ser-skuid-test-svc.$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN):9870
 ODA_PARAMS ?= --set ska-db-oda-umbrella.ska-db-oda.rest.skuid.url=$(SKUID_URL)
 
+OET_URL ?= $(KUBE_HOST)/$(KUBE_NAMESPACE)/oet/api/v8
+ODA_URL ?= $(KUBE_HOST)/$(KUBE_NAMESPACE)/oda/api/v8
+PTT_SERVICES_URL ?= $(KUBE_HOST)/$(KUBE_NAMESPACE)/ptt/api/v0
+SLT_SERVICES_URL ?= $(KUBE_HOST)/$(KUBE_NAMESPACE)/slt/api/v0
+
+OSO_PARAMS ?= \
+	--set ska-oso-integration.ska-oso-oet-ui.backendURLOET=$(OET_URL) \
+ 	--set ska-oso-integration.ska-oso-oet-ui.backendURLODA=$(ODA_URL) \
+	--set ska-oso-integration.ska-oso-ptt.backendURL=$(PTT_SERVICES_URL) \
+	--set ska-oso-integration.ska-oso-slt-ui.backendURL=$(SLT_SERVICES_URL) \
+
 ###################################################################
 ### THIS SECTION NEEDS REVIEW FROM SDP ARCHITECTS
 SDP_EXTRA_PARAMS ?=
@@ -228,12 +241,14 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	--set global.cluster_domain=$(CLUSTER_DOMAIN) \
 	--set global.labels.app=$(KUBE_APP) \
 	--set global.operator=$(SKA_TANGO_OPERATOR) \
+	--set global.ingress.host=$(KUBE_HOST) \
 	--set ska-tango-base.display=$(DISPLAY) \
 	--set ska-tango-base.xauthority=$(XAUTHORITY) \
 	--set ska-tango-base.jive.enabled=$(JIVE) \
 	--set ska-tango-base.itango.enabled=$(ITANGO_ENABLED) \
 	$(SDP_PARAMS) \
 	$(ODA_PARAMS) \
+	$(OSO_PARAMS) \
 	$(DISH_LMC_PARAMS) \
 	$(TARANTA_PARAMS) \
 	${K8S_TEST_TANGO_IMAGE_PARAMS} \
