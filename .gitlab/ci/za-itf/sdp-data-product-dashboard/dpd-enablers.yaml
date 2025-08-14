@@ -1,5 +1,10 @@
 
 # Tango Base & Deployment Charts: TangoDB, iTango, Tango Operator Utils
+ska-tango-base:
+  enabled: false
+
+ska-tango-util:
+  enabled: false
 
 # Mid TMC
 ska-tmc-mid:
@@ -23,6 +28,10 @@ ska-mid-cbf-engineering-console:
 
 # SDP
 ska-sdp:
+  enabled: false
+
+# OSO
+ska-oso-integration:
   enabled: false
 
 # DISH LMC CHART
