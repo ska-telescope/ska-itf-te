@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-2932]
+  * Add initial archiver configs for TMC central node
 * [AT-2702]
   * Add `ska-oso-integration` (v 0.1.1) chart to `ska-mid` for OSO deployments
   * Update to `ska-mid-cbf-tdc-mcs` 1.3.4
