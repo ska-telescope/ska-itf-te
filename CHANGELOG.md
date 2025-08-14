@@ -1,8 +1,21 @@
 # Version History
 
 ## Unreleased
+* [AT-2702]
+  * Add `ska-oso-integration` (v 0.1.1) chart to `ska-mid` for OSO deployments
+  * Update to `ska-mid-cbf-tdc-mcs` 1.3.4
+  * Update to `ska-mid-cbf-engineering-console` 1.1.5
+  * Use `ska-csp-lmc-mid` 1.2.0-rc.1
+* [AT-3356]
+  * Fixed bug causing tagged pipeline and feature branch deployments to be dependent on presence of test-pvc
+* [AT-3253]
+  * Fixed dpd deployment jobs post ska-mid chart refactor
 * [AT-3343]
   * Made test-e2e-kapb target compatible on macbooks running GNU make 3.8
+* [AT-3324]
+  * Point ITF dish EDA config files to tag 27.3.0
+* [AT-3341]
+  * update the source of the ska-mid-cbf-system-parameters
   
 ## 27.3.0
 * [AT-3289]
