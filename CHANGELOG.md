@@ -16,6 +16,10 @@
   * Point ITF dish EDA config files to tag 27.3.0
 * [AT-3341]
   * update the source of the ska-mid-cbf-system-parameters
+*  [AT-3354]
+  * add EXPECTED_K_VALE as environment variable with default of 1
+  * use it in tmc/conftest.py test to check loaded k-value equals the one in tmdata
+
   
 ## 27.3.0
 * [AT-3289]
