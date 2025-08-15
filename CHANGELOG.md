@@ -23,7 +23,7 @@
   * use it in tmc/conftest.py test to check loaded k-value equals the one in tmdata
 * [AT-3355]
   * upate ska-tmc-mid release to 1.5.0
-  
+
 ## 27.3.0
 * [AT-3289]
   * Update Updated SPFC deployer
