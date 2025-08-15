@@ -25,6 +25,26 @@ ska-mid-cbf-engineering-console:
 ska-sdp:
   enabled: true
 
+# OSO
+ska-oso-integration:
+  enabled: true
+  ska-oso-slt-services:
+    secretProvider:
+      enabled: false
+  ska-db-oda-umbrella:
+    enabled: true
+    pgadmin4:
+      enabled: false
+    vault:
+      enabled: false
+    postgresql:
+      enabled: true
+      auth:
+        postgresPassword: localpassword
+        existingSecret: false
+  ska-oso-pht-services:
+    secretProvider:
+      enabled: false
 # DISH LMC CHART
 ska-dish-lmc:
   enabled: false
@@ -55,7 +75,7 @@ ska-tango-alarmhandler:
 
 # DPD
 ska-dataproduct-dashboard:
-  enabled: false
+  enabled: true
 
 # EDA
 ska-tango-archiver:

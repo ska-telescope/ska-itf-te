@@ -21,7 +21,7 @@ def settings():
     settings["SUT_namespace"] = os.getenv("KUBE_NAMESPACE")
     settings["data_dir"] = ".jupyter-notebooks/data/mid_telescope"
     settings["TMC_configs"] = f"{settings['data_dir']}/tmc"
-    settings["expected_k_value"] = 1
+    settings["expected_k_value"] = int(os.getenv("EXPECTED_K_VALUE", 1))
     settings["override_scan_duration"] = os.getenv("OVERRIDE_SCAN_DURATION")
     settings["override_scan_band"] = os.getenv("OVERRIDE_SCAN_BAND")
     settings["integration_factor"] = os.getenv("INTEGRATION_FACTOR")

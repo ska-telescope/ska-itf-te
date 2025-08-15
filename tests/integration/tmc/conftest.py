@@ -521,7 +521,10 @@ def _(telescope_handlers, receptor_ids, settings):
         try:
             dish_vcc_config = json.loads(tmc.csp_master_leaf_node.dishVccConfig)
             for receptor in RECEPTORS:
-                if dish_vcc_config["dish_parameters"][receptor]["k"] != 1:
+                if (
+                    dish_vcc_config["dish_parameters"][receptor]["k"]
+                    != settings["expected_k_value"]
+                ):
                     is_k_value_correct = False
                     break
         except json.JSONDecodeError:
