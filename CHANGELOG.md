@@ -22,7 +22,6 @@
   * add EXPECTED_K_VALE as environment variable with default of 1
   * use it in tmc/conftest.py test to check loaded k-value equals the one in tmdata
 
-  
 ## 27.3.0
 * [AT-3289]
   * Update Updated SPFC deployer
