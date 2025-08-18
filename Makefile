@@ -398,8 +398,21 @@ get-deployment-config-info:
 	@mkdir -p build
 	@mv manifests.yaml build/manifests.yaml
 	@echo "Find the chart template used to deploy all the things in the job artefacts - look for manifests.yaml."
-
 .PHONY: get-deployment-config-info
+
+
+merge-deployment-config:
+	@staging_out="$$(KUBE_NAMESPACE=staging HELM_RELEASE=staging make --quiet get-deployment-config-info)"; \
+	ska001_out="$$(KUBE_NAMESPACE=staging-dish-lmc-ska001 HELM_RELEASE=test make --quiet get-deployment-config-info)"; \
+	{ echo "$$staging_out" | sed '/^ska-dish-lmc:/,/^ska-/d'; \
+	  echo "$$ska001_out" | sed -n '/^ska-dish-lmc:/,/^ska-/p'; }
+.PHONY: merge-deployment-config
+
+merge-deployment-config2:
+	@staging_out="$$(KUBE_NAMESPACE=staging make --quiet get-deployment-config-info)"; \
+	ska001_out="$$(KUBE_NAMESPACE=staging-dish-lmc-ska001 make --quiet get-deployment-config-info)"; \
+	printf '%s\n' "$$staging_out" | sed '/^ska-dish-lmc:/,/^ska-/c\'"$$(printf '%s\n' "$$ska001_out" | sed -n '/^ska-dish-lmc:/,/^ska-/p')"
+.PHONY: merge-deployment-config2
 
 env:
 	env
