@@ -49,6 +49,7 @@
       if [ "$DISH_LMC_IN_THE_LOOP" == "true" ]; then 
         bash .make/resources/gitlab_section.sh install_tangoGQL "Install TangoGQL for multiDB" make taranta-deploy-all-tangogql-instances;
       fi
+    - bash .jupyter-notebooks/scripts/load_sbd_oda.sh "http://ska-db-oda-rest-staging.${KUBE_NAMESPACE}.svc.${CLUSTER_DOMAIN}:5000" ".jupyter-notebooks/data/scheduling_block/itf/" "${KUBE_NAMESPACE}"
     - env | grep RUNNER_AFTER_SCRIPT_TIMEOUT
     - export SUT_CLUSTER_DOMAIN=miditf.internal.skao.int ADDMARKS=true SMOKE_TEST_MARKS="not requires_talons_on and not dish_deployment"
     - chmod +x .make/resources/gitlab_section.sh
