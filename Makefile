@@ -393,26 +393,49 @@ upload-to-confluence:
 	@poetry run upload-to-confluence sut_config.yaml build/reports/cucumber.json
 
 get-deployment-config-info:
-	@helm -n $(KUBE_NAMESPACE) get values $(HELM_RELEASE)
+	@helm -n $(KUBE_NAMESPACE) get values $(HELM_RELEASE) > config_tmp.yaml
 	@make k8s-template-chart > template.log
 	@mkdir -p build
 	@mv manifests.yaml build/manifests.yaml
 	@echo "Find the chart template used to deploy all the things in the job artefacts - look for manifests.yaml."
 .PHONY: get-deployment-config-info
 
+#####################################################################################
+KUBE_NAMESPACE ?= staging
+# Take Helm releases that contain skaXXX (don’t prepend namespace)
+DISH_RELEASES := $(shell helm -n $(KUBE_NAMESPACE) list -q | grep -E 'ska[0-9]+')
 
-merge-deployment-config:
-	@staging_out="$$(KUBE_NAMESPACE=staging HELM_RELEASE=staging make --quiet get-deployment-config-info)"; \
-	ska001_out="$$(KUBE_NAMESPACE=staging-dish-lmc-ska001 HELM_RELEASE=test make --quiet get-deployment-config-info)"; \
-	{ echo "$$staging_out" | sed '/^ska-dish-lmc:/,/^ska-/d'; \
-	  echo "$$ska001_out" | sed -n '/^ska-dish-lmc:/,/^ska-/p'; }
-.PHONY: merge-deployment-config
+build_dir := build
+# Known dish IDs
+DISH_IDS := 001 036 062 100
 
-merge-deployment-config2:
-	@staging_out="$$(KUBE_NAMESPACE=staging make --quiet get-deployment-config-info)"; \
-	ska001_out="$$(KUBE_NAMESPACE=staging-dish-lmc-ska001 make --quiet get-deployment-config-info)"; \
-	printf '%s\n' "$$staging_out" | sed '/^ska-dish-lmc:/,/^ska-/c\'"$$(printf '%s\n' "$$ska001_out" | sed -n '/^ska-dish-lmc:/,/^ska-/p')"
-.PHONY: merge-deployment-config2
+DISH_NAMESPACE_TEMPLATE := $(shell \
+	echo $(KUBE_NAMESPACE) | \
+	sed -E 's/^staging$$/staging-dish-lmc-skaXXX/; \
+	        s/^(.*)-ska-mid-itf-(.*)$$/\1-dish-lmc-skaXXX-\2/' )
+
+# Expand template for all dish IDs
+DISH_NAMESPACES := $(foreach id,$(DISH_IDS),$(subst XXX,$(id),$(DISH_NAMESPACE_TEMPLATE)))
+
+get-deployment-config-info-modified:
+	@$(MAKE) HELM_RELEASE=$(word 1,$(DISH_RELEASES)) get-deployment-config-info
+	@found_spfc=0; found_spfrx=0; \
+	for ns in $(DISH_NAMESPACES); do \
+	  if kubectl get pods -n $$ns -o name | grep -q spfc-deployer; then found_spfc=1; fi; \
+	  if kubectl get pods -n $$ns -o name | grep -q spfrx-sts; then found_spfrx=1; fi; \
+	done; \
+	if [ $$found_spfc -eq 1 ]; then \
+	  echo "spfc-deployer pod found → moving spfdevice under ska-dish-lmc"; \
+	  yq e -i '.["ska-dish-lmc"].spfdevice = (.["ska-dish-lmc"]["ska-mid-dish-simulators"].deviceServers.spfdevice // {"enabled": true}) | del(.["ska-dish-lmc"]["ska-mid-dish-simulators"].deviceServers.spfdevice)' config_tmp.yaml; \
+	fi; \
+	if [ $$found_spfrx -eq 1 ]; then \
+	  echo "spfrx-sts pod found → moving spfrxdevice under ska-dish-lmc"; \
+	  yq e -i '.["ska-dish-lmc"].spfrxdevice = (.["ska-dish-lmc"]["ska-mid-dish-simulators"].deviceServers.spfrxdevice // {"enabled": true}) | del(.["ska-dish-lmc"]["ska-mid-dish-simulators"].deviceServers.spfrxdevice)' config_tmp.yaml; \
+	fi
+	@cat config_tmp.yaml
+.PHONY: get-deployment-config-info-modified
+
+#####################################################################################
 
 env:
 	env
