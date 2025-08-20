@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+
+## 27.3.1
 * [AT-2932]
   * Add initial archiver configs for TMC central node
 * [AT-2702]
@@ -18,11 +20,12 @@
   * Point ITF dish EDA config files to tag 27.3.0
 * [AT-3341]
   * update the source of the ska-mid-cbf-system-parameters
-*  [AT-3354]
+* [AT-3354]
   * add EXPECTED_K_VALE as environment variable with default of 1
   * use it in tmc/conftest.py test to check loaded k-value equals the one in tmdata
+* [AT-3361]
+  * Update TMC to 1.5.0 and rollback the dataproduct dashboard to 0.8.0
 
-  
 ## 27.3.0
 * [AT-3289]
   * Update Updated SPFC deployer
