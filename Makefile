@@ -392,17 +392,17 @@ integration-test: k8s-info
 upload-to-confluence:
 	@poetry run upload-to-confluence sut_config.yaml build/reports/cucumber.json
 
-get-deployment-config-info:
+get-deployment-config-info-pre:
 	@helm -n $(KUBE_NAMESPACE) get values $(HELM_RELEASE) > config_tmp.yaml
 	@make k8s-template-chart > template.log
 	@mkdir -p build
 	@mv manifests.yaml build/manifests.yaml
 	@echo "Find the chart template used to deploy all the things in the job artefacts - look for manifests.yaml."
-.PHONY: get-deployment-config-info
+.PHONY: get-deployment-config-info-pre
 
 #####################################################################################
 KUBE_NAMESPACE ?= staging
-# Take Helm releases that contain skaXXX (don’t prepend namespace)
+# Take Helm releases that contain skaXXX (dont prepend namespace)
 DISH_RELEASES := $(shell helm -n $(KUBE_NAMESPACE) list -q | grep -E 'ska[0-9]+')
 
 build_dir := build
@@ -417,25 +417,44 @@ DISH_NAMESPACE_TEMPLATE := $(shell \
 # Expand template for all dish IDs
 DISH_NAMESPACES := $(foreach id,$(DISH_IDS),$(subst XXX,$(id),$(DISH_NAMESPACE_TEMPLATE)))
 
-get-deployment-config-info-modified:
-	@$(MAKE) HELM_RELEASE=$(word 1,$(DISH_RELEASES)) get-deployment-config-info
-	@found_spfc=0; found_spfrx=0; \
+# Dish releases (sut-ska001, sut-ska036, ...)
+DISH_RELEASES := $(shell helm -n $(KUBE_NAMESPACE) list -q | grep -E 'ska[0-9]+')
+
+# Umbrella release: prefer 'sut' if present, otherwise first non-dish release
+SUT_RELEASE := $(shell sh -c 'helm -n $(KUBE_NAMESPACE) list -q | grep -E "^sut$$" || helm -n $(KUBE_NAMESPACE) list -q | grep -Ev "ska[0-9]+" | head -n1')
+
+get-deployment-config-info:
+	@echo "Using HELM_RELEASE=$(SUT_RELEASE) in namespace $(KUBE_NAMESPACE)"
+	@$(MAKE) KUBE_NAMESPACE=$(KUBE_NAMESPACE) HELM_RELEASE=$(SUT_RELEASE) get-deployment-config-info-pre
+	@found_spfc=0; found_spfrx=0; found_opcua=0; \
 	for ns in $(DISH_NAMESPACES); do \
 	  if kubectl get pods -n $$ns -o name | grep -q spfc-deployer; then found_spfc=1; fi; \
 	  if kubectl get pods -n $$ns -o name | grep -q spfrx-sts; then found_spfrx=1; fi; \
+	  if kubectl get pods -n $$ns -o name | grep -q opcua-server-simulator; then found_opcua=1; fi; \
 	done; \
 	if [ $$found_spfc -eq 1 ]; then \
-	  echo "spfc-deployer pod found → moving spfdevice under ska-dish-lmc"; \
-	  yq e -i '.["ska-dish-lmc"].spfdevice = (.["ska-dish-lmc"]["ska-mid-dish-simulators"].deviceServers.spfdevice // {"enabled": true}) | del(.["ska-dish-lmc"]["ska-mid-dish-simulators"].deviceServers.spfdevice)' config_tmp.yaml; \
+	  echo "spfc-deployer pod found → enabling ska-mid-dish-simulators.deviceServers.spfdevice"; \
+	  yq e -i '.["ska-dish-lmc"]["ska-mid-dish-simulators"].deviceServers.spfdevice.enabled = false' config_tmp.yaml; \
+	else \
+	  echo "no spfc-deployer pod → disabling ska-mid-dish-simulators.deviceServers.spfdevice"; \
+	  yq e -i '.["ska-dish-lmc"]["ska-mid-dish-simulators"].deviceServers.spfdevice.enabled = true' config_tmp.yaml; \
 	fi; \
 	if [ $$found_spfrx -eq 1 ]; then \
-	  echo "spfrx-sts pod found → moving spfrxdevice under ska-dish-lmc"; \
-	  yq e -i '.["ska-dish-lmc"].spfrxdevice = (.["ska-dish-lmc"]["ska-mid-dish-simulators"].deviceServers.spfrxdevice // {"enabled": true}) | del(.["ska-dish-lmc"]["ska-mid-dish-simulators"].deviceServers.spfrxdevice)' config_tmp.yaml; \
+	  echo "spfrx-sts pod found → enabling ska-mid-dish-simulators.deviceServers.spfrxdevice"; \
+	  yq e -i '.["ska-dish-lmc"]["ska-mid-dish-simulators"].deviceServers.spfrxdevice.enabled = false' config_tmp.yaml; \
+	else \
+	  echo "no spfrx-sts pod → disabling ska-mid-dish-simulators.deviceServers.spfrxdevice"; \
+	  yq e -i '.["ska-dish-lmc"]["ska-mid-dish-simulators"].deviceServers.spfrxdevice.enabled = true' config_tmp.yaml; \
+	fi; \
+	if [ $$found_opcua -eq 1 ]; then \
+	  echo "opcua-server-simulator pod found → enabling ska-mid-dish-simulators.dsOpcuaSimulator"; \
+	  yq e -i '.["ska-dish-lmc"]["ska-mid-dish-simulators"].dsOpcuaSimulator.enabled = true' config_tmp.yaml; \
+	else \
+	  echo "no opcua-server-simulator pod → disabling ska-mid-dish-simulators.dsOpcuaSimulator"; \
+	  yq e -i '.["ska-dish-lmc"]["ska-mid-dish-simulators"].dsOpcuaSimulator.enabled = false' config_tmp.yaml; \
 	fi
 	@cat config_tmp.yaml
-.PHONY: get-deployment-config-info-modified
-
-#####################################################################################
+.PHONY: get-deployment-config-info
 
 env:
 	env
