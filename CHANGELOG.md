@@ -23,13 +23,10 @@
 * [AT-3354]
   * add EXPECTED_K_VALE as environment variable with default of 1
   * use it in tmc/conftest.py test to check loaded k-value equals the one in tmdata
-<<<<<<< HEAD
 * [AT-3355]
   * upate ska-tmc-mid release to 1.5.0
-=======
 * [AT-3361]
   * Update TMC to 1.5.0 and rollback the dataproduct dashboard to 0.8.0
->>>>>>> main
 
 ## 27.3.0
 * [AT-3289]
