@@ -7,7 +7,7 @@ dependencies:
   version: 0.4.22
 - name: ska-tmc-mid
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.4.0
+  version: 1.5.0
 - name: ska-csp-lmc-mid
   repository: https://artefact.skao.int/repository/helm-internal
   version: 1.2.0-rc.1
@@ -47,14 +47,14 @@ dependencies:
 - name: ska-tango-alarmhandler
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.4.0
-- name: ska-dataproduct-dashboard
+- name: ska-sdp-dataproduct-dashboard
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 0.10.0
+  version: 0.8.0
 - name: ska-tango-archiver
   repository: https://artefact.skao.int/repository/helm-internal
   version: 2.9.1
 - name: ska-log-consumer
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.1.6
-digest: sha256:6efcf125b73894f49ce848df0f95c2063494260f43a71e542726a0550bc08762
-generated: "2025-08-12T19:48:22.103567+02:00"
+digest: sha256:8d0055d555636f18292bb3d4a3472d17ac605c8ab92b6b043cb4aeceabec30b8
+generated: "2025-08-19T12:30:30.067373+02:00"
