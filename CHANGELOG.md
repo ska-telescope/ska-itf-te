@@ -4,8 +4,8 @@
 
 ## 27.4.0
 * [AT-3368]
-  * Upgraded CSP.LMC Helm Chart
-  * Updated `ska-tango-base` and `ska-tango-util` charts to utilise Bitnami workaround - thanks to ST!
+  * Upgraded CSP.LMC Helm Chart to 1.2.0
+  * Updated `ska-tango-base` and `ska-tango-util` charts to 0.4.23 - utilise Bitnami workaround - thanks to ST!
 ## 27.3.1
 * [AT-2932]
   * Add initial archiver configs for TMC central node
