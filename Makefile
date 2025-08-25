@@ -409,3 +409,7 @@ post-set-release:
 	./scripts/release/update_chart_version.sh $$CURRENT_RELEASE sut_config.yaml; \
 	./scripts/release/update_testing_image_tag.sh $$CURRENT_RELEASE charts/ska-mid-testing/values.yaml; \
 	echo "Updated SUT Config graph reflecting Mid ITF latest version."
+
+helm-rebuild-ska-mid:
+	rm charts/ska-mid/Chart.lock
+	make k8s-template-chart
