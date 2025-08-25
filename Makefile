@@ -411,5 +411,6 @@ post-set-release:
 	echo "Updated SUT Config graph reflecting Mid ITF latest version."
 
 helm-rebuild-ska-mid:
-	rm charts/ska-mid/Chart.lock
-	make k8s-template-chart
+	@rm charts/ska-mid/Chart.lock
+	@rm -rf charts/ska-mid/charts
+	@make k8s-template-chart K8S_CHART=ska-mid
