@@ -649,7 +649,6 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids, scan_band, settings):
     wait_for_event(sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.IDLE)
     wait_for_event(csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.IDLE)
     wait_for_event(tmc_subarray_node, "obsState", ObsState.IDLE)
-    logger.info("Sleeping now before ending observation")
     sleep(30)  # TODO: Remove sleep for vis-receive
 
 
@@ -769,6 +768,7 @@ def _(telescope_handlers):
     wait_for_event(tmc.sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.READY)
     wait_for_event(tmc.csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.READY)
     wait_for_event(tmc.subarray_node, "obsState", ObsState.READY)
+    logger.info("Sleeping now before ending observation")
     sleep(30) # Temp for time to copy out files containing tcp dump
 
 
