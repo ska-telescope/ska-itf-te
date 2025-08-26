@@ -725,6 +725,7 @@ def _(telescope_handlers, scan_time, settings):
     :param scan_time: _description_
     :type scan_time: _type_
     """
+    sleep(180) # Temp for time to run tcp dump in sdp receiver pod
     logger.info("Issuing scan command")
 
     tmc, _, _, _ = telescope_handlers
