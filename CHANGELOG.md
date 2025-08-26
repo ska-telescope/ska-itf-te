@@ -6,7 +6,7 @@
 ## 27.4.0
 * [AT-3368]
   * Added convenience Makefile target to rebuild the `Chart.lock` file of the SKA Mid chart
-  * Upgraded `ska-mid-dish-spfrx-talondx-console` chart to 1.1.1
+  * Upgraded `ska-mid-dish-spfrx-talondx-console` chart to 1.2.1
   * Upgraded `ska-csp-lmc-mid` chart to 1.2.0
   * Updated `ska-tango-base` and `ska-tango-util` charts to 0.4.23 - utilise Bitnami workaround - thanks to ST!
 ## 27.3.1
