@@ -725,8 +725,9 @@ def _(telescope_handlers, scan_time, settings):
     :param scan_time: _description_
     :type scan_time: _type_
     """
-    logger.info("Sleeping now to let you run TCP dump")
-    sleep(180) # Temp for time to run tcp dump in sdp receiver pod
+    if os.getenv("TCP_DUMP_SCAN_SLEEP"):
+        logger.info("Sleeping now to let you run TCP dump")
+        sleep(180) # Temp for time to run tcp dump in sdp receiver pod
     logger.info("Issuing scan command")
 
     tmc, _, _, _ = telescope_handlers
@@ -768,8 +769,9 @@ def _(telescope_handlers):
     wait_for_event(tmc.sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.READY)
     wait_for_event(tmc.csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.READY)
     wait_for_event(tmc.subarray_node, "obsState", ObsState.READY)
-    logger.info("Sleeping now before ending observation")
-    sleep(30) # Temp for time to copy out files containing tcp dump
+    if os.getenv("TCP_DUMP_ENDSCAN_SLEEP"):
+        logger.info("Sleeping now before ending observation")
+        sleep(30) # Temp for time to copy out files containing tcp dump
 
 
 @when("I end the observation")
