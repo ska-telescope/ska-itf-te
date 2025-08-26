@@ -200,8 +200,8 @@ endif
 # Configure test-pvc for feature branch deployments
 ifeq ($(FEATURE_BRANCH_DEPLOYMENT),true)
 	SDP_EXTRA_PARAMS += \
-		--set global.data-product-pvc-name=test-pvc \
-		--set ska-dataproduct-dashboard.dataProductPVC.name=test-pvc \
+		--set global.data-product-pvc-name=staging-pvc \
+		--set ska-dataproduct-dashboard.dataProductPVC.name=staging-pvc \
 		--set ska-sdp.data-pvc.create.enabled=true \
 		--set ska-sdp.data-pvc.create.size=100Gi \
 		--set ska-sdp.data-pvc.create.storageClassName=ceph-cephfs \
