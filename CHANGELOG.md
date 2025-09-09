@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [MAP-219]
+  * Add in the exported dashboard file for the ITF version of the SPFRx control dashboard
 
 ## 27.3.1
 * [AT-2932]
