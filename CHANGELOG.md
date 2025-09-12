@@ -3,6 +3,8 @@
 ## Unreleased
 * [AT-3384]
   * Update CBF TDC MCS and CBF engineering console to 1.3.5 and 1.1.6 respectively
+* [AT-3371] 
+  * Introduce DOWNLOAD_CBF_BITSTREAMS environment variable to allow selective download of CBF artefacts in SUT deployment jobs.
 
 ## 28.0.0
 * [AT-3379]
