@@ -1,6 +1,6 @@
 # Version History
 
-## Unreleased
+## 28.1.0
 * [AT-3384]
   * Update CBF TDC MCS and CBF engineering console to 1.3.5 and 1.1.6 respectively
 * [AT-3371] 
@@ -10,6 +10,7 @@
 * [AT-3379]
   * Upgraded `ska-dish-lmc` to v8.4.1
   * Upgraded `ska-tango-base` and `ska-tango-util` charts to v0.4.23
+
 ## 27.3.1
 * [AT-2932]
   * Add initial archiver configs for TMC central node
