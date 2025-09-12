@@ -1,6 +1,6 @@
 # Version History
 
-## Unreleased
+## 28.1.0
 * [AT-3384]
   * Update CBF TDC MCS and CBF engineering console to 1.3.5 and 1.1.6 respectively
 * [AT-3371] 
