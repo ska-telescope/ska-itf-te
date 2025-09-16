@@ -522,8 +522,7 @@ def _(telescope_handlers, receptor_ids, settings):
             dish_vcc_config = json.loads(tmc.csp_master_leaf_node.dishVccConfig)
             for receptor in RECEPTORS:
                 if (
-                    dish_vcc_config["dish_parameters"][receptor]["k"]
-                    != settings["expected_k_value"]
+                    dish_vcc_config["dish_parameters"][receptor]["k"] != settings["expected_k_value"]
                 ):
                     is_k_value_correct = False
                     break
@@ -748,6 +747,62 @@ def _(telescope_handlers, scan_time, settings):
     wait_for_event(tmc.subarray_node, "obsState", ObsState.SCANNING)
     logger.info(f"Scanning for {scan_time} seconds")
     sleep(scan_time)
+
+
+@when(
+    parsers.cfparse(
+        "I execute {number_of_scans:Number} {scan_time:Number} second scans"
+        " without reconfiguring or releasing resources",
+        extra_types={"Number": float},
+    )
+)
+def _(telescope_handlers, number_of_scans, scan_time, settings):
+    """Execute multiple scans without releasing resources or reconfiguring.
+
+    :param telescope_handlers: _description_
+    :type settings: _type_
+    :type telescope_handlers: _type_
+    :param number_of_scans: Number of times the end-scan -> scan cycle is executed
+    :type number_of_scans: float
+    :param scan_time: Duration of each scan in seconds
+    :type scan_time: float
+    """
+    logger.info(f"Executing {number_of_scans} scans of {scan_time} seconds each")
+
+    tmc, _, _, _ = telescope_handlers
+
+    SCAN_FILE = f"{settings['TMC_configs']}/scan.json"
+    with open(SCAN_FILE, encoding="utf-8") as f:
+        scan_json = f.read()
+
+    if settings["override_scan_duration"]:
+        scan_time = int(settings["override_scan_duration"])
+
+    logger.debug(json.dumps(scan_json))
+
+    scan_artifact_path = f"{settings['artifact_dir']}/scan.json"
+    with open(scan_artifact_path, "w") as scan_config_file:
+        json.dump(scan_json, scan_config_file, indent=2)
+
+    for scan_number in range(1, number_of_scans + 1):
+        # Execute scan
+        logger.info(f"Starting scan {scan_number}/{number_of_scans}")
+        tmc.subarray_node.Scan(scan_json)
+        wait_for_event(tmc.sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.SCANNING)
+        wait_for_event(tmc.csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.SCANNING)
+        wait_for_event(tmc.subarray_node, "obsState", ObsState.SCANNING)
+        logger.info(f"Scanning for {scan_time} seconds")
+
+        # Hold scan for specified duration
+        sleep(scan_time)
+
+        # End scan
+        logger.info(f"Ending scan {scan_number}/{number_of_scans}")
+        tmc.subarray_node.EndScan()
+        wait_for_event(tmc.sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.READY)
+        wait_for_event(tmc.csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.READY)
+        wait_for_event(tmc.subarray_node, "obsState", ObsState.READY)
+        logger.info(f"Completed scan {scan_number}/{number_of_scans}")
 
 
 @when("I end the scan")
