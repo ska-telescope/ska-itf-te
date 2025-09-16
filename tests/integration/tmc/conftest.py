@@ -621,7 +621,7 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids, scan_band, settings):
         assign_resources_json["sdp"]["resources"]["receptors"] = RECEPTORS
         assign_resources_json["sdp"]["execution_block"]["eb_id"] = eb_id
         assign_resources_json["sdp"]["processing_blocks"][0]["pb_id"] = pb_id
-        assign_resources_json["sdp"]["processing_blocks"][0]["parameters"]["pod_settings"][
+        assign_resources_json["sdp"]["processing_blocks"][0]["parameters"]["pod_settings"][0][
             "nodeSelector"
         ] = {"kubernetes.io/hostname": "za-itf-cloud03"}
 
