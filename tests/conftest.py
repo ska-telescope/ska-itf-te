@@ -24,6 +24,8 @@ def settings():
     settings["expected_k_value"] = int(os.getenv("EXPECTED_K_VALUE", 1))
     settings["override_scan_duration"] = os.getenv("OVERRIDE_SCAN_DURATION")
     settings["override_scan_band"] = os.getenv("OVERRIDE_SCAN_BAND")
+    settings["override_multiscan_delay_between_scans"] = os.getenv("OVERRIDE_MULTISCAN_DELAY_BETWEEN_SCANS")
+    settings["override_multiscan_number_of_scans"] = os.getenv("OVERRIDE_MULTISCAN_NUMBER_OF_SCANS")
     settings["integration_factor"] = os.getenv("INTEGRATION_FACTOR")
     sim_mode = os.getenv("SIM_MODE", "false").lower()
     if sim_mode in ["false", "0", ""]:

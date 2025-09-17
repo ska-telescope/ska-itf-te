@@ -755,11 +755,12 @@ def _(telescope_handlers, scan_time, settings):
 @when(
     parsers.cfparse(
         "I execute {number_of_scans:Int} {scan_time:Number} second scans"
+        " with a {delay_between_scans:Number} second delay between scans"
         " without reconfiguring or releasing resources",
         extra_types={"Number": float, "Int": int},
     )
 )
-def _(telescope_handlers, number_of_scans, scan_time, settings):
+def _(telescope_handlers, number_of_scans, scan_time, delay_between_scans, settings):
     """Execute multiple scans without releasing resources or reconfiguring.
 
     :param telescope_handlers: _description_
@@ -773,7 +774,13 @@ def _(telescope_handlers, number_of_scans, scan_time, settings):
     if settings["override_scan_duration"]:
         scan_time = int(settings["override_scan_duration"])
 
-    logger.info(f"Executing {number_of_scans} scans of {scan_time} seconds each")
+    if settings["override_multiscan_number_of_scans"]:
+        number_of_scans = int(settings["override_multiscan_number_of_scans"])
+
+    if settings["override_multiscan_delay_between_scans"]:
+        delay_between_scans = int(settings["override_multiscan_delay_between_scans"])
+    
+    logger.info(f"Executing {number_of_scans} scans of {scan_time} seconds each with {delay_between_scans} delay between each scan")
 
     tmc, _, _, _ = telescope_handlers
 
@@ -806,6 +813,11 @@ def _(telescope_handlers, number_of_scans, scan_time, settings):
         wait_for_event(tmc.csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.READY)
         wait_for_event(tmc.subarray_node, "obsState", ObsState.READY)
         logger.info(f"Completed scan {scan_number}/{number_of_scans}")
+
+        # Hold for delay period if not the last scan
+        if scan_number < number_of_scans:
+            logger.info(f"Holding for {delay_between_scans} seconds before next scan")
+            sleep(delay_between_scans)
 
 
 @when("I end the scan")

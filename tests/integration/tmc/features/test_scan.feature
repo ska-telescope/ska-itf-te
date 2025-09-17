@@ -20,7 +20,7 @@ Feature: Telescope scan test
 		And a sequence diagrammer has optionally started listening for events
 		When I assign resources for a band 1 scan
 		And configure it for a band 1 scan
-		And I execute 3 120 second scans without reconfiguring or releasing resources
+		And I execute 3 120 second scans with a 20 second delay between scans without reconfiguring or releasing resources
 		And I end the observation
 		And I release resources
 		Then the respective dataproducts are available on the DPD
