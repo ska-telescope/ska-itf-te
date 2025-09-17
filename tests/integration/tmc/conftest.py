@@ -248,7 +248,7 @@ def wait_for_attribute_value(
     while time() - start_time <= timeout:
         if device_proxy.read_attribute(attr_name) == desired_value:
             return True
-    logger.debug("Attribute current value %s", device_proxy.read_attribute(attr_name))
+    logger.info("Attribute current value %s", device_proxy.read_attribute(attr_name))
     return False
 
 
