@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 @pytest.mark.skamid
 @scenario(
     "features/configure_healthstate_unknown.feature",
-    "Configure alarm rule for healthState UNKNOWN",
+    "Configure alarm rule for healthState DEGRADED",
 )
 def test_tmc_alarm_for_healthstate_unknown():
     """Configure and raise alarms.
@@ -46,7 +46,7 @@ def test_tmc_alarm_for_healthstate_unknown():
     )
 )
 def configure_alarm_healthstate(response_data, device1, device2):
-    """Alarm is configured for UNKNOWN healthstate.
+    """Alarm is configured for DEGRADED healthstate.
 
     :param response_data: fixture for response data
     :param device1: tango device1 for alarm condition
@@ -88,7 +88,7 @@ def check_alarms(device1, device2):
     assert_that(device2_result).is_equal_to(HealthState.DEGRADED)
 
 
-@then("alarm for healthState UNKNOWN must be raised with UNACKNOWLEDGE state")
+@then("alarm for healthState DEGRADED must be raised with UNACKNOWLEDGE state")
 def check_alarm_state(response_data):
     """Check alarm state.
 
