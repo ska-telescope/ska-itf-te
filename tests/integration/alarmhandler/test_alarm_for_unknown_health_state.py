@@ -8,16 +8,15 @@ import pytest
 from assertpy import assert_that
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import HealthState
-from ska_ser_skallop.connectors import configuration as con_config
-from ska_ser_skallop.event_handling.builders import get_message_board_builder
 from tango import DeviceProxy
+
+from tests.integration.tmc.conftest import wait_for_event
 
 namespace = os.getenv("KUBE_NAMESPACE")
 
 logger = logging.getLogger(__name__)
 
 
-@pytest.mark.skip(reason="Requires ADR-9 name updates in skallop")  # TEMPORARY COMMIT
 @pytest.mark.skamid
 @scenario(
     "features/configure_healthstate_unknown.feature",
@@ -80,8 +79,8 @@ def check_alarms(device1, device2):
     :param device1: tango device1 with healthState UNKNOWN
     :param device2: tango device2 with healthState UNKNOWN
     """
-    tango_device1 = con_config.get_device_proxy(device1)
-    tango_device2 = con_config.get_device_proxy(device2)
+    tango_device1 = DeviceProxy(device1)
+    tango_device2 = DeviceProxy(device2)
     device1_result = tango_device1.read_attribute("telescopehealthState").value
     device2_result = tango_device2.read_attribute("healthState").value
     # If the dish is deployed the value will not be UNKNOWN
@@ -97,10 +96,7 @@ def check_alarm_state(response_data):
     """
     alarm_handler = DeviceProxy("alarm/handler/01")
     alarm_tag = response_data.response["alarm_summary"]["tag"]
-    brd = get_message_board_builder()
-    # If the dish is deployed the alarm will not be raised
-    brd.set_waiting_on("alarm/handler/01").for_attribute("alarmUnacknowledged").to_become_equal_to(
-        alarm_tag,
-    )
+
+    wait_for_event(alarm_handler, "alarmUnacknowledged", alarm_tag)
     # acknowledge the alarm
     alarm_handler.Ack(alarm_tag)
