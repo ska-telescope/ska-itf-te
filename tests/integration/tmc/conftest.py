@@ -8,6 +8,7 @@ import sys
 from queue import Empty, Queue
 from time import localtime, sleep, strftime, time
 from typing import Any, Generator, List, Tuple
+from itertools import cycle
 
 import pytest
 from pytest_bdd import given, parsers, then, when
@@ -674,7 +675,7 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids, scan_band, settings):
         assign_resources_json["sdp"]["execution_block"]["channels"].append(band_2_vis_channels)
 
         band_2_scan_type = {
-            "scan_type_id": "default_band_2",
+            "scan_type_id": "science_band_2",
             "derive_from": ".default",
             "beams": {
               "vis0": {
@@ -880,10 +881,116 @@ def _(telescope_handlers, number_of_scans, scan_time, delay_between_scans, setti
         extra_types={"Number": float, "Int": int},
     )
 )
-def _(telescope_handlers, number_of_scans, scan_time, delay_between_scans, settings):
+def _(telescope_handlers, number_of_scans, scan_time, delay_between_scans, receptor_ids, settings):
     """Execute multiple scans interchanging between band 1 and band 2 without releasing resources."""
 
+    if settings["override_scan_duration"]:
+        scan_time = int(settings["override_scan_duration"])
 
+    if settings["override_multiscan_delay_between_scans"]:
+        delay_between_scans = int(settings["override_multiscan_delay_between_scans"])
+
+    if settings["override_multiscan_number_of_scans"]:
+        number_of_scans = int(settings["override_multiscan_number_of_scans"])
+
+    cycle_band = [1, 2]
+    band_cycler = cycle(cycle_band)
+
+    logger.info(
+        f"Executing {number_of_scans} scans of {scan_time} seconds each with a"
+        f" {delay_between_scans} second delay between scans interchanging between"
+        " band 1 and band 2"
+    )
+    logger.info(f"{scan_time} {delay_between_scans} {number_of_scans}")
+    tmc, _, _, _ = telescope_handlers
+
+    # Setting up configure scan payload
+    tmc, _, _, _ = telescope_handlers
+    RECEPTORS = receptor_ids
+
+    CONFIGURE_SCAN_FILE = f"{settings['TMC_configs']}/configure_scan.json"
+
+    # Setting up scan payload
+    SCAN_FILE = f"{settings['TMC_configs']}/scan.json"
+    with open(SCAN_FILE, encoding="utf-8") as f:
+        scan_json = f.read()
+
+    logger.debug(json.dumps(scan_json))
+
+    scan_artifact_path = f"{settings['artifact_dir']}/scan.json"
+    with open(scan_artifact_path, "w") as scan_config_file:
+        json.dump(scan_json, scan_config_file, indent=2)
+
+    for scan_number in range(1, number_of_scans + 1):
+        # Configure scan
+        scan_band = next(band_cycler)
+        logger.info(f"Configuring scan {scan_number}/{number_of_scans}. Band {scan_band}")
+        
+        band_params = generate_fsp.generate_band_params(scan_band)
+        fsp_list = [1, 2, 3, 4]
+
+        with open(CONFIGURE_SCAN_FILE, encoding="utf-8") as f:
+            configure_scan_json = json.load(f)
+            configure_scan_json["dish"]["receiver_band"] = str(scan_band)
+            configure_scan_json["csp"]["common"]["frequency_band"] = str(scan_band)
+
+            configure_scan_json["csp"]["midcbf"]["correlation"]["processing_regions"][0][
+                "fsp_ids"
+            ] = fsp_list
+            configure_scan_json["csp"]["midcbf"]["correlation"]["processing_regions"][0][
+                "start_freq"
+            ] = int(band_params["start_freq"])
+            configure_scan_json["csp"]["midcbf"]["correlation"]["processing_regions"][0][
+                "channel_count"
+            ] = int(band_params["channel_count"])
+
+            if settings["integration_factor"]:
+                configure_scan_json["csp"]["midcbf"]["correlation"]["processing_regions"][0][
+                    "integration_factor"
+                ] = int(settings["integration_factor"])
+
+            if scan_band == 2:
+                configure_scan_json["sdp"]["scan_type"] = f"science_band_{scan_band}"
+            elif scan_band == 1:
+                configure_scan_json["sdp"]["scan_type"] = f"science"
+
+        logger.debug(json.dumps(configure_scan_json))
+
+        configure_scan_artifact_path = f"{settings['artifact_dir']}/configure_scan.json"
+
+        with open(configure_scan_artifact_path, "w") as configure_scan_config_file:
+            json.dump(configure_scan_json, configure_scan_config_file, indent=4)
+
+        tmc.subarray_node.Configure(json.dumps(configure_scan_json))
+        wait_for_event(tmc.csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.READY)
+        wait_for_event(tmc.sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.READY)
+        for receptor in RECEPTORS:
+            wait_for_event(tmc.get_dish_leaf_node_dp(receptor), "dishMode", DishMode.OPERATE)
+        wait_for_event(tmc.subarray_node, "obsState", ObsState.READY)
+
+        # Execute scan
+        logger.info(f"Starting scan {scan_number}/{number_of_scans}")
+        tmc.subarray_node.Scan(scan_json)
+        wait_for_event(tmc.sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.SCANNING)
+        wait_for_event(tmc.csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.SCANNING)
+        wait_for_event(tmc.subarray_node, "obsState", ObsState.SCANNING)
+        logger.info(f"Scanning for {scan_time} seconds")
+
+        # Hold scan for specified duration
+        sleep(scan_time)
+
+        # End scan
+        logger.info(f"Ending scan {scan_number}/{number_of_scans}")
+        tmc.subarray_node.EndScan()
+        wait_for_event(tmc.sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.READY)
+        wait_for_event(tmc.csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.READY)
+        wait_for_event(tmc.subarray_node, "obsState", ObsState.READY)
+        logger.info(f"Completed scan {scan_number}/{number_of_scans}")
+
+        # Hold before next scan if not last scan
+        if scan_number < number_of_scans:
+            logger.info(f"Holding for {delay_between_scans} seconds before next scan")
+            sleep(delay_between_scans)
 
 @when("I end the scan")
 def _(telescope_handlers):
