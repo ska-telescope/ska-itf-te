@@ -639,6 +639,53 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids, scan_band, settings):
             "count"
         ] = band_params["channel_count"]
 
+        band_2_vis_channels = {
+            "channels_id": "vis_channels_band_2",
+            "spectral_windows": [
+              {
+                "spectral_window_id": "fsp_1_channels",
+                "count": 55380,
+                "start": 0,
+                "stride": 1,
+                "freq_min": 940000000.0,
+                "freq_max": 1684307200.0,
+                "link_map": [
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    200,
+                    1
+                  ],
+                  [
+                    744,
+                    2
+                  ],
+                  [
+                    944,
+                    3
+                  ]
+                ]
+              }
+            ]
+          }
+
+        assign_resources_json["sdp"]["execution_block"]["channels"].append(band_2_vis_channels)
+
+        band_2_scan_type = {
+            "scan_type_id": "default_band_2",
+            "derive_from": ".default",
+            "beams": {
+              "vis0": {
+                "field_id": "field_a",
+                "channels_id": "vis_channels_band_2"
+              }
+            }
+          }
+          
+        assign_resources_json["sdp"]["execution_block"]["scan_types"].append(band_2_scan_type)
+
     logger.info(f"PB ID: {pb_id}, EB ID: {eb_id}")
 
     logger.debug(json.dumps(assign_resources_json))
@@ -824,6 +871,18 @@ def _(telescope_handlers, number_of_scans, scan_time, delay_between_scans, setti
         if scan_number < number_of_scans:
             logger.info(f"Holding for {delay_between_scans} seconds before next scan")
             sleep(delay_between_scans)
+
+@when(
+    parsers.cfparse(
+        "I execute {number_of_scans:Int} {scan_time:Number} second scans with"
+        " a {delay_between_scans:Number} second delay between scans interchanging"
+        " between band 1 and band 2 without releasing resources",
+        extra_types={"Number": float, "Int": int},
+    )
+)
+def _(telescope_handlers, number_of_scans, scan_time, delay_between_scans, settings):
+    """Execute multiple scans interchanging between band 1 and band 2 without releasing resources."""
+
 
 
 @when("I end the scan")
