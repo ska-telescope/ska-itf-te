@@ -72,20 +72,20 @@ def configure_alarm_healthstate(response_data, device1, device2):
 # This test case is based on real scenario when some devices are not present
 # in this case its Dish Masters.
 # when all devices are available this scenario might not be the same.
-@when(parsers.parse("{device1} and {device2} remain in healthState UNKNOWN for long"))
+@when(parsers.parse("{device1} and {device2} remain in healthState DEGRADED for long"))
 def check_alarms(device1, device2):
-    """Check devices in healthState UNKNOWN.
+    """Check devices in healthState DEGRADED.
 
-    :param device1: tango device1 with healthState UNKNOWN
-    :param device2: tango device2 with healthState UNKNOWN
+    :param device1: tango device1 with healthState DEGRADED
+    :param device2: tango device2 with healthState DEGRADED
     """
     tango_device1 = DeviceProxy(device1)
     tango_device2 = DeviceProxy(device2)
     device1_result = tango_device1.read_attribute("telescopehealthState").value
     device2_result = tango_device2.read_attribute("healthState").value
-    # If the dish is deployed the value will not be UNKNOWN
-    assert_that(device1_result).is_equal_to(HealthState.UNKNOWN)
-    assert_that(device2_result).is_equal_to(HealthState.UNKNOWN)
+    # If the dish is deployed the value will not be DEGRADED
+    assert_that(device1_result).is_equal_to(HealthState.DEGRADED)
+    assert_that(device2_result).is_equal_to(HealthState.DEGRADED)
 
 
 @then("alarm for healthState UNKNOWN must be raised with UNACKNOWLEDGE state")
