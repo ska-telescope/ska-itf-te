@@ -1,0 +1,179 @@
+db: tango-databaseds.dish-lmc-ska001.svc.ska001.mid.internal.skao.int:10000
+manager: mid-eda/cm/01
+archiver: mid-eda/es/01
+ 
+configuration:
+- class: DishManager
+  attributes:
+    achievedpointing:
+      code_push_event: true
+    achievedtargetlock:
+      code_push_event: true
+    actstaticoffsetvalueel:
+      code_push_event: true
+    actstaticoffsetvaluexel:
+      code_push_event: true
+    attenuationpolh:
+      code_push_event: true
+    attenuationpolv:
+      code_push_event: true
+    azimuthoverwrap:
+      code_push_event: true
+    b2capabilitystate:
+      code_push_event: true
+    band2pointingmodelparams:
+      code_push_event: true
+    band2samplerfrequency:
+      code_push_event: true
+    buildstate:
+      code_push_event: true
+    capturing:
+      code_push_event: true
+    configuredband:
+      code_push_event: true
+    configuretargetlock:
+      code_push_event: true
+    desiredpointingaz:
+      code_push_event: true
+    desiredpointingel:
+      code_push_event: true
+    dishmode:
+      code_push_event: true
+    dsconnectionstate:
+      code_push_event: true
+    dshmaxshorttermpower:
+      code_push_event: true
+    dshpowercurtailment:
+      code_push_event: true
+    frequencyresponse:
+      code_push_event: true
+    healthstate:
+      code_push_event: true
+    ignorespf:
+      code_push_event: true
+    ignorespfrx:
+      code_push_event: true
+    kvalue:
+      code_push_event: true
+    lastcommandedmode:
+      code_push_event: true
+    noisediodeconfig:
+      code_push_event: true
+    noisediodemode:
+      code_push_event: true
+    periodicnoisediodepars:
+      code_push_event: true
+    pointingbuffersize:
+      code_push_event: true
+    pointingstate:
+      code_push_event: true
+    polytrack:
+      code_push_event: true
+    programtracktable:
+      code_push_event: true
+    pseudorandomnoisediodepars:
+      code_push_event: true
+    scanid:
+      code_push_event: true
+    spfconnectionstate:
+      code_push_event: true
+    spfrxconnectionstate:
+      code_push_event: true
+    trackinterpolationmode:
+      code_push_event: true
+    trackprogrammode:
+      code_push_event: true
+    tracktableloadmode:
+      code_push_event: true
+- class: DSManager
+  attributes:
+    achievedpointing:
+      code_push_event: True
+    achievedTargetLock:
+      code_push_event: True
+    actStaticOffsetValueEl:
+      code_push_event: True
+    actStaticOffsetValueXel:
+      code_push_event: True
+    azimuthSpeed:
+      code_push_event: True
+    band2pointingmodelparams:
+      code_push_event: True
+    buildstate:
+      code_push_event: True
+    configureTargetLock:
+      code_push_event: True
+    currentPointing:
+      code_push_event: True
+    desiredpointingAz:
+      code_push_event: True
+    desiredpointingEl:
+      code_push_event: True
+    dscstate:
+      code_push_event: True
+    elevationSpeed:
+      code_push_event: True
+    healthstate:
+      code_push_event: True
+    indexerposition:
+      code_push_event: True
+    operatingmode:
+      code_push_event: True
+    pointingstate:
+      code_push_event: True
+    powerstate:
+      code_push_event: True
+    trackInterpolationMode:
+      code_push_event: True
+    trackProgramMode:
+      code_push_event: True
+- class: Spfc
+  attributes:
+    b2CryoMotorState:
+      code_push_event: true
+    b2CalSourcePowerState:
+      code_push_event: true
+    heCompressorPowerState:
+      code_push_event: true
+    b2LnaHPowerState:
+      code_push_event: true
+    b2LnaVPowerState:
+      code_push_event: true
+    b2Amp2HPowerState:
+      code_push_event: true
+    b2Amp2VPowerState:
+      code_push_event: true
+    b2OmtTemp:
+      code_push_event: true
+      archive_abs_change: 0.1
+    b2CalSourceTemp:
+      code_push_event: true
+      archive_abs_change: 0.1
+    b2LnaTemp:
+      code_push_event: true
+      archive_abs_change: 0.1
+    b2ColdheadStage1Temp:
+      code_push_event: true
+      archive_abs_change: 0.1
+    heCompMotorTemp:
+      code_push_event: true
+      archive_abs_change: 0.1
+    heCompSupplyTemp:
+      code_push_event: true
+      archive_abs_change: 0.1
+    heCompSupplyPressure:
+      code_push_event: true
+      archive_abs_change: 0.1
+    heCompReturnPressure:
+      code_push_event: true
+      archive_abs_change: 0.1
+    b2ManifoldPressure:
+      code_push_event: true
+      archive_abs_change: 0.1
+    b2CryoPressure:
+      code_push_event: true
+      archive_abs_change: 0.1
+    b2CryoMotorSpeed:
+      code_push_event: true
+      archive_abs_change: 1
+ 
