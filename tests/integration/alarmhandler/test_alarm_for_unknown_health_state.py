@@ -10,6 +10,8 @@ from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import HealthState
 from tango import DeviceProxy
 
+from tests.integration.tmc.conftest import wait_for_event
+
 namespace = os.getenv("KUBE_NAMESPACE")
 
 logger = logging.getLogger(__name__)
@@ -95,6 +97,7 @@ def check_alarm_state(response_data):
     alarm_handler = DeviceProxy("alarm/handler/01")
     alarm_tag = response_data.response["alarm_summary"]["tag"]
 
-    assert alarm_handler.alarmUnacknowledged == alarm_tag
+    wait_for_event(alarm_handler, "alarmUnacknowledged", alarm_tag, print_event_details=True)
+
     # acknowledge the alarm
     alarm_handler.Ack(alarm_tag)
