@@ -9,7 +9,7 @@ from assertpy import assert_that
 from pytest_bdd import given, parsers, scenario, then, when
 from tango import DeviceProxy
 
-from tests.integration.tmc.conftest import TMC, wait_for_event
+from tests.integration.tmc.conftest import TMC, wait_for_attribute_value
 
 namespace = os.getenv("KUBE_NAMESPACE")
 
@@ -86,12 +86,9 @@ def check_alarm_state(response_data, state_value):
     :param state_value: tango device attribute value alarm condition
     """
     alarm_handler = DeviceProxy("alarm/handler/01")
-
-    wait_for_event(
-        alarm_handler,
-        "alarmUnacknowledged",
-        f"centralnode_telescopestate_{state_value.lower()}",
-        print_event_details=True,
+    assert wait_for_attribute_value(
+        alarm_handler, "alarmUnacknowledged", f"centralnode_telescopestate_{state_value.lower()}"
     )
+
     # acknowledge the alarm
     alarm_handler.Ack(response_data.response["alarm_summary"]["tag"])
