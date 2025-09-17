@@ -611,6 +611,22 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids, scan_band, settings):
     ASSIGN_RESOURCES_FILE = f"{settings['TMC_configs']}/assign_resources.json"
     RECEPTORS = receptor_ids
 
+    NODE_WITH_100G_INTERFACE = settings["node_with_100G_interface"]
+    NODE_LABEL_FOR_100G_GROUP = settings["node_label_for_100G_group"]
+
+    # Determine nodeSelector for vis-receive pod prioritising 100G group label if provided
+    node_selector_sdp_param = {}
+    if not NODE_LABEL_FOR_100G_GROUP:
+        if NODE_WITH_100G_INTERFACE:
+            node_selector_sdp_param = {"kubernetes.io/hostname": NODE_WITH_100G_INTERFACE}
+        else:
+            node_selector_sdp_param = {}
+    else:
+        split_label = NODE_LABEL_FOR_100G_GROUP.split("=")
+        label_name = split_label[0]
+        label_value = split_label[1]
+        node_selector_sdp_param = {label_name: label_value}
+
     if settings["override_scan_band"]:
         scan_band = int(settings["override_scan_band"])
 
@@ -624,7 +640,7 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids, scan_band, settings):
         assign_resources_json["sdp"]["processing_blocks"][0]["pb_id"] = pb_id
         assign_resources_json["sdp"]["processing_blocks"][0]["parameters"]["pod_settings"][0][
             "nodeSelector"
-        ] = {"kubernetes.io/hostname": "za-itf-cloud03"}
+        ] = node_selector_sdp_param
 
         band_params = generate_fsp.generate_band_params(scan_band)
 
