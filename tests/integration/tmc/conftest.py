@@ -522,7 +522,8 @@ def _(telescope_handlers, receptor_ids, settings):
             dish_vcc_config = json.loads(tmc.csp_master_leaf_node.dishVccConfig)
             for receptor in RECEPTORS:
                 if (
-                    dish_vcc_config["dish_parameters"][receptor]["k"] != settings["expected_k_value"]
+                    dish_vcc_config["dish_parameters"][receptor]["k"]
+                    != settings["expected_k_value"]
                 ):
                     is_k_value_correct = False
                     break
@@ -754,10 +755,10 @@ def _(telescope_handlers, scan_time, settings):
 
 @when(
     parsers.cfparse(
-        "I execute {number_of_scans:Number} {scan_time:Number} second scans with"
+        "I execute {number_of_scans:Int} {scan_time:Number} second scans with"
         " a {delay_between_scans:Number} second delay between scans without"
         " reconfiguring or releasing resources",
-        extra_types={"Number": float},
+        extra_types={"Number": float, "Int": int},
     )
 )
 def _(telescope_handlers, number_of_scans, scan_time, delay_between_scans, settings):
@@ -768,6 +769,8 @@ def _(telescope_handlers, number_of_scans, scan_time, delay_between_scans, setti
     :type telescope_handlers: _type_
     :param number_of_scans: Number of times the end-scan -> scan cycle is executed
     :type number_of_scans: float
+    :param delay_between_scans: Duration of the delay between scans in seconds
+    :type delay_between_scans: float
     :param scan_time: Duration of each scan in seconds
     :type scan_time: float
     """
@@ -780,7 +783,10 @@ def _(telescope_handlers, number_of_scans, scan_time, delay_between_scans, setti
     if settings["override_multiscan_number_of_scans"]:
         number_of_scans = int(settings["override_multiscan_number_of_scans"])
 
-    logger.info(f"Executing {number_of_scans} scans of {scan_time} seconds each with a {delay_between_scans} second delay between scans")
+    logger.info(
+        f"Executing {number_of_scans} scans of {scan_time} seconds each with a"
+        f" {delay_between_scans} second delay between scans"
+    )
 
     tmc, _, _, _ = telescope_handlers
 
