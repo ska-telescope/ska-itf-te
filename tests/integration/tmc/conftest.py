@@ -754,9 +754,9 @@ def _(telescope_handlers, scan_time, settings):
 
 @when(
     parsers.cfparse(
-        "I execute {number_of_scans:Number} {scan_time:Number} second scans"
+        "I execute {number_of_scans:Int} {scan_time:Number} second scans"
         " without reconfiguring or releasing resources",
-        extra_types={"Number": float},
+        extra_types={"Number": float, "Int": int},
     )
 )
 def _(telescope_handlers, number_of_scans, scan_time, settings):
