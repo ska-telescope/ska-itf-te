@@ -15,10 +15,13 @@ Feature: Telescope scan test
 		And I release resources
 		Then the respective dataproducts are available on the DPD
 
-	Scenario: Perform multiple scans via TMC without releasing resources
+	Scenario: Perform multiple scans via TMC on the same band releasing resources and ending the observation only once all scans are done
 		Given an SUT deployment with 1 subarray
 		And a sequence diagrammer has optionally started listening for events
 		When I assign resources for a band 1 scan
 		And configure it for a band 1 scan
 		And I execute 3 120 second scans without reconfiguring or releasing resources
+		And I end the observation
+		And I release resources
 		Then the respective dataproducts are available on the DPD
+

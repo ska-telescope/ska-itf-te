@@ -770,6 +770,9 @@ def _(telescope_handlers, number_of_scans, scan_time, settings):
     :param scan_time: Duration of each scan in seconds
     :type scan_time: float
     """
+    if settings["override_scan_duration"]:
+        scan_time = int(settings["override_scan_duration"])
+
     logger.info(f"Executing {number_of_scans} scans of {scan_time} seconds each")
 
     tmc, _, _, _ = telescope_handlers
@@ -777,9 +780,6 @@ def _(telescope_handlers, number_of_scans, scan_time, settings):
     SCAN_FILE = f"{settings['TMC_configs']}/scan.json"
     with open(SCAN_FILE, encoding="utf-8") as f:
         scan_json = f.read()
-
-    if settings["override_scan_duration"]:
-        scan_time = int(settings["override_scan_duration"])
 
     logger.debug(json.dumps(scan_json))
 
