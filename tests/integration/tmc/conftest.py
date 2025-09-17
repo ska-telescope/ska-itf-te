@@ -244,8 +244,8 @@ def wait_for_attribute_value(
     :return: Returns True if value is changed as expected, else False.
     :rtype: bool
     """
-    start_time = time.time()
-    while time.time() - start_time <= timeout:
+    start_time = time()
+    while time() - start_time <= timeout:
         if device_proxy.read_attribute(attr_name) == desired_value:
             return True
     logger.debug("Attribute current value %s", device_proxy.read_attribute(attr_name))
