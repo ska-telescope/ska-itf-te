@@ -754,10 +754,10 @@ def _(telescope_handlers, scan_time, settings):
 
 @when(
     parsers.cfparse(
-        "I execute {number_of_scans:Int} {scan_time:Number} second scans"
-        " with a {delay_between_scans:Number} second delay between scans"
-        " without reconfiguring or releasing resources",
-        extra_types={"Number": float, "Int": int},
+        "I execute {number_of_scans:Number} {scan_time:Number} second scans with"
+        " a {delay_between_scans:Number} second delay between scans without"
+        " reconfiguring or releasing resources",
+        extra_types={"Number": float},
     )
 )
 def _(telescope_handlers, number_of_scans, scan_time, delay_between_scans, settings):
@@ -774,13 +774,13 @@ def _(telescope_handlers, number_of_scans, scan_time, delay_between_scans, setti
     if settings["override_scan_duration"]:
         scan_time = int(settings["override_scan_duration"])
 
+    if settings["override_multiscan_delay_between_scans"]:
+        delay_between_scans = int(settings["override_multiscan_delay_between_scans"])
+
     if settings["override_multiscan_number_of_scans"]:
         number_of_scans = int(settings["override_multiscan_number_of_scans"])
 
-    if settings["override_multiscan_delay_between_scans"]:
-        delay_between_scans = int(settings["override_multiscan_delay_between_scans"])
-    
-    logger.info(f"Executing {number_of_scans} scans of {scan_time} seconds each with {delay_between_scans} delay between each scan")
+    logger.info(f"Executing {number_of_scans} scans of {scan_time} seconds each with a {delay_between_scans} second delay between scans")
 
     tmc, _, _, _ = telescope_handlers
 
@@ -814,7 +814,7 @@ def _(telescope_handlers, number_of_scans, scan_time, delay_between_scans, setti
         wait_for_event(tmc.subarray_node, "obsState", ObsState.READY)
         logger.info(f"Completed scan {scan_number}/{number_of_scans}")
 
-        # Hold for delay period if not the last scan
+        # Hold before next scan if not last scan
         if scan_number < number_of_scans:
             logger.info(f"Holding for {delay_between_scans} seconds before next scan")
             sleep(delay_between_scans)

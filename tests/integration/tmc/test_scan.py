@@ -10,6 +10,6 @@ def test_perform_a_scan_via_tmc():
     """Perform a scan via TMC."""
 
 @pytest.mark.hw_in_the_loop
-@scenario("features/test_scan.feature", "Perform multiple scans via TMC on the same band releasing resources and ending the observation only once all scans are done")
+@scenario("features/test_scan.feature", "Perform multiple scans via TMC without releasing resources")
 def test_perform_multiple_scans_via_tmc_without_reconfiguring():
     """Perform multiple scans via TMC with the same scan config."""
