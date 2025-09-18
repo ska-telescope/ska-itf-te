@@ -19,10 +19,10 @@ logger = logging.getLogger(__name__)
 
 @pytest.mark.skamid
 @scenario(
-    "features/configure_healthstate_unknown.feature",
+    "features/configure_healthstate_degraded.feature",
     "Configure alarm rule for healthState DEGRADED",
 )
-def test_tmc_alarm_for_healthstate_unknown():
+def test_tmc_alarm_for_healthstate_degraded():
     """Configure and raise alarms.
 
     This test case is based on real scenario when some devices are not present
@@ -54,13 +54,13 @@ def configure_alarm_healthstate(response_data, device1, device2):
     """
     file_path = os.path.join(
         os.getcwd(),
-        "tests/integration/alarmhandler/data/alarm_rules/alarm_rule_healthstate_unknown.txt",
+        "tests/integration/alarmhandler/data/alarm_rules/alarm_rule_healthstate_degraded.txt",
     )
     with open(file_path, "rb") as file:
         add_api_response = httpx.post(
             f"http://alarm-handler-configurator.{namespace}.svc.miditf.internal.skao.int"
             + ":8004/add-alarms?trl=alarm%2Fhandler%2F01",
-            files={"file": ("alarm_rule_healthstate_unknown.txt", file, "text/plain")},
+            files={"file": ("alarm_rule_healthstate_degraded.txt", file, "text/plain")},
             data={"trl": "alarm/handler/01"},
         )
         response_data.response = add_api_response.json()
