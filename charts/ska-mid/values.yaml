@@ -175,8 +175,7 @@ ska-sdp:
   lmc:
     prefix: mid
     nsubarray: 3
-  ska-sdp-qa:
-    enabled: true
+  qa:
     display:
       vault:
         useVault: false
