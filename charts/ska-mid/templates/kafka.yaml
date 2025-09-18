@@ -91,7 +91,7 @@ spec:
           value: "1"
         - name: KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR
           value: "1"
-        {{- if .Values "ska-sdp" "kafka" "resources" }}
+        {{- if index .Values "ska-sdp" "kafka" "resources" }}
         resources: {{ toYaml (index .Values "ska-sdp" "kafka" "resources") | nindent 10 }}
         {{- end }}
 {{- end }}
