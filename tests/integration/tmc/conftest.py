@@ -225,33 +225,6 @@ class EventWaitTimeout(Exception):
     """Exception raised when an event does not occur within a specified timeout."""
 
 
-def wait_for_attribute_value(
-    device_proxy: DeviceProxy,
-    attr_name: str,
-    desired_value: Any,
-    timeout: float = 150.0,
-) -> bool:
-    """Wait for attribute value change.
-
-    :param device_proxy: Device proxy to be used for reading attribute value
-    :type device_proxy: DeviceProxy
-    :param attr_name: Attribute name
-    :type attr_name: str
-    :param desired_value: Desired value of attribute.
-    :type desired_value: Any
-    :param timeout: Timeout till when it will wait for the value change, defaults to 150.0
-    :type timeout: float
-    :return: Returns True if value is changed as expected, else False.
-    :rtype: bool
-    """
-    start_time = time()
-    while time() - start_time <= timeout:
-        if device_proxy.read_attribute(attr_name) == desired_value:
-            return True
-    logger.info("Attribute current value %s", device_proxy.read_attribute(attr_name))
-    return False
-
-
 def wait_for_event(
     device_proxy: DeviceProxy,
     attr_name: str,
@@ -300,7 +273,7 @@ def wait_for_event(
             try:
                 event = event_queue.get(timeout=2)
                 if print_event_details:
-                    logger.info(f"Received event: {event}")
+                    logger.debug(f"Received event: {event}")
                 assert not event.err, "Event error"
 
                 value = event.attr_value.value
