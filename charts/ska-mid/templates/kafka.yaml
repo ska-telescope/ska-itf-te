@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: "ska-sdp-kafka-headless"
+  name: "ska-sdp-kafka-controller-headless"
   namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/name: "ska-sdp-kafka"
@@ -52,7 +52,7 @@ spec:
     matchLabels:
       app.kubernetes.io/name: "ska-sdp-kafka"
       app.kubernetes.io/instance: {{ .Release.Name }}
-  serviceName: "ska-sdp-kafka-headless"
+  serviceName: "ska-sdp-kafka-controller-headless"
   template:
     metadata:
       labels:
