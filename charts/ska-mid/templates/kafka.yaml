@@ -3,10 +3,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "ska-mid.name" . }}-kafka-headless
+  name: "ska-sdp-kafka-headless"
   namespace: {{ .Release.Namespace }}
   labels:
-    app.kubernetes.io/name: {{ include "ska-mid.name" . }}-kafka
+    app.kubernetes.io/name: "ska-sdp-kafka"
     app.kubernetes.io/instance: {{ .Release.Name }}
 spec:
   clusterIP: None
@@ -18,16 +18,16 @@ spec:
     port: 9093
     targetPort: controller
   selector:
-    app.kubernetes.io/name: {{ include "ska-mid.name" . }}-kafka
+    app.kubernetes.io/name: "ska-sdp-kafka"
     app.kubernetes.io/instance: {{ .Release.Name }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "ska-mid.name" . }}-kafka
+  name: "ska-sdp-kafka"
   namespace: {{ .Release.Namespace }}
   labels:
-    app.kubernetes.io/name: {{ include "ska-mid.name" . }}-kafka
+    app.kubernetes.io/name: "ska-sdp-kafka"
     app.kubernetes.io/instance: {{ .Release.Name }}
 spec:
   ports:
@@ -35,28 +35,28 @@ spec:
     port: 9092
     targetPort: client
   selector:
-    app.kubernetes.io/name: {{ include "ska-mid.name" . }}-kafka
+    app.kubernetes.io/name: "ska-sdp-kafka"
     app.kubernetes.io/instance: {{ .Release.Name }}
 ---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ include "ska-mid.name" . }}-kafka
+  name: "ska-sdp-kafka"
   namespace: {{ .Release.Namespace }}
   labels:
-    app.kubernetes.io/name: {{ include "ska-mid.name" . }}-kafka
+    app.kubernetes.io/name: "ska-sdp-kafka"
     app.kubernetes.io/instance: {{ .Release.Name }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "ska-mid.name" . }}-kafka
+      app.kubernetes.io/name: "ska-sdp-kafka"
       app.kubernetes.io/instance: {{ .Release.Name }}
-  serviceName: {{ include "ska-mid.name" . }}-kafka-headless
+  serviceName: "ska-sdp-kafka-headless"
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ include "ska-mid.name" . }}-kafka
+        app.kubernetes.io/name: "ska-sdp-kafka"
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       containers:
