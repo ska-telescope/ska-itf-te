@@ -189,12 +189,17 @@ ifeq ($(KUBE_NAMESPACE),staging)
 endif
 
 FEATURE_BRANCH_DEPLOYMENT := true
-ifeq ($(filter ci-%,$(KUBE_NAMESPACE)),$(KUBE_NAMESPACE))
 ifneq ($(CI_COMMIT_TAG),)
-FEATURE_BRANCH_DEPLOYMENT := false
-else ifeq ($(CI_COMMIT_BRANCH),$(CI_DEFAULT_BRANCH))
-FEATURE_BRANCH_DEPLOYMENT := false
-endif
+  ifeq ($(filter ci-%,$(KUBE_NAMESPACE)),$(KUBE_NAMESPACE))
+    # tagged pipeline ci- deployments
+    FEATURE_BRANCH_DEPLOYMENT := true
+  else
+    # staging deployments
+    FEATURE_BRANCH_DEPLOYMENT := false
+	endif
+else ifneq ($(filter $(CI_COMMIT_BRANCH),$(CI_DEFAULT_BRANCH)),)
+  # Integration deployments
+  FEATURE_BRANCH_DEPLOYMENT := false
 endif
 
 # Configure test-pvc for feature branch deployments
@@ -207,6 +212,9 @@ ifeq ($(FEATURE_BRANCH_DEPLOYMENT),true)
 		--set ska-sdp.data-pvc.create.storageClassName=ceph-cephfs \
 		--set ska-sdp.data-pvc.pod.enabled=true
 endif
+
+print-feature-branch:
+	@echo $(FEATURE_BRANCH_DEPLOYMENT)
 
 # ifeq (wildcard($(KUBE_NAMESPACE),"ci-*")) # This will break - fix before push! block to be used in automated testing
 # 	SDP_EXTRA_PARAMS += \
