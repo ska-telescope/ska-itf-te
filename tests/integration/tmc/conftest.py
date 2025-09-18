@@ -54,7 +54,7 @@ class TMC:
         :return: _description_
         :rtype: DeviceProxy
         """
-        return DeviceProxy(f"ska_mid/tm_subarray_node/{subarray_id}")
+        return DeviceProxy(f"mid-tmc/subarray/{subarray_id:02}")
 
     def get_dish_leaf_node_dp(self, dish_id) -> DeviceProxy:
         """Get device proxy for a specific dish leaf node.
