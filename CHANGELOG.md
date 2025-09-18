@@ -3,8 +3,8 @@
 # Unreleased
 * [SKB-812]
   * Updated alarm handler test cases with new testing API's.
-  * Updated alarm handler chart.
-  
+  * Updated alarm handler chart to v0.6.0-rc.1.
+
 * [SKB-1034]
   * Update test fixture to insert 'nodeselector' processing block parameter to schedule vis-receive pods only on za-itf-cloud03.
 
