@@ -1,6 +1,8 @@
 # Version History
 
 # Unreleased
+* [SKB-1043]
+  * Archwizard config fixed.
 * [SKB-1034]
   * Update test fixture to insert 'nodeselector' processing block parameter to schedule vis-receive pods only on za-itf-cloud03.
 
