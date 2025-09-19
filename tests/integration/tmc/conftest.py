@@ -640,7 +640,7 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids, scan_band, settings):
         assign_resources_json["sdp"]["processing_blocks"][0]["pb_id"] = pb_id
         assign_resources_json["sdp"]["processing_blocks"][0]["parameters"]["pod_settings"][0][
             "nodeSelector"
-        ] = {"kubernetes.io/hostname": "za-itf-cloud03"}
+        ] = node_selector_sdp_param
 
         band_params = generate_fsp.generate_band_params(scan_band)
 
