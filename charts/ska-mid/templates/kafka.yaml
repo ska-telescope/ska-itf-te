@@ -70,7 +70,7 @@ spec:
           containerPort: 9093
         env:
         - name: KAFKA_ADVERTISED_LISTENERS
-          value: "PLAINTEXT://{{ include "ska-mid.name" . }}-kafka.{{ .Release.Namespace }}:9092"
+          value: "PLAINTEXT://ska-sdp-kafka.{{ .Release.Namespace }}:9092"
         - name: KAFKA_AUTO_CREATE_TOPICS_ENABLE
           value: "true"
         - name: KAFKA_CONTROLLER_LISTENER_NAMES
