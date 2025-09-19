@@ -183,18 +183,18 @@ ska-sdp:
         useVault: false
   ska-tango-base:
     enabled: false
-  kafka:
-    enabled: true
-    image: apache/kafka
-    version: 3.8.0
-    imagePullPolicy: IfNotPresent
-    resources:
-      requests:
-        cpu: 1000m
-        memory: 1024Mi
-      limits:
-        cpu: 2000m
-        memory: 4096Mi
+  # kafka:
+  #   enabled: true
+  #   image: apache/kafka
+  #   version: 3.8.0
+  #   imagePullPolicy: IfNotPresent
+  #   resources:
+  #     requests:
+  #       cpu: 1000m
+  #       memory: 1024Mi
+  #     limits:
+  #       cpu: 2000m
+  #       memory: 4096Mi
 
 # CIA
 ska-ser-config-inspector:
