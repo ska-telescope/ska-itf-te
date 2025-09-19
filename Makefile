@@ -196,7 +196,7 @@ ifneq ($(CI_COMMIT_TAG),)
   else
     # staging deployments
     FEATURE_BRANCH_DEPLOYMENT := false
-	endif
+  endif
 else ifneq ($(filter $(CI_COMMIT_BRANCH),$(CI_DEFAULT_BRANCH)),)
   # Integration deployments
   FEATURE_BRANCH_DEPLOYMENT := false
