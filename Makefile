@@ -225,7 +225,7 @@ SDP_PARAMS ?= --set ska-sdp.helmdeploy.namespace=$(KUBE_NAMESPACE_SDP) \
 
 ###################################################################
 ### TODO: Move creds to Vault
-EDA_EXTRA_PARAMS ?=
+EDA_EXTRA_PARAMS ?= --set ska-tango-archiver.archwizard_config=MyHDB=tango://tango-databaseds.$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN):10000/mid-eda/cm/01
 EDA_PARAMS ?= --set ska-tango-archiver.dbpassword=${EDA_DB_PASSWORD} \
 	--set ska-tango-archiver.archviewer.instances[0].timescale_login=admin:${EDA_DB_PASSWORD} \
 	$(EDA_EXTRA_PARAMS)
