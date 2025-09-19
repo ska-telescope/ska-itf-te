@@ -1,7 +1,9 @@
 # Version History
 
-## unreleased
+## Unreleased
 * [AT-3388] update SDP to 2.0.0
+* [SKB-1034]
+  * Update test fixture to insert 'nodeselector' processing block parameter to schedule vis-receive pods only on za-itf-cloud03.
 
 ## 28.1.0
 * [AT-3384]
