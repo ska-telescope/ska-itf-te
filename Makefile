@@ -213,9 +213,6 @@ ifeq ($(FEATURE_BRANCH_DEPLOYMENT),true)
 		--set ska-sdp.data-pvc.pod.enabled=true
 endif
 
-print-feature-branch:
-	@echo $(FEATURE_BRANCH_DEPLOYMENT)
-
 # ifeq (wildcard($(KUBE_NAMESPACE),"ci-*")) # This will break - fix before push! block to be used in automated testing
 # 	SDP_EXTRA_PARAMS += \
 # 	--set global.data-product-pvc-name=$(DPD_PVC_NAME)
