@@ -8,6 +8,8 @@
   * Archwizard config fixed.
 * [SKB-1034]
   * Update test fixture to insert 'nodeselector' processing block parameter to schedule vis-receive pods only on za-itf-cloud03.
+* [AT-3389]
+  * Fixed bug causing staging SUT deployment to use test-pvc for DPD
 
 ## 28.1.0
 * [AT-3384]
