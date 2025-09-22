@@ -1,4 +1,4 @@
-{{- if index .Values "ska-sdp" "kafka" "enabled" }}
+{{- if .Values.kafka.enabled }}
 ---
 apiVersion: v1
 kind: Service
@@ -61,8 +61,8 @@ spec:
     spec:
       containers:
       - name: kafka
-        image: {{ index .Values "ska-sdp" "kafka" "image" }}:{{ index .Values "ska-sdp" "kafka" "version" }}
-        imagePullPolicy: {{ index .Values "ska-sdp" "kafka" "imagePullPolicy" }}
+        image: {{ .Values.kafka.image }}:{{ .Values.kafka.version }}
+        imagePullPolicy: {{ .Values.kafka.imagePullPolicy }}
         ports:
         - name: client
           containerPort: 9092
@@ -91,7 +91,7 @@ spec:
           value: "1"
         - name: KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR
           value: "1"
-        {{- if index .Values "ska-sdp" "kafka" "resources" }}
-        resources: {{ toYaml (index .Values "ska-sdp" "kafka" "resources") | nindent 10 }}
+        {{- if .Values.kafka.resources }}
+        resources: {{ toYaml .Values.kafka.resources | nindent 10 }}
         {{- end }}
 {{- end }}
