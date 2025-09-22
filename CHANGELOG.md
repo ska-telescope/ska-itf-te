@@ -1,9 +1,16 @@
 # Version History
 
 ## Unreleased
+* [SKB-812]
+  * Updated alarm handler test cases with new testing API's.
+  * Updated alarm handler chart to v0.6.0-rc.1.
+* [SKB-1043]
+  * Archwizard config fixed.
 * [AT-3388] update SDP to 2.0.0
 * [SKB-1034]
   * Update test fixture to insert 'nodeselector' processing block parameter to schedule vis-receive pods only on za-itf-cloud03.
+* [AT-3389]
+  * Fixed bug causing staging SUT deployment to use test-pvc for DPD
 
 ## 28.1.0
 * [AT-3384]

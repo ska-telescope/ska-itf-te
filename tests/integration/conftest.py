@@ -720,7 +720,7 @@ def a_tmc(receptor_ids):
 @given("an alarm handler")
 def a_alarm_handler():
     """Given an alarm handler."""
-    alarm_handler = con_config.get_device_proxy("alarm/handler/01")
+    alarm_handler = DeviceProxy("alarm/handler/01")
     result = alarm_handler.ping()
     result > 0
 
