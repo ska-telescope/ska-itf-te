@@ -644,7 +644,7 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids, scan_band, settings):
             "channels_id": "vis_channels_band_2",
             "spectral_windows": [
               {
-                "spectral_window_id": "fsp_1_channels",
+                "spectral_window_id": "band_2_channels",
                 "count": 55380,
                 "start": 0,
                 "stride": 1,
@@ -850,6 +850,9 @@ def _(telescope_handlers, number_of_scans, scan_time, delay_between_scans, setti
 
     for scan_number in range(1, number_of_scans + 1):
         # Execute scan
+        scan_json["scan_id"] = scan_number
+        logger.debug(json.dumps(scan_json))
+        
         logger.info(f"Starting scan {scan_number}/{number_of_scans}")
         tmc.subarray_node.Scan(scan_json)
         wait_for_event(tmc.sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.SCANNING)
@@ -915,8 +918,6 @@ def _(telescope_handlers, number_of_scans, scan_time, delay_between_scans, recep
     with open(SCAN_FILE, encoding="utf-8") as f:
         scan_json = f.read()
 
-    logger.debug(json.dumps(scan_json))
-
     scan_artifact_path = f"{settings['artifact_dir']}/scan.json"
     with open(scan_artifact_path, "w") as scan_config_file:
         json.dump(scan_json, scan_config_file, indent=2)
@@ -969,6 +970,9 @@ def _(telescope_handlers, number_of_scans, scan_time, delay_between_scans, recep
         wait_for_event(tmc.subarray_node, "obsState", ObsState.READY)
 
         # Execute scan
+        scan_json["scan_id"] = scan_number
+        logger.debug(json.dumps(scan_json))
+
         logger.info(f"Starting scan {scan_number}/{number_of_scans}")
         tmc.subarray_node.Scan(scan_json)
         wait_for_event(tmc.sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.SCANNING)
