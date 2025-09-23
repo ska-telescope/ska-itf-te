@@ -10,7 +10,7 @@ dependencies:
   version: 1.5.0
 - name: ska-csp-lmc-mid
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.2.0-rc.1
+  version: 1.2.0
 - name: ska-mid-cbf-tdc-mcs
   repository: https://artefact.skao.int/repository/helm-internal
   version: 1.3.5
@@ -37,7 +37,7 @@ dependencies:
   version: 0.3.5
 - name: ska-mid-dish-spfrx-talondx-console
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.1.0
+  version: 1.3.0
 - name: ska-tango-taranta
   repository: https://artefact.skao.int/repository/helm-internal
   version: 2.14.2
@@ -56,5 +56,5 @@ dependencies:
 - name: ska-log-consumer
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.1.6
-digest: sha256:b285392ffc423df7f8340bef20792f7ba77d95af03547876428d5a5831472519
-generated: "2025-09-18T11:47:14.541581784+05:30"
+digest: sha256:bc79507a69213d22be8ed983d2b23b7ec0931d034ca4fab8ad2344745d930df3
+generated: "2025-09-23T10:04:21.831809527+02:00"
