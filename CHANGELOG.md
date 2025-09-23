@@ -6,7 +6,9 @@
   * Updated alarm handler chart to v0.6.0-rc.1.
 * [SKB-1043]
   * Archwizard config fixed.
-* [AT-3388] update SDP to 2.0.0
+* [AT-3388] 
+  * update SDP to 2.0.0
+  * update SDP to 2.1.0-rc.1 and vis-receive to 6.1.1
 * [SKB-1034]
   * Update test fixture to insert 'nodeselector' processing block parameter to schedule vis-receive pods only on za-itf-cloud03.
 * [AT-3389]
