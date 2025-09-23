@@ -272,7 +272,6 @@ ska-tmc-mid:
       DishVccConfig:
         DishVccUri: "car:ska-mid?27.3.0#tmdata"
         DishVccFilePath: "instrument/ska1_mid_itf/vcc-config/ska-mid-cbf-system-parameters.json"
-      subarray_count: 1
     cspsubarrayleafnode:
       CommandTimeOut: 300
       # DelayCadence: 10.0
@@ -293,6 +292,7 @@ ska-tmc-mid:
       cpu: 400m
   ska-tango-base:
     enabled: false
+  subarray_count: 1
   telescope: SKA-mid
 
 # Temporary configuration for PVC
