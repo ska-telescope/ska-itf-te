@@ -641,10 +641,10 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids, scan_band, settings):
         ] = band_params["channel_count"]
 
         band_2_vis_channels = {
-            "channels_id": "vis_channels_band_2",
+            "channels_id": "vis_band2_channels",
             "spectral_windows": [
               {
-                "spectral_window_id": "band_2_channels",
+                "spectral_window_id": "fsp_1_channels",
                 "count": 55380,
                 "start": 0,
                 "stride": 1,
@@ -675,17 +675,19 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids, scan_band, settings):
         assign_resources_json["sdp"]["execution_block"]["channels"].append(band_2_vis_channels)
 
         band_2_scan_type = {
-            "scan_type_id": "science_band_2",
+            "scan_type_id": "science_band2",
             "derive_from": ".default",
             "beams": {
               "vis0": {
                 "field_id": "field_a",
-                "channels_id": "vis_channels_band_2"
+                "channels_id": "vis_band2_channels"
               }
             }
           }
           
         assign_resources_json["sdp"]["execution_block"]["scan_types"].append(band_2_scan_type)
+        # del assign_resources_json["sdp"]["execution_block"]["scan_types"][0]["beams"]["vis0"]["channels_id"]
+        # assign_resources_json["sdp"]["execution_block"]["scan_types"][1]["beams"]["channels_id"] = "vis_channels"
 
     logger.info(f"PB ID: {pb_id}, EB ID: {eb_id}")
 
@@ -840,21 +842,19 @@ def _(telescope_handlers, number_of_scans, scan_time, delay_between_scans, setti
 
     SCAN_FILE = f"{settings['TMC_configs']}/scan.json"
     with open(SCAN_FILE, encoding="utf-8") as f:
-        scan_json = f.read()
-
-    logger.debug(json.dumps(scan_json))
-
-    scan_artifact_path = f"{settings['artifact_dir']}/scan.json"
-    with open(scan_artifact_path, "w") as scan_config_file:
-        json.dump(scan_json, scan_config_file, indent=2)
+        scan_json = json.load(f)
 
     for scan_number in range(1, number_of_scans + 1):
         # Execute scan
         scan_json["scan_id"] = scan_number
+        scan_json["transaction_id"] = f"txn-....-{scan_number:05}"
         logger.debug(json.dumps(scan_json))
-        
+        scan_artifact_path = f"{settings['artifact_dir']}/scan.json"
+        with open(scan_artifact_path, "w") as scan_config_file:
+            json.dump(scan_json, scan_config_file, indent=2)
+
         logger.info(f"Starting scan {scan_number}/{number_of_scans}")
-        tmc.subarray_node.Scan(scan_json)
+        tmc.subarray_node.Scan(json.dumps(scan_json))
         wait_for_event(tmc.sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.SCANNING)
         wait_for_event(tmc.csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.SCANNING)
         wait_for_event(tmc.subarray_node, "obsState", ObsState.SCANNING)
@@ -902,7 +902,7 @@ def _(telescope_handlers, number_of_scans, scan_time, delay_between_scans, recep
     logger.info(
         f"Executing {number_of_scans} scans of {scan_time} seconds each with a"
         f" {delay_between_scans} second delay between scans interchanging between"
-        " band 1 and band 2"
+        f" the following bands: {list(set(cycle_band))}"
     )
     logger.info(f"{scan_time} {delay_between_scans} {number_of_scans}")
     tmc, _, _, _ = telescope_handlers
@@ -916,11 +916,7 @@ def _(telescope_handlers, number_of_scans, scan_time, delay_between_scans, recep
     # Setting up scan payload
     SCAN_FILE = f"{settings['TMC_configs']}/scan.json"
     with open(SCAN_FILE, encoding="utf-8") as f:
-        scan_json = f.read()
-
-    scan_artifact_path = f"{settings['artifact_dir']}/scan.json"
-    with open(scan_artifact_path, "w") as scan_config_file:
-        json.dump(scan_json, scan_config_file, indent=2)
+        scan_json = json.load(f)
 
     for scan_number in range(1, number_of_scans + 1):
         # Configure scan
@@ -951,9 +947,16 @@ def _(telescope_handlers, number_of_scans, scan_time, delay_between_scans, recep
                 ] = int(settings["integration_factor"])
 
             if scan_band == 2:
-                configure_scan_json["sdp"]["scan_type"] = f"science_band_{scan_band}"
+                configure_scan_json["sdp"]["scan_type"] = f"science_band2"
             elif scan_band == 1:
                 configure_scan_json["sdp"]["scan_type"] = f"science"
+
+            configure_scan_json["csp"]["transaction_id"] = f"txn-....-{scan_number:05}"
+            # configure_scan_json["csp"]["common"]["config_id"] = f"4 receptor, band {scan_band}, 2 FSP, no options"
+            configure_scan_json["tmc"]["scan_duration"] = float(scan_time)
+            
+            if scan_number > 1:
+                configure_scan_json["tmc"]["partial_configuration"] = True
 
         logger.debug(json.dumps(configure_scan_json))
 
@@ -971,10 +974,14 @@ def _(telescope_handlers, number_of_scans, scan_time, delay_between_scans, recep
 
         # Execute scan
         scan_json["scan_id"] = scan_number
+        scan_json["transaction_id"] = f"txn-....-{scan_number:05}"
         logger.debug(json.dumps(scan_json))
+        scan_artifact_path = f"{settings['artifact_dir']}/scan.json"
+        with open(scan_artifact_path, "w") as scan_config_file:
+            json.dump(scan_json, scan_config_file, indent=2)
 
         logger.info(f"Starting scan {scan_number}/{number_of_scans}")
-        tmc.subarray_node.Scan(scan_json)
+        tmc.subarray_node.Scan(json.dumps(scan_json))
         wait_for_event(tmc.sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.SCANNING)
         wait_for_event(tmc.csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.SCANNING)
         wait_for_event(tmc.subarray_node, "obsState", ObsState.SCANNING)
@@ -984,9 +991,9 @@ def _(telescope_handlers, number_of_scans, scan_time, delay_between_scans, recep
         sleep(scan_time)
 
         # End scan
-        logger.info(f"Ending scan {scan_number}/{number_of_scans}")
-        tmc.subarray_node.EndScan()
-        wait_for_event(tmc.sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.READY)
+        # logger.info(f"Ending scan {scan_number}/{number_of_scans}")
+        # tmc.subarray_node.EndScan()
+        wait_for_event(tmc.sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.READY, timeout=(scan_time + 150))
         wait_for_event(tmc.csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.READY)
         wait_for_event(tmc.subarray_node, "obsState", ObsState.READY)
         logger.info(f"Completed scan {scan_number}/{number_of_scans}")
