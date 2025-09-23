@@ -954,9 +954,6 @@ def _(telescope_handlers, number_of_scans, scan_time, delay_between_scans, recep
             configure_scan_json["csp"]["transaction_id"] = f"txn-....-{scan_number:05}"
             # configure_scan_json["csp"]["common"]["config_id"] = f"4 receptor, band {scan_band}, 2 FSP, no options"
             configure_scan_json["tmc"]["scan_duration"] = float(scan_time)
-            
-            if scan_number > 1:
-                configure_scan_json["tmc"]["partial_configuration"] = True
 
         logger.debug(json.dumps(configure_scan_json))
 
