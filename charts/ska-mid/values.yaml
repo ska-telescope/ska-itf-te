@@ -9,7 +9,6 @@ global:
   exposeAllDS: true
   exposeDatabaseDS: true
   facility: mid-itf
-  kafka_host: ska-sdp-kafka
   minikube: false
   operator: true
   ska-tango-archiver:
