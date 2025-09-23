@@ -119,7 +119,7 @@ In the pipelines for the DishLMC and the SUT, we have flags that control whether
 
 TalonDx hardware-in-the-loop flags
 ==================================
-Currently, only one flag is used to switch on only one TalonDx LRU. This will change soon. The flag is ``CBF_HW_IN_THE_LOOP`` and is set to ``false`` by default in the pipeline environment. When set to true, a set of complex ``make`` targets are required for downloading firmware artefacts, switching off and then on the hardware, etc. This is currently being modified but is still WIP.
+Currently, only one flag is used to switch on only one TalonDx LRU. This will change soon. The flag is ``CBF_HW_IN_THE_LOOP`` and is set to ``false`` by default in the pipeline environment. When set to true, a set of complex ``make`` targets are required for downloading firmware artefacts, switching off and then on the hardware, etc. This is currently being modified but is still WIP. To toggle download of CBF artefacts, the flag ``DOWNLOAD_CBF_BITSTREAMS`` can be used. Set it to ``False`` in the SUT deployment job to prevent CBF artefacts from being download. The value of this flag is ``True`` by default.
 
 SPFRx hardware-in-the-loop flags
 ================================

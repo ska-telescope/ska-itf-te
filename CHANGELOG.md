@@ -1,8 +1,29 @@
 # Version History
 
-## Unreleased
+# Unreleased
+* [SKB-812]
+  * Updated alarm handler test cases with new testing API's.
+  * Updated alarm handler chart to v0.6.0-rc.1.
+* [SKB-1043]
+  * Archwizard config fixed.
+* [SKB-1034]
+  * Update test fixture to insert 'nodeselector' processing block parameter to schedule vis-receive pods only on za-itf-cloud03.
+* [AT-3389]
+  * Fixed bug causing staging SUT deployment to use test-pvc for DPD
 * [MAP-219]
   * Add in the exported dashboard file for the ITF version of the SPFRx control dashboard
+
+## 28.1.0
+* [AT-3384]
+  * Update CBF TDC MCS and CBF engineering console to 1.3.5 and 1.1.6 respectively
+* [AT-3371] 
+  * Introduce DOWNLOAD_CBF_BITSTREAMS environment variable to allow selective download of CBF artefacts in SUT deployment jobs.
+
+## 28.0.0
+* [AT-3379]
+  * Upgraded `ska-dish-lmc` to v8.4.1
+  * Upgraded `ska-tango-base` and `ska-tango-util` charts to v0.4.23
+>>>>>>> CHANGELOG.md
 
 ## 27.3.1
 * [AT-2932]
