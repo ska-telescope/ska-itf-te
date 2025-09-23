@@ -19,7 +19,7 @@ def settings():
     settings = {}
     settings["sut_cluster_domain"] = os.getenv("SUT_CLUSTER_DOMAIN")
     settings["SUT_namespace"] = os.getenv("KUBE_NAMESPACE")
-    settings["data_dir"] = ".jupyter-notebooks/data/mid_telescope"
+    settings["data_dir"] = "tests/resources/command_payloads"
     settings["TMC_configs"] = f"{settings['data_dir']}/tmc"
     settings["expected_k_value"] = int(os.getenv("EXPECTED_K_VALUE", 1))
     settings["override_scan_duration"] = os.getenv("OVERRIDE_SCAN_DURATION")
