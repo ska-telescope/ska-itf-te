@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+
+## 28.2.0
 * [AT-3360]
   * Move current TMC command payload "templates"/defaults (assign_resources.json, scan.json etc.) so that ska-mid repo is the source of truth for these "templates". 
 * [SKB-812]
