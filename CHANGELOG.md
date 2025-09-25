@@ -1,6 +1,6 @@
 # Version History
 
-# Unreleased
+## Unreleased
 * [AT-3360]
   * Move current TMC command payload "templates"/defaults (assign_resources.json, scan.json etc.) so that ska-mid repo is the source of truth for these "templates". 
 * [SKB-812]
@@ -8,6 +8,9 @@
   * Updated alarm handler chart to v0.6.0-rc.1.
 * [SKB-1043]
   * Archwizard config fixed.
+* [AT-3388] 
+  * update SDP to 2.0.0
+  * update vis-receive to 5.5.0 (in jupyter notebooks submodule)
 * [SKB-1034]
   * Update test fixture to insert 'nodeselector' processing block parameter to schedule vis-receive pods only on za-itf-cloud03.
 * [AT-3389]
