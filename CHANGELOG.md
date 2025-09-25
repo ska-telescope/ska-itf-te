@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3360]
+  * Move current TMC command payload "templates"/defaults (assign_resources.json, scan.json etc.) so that ska-mid repo is the source of truth for these "templates". 
 * [SKB-812]
   * Updated alarm handler test cases with new testing API's.
   * Updated alarm handler chart to v0.6.0-rc.1.
