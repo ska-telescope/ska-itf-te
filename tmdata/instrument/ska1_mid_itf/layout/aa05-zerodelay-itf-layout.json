@@ -170,16 +170,16 @@
                 "geocentric": {
                     "interface": "https://schema.skao.int/ska-telmodel-layout-geocentric/1.0",
                     "coordinate_frame": "ITRF",
-                    "x": 5109058.062517257,
-                    "y": 2007302.435599506,
-                    "z": -3239167.000445203
+                    "x": 5109485.764101352,
+                    "y": 2007047.2578047263,
+                    "z": -3238642.442898495
                 },
                 "geodetic": {
                     "interface": "https://schema.skao.int/ska-telmodel-layout-geodetic/1.0",
                     "coordinate_frame": "WGS84",
-                    "lat": -30.71329,
-                    "lon": 21.449412,
-                    "h": 1098.074
+                    "lat": -30.707819,
+                    "lon": 21.4453007,
+                    "h": 1092.219
                 }
             },
             "fixed_delays": [
