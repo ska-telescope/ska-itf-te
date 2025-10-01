@@ -24,6 +24,7 @@ def settings():
     settings["expected_k_value"] = int(os.getenv("EXPECTED_K_VALUE", 1))
     settings["override_scan_duration"] = os.getenv("OVERRIDE_SCAN_DURATION")
     settings["override_scan_band"] = os.getenv("OVERRIDE_SCAN_BAND")
+    settings["override_multiscan_bands"] = os.getenv("OVERRIDE_MULTISCAN_BANDS")
     settings["override_multiscan_number_of_scans"] = os.getenv(
         "OVERRIDE_MULTISCAN_NUMBER_OF_SCANS"
     )
