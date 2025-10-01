@@ -10,7 +10,7 @@ Feature: Telescope end to end signal chain test
 		When I turn ON the telescope
 		And I assign resources for a band 1 scan
 		And configure it for a 10 second band 1 scan
-		And I start a scan for 10 seconds
+		And I start the scan
 		And I end the scan
 		And I end the observation
 		And I release resources
