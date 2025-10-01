@@ -189,12 +189,17 @@ ifeq ($(KUBE_NAMESPACE),staging)
 endif
 
 FEATURE_BRANCH_DEPLOYMENT := true
-ifeq ($(filter ci-%,$(KUBE_NAMESPACE)),$(KUBE_NAMESPACE))
 ifneq ($(CI_COMMIT_TAG),)
-FEATURE_BRANCH_DEPLOYMENT := false
-else ifeq ($(CI_COMMIT_BRANCH),$(CI_DEFAULT_BRANCH))
-FEATURE_BRANCH_DEPLOYMENT := false
-endif
+  ifeq ($(filter ci-%,$(KUBE_NAMESPACE)),$(KUBE_NAMESPACE))
+    # tagged pipeline ci- deployments
+    FEATURE_BRANCH_DEPLOYMENT := true
+  else
+    # staging deployments
+    FEATURE_BRANCH_DEPLOYMENT := false
+  endif
+else ifneq ($(filter $(CI_COMMIT_BRANCH),$(CI_DEFAULT_BRANCH)),)
+  # Integration deployments
+  FEATURE_BRANCH_DEPLOYMENT := false
 endif
 
 # Configure test-pvc for feature branch deployments
@@ -225,7 +230,7 @@ SDP_PARAMS ?= --set ska-sdp.helmdeploy.namespace=$(KUBE_NAMESPACE_SDP) \
 
 ###################################################################
 ### TODO: Move creds to Vault
-EDA_EXTRA_PARAMS ?=
+EDA_EXTRA_PARAMS ?= --set ska-tango-archiver.archwizard_config=MyHDB=tango://tango-databaseds.$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN):10000/mid-eda/cm/01
 EDA_PARAMS ?= --set ska-tango-archiver.dbpassword=${EDA_DB_PASSWORD} \
 	--set ska-tango-archiver.archviewer.instances[0].timescale_login=admin:${EDA_DB_PASSWORD} \
 	$(EDA_EXTRA_PARAMS)

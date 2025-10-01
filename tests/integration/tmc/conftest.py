@@ -55,7 +55,7 @@ class TMC:
         :return: _description_
         :rtype: DeviceProxy
         """
-        return DeviceProxy(f"ska_mid/tm_subarray_node/{subarray_id}")
+        return DeviceProxy(f"mid-tmc/subarray/{subarray_id:02}")
 
     def get_dish_leaf_node_dp(self, dish_id) -> DeviceProxy:
         """Get device proxy for a specific dish leaf node.
@@ -614,6 +614,22 @@ def _(
     cbf_subarray = cbf.subarray
 
     RECEPTORS = receptor_ids
+
+    NODE_WITH_100G_INTERFACE = settings["node_with_100G_interface"]
+    NODE_LABEL_FOR_100G_GROUP = settings["node_label_for_100G_group"]
+
+    # Determine nodeSelector for vis-receive pod prioritising 100G group label if provided
+    node_selector_sdp_param = {}
+    if not NODE_LABEL_FOR_100G_GROUP:
+        if NODE_WITH_100G_INTERFACE:
+            node_selector_sdp_param = {"kubernetes.io/hostname": NODE_WITH_100G_INTERFACE}
+        else:
+            node_selector_sdp_param = {}
+    else:
+        split_label = NODE_LABEL_FOR_100G_GROUP.split("=")
+        label_name = split_label[0]
+        label_value = split_label[1]
+        node_selector_sdp_param = {label_name: label_value}
 
     if settings["override_scan_band"]:
         scan_band = int(settings["override_scan_band"])
