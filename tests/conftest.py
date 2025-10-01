@@ -47,7 +47,7 @@ def settings():
     settings["dish_ids"] = os.getenv("DISH_IDS", "SKA001 SKA036 SKA063 SKA100")
     settings["eb_id_prefix"] = os.getenv("EB_ID_PREFIX", "eb-test")
     settings["pb_id_prefix"] = os.getenv("PB_ID_PREFIX", "pb-test")
-    settings["node_with_100G_interface"] = os.getenv("NODE_WITH_100G_INTERFACE", "za-itf-cloud03")
+    settings["node_with_100G_interface"] = os.getenv("NODE_WITH_100G_INTERFACE", "")
     # Label used to select the nodes from 100G interface group for vis-receive pod.
     # Example: 100Ggroup=True
     settings["node_label_for_100G_group"] = os.getenv("NODE_LABEL_FOR_100G_GROUP", "")
