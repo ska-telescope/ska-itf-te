@@ -709,7 +709,7 @@ def _(telescope_handlers, default_scan_payload, settings):
 
     tmc, _, _, _ = telescope_handlers
 
-    scan_payload = update_scan_payload(default_scan_payload, 1, settings)
+    scan_payload = update_scan_payload(default_scan_payload, 1)
 
     logger.debug(json.dumps(scan_payload))
 
@@ -773,7 +773,7 @@ def _(
 
     for scan_number in range(1, number_of_scans + 1):
         # Execute scan
-        scan_payload = update_scan_payload(default_scan_payload, scan_number, settings)
+        scan_payload = update_scan_payload(default_scan_payload, scan_number)
         logger.debug(json.dumps(scan_payload))
 
         scan_artifact_path = f"{settings['artifact_dir']}/scan_{scan_number}.json"
@@ -908,7 +908,7 @@ def _(
         wait_for_event(tmc.subarray_node, "obsState", ObsState.READY)
 
         # Execute scan
-        scan_payload = update_scan_payload(default_scan_payload, scan_number, settings)
+        scan_payload = update_scan_payload(default_scan_payload, scan_number)
         logger.debug(json.dumps(scan_payload))
         scan_artifact_path = f"{settings['artifact_dir']}/scan_{scan_number}.json"
         with open(scan_artifact_path, "w") as scan_config_file:
