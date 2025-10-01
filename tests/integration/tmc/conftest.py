@@ -635,7 +635,7 @@ def _(
         scan_band = int(settings["override_scan_band"])
 
     assign_resources_payload = update_assign_resources(
-        default_assign_resources, scan_band, RECEPTORS, pb_id, eb_id, RECEPTORS, settings
+        default_assign_resources, scan_band, RECEPTORS, pb_id, eb_id, settings
     )
 
     logger.info(f"PB ID: {pb_id}, EB ID: {eb_id}")
