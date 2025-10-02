@@ -1298,14 +1298,6 @@ def update_assign_resources(
         "nodeSelector"
     ] = node_selector_sdp_param
 
-    band_2_scan_type = {
-        "scan_type_id": "science_band2",
-        "derive_from": ".default",
-        "beams": {"vis0": {"field_id": "field_a", "channels_id": "vis_band2_channels"}},
-    }
-
-    assign_resources_payload["sdp"]["execution_block"]["scan_types"].append(band_2_scan_type)
-
     return assign_resources_payload
 
 

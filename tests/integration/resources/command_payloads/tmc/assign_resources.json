@@ -125,6 +125,16 @@
             }
           },
           {
+            "scan_type_id": "science_band2",
+            "derive_from": ".default",
+            "beams": {
+              "vis0": {
+                "field_id": "field_a", 
+                "channels_id": "vis_band2_channels"
+              }
+            }
+          },
+          {
             "scan_type_id": "calibration",
             "derive_from": ".default",
             "beams": {
