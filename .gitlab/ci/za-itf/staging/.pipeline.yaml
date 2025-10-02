@@ -130,6 +130,20 @@ test-scan-staging:
     - .test-scan-with-hw
     - .test-staging-rules
 
+test-multiscan-with-reconfigure-staging:
+  stage: test
+  extends:
+    - .staging-env
+    - .test-multiscan-with-reconfigure-with-hw
+    - .test-staging-rules
+
+test-multiscan-without-reconfigure-staging:
+  stage: test
+  extends:
+    - .staging-env
+    - .test-multiscan-without-reconfigure-with-hw
+    - .test-staging-rules
+
 test-telescope-off-staging:
   stage: test
   extends:
