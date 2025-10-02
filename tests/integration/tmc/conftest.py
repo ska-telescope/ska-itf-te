@@ -1290,8 +1290,6 @@ def update_assign_resources(
         label_value = split_label[1]
         node_selector_sdp_param = {label_name: label_value}
 
-    band_params = generate_fsp.generate_band_params(scan_band)
-
     assign_resources_payload["dish"]["receptor_ids"] = receptors
     assign_resources_payload["sdp"]["resources"]["receptors"] = receptors
     assign_resources_payload["sdp"]["execution_block"]["eb_id"] = eb_id
@@ -1299,34 +1297,6 @@ def update_assign_resources(
     assign_resources_payload["sdp"]["processing_blocks"][0]["parameters"]["pod_settings"][0][
         "nodeSelector"
     ] = node_selector_sdp_param
-
-    # Add in Frequency bounds and the channel count
-    assign_resources_payload["sdp"]["execution_block"]["channels"][0]["spectral_windows"][0][
-        "freq_min"
-    ] = band_params["start_freq"]
-    assign_resources_payload["sdp"]["execution_block"]["channels"][0]["spectral_windows"][0][
-        "freq_max"
-    ] = band_params["end_freq"]
-    assign_resources_payload["sdp"]["execution_block"]["channels"][0]["spectral_windows"][0][
-        "count"
-    ] = band_params["channel_count"]
-
-    band_2_vis_channels = {
-        "channels_id": "vis_band2_channels",
-        "spectral_windows": [
-            {
-                "spectral_window_id": "fsp_1_channels",
-                "count": 55380,
-                "start": 0,
-                "stride": 1,
-                "freq_min": 940000000.0,
-                "freq_max": 1684307200.0,
-                "link_map": [[0, 0], [200, 1], [744, 2], [944, 3]],
-            }
-        ],
-    }
-
-    assign_resources_payload["sdp"]["execution_block"]["channels"].append(band_2_vis_channels)
 
     band_2_scan_type = {
         "scan_type_id": "science_band2",
