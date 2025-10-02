@@ -882,7 +882,10 @@ def _(
     for scan_number in range(1, number_of_scans + 1):
         # Configure scan
         scan_band = next(band_cycler)
-        logger.info(f"Configuring scan {scan_number}/{number_of_scans}. Band {scan_band}. Duration {scan_time}.")
+        logger.info(
+            f"Configuring scan {scan_number}/{number_of_scans}. "
+            f"Band {scan_band}. Duration {scan_time}."
+        )
 
         configure_scan_payload = update_configure_scan(
             default_configure_scan_payload, scan_band, scan_time, scan_number, settings
