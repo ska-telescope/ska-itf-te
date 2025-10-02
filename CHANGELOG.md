@@ -4,6 +4,7 @@
 * [AT-3401]
   * Updated SDP to 2.1.0
   * Updated Vis Receive in tests/integration/resources/command_payloads/tmc to 6.1.1
+  * Updated TMC to 1.6.0
 
 ## 28.2.0
 * [AT-3360]
