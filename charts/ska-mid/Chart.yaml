@@ -3,8 +3,8 @@ apiVersion: v2
 name: ska-mid
 description: An umbrella Helm chart for deployment of the Mid System
 type: application
-version: 28.3.0-rc.1-awg-delay-test
-appVersion: 28.3.0-rc.1-awg-delay-test
+version: 28.3.0-rc.3
+appVersion: 28.3.0-rc.3
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
   # Tango Base & Deployment Charts: TangoDB, iTango, Tango Operator Utils
@@ -19,7 +19,7 @@ dependencies:
 
   # Mid TMC
   - name: ska-tmc-mid
-    version: 1.5.0
+    version: 1.6.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tmc-mid.enabled
 
@@ -49,7 +49,7 @@ dependencies:
 
   # SDP
   - name: ska-sdp
-    version: 2.0.0
+    version: 2.1.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-sdp.enabled
 
