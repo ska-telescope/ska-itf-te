@@ -1,6 +1,9 @@
 # Version History
 
 ## Unreleased
+* [AT-3370]
+  * Added two new multiscan tests.
+  * Removed default insertion of nodeselector in sdp processing block parameters (SKB-1034 workaround)
 * [AT-3401]
   * Updated SDP to 2.1.0
   * Updated Vis Receive in tests/integration/resources/command_payloads/tmc to 6.1.1
