@@ -1344,14 +1344,10 @@ def update_configure_scan(
     :rtype: dict
     """
     band_params = generate_fsp.generate_band_params(scan_band)
-    fsp_list = [1, 2, 3, 4]
 
     configure_scan_payload["dish"]["receiver_band"] = str(scan_band)
     configure_scan_payload["csp"]["common"]["frequency_band"] = str(scan_band)
 
-    configure_scan_payload["csp"]["midcbf"]["correlation"]["processing_regions"][0][
-        "fsp_ids"
-    ] = fsp_list
     configure_scan_payload["csp"]["midcbf"]["correlation"]["processing_regions"][0][
         "start_freq"
     ] = int(band_params["start_freq"])
