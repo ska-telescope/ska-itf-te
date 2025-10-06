@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+
+## 28.3.0
 * [AT-3401]
   * Updated SDP to 2.1.0
   * Updated Vis Receive in tests/integration/resources/command_payloads/tmc to 6.1.1
