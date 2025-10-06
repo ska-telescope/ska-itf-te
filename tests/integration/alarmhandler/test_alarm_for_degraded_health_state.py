@@ -64,7 +64,7 @@ def configure_alarm_healthstate(response_data, device1, device2):
             data={"trl": "alarm/handler/01"},
         )
         response_data.response = add_api_response.json()
-        assert len(response_data.response["alarm_summary"]["tag"]) == 2
+        assert len(response_data.response["alarm_summary"]["tag"]) == 1
         assert f"{device1}" in response_data.response["alarm_summary"]["formula"][0]
         assert f"{device2}" in response_data.response["alarm_summary"]["formula"][0]
 
@@ -102,3 +102,4 @@ def check_alarm_state(response_data):
     )
     # acknowledge the alarm
     alarm_handler.Ack(alarm_tag)
+    response_data.clear_alarms()

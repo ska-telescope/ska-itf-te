@@ -60,3 +60,4 @@ def check_alarms(response_data):
     assert response_data.response["alarm_summary"]["tag"] == [
         "subarraynode_obsstate_fault",
     ]
+    response_data.clear_alarms()
