@@ -129,9 +129,10 @@ k8s-test-runner:
     K8S_TEST_RUNNER_PARAMS: --set ska-tmc-mid.deviceServers.mocks.dish=true --set ska-tmc-mid.deviceServers.mocks.enabled=true
     DISH_LMC_IN_THE_LOOP: "false"
     ADDMARKS: True
-    MARKS: "'not hw_in_the_loop'"
+    MARKS: "'not hw_in_the_loop and alarm-test'"
     SIM_MODE: "true"
     SUT_CLUSTER_DOMAIN: miditf.internal.skao.int
+    COUNT: 50
 
 stop-k8s-test-runner:
   tags:

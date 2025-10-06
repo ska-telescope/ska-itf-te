@@ -1,7 +1,7 @@
 Feature: SP-3833
 
 	#Configure TMC alarms using alarm handler configurator tool
-	@XTP-30174
+	@XTP-30174 @alarm-test
 	Scenario Outline: Configure TMC Alarms
 		Given a TMC
 		Given an alarm handler

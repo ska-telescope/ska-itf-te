@@ -1,7 +1,7 @@
 Feature: SP-3833
 
 	#Verify configured alarm for multiple devices in healthState DEGRADED
-	@XTP-30405
+	@XTP-30405 @alarm-test
 	Scenario Outline: Configure alarm rule for healthState DEGRADED
 		Given a mid telescope
 		Given an alarm handler
