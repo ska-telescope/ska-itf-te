@@ -36,7 +36,7 @@ ifneq ($(COUNT),)
 # Dashcount is a synthesis of testcount as input user variable and is used to
 # run a paricular test/s multiple times. If no testcount is set then the entire
 # --count option is removed
-_COUNT ?= --count=$(COUNT)
+_COUNT = --count=$(COUNT)
 else
 _COUNT ?= 
 endif
@@ -59,7 +59,7 @@ EXIT =
 endif
 
 INTEGRATION_TEST_SOURCE ?= tests/integration
-INTEGRATION_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(_MARKS) $(_COUNTS) $(EXIT) $(PYTEST_ADDOPTS)
+INTEGRATION_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(_MARKS) $(_COUNT) $(EXIT) $(PYTEST_ADDOPTS)
 
 SMOKE_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(_SMOKE_TEST_MARKS) $(_COUNTS) $(EXIT) $(PYTEST_ADDOPTS)
 
