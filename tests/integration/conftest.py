@@ -750,4 +750,4 @@ def fixture_default_response():
     """
     response_data = ResponseData()
     yield response_data
-    response_data.clear_alarms()
+    #response_data.clear_alarms()
