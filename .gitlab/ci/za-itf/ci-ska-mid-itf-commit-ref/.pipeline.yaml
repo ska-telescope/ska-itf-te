@@ -132,7 +132,7 @@ k8s-test-runner:
     MARKS: "'not hw_in_the_loop and alarm-test'"
     SIM_MODE: "true"
     SUT_CLUSTER_DOMAIN: miditf.internal.skao.int
-    COUNT: 50
+    COUNT: 200
 
 stop-k8s-test-runner:
   tags:
