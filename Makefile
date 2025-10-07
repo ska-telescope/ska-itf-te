@@ -414,6 +414,8 @@ post-set-release:
 	./scripts/release/update_testing_image_tag.sh $$CURRENT_RELEASE charts/ska-mid-testing/values.yaml; \
 	echo "Updated SUT Config graph reflecting Mid ITF latest version."
 
+helm-chart-lock-update: helm-rebuild-ska-mid
+
 helm-rebuild-ska-mid:
 	@rm -f charts/ska-mid/Chart.lock
 	@rm -rf charts/ska-mid/charts
