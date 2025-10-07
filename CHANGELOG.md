@@ -1,7 +1,9 @@
 # Version History
 
 ## Unreleased
-
+* [AT-3395]
+  * Updated mid-layout file for site tmdata/instrument/ska1_mid_aa/layout/mid-layout.json
+  
 ## 28.3.0
 * [AT-3401]
   * Updated SDP to 2.1.0
