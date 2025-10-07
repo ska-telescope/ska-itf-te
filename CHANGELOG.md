@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+* [AT-3349]
+  * Updated SPFC deployer - 0.4.1
+
 ## 28.3.0
 * [AT-3401]
   * Updated SDP to 2.1.0
