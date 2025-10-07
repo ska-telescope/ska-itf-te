@@ -5,6 +5,8 @@
 ## 28.3.1
 * [AT-3349]
   * Updated SPFC deployer - 0.4.1
+  * Updated ska-tango-base & ska-tango-util - v0.4.24
+  * Updated Taranta - v2.15.0 & AriadneGQL - v1.0.4
 
 ## 28.3.0
 * [AT-3401]
