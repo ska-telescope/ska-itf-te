@@ -19,8 +19,8 @@ dependencies:
 
   # Mid TMC
   - name: ska-tmc-mid
-    version: 1.6.0
-    repository: https://artefact.skao.int/repository/helm-internal
+    version: 1.8.0-rc.2-dev.c2d33e490
+    repository: https://gitlab.com/api/v4/projects/34728004/packages/helm/dev
     condition: ska-tmc-mid.enabled
 
   # Mid CSP LMC
