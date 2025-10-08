@@ -765,7 +765,7 @@ def _(
         number_of_scans = int(settings["override_multiscan_number_of_scans"])
 
     logger.info(
-        f"Executing {number_of_scans} scans of {scan_time} seconds each with a"
+        f"Beginning execution of {number_of_scans} scans of {scan_time} seconds each with a"
         f" {delay_between_scans} second delay between scans"
     )
 
@@ -871,7 +871,7 @@ def _(
     band_cycler = cycle(cycle_band)
 
     logger.info(
-        f"Executing {number_of_scans} scans of {scan_time} seconds each with a"
+        f"Beginning execution of {number_of_scans} scans of {scan_time} seconds each with a"
         f" {delay_between_scans} second delay between scans interchanging between"
         f" the following bands: {list(set(cycle_band))}"
     )
@@ -950,6 +950,8 @@ def _(
         if scan_number < number_of_scans:
             logger.info(f"Holding for {delay_between_scans} seconds before next scan")
             sleep(delay_between_scans)
+        
+    logger.info(f"Completed scan execution")
 
 
 @when("I end the scan")
@@ -1279,6 +1281,14 @@ def update_assign_resources(
     """
     NODE_WITH_100G_INTERFACE = settings["node_with_100G_interface"]
     NODE_LABEL_FOR_100G_GROUP = settings["node_label_for_100G_group"]
+
+    # TODO: Figure out why this is necessary. Seems like CBF picksup channel 
+    # count from the first channel spec
+    band_params = generate_fsp.generate_band_params(scan_band)
+
+    assign_resources_payload["sdp"]["execution_block"]["channels"][0]["spectral_windows"][0][
+        "count"
+    ] = band_params["channel_count"]
 
     # Determine nodeSelector for vis-receive pod prioritising 100G group label if provided
     node_selector_sdp_param = {}
