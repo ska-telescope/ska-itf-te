@@ -1,0 +1,6 @@
+dependencies:
+- name: ska-tango-tangogql-ariadne
+  repository: https://artefact.skao.int/repository/helm-internal
+  version: 1.0.1
+digest: sha256:7a1b5abaec0f5b2734e6dbb2a07e641b5181f4695f30544bfed4baa19bb7826f
+generated: "2025-10-08T14:31:04.376731685-07:00"
