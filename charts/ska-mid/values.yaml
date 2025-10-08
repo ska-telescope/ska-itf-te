@@ -148,6 +148,8 @@ ska-mid-cbf-tdc-tmleafnode:
 # SPFC
 ska-mid-dish-spfc-deployer:
   enabled: false
+  spfc_simulated_mode: true
+  update_firmware: false
 
 # SPFRx
 ska-mid-dish-spfrx-talondx-console:
