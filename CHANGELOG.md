@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3410]
+  * Disable all uses of ska-oso-integration chart
 
 ## 28.3.1
 * [AT-3349]
