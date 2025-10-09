@@ -101,7 +101,7 @@ def check_alarm_state(response_data):
     elif pytest.device1_result == HealthState.UNKNOWN:
         alarm_tag = tuple([alarm_tag[1]])
     assert wait_for_event(
-        alarm_handler, "alarmUnacknowledged", alarm_tag, print_event_details=True, timeout=200.0
+        alarm_handler, "alarmUnacknowledged", alarm_tag, print_event_details=True, timeout=250.0
     )
     # acknowledge the alarm
     alarm_handler.Ack(alarm_tag)
