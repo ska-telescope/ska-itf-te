@@ -950,8 +950,8 @@ def _(
         if scan_number < number_of_scans:
             logger.info(f"Holding for {delay_between_scans} seconds before next scan")
             sleep(delay_between_scans)
-        
-    logger.info(f"Completed scan execution")
+
+    logger.info("Completed scan execution")
 
 
 @when("I end the scan")
@@ -1282,7 +1282,7 @@ def update_assign_resources(
     NODE_WITH_100G_INTERFACE = settings["node_with_100G_interface"]
     NODE_LABEL_FOR_100G_GROUP = settings["node_label_for_100G_group"]
 
-    # TODO: Figure out why this is necessary. Seems like CBF picksup channel 
+    # TODO: Figure out why this is necessary. Seems like CBF picks up channel
     # count from the first channel spec
     band_params = generate_fsp.generate_band_params(scan_band)
 
