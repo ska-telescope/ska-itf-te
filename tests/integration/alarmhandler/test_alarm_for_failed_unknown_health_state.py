@@ -53,6 +53,7 @@ def configure_alarm_healthstate(response_data, device1, device2):
     """
     file_path = os.path.join(
         os.getcwd(),
+        "tests/integration/alarmhandler",
         "data/alarm_rules/alarm_rule_healthstate_degraded_unknown.txt",
     )
     with open(file_path, "rb") as file:
