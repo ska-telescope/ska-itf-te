@@ -3,7 +3,10 @@
 ## Unreleased
 * [AT-3395]
   * Updated mid-layout file for site tmdata/instrument/ska1_mid_aa/layout/mid-layout.json
-  
+* [AT-3402]
+  * Updated SDP to 2.1.1
+  * Updated Vis-receive to 6.1.2
+
 ## 28.3.1
 * [AT-3349]
   * Updated SPFC deployer - 0.4.1
