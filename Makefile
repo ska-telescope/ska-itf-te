@@ -81,7 +81,6 @@ DISH_LMC_EXTRA_PARAMS = \
 	--set global.tangodb_port=10000
 endif
 
-#TEMPORARY COMMIT - REMOVE --set ska-mid-dish-spfc-deployer.enabled=false LINE AS SOON AS SPFC DEPLOYER IS UPDATED & RELEASED)
 SPFC_IN_THE_LOOP ?= #Boolean flag to control deployment of the SPFC Tango device in a Dish
 SPFC_INSTANCE ?= that_one #Default value that needs to be overwritten during deployment
 ifeq ($(SPFC_IN_THE_LOOP), true)
@@ -415,7 +414,9 @@ post-set-release:
 	./scripts/release/update_testing_image_tag.sh $$CURRENT_RELEASE charts/ska-mid-testing/values.yaml; \
 	echo "Updated SUT Config graph reflecting Mid ITF latest version."
 
+helm-chart-lock-update: helm-rebuild-ska-mid
+
 helm-rebuild-ska-mid:
-	@rm charts/ska-mid/Chart.lock
+	@rm -f charts/ska-mid/Chart.lock
 	@rm -rf charts/ska-mid/charts
 	@make k8s-template-chart K8S_CHART=ska-mid
