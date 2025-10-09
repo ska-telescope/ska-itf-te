@@ -1,7 +1,9 @@
 # Version History
 
 ## Unreleased
-* [AT-340git ]
+* [AT-3402]
+  * Updated SDP to 2.1.1
+  * Updated Vis-receive to 6.1.2
 
 ## 28.3.0
 * [AT-3401]
