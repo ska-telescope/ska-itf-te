@@ -18,10 +18,10 @@ logger = logging.getLogger(__name__)
 
 @pytest.mark.skamid
 @scenario(
-    "features/configure_healthstate_degraded_failed.feature",
-    "Configure alarm rule for healthState DEGRADED or FAILED",
+    "features/configure_healthstate_degraded_unknown.feature",
+    "Configure alarm rule for healthState DEGRADED or UNKNOWN",
 )
-def test_tmc_alarm_for_healthstate_failed_degraded():
+def test_tmc_alarm_for_healthstate_unknown_degraded():
     """Configure and raise alarms.
 
     This test case is based on real scenario when some devices are not present
@@ -45,7 +45,7 @@ def test_tmc_alarm_for_healthstate_failed_degraded():
     )
 )
 def configure_alarm_healthstate(response_data, device1, device2):
-    """Alarm is configured for DEGRADED or FAILED healthstate.
+    """Alarm is configured for DEGRADED or UNKNOWN healthstate.
 
     :param response_data: fixture for response data
     :param device1: tango device1 for alarm condition
@@ -53,13 +53,13 @@ def configure_alarm_healthstate(response_data, device1, device2):
     """
     file_path = os.path.join(
         os.getcwd(),
-        "tests/integration/alarmhandler/data/alarm_rules/alarm_rule_healthstate_degraded.txt",
+        "data/alarm_rules/alarm_rule_healthstate_degraded_unknown.txt",
     )
     with open(file_path, "rb") as file:
         add_api_response = httpx.post(
             f"http://alarm-handler-configurator.{namespace}.svc.miditf.internal.skao.int"
             + ":8004/add-alarms?trl=alarm%2Fhandler%2F01",
-            files={"file": ("alarm_rule_healthstate_degraded_failed.txt", file, "text/plain")},
+            files={"file": ("alarm_rule_healthstate_degraded_unknown.txt", file, "text/plain")},
             data={"trl": "alarm/handler/01"},
         )
         response_data.response = add_api_response.json()
@@ -71,23 +71,23 @@ def configure_alarm_healthstate(response_data, device1, device2):
 # This test case is based on real scenario when some devices are not present
 # in this case its Dish Masters.
 # when all devices are available this scenario might not be the same.
-@when(parsers.parse("{device1} and {device2} remain in healthState DEGRADED or FAILED"))
+@when(parsers.parse("{device1} and {device2} remain in healthState DEGRADED or UNKNOWN"))
 def check_alarms(device1, device2):
-    """Check devices in healthState DEGRADED or FAILED.
+    """Check devices in healthState DEGRADED or UNKNOWN.
 
-    :param device1: tango device1 with healthState DEGRADED or FAILED
-    :param device2: tango device2 with healthState DEGRADED or FAILED
+    :param device1: tango device1 with healthState DEGRADED or UNKNOWN
+    :param device2: tango device2 with healthState DEGRADED or UNKNOWN
     """
     tango_device1 = DeviceProxy(device1)
     tango_device2 = DeviceProxy(device2)
     pytest.device1_result = tango_device1.read_attribute("telescopehealthState").value
     device2_result = tango_device2.read_attribute("healthState").value
     # If the dish is deployed the value will not be DEGRADED
-    assert pytest.device1_result in (HealthState.DEGRADED, HealthState.FAILED)
-    assert device2_result in (HealthState.DEGRADED, HealthState.FAILED)
+    assert pytest.device1_result in (HealthState.DEGRADED, HealthState.UNKNOWN)
+    assert device2_result in (HealthState.DEGRADED, HealthState.UNKNOWN)
 
 
-@then("alarm for healthState DEGRADED or FAILED must be raised with UNACKNOWLEDGE state")
+@then("alarm for healthState DEGRADED or UNKNOWN must be raised with UNACKNOWLEDGE state")
 def check_alarm_state(response_data):
     """Check alarm state.
 
@@ -97,7 +97,7 @@ def check_alarm_state(response_data):
     alarm_tag = response_data.response["alarm_summary"]["tag"]
     if pytest.device1_result == HealthState.DEGRADED:
         alarm_tag = tuple(alarm_tag[0])
-    elif pytest.device1_result == HealthState.FAILED:
+    elif pytest.device1_result == HealthState.UNKNOWN:
         alarm_tag = tuple(alarm_tag[1])
     assert wait_for_event(
         alarm_handler, "alarmUnacknowledged", alarm_tag, print_event_details=True, timeout=200.0
