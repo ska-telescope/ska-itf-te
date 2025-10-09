@@ -1,6 +1,7 @@
 # Version History
 
 ## Unreleased
+* Updated test alarm handler test case to handle HealthState UNKNOWN.
 
 ## 28.3.1
 * [AT-3349]
