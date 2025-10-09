@@ -159,7 +159,7 @@
                 "options": {
                   "telescope_model": {
                     "telmodel_key": "instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json",
-                    "telmodel_source_uris": "car:ska-mid?main#tmdata"
+                    "telmodel_source_uris": "car:ska-mid?28.3.2-rc.3-static-delay-test#tmdata"
                   }
                 }
               }
