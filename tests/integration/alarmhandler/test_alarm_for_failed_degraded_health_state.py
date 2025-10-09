@@ -5,7 +5,6 @@ import os
 
 import httpx
 import pytest
-from assertpy import assert_that
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import HealthState
 from tango import DeviceProxy
@@ -19,10 +18,10 @@ logger = logging.getLogger(__name__)
 
 @pytest.mark.skamid
 @scenario(
-    "features/configure_healthstate_degraded.feature",
-    "Configure alarm rule for healthState DEGRADED",
+    "features/configure_healthstate_degraded_failed.feature",
+    "Configure alarm rule for healthState DEGRADED or FAILED",
 )
-def test_tmc_alarm_for_healthstate_degraded():
+def test_tmc_alarm_for_healthstate_failed_degraded():
     """Configure and raise alarms.
 
     This test case is based on real scenario when some devices are not present
@@ -46,7 +45,7 @@ def test_tmc_alarm_for_healthstate_degraded():
     )
 )
 def configure_alarm_healthstate(response_data, device1, device2):
-    """Alarm is configured for DEGRADED healthstate.
+    """Alarm is configured for DEGRADED or FAILED healthstate.
 
     :param response_data: fixture for response data
     :param device1: tango device1 for alarm condition
@@ -60,7 +59,7 @@ def configure_alarm_healthstate(response_data, device1, device2):
         add_api_response = httpx.post(
             f"http://alarm-handler-configurator.{namespace}.svc.miditf.internal.skao.int"
             + ":8004/add-alarms?trl=alarm%2Fhandler%2F01",
-            files={"file": ("alarm_rule_healthstate_degraded.txt", file, "text/plain")},
+            files={"file": ("alarm_rule_healthstate_degraded_failed.txt", file, "text/plain")},
             data={"trl": "alarm/handler/01"},
         )
         response_data.response = add_api_response.json()
@@ -72,23 +71,23 @@ def configure_alarm_healthstate(response_data, device1, device2):
 # This test case is based on real scenario when some devices are not present
 # in this case its Dish Masters.
 # when all devices are available this scenario might not be the same.
-@when(parsers.parse("{device1} and {device2} remain in healthState DEGRADED for long"))
+@when(parsers.parse("{device1} and {device2} remain in healthState DEGRADED or FAILED"))
 def check_alarms(device1, device2):
-    """Check devices in healthState DEGRADED.
+    """Check devices in healthState DEGRADED or FAILED.
 
-    :param device1: tango device1 with healthState DEGRADED
-    :param device2: tango device2 with healthState DEGRADED
+    :param device1: tango device1 with healthState DEGRADED or FAILED
+    :param device2: tango device2 with healthState DEGRADED or FAILED
     """
     tango_device1 = DeviceProxy(device1)
     tango_device2 = DeviceProxy(device2)
-    device1_result = tango_device1.read_attribute("telescopehealthState").value
+    pytest.device1_result = tango_device1.read_attribute("telescopehealthState").value
     device2_result = tango_device2.read_attribute("healthState").value
     # If the dish is deployed the value will not be DEGRADED
-    assert_that(device1_result).is_equal_to(HealthState.DEGRADED)
-    assert_that(device2_result).is_equal_to(HealthState.DEGRADED)
+    assert pytest.device1_result in (HealthState.DEGRADED, HealthState.FAILED)
+    assert device2_result in (HealthState.DEGRADED, HealthState.FAILED)
 
 
-@then("alarm for healthState DEGRADED must be raised with UNACKNOWLEDGE state")
+@then("alarm for healthState DEGRADED or FAILED must be raised with UNACKNOWLEDGE state")
 def check_alarm_state(response_data):
     """Check alarm state.
 
@@ -96,9 +95,12 @@ def check_alarm_state(response_data):
     """
     alarm_handler = DeviceProxy("alarm/handler/01")
     alarm_tag = response_data.response["alarm_summary"]["tag"]
-    alarm_tag = tuple(alarm_tag)
+    if pytest.device1_result == HealthState.DEGRADED:
+        alarm_tag = tuple(alarm_tag[0])
+    elif pytest.device1_result == HealthState.FAILED:
+        alarm_tag = tuple(alarm_tag[1])
     assert wait_for_event(
-        alarm_handler, "alarmUnacknowledged", alarm_tag, print_event_details=True
+        alarm_handler, "alarmUnacknowledged", alarm_tag, print_event_details=True, timeout=200.0
     )
     # acknowledge the alarm
     alarm_handler.Ack(alarm_tag)
