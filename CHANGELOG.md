@@ -6,6 +6,8 @@
 * [AT-3402]
   * Updated SDP to 2.1.1
   * Updated Vis-receive to 6.1.2
+* [AT-3410]
+  * Disable all uses of ska-oso-integration chart (temporarily)
 
 ## 28.3.1
 * [AT-3349]

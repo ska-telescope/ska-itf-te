@@ -27,7 +27,7 @@ ska-sdp:
 
 # OSO
 ska-oso-integration:
-  enabled: true
+  enabled: false
   ska-oso-slt-services:
     secretProvider:
       enabled: false
