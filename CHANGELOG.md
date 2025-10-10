@@ -8,6 +8,8 @@
   * Updated Vis-receive to 6.1.2
 * [AT-3410]
   * Disable all uses of ska-oso-integration chart (temporarily)
+* [AT-3411]
+  * Update `ska-dish-lmc` to v8.4.3 (28.3.2-rc.5) and then to v8.4.4 (28.3.2-rc.6)
 
 ## 28.3.1
 * [AT-3349]
