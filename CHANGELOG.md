@@ -6,6 +6,8 @@
 * [AT-3402]
   * Updated SDP to 2.1.1
   * Updated Vis-receive to 6.1.2
+* [AT-3411]
+  * Update `ska-dish-lmc` to 8.4.3
 
 ## 28.3.1
 * [AT-3349]
