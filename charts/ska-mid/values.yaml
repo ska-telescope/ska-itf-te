@@ -264,11 +264,11 @@ ska-tango-taranta:
 # TMC
 ska-tmc-mid:
   #TEMPORARY COMMIT FOR STATIC DELAY TEST ONLY
-  cspsubarrayleafnode:    
-    image:
-      registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-cspleafnodes
-      image: ska-tmc-cspleafnodes
-      tag: 0.32.0-dev.cfa22d92b 
+  # cspsubarrayleafnode:    
+  #   image:
+  #     registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-cspleafnodes
+  #     image: ska-tmc-cspleafnodes
+  #     tag: 0.32.0-dev.cfa22d92b 
   enabled: false
   deviceServers:
     mocks:
