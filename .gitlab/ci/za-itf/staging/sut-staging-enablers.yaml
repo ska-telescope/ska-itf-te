@@ -27,7 +27,7 @@ ska-sdp:
 
 # OSO
 ska-oso-integration:
-  enabled: true
+  enabled: false
 
 # DISH LMC CHART
 ska-dish-lmc:

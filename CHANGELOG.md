@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+## 28.3.2
+* [AT-3395]
+  * Updated mid-layout file for site tmdata/instrument/ska1_mid_aa/layout/mid-layout.json
+* [AT-3402]
+  * Updated SDP to 2.1.1
+  * Updated Vis-receive to 6.1.2
+* [AT-3410]
+  * Disable all uses of ska-oso-integration chart (temporarily)
+* [AT-3411]
+  * Update `ska-dish-lmc` to v8.4.3 (28.3.2-rc.5) and then to v8.4.4 (28.3.2-rc.6)
+
 ## 28.3.1
 * [AT-3349]
   * Updated SPFC deployer - 0.4.1
