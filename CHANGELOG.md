@@ -4,6 +4,25 @@
 * [AT-3370]
   * Added two new multiscan tests.
   * Removed default insertion of nodeselector in sdp processing block parameters (SKB-1034 workaround)
+
+## 28.3.2
+* [AT-3395]
+  * Updated mid-layout file for site tmdata/instrument/ska1_mid_aa/layout/mid-layout.json
+* [AT-3402]
+  * Updated SDP to 2.1.1
+  * Updated Vis-receive to 6.1.2
+* [AT-3410]
+  * Disable all uses of ska-oso-integration chart (temporarily)
+* [AT-3411]
+  * Update `ska-dish-lmc` to v8.4.3 (28.3.2-rc.5) and then to v8.4.4 (28.3.2-rc.6)
+
+## 28.3.1
+* [AT-3349]
+  * Updated SPFC deployer - 0.4.1
+  * Updated ska-tango-base & ska-tango-util - v0.4.24
+  * Updated Taranta - v2.15.0 & AriadneGQL - v1.0.4
+
+## 28.3.0
 * [AT-3401]
   * Updated SDP to 2.1.0
   * Updated Vis Receive in tests/integration/resources/command_payloads/tmc to 6.1.1

@@ -3,17 +3,17 @@ apiVersion: v2
 name: ska-mid
 description: An umbrella Helm chart for deployment of the Mid System
 type: application
-version: 28.3.1-rc.1
-appVersion: 28.3.1-rc.1
+version: 28.3.2
+appVersion: 28.3.2
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
   # Tango Base & Deployment Charts: TangoDB, iTango, Tango Operator Utils
   - name: ska-tango-base
-    version: 0.4.23
+    version: 0.4.24
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tango-base.enabled
   - name: ska-tango-util
-    version: 0.4.23
+    version: 0.4.24
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tango-util.enabled
 
@@ -49,7 +49,7 @@ dependencies:
 
   # SDP
   - name: ska-sdp
-    version: 2.1.0
+    version: 2.1.1
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-sdp.enabled
 
@@ -61,7 +61,7 @@ dependencies:
 
   # DISH LMC CHART
   - name: ska-dish-lmc
-    version: 8.4.1
+    version: 8.4.4
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-dish-lmc.enabled
 
@@ -74,9 +74,8 @@ dependencies:
 
   # SPFC DEPLOYER CHART
   - name: ska-mid-dish-spfc-deployer
-    version: 0.3.5
+    version: 0.4.1
     repository: https://artefact.skao.int/repository/helm-internal
-    #repository: https://gitlab.com/api/v4/projects/68468774/packages/helm/dev
     condition: ska-mid-dish-spfc-deployer.enabled
 
   # SPFRx DEPLOYER CHART
@@ -87,13 +86,13 @@ dependencies:
 
   # TARANTA SUITE
   - name: ska-tango-taranta
-    version: 2.14.2
+    version: 2.15.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tango-taranta.enabled
 
   # MULTIDB TANGOGQL
   - name: ska-tango-tangogql-ariadne
-    version: 1.0.3
+    version: 1.0.4
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tango-taranta.enabled
     alias: tangogql
