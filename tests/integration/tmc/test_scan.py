@@ -23,8 +23,9 @@ def test_perform_multiple_scans_via_tmc_without_reconfiguring():
 @pytest.mark.hw_in_the_loop
 @scenario(
     "features/test_scan.feature",
-    "Perform multiple scans via TMC interchanging between band 1 and"
-    " band 2 releasing resources and ending the observation only once all scans are complete",
+    "Perform multiple scans via TMC with scan reconfiguration for optional"
+    " band switching between scans. Resources are released and the observation"
+    " is ended only once all scans are complete.",
 )
 def test_perform_multiple_scans_via_tmc_reconfiguring_between_scans():
     """Perform multiple scans via TMC with interchanging between band 1 and band 2."""
