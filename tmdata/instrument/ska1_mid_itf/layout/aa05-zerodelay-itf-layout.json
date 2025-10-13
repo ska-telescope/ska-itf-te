@@ -155,7 +155,7 @@
                     "fixed_delay_id": "FIX_V",
                     "polarisation": 0,
                     "units": "m",
-                    "delay": 2.0
+                    "delay": 0.0
                 }
             ],
             "niao": 0.0,
