@@ -9,7 +9,7 @@ from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import HealthState
 from tango import DeviceProxy
 
-from tests.integration.conftest import ResponseData, TestContext
+from tests.integration.conftest import AlarmHandlerTestContext, ResponseData
 from tests.integration.tmc.conftest import wait_for_event
 
 namespace = os.getenv("KUBE_NAMESPACE")
@@ -74,34 +74,40 @@ def configure_alarm_healthstate(response_data: ResponseData, device1: str, devic
 # in this case its Dish Masters.
 # when all devices are available this scenario might not be the same.
 @when(parsers.parse("{device1} and {device2} remain in healthState DEGRADED or UNKNOWN"))
-def check_alarms(device1: str, device2: str, test_context: TestContext):
+def check_alarms(device1: str, device2: str, alarm_handler_test_context: AlarmHandlerTestContext):
     """Check devices in healthState DEGRADED or UNKNOWN.
 
     :param device1: tango device1 with healthState DEGRADED or UNKNOWN
     :param device2: tango device2 with healthState DEGRADED or UNKNOWN
-    :param test_context: fixture for the instance of TestContext class to store shared data
+    :param alarm_handler_test_context: fixture for the instance of AlarmHandlerTestContext
+        class to store shared data
     """
     tango_device1 = DeviceProxy(device1)
     tango_device2 = DeviceProxy(device2)
-    test_context.device1_result = tango_device1.read_attribute("telescopehealthState").value
+    alarm_handler_test_context.device1_result = tango_device1.read_attribute(
+        "telescopehealthState"
+    ).value
     device2_result = tango_device2.read_attribute("healthState").value
     # If the dish is deployed the value will not be DEGRADED
-    assert test_context.device1_result in (HealthState.DEGRADED, HealthState.UNKNOWN)
+    assert alarm_handler_test_context.device1_result in (HealthState.DEGRADED, HealthState.UNKNOWN)
     assert device2_result in (HealthState.DEGRADED, HealthState.UNKNOWN)
 
 
 @then("alarm for healthState DEGRADED or UNKNOWN must be raised with UNACKNOWLEDGE state")
-def check_alarm_state(response_data: ResponseData, test_context: TestContext):
+def check_alarm_state(
+    response_data: ResponseData, alarm_handler_test_context: AlarmHandlerTestContext
+):
     """Check alarm state.
 
     :param response_data: fixture for response data
-    :param test_context: fixture for the instance of TestContext class to store shared data
+    :param alarm_handler_test_context: fixture for the instance of AlarmHandlerTestContext
+        class to store shared data
     """
     alarm_handler = DeviceProxy("alarm/handler/01")
     alarm_tag = response_data.response["alarm_summary"]["tag"]
-    if test_context.device1_result == HealthState.DEGRADED:
+    if alarm_handler_test_context.device1_result == HealthState.DEGRADED:
         alarm_tag = tuple([alarm_tag[0]])
-    elif test_context.device1_result == HealthState.UNKNOWN:
+    elif alarm_handler_test_context.device1_result == HealthState.UNKNOWN:
         alarm_tag = tuple([alarm_tag[1]])
     assert wait_for_event(
         alarm_handler, "alarmUnacknowledged", alarm_tag, print_event_details=True, timeout=250.0
