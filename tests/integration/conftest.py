@@ -751,3 +751,18 @@ def fixture_default_response():
     response_data = ResponseData()
     yield response_data
     response_data.clear_alarms()
+
+
+class TestContext:
+    """Class to store the test context."""
+
+
+@pytest.fixture
+def test_context():
+    """Returns TestContext instance.
+
+    :yield: Yeilds TestContext class instance which can be used to store shared data.
+
+    """
+    test_context = TestContext()
+    yield test_context

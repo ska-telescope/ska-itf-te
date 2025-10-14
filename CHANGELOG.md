@@ -6,7 +6,7 @@
 * [AT-3402]
   * Updated SDP to 2.1.1
   * Updated Vis-receive to 6.1.2
-* Updated test alarm handler test case to handle HealthState UNKNOWN.
+* Updated test alarm handler test case to handle HealthState UNKNOWN and DEGRADED.
 
 ## 28.3.1
 * [AT-3349]
