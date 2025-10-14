@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+* [AT-3394]
+  * Updated SPFC deployer - 0.4.2
+
 ## 28.3.2
 * [AT-3395]
   * Updated mid-layout file for site tmdata/instrument/ska1_mid_aa/layout/mid-layout.json
