@@ -221,7 +221,7 @@ docs-build:
     INTEGRATION_TEST_SOURCE: tests/integration/tmc/test_scan.py::test_perform_multiple_scans_via_tmc_reconfiguring_between_scans
     OVERRIDE_MULTISCAN_NUMBER_OF_SCANS: 3
     OVERRIDE_MULTISCAN_DELAY_BETWEEN_SCANS: 60
-    OVERRIDE_MULTISCAN_BANDS: "2"
+    OVERRIDE_MULTISCAN_BANDS: "1"
     ADDMARKS: ""
   script:
     - make teardown-telescope-to-pre-assign || true
