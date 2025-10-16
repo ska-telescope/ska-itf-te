@@ -274,7 +274,7 @@ def wait_for_event(
             try:
                 event = event_queue.get(timeout=2)
                 if print_event_details:
-                    logger.debug(f"Received event: {event}")
+                    logger.info(f"Received event: {event}")
                 assert not event.err, "Event error"
 
                 value = event.attr_value.value
