@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3414]
+  * Fix kafka incorrectly deploying to the dishes via gitlab jobs
 * [AT-3411]
   * Update `ska-dish-lmc` to v8.4.5 (on 28.3.3-rc.2)
 
