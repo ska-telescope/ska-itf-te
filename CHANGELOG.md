@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3411]
+  * Update `ska-dish-lmc` to v8.4.5 (on 28.3.3-rc.2)
 
 ## 28.3.2
 * [AT-3395]
