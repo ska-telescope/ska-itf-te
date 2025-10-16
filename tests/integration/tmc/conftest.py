@@ -870,6 +870,9 @@ def _(
     cycle_band = [int(band) for band in scan_bands.split(",")]
     band_cycler = cycle(cycle_band)
 
+    # Post scan wait_for_event timeout = scan_time + scan_completion_time_tolerance
+    scan_completion_time_tolerance = 20  # [seconds]
+
     logger.info(
         f"Beginning execution of {number_of_scans} scans of {scan_time} seconds each with a"
         f" {delay_between_scans} second delay between scans interchanging between"
@@ -925,7 +928,6 @@ def _(
         logger.info("Scanning for configured scan duration")
 
         # Wait for scan completion
-        scan_completion_time_tolerance = 20  # [seconds]
         wait_for_event(
             tmc.sdp_subarray_leaf_node,
             "sdpSubarrayObsState",
