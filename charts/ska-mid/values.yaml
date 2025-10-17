@@ -128,7 +128,7 @@ ska-mid-cbf-engineering-console:
 # CBF Talon Demonstration Correlator Master Control Software
 ska-mid-cbf-tdc-mcs:
   ################# CBF MCS SAT VERSION START ###############
-  signalVerificationVersion: 0.3.1
+  signalVerificationVersion: 0.3.3
   ################# CBF MCS SAT VERSION END   ###############
   enabled: false
   global:
