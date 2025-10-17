@@ -29,7 +29,7 @@ author = "ATLAS Team"
 
 # The full version, including alpha/beta/rc tags
 
-release = "28.3.2"
+release = "28.3.3-cipa-aa0.5-sat"
 
 # -- General configuration ---------------------------------------------------
 
