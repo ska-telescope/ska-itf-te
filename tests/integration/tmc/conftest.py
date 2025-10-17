@@ -1284,13 +1284,13 @@ def update_assign_resources(
     NODE_WITH_100G_INTERFACE = settings["node_with_100G_interface"]
     NODE_LABEL_FOR_100G_GROUP = settings["node_label_for_100G_group"]
 
-    # TODO: Figure out why this is necessary. Seems like CBF picks up channel
-    # count from the first channel spec
-    band_params = generate_fsp.generate_band_params(scan_band)
+    # # TODO: Figure out why this is necessary. Seems like CBF picks up channel
+    # # count from the first channel spec
+    # band_params = generate_fsp.generate_band_params(scan_band)
 
-    assign_resources_payload["sdp"]["execution_block"]["channels"][0]["spectral_windows"][0][
-        "count"
-    ] = band_params["channel_count"]
+    # assign_resources_payload["sdp"]["execution_block"]["channels"][0]["spectral_windows"][0][
+    #     "count"
+    # ] = band_params["channel_count"]
 
     # Determine nodeSelector for vis-receive pod prioritising 100G group label if provided
     node_selector_sdp_param = {}
