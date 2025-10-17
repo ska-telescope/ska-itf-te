@@ -126,9 +126,9 @@
           },
           {
             "scan_type_id": "science_band2",
-            "derive_from": ".default",
             "beams": {
               "vis0": {
+                "polarisations_id": "all",
                 "field_id": "field_a", 
                 "channels_id": "vis_band2_channels"
               }
