@@ -581,14 +581,8 @@ def _(telescope_handlers, receptor_ids, settings):
         ]
 
 
-@when(
-    parsers.cfparse(
-        "I assign resources for a band {scan_band:Number} scan", extra_types={"Number": int}
-    )
-)
-def _(
-    telescope_handlers, receptor_ids, pb_and_eb_ids, scan_band, default_assign_resources, settings
-):
+@when("I assign resources")
+def _(telescope_handlers, receptor_ids, pb_and_eb_ids, default_assign_resources, settings):
     """Assign resources via TMC.
 
     :param telescope_handlers: _description_
@@ -598,8 +592,6 @@ def _(
     :type receptor_ids: _type_
     :param pb_and_eb_ids: _description_
     :type pb_and_eb_ids: _type_
-    :param scan_band: _description_
-    :type scan_band: _type_
     :param default_assign_resources: _description_
     :type default_assign_resources: _type_
     """
@@ -615,11 +607,8 @@ def _(
 
     RECEPTORS = receptor_ids
 
-    if settings["override_scan_band"]:
-        scan_band = int(settings["override_scan_band"])
-
     assign_resources_payload = update_assign_resources(
-        default_assign_resources, scan_band, RECEPTORS, pb_id, eb_id, settings
+        default_assign_resources, RECEPTORS, pb_id, eb_id, settings
     )
 
     logger.info(f"PB ID: {pb_id}, EB ID: {eb_id}")
@@ -1258,7 +1247,6 @@ def default_assign_resources(settings):
 
 def update_assign_resources(
     assign_resources_payload: dict,
-    scan_band: int,
     receptors: list,
     pb_id: str,
     eb_id: str,
@@ -1268,8 +1256,6 @@ def update_assign_resources(
 
     :param assign_resources_payload: Assign resources JSON payload to update
     :type assign_resources_payload: dict
-    :param scan_band: Scan band to configure
-    :type scan_band: int
     :param receptors: List of receptor IDs to assign
     :type receptors: list
     :param pb_id: Processing block ID
@@ -1283,14 +1269,6 @@ def update_assign_resources(
     """
     NODE_WITH_100G_INTERFACE = settings["node_with_100G_interface"]
     NODE_LABEL_FOR_100G_GROUP = settings["node_label_for_100G_group"]
-
-    # # TODO: Figure out why this is necessary. Seems like CBF picks up channel
-    # # count from the first channel spec
-    # band_params = generate_fsp.generate_band_params(scan_band)
-
-    # assign_resources_payload["sdp"]["execution_block"]["channels"][0]["spectral_windows"][0][
-    #     "count"
-    # ] = band_params["channel_count"]
 
     # Determine nodeSelector for vis-receive pod prioritising 100G group label if provided
     node_selector_sdp_param = {}
