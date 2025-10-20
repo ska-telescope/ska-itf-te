@@ -4,6 +4,8 @@
 * [AT-3370]
   * Added two new multiscan tests.
   * Removed default insertion of nodeselector in sdp processing block parameters (SKB-1034 workaround)
+* [AT-3414]
+  * Fix kafka incorrectly deploying to the dishes via gitlab jobs
 
 ## 28.3.2
 * [AT-3395]
