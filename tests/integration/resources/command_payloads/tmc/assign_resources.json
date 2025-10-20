@@ -42,24 +42,21 @@
                 "stride": 1,
                 "freq_min": 350000000.0,
                 "freq_max": 1090006400.0,
-                "link_map": [
-                  [
-                    0,
-                    0
-                  ],
-                  [
-                    200,
-                    1
-                  ],
-                  [
-                    744,
-                    2
-                  ],
-                  [
-                    944,
-                    3
-                  ]
-                ]
+                "link_map": [[0, 0], [200, 1], [744, 2], [944, 3]]
+              }
+            ]
+          },
+          {
+            "channels_id": "vis_band2_channels",
+            "spectral_windows": [
+              {
+                  "spectral_window_id": "fsp_1_channels",
+                  "count": 55380,
+                  "start": 0,
+                  "stride": 1,
+                  "freq_min": 940000000.0,
+                  "freq_max": 1684307200.0,
+                  "link_map": [[0, 0], [200, 1], [744, 2], [944, 3]]
               }
             ]
           }
@@ -124,6 +121,16 @@
             "beams": {
               "vis0": {
                 "field_id": "field_a"
+              }
+            }
+          },
+          {
+            "scan_type_id": "science_band2",
+            "beams": {
+              "vis0": {
+                "polarisations_id": "all",
+                "field_id": "field_a", 
+                "channels_id": "vis_band2_channels"
               }
             }
           },

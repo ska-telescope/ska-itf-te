@@ -236,6 +236,20 @@ test-scan:
     - .test-scan-with-hw
     - .test-ci-rules
 
+test-multiscan-with-reconfigure:
+  stage: test
+  extends:
+    - .ci-env
+    - .test-multiscan-with-reconfigure-with-hw
+    - .test-ci-rules
+
+test-multiscan-without-reconfigure:
+  stage: test
+  extends:
+    - .ci-env
+    - .test-multiscan-without-reconfigure-with-hw
+    - .test-ci-rules
+
 test-telescope-off:
   stage: test
   extends:
