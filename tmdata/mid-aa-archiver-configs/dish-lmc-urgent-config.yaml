@@ -5,14 +5,14 @@ archiver: mid-eda/es/01
 configuration:
 - class: DishManager
   attributes:
-    achievedpointing:
-      code_push_event: true
-    achievedtargetlock:
-      code_push_event: true
-    actstaticoffsetvalueel:
-      code_push_event: true
-    actstaticoffsetvaluexel:
-      code_push_event: true
+    # achievedpointing:
+    #   code_push_event: true
+    # achievedtargetlock:
+    #   code_push_event: true
+    # actstaticoffsetvalueel:
+    #   code_push_event: true
+    # actstaticoffsetvaluexel:
+    #   code_push_event: true
     attenuationpolh:
       code_push_event: true
     attenuationpolv:
@@ -27,26 +27,26 @@ configuration:
       code_push_event: true
     buildstate:
       code_push_event: true
-    capturing:
-      code_push_event: true
+    # capturing:
+    #   code_push_event: true
     configuredband:
       code_push_event: true
-    configuretargetlock:
-      code_push_event: true
-    desiredpointingaz:
-      code_push_event: true
-    desiredpointingel:
-      code_push_event: true
+    # configuretargetlock:
+    #   code_push_event: true
+    # desiredpointingaz:
+    #   code_push_event: true
+    # desiredpointingel:
+    #   code_push_event: true
     dishmode:
       code_push_event: true
-    dsconnectionstate:
-      code_push_event: true
-    dshmaxshorttermpower:
-      code_push_event: true
-    dshpowercurtailment:
-      code_push_event: true
-    frequencyresponse:
-      code_push_event: true
+    # dsconnectionstate:
+    #   code_push_event: true
+    # dshmaxshorttermpower:
+    #   code_push_event: true
+    # dshpowercurtailment:
+    #   code_push_event: true
+    # frequencyresponse:
+    #   code_push_event: true
     healthstate:
       code_push_event: true
     ignorespf:
@@ -65,24 +65,24 @@ configuration:
       code_push_event: true
     pointingbuffersize:
       code_push_event: true
-    pointingstate:
-      code_push_event: true
-    polytrack:
-      code_push_event: true
-    programtracktable:
-      code_push_event: true
-    pseudorandomnoisediodepars:
-      code_push_event: true
-    scanid:
-      code_push_event: true
+    # pointingstate:
+    #   code_push_event: true
+    # polytrack:
+    #   code_push_event: true
+    # programtracktable:
+    #   code_push_event: true
+    # pseudorandomnoisediodepars:
+    #   code_push_event: true
+    # scanid:
+    #   code_push_event: true
     spfconnectionstate:
       code_push_event: true
     spfrxconnectionstate:
       code_push_event: true
-    trackinterpolationmode:
-      code_push_event: true
-    trackprogrammode:
-      code_push_event: true
+    # trackinterpolationmode:
+    #   code_push_event: true
+    # trackprogrammode:
+    #   code_push_event: true
     tracktableloadmode:
       code_push_event: true
 - class: DSManager
@@ -176,4 +176,74 @@ configuration:
     b2CryoMotorSpeed:
       code_push_event: true
       archive_abs_change: 1
+- class: SkaMidSpfrxControllerDs
+  attributes:
+    operatingMode:
+      code_push_event: True
+    configuredBand:
+      code_push_event: True
+    b1CapabilityState:
+      code_push_event: True
+    b2CapabilityState:
+      code_push_event: True
+    b3CapabilityState:
+      code_push_event: True
+    rxs123SurgeArresterVoltage:
+      polling_period: 0
+      archive_abs_change: 0.001
+      archive_period: 0
+    rxs123OdlB12Supply33Voltage:
+      polling_period: 0
+      archive_abs_change: 0.001
+      archive_period: 0
+    rxs123OdlB3Supply33Voltage:
+      polling_period: 0
+      archive_abs_change: 0.001
+      archive_period: 0
+    rxs123OdlPowerSupply5Voltage:
+      polling_period: 0
+      archive_abs_change: 0.001
+      archive_period: 0
+    rxs123OdlPowerSupply12Voltage:
+      polling_period: 0
+      archive_abs_change: 0.001
+      archive_period: 0
+    rxs123OdlB12Supply25Voltage:
+      polling_period: 0
+      archive_abs_change: 0.001
+      archive_period: 0
+    rxs123OdlB3Supply25Voltage:
+      polling_period: 0
+      archive_abs_change: 0.001
+      archive_period: 0
+    rxs123ClkPowerLevelVoltage:
+      polling_period: 0
+      archive_abs_change: 0.001
+      archive_period: 0
+    rxs123OdlTemperature:
+      polling_period: 0
+      archive_abs_change: 0.001
+      archive_period: 0
+    rxs123ODLHumidity:
+      polling_period: 0
+      archive_abs_change: 0.001
+      archive_period: 0
+    b123ProcCntlWrAlignStatus:
+      polling_period: 0
+      archive_abs_change: 1
+      archive_period: 0
+    b123ProcCntlWrFifoOvf:
+      polling_period: 0
+      archive_abs_change: 1
+      archive_period: 0
+    dataStreamBandChangeStatus:
+      polling_period: 0
+      archive_abs_change: 1
+      archive_period: 0
+    dataStreamCurrentBand:
+      polling_period: 0
+      archive_abs_change: 1
+      archive_period: 0
+
+
  
