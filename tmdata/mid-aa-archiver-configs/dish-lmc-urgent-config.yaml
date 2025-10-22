@@ -19,8 +19,8 @@ configuration:
       code_push_event: true
     azimuthoverwrap:
       code_push_event: true
-    b2capabilitystate:
-      code_push_event: true
+    # b2capabilitystate:
+    #   code_push_event: true
     band2pointingmodelparams:
       code_push_event: true
     band2samplerfrequency:
@@ -87,46 +87,98 @@ configuration:
       code_push_event: true
 - class: DSManager
   attributes:
-    achievedpointing:
-      code_push_event: True
-    achievedTargetLock:
-      code_push_event: True
-    actStaticOffsetValueEl:
-      code_push_event: True
-    actStaticOffsetValueXel:
-      code_push_event: True
-    azimuthSpeed:
-      code_push_event: True
-    band2pointingmodelparams:
-      code_push_event: True
-    buildstate:
-      code_push_event: True
-    configureTargetLock:
-      code_push_event: True
-    currentPointing:
-      code_push_event: True
-    desiredpointingAz:
-      code_push_event: True
-    desiredpointingEl:
-      code_push_event: True
-    dscstate:
-      code_push_event: True
-    elevationSpeed:
-      code_push_event: True
-    healthstate:
-      code_push_event: True
-    indexerposition:
-      code_push_event: True
-    operatingmode:
-      code_push_event: True
-    pointingstate:
-      code_push_event: True
-    powerstate:
-      code_push_event: True
-    trackInterpolationMode:
-      code_push_event: True
-    trackProgramMode:
-      code_push_event: True
+    Safety_Status_AutoStowActive:
+      code_push_event: true
+    Safety_Status_Axes_InitFault:
+      code_push_event: true
+    Safety_Status_EStopFi:
+      code_push_event: true
+    Safety_Status_EStopHHP:
+      code_push_event: true
+    Safety_Status_EStopPed:
+      code_push_event: true
+    Safety_Status_EStopTurnHhead:
+      code_push_event: true
+    Safety_Status_HatchAzBearing:
+      code_push_event: true
+    Safety_Status_HatchTurnheadRoof:
+      code_push_event: true
+    Safety_Status_InterlockClearable:
+      code_push_event: true
+    Safety_Status_Lim2_CCW_Az:
+      code_push_event: true
+    Safety_Status_Lim2_CCW_Fi:
+      code_push_event: true
+    Safety_Status_Lim2_CW_Az:
+      code_push_event: true
+    Safety_Status_Lim2_CW_Fi:
+      code_push_event: true
+    Safety_Status_Lim2_Dn_El:
+      code_push_event: true
+    Safety_Status_Lim2_Up_El:
+      code_push_event: true
+    Safety_Status_STO_Az:
+      code_push_event: true
+    Safety_Status_STO_El:
+      code_push_event: true
+    Safety_Status_STO_Fi:
+      code_push_event: true
+    Safety_Status_SafetyLockout_Az:
+      code_push_event: true
+    Safety_Status_SafetyLockout_El:
+      code_push_event: true
+    Safety_Status_SafetyLockout_Fi:
+      code_push_event: true
+    Safety_Status_SafetyState:
+      code_push_event: true
+    Safety_Status_StowPinStatus:
+      code_push_event: true
+    Time_cds_Status_UTCtoSkaEpochSec:
+      code_push_event: true
+    Pointing_Status_TotalPointCorr_Az:
+      code_push_event: true
+    Pointing_Status_TotalPointCorr_El:
+      code_push_event: true
+    Pointing_Status_CurrentPointing:
+      code_push_event: true
+    Tracking_Status_OnSourceDev:
+      code_push_event: true
+    Tracking_Status_tr_obj_valid:
+      code_push_event: true
+    Tracking_TableStatus_pts_InterpolError:
+      code_push_event: true
+    Tracking_TableStatus_pts_TableAlmostFull:
+      code_push_event: true
+    Azimuth_Status_p_Act:
+      code_push_event: true
+    Azimuth_Status_p_Enc:
+      code_push_event: true
+    Azimuth_Status_p_Set:
+      code_push_event: true
+    Azimuth_Status_p_Shape:
+      code_push_event: true
+    Azimuth_MotorOne_mActVelocity:
+      code_push_event: true
+    Azimuth_MotorTwo_mActVelocity:
+      code_push_event: true
+    Elevation Axis Statusp_Act:
+      code_push_event: true
+    Elevation Axis Statusp_Enc:
+      code_push_event: true
+    Elevation Axis Statusp_Set:
+      code_push_event: true
+    Elevation Axis Statusp_Shape:
+      code_push_event: true
+    Elevation_MotorOne_mActVelocity:
+      code_push_event: true
+    Elevation_MotorTwo_mActVelocity:
+      code_push_event: true
+    FeedIndexer_Status_p_Act:
+      code_push_event: true
+    FeedIndexer_MotorOne_mActVelocity:
+      code_push_event: true
+    FeedIndexer_MotorTwo_mActVelocity:
+      code_push_event: true
 - class: Spfc
   attributes:
     b2CryoMotorState:
