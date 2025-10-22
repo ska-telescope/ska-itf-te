@@ -714,7 +714,7 @@ def _(telescope_handlers, default_scan_payload, settings):
 
     scan_time = float(tmc.subarray_node.scanDuration)
 
-    logger.info("Scanning for configured scan duration of {scan_time} seconds")
+    logger.info(f"Scanning for configured scan duration of {scan_time} seconds")
     # Wait for scan completion
     wait_for_event(
         tmc.sdp_subarray_leaf_node,
