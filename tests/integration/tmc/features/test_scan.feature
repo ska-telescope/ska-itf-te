@@ -10,7 +10,6 @@ Feature: Telescope scan test
 		When I assign resources
 		And configure it for a 120 second band 1 scan
 		And I start the scan
-		And I end the scan
 		And I end the observation
 		And I release resources
 		Then the respective dataproducts are available on the DPD
