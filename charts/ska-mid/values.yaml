@@ -22,6 +22,17 @@ global:
   # tangodb_fqdn: localhost
   tangodb_port: 10000
   use_aws: true
+  oda:
+    postgres:
+      cluster: pgmiditf
+      clusterNamespace: pgprod
+      database: ska_mid_itf_oda
+      user: ~
+      secret:
+        existingSecret:
+          name: ~
+        vault:
+          enabled: false
 
 # Alarm Handler
 ska-tango-alarmhandler:
@@ -51,31 +62,18 @@ ska-oso-integration:
     secretProvider:
       enabled: false
   ska-db-oda-umbrella:
-    enabled: true
-    ska-ser-skuid:
-      skuid:
-        config:
-          generator_id: miditf
-    pgadmin4:
-      enabled: false
-    vault:
-      enabled: false
-    postgresql:
-      enabled: true
-      auth:
-        postgresPassword: localpassword
-        existingSecret: false
+    enabled: false
   ska-oso-pht-services:
     secretProvider:
       enabled: false
   
-# # ODA
-# ska-db-oda-umbrella:
-#   enabled: false
-#   ska-ser-skuid:
-#     skuid:
-#       config:
-#         generator_id: miditf
+# ODA
+ska-db-oda-umbrella:
+  enabled: false
+  ska-ser-skuid:
+    skuid:
+      config:
+        generator_id: miditf
 
 # DISH LMC
 ska-dish-lmc:
