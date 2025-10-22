@@ -697,7 +697,7 @@ def _(telescope_handlers, default_scan_payload, settings):
     logger.info("Issuing scan command")
 
     tmc, _, _, _ = telescope_handlers
-    scan_completion_time_tolerance = 20.0 # [s]
+    scan_completion_time_tolerance = 20.0  # [s]
 
     scan_payload = update_scan_payload(default_scan_payload, 1)
 
@@ -734,6 +734,7 @@ def _(telescope_handlers, default_scan_payload, settings):
         ObsState.READY,
         timeout=(scan_time + scan_completion_time_tolerance),
     )
+
 
 @when(
     parsers.cfparse(
