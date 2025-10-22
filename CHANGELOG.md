@@ -1,6 +1,11 @@
 # Version History
 
 ## Unreleased
+* [AT-3370]
+  * Added two new multiscan tests.
+  * Removed default insertion of nodeselector in sdp processing block parameters (SKB-1034 workaround)
+* [AT-3414]
+  * Fix kafka incorrectly deploying to the dishes via gitlab jobs
 
 ## 28.3.2
 * [AT-3395]
@@ -12,6 +17,7 @@
   * Disable all uses of ska-oso-integration chart (temporarily)
 * [AT-3411]
   * Update `ska-dish-lmc` to v8.4.3 (28.3.2-rc.5) and then to v8.4.4 (28.3.2-rc.6)
+* Updated test alarm handler test case to handle HealthState UNKNOWN and DEGRADED.
 
 ## 28.3.1
 * [AT-3349]

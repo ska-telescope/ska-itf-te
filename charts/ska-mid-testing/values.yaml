@@ -15,6 +15,9 @@ environment:
   OVERRIDE_SCAN_DURATION: "300"
   NODE_WITH_100G_INTERFACE: ""
   NODE_LABEL_FOR_100G_GROUP: ""
+  OVERRIDE_MULTISCAN_BANDS: ""
+  OVERRIDE_MULTISCAN_NUMBER_OF_SCANS: ""
+  OVERRIDE_MULTISCAN_DELAY_BETWEEN_SCANS: ""
 testReportsPVC: pvc-test-data-storage
 mountPath: /data/test-reports
 CBFMCSconfigMountPath: /app/ska-mid/resources/mcs

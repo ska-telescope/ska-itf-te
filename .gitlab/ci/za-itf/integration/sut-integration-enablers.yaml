@@ -25,6 +25,10 @@ ska-mid-cbf-engineering-console:
 ska-sdp:
   enabled: true
 
+# KAFKA
+kafka:
+  enabled: true
+
 # OSO
 ska-oso-integration:
   enabled: false
