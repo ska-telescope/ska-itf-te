@@ -711,10 +711,10 @@ def _(telescope_handlers, default_scan_payload, settings):
     wait_for_event(tmc.sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.SCANNING)
     wait_for_event(tmc.csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.SCANNING)
     wait_for_event(tmc.subarray_node, "obsState", ObsState.SCANNING)
-    logger.info("Scanning for configured scan duration")
 
     scan_time = float(tmc.subarray_node.scanDuration)
 
+    logger.info("Scanning for configured scan duration of {scan_time} seconds")
     # Wait for scan completion
     wait_for_event(
         tmc.sdp_subarray_leaf_node,
