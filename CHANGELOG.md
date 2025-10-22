@@ -8,6 +8,8 @@
   * Fix kafka incorrectly deploying to the dishes via gitlab jobs
 * [AT-3411]
   * Update DishLMC from 8.4.4 to 8.4.6
+* [AT-3408]
+  * Set the ska001 archive config file to include the same attributes as that for ska100.  This is an interim change pending finalisation of the dish config files.
 
 ## 28.3.2
 * [AT-3395]
