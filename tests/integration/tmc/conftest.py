@@ -734,7 +734,6 @@ def _(telescope_handlers, default_scan_payload, settings):
         ObsState.READY,
         timeout=(scan_time + scan_completion_time_tolerance),
     )
-    logger.info(f"Completed scan {scan_number}/{number_of_scans}")
 
 @when(
     parsers.cfparse(
