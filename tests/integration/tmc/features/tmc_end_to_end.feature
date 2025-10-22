@@ -11,7 +11,6 @@ Feature: Telescope end to end signal chain test
 		And I assign resources
 		And configure it for a 10 second band 1 scan
 		And I start the scan
-		And I end the scan
 		And I end the observation
 		And I release resources
 		And I turn OFF the telescope
@@ -27,7 +26,6 @@ Feature: Telescope end to end signal chain test
 		And I assign resources
 		And configure it for a 120 second band 1 scan
 		And I start the scan
-		And I end the scan
 		And I end the observation
 		And I release resources
 		And I turn OFF the telescope
@@ -43,7 +41,6 @@ Feature: Telescope end to end signal chain test
 		And I assign resources
 		And configure it for a 120 second band 1 scan
 		And I start the scan
-		And I end the scan
 		And I end the observation
 		And I release resources
 		Then the telescope is in the released-resources state
@@ -62,7 +59,6 @@ Feature: Telescope end to end signal chain test
 		And configure it for a 120 second band 1 scan
 		And I start the scan
 		And I stop LSTV replay
-		And I end the scan
 		And I end the observation
 		And I release resources
 		And I turn OFF the telescope
