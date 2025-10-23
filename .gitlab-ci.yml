@@ -105,6 +105,16 @@ oci-image-build-testing:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
 
+oci-image-build-eda-grafana-connector:
+  extends:
+    - .image_builder_template
+  stage: publish
+  variables:
+    OCI_IMAGES: "ska-mid-eda-grafana-connector"
+  rules:
+    - when: manual
+      allow_failure: true
+
 container_scanning:
   needs:
     - oci-image-build-testing
