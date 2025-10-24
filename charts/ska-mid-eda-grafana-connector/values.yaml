@@ -1,7 +1,7 @@
 image:
   registry: registry.gitlab.com/ska-telescope/ska-mid
   image: ska-mid-eda-grafana-connector
-  tag: 0.0.2-dev.c1a1109a5
+  tag: 0.0.4-dev.c70a8e2c9
   pullPolicy: IfNotPresent
 vault:
   edaCredentials:
@@ -11,5 +11,6 @@ vault:
 environment:
   CREDENTIALS_PATH: /secrets/eda-credentials
   EDA_USER: eda_ro
+  EDA_HOST: "eda.ska-tango-archiver.svc.miditf.internal.skao.int"
 startup:
-  command: "poetry run grafana-connector"
+  command: '"sh", "-c", "poetry run grafana-connector"'
