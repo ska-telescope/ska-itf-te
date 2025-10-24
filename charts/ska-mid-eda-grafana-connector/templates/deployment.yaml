@@ -2,8 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: eda-grafana-connector-deployment
-  name: eda-grafana-connector-deployment
+    app: eda-grafana-connector
+  name: eda-grafana-connector
   namespace: eda-grafana-connector
 spec:
   replicas: 1
