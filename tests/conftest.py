@@ -19,11 +19,18 @@ def settings():
     settings = {}
     settings["sut_cluster_domain"] = os.getenv("SUT_CLUSTER_DOMAIN")
     settings["SUT_namespace"] = os.getenv("KUBE_NAMESPACE")
-    settings["data_dir"] = ".jupyter-notebooks/data/mid_telescope"
+    settings["data_dir"] = "tests/integration/resources/command_payloads"
     settings["TMC_configs"] = f"{settings['data_dir']}/tmc"
     settings["expected_k_value"] = int(os.getenv("EXPECTED_K_VALUE", 1))
     settings["override_scan_duration"] = os.getenv("OVERRIDE_SCAN_DURATION")
     settings["override_scan_band"] = os.getenv("OVERRIDE_SCAN_BAND")
+    settings["override_multiscan_bands"] = os.getenv("OVERRIDE_MULTISCAN_BANDS")
+    settings["override_multiscan_number_of_scans"] = os.getenv(
+        "OVERRIDE_MULTISCAN_NUMBER_OF_SCANS"
+    )
+    settings["override_multiscan_delay_between_scans"] = os.getenv(
+        "OVERRIDE_MULTISCAN_DELAY_BETWEEN_SCANS"
+    )
     settings["integration_factor"] = os.getenv("INTEGRATION_FACTOR")
     sim_mode = os.getenv("SIM_MODE", "false").lower()
     if sim_mode in ["false", "0", ""]:
@@ -40,6 +47,10 @@ def settings():
     settings["dish_ids"] = os.getenv("DISH_IDS", "SKA001 SKA036 SKA063 SKA100")
     settings["eb_id_prefix"] = os.getenv("EB_ID_PREFIX", "eb-test")
     settings["pb_id_prefix"] = os.getenv("PB_ID_PREFIX", "pb-test")
+    settings["node_with_100G_interface"] = os.getenv("NODE_WITH_100G_INTERFACE", "")
+    # Label used to select the nodes from 100G interface group for vis-receive pod.
+    # Example: 100Ggroup=True
+    settings["node_label_for_100G_group"] = os.getenv("NODE_LABEL_FOR_100G_GROUP", "")
     return settings
 
 

@@ -1,0 +1,186 @@
+{
+    "interface": "https://schema.skao.int/ska-tmc-assignresources/2.2",
+    "transaction_id": "txn-....-00001",
+    "subarray_id": 1,
+    "dish": {
+      "receptor_ids": [
+        "SKA001",
+        "SKA036",
+        "SKA063",
+        "SKA100"
+      ]
+    },
+    "sdp": {
+      "interface": "https://schema.skao.int/ska-sdp-assignres/1.0",
+      "resources": {
+        "csp_links": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "receptors": [
+          "SKA001",
+          "SKA036",
+          "SKA063",
+          "SKA100"
+        ],
+        "receive_nodes": 1
+      },
+      "execution_block": {
+        "eb_id": "eb-test-20250116-015445",
+        "context": {},
+        "max_length": 21600.0,
+        "channels": [
+          {
+            "channels_id": "vis_channels",
+            "spectral_windows": [
+              {
+                "spectral_window_id": "fsp_1_channels",
+                "count": 55060,
+                "start": 0,
+                "stride": 1,
+                "freq_min": 350000000.0,
+                "freq_max": 1090006400.0,
+                "link_map": [[0, 0], [200, 1], [744, 2], [944, 3]]
+              }
+            ]
+          },
+          {
+            "channels_id": "vis_band2_channels",
+            "spectral_windows": [
+              {
+                  "spectral_window_id": "fsp_1_channels",
+                  "count": 55380,
+                  "start": 0,
+                  "stride": 1,
+                  "freq_min": 940000000.0,
+                  "freq_max": 1684307200.0,
+                  "link_map": [[0, 0], [200, 1], [744, 2], [944, 3]]
+              }
+            ]
+          }
+        ],
+        "polarisations": [
+          {
+            "polarisations_id": "all",
+            "corr_type": [
+              "XX",
+              "XY",
+              "YX",
+              "YY"
+            ]
+          }
+        ],
+        "fields": [ {
+            "field_id": "field_a",
+            "phase_dir": {
+              "target_name": "target_a",
+              "reference_frame": "icrs",
+              "attrs": {
+                "c1": 317.19966667,  
+                "c2": -88.95637778,
+                "epoch": 2000.0
+              }
+            },
+            "pointing_fqdn": "low-tmc/telstate/0/pointing"
+          },
+          {
+            "field_id": "field_b",
+            "phase_dir": {
+              "target_name": "target_b",
+              "reference_frame": "icrs",
+              "attrs": {
+                "c1": 12.48519,
+                "c2": 2.052388,
+                "epoch": 2000.0
+              }
+            },
+            "pointing_fqdn": "low-tmc/telstate/0/pointing"
+          }
+        ],
+        "beams": [
+          {
+            "beam_id": "vis0",
+            "function": "visibilities"
+          }
+        ],
+        "scan_types": [
+          {
+            "scan_type_id": ".default",
+            "beams": {
+              "vis0": {
+                "polarisations_id": "all",
+                "channels_id": "vis_channels"
+              }
+            }
+          },
+          {
+            "scan_type_id": "science",
+            "derive_from": ".default",
+            "beams": {
+              "vis0": {
+                "field_id": "field_a"
+              }
+            }
+          },
+          {
+            "scan_type_id": "science_band2",
+            "beams": {
+              "vis0": {
+                "polarisations_id": "all",
+                "field_id": "field_a", 
+                "channels_id": "vis_band2_channels"
+              }
+            }
+          },
+          {
+            "scan_type_id": "calibration",
+            "derive_from": ".default",
+            "beams": {
+              "vis0": {
+                "field_id": "field_b"
+              }
+            }
+          }
+        ]
+      },
+      "processing_blocks": [
+        {
+          "pb_id": "pb-test-20250116-015445",
+          "script": {
+            "kind": "realtime",
+            "name": "vis-receive",
+            "version": "6.1.2"
+          },
+          "parameters": {
+            "channels_per_port": 20,
+            "signal_display": {
+                "metrics": ["all"],
+                "nchan_avg": 50,
+                "window_count": 5,
+                "rounding_sensitivity": 10
+            },
+            "extra_helm_values": {
+              "receiver": {
+                "options": {
+                  "telescope_model": {
+                    "telmodel_key": "instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json",
+                    "telmodel_source_uris": "car:ska-mid?main#tmdata"
+                  }
+                }
+              }
+            },
+            "pod_settings": [
+              {
+                "securityContext": {
+                  "runAsUser": 0,
+                  "fsGroup": 0
+                }
+              }
+            ]
+           }
+        }
+      ]
+    }
+  }

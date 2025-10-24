@@ -81,7 +81,6 @@ DISH_LMC_EXTRA_PARAMS = \
 	--set global.tangodb_port=10000
 endif
 
-#TEMPORARY COMMIT - REMOVE --set ska-mid-dish-spfc-deployer.enabled=false LINE AS SOON AS SPFC DEPLOYER IS UPDATED & RELEASED)
 SPFC_IN_THE_LOOP ?= #Boolean flag to control deployment of the SPFC Tango device in a Dish
 SPFC_INSTANCE ?= that_one #Default value that needs to be overwritten during deployment
 ifeq ($(SPFC_IN_THE_LOOP), true)
@@ -189,12 +188,17 @@ ifeq ($(KUBE_NAMESPACE),staging)
 endif
 
 FEATURE_BRANCH_DEPLOYMENT := true
-ifeq ($(filter ci-%,$(KUBE_NAMESPACE)),$(KUBE_NAMESPACE))
 ifneq ($(CI_COMMIT_TAG),)
-FEATURE_BRANCH_DEPLOYMENT := false
-else ifeq ($(CI_COMMIT_BRANCH),$(CI_DEFAULT_BRANCH))
-FEATURE_BRANCH_DEPLOYMENT := false
-endif
+  ifeq ($(filter ci-%,$(KUBE_NAMESPACE)),$(KUBE_NAMESPACE))
+    # tagged pipeline ci- deployments
+    FEATURE_BRANCH_DEPLOYMENT := true
+  else
+    # staging deployments
+    FEATURE_BRANCH_DEPLOYMENT := false
+  endif
+else ifneq ($(filter $(CI_COMMIT_BRANCH),$(CI_DEFAULT_BRANCH)),)
+  # Integration deployments
+  FEATURE_BRANCH_DEPLOYMENT := false
 endif
 
 # Configure test-pvc for feature branch deployments
@@ -410,7 +414,9 @@ post-set-release:
 	./scripts/release/update_testing_image_tag.sh $$CURRENT_RELEASE charts/ska-mid-testing/values.yaml; \
 	echo "Updated SUT Config graph reflecting Mid ITF latest version."
 
+helm-chart-lock-update: helm-rebuild-ska-mid
+
 helm-rebuild-ska-mid:
-	@rm charts/ska-mid/Chart.lock
+	@rm -f charts/ska-mid/Chart.lock
 	@rm -rf charts/ska-mid/charts
 	@make k8s-template-chart K8S_CHART=ska-mid

@@ -1,5 +1,63 @@
 # Version History
 
+## Unreleased
+* [AT-3426]
+  * Update ska036 archiver config file to have a single attribute for testing purposes
+  
+## 28.3.3
+* [AT-3370]
+  * Added two new multiscan tests.
+  * Removed default insertion of nodeselector in sdp processing block parameters (SKB-1034 workaround)
+* [AT-3414]
+  * Fix kafka incorrectly deploying to the dishes via gitlab jobs
+* [AT-3411]
+  * Update DishLMC from 8.4.4 to 8.4.6
+* [AT-3408]
+  * Set the ska001 archive config file to include the same attributes as that for ska100.  This is an interim change pending finalisation of the dish config files.
+
+## 28.3.2
+* [AT-3395]
+  * Updated mid-layout file for site tmdata/instrument/ska1_mid_aa/layout/mid-layout.json
+* [AT-3402]
+  * Updated SDP to 2.1.1
+  * Updated Vis-receive to 6.1.2
+* [AT-3410]
+  * Disable all uses of ska-oso-integration chart (temporarily)
+* [AT-3411]
+  * Update `ska-dish-lmc` to v8.4.3 (28.3.2-rc.5) and then to v8.4.4 (28.3.2-rc.6)
+* Updated test alarm handler test case to handle HealthState UNKNOWN and DEGRADED.
+
+## 28.3.1
+* [AT-3349]
+  * Updated SPFC deployer - 0.4.1
+  * Updated ska-tango-base & ska-tango-util - v0.4.24
+  * Updated Taranta - v2.15.0 & AriadneGQL - v1.0.4
+
+## 28.3.0
+* [AT-3401]
+  * Updated SDP to 2.1.0
+  * Updated Vis Receive in tests/integration/resources/command_payloads/tmc to 6.1.1
+  * Updated TMC to 1.6.0
+
+## 28.2.0
+* [AT-3360]
+  * Move current TMC command payload "templates"/defaults (assign_resources.json, scan.json etc.) so that ska-mid repo is the source of truth for these "templates". 
+* [SKB-812]
+  * Updated alarm handler test cases with new testing API's.
+  * Updated alarm handler chart to v0.6.0-rc.1.
+* [SKB-1043]
+  * Archwizard config fixed.
+* [AT-3388] 
+  * update SDP to 2.0.0
+  * update vis-receive to 5.5.0 (in jupyter notebooks submodule)
+* [SKB-1034]
+  * Update test fixture to insert 'nodeselector' processing block parameter to schedule vis-receive pods only on za-itf-cloud03.
+* [AT-3389]
+  * Fixed bug causing staging SUT deployment to use test-pvc for DPD
+* [AT-3390]
+  * Updated CSP to v1.2.0
+  * updated ska-mid-dish-spfrx-talondx-console to V1.3.0
+
 ## 28.1.0
 * [AT-3384]
   * Update CBF TDC MCS and CBF engineering console to 1.3.5 and 1.1.6 respectively
