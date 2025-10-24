@@ -1,0 +1,15 @@
+image:
+  registry: registry.gitlab.com/ska-telescope/ska-mid
+  image: ska-mid-eda-grafana-connector
+  tag: 0.0.2-dev.c1a1109a5
+  pullPolicy: IfNotPresent
+vault:
+  edaCredentials:
+    secretName: vault-mid-itf-eda-credentials
+    mountPath: /secrets/eda-credentials
+    user: eda_ro
+environment:
+  CREDENTIALS_PATH: /secrets/eda-credentials
+  EDA_USER: eda_ro
+startup:
+  command: "poetry run grafana-connector"
