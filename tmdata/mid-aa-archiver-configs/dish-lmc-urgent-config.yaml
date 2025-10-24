@@ -97,7 +97,7 @@ configuration:
       code_push_event: true
     Safety_Status_EStopPed:
       code_push_event: true
-    Safety_Status_EStopTurnHhead:
+    Safety_Status_EStopTurnhead:
       code_push_event: true
     Safety_Status_HatchAzBearing:
       code_push_event: true
@@ -139,7 +139,7 @@ configuration:
       code_push_event: true
     Pointing_Status_TotalPointCorr_El:
       code_push_event: true
-    Pointing_Status_CurrentPointing:
+    CurrentPointing:
       code_push_event: true
     Tracking_Status_OnSourceDev:
       code_push_event: true
@@ -161,13 +161,13 @@ configuration:
       code_push_event: true
     Azimuth_MotorTwo_mActVelocity:
       code_push_event: true
-    Elevation Axis Statusp_Act:
+    Elevation_Status_p_Act:
       code_push_event: true
-    Elevation Axis Statusp_Enc:
+    Elevation_Status_p_Enc:
       code_push_event: true
-    Elevation Axis Statusp_Set:
+    Elevation_Status_p_Set:
       code_push_event: true
-    Elevation Axis Statusp_Shape:
+    Elevation_Status_p_Shape:
       code_push_event: true
     Elevation_MotorOne_mActVelocity:
       code_push_event: true

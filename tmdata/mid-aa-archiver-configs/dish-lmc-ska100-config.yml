@@ -1,162 +1,298 @@
 db: tango-databaseds.dish-lmc-ska100.svc.ska100.mid.internal.skao.int:10000
 manager: mid-eda/cm/01
 archiver: mid-eda/es/01
-
+ 
 configuration:
 - class: DishManager
   attributes:
-    achievedpointing:
-      code_push_event: True
-    achievedtargetlock:
-      code_push_event: True
-    actStaticOffsetValueEl:
-      code_push_event: True
-    actStaticOffsetValueXel:
-      code_push_event: True
+    # achievedpointing:
+    #   code_push_event: true
+    # achievedtargetlock:
+    #   code_push_event: true
+    # actstaticoffsetvalueel:
+    #   code_push_event: true
+    # actstaticoffsetvaluexel:
+    #   code_push_event: true
     attenuationpolh:
-      code_push_event: True
+      code_push_event: true
     attenuationpolv:
-      code_push_event: True
-    azimuthOverWrap:
-      code_push_event: True
-    b1capabilitystate:
-      code_push_event: True
-    b2capabilitystate:
-      code_push_event: True
-    b3capabilitystate:
-      code_push_event: True
-    b4capabilitystate:
-      code_push_event: True
-    b5acapabilitystate:
-      code_push_event: True
-    b5bcapabilitystate:
-      code_push_event: True
-    band1pointingmodelparams:
-      code_push_event: True
-    band1SamplerFrequency:
-      code_push_event: True
+      code_push_event: true
+    azimuthoverwrap:
+      code_push_event: true
+    # b2capabilitystate:
+    #   code_push_event: true
     band2pointingmodelparams:
-      code_push_event: True
-    band2SamplerFrequency:
-      code_push_event: True
-    band3pointingmodelparams:
-      code_push_event: True
-    band3SamplerFrequency:
-      code_push_event: True
-    band4pointingmodelparams:
-      code_push_event: True
-    band4SamplerFrequency:
-      code_push_event: True
-    band5aSamplerFrequency:
-      code_push_event: True
-    band5bSamplerFrequency:
-      code_push_event: True
+      code_push_event: true
+    band2samplerfrequency:
+      code_push_event: true
     buildstate:
-      code_push_event: True
-    capturing:
-      code_push_event: True
+      code_push_event: true
+    # capturing:
+    #   code_push_event: true
     configuredband:
-      code_push_event: True
-    configureTargetLock:
-      code_push_event: True
-    desiredPointingAz:
-      code_push_event: True
-    desiredPointingEl:
-      code_push_event: True
+      code_push_event: true
+    # configuretargetlock:
+    #   code_push_event: true
+    # desiredpointingaz:
+    #   code_push_event: true
+    # desiredpointingel:
+    #   code_push_event: true
     dishmode:
-      code_push_event: True
-    dshMaxShortTermPower:
-      code_push_event: True
-    dshPowerCurtailment:
-      code_push_event: True
-    dsConnectionState:
-      code_push_event: True
-    frequencyResponse:
-      code_push_event: True
+      code_push_event: true
+    # dsconnectionstate:
+    #   code_push_event: true
+    # dshmaxshorttermpower:
+    #   code_push_event: true
+    # dshpowercurtailment:
+    #   code_push_event: true
+    # frequencyresponse:
+    #   code_push_event: true
     healthstate:
-      code_push_event: True
-    ignoreSpf:
-      code_push_event: True
-    ignoreSpfrx:
-      code_push_event: True
+      code_push_event: true
+    ignorespf:
+      code_push_event: true
+    ignorespfrx:
+      code_push_event: true
     kvalue:
-      code_push_event: True
-    lastCommandedMode:
-      code_push_event: True
-    noiseDiodeConfig:
-      code_push_event: True
-    noiseDiodeMode:
-      code_push_event: True
-    periodicNoiseDiodePars:
-      code_push_event: True
-    pointingBufferSize:
-      code_push_event: True
-    pointingstate:
-      code_push_event: True
-    polyTrack:
-      code_push_event: True
-    programTrackTable:
-      code_push_event: True
-    pseudoRandomNoiseDiodePars:
-      code_push_event: True
-    scanID:
-      code_push_event: True
-    spfConnectionState:
-      code_push_event: True
-    spfrxConnectionState:
-      code_push_event: True
-    trackInterpolationMode:
-      code_push_event: True
-    trackProgramMode:
-      code_push_event: True
-    trackTableLoadMode:
-      code_push_event: True
-
+      code_push_event: true
+    lastcommandedmode:
+      code_push_event: true
+    noisediodeconfig:
+      code_push_event: true
+    noisediodemode:
+      code_push_event: true
+    periodicnoisediodepars:
+      code_push_event: true
+    pointingbuffersize:
+      code_push_event: true
+    # pointingstate:
+    #   code_push_event: true
+    # polytrack:
+    #   code_push_event: true
+    # programtracktable:
+    #   code_push_event: true
+    # pseudorandomnoisediodepars:
+    #   code_push_event: true
+    # scanid:
+    #   code_push_event: true
+    spfconnectionstate:
+      code_push_event: true
+    spfrxconnectionstate:
+      code_push_event: true
+    # trackinterpolationmode:
+    #   code_push_event: true
+    # trackprogrammode:
+    #   code_push_event: true
+    tracktableloadmode:
+      code_push_event: true
 - class: DSManager
   attributes:
-    achievedpointing:
+    Safety_Status_AutoStowActive:
+      code_push_event: true
+    Safety_Status_Axes_InitFault:
+      code_push_event: true
+    Safety_Status_EStopFi:
+      code_push_event: true
+    Safety_Status_EStopHHP:
+      code_push_event: true
+    Safety_Status_EStopPed:
+      code_push_event: true
+    Safety_Status_EStopTurnhead:
+      code_push_event: true
+    Safety_Status_HatchAzBearing:
+      code_push_event: true
+    Safety_Status_HatchTurnheadRoof:
+      code_push_event: true
+    Safety_Status_InterlockClearable:
+      code_push_event: true
+    Safety_Status_Lim2_CCW_Az:
+      code_push_event: true
+    Safety_Status_Lim2_CCW_Fi:
+      code_push_event: true
+    Safety_Status_Lim2_CW_Az:
+      code_push_event: true
+    Safety_Status_Lim2_CW_Fi:
+      code_push_event: true
+    Safety_Status_Lim2_Dn_El:
+      code_push_event: true
+    Safety_Status_Lim2_Up_El:
+      code_push_event: true
+    Safety_Status_STO_Az:
+      code_push_event: true
+    Safety_Status_STO_El:
+      code_push_event: true
+    Safety_Status_STO_Fi:
+      code_push_event: true
+    Safety_Status_SafetyLockout_Az:
+      code_push_event: true
+    Safety_Status_SafetyLockout_El:
+      code_push_event: true
+    Safety_Status_SafetyLockout_Fi:
+      code_push_event: true
+    Safety_Status_SafetyState:
+      code_push_event: true
+    Safety_Status_StowPinStatus:
+      code_push_event: true
+    Time_cds_Status_UTCtoSkaEpochSec:
+      code_push_event: true
+    Pointing_Status_TotalPointCorr_Az:
+      code_push_event: true
+    Pointing_Status_TotalPointCorr_El:
+      code_push_event: true
+    CurrentPointing:
+      code_push_event: true
+    Tracking_Status_OnSourceDev:
+      code_push_event: true
+    Tracking_Status_tr_obj_valid:
+      code_push_event: true
+    Tracking_TableStatus_pts_InterpolError:
+      code_push_event: true
+    Tracking_TableStatus_pts_TableAlmostFull:
+      code_push_event: true
+    Azimuth_Status_p_Act:
+      code_push_event: true
+    Azimuth_Status_p_Enc:
+      code_push_event: true
+    Azimuth_Status_p_Set:
+      code_push_event: true
+    Azimuth_Status_p_Shape:
+      code_push_event: true
+    Azimuth_MotorOne_mActVelocity:
+      code_push_event: true
+    Azimuth_MotorTwo_mActVelocity:
+      code_push_event: true
+    Elevation_Status_p_Act:
+      code_push_event: true
+    Elevation_Status_p_Enc:
+      code_push_event: true
+    Elevation_Status_p_Set:
+      code_push_event: true
+    Elevation_Status_p_Shape:
+      code_push_event: true
+    Elevation_MotorOne_mActVelocity:
+      code_push_event: true
+    Elevation_MotorTwo_mActVelocity:
+      code_push_event: true
+    FeedIndexer_Status_p_Act:
+      code_push_event: true
+    FeedIndexer_MotorOne_mActVelocity:
+      code_push_event: true
+    FeedIndexer_MotorTwo_mActVelocity:
+      code_push_event: true
+- class: Spfc
+  attributes:
+    b2CryoMotorState:
+      code_push_event: true
+    b2CalSourcePowerState:
+      code_push_event: true
+    heCompressorPowerState:
+      code_push_event: true
+    b2LnaHPowerState:
+      code_push_event: true
+    b2LnaVPowerState:
+      code_push_event: true
+    b2Amp2HPowerState:
+      code_push_event: true
+    b2Amp2VPowerState:
+      code_push_event: true
+    b2OmtTemp:
+      code_push_event: true
+      archive_abs_change: 0.1
+    b2CalSourceTemp:
+      code_push_event: true
+      archive_abs_change: 0.1
+    b2LnaTemp:
+      code_push_event: true
+      archive_abs_change: 0.1
+    b2ColdheadStage1Temp:
+      code_push_event: true
+      archive_abs_change: 0.1
+    heCompMotorTemp:
+      code_push_event: true
+      archive_abs_change: 0.1
+    heCompSupplyTemp:
+      code_push_event: true
+      archive_abs_change: 0.1
+    heCompSupplyPressure:
+      code_push_event: true
+      archive_abs_change: 0.1
+    heCompReturnPressure:
+      code_push_event: true
+      archive_abs_change: 0.1
+    b2ManifoldPressure:
+      code_push_event: true
+      archive_abs_change: 0.1
+    b2CryoPressure:
+      code_push_event: true
+      archive_abs_change: 0.1
+    b2CryoMotorSpeed:
+      code_push_event: true
+      archive_abs_change: 1
+- class: SkaMidSpfrxControllerDs
+  attributes:
+    operatingMode:
       code_push_event: True
-    achievedTargetLock:
+    configuredBand:
       code_push_event: True
-    actStaticOffsetValueEl:
+    b1CapabilityState:
       code_push_event: True
-    actStaticOffsetValueXel:
+    b2CapabilityState:
       code_push_event: True
-    azimuthSpeed:
+    b3CapabilityState:
       code_push_event: True
-    band1pointingmodelparams:
-      code_push_event: True
-    band2pointingmodelparams:
-      code_push_event: True
-    band3pointingmodelparams:
-      code_push_event: True
-    band4pointingmodelparams:
-      code_push_event: True
-    buildstate:
-      code_push_event: True
-    configureTargetLock:
-      code_push_event: True
-    currentPointing:
-      code_push_event: True
-    desiredpointingAz:
-      code_push_event: True
-    desiredpointingEl:
-      code_push_event: True
-    dscstate:
-      code_push_event: True
-    elevationSpeed:
-      code_push_event: True
-    healthstate:
-      code_push_event: True
-    indexerposition:
-      code_push_event: True
-    operatingmode:
-      code_push_event: True
-    pointingstate:
-      code_push_event: True
-    powerstate:
-      code_push_event: True
-    trackInterpolationMode:
-      code_push_event: True
-    trackProgramMode:
-      code_push_event: True
+    rxs123SurgeArresterVoltage:
+      polling_period: 0
+      archive_abs_change: 0.001
+      archive_period: 0
+    rxs123OdlB12Supply33Voltage:
+      polling_period: 0
+      archive_abs_change: 0.001
+      archive_period: 0
+    rxs123OdlB3Supply33Voltage:
+      polling_period: 0
+      archive_abs_change: 0.001
+      archive_period: 0
+    rxs123OdlPowerSupply5Voltage:
+      polling_period: 0
+      archive_abs_change: 0.001
+      archive_period: 0
+    rxs123OdlPowerSupply12Voltage:
+      polling_period: 0
+      archive_abs_change: 0.001
+      archive_period: 0
+    rxs123OdlB12Supply25Voltage:
+      polling_period: 0
+      archive_abs_change: 0.001
+      archive_period: 0
+    rxs123OdlB3Supply25Voltage:
+      polling_period: 0
+      archive_abs_change: 0.001
+      archive_period: 0
+    rxs123ClkPowerLevelVoltage:
+      polling_period: 0
+      archive_abs_change: 0.001
+      archive_period: 0
+    rxs123OdlTemperature:
+      polling_period: 0
+      archive_abs_change: 0.001
+      archive_period: 0
+    rxs123ODLHumidity:
+      polling_period: 0
+      archive_abs_change: 0.001
+      archive_period: 0
+    b123ProcCntlWrAlignStatus:
+      polling_period: 0
+      archive_abs_change: 1
+      archive_period: 0
+    b123ProcCntlWrFifoOvf:
+      polling_period: 0
+      archive_abs_change: 1
+      archive_period: 0
+    dataStreamBandChangeStatus:
+      polling_period: 0
+      archive_abs_change: 1
+      archive_period: 0
+    dataStreamCurrentBand:
+      polling_period: 0
+      archive_abs_change: 1
+      archive_period: 0
