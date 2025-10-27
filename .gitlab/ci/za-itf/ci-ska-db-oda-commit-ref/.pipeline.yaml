@@ -53,7 +53,7 @@ destroy-oda-on-demand:
 .oda-staging:
   extends:
     - .oda
-    - .staging_rules
+    # - .staging_rules
   stage: deploy-oda
   variables:
     KUBE_NAMESPACE: ska-db-oda
