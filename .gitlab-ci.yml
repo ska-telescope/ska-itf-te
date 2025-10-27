@@ -68,6 +68,7 @@ include:
   - local: .gitlab/ci/za-itf/ci-ska-db-oda-commit-ref/.pipeline.yaml
   - local: .gitlab/ci/za-itf/sdp-data-product-dashboard/.pipeline.yaml
   - local: .gitlab/ci/za-itf/cbf-engineering-console/.pipeline.yaml
+  - local: .gitlab/ci/za-itf/eda-grafana-connector/.pipeline.yaml
 
 
 xray-publish:
