@@ -20,14 +20,14 @@
     - .deploy-eda-grafana-connector
   before_script:
     - !reference [.uninstall-chart, script]
-    - kubectl wait --for=delete namespace -n $KUBE_NAMESPACE --timeout=60s
+    - kubectl wait --for=delete namespace/$KUBE_NAMESPACE --timeout=60s
 
 .destroy-eda-grafana-connector:
   extends:
     - .deploy-eda-grafana-connector
   script:
     - !reference [.uninstall-chart, script]
-    - kubectl wait --for=delete namespace -n $KUBE_NAMESPACE --timeout=60s
+    - kubectl wait --for=delete namespace/$KUBE_NAMESPACE --timeout=60s
 
 deploy-eda-grafana-connector:
   extends:
