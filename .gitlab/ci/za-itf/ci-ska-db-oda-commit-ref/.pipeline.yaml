@@ -26,7 +26,7 @@
   extends:
     - .oda
     - .on_demand_rules
-  stage: on_demand_itf_sut
+  stage: deploy-oda
   variables:
     KUBE_NAMESPACE: ci-ska-db-oda-$CI_COMMIT_REF_NAME
 
@@ -54,7 +54,7 @@ destroy-oda-on-demand:
   extends:
     - .oda
     - .staging_rules
-  stage: staging
+  stage: deploy-oda
   variables:
     KUBE_NAMESPACE: ska-db-oda
 

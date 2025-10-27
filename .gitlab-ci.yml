@@ -20,6 +20,7 @@ stages:
   - build
   - deploy-dish-aiv
   - remove-dish-aiv
+  - deploy-oda
   - test
   - lint
   - platform
