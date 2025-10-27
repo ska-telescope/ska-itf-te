@@ -1,4 +1,6 @@
 .deploy-eda-grafana-connector:
+  tags:
+    - ska-k8srunner-za-itf
   stage: deploy-supplementary-services
   image: $DEPLOY_IMAGE
   variables:
