@@ -29,6 +29,14 @@ ska-sdp:
 kafka:
   enabled: false
 
+# OSO
+ska-oso-integration:
+  enabled: false
+
+# ODA
+ska-db-oda-umbrella:
+  enabled: true
+
 # DISH LMC CHART
 ska-dish-lmc:
   enabled: false
@@ -70,8 +78,6 @@ ska-log-consumer:
   enabled: false
 
 # Uncategorized
-ska-db-oda-umbrella:
-  enabled: true
 ska-ser-config-inspector:
   enabled: false
 temp_sdp_pvc:

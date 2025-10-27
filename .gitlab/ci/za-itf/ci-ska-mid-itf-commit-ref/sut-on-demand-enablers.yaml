@@ -52,7 +52,7 @@ ska-oso-integration:
 
 # ODA
 ska-db-oda-umbrella:
-  enabled: true
+  enabled: false
 
 # DISH LMC CHART
 ska-dish-lmc:
