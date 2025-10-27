@@ -1,11 +1,19 @@
 # Version History
 
 ## Unreleased
+* [AT-3426]
+  * Update ska036 archiver config file to have a single attribute for testing purposes
+  
+## 28.3.3
 * [AT-3370]
   * Added two new multiscan tests.
   * Removed default insertion of nodeselector in sdp processing block parameters (SKB-1034 workaround)
 * [AT-3414]
   * Fix kafka incorrectly deploying to the dishes via gitlab jobs
+* [AT-3411]
+  * Update DishLMC from 8.4.4 to 8.4.6
+* [AT-3408]
+  * Set the ska001 archive config file to include the same attributes as that for ska100.  This is an interim change pending finalisation of the dish config files.
 
 ## 28.3.2
 * [AT-3395]
