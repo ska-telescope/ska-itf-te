@@ -18,6 +18,7 @@ variables:
 stages:
   - on_demand_itf_sut
   - build
+  - deploy-supplementary-services
   - deploy-dish-aiv
   - remove-dish-aiv
   - test
