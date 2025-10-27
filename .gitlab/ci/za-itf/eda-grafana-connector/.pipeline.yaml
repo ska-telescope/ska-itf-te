@@ -1,5 +1,5 @@
 .deploy-eda-grafana-connector:
-  stage: deploy
+  stage: deploy-supplementary-services
   image: $DEPLOY_IMAGE
   variables:
     K8S_CHART: ska-mid-eda-grafana-connector
