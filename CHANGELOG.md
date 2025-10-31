@@ -3,6 +3,8 @@
 ## Unreleased
 * [AT-3426]
   * Update ska036 archiver config file to have a single attribute for testing purposes
+* [AT-3387]
+  * Dish Archiver file updated to as working on ska001 - some issues to resolve: spfc updates required to be deployed and filtering of high data rate attributes in dish-lmc software
   
 ## 28.3.3
 * [AT-3370]
