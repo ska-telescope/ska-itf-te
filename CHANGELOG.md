@@ -3,7 +3,10 @@
 ## Unreleased
 * [AT-3426]
   * Update ska036 archiver config file to have a single attribute for testing purposes
-  
+* [AT-3377]
+  * Include SKA100 in `ska-mid-testing` `DISH_IDS` value
+  * Make `DISH_IDS` configurable for `make test-e2e-kapb`
+
 ## 28.3.3
 * [AT-3370]
   * Added two new multiscan tests.
