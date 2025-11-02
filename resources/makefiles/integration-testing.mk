@@ -8,6 +8,7 @@ teardown-telescope-to-pre-assign:
 	@poetry run telescope_state_control --teardown -n ${E2E_TEST_EXECUTION_NAMESPACE} -d "${DISH_IDS}" -c "ON" -b "STANDBY_FP"
 
 CWD := $(shell pwd)
+DISH_IDS ?= SKA001
 
 test-e2e-kapb:
 	infra use za-aa-k8s-master01-k8s
@@ -16,6 +17,7 @@ test-e2e-kapb:
 	export HELM_RELEASE=testing; \
 	export K8S_UMBRELLA_CHART_PATH=$(CWD)/charts/ska-mid-testing; \
 	export K8S_CHART=ska-mid-testing; \
+	export K8S_CHART_PARAMS="--set environment.DISH_IDS=$(DISH_IDS)"; \
 	make k8s-template-chart > /dev/null
 	@yq eval-all 'select(.kind == "Job" and .metadata.name == "test-job")' manifests.yaml > test-job.yaml
 	kubectl apply -f test-job.yaml
