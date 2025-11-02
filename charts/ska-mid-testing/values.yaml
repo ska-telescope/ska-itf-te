@@ -8,7 +8,7 @@ environment:
   KUBE_NAMESPACE: "ska-mid-central-controller"
   SIM_MODE: "false"
   SUT_CLUSTER_DOMAIN: "mid.internal.skao.int"
-  DISH_IDS: "SKA001"
+  DISH_IDS: "SKA001 SKA100"
   PB_ID_PREFIX: "pb-ska001demo"
   EB_ID_PREFIX: "eb-ska001demo"
   OVERRIDE_SCAN_BAND: "2"
