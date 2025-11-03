@@ -82,14 +82,21 @@ ska-dish-lmc:
   enabled: false
   ska-mid-dish-ds-manager:
     enabled: true
+    dishstructuremanager:
+      image:
+        registry: registry.gitlab.com/ska-telescope/mid-dish/ska-mid-dish-ds-manager
+        image: ska-mid-dish-ds-manager
+        tag: 6.4.2-dev.c2e502e48
+
   ska-mid-dish-manager:
     enabled: true
     # Leaving this here just as an example
-    # dishmanager:
-    #   image:
-    #     image: ska-mid-dish-manager
-    #     registry: registry.gitlab.com/ska-telescope/ska-mid-dish-manager
-    #     tag: 7.0.0-dev.cdaaea0a2
+    dishmanager:
+      image:
+        image: ska-mid-dish-manager
+        registry: registry.gitlab.com/ska-telescope/mid-dish/ska-mid-dish-manager
+        tag: 8.5.0-dev.c2ba06436
+
   ska-mid-dish-simulators:
     enabled: true
     deviceServers:
