@@ -46,7 +46,7 @@ destroy-oda-on-demand:
   extends:
     - .oda-on-demand
   script:
-    - !reference [.cleanup, script]
+    - !reference [.uninstall-chart, script]
   environment:
     action: stop
 
@@ -72,6 +72,6 @@ destroy-oda-staging:
   extends:
     - .oda-staging
   script:
-    - !reference [.cleanup, script]
+    - !reference [.uninstall-chart, script]
   environment:
     action: stop
