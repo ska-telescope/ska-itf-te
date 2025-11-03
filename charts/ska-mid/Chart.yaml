@@ -80,7 +80,7 @@ dependencies:
 
   # SPFRx DEPLOYER CHART
   - name: ska-mid-dish-spfrx-talondx-console
-    version: 1.4.0
+    version: 1.3.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-mid-dish-spfrx-talondx-console.enabled
 
