@@ -4,7 +4,7 @@
 * [AT-3426]
   * Update ska036 archiver config file to have a single attribute for testing purposes
 * [AT-3429]
-  * Updates to ska-mid-cbf-tdc-mcs 1.3.7, ska-tango-tangogql-ariadne 1.0.6, ska-mid-dish-spfrx-talondx-console 1.4.0
+  * Product updates to tangoGQ 1.07, spfrx 1.4 an tdc-mcs 1.3.7
   
 ## 28.3.3
 * [AT-3370]
