@@ -27,7 +27,7 @@ global:
       cluster: pgmiditf
       clusterNamespace: pgprod
       database: ska_mid_itf_oda
-      user: ~
+      user: ska_mid_itf_oda_admin
       secret:
         existingSecret:
           name: ~
