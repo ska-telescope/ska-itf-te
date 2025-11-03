@@ -4,7 +4,9 @@
 * [AT-3426]
   * Update ska036 archiver config file to have a single attribute for testing purposes
 * [AT-3429]
-  * Product updates to tangoGQ 1.07, spfrx 1.4 an tdc-mcs 1.3.7
+  * Product updates:
+    * tangoGQL 1.0.7
+    * cbf-tdc-mcs 1.3.7
   
 ## 28.3.3
 * [AT-3370]
