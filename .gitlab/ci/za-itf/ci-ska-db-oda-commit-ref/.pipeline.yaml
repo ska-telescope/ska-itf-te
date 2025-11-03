@@ -46,7 +46,7 @@ destroy-oda-on-demand:
   extends:
     - .oda-on-demand
   script:
-    - - !reference [.cleanup, script]
+    - !reference [.cleanup, script]
   environment:
     action: stop
 
