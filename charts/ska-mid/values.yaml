@@ -90,7 +90,6 @@ ska-dish-lmc:
 
   ska-mid-dish-manager:
     enabled: true
-    # Leaving this here just as an example
     dishmanager:
       image:
         image: ska-mid-dish-manager
