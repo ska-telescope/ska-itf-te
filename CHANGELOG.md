@@ -6,7 +6,6 @@
 * [AT-3387]
   * Dish Archiver file updated to as working on ska001 - some issues to resolve: spfc updates required to be deployed and filtering of high data rate attributes in dish-lmc software. high data rate dish structure controller attriubes currently omitted"
 * [AT-3377]
-  * Include SKA100 in `ska-mid-testing` `DISH_IDS` value
   * Make `DISH_IDS` configurable for `make test-e2e-kapb`
 
 ## 28.3.3
