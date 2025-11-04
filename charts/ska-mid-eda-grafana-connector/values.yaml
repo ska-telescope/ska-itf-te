@@ -1,7 +1,7 @@
 image:
   registry: registry.gitlab.com/ska-telescope/ska-mid
   image: ska-mid-eda-grafana-connector
-  tag: 0.0.4-dev.c70a8e2c9
+  tag: 0.0.6-dev.c38530a7c
   pullPolicy: IfNotPresent
 vault:
   edaCredentials:
@@ -12,5 +12,7 @@ environment:
   CREDENTIALS_PATH: /secrets/eda-credentials
   EDA_USER: eda_ro
   EDA_HOST: "eda.ska-tango-archiver.svc.miditf.internal.skao.int"
+  SOURCE_CLUSTER_DOMAIN: "miditf.internal.skao.int"
+  ATTRIBUTE_CONTEXT_FILE: "/app/ska-mid/resources/grafana_connector/attribute_context.yaml"
 startup:
   command: '"sh", "-c", "poetry run grafana-connector"'
