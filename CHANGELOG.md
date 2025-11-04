@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+
+## 28.4.0
 * [AT-3426]
   * Update ska036 archiver config file to have a single attribute for testing purposes
 * [AT-3387]
