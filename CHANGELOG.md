@@ -6,9 +6,7 @@
 * [AT-3387]
   * Dish Archiver file updated to as working on ska001 - some issues to resolve: spfc updates required to be deployed and filtering of high data rate attributes in dish-lmc software. high data rate dish structure controller attriubes currently omitted"
 * [AT-3429]
-  * Product updates:
-    * tangoGQL 1.0.7
-    * cbf-tdc-mcs 1.3.7
+  * Update cbf-tdc-mcs to 1.3.7
   
 ## 28.3.3
 * [AT-3370]
