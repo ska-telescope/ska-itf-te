@@ -95,7 +95,7 @@ the appropriate VPN:
 
    make test-e2e-kapb
 
-The default dish IDs are set in the values file, however they are can also be configured
+The default dish IDs are set in the values file, however they can also be configured
 at run time by overriding the DISH_IDS variable with the space separated dish IDs needed:
 
 .. code-block:: bash
