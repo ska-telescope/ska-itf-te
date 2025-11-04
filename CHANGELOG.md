@@ -1,10 +1,10 @@
 # Version History
 
 ## Unreleased
-* [AT-3426]
-  * Update ska036 archiver config file to have a single attribute for testing purposes
+
+## 28.4.0
 * [AT-3387]
-  * Dish Archiver file updated to as working on ska001 - some issues to resolve: spfc updates required to be deployed and filtering of high data rate attributes in dish-lmc software. high data rate dish structure controller attriubes currently omitted"
+  * Dish Archiver file updated to as working on ska001, ska036 and ska100 - some issues to resolve: spfc updates required to be deployed and filtering of high data rate attributes in dish-lmc software. high data rate dish structure controller attritubes currently omitted
 * [AT-3428]
   * Update tangoGQL to 1.0.7
   
