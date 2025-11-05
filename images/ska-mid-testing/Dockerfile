@@ -4,10 +4,10 @@ RUN rm -rf /app/.venv
 
 WORKDIR /app/ska-mid
 
-COPY . .
-
 ARG GIT_COMMIT_SHA
 ENV GIT_COMMIT_SHA=$GIT_COMMIT_SHA
+
+RUN git clone https://gitlab.com/ska-telescope/ska-mid.git
 
 RUN git checkout $GIT_COMMIT_SHA && \
     git submodule init && \
