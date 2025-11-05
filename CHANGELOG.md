@@ -36,6 +36,8 @@
   * Update cbf-tdc-mcs to 1.3.7
   
 ## 28.3.3
+* [AT-3391]
+  * Added two new multiscan tests.
 * [AT-3370]
   * Added two new multiscan tests.
   * Removed default insertion of nodeselector in sdp processing block parameters (SKB-1034 workaround)
