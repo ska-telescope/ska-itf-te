@@ -6,7 +6,7 @@ metadata:
   name: eda-grafana-connector
   namespace: eda-grafana-connector
 spec:
-  replicas: 1
+  replicas: 4
   selector:
     matchLabels:
       app: eda-grafana-connector-api
