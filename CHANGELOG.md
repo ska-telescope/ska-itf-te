@@ -2,7 +2,8 @@
 
 ## Unreleased
 * [AT-3438]
-  * updates spfrx-deployer to 1.4.1
+  * updated spfrx-deployer to 1.4.1
+  * updated dish-lmc to 8.5.1
 
 ## 28.4.0
 * [AT-3387]
