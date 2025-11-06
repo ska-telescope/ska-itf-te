@@ -94,7 +94,7 @@ ska-dish-lmc:
       image:
         image: ska-mid-dish-manager
         registry: registry.gitlab.com/ska-telescope/mid-dish/ska-mid-dish-manager
-        tag: 8.5.0-dev.c2ba06436
+        tag: 8.5.0-dev.cd3b12df7
 
   ska-mid-dish-simulators:
     enabled: true

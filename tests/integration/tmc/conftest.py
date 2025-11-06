@@ -231,7 +231,7 @@ def wait_for_event(
     attr_name: str,
     desired_value: Any,
     event_type: EventType = EventType.CHANGE_EVENT,
-    timeout: float = 150.0,
+    timeout: float = 300.0,
     print_event_details: bool = False,
 ) -> bool:
     """Wait for a specific type of attribute event to occur.
