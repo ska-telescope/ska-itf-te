@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+
+## 28.5.0
 * [AT-3439]
   * update ska100 eda config file to have a single attribute of dishmode
 * [AT-3438]
