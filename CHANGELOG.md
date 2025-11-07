@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+## 28.5.0
+* [AT-3439]
+  * update ska100 eda config file to have a single attribute of dishmode
+* [AT-3438]
+  * updated spfrx-deployer to 1.4.1
+  * updated dish-lmc to 8.5.1
+
 ## 28.4.0
 * [AT-3387]
   * Dish Archiver file updated to as working on ska001, ska036 and ska100 - some issues to resolve: spfc updates required to be deployed and filtering of high data rate attributes in dish-lmc software. high data rate dish structure controller attritubes currently omitted
