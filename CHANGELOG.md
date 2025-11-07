@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3377]
+  * Make `DISH_IDS` configurable for `make test-e2e-kapb`
 
 ## 28.5.0
 * [AT-3439]
@@ -14,8 +16,6 @@
   * Dish Archiver file updated to as working on ska001, ska036 and ska100 - some issues to resolve: spfc updates required to be deployed and filtering of high data rate attributes in dish-lmc software. high data rate dish structure controller attritubes currently omitted
 * [AT-3428]
   * Update tangoGQL to 1.0.7
-* [AT-3377]
-  * Make `DISH_IDS` configurable for `make test-e2e-kapb`
 
 ## 28.3.3
 * [AT-3370]
