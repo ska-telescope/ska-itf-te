@@ -1,10 +1,12 @@
 .oda:
   tags:
     - ska-k8srunner-za-itf
+  stage: deploy-oda
   variables:
     CONFIG: mid
     K8S_CHART: ska-mid
     KUBE_APP: ska-db-oda
+    KUBE_NAMESPACE: ska-db-oda
     INGRESS_HOST: "k8s.miditf.internal.skao.int"
     CLUSTER_DOMAIN: "miditf.internal.skao.int"
     ODA_ENABLERS: "-f .gitlab/ci/za-itf/ci-ska-db-oda-commit-ref/oda-enablers.yaml"
@@ -22,16 +24,9 @@
     paths:
       - "build/"
 
-.oda-persistent:
-  extends:
-    - .oda
-  stage: deploy-oda
-  variables:
-    KUBE_NAMESPACE: ska-db-oda
-
 deploy-oda:
   extends:
-    - .oda-persistent
+    - .oda
   script:
     - make k8s-install-chart
   after_script:
@@ -41,7 +36,7 @@ deploy-oda:
 
 destroy-oda:
   extends:
-    - .oda-persistent
+    - .oda
   script:
     - !reference [.uninstall-chart, script]
   environment:
