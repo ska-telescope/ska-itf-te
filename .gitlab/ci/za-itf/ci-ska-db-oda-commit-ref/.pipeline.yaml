@@ -22,55 +22,26 @@
     paths:
       - "build/"
 
-.oda-on-demand:
+.oda-persistent:
   extends:
     - .oda
-    - .on_demand_rules
-  stage: deploy-oda
-  variables:
-    KUBE_NAMESPACE: ci-ska-db-oda-$CI_COMMIT_REF_NAME
-
-deploy-oda-on-demand:
-  extends:
-    - .oda-on-demand
-  variables:
-    K8S_EXTRA_PARAMS: "--set ska-db-oda-umbrella.ska-ser-skuid.skuid.config.generator_id=miditfci"
-  script:
-    - make k8s-install-chart
-  after_script:
-    - bash .make/resources/gitlab_section.sh deployment-config "Output deployment config information" make get-deployment-config-info
-  environment:
-    on_stop: destroy-oda-on-demand
-
-destroy-oda-on-demand:
-  extends:
-    - .oda-on-demand
-  script:
-    - !reference [.uninstall-chart, script]
-  environment:
-    action: stop
-
-.oda-staging:
-  extends:
-    - .oda
-    # - .staging_rules
   stage: deploy-oda
   variables:
     KUBE_NAMESPACE: ska-db-oda
 
-deploy-oda-staging:
+deploy-oda:
   extends:
-    - .oda-staging
+    - .oda-persistent
   script:
     - make k8s-install-chart
   after_script:
     - bash .make/resources/gitlab_section.sh deployment-config "Output deployment config information" make get-deployment-config-info
   environment:
-    on_stop: destroy-oda-staging
+    on_stop: destroy-oda
 
-destroy-oda-staging:
+destroy-oda:
   extends:
-    - .oda-staging
+    - .oda-persistent
   script:
     - !reference [.uninstall-chart, script]
   environment:
