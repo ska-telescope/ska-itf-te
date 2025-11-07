@@ -151,7 +151,7 @@
           "script": {
             "kind": "realtime",
             "name": "vis-receive",
-            "version": "6.1.2"
+            "version": "6.2.0"
           },
           "parameters": {
             "channels_per_port": 20,
