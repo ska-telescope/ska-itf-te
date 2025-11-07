@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3420]
+  * Enable the persistent deployment of the ODA db (not via the oso-integration chart) that does not rely on bitnami
 
 ## 28.5.0
 * [AT-3439]
