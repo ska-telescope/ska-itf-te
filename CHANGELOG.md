@@ -1,7 +1,9 @@
 # Version History
 
 ## Unreleased
-* [AT-3438]
+* [AT-3439]
+  * update ska100 eda config file to have a single attribute of dishmode
+  * [AT-3438]
   * updated spfrx-deployer to 1.4.1
   * updated dish-lmc to 8.5.1
 
