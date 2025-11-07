@@ -16,7 +16,7 @@ test-e2e-kapb:
 	export HELM_RELEASE=testing; \
 	export K8S_UMBRELLA_CHART_PATH=$(CWD)/charts/ska-mid-testing; \
 	export K8S_CHART=ska-mid-testing; \
-	export K8S_CHART_PARAMS="--set environment.DISH_IDS=\"$(DISH_IDS)\""; \
+	$(if $(DISH_IDS),@echo "Overriding DISH_IDS=$(DISH_IDS)"; export K8S_CHART_PARAMS="--set environment.DISH_IDS=\"$(DISH_IDS)\"";,) \
 	make k8s-template-chart > /dev/null
 	@yq eval-all 'select(.kind == "Job" and .metadata.name == "test-job")' manifests.yaml > test-job.yaml
 	kubectl apply -f test-job.yaml
