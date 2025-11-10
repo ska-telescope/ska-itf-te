@@ -1,0 +1,65 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: smoke-test-job
+  namespace: integration-tests
+spec:
+  backoffLimit: 0
+  completionMode: NonIndexed
+  completions: 1
+  manualSelector: false
+  parallelism: 1
+  podReplacementPolicy: TerminatingOrFailed
+  suspend: false
+  template:
+    spec:
+      serviceAccountName: integration-test-executor
+      volumes:
+      - name: test-data-storage
+        persistentVolumeClaim:
+          claimName: {{ .Values.testReportsPVC }}
+      - name: cbf-ec-clone-pvc
+        persistentVolumeClaim:
+          claimName: cbf-ec-clone-pvc
+      - name: talon-hw-config-volume
+        configMap:
+          name: cbf-hwconfig-configmap
+          items:
+          - key: hw_config.yaml
+            path: hw_config.yaml
+      containers:
+      - name: test-smoke
+        image: {{ .Values.image.registry }}/{{ .Values.image.image }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{.Values.image.pullPolicy}}
+        volumeMounts:
+        - name: test-data-storage
+          mountPath: {{ .Values.mountPath }}
+        - name: cbf-ec-clone-pvc
+          mountPath: /app/cbf-ec
+        - name: talon-hw-config-volume
+          mountPath: {{ .Values.CBFMCSconfigMountPath }}
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        env:
+        {{- range $key, $value := .Values.environment }}
+          - name: {{ $key }}
+            value: "{{ $value }}"
+        {{- end }}
+        command: ["sh", "-c"]
+        args:
+        - |
+          TEST_REPORT_DIR="{{ .Values.mountPath }}/$(date +'%Y-%m-%d_%H-%M-%S')"
+          mkdir -p "$TEST_REPORT_DIR"
+          echo "$TEST_REPORT_DIR" > {{ .Values.mountPath }}/test_report_dir.txt
+          . .venv/bin/activate
+          export PYTHONPATH=/app/ska-mid/.venv/lib/python3.10/site-packages:$PYTHONPATH
+          python3 -m pytest tests/smoke/ \
+          --log-cli-level=DEBUG \
+          --log-file="$TEST_REPORT_DIR/$(date +'%Y-%m-%d_%H-%M-%S')_test-smoke" 2>&1
+      dnsPolicy: ClusterFirst
+      restartPolicy: Never
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status: {}
