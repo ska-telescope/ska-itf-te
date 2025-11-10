@@ -9,19 +9,30 @@ teardown-telescope-to-pre-assign:
 
 CWD := $(shell pwd)
 
-test-e2e-kapb:
+define RENDER_AND_EXECUTE_TEST_JOB
 	infra use za-aa-k8s-master01-k8s
-	kubectl delete job test-job -n integration-tests || true
+	kubectl delete job $(1) -n integration-tests || true
 	export KUBE_NAMESPACE=integration-tests; \
 	export HELM_RELEASE=testing; \
 	export K8S_UMBRELLA_CHART_PATH=$(CWD)/charts/ska-mid-testing; \
 	export K8S_CHART=ska-mid-testing; \
 	make k8s-template-chart > /dev/null
-	@yq eval-all 'select(.kind == "Job" and .metadata.name == "test-job")' manifests.yaml > test-job.yaml
-	kubectl apply -f test-job.yaml
-	kubectl wait jobs -n integration-tests -l job-name=test-job --for=condition=complete --timeout="180s"
+	@yq eval-all 'select(.kind == "Job" and .metadata.name == "$(1)")' manifests.yaml > $(1).yaml
+	kubectl apply -f $(1).yaml
+	kubectl wait jobs -n integration-tests -l job-name=$(1) --for=condition=complete --timeout="180s"
+endef
+
+test-e2e-kapb:
+	@read -p "Testing against production. Continue? (Y/n): " confirm; [ "$$confirm" = Y ] || { echo "Aborted."; exit 1; }
+	$(call RENDER_AND_EXECUTE_TEST_JOB,test-job)
 	@echo "Test job completed"
 	@rm test-job.yaml manifests.yaml || true
+
+test-smoke-kapb:
+	@read -p "Testing against production. Continue? (Y/n): " confirm; [ "$$confirm" = Y ] || { echo "Aborted."; exit 1; }
+	$(call RENDER_AND_EXECUTE_TEST_JOB,smoke-test-job)
+	@echo "Smoke test job completed"
+	@rm smoke-test-job.yaml manifests.yaml || true
 
 make-version:
 	echo $(MAKE_VERSION)
