@@ -30,7 +30,7 @@ test-e2e-kapb:
 
 test-smoke-kapb:
 	@read -p "Testing against production. Continue? (Y/n): " confirm; [ "$$confirm" = Y ] || { echo "Aborted."; exit 1; }
-	$(call RENDER_AND_EXECUTE_TEST_JOB,smoke-test-job)
+	$(call RENDER_AND_EXECUTE_TEST_JOB,smoke-test)
 	@echo "Smoke test job completed"
 	@rm smoke-test-job.yaml manifests.yaml || true
 
@@ -38,7 +38,7 @@ test-telescope-on-kapb:
 	@read -p "Testing against production. Continue? (Y/n): " confirm; [ "$$confirm" = Y ] || { echo "Aborted."; exit 1; }
 	yq -i '.E2ETest = "tests/integration/tmc/test_telescope_on.py::test_telescope_on_via_tmc"' $(CWD)/charts/ska-mid-testing/values.yaml
 	yq -i '.testJobName = "telescope-on-test-job"' $(CWD)/charts/ska-mid-testing/values.yaml
-	$(call RENDER_AND_EXECUTE_TEST_JOB,telescope-on-test-job)
+	$(call RENDER_AND_EXECUTE_TEST_JOB,telescope-on-test)
 	@echo "Telescope on test job completed"
 	@rm telescope-on-test-job.yaml manifests.yaml || true
 
@@ -46,7 +46,7 @@ test-assign-resources-kapb:
 	@read -p "Testing against production. Continue? (Y/n): " confirm; [ "$$confirm" = Y ] || { echo "Aborted."; exit 1; }
 	yq -i '.E2ETest = "tests/integration/tmc/test_individual_commands.py::test_assign_resources_via_tmc"' $(CWD)/charts/ska-mid-testing/values.yaml
 	yq -i '.testJobName = "assign-resources-test-job"' $(CWD)/charts/ska-mid-testing/values.yaml
-	$(call RENDER_AND_EXECUTE_TEST_JOB,assign-resources-test-job)
+	$(call RENDER_AND_EXECUTE_TEST_JOB,assign-resources-test)
 	@echo "Assign resources test job completed"
 	@rm assign-resources-test-job.yaml manifests.yaml || true
 
@@ -54,7 +54,7 @@ test-configure-scan-kapb:
 	@read -p "Testing against production. Continue? (Y/n): " confirm; [ "$$confirm" = Y ] || { echo "Aborted."; exit 1; }
 	yq -i '.E2ETest = "tests/integration/tmc/test_individual_commands.py::test_configure_scan_via_tmc"' $(CWD)/charts/ska-mid-testing/values.yaml
 	yq -i '.testJobName = "configure-scan-test-job"' $(CWD)/charts/ska-mid-testing/values.yaml
-	$(call RENDER_AND_EXECUTE_TEST_JOB,configure-scan-test-job)
+	$(call RENDER_AND_EXECUTE_TEST_JOB,configure-scan-test)
 	@echo "Configure scan test job completed"
 	@rm configure-scan-test-job.yaml manifests.yaml || true
 
@@ -62,7 +62,7 @@ test-scan-kapb:
 	@read -p "Testing against production. Continue? (Y/n): " confirm; [ "$$confirm" = Y ] || { echo "Aborted."; exit 1; }
 	yq -i '.E2ETest = "tests/integration/tmc/test_individual_commands.py::test_scan_via_tmc"' $(CWD)/charts/ska-mid-testing/values.yaml
 	yq -i '.testJobName = "scan-test-job"' $(CWD)/charts/ska-mid-testing/values.yaml
-	$(call RENDER_AND_EXECUTE_TEST_JOB,scan-test-job)
+	$(call RENDER_AND_EXECUTE_TEST_JOB,scan-test)
 	@echo "Scan test job completed"
 	@rm scan-test-job.yaml manifests.yaml || true
 
@@ -70,7 +70,7 @@ test-end-observation-kapb:
 	@read -p "Testing against production. Continue? (Y/n): " confirm; [ "$$confirm" = Y ] || { echo "Aborted."; exit 1; }
 	yq -i '.E2ETest = "tests/integration/tmc/test_individual_commands.py::test_end_observation_via_tmc"' $(CWD)/charts/ska-mid-testing/values.yaml
 	yq -i '.testJobName = "end-observation-test-job"' $(CWD)/charts/ska-mid-testing/values.yaml
-	$(call RENDER_AND_EXECUTE_TEST_JOB,end-observation-test-job)
+	$(call RENDER_AND_EXECUTE_TEST_JOB,end-observation-test)
 	@echo "End observation test job completed"
 	@rm end-observation-test-job.yaml manifests.yaml || true
 
@@ -78,7 +78,7 @@ test-release-resources-kapb:
 	@read -p "Testing against production. Continue? (Y/n): " confirm; [ "$$confirm" = Y ] || { echo "Aborted."; exit 1; }
 	yq -i '.E2ETest = "tests/integration/tmc/test_individual_commands.py::test_release_resources_via_tmc"' $(CWD)/charts/ska-mid-testing/values.yaml
 	yq -i '.testJobName = "release-resources-test-job"' $(CWD)/charts/ska-mid-testing/values.yaml
-	$(call RENDER_AND_EXECUTE_TEST_JOB,release-resources-test-job)
+	$(call RENDER_AND_EXECUTE_TEST_JOB,release-resources-test)
 	@echo "Release resources test job completed"
 	@rm release-resources-test-job.yaml manifests.yaml || true
 
