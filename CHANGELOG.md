@@ -1,6 +1,9 @@
 # Version History
 
 ## Unreleased
+* [AT-3431]
+  * Added some new pytests and make targets for executing TMC commands individually.
+  * Slightly refactored ska-mid-testing job template. 
 
 ## 28.5.0
 * [AT-3439]
