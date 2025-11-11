@@ -180,8 +180,7 @@ def test_device_servers(deployment_smoke_test_settings, k8s_config):
 
 
 def test_telescope_state(deployment_smoke_test_settings):
-    """Checks that the telescope is in a usable state for executing the ON command or
-    performing a scan starting from the assign resources step.
+    """Checks that the telescope is in a usable state for executing the ON OR Scan sequence.
 
     :param deployment_smoke_test_settings: Deployment smoke test settings
     :type deployment_smoke_test_settings: dict
