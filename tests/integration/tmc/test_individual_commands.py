@@ -1,4 +1,4 @@
-"""Telescope scan test feature tests."""
+"""Set of tests which validate TMC commands individually."""
 
 import pytest
 from pytest_bdd import scenario
