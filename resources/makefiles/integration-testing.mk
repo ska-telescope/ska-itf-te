@@ -30,14 +30,14 @@ test-custom-kapb:
 	@yq -i '.testJobName = "$(TEST_NAME)"' $(CWD)/charts/ska-mid-testing/values.yaml
 	$(call RENDER_AND_EXECUTE_TEST_JOB,custom-test)
 
+test-smoke-kapb:
+	$(call RENDER_AND_EXECUTE_TEST_JOB,smoke-test)
+
 test-e2e-kapb:
 	$(eval TEST_NAME := end-to-end-test)
 	@yq -i '.E2ETest = "tests/integration/tmc/test_scan.py::test_perform_a_scan_via_tmc"' $(CWD)/charts/ska-mid-testing/values.yaml
 	@yq -i '.testJobName = "$(TEST_NAME)"' $(CWD)/charts/ska-mid-testing/values.yaml
 	$(call RENDER_AND_EXECUTE_TEST_JOB,$(TEST_NAME))
-
-test-smoke-kapb:
-	$(call RENDER_AND_EXECUTE_TEST_JOB,smoke-test)
 
 test-telescope-on-kapb:
 	$(eval TEST_NAME := telescope-on-test)
