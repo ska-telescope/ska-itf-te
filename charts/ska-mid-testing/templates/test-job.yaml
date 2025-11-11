@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: test-job
+  name: {{ .Values.testJobName }}-job
   namespace: integration-tests
 spec:
   backoffLimit: 0
@@ -19,7 +19,7 @@ spec:
         persistentVolumeClaim:
           claimName: {{ .Values.testReportsPVC }}
       containers:
-      - name: test-end-to-end
+      - name: {{ .Values.testJobName }}
         image: {{ .Values.image.registry }}/{{ .Values.image.image }}:{{ .Values.image.tag }}
         imagePullPolicy: {{.Values.image.pullPolicy}}
         volumeMounts:

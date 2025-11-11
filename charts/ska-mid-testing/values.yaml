@@ -22,3 +22,4 @@ testReportsPVC: pvc-test-data-storage
 mountPath: /data/test-reports
 CBFMCSconfigMountPath: /app/ska-mid/resources/mcs
 E2ETest: tests/integration/tmc/test_telescope_on.py::test_telescope_on_via_tmc
+testJobName: telescope-on-test
