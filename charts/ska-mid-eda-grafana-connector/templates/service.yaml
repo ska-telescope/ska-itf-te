@@ -3,14 +3,14 @@ kind: Service
 metadata:
   creationTimestamp: null
   labels:
-    app: eda-grafana-connector
-  name: eda-grafana-connector
-  namespace: eda-grafana-connector
+    app: {{ .Values.service.name }}
+  name: {{ .Values.service.name }}
+  namespace: {{ .Values.namespace }}
 spec:
   ports:
-  - port: 5001
+  - port: {{ .Values.service.port }}
     protocol: TCP
-    targetPort: 5001
+    targetPort: {{ .Values.service.port }}
   selector:
-    app: eda-grafana-connector-api
-  type: LoadBalancer
+    app: {{ .Values.service.name }}-api
+  type: {{ .Values.service.type }}
