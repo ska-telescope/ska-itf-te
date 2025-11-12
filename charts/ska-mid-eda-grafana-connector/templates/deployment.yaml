@@ -31,4 +31,4 @@ spec:
         {{- end }}
         volumeMounts:
         - name: {{ .Values.vault.edaCredentials.secretName }}
-          mountPath: {{ .Values.vault.edaCredentials.mountPath }}
+          mountPath: {{ .Values.environment.CREDENTIALS_PATH }}
