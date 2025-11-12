@@ -2,9 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: eda-grafana-connector
-  name: eda-grafana-connector
-  namespace: eda-grafana-connector
+    app: {{ .Values.app }}
+  name: {{ .Values.app }}-deployment
+  namespace: {{ .Values.namespace }}
 spec:
   replicas: 4
   selector:
