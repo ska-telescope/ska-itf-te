@@ -3,17 +3,17 @@ kind: Deployment
 metadata:
   labels:
     app: {{ .Values.app }}
-  name: {{ .Values.app }}-deployment
+  name: {{ .Values.app }}
   namespace: {{ .Values.namespace }}
 spec:
   replicas: 4
   selector:
     matchLabels:
-      app: eda-grafana-connector-api
+      app: {{ .Values.app }}-api
   template:
     metadata:
       labels:
-        app: eda-grafana-connector-api
+        app: {{ .Values.app }}-api
     spec:
       volumes:
       - name: {{ .Values.vault.edaCredentials.secretName }}
