@@ -1,6 +1,7 @@
-Feature: Telescope scan test
-	In this test TMC commands are tested individually. The tester shall be responsible for bring the system back
-    to a useable state after any scenario here is executed.
+Feature: Command the telescope via TMC step by step. 
+	These scenarios are purely for convenience when wanting to send commands step by step to TMC. 
+	The tester shall be responsible for bring the system back to a useable state before executing any scenario here.
+	Success is checked within the final 'When' step itself.
 
 	Scenario: Assign resources
 		Given an SUT deployment with 1 subarray
