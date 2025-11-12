@@ -1,3 +1,5 @@
+namespace: eda-grafana-connector
+app: eda-grafana-connector
 image:
   registry: registry.gitlab.com/ska-telescope/ska-mid
   image: ska-mid-eda-grafana-connector
@@ -6,8 +8,12 @@ image:
 vault:
   edaCredentials:
     secretName: vault-mid-itf-eda-credentials
-    mountPath: /secrets/eda-credentials
+    mount: mid-itf
+    mountPath: production/eda
     user: eda_ro
+service:
+  type: LoadBalancer
+  port: 5001
 environment:
   CREDENTIALS_PATH: /secrets/eda-credentials
   EDA_USER: eda_ro
