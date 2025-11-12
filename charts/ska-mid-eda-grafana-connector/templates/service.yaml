@@ -3,8 +3,8 @@ kind: Service
 metadata:
   creationTimestamp: null
   labels:
-    app: {{ .Values.service.name }}
-  name: {{ .Values.service.name }}
+    app: {{ .Values.app }}
+  name: {{ .Values.app }}
   namespace: {{ .Values.namespace }}
 spec:
   ports:
@@ -12,5 +12,5 @@ spec:
     protocol: TCP
     targetPort: {{ .Values.service.port }}
   selector:
-    app: {{ .Values.service.name }}-api
+    app: {{ .Values.app }}-api
   type: {{ .Values.service.type }}
