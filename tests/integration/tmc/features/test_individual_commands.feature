@@ -1,6 +1,6 @@
 Feature: Command the telescope via TMC step by step. 
 	These scenarios are purely for convenience when wanting to send commands step by step to TMC. 
-	The tester shall be responsible for bring the system back to a useable state before executing any scenario here.
+	The tester shall be responsible for bringing the system back to a useable state before executing any scenario here.
 	Success is checked within the final 'When' step itself.
 
 	Scenario: Assign resources
