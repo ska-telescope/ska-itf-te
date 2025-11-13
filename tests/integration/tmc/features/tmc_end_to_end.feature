@@ -8,10 +8,9 @@ Feature: Telescope end to end signal chain test
 		Given an SUT deployment with 1 subarray
 		And CSP in adminMode online
 		When I turn ON the telescope
-		And I assign resources for a band 1 scan
-		And configure it for a band 1 scan
-		And I start a scan for 10 seconds
-		And I end the scan
+		And I assign resources
+		And configure it for a 10 second band 1 scan
+		And I start the scan
 		And I end the observation
 		And I release resources
 		And I turn OFF the telescope
@@ -24,10 +23,9 @@ Feature: Telescope end to end signal chain test
 		And a sequence diagrammer has optionally started listening for events
 		And CSP in adminMode online
 		When I turn ON the telescope
-		And I assign resources for a band 1 scan
-		And configure it for a band 1 scan
-		And I start a scan for 120 seconds
-		And I end the scan
+		And I assign resources
+		And configure it for a 120 second band 1 scan
+		And I start the scan
 		And I end the observation
 		And I release resources
 		And I turn OFF the telescope
@@ -40,10 +38,9 @@ Feature: Telescope end to end signal chain test
 		And a sequence diagrammer has optionally started listening for events
 		And CSP in adminMode online
 		When I turn ON the telescope
-		And I assign resources for a band 1 scan
-		And configure it for a band 1 scan
-		And I start a scan for 120 seconds
-		And I end the scan
+		And I assign resources
+		And configure it for a 120 second band 1 scan
+		And I start the scan
 		And I end the observation
 		And I release resources
 		Then the telescope is in the released-resources state
@@ -57,12 +54,11 @@ Feature: Telescope end to end signal chain test
 		And CSP in adminMode online
 		When I turn ON the telescope
 		And I generate BITE data
-		And I assign resources for a band 1 scan
+		And I assign resources
 		And I start LSTV replay
-		And configure it for a band 1 scan
-		And I start a scan for 120 seconds
+		And configure it for a 120 second band 1 scan
+		And I start the scan
 		And I stop LSTV replay
-		And I end the scan
 		And I end the observation
 		And I release resources
 		And I turn OFF the telescope

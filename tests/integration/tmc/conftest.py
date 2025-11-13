@@ -5,6 +5,7 @@ import logging
 import os
 import pathlib
 import sys
+from itertools import cycle
 from queue import Empty, Queue
 from time import localtime, sleep, strftime, time
 from typing import Any, Generator, List, Tuple
@@ -54,7 +55,7 @@ class TMC:
         :return: _description_
         :rtype: DeviceProxy
         """
-        return DeviceProxy(f"ska_mid/tm_subarray_node/{subarray_id}")
+        return DeviceProxy(f"mid-tmc/subarray/{subarray_id:02}")
 
     def get_dish_leaf_node_dp(self, dish_id) -> DeviceProxy:
         """Get device proxy for a specific dish leaf node.
@@ -273,7 +274,7 @@ def wait_for_event(
             try:
                 event = event_queue.get(timeout=2)
                 if print_event_details:
-                    logger.debug(f"Received event: {event}")
+                    logger.info(f"Received event: {event}")
                 assert not event.err, "Event error"
 
                 value = event.attr_value.value
@@ -580,12 +581,8 @@ def _(telescope_handlers, receptor_ids, settings):
         ]
 
 
-@when(
-    parsers.cfparse(
-        "I assign resources for a band {scan_band:Number} scan", extra_types={"Number": int}
-    )
-)
-def _(telescope_handlers, receptor_ids, pb_and_eb_ids, scan_band, settings):
+@when("I assign resources")
+def _(telescope_handlers, receptor_ids, pb_and_eb_ids, default_assign_resources, settings):
     """Assign resources via TMC.
 
     :param telescope_handlers: _description_
@@ -595,8 +592,8 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids, scan_band, settings):
     :type receptor_ids: _type_
     :param pb_and_eb_ids: _description_
     :type pb_and_eb_ids: _type_
-    :param scan_band: _description_
-    :type scan_band: _type_
+    :param default_assign_resources: _description_
+    :type default_assign_resources: _type_
     """
     logger.info("Assigning resources")
 
@@ -608,43 +605,21 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids, scan_band, settings):
     csp_subarray_leaf_node = tmc.csp_subarray_leaf_node
     cbf_subarray = cbf.subarray
 
-    ASSIGN_RESOURCES_FILE = f"{settings['TMC_configs']}/assign_resources.json"
     RECEPTORS = receptor_ids
 
-    if settings["override_scan_band"]:
-        scan_band = int(settings["override_scan_band"])
-
-    band_params = generate_fsp.generate_band_params(scan_band)
-
-    with open(ASSIGN_RESOURCES_FILE, encoding="utf-8") as f:
-        assign_resources_json = json.load(f)
-        assign_resources_json["dish"]["receptor_ids"] = RECEPTORS
-        assign_resources_json["sdp"]["resources"]["receptors"] = RECEPTORS
-        assign_resources_json["sdp"]["execution_block"]["eb_id"] = eb_id
-        assign_resources_json["sdp"]["processing_blocks"][0]["pb_id"] = pb_id
-
-        band_params = generate_fsp.generate_band_params(scan_band)
-
-        # Add in Frequency bounds and the channel count
-        assign_resources_json["sdp"]["execution_block"]["channels"][0]["spectral_windows"][0][
-            "freq_min"
-        ] = band_params["start_freq"]
-        assign_resources_json["sdp"]["execution_block"]["channels"][0]["spectral_windows"][0][
-            "freq_max"
-        ] = band_params["end_freq"]
-        assign_resources_json["sdp"]["execution_block"]["channels"][0]["spectral_windows"][0][
-            "count"
-        ] = band_params["channel_count"]
+    assign_resources_payload = update_assign_resources(
+        default_assign_resources, RECEPTORS, pb_id, eb_id, settings
+    )
 
     logger.info(f"PB ID: {pb_id}, EB ID: {eb_id}")
 
-    logger.debug(json.dumps(assign_resources_json))
+    logger.debug(json.dumps(assign_resources_payload))
 
     assign_resources_artifact_path = f"{settings['artifact_dir']}/assign_resources.json"
     with open(assign_resources_artifact_path, "w") as assign_resources_config_file:
-        json.dump(assign_resources_json, assign_resources_config_file, indent=4)
+        json.dump(assign_resources_payload, assign_resources_config_file, indent=4)
 
-    tmc.central_node.AssignResources(json.dumps(assign_resources_json))
+    tmc.central_node.AssignResources(json.dumps(assign_resources_payload))
     wait_for_event(cbf_subarray, "obsState", ObsState.IDLE)
     wait_for_event(sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.IDLE)
     wait_for_event(csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.IDLE)
@@ -653,9 +628,19 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids, scan_band, settings):
 
 
 @when(
-    parsers.cfparse("configure it for a band {scan_band:Number} scan", extra_types={"Number": int})
+    parsers.cfparse(
+        "configure it for a {scan_time:Number} second band {scan_band:Int} scan",
+        extra_types={"Number": float, "Int": int},
+    )
 )
-def _(telescope_handlers, receptor_ids, scan_band, settings):
+def _(
+    telescope_handlers,
+    receptor_ids,
+    scan_band,
+    scan_time,
+    default_configure_scan_payload,
+    settings,
+):
     """Configure scan via TMC.
 
     :param telescope_handlers: _description_
@@ -665,47 +650,33 @@ def _(telescope_handlers, receptor_ids, scan_band, settings):
     :type receptor_ids: _type_
     :param scan_band: _description_
     :type scan_band: _type_
+    :param scan_time: _description_
+    :type scan_time: _type_
+    :param default_configure_scan_payload: _description_
+    :type default_configure_scan_payload: _type_
     """
     if settings["override_scan_band"]:
         scan_band = int(settings["override_scan_band"])
+
+    if settings["override_scan_duration"]:
+        scan_time = int(settings["override_scan_duration"])
 
     logger.info(f"Configuring a band {scan_band} scan")
 
     tmc, _, _, _ = telescope_handlers
     RECEPTORS = receptor_ids
 
-    CONFIGURE_SCAN_FILE = f"{settings['TMC_configs']}/configure_scan.json"
+    configure_scan_payload = update_configure_scan(
+        default_configure_scan_payload, scan_band, scan_time, 1, settings
+    )
 
-    band_params = generate_fsp.generate_band_params(scan_band)
-    fsp_list = [1, 2, 3, 4]
-
-    with open(CONFIGURE_SCAN_FILE, encoding="utf-8") as f:
-        configure_scan_json = json.load(f)
-        configure_scan_json["dish"]["receiver_band"] = str(scan_band)
-        configure_scan_json["csp"]["common"]["frequency_band"] = str(scan_band)
-
-        configure_scan_json["csp"]["midcbf"]["correlation"]["processing_regions"][0][
-            "fsp_ids"
-        ] = fsp_list
-        configure_scan_json["csp"]["midcbf"]["correlation"]["processing_regions"][0][
-            "start_freq"
-        ] = int(band_params["start_freq"])
-        configure_scan_json["csp"]["midcbf"]["correlation"]["processing_regions"][0][
-            "channel_count"
-        ] = int(band_params["channel_count"])
-
-        if settings["integration_factor"]:
-            configure_scan_json["csp"]["midcbf"]["correlation"]["processing_regions"][0][
-                "integration_factor"
-            ] = int(settings["integration_factor"])
-
-    logger.debug(json.dumps(configure_scan_json))
+    logger.debug(json.dumps(configure_scan_payload))
 
     configure_scan_artifact_path = f"{settings['artifact_dir']}/configure_scan.json"
     with open(configure_scan_artifact_path, "w") as configure_scan_config_file:
-        json.dump(configure_scan_json, configure_scan_config_file, indent=4)
+        json.dump(configure_scan_payload, configure_scan_config_file, indent=4)
 
-    tmc.subarray_node.Configure(json.dumps(configure_scan_json))
+    tmc.subarray_node.Configure(json.dumps(configure_scan_payload))
     wait_for_event(tmc.csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.READY)
     wait_for_event(tmc.sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.READY)
     for receptor in RECEPTORS:
@@ -713,41 +684,288 @@ def _(telescope_handlers, receptor_ids, scan_band, settings):
     wait_for_event(tmc.subarray_node, "obsState", ObsState.READY)
 
 
-@when(
-    parsers.cfparse("I start a scan for {scan_time:Number} seconds", extra_types={"Number": float})
-)
-def _(telescope_handlers, scan_time, settings):
+@when(parsers.cfparse("I start the scan", extra_types={"Number": float}))
+def _(telescope_handlers, default_scan_payload, settings):
     """Block for scan_time while telescope is in SCANNING state.
 
     :param telescope_handlers: _description_
     :type settings: _type_
     :type telescope_handlers: _type_
-    :param scan_time: _description_
-    :type scan_time: _type_
+    :param default_scan_payload: _description_
+    :type default_scan_payload: _type_
     """
     logger.info("Issuing scan command")
 
     tmc, _, _, _ = telescope_handlers
+    scan_completion_time_tolerance = 20.0  # [s]
 
-    SCAN_FILE = f"{settings['TMC_configs']}/scan.json"
-    with open(SCAN_FILE, encoding="utf-8") as f:
-        scan_json = f.read()
+    scan_payload = update_scan_payload(default_scan_payload, 1)
 
-    if settings["override_scan_duration"]:
-        scan_time = int(settings["override_scan_duration"])
-
-    logger.debug(json.dumps(scan_json))
+    logger.debug(json.dumps(scan_payload))
 
     scan_artifact_path = f"{settings['artifact_dir']}/scan.json"
     with open(scan_artifact_path, "w") as scan_config_file:
-        json.dump(scan_json, scan_config_file, indent=2)
+        json.dump(scan_payload, scan_config_file, indent=2)
 
-    tmc.subarray_node.Scan(scan_json)
+    tmc.subarray_node.Scan(json.dumps(scan_payload))
     wait_for_event(tmc.sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.SCANNING)
     wait_for_event(tmc.csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.SCANNING)
     wait_for_event(tmc.subarray_node, "obsState", ObsState.SCANNING)
-    logger.info(f"Scanning for {scan_time} seconds")
-    sleep(scan_time)
+
+    scan_time = float(tmc.subarray_node.scanDuration)
+
+    logger.info(f"Scanning for configured scan duration of {scan_time} seconds")
+    # Wait for scan completion
+    wait_for_event(
+        tmc.sdp_subarray_leaf_node,
+        "sdpSubarrayObsState",
+        ObsState.READY,
+        timeout=(scan_time + scan_completion_time_tolerance),
+    )
+    wait_for_event(
+        tmc.csp_subarray_leaf_node,
+        "cspSubarrayObsState",
+        ObsState.READY,
+        timeout=(scan_time + scan_completion_time_tolerance),
+    )
+    wait_for_event(
+        tmc.subarray_node,
+        "obsState",
+        ObsState.READY,
+        timeout=(scan_time + scan_completion_time_tolerance),
+    )
+
+
+@when(
+    parsers.cfparse(
+        "I execute {number_of_scans:Int} {scan_time:Number} second scans with"
+        " a {delay_between_scans:Number} second delay between scans without"
+        " reconfiguring or releasing resources",
+        extra_types={"Number": float, "Int": int},
+    )
+)
+def _(
+    telescope_handlers,
+    number_of_scans,
+    scan_time,
+    delay_between_scans,
+    default_scan_payload,
+    settings,
+):
+    """Execute multiple scans without releasing resources or reconfiguring.
+
+    :param telescope_handlers: _description_
+    :type telescope_handlers: _type_
+    :param settings: _description_
+    :type settings: _type_
+    :param number_of_scans: Number of times the scan cycle is executed
+    :type number_of_scans: float
+    :param delay_between_scans: Duration of the delay between scans in seconds
+    :type delay_between_scans: float
+    :param scan_time: Duration of each scan in seconds
+    :type scan_time: float
+    :param default_scan_payload: _description_
+    :type default_scan_payload: _type_
+    """
+    if settings["override_scan_duration"]:
+        scan_time = int(settings["override_scan_duration"])
+
+    if settings["override_multiscan_delay_between_scans"]:
+        delay_between_scans = int(settings["override_multiscan_delay_between_scans"])
+
+    if settings["override_multiscan_number_of_scans"]:
+        number_of_scans = int(settings["override_multiscan_number_of_scans"])
+
+    logger.info(
+        f"Beginning execution of {number_of_scans} scans of {scan_time} seconds each with a"
+        f" {delay_between_scans} second delay between scans"
+    )
+
+    tmc, _, _, _ = telescope_handlers
+
+    for scan_number in range(1, number_of_scans + 1):
+        # Execute scan
+        scan_payload = update_scan_payload(default_scan_payload, scan_number)
+        logger.debug(json.dumps(scan_payload))
+
+        scan_artifact_path = f"{settings['artifact_dir']}/scan_{scan_number}.json"
+        with open(scan_artifact_path, "w") as scan_config_file:
+            json.dump(scan_payload, scan_config_file, indent=2)
+
+        logger.info(f"Starting scan {scan_number}/{number_of_scans}")
+        tmc.subarray_node.Scan(json.dumps(scan_payload))
+        wait_for_event(tmc.sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.SCANNING)
+        wait_for_event(tmc.csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.SCANNING)
+        wait_for_event(tmc.subarray_node, "obsState", ObsState.SCANNING)
+        logger.info("Scanning for configured scan duration")
+
+        # Wait for scan completion
+        scan_completion_tolerance = 20  # [seconds]
+        wait_for_event(
+            tmc.sdp_subarray_leaf_node,
+            "sdpSubarrayObsState",
+            ObsState.READY,
+            timeout=(scan_time + scan_completion_tolerance),
+        )
+        wait_for_event(
+            tmc.csp_subarray_leaf_node,
+            "cspSubarrayObsState",
+            ObsState.READY,
+            timeout=(scan_time + scan_completion_tolerance),
+        )
+        wait_for_event(
+            tmc.subarray_node,
+            "obsState",
+            ObsState.READY,
+            timeout=(scan_time + scan_completion_tolerance),
+        )
+        logger.info(f"Completed scan {scan_number}/{number_of_scans}")
+
+        # Hold before next scan if not last scan
+        if scan_number < number_of_scans:
+            logger.info(f"Holding for {delay_between_scans} seconds before next scan")
+            sleep(delay_between_scans)
+
+
+@when(
+    parsers.cfparse(
+        "I execute {number_of_scans:Int} {scan_time:Number} second scans with"
+        " a {delay_between_scans:Number} second delay between scans interchanging"
+        " between bands {scan_bands} without releasing resources",
+        extra_types={"Number": float, "Int": int},
+    )
+)
+def _(
+    telescope_handlers,
+    number_of_scans,
+    scan_time,
+    delay_between_scans,
+    scan_bands,
+    receptor_ids,
+    default_configure_scan_payload,
+    default_scan_payload,
+    settings,
+):
+    """Execute multiple scans interchanging between band 1 and band 2 without releasing resources.
+
+    :param telescope_handlers: _description_
+    :type telescope_handlers: _type_
+    :param settings: _description_
+    :type settings: _type_
+    :param number_of_scans: Number of times the configur -> scan cycle is executed
+    :type number_of_scans: float
+    :param delay_between_scans: Duration of the delay between scans in seconds
+    :type delay_between_scans: float
+    :param scan_time: Duration of each scan in seconds
+    :type scan_time: float
+    :param scan_bands: Comma separated list of bands to cycle through for each scan
+    :type scan_bands: str
+    :param receptor_ids: _description_
+    :type receptor_ids: _type_
+    :param default_configure_scan_payload: _description_
+    :type default_configure_scan_payload: _type_
+    :param default_scan_payload: _description_
+    :type default_scan_payload: _type_
+    """
+    if settings["override_scan_duration"]:
+        scan_time = int(settings["override_scan_duration"])
+
+    if settings["override_multiscan_bands"]:
+        scan_bands = settings["override_multiscan_bands"]
+
+    if settings["override_multiscan_delay_between_scans"]:
+        delay_between_scans = int(settings["override_multiscan_delay_between_scans"])
+
+    if settings["override_multiscan_number_of_scans"]:
+        number_of_scans = int(settings["override_multiscan_number_of_scans"])
+
+    cycle_band = [int(band) for band in scan_bands.split(",")]
+    band_cycler = cycle(cycle_band)
+
+    # Post scan wait_for_event timeout = scan_time + scan_completion_time_tolerance
+    scan_completion_time_tolerance = 20  # [seconds]
+
+    logger.info(
+        f"Beginning execution of {number_of_scans} scans of {scan_time} seconds each with a"
+        f" {delay_between_scans} second delay between scans interchanging between"
+        f" the following bands: {list(set(cycle_band))}"
+    )
+
+    tmc, _, _, _ = telescope_handlers
+    RECEPTORS = receptor_ids
+
+    for scan_number in range(1, number_of_scans + 1):
+        # Configure scan
+        scan_band = next(band_cycler)
+        logger.info(
+            f"Configuring scan {scan_number}/{number_of_scans}. "
+            f"Band {scan_band}. Duration {scan_time}."
+        )
+
+        configure_scan_payload = update_configure_scan(
+            default_configure_scan_payload, scan_band, scan_time, scan_number, settings
+        )
+
+        if scan_number > 1:
+            configure_scan_payload["tmc"]["partial_configuration"] = False
+
+        logger.debug(json.dumps(configure_scan_payload))
+
+        configure_scan_artifact_path = (
+            f"{settings['artifact_dir']}/configure_scan_{scan_number}.json"
+        )
+
+        with open(configure_scan_artifact_path, "w") as configure_scan_config_file:
+            json.dump(configure_scan_payload, configure_scan_config_file, indent=4)
+
+        tmc.subarray_node.Configure(json.dumps(configure_scan_payload))
+        wait_for_event(tmc.csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.READY)
+        wait_for_event(tmc.sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.READY)
+        for receptor in RECEPTORS:
+            wait_for_event(tmc.get_dish_leaf_node_dp(receptor), "dishMode", DishMode.OPERATE)
+        wait_for_event(tmc.subarray_node, "obsState", ObsState.READY)
+
+        # Execute scan
+        scan_payload = update_scan_payload(default_scan_payload, scan_number)
+        logger.debug(json.dumps(scan_payload))
+        scan_artifact_path = f"{settings['artifact_dir']}/scan_{scan_number}.json"
+        with open(scan_artifact_path, "w") as scan_config_file:
+            json.dump(scan_payload, scan_config_file, indent=2)
+
+        logger.info(f"Starting scan {scan_number}/{number_of_scans}")
+        tmc.subarray_node.Scan(json.dumps(scan_payload))
+        wait_for_event(tmc.sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.SCANNING)
+        wait_for_event(tmc.csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.SCANNING)
+        wait_for_event(tmc.subarray_node, "obsState", ObsState.SCANNING)
+        logger.info("Scanning for configured scan duration")
+
+        # Wait for scan completion
+        wait_for_event(
+            tmc.sdp_subarray_leaf_node,
+            "sdpSubarrayObsState",
+            ObsState.READY,
+            timeout=(scan_time + scan_completion_time_tolerance),
+        )
+        wait_for_event(
+            tmc.csp_subarray_leaf_node,
+            "cspSubarrayObsState",
+            ObsState.READY,
+            timeout=(scan_time + scan_completion_time_tolerance),
+        )
+        wait_for_event(
+            tmc.subarray_node,
+            "obsState",
+            ObsState.READY,
+            timeout=(scan_time + scan_completion_time_tolerance),
+        )
+        logger.info(f"Completed scan {scan_number}/{number_of_scans}")
+
+        # Hold before next scan if not last scan
+        if scan_number < number_of_scans:
+            logger.info(f"Holding for {delay_between_scans} seconds before next scan")
+            sleep(delay_between_scans)
+
+    logger.info("Completed scan execution")
 
 
 @when("I end the scan")
@@ -1031,3 +1249,167 @@ def _(telescope_handlers, receptor_ids):
     """
     logger.info("Checking telescope state")
     _, cbf, _, _ = telescope_handlers
+
+
+@pytest.fixture
+def default_assign_resources(settings):
+    """Load default assign resources JSON from file.
+
+    :param settings: _description_
+    :type settings: dict
+    :return: Default assign resources JSON
+    :rtype: dict
+    """
+    ASSIGN_RESOURCES_FILE = f"{settings['TMC_configs']}/assign_resources.json"
+
+    with open(ASSIGN_RESOURCES_FILE, encoding="utf-8") as f:
+        assign_resources_json = json.load(f)
+
+    return assign_resources_json
+
+
+def update_assign_resources(
+    assign_resources_payload: dict,
+    receptors: list,
+    pb_id: str,
+    eb_id: str,
+    settings: dict,
+) -> dict:
+    """Update assign resources payload with test specific parameters.
+
+    :param assign_resources_payload: Assign resources JSON payload to update
+    :type assign_resources_payload: dict
+    :param receptors: List of receptor IDs to assign
+    :type receptors: list
+    :param pb_id: Processing block ID
+    :type pb_id: str
+    :param eb_id: Execution block ID
+    :type eb_id: str
+    :param settings: _description_
+    :type settings: dict
+    :return: Updated assign resources payload
+    :rtype: dict
+    """
+    NODE_WITH_100G_INTERFACE = settings["node_with_100G_interface"]
+    NODE_LABEL_FOR_100G_GROUP = settings["node_label_for_100G_group"]
+
+    # Determine nodeSelector for vis-receive pod prioritising 100G group label if provided
+    node_selector_sdp_param = {}
+    if not NODE_LABEL_FOR_100G_GROUP:
+        if NODE_WITH_100G_INTERFACE:
+            node_selector_sdp_param = {"kubernetes.io/hostname": NODE_WITH_100G_INTERFACE}
+        else:
+            node_selector_sdp_param = {}
+    else:
+        split_label = NODE_LABEL_FOR_100G_GROUP.split("=")
+        label_name = split_label[0]
+        label_value = split_label[1]
+        node_selector_sdp_param = {label_name: label_value}
+
+    assign_resources_payload["dish"]["receptor_ids"] = receptors
+    assign_resources_payload["sdp"]["resources"]["receptors"] = receptors
+    assign_resources_payload["sdp"]["execution_block"]["eb_id"] = eb_id
+    assign_resources_payload["sdp"]["processing_blocks"][0]["pb_id"] = pb_id
+    assign_resources_payload["sdp"]["processing_blocks"][0]["parameters"]["pod_settings"][0][
+        "nodeSelector"
+    ] = node_selector_sdp_param
+
+    return assign_resources_payload
+
+
+@pytest.fixture
+def default_configure_scan_payload(settings):
+    """Load default configure scan JSON from file.
+
+    :param settings: _description_
+    :type settings: dict
+    :return: Default configure scan JSON
+    :rtype: dict
+    """
+    CONFIGURE_SCAN_FILE = f"{settings['TMC_configs']}/configure_scan.json"
+
+    with open(CONFIGURE_SCAN_FILE, encoding="utf-8") as f:
+        configure_scan_json = json.load(f)
+
+    return configure_scan_json
+
+
+def update_configure_scan(
+    configure_scan_payload: dict,
+    scan_band: int,
+    scan_duration: int,
+    scan_number: int,
+    settings: dict,
+) -> dict:
+    """Update configure scan payload with test specific parameters.
+
+    :param configure_scan_payload: Configure scan JSON payload to update
+    :type configure_scan_payload: dict
+    :param scan_band: Scan band to configure
+    :type scan_band: int
+    :param scan_duration: Duration of the scan in seconds
+    :type scan_duration: int
+    :param scan_number: Scan number to configure
+    :type scan_number: int
+    :param settings: _description_
+    :type settings: dict
+    :return: Updated configure scan JSON payload
+    :rtype: dict
+    """
+    band_params = generate_fsp.generate_band_params(scan_band)
+
+    configure_scan_payload["dish"]["receiver_band"] = str(scan_band)
+    configure_scan_payload["csp"]["common"]["frequency_band"] = str(scan_band)
+
+    configure_scan_payload["csp"]["midcbf"]["correlation"]["processing_regions"][0][
+        "start_freq"
+    ] = int(band_params["start_freq"])
+    configure_scan_payload["csp"]["midcbf"]["correlation"]["processing_regions"][0][
+        "channel_count"
+    ] = int(band_params["channel_count"])
+
+    if settings["integration_factor"]:
+        configure_scan_payload["csp"]["midcbf"]["correlation"]["processing_regions"][0][
+            "integration_factor"
+        ] = int(settings["integration_factor"])
+
+    if scan_band == 2:
+        configure_scan_payload["sdp"]["scan_type"] = "science_band2"
+    elif scan_band == 1:
+        configure_scan_payload["sdp"]["scan_type"] = "science"
+
+    configure_scan_payload["csp"]["transaction_id"] = f"txn-....-{scan_number:05}"
+    configure_scan_payload["tmc"]["scan_duration"] = float(scan_duration)
+
+    return configure_scan_payload
+
+
+@pytest.fixture
+def default_scan_payload(settings):
+    """Load default scan JSON from file.
+
+    :param settings: _description_
+    :type settings: dict
+    :return: Default scan JSON
+    :rtype: dict
+    """
+    SCAN_FILE = f"{settings['TMC_configs']}/scan.json"
+    with open(SCAN_FILE, encoding="utf-8") as f:
+        scan_json = json.load(f)
+
+    return scan_json
+
+
+def update_scan_payload(scan_payload: dict, scan_number: int) -> dict:
+    """Update scan payload with test specific parameters.
+
+    :param scan_payload: Scan JSON payload to update
+    :type scan_payload: dict
+    :param scan_number: Scan number to configure
+    :type scan_number: int
+    :return: Updated scan JSON payload
+    :rtype: dict
+    """
+    scan_payload["scan_id"] = scan_number
+    scan_payload["transaction_id"] = f"txn-....-{scan_number:05}"
+    return scan_payload

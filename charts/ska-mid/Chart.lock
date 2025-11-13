@@ -1,60 +1,60 @@
 dependencies:
 - name: ska-tango-base
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 0.4.22
+  version: 0.4.24
 - name: ska-tango-util
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 0.4.22
+  version: 0.4.24
 - name: ska-tmc-mid
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.4.0
+  version: 1.6.0
 - name: ska-csp-lmc-mid
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.2.0-rc.1
+  version: 1.2.0
 - name: ska-mid-cbf-tdc-mcs
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.3.4
+  version: 1.3.5
 - name: ska-mid-cbf-tdc-tmleafnode
   repository: https://artefact.skao.int/repository/helm-internal
   version: 1.3.2
 - name: ska-mid-cbf-engineering-console
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.1.5
+  version: 1.1.6
 - name: ska-sdp
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.2.3
+  version: 2.1.1
 - name: ska-oso-integration
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.1.1
 - name: ska-dish-lmc
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 8.1.0
+  version: 8.5.1
 - name: ska-te-dish-structure-simulator
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.11.0
 - name: ska-mid-dish-spfc-deployer
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 0.3.5
+  version: 0.4.1
 - name: ska-mid-dish-spfrx-talondx-console
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.1.0
+  version: 1.4.1
 - name: ska-tango-taranta
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 2.14.2
+  version: 2.15.0
 - name: ska-tango-tangogql-ariadne
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.0.3
+  version: 1.0.7
 - name: ska-tango-alarmhandler
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 0.4.0
-- name: ska-dataproduct-dashboard
+  version: 0.6.0-rc.1
+- name: ska-sdp-dataproduct-dashboard
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 0.10.0
+  version: 0.8.0
 - name: ska-tango-archiver
   repository: https://artefact.skao.int/repository/helm-internal
   version: 2.9.1
 - name: ska-log-consumer
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.1.6
-digest: sha256:6efcf125b73894f49ce848df0f95c2063494260f43a71e542726a0550bc08762
-generated: "2025-08-12T19:48:22.103567+02:00"
+digest: sha256:1c6197fe551cbb5d06baa7c6f75337a51a3af51c0915fbfd716662a6f5bd2953
+generated: "2025-11-06T12:40:06.635632228+02:00"

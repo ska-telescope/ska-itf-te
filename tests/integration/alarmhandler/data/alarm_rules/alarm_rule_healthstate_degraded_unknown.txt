@@ -1,0 +1,2 @@
+tag=device_health_state_degraded;formula=(mid-tmc/central-node/0/telescopeHealthState == 1 && mid-tmc/subarray/01/healthState == 1);priority=log;group=none;message="alarm for devices with healthstate degraded"
+tag=device_health_state_unknown;formula=(mid-tmc/central-node/0/telescopeHealthState == 3 && mid-tmc/subarray/01/healthState == 3);priority=log;group=none;message="alarm for devices with healthstate unknown"

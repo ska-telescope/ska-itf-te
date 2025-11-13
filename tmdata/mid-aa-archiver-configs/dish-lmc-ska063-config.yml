@@ -1,7 +1,7 @@
-db: tango-databaseds.dish-lmc-ska001.svc.ska001.mid.internal.skao.int:10000
+db: tango-databaseds.dish-lmc-ska063.svc.ska063.mid.internal.skao.int:10000
 manager: mid-eda/cm/01
 archiver: mid-eda/es/01
- 
+
 configuration:
 - class: DishManager
   attributes:

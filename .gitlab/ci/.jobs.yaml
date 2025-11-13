@@ -49,6 +49,12 @@
       if [ "$DISH_LMC_IN_THE_LOOP" == "true" ]; then 
         bash .make/resources/gitlab_section.sh install_tangoGQL "Install TangoGQL for multiDB" make taranta-deploy-all-tangogql-instances;
       fi
+    - |
+      if [ "${KUBE_NAMESPACE}" == "staging" ]; then
+        bash .jupyter-notebooks/scripts/load_sbd_oda.sh "http://ska-db-oda-rest-staging.${KUBE_NAMESPACE}.svc.${CLUSTER_DOMAIN}:5000" ".jupyter-notebooks/data/scheduling_block/itf/" "${KUBE_NAMESPACE}"
+      else
+        bash .jupyter-notebooks/scripts/load_sbd_oda.sh "http://ska-db-oda-rest-sut.${KUBE_NAMESPACE}.svc.${CLUSTER_DOMAIN}:5000" ".jupyter-notebooks/data/scheduling_block/itf/" "${KUBE_NAMESPACE}"
+      fi
     - env | grep RUNNER_AFTER_SCRIPT_TIMEOUT
     - export SUT_CLUSTER_DOMAIN=miditf.internal.skao.int ADDMARKS=true SMOKE_TEST_MARKS="not requires_talons_on and not dish_deployment"
     - chmod +x .make/resources/gitlab_section.sh
@@ -201,6 +207,36 @@ docs-build:
     - .test-end-to-end-with-hw
   variables:
     INTEGRATION_TEST_SOURCE: tests/integration/tmc/test_scan.py::test_perform_a_scan_via_tmc
+    ADDMARKS: ""
+  script:
+    - make teardown-telescope-to-pre-assign || true
+    - make integration-test
+    - '[ -f build/status ] || (echo "Something went wrong with the test (no build/status file); exit 1")'
+    - exit $(cat build/status)
+
+.test-multiscan-with-reconfigure-with-hw:
+  extends:
+    - .test-end-to-end-with-hw
+  variables:
+    INTEGRATION_TEST_SOURCE: tests/integration/tmc/test_scan.py::test_perform_multiple_scans_via_tmc_reconfiguring_between_scans
+    OVERRIDE_MULTISCAN_NUMBER_OF_SCANS: 3
+    OVERRIDE_MULTISCAN_DELAY_BETWEEN_SCANS: 60
+    OVERRIDE_MULTISCAN_BANDS: "1,2"
+    ADDMARKS: ""
+  script:
+    - make teardown-telescope-to-pre-assign || true
+    - make integration-test
+    - '[ -f build/status ] || (echo "Something went wrong with the test (no build/status file); exit 1")'
+    - exit $(cat build/status)
+
+.test-multiscan-without-reconfigure-with-hw:
+  extends:
+    - .test-end-to-end-with-hw
+  variables:
+    INTEGRATION_TEST_SOURCE: tests/integration/tmc/test_scan.py::test_perform_multiple_scans_via_tmc_without_reconfiguring
+    OVERRIDE_MULTISCAN_NUMBER_OF_SCANS: 3
+    OVERRIDE_MULTISCAN_DELAY_BETWEEN_SCANS: 30
+    OVERRIDE_MULTISCAN_BANDS: "1"
     ADDMARKS: ""
   script:
     - make teardown-telescope-to-pre-assign || true

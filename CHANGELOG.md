@@ -1,6 +1,86 @@
 # Version History
 
 ## Unreleased
+
+## 28.5.0
+* [AT-3439]
+  * update ska100 eda config file to have a single attribute of dishmode
+* [AT-3438]
+  * updated spfrx-deployer to 1.4.1
+  * updated dish-lmc to 8.5.1
+
+## 28.4.0
+* [AT-3387]
+  * Dish Archiver file updated to as working on ska001, ska036 and ska100 - some issues to resolve: spfc updates required to be deployed and filtering of high data rate attributes in dish-lmc software. high data rate dish structure controller attritubes currently omitted
+* [AT-3428]
+  * Update tangoGQL to 1.0.7
+  
+## 28.3.3
+* [AT-3370]
+  * Added two new multiscan tests.
+  * Removed default insertion of nodeselector in sdp processing block parameters (SKB-1034 workaround)
+* [AT-3414]
+  * Fix kafka incorrectly deploying to the dishes via gitlab jobs
+* [AT-3411]
+  * Update DishLMC from 8.4.4 to 8.4.6
+* [AT-3408]
+  * Set the ska001 archive config file to include the same attributes as that for ska100.  This is an interim change pending finalisation of the dish config files.
+
+## 28.3.2
+* [AT-3395]
+  * Updated mid-layout file for site tmdata/instrument/ska1_mid_aa/layout/mid-layout.json
+* [AT-3402]
+  * Updated SDP to 2.1.1
+  * Updated Vis-receive to 6.1.2
+* [AT-3410]
+  * Disable all uses of ska-oso-integration chart (temporarily)
+* [AT-3411]
+  * Update `ska-dish-lmc` to v8.4.3 (28.3.2-rc.5) and then to v8.4.4 (28.3.2-rc.6)
+* Updated test alarm handler test case to handle HealthState UNKNOWN and DEGRADED.
+
+## 28.3.1
+* [AT-3349]
+  * Updated SPFC deployer - 0.4.1
+  * Updated ska-tango-base & ska-tango-util - v0.4.24
+  * Updated Taranta - v2.15.0 & AriadneGQL - v1.0.4
+
+## 28.3.0
+* [AT-3401]
+  * Updated SDP to 2.1.0
+  * Updated Vis Receive in tests/integration/resources/command_payloads/tmc to 6.1.1
+  * Updated TMC to 1.6.0
+
+## 28.2.0
+* [AT-3360]
+  * Move current TMC command payload "templates"/defaults (assign_resources.json, scan.json etc.) so that ska-mid repo is the source of truth for these "templates". 
+* [SKB-812]
+  * Updated alarm handler test cases with new testing API's.
+  * Updated alarm handler chart to v0.6.0-rc.1.
+* [SKB-1043]
+  * Archwizard config fixed.
+* [AT-3388] 
+  * update SDP to 2.0.0
+  * update vis-receive to 5.5.0 (in jupyter notebooks submodule)
+* [SKB-1034]
+  * Update test fixture to insert 'nodeselector' processing block parameter to schedule vis-receive pods only on za-itf-cloud03.
+* [AT-3389]
+  * Fixed bug causing staging SUT deployment to use test-pvc for DPD
+* [AT-3390]
+  * Updated CSP to v1.2.0
+  * updated ska-mid-dish-spfrx-talondx-console to V1.3.0
+
+## 28.1.0
+* [AT-3384]
+  * Update CBF TDC MCS and CBF engineering console to 1.3.5 and 1.1.6 respectively
+* [AT-3371] 
+  * Introduce DOWNLOAD_CBF_BITSTREAMS environment variable to allow selective download of CBF artefacts in SUT deployment jobs.
+
+## 28.0.0
+* [AT-3379]
+  * Upgraded `ska-dish-lmc` to v8.4.1
+  * Upgraded `ska-tango-base` and `ska-tango-util` charts to v0.4.23
+
+## 27.3.1
 * [AT-2932]
   * Add initial archiver configs for TMC central node
 * [AT-2702]
@@ -18,11 +98,12 @@
   * Point ITF dish EDA config files to tag 27.3.0
 * [AT-3341]
   * update the source of the ska-mid-cbf-system-parameters
-*  [AT-3354]
+* [AT-3354]
   * add EXPECTED_K_VALE as environment variable with default of 1
   * use it in tmc/conftest.py test to check loaded k-value equals the one in tmdata
+* [AT-3361]
+  * Update TMC to 1.5.0 and rollback the dataproduct dashboard to 0.8.0
 
-  
 ## 27.3.0
 * [AT-3289]
   * Update Updated SPFC deployer

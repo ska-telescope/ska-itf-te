@@ -1,7 +1,7 @@
 image:
   registry: registry.gitlab.com/ska-telescope/ska-mid
   image: ska-mid-testing
-  tag: 27.3.1-rc.10
+  tag: 28.5.0
   pullPolicy: IfNotPresent
 environment:
   E2E_TEST_EXECUTION_NAMESPACE: "ska-mid-central-controller"
@@ -13,6 +13,11 @@ environment:
   EB_ID_PREFIX: "eb-ska001demo"
   OVERRIDE_SCAN_BAND: "2"
   OVERRIDE_SCAN_DURATION: "300"
+  NODE_WITH_100G_INTERFACE: ""
+  NODE_LABEL_FOR_100G_GROUP: ""
+  OVERRIDE_MULTISCAN_BANDS: ""
+  OVERRIDE_MULTISCAN_NUMBER_OF_SCANS: ""
+  OVERRIDE_MULTISCAN_DELAY_BETWEEN_SCANS: ""
 testReportsPVC: pvc-test-data-storage
 mountPath: /data/test-reports
 CBFMCSconfigMountPath: /app/ska-mid/resources/mcs
