@@ -18,6 +18,9 @@ environment:
   OVERRIDE_MULTISCAN_BANDS: ""
   OVERRIDE_MULTISCAN_NUMBER_OF_SCANS: ""
   OVERRIDE_MULTISCAN_DELAY_BETWEEN_SCANS: ""
+  POINTING_TARGET_NAME: "J1939-6342"
+  POINTING_TARGET_RIGHT_ASCENSION: "19:39:25.0264"
+  POINTING_TARGET_DECLINATION: "-63:42:45.625"
 testReportsPVC: pvc-test-data-storage
 mountPath: /data/test-reports
 CBFMCSconfigMountPath: /app/ska-mid/resources/mcs
