@@ -18,11 +18,11 @@ define RENDER_AND_EXECUTE_TEST_JOB
 	export K8S_UMBRELLA_CHART_PATH=$(CWD)/charts/ska-mid-testing; \
 	export K8S_CHART=ska-mid-testing; \
 	make k8s-template-chart > /dev/null
-	@yq eval-all 'select(.kind == "Job" and .metadata.name == "$(1)-job")' manifests.yaml > $(1)-job.yaml
+	@yq eval-all "select(.kind == \"Job\" and .metadata.name == \"$(1)-job\" and .spec.template.spec.containers[].name == \"$(1)\")" manifests.yaml > $(1)-job.yaml
 	kubectl apply -f $(1)-job.yaml
 	kubectl wait jobs -n integration-tests -l job-name=$(1) --for=condition=complete --timeout="180s"	
 	@echo "Test completed"
-	@rm $(1)-job.yaml manifests.yaml || true
+	@rm manifests.yaml || true
 endef
 
 test-custom-kapb:
