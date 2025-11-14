@@ -165,8 +165,7 @@
               "receiver": {
                 "options": {
                   "telescope_model": {
-                      "telmodel_key": "instrument/ska1_mid/layout/mid-layout.json",
-                      "telmodel_source_uris": "ska-telmodel-data?main#tmdata"
+                      "telmodel_key": "instrument/ska1_mid/layout/mid-layout.json"
                   }
                 }
               }
