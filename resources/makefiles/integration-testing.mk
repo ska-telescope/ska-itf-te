@@ -30,7 +30,14 @@ test-custom-kapb:
 	@yq -i '.testJobName = "$(TEST_NAME)"' $(CWD)/charts/ska-mid-testing/values.yaml
 	$(call RENDER_AND_EXECUTE_TEST_JOB,custom-test)
 
-test-smoke-kapb:
+## TARGET: test-smoke-kapb
+## SYNOPSIS: make test-smoke-kapb
+## HOOKS: none
+## VARS:
+##   None
+##  make target for running a smoke test using a kubernetes job in the Losberg cluster
+
+test-smoke-kapb: ## Run smoke test k8s job in Losberg cluster
 	$(call RENDER_AND_EXECUTE_TEST_JOB,smoke-test)
 
 test-e2e-kapb:
