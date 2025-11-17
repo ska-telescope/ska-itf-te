@@ -11,7 +11,7 @@ CWD := $(shell pwd)
 
 define RENDER_AND_EXECUTE_TEST_JOB
 	@read -p "Testing against production. Context will be switched to za-aa-k8s-master01-k8s. Continue? (Y/n): " confirm; [ "$$confirm" = Y ] || { echo "Aborted."; exit 1; }
-	infra use za-aa-k8s-master01-k8s
+	@infra use za-aa-k8s-master01-k8s
 	kubectl delete job $(1) -n integration-tests || true
 	@export KUBE_NAMESPACE=integration-tests; \
 	export HELM_RELEASE=testing; \
