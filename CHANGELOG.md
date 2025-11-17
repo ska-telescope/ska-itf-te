@@ -1,7 +1,7 @@
 # Version History
 
 ## Unreleased
-* [AT-3432]
+* [AT-3444]
   * Update tmc to 1.9.0-rc.2 and update lock file
 
 ## 28.5.1
