@@ -1,0 +1,6 @@
+dependencies:
+- name: ska-ser-k8s-spookd
+  repository: https://artefact.skao.int/repository/helm-internal
+  version: 0.2.2
+digest: sha256:3a6bf3879ab7c8354246850545f645e6e0e6f03226b72fec5793826abee8b3ae
+generated: "2025-11-13T17:04:44.26816+02:00"

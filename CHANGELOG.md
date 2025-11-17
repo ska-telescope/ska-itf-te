@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 28.5.1
+* [AT-3442]
+  * Update SPFRx console version 1.4.1 -> 1.4.2
+  * revert ska100 EDA config to the default config file
+
 ## 28.5.0
 * [AT-3439]
   * update ska100 eda config file to have a single attribute of dishmode

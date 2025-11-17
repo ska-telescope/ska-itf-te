@@ -37,7 +37,7 @@ dependencies:
   version: 0.4.1
 - name: ska-mid-dish-spfrx-talondx-console
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.4.1
+  version: 1.4.2
 - name: ska-tango-taranta
   repository: https://artefact.skao.int/repository/helm-internal
   version: 2.15.0
@@ -56,5 +56,5 @@ dependencies:
 - name: ska-log-consumer
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.1.6
-digest: sha256:1c6197fe551cbb5d06baa7c6f75337a51a3af51c0915fbfd716662a6f5bd2953
-generated: "2025-11-06T12:40:06.635632228+02:00"
+digest: sha256:7ef3e5248fed25dd9352e033e322efae6c1d34a8a81f0960aede836a21e659c7
+generated: "2025-11-17T10:40:40.803424+02:00"
