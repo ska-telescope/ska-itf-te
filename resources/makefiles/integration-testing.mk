@@ -40,13 +40,20 @@ test-custom-kapb:
 test-smoke-kapb: ## Run smoke test k8s job in Losberg cluster
 	$(call RENDER_AND_EXECUTE_TEST_JOB,smoke-test)
 
-test-e2e-kapb:
+## TARGET: test-e2e-kapb
+## SYNOPSIS: make test-e2e-kapb
+## HOOKS: none
+## VARS:
+##   TEST_NAME
+##  make target for running an end-to-end test using a kubernetes job in the Losberg cluster
+
+test-e2e-kapb: ## Run end-to-end test job in the Losberg cluster
 	$(eval TEST_NAME := end-to-end-test)
 	@yq -i '.E2ETest = "tests/integration/tmc/test_scan.py::test_perform_a_scan_via_tmc"' $(CWD)/charts/ska-mid-testing/values.yaml
 	@yq -i '.testJobName = "$(TEST_NAME)"' $(CWD)/charts/ska-mid-testing/values.yaml
 	$(call RENDER_AND_EXECUTE_TEST_JOB,$(TEST_NAME))
 
-test-telescope-on-kapb:
+test-telescope-on-kapb: ## Run Telescope On command using a k8s test job executed in the Losberg cluster.
 	$(eval TEST_NAME := telescope-on-test)
 	@yq -i '.E2ETest = "tests/integration/tmc/test_telescope_on.py::test_telescope_on_via_tmc"' $(CWD)/charts/ska-mid-testing/values.yaml
 	@yq -i '.testJobName = "$(TEST_NAME)"' $(CWD)/charts/ska-mid-testing/values.yaml
