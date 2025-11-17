@@ -1,6 +1,9 @@
 # Version History
 
 ## Unreleased
+* [AT-3442]
+  * update spfrx to version 1.4.1
+  * revert ska100 EDA config to the default config file
 
 ## 28.5.0
 * [AT-3439]
