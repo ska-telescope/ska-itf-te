@@ -39,7 +39,7 @@ spec:
           TEST_REPORT_DIR=$(cat {{ .Values.mountPath }}/test_report_dir.txt)
           . .venv/bin/activate
           export PYTHONPATH=/app/ska-mid/.venv/lib/python3.10/site-packages:$PYTHONPATH
-          python3 -m pytest {{ .Values.E2ETest }} \
+          python3 -m pytest {{ .Values.testNodeID }} \
           --log-cli-level=DEBUG \
           --log-file="$TEST_REPORT_DIR/$(date +'%Y-%m-%d_%H-%M-%S')_test-end-to-end.log" 2>&1
       dnsPolicy: ClusterFirst
