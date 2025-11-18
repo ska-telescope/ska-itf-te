@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3445]
+  * MCS 1.8.0 and engineering console 1.1.10 updates to fix skb-1075
 
 ## 28.5.1
 * [AT-3442]
