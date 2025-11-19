@@ -31,7 +31,7 @@ dependencies:
 
   # Mid CBF TDC MCS
   - name: ska-mid-cbf-tdc-mcs
-    version: 1.3.5
+    version: 1.3.7
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-mid-cbf-tdc-mcs.enabled
 
