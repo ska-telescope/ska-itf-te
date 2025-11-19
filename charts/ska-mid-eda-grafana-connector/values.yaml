@@ -20,5 +20,6 @@ environment:
   EDA_HOST: "eda.ska-tango-archiver.svc.miditf.internal.skao.int"
   SOURCE_CLUSTER_DOMAIN: "miditf.internal.skao.int"
   ATTRIBUTE_CONTEXT_FILE: "/app/libhdbpp-grafana-connector/ArchivingDataSource/skao-attribute-context.yaml"
+  EDA_DATABASE_NAME: itf_eda
 startup:
   command: '"sh", "-c", "poetry run grafana-connector"'
