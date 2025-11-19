@@ -29,6 +29,9 @@
     DISH_LMC_IN_THE_LOOP: "true"
     # SDP CONFIGURATION FOR PERSISTENT DATA
     DPD_PVC_NAME: staging-pvc
+  before_script:
+    - DISH_IDS_LIST=$(printf '"%s",' $DISH_IDS | sed 's/,$//')
+    - export K8S_EXTRA_PARAMS="--set global.dishids={$DISH_IDS_LIST} $K8S_EXTRA_PARAMS"
 
 .staging_rules:
   # variables:
