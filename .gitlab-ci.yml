@@ -110,7 +110,7 @@ oci-image-build-testing:
 oci-image-build-eda-grafana-connector:
   extends:
     - .image_builder_template
-  stage: publish
+  stage: build
   variables:
     OCI_IMAGES: "ska-mid-eda-grafana-connector"
   rules:
