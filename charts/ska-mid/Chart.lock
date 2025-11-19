@@ -7,7 +7,7 @@ dependencies:
   version: 0.4.24
 - name: ska-tmc-mid
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.6.0
+  version: 1.9.0-rc.2
 - name: ska-csp-lmc-mid
   repository: https://artefact.skao.int/repository/helm-internal
   version: 1.2.0

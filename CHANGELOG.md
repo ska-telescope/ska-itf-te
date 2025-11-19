@@ -1,8 +1,13 @@
 # Version History
 
 ## Unreleased
+* [AT-3431]
+  * Added some new pytests and make targets for executing TMC commands individually.
+  * Slightly refactored ska-mid-testing job template. 
+* [AT-3444]
+  * Update tmc to 1.9.0-rc.2 and update lock file
 * [AT-3445]
-  * MCS 1.8.0 and engineering console 1.1.10 updates to fix skb-1075
+  * CBF MCS 1.3.8 and engineering console 1.1.10 updates to fix skb-1075
 
 ## 28.5.1
 * [AT-3442]
@@ -21,6 +26,8 @@
   * Dish Archiver file updated to as working on ska001, ska036 and ska100 - some issues to resolve: spfc updates required to be deployed and filtering of high data rate attributes in dish-lmc software. high data rate dish structure controller attritubes currently omitted
 * [AT-3428]
   * Update tangoGQL to 1.0.7
+* [AT-3429]
+  * Update cbf-tdc-mcs to 1.3.7
   
 ## 28.3.3
 * [AT-3370]
