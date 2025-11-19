@@ -28,7 +28,7 @@ dependencies:
   version: 0.1.1
 - name: ska-dish-lmc
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 8.4.6
+  version: 8.5.1
 - name: ska-te-dish-structure-simulator
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.11.0
@@ -37,7 +37,7 @@ dependencies:
   version: 0.4.1
 - name: ska-mid-dish-spfrx-talondx-console
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.3.0
+  version: 1.4.2
 - name: ska-tango-taranta
   repository: https://artefact.skao.int/repository/helm-internal
   version: 2.15.0
@@ -56,5 +56,5 @@ dependencies:
 - name: ska-log-consumer
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.1.6
-digest: sha256:09d18c19c487ec8bd8fa4b7e003dded45602020f62558184dc3c74f053637717
-generated: "2025-11-03T12:51:47.519332+02:00"
+digest: sha256:7ef3e5248fed25dd9352e033e322efae6c1d34a8a81f0960aede836a21e659c7
+generated: "2025-11-17T10:40:40.803424+02:00"
