@@ -1,0 +1,50 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Values.testJobName }}-job
+  namespace: integration-tests
+spec:
+  backoffLimit: 0
+  completionMode: NonIndexed
+  completions: 1
+  manualSelector: false
+  parallelism: 1
+  podReplacementPolicy: TerminatingOrFailed
+  suspend: false
+  template:
+    spec:
+      serviceAccountName: integration-test-executor
+      volumes:
+      - name: test-data-storage
+        persistentVolumeClaim:
+          claimName: {{ .Values.testReportsPVC }}
+      containers:
+      - name: {{ .Values.testJobName }}
+        image: {{ .Values.image.registry }}/{{ .Values.image.image }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{.Values.image.pullPolicy}}
+        volumeMounts:
+        - name: test-data-storage
+          mountPath: {{ .Values.mountPath }}
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        env:
+        {{- range $key, $value := .Values.environment }}
+          - name: {{ $key }}
+            value: "{{ $value }}"
+        {{- end }}
+        command: ["sh", "-c"]
+        args:
+        - |
+          TEST_REPORT_DIR=$(cat {{ .Values.mountPath }}/test_report_dir.txt)
+          . .venv/bin/activate
+          export PYTHONPATH=/app/ska-mid/.venv/lib/python3.10/site-packages:$PYTHONPATH
+          python3 -m pytest {{ .Values.testNodeID }} \
+          --log-cli-level=DEBUG \
+          --log-file="$TEST_REPORT_DIR/$(date +'%Y-%m-%d_%H-%M-%S')_test-end-to-end.log" 2>&1
+      dnsPolicy: ClusterFirst
+      restartPolicy: Never
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status: {}
