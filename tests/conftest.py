@@ -51,6 +51,9 @@ def settings():
     # Label used to select the nodes from 100G interface group for vis-receive pod.
     # Example: 100Ggroup=True
     settings["node_label_for_100G_group"] = os.getenv("NODE_LABEL_FOR_100G_GROUP", "")
+    settings["pointing_target_name"] = os.getenv("POINTING_TARGET_NAME", "")
+    settings["pointing_target_right_ascension"] = os.getenv("POINTING_TARGET_RIGHT_ASCENSION", "")
+    settings["pointing_target_declination"] = os.getenv("POINTING_TARGET_DECLINATION", "")
     return settings
 
 
