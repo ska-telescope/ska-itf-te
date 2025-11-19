@@ -27,9 +27,6 @@
     # HARDWARE AND DISH IN THE LOOP SETTINGS
     CBF_HW_IN_THE_LOOP: "false"
     DISH_LMC_IN_THE_LOOP: "true"
-  before_script:
-    - DISH_IDS_LIST=$(printf '"%s",' $DISH_IDS | sed 's/,$//')
-    - export K8S_EXTRA_PARAMS="--set global.dishids=$DISH_IDS $K8S_EXTRA_PARAMS"
 
 deploy-sut-integration:
   extends:
