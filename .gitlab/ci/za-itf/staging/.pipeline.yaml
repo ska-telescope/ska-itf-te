@@ -15,7 +15,7 @@
     K8S_CHART: "ska-mid"
     CLUSTER_DOMAIN_POSTFIX: miditf.internal.skao.int
     SUT_ENABLERS: "-f .gitlab/ci/za-itf/staging/sut-staging-enablers.yaml"
-    K8S_EXTRA_PARAMS: "--set global.dishids=$DISH_IDS --set global.kafka_host=ska-sdp-kafka.$KUBE_NAMESPACE"
+    K8S_EXTRA_PARAMS: "--set global.kafka_host=ska-sdp-kafka.$KUBE_NAMESPACE"
     KUBE_APP: ska-mid-sut
     INGRESS_HOST: "k8s.miditf.internal.skao.int"
     CLUSTER_DOMAIN: "miditf.internal.skao.int"
