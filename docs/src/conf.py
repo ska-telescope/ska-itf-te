@@ -29,7 +29,7 @@ author = "ATLAS Team"
 
 # The full version, including alpha/beta/rc tags
 
-release = "28.5.2rc1"
+release = "28.5.2rc2"
 
 # -- General configuration ---------------------------------------------------
 
