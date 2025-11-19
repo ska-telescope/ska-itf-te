@@ -4,6 +4,8 @@
 * [AT-3431]
   * Added some new pytests and make targets for executing TMC commands individually.
   * Slightly refactored ska-mid-testing job template. 
+* [AT-3444]
+  * Update tmc to 1.9.0-rc.2 and update lock file
 
 ## 28.5.1
 * [AT-3442]
