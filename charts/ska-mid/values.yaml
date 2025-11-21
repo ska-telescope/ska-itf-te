@@ -278,7 +278,7 @@ ska-tmc-mid:
         DishVccUri: "car:ska-mid?27.3.0#tmdata"
         DishVccFilePath: "instrument/ska1_mid_itf/vcc-config/ska-mid-cbf-system-parameters.json"
     cspsubarrayleafnode:
-      CommandTimeOut: 300
+      CommandTimeOutDefault: 300
       # DelayCadence: 10.0
       # DelayModelTimeInAdvance: 30
       # DelayValidityPeriod: 20.0
@@ -286,9 +286,9 @@ ska-tmc-mid:
       TelmodelSource: car:ska-mid?main#tmdata
       TelmodelPath: instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json
     sdpsubarrayleafnode:
-      CommandTimeOut: 240
+      CommandTimeOutDefault: 240
     subarraynode:
-      CommandTimeOut: 300
+      CommandTimeOutDefault: 300
       CspScanInterfaceURL: https://schema.skao.int/ska-csp-scan/2.2   # TEMPORARY COMMIT - not to be overwritten in makefile
   resources:
     # limits:
@@ -299,6 +299,15 @@ ska-tmc-mid:
     enabled: false
   subarray_count: 1
   telescope: SKA-mid
+
+# Mid WMS Simulator
+ska-mid-wms:
+  legacy_compatibility: true
+  dev-name: "mid/wms/0"
+  ska-tango-base:
+    enabled: false
+    itango:
+      enabled: false
 
 # Temporary configuration for PVC
 temp_sdp_pvc:

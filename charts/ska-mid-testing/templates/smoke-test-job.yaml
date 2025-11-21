@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: test-job
+  name: {{ .Values.testJobName }}-job
   namespace: integration-tests
 spec:
   backoffLimit: 0
@@ -27,8 +27,8 @@ spec:
           items:
           - key: hw_config.yaml
             path: hw_config.yaml
-      initContainers:
-      - name: test-smoke
+      containers:
+      - name: {{ .Values.testJobName }}-job
         image: {{ .Values.image.registry }}/{{ .Values.image.image }}:{{ .Values.image.tag }}
         imagePullPolicy: {{.Values.image.pullPolicy}}
         volumeMounts:
@@ -57,30 +57,6 @@ spec:
           python3 -m pytest tests/smoke/ \
           --log-cli-level=DEBUG \
           --log-file="$TEST_REPORT_DIR/$(date +'%Y-%m-%d_%H-%M-%S')_test-smoke" 2>&1
-      containers:
-      - name: test-end-to-end
-        image: {{ .Values.image.registry }}/{{ .Values.image.image }}:{{ .Values.image.tag }}
-        imagePullPolicy: {{.Values.image.pullPolicy}}
-        volumeMounts:
-        - name: test-data-storage
-          mountPath: {{ .Values.mountPath }}
-        resources: {}
-        terminationMessagePath: /dev/termination-log
-        terminationMessagePolicy: File
-        env:
-        {{- range $key, $value := .Values.environment }}
-          - name: {{ $key }}
-            value: "{{ $value }}"
-        {{- end }}
-        command: ["sh", "-c"]
-        args:
-        - |
-          TEST_REPORT_DIR=$(cat {{ .Values.mountPath }}/test_report_dir.txt)
-          . .venv/bin/activate
-          export PYTHONPATH=/app/ska-mid/.venv/lib/python3.10/site-packages:$PYTHONPATH
-          python3 -m pytest {{ .Values.E2ETest }} \
-          --log-cli-level=DEBUG \
-          --log-file="$TEST_REPORT_DIR/$(date +'%Y-%m-%d_%H-%M-%S')_test-end-to-end.log" 2>&1
       dnsPolicy: ClusterFirst
       restartPolicy: Never
       schedulerName: default-scheduler

@@ -159,7 +159,7 @@ class TalonBoardCommandExecutor:
 
         fpga_bitstream_version = next(
             (
-                bitstream_info["version"]
+                bitstream_info["raw"]["version"]
                 for bitstream_info in talondx_boardmap["fpga_bitstreams"]
                 if bitstream_info["fsp_mode"] == "corr"
             ),

@@ -1381,6 +1381,21 @@ def update_configure_scan(
     configure_scan_payload["csp"]["transaction_id"] = f"txn-....-{scan_number:05}"
     configure_scan_payload["tmc"]["scan_duration"] = float(scan_duration)
 
+    if settings["pointing_target_name"]:
+        configure_scan_payload["pointing"]["target"]["target_name"] = settings[
+            "pointing_target_name"
+        ]
+
+    if settings["pointing_target_right_ascension"]:
+        configure_scan_payload["pointing"]["target"]["ra"] = settings[
+            "pointing_target_right_ascension"
+        ]
+
+    if settings["pointing_target_declination"]:
+        configure_scan_payload["pointing"]["target"]["dec"] = settings[
+            "pointing_target_declination"
+        ]
+
     return configure_scan_payload
 
 
