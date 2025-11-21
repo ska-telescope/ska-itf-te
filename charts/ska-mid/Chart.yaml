@@ -23,6 +23,12 @@ dependencies:
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tmc-mid.enabled
 
+# Mid WMS Simulator
+  - name: ska-mid-wms
+    version: 0.4.0
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-mid-wms.enabled
+
   # Mid CSP LMC
   - name: ska-csp-lmc-mid
     version: 1.2.0
