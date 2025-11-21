@@ -49,13 +49,19 @@ test-smoke-kapb: ## Run a smoke tests from the tests/smoke/ folder using ska-mid
 
 test-e2e-kapb: ## Run end-to-end test using ska-mid-testing K8s test job in the Mid-AA (Losberg) cluster
 	$(eval TEST_NAME := end-to-end-test)
-	@yq -i '.testNodeID = "tests/integration/tmc/test_scan.py::test_perform_a_scan_via_tmc"' $(CWD)/charts/ska-mid-testing/values.yaml
+	@yq -i '.testNodeID = "tests/integration/tmc/test_end_to_end.py::test_e2e_via_tmc_slow_without_off"' $(CWD)/charts/ska-mid-testing/values.yaml
 	@yq -i '.testJobName = "$(TEST_NAME)"' $(CWD)/charts/ska-mid-testing/values.yaml
 	$(call RENDER_AND_EXECUTE_TEST_JOB,$(TEST_NAME))
 
 test-telescope-on-kapb: ## Run telescope ON test using ska-mid-testing K8s test job in the Mid-AA (Losberg) cluster
 	$(eval TEST_NAME := telescope-on-test)
 	@yq -i '.testNodeID = "tests/integration/tmc/test_telescope_on.py::test_telescope_on_via_tmc"' $(CWD)/charts/ska-mid-testing/values.yaml
+	@yq -i '.testJobName = "$(TEST_NAME)"' $(CWD)/charts/ska-mid-testing/values.yaml
+	$(call RENDER_AND_EXECUTE_TEST_JOB,$(TEST_NAME))
+
+test-assign-configure-scan-kapb: ## Run assign resources, configure scan and scan commands combined using ska-mid-testing K8s test job in the Mid-AA (Losberg) cluster
+	$(eval TEST_NAME := assign-configure-scan-test)
+	@yq -i '.testNodeID = "tests/integration/tmc/test_scan.py::test_perform_a_scan_via_tmc"' $(CWD)/charts/ska-mid-testing/values.yaml
 	@yq -i '.testJobName = "$(TEST_NAME)"' $(CWD)/charts/ska-mid-testing/values.yaml
 	$(call RENDER_AND_EXECUTE_TEST_JOB,$(TEST_NAME))
 
