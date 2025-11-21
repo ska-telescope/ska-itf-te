@@ -299,6 +299,7 @@ ska-tmc-mid:
 
 # Mid WMS Simulator
 ska-mid-wms:
+  enabled: true
   legacy_compatibility: true
   dev-name: "mid/wms/0"
   ska-tango-base:
