@@ -8,6 +8,8 @@
   * Slightly refactored ska-mid-testing job template. 
 * [AT-3444]
   * Update tmc to 1.9.0-rc.2 and update lock file
+* [AT-3445]
+  * CBF MCS 1.3.8 and engineering console 1.1.10 updates to fix skb-1075
 
 ## 28.5.1
 * [AT-3442]
