@@ -297,6 +297,15 @@ ska-tmc-mid:
   subarray_count: 1
   telescope: SKA-mid
 
+# Mid WMS Simulator
+ska-mid-wms:
+  legacy_compatibility: true
+  dev-name: "mid/wms/0"
+  ska-tango-base:
+    enabled: false
+    itango:
+      enabled: false
+
 # Temporary configuration for PVC
 temp_sdp_pvc:
   enabled: false
