@@ -1,8 +1,10 @@
 # Version History
 
 ## Unreleased
+
+## 28.5.2
 * [AT-3447]
-  * Added WMS device
+  * Added WMS chart - 0.4.0
 * [AT-3440]
   * update vis-receive to 6.2.0
 * [AT-3431]
