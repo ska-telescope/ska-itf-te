@@ -115,15 +115,15 @@ ska-log-consumer:
 
 # CBF EC
 ska-mid-cbf-engineering-console:
-  enabled: false
+  enabled: true
   # Comment section below to use engineering-console image from CAR
   # Uncomment section below to use engineering-console image from gitlab
-  # engineeringconsole:
-  #   image:
-  #     registry: registry.gitlab.com/ska-telescope/ska-mid-cbf-engineering-console
-  #     image: ska-mid-cbf-engineering-console
-  #     tag: 0.10.8-dev.c9206d147
-  #     pullPolicy: IfNotPresent
+  engineeringconsole:
+    image:
+      registry: registry.gitlab.com/ska-telescope/ska-mid-cbf-engineering-console
+      image: ska-mid-cbf-engineering-console
+      tag: 1.1.10-dev.ca2ad80fe
+      pullPolicy: IfNotPresent
 
 # CBF Talon Demonstration Correlator Master Control Software
 ska-mid-cbf-tdc-mcs:
