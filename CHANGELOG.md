@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3447]
+  * Added WMS device
 * [AT-3440]
   * update vis-receive to 6.2.0
 * [AT-3431]
