@@ -6,7 +6,7 @@
   variables:
     KUBE_APP: eda-grafana-connector-api
     K8S_CHART: ska-mid-eda-grafana-connector
-    K8S_CHART_PARAMS: "-f ./charts/ska-mid-eda-grafana-connector/values.yaml"
+    K8S_CHART_PARAMS: "-f ./charts/ska-mid-eda-grafana-connector/values-miditf.yaml"
     KUBE_NAMESPACE: eda-grafana-connector
     HELM_RELEASE: eda-grafana-connector
   when: manual
