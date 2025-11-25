@@ -43,7 +43,7 @@ dependencies:
   version: 2.15.0
 - name: ska-tango-tangogql-ariadne
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.0.7
+  version: 1.0.6
 - name: ska-tango-alarmhandler
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.6.0-rc.1
@@ -56,5 +56,5 @@ dependencies:
 - name: ska-log-consumer
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.1.6
-digest: sha256:0cca1698555b46568d7266dc9114f75fd28a7e35a807d2a9d11fc45bcb0b38eb
-generated: "2025-11-21T14:43:27.000981+02:00"
+digest: sha256:d794b5d792fdbbc9b4368fce47b38ba8a32dde241af4316cb11ba4f5e86a409b
+generated: "2025-11-25T08:35:23.106373528+02:00"
