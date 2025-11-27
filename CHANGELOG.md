@@ -14,6 +14,8 @@
   * CBF MCS 1.3.8 and engineering console 1.1.10 updates to fix skb-1075
 * [AT-3451]
   * Create `ska-mid-cbf-system-parameters.json` for site, separate from the ITF one
+* [MAP-502]
+  * update cbf ec deployer image
 
 ## 28.5.1
 * [AT-3442]
