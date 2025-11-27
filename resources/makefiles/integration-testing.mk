@@ -38,6 +38,8 @@ test-custom-kapb: ## Run a custom test (self configured testNodeID and values) u
 ##  make target for running a smoke test using a kubernetes job in the Losberg cluster
 
 test-smoke-kapb: ## Run a smoke tests from the tests/smoke/ folder using ska-mid-testing K8s test job in the Mid-AA (Losberg) cluster
+	$(eval TEST_NAME := '')
+	@yq -i '.testJobName = "$(TEST_NAME)"' $(CWD)/charts/ska-mid-testing/values.yaml
 	$(call RENDER_AND_EXECUTE_TEST_JOB,smoke-test)
 
 ## TARGET: test-e2e-kapb
