@@ -1,6 +1,7 @@
 # Version History
 
 ## Unreleased
+<<<<<<< HEAD
 * [AT-3447]
   * Added WMS device
 * [AT-3440]
@@ -12,6 +13,10 @@
   * Update tmc to 1.9.0-rc.2 and update lock file
 * [AT-3445]
   * CBF MCS 1.3.8 and engineering console 1.1.10 updates to fix skb-1075
+=======
+* [AT-3391]
+  * Add EDA-Grafana Middlelayer chart along with build and deploy jobs.
+>>>>>>> 6cc4736e (AT-3391 Update changelog)
 
 ## 28.5.1
 * [AT-3442]
@@ -34,8 +39,6 @@
   * Update cbf-tdc-mcs to 1.3.7
   
 ## 28.3.3
-* [AT-3391]
-  * Added two new multiscan tests.
 * [AT-3370]
   * Added two new multiscan tests.
   * Removed default insertion of nodeselector in sdp processing block parameters (SKB-1034 workaround)
