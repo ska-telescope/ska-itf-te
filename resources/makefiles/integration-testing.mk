@@ -20,9 +20,9 @@ define RENDER_AND_EXECUTE_TEST_JOB
 	make k8s-template-chart > /dev/null
 	@yq eval-all "select(.kind == \"Job\" and .metadata.name == \"$(1)-job\" and .spec.template.spec.containers[].name == \"$(1)\")" manifests.yaml > $(1)-job.yaml
 	kubectl apply -f $(1)-job.yaml
-	kubectl wait jobs -n integration-tests -l job-name=$(1) --for=condition=complete --timeout="180s"	
+	kubectl wait jobs -n integration-tests -l job-name=$(1)-job --for=condition=complete --timeout="180s"	
 	@echo "Test completed"
-	@rm manifests.yaml || true
+	@rm $(1)-job.yaml manifests.yaml || true
 endef
 
 test-custom-kapb: ## Run a custom test (self configured testNodeID and values) using ska-mid-testing K8s test job in the Mid-AA (Losberg) cluster
