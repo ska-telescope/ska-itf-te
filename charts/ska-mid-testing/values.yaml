@@ -1,14 +1,14 @@
 image:
   registry: registry.gitlab.com/ska-telescope/ska-mid
   image: ska-mid-testing
-  tag: 28.3.3
+  tag: 28.5.2-rc.3
   pullPolicy: IfNotPresent
 environment:
   E2E_TEST_EXECUTION_NAMESPACE: "ska-mid-central-controller"
   KUBE_NAMESPACE: "ska-mid-central-controller"
   SIM_MODE: "false"
   SUT_CLUSTER_DOMAIN: "mid.internal.skao.int"
-  DISH_IDS: "SKA001"
+  DISH_IDS: "SKA001 SKA100"
   PB_ID_PREFIX: "pb-ska001demo"
   EB_ID_PREFIX: "eb-ska001demo"
   OVERRIDE_SCAN_BAND: "2"
@@ -18,7 +18,11 @@ environment:
   OVERRIDE_MULTISCAN_BANDS: ""
   OVERRIDE_MULTISCAN_NUMBER_OF_SCANS: ""
   OVERRIDE_MULTISCAN_DELAY_BETWEEN_SCANS: ""
+  POINTING_TARGET_NAME: "J1939-6342"
+  POINTING_TARGET_RIGHT_ASCENSION: "19:39:25.0264"
+  POINTING_TARGET_DECLINATION: "-63:42:45.625"
 testReportsPVC: pvc-test-data-storage
 mountPath: /data/test-reports
 CBFMCSconfigMountPath: /app/ska-mid/resources/mcs
-E2ETest: tests/integration/tmc/test_scan.py::test_perform_a_scan_via_tmc
+testNodeID: tests/integration/tmc/test_telescope_on.py::test_telescope_on_via_tmc
+testJobName: "telescope-on-test"

@@ -151,7 +151,7 @@
           "script": {
             "kind": "realtime",
             "name": "vis-receive",
-            "version": "6.1.2"
+            "version": "6.2.0"
           },
           "parameters": {
             "channels_per_port": 20,
@@ -165,8 +165,7 @@
               "receiver": {
                 "options": {
                   "telescope_model": {
-                    "telmodel_key": "instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json",
-                    "telmodel_source_uris": "car:ska-mid?main#tmdata"
+                      "telmodel_key": "instrument/ska1_mid/layout/mid-layout.json"
                   }
                 }
               }

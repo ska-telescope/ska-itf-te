@@ -1,8 +1,37 @@
 # Version History
 
 ## Unreleased
-* [AT-3426]
-  * Update ska036 archiver config file to have a single attribute for testing purposes
+* [AT-3447]
+  * Added WMS device
+* [AT-3440]
+  * update vis-receive to 6.2.0
+* [AT-3431]
+  * Added some new pytests and make targets for executing TMC commands individually.
+  * Slightly refactored ska-mid-testing job template. 
+* [AT-3444]
+  * Update tmc to 1.9.0-rc.2 and update lock file
+* [AT-3445]
+  * CBF MCS 1.3.8 and engineering console 1.1.10 updates to fix skb-1075
+
+## 28.5.1
+* [AT-3442]
+  * Update SPFRx console version 1.4.1 -> 1.4.2
+  * revert ska100 EDA config to the default config file
+
+## 28.5.0
+* [AT-3439]
+  * update ska100 eda config file to have a single attribute of dishmode
+* [AT-3438]
+  * updated spfrx-deployer to 1.4.1
+  * updated dish-lmc to 8.5.1
+
+## 28.4.0
+* [AT-3387]
+  * Dish Archiver file updated to as working on ska001, ska036 and ska100 - some issues to resolve: spfc updates required to be deployed and filtering of high data rate attributes in dish-lmc software. high data rate dish structure controller attritubes currently omitted
+* [AT-3428]
+  * Update tangoGQL to 1.0.7
+* [AT-3429]
+  * Update cbf-tdc-mcs to 1.3.7
   
 ## 28.3.3
 * [AT-3370]
