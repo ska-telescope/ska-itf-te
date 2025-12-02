@@ -55,7 +55,7 @@ dependencies:
 
   # SDP
   - name: ska-sdp
-    version: 2.2
+    version: 2.1.1
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-sdp.enabled
 

@@ -22,7 +22,7 @@ dependencies:
   version: 1.1.10
 - name: ska-sdp
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 2.2.0
+  version: 2.1.1
 - name: ska-oso-integration
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.1.1
@@ -56,5 +56,5 @@ dependencies:
 - name: ska-log-consumer
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.1.6
-digest: sha256:b0d71530c4a9feb8b0de4be3bbd63e8aaab9c9dcb010c0bd7a3cca455379204a
-generated: "2025-12-01T12:47:44.015481622+02:00"
+digest: sha256:e1df9ddb92af34fedbbc80d36d57ae3524692c83c3874dcf0f5f52864a251949
+generated: "2025-12-02T07:25:24.127689922+02:00"
