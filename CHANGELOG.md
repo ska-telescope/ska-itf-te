@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+
+## 28.6.0
 * [AT-3447]
   * Added WMS device
 * [AT-3440]
