@@ -2610,16 +2610,16 @@
                 "geocentric": {
                     "interface": "https://schema.skao.int/ska-telmodel-layout-geocentric/1.0",
                     "coordinate_frame": "ITRF",
-                    "x": 5109058.064,
-                    "y": 2007302.436,
-                    "z": -3239167.001
+                    "x": 5109061.4427951, 
+                    "y": 2007304.5872280,
+                    "z": -3239167.7473223
                 },
                 "geodetic": {
                     "interface": "https://schema.skao.int/ska-telmodel-layout-geodetic/1.0",
                     "coordinate_frame": "WGS84",
-                    "lat": -30.71329,
-                    "lon": 21.449412,
-                    "h": 1098.076
+                    "lat": -30.7132776,
+                    "lon": 21.4494200,
+                    "h": 1101.836
                 }
             },
             "fixed_delays": [
@@ -6570,16 +6570,16 @@
                 "geocentric": {
                     "interface": "https://schema.skao.int/ska-telmodel-layout-geocentric/1.0",
                     "coordinate_frame": "ITRF",
-                    "x": 5108866.386,
-                    "y": 2007188.467,
-                    "z": -3239543.516
+                    "x": 5108869.5731035,  
+                    "y": 2007190.5688061,
+                    "z": -3239544.10544
                 },
                 "geodetic": {
                     "interface": "https://schema.skao.int/ska-telmodel-layout-geodetic/1.0",
                     "coordinate_frame": "WGS84",
-                    "lat": -30.717223,
-                    "lon": 21.4490364,
-                    "h": 1101.184
+                    "lat": -30.717210362,
+                    "lon": 21.449044654,
+                    "h": 1104.6957
                 }
             },
             "fixed_delays": [
