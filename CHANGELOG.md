@@ -16,6 +16,8 @@
   * Create `ska-mid-cbf-system-parameters.json` for site, separate from the ITF one
 * [MAP-502]
   * update cbf ec deployer image
+* [AT-3454]
+  * Update spfrx ec deployer to 1.4.4
 
 ## 28.5.1
 * [AT-3442]
