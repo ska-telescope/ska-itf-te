@@ -69,6 +69,7 @@ include:
   - local: .gitlab/ci/za-itf/ci-ska-db-oda-commit-ref/.pipeline.yaml
   - local: .gitlab/ci/za-itf/sdp-data-product-dashboard/.pipeline.yaml
   - local: .gitlab/ci/za-itf/cbf-engineering-console/.pipeline.yaml
+  - local: .gitlab/ci/za-itf/eda-grafana-connector/.pipeline.yaml
 
 
 xray-publish:
@@ -105,6 +106,16 @@ oci-image-build-testing:
     - if: '$CI_COMMIT_TAG'
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+
+oci-image-build-eda-grafana-connector:
+  extends:
+    - .image_builder_template
+  stage: build
+  variables:
+    OCI_IMAGES: "ska-mid-eda-grafana-connector"
+  rules:
+    - when: manual
+      allow_failure: true
 
 container_scanning:
   needs:

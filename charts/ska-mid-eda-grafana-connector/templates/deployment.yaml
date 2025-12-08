@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .Values.app }}
+  name: {{ .Values.app }}
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: {{ .Values.app }}-api
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app }}-api
+    spec:
+      volumes:
+      - name: {{ .Values.vault.edaCredentials.secretName }}
+        secret:
+          secretName: {{ .Values.vault.edaCredentials.secretName }}
+      containers:
+      - name: eda-grafana-connector-api
+        image: {{ .Values.image.registry }}/{{ .Values.image.image }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        command: [ {{ .Values.startup.command }} ]
+        env:
+        {{- range $key, $value := .Values.environment }}
+        - name: {{ $key }}
+          value: "{{ $value }}"
+        {{- end }}
+        volumeMounts:
+        - name: {{ .Values.vault.edaCredentials.secretName }}
+          mountPath: {{ .Values.environment.CREDENTIALS_PATH }}
