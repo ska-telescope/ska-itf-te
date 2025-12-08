@@ -18,7 +18,9 @@
   * Update spfrx ec deployer to 1.4.4
 * [AT-3459]
   * Update ska001 and ska100 layout files for delay calibrations
-  
+* [AT-3391]
+  * Add EDA-Grafana Middlelayer chart along with build and deploy jobs.
+
 ## 28.5.1
 * [AT-3442]
   * Update SPFRx console version 1.4.1 -> 1.4.2
