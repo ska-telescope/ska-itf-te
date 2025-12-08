@@ -1,7 +1,7 @@
 .oda:
   tags:
     - ska-k8srunner-za-itf
-  stage: deploy-oda
+  stage: deploy-supplementary-services
   variables:
     CONFIG: mid
     K8S_CHART: ska-mid
