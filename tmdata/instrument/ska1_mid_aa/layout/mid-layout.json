@@ -2610,9 +2610,9 @@
                 "geocentric": {
                     "interface": "https://schema.skao.int/ska-telmodel-layout-geocentric/1.0",
                     "coordinate_frame": "ITRF",
-                    "x": 5109061.4427951, 
-                    "y": 2007304.5872280,
-                    "z": -3239167.7473223
+                    "x": 5109061.4427, 
+                    "y": 2007304.5872,
+                    "z": -3239167.7473
                 },
                 "geodetic": {
                     "interface": "https://schema.skao.int/ska-telmodel-layout-geodetic/1.0",
@@ -6570,15 +6570,15 @@
                 "geocentric": {
                     "interface": "https://schema.skao.int/ska-telmodel-layout-geocentric/1.0",
                     "coordinate_frame": "ITRF",
-                    "x": 5108869.5731035,  
-                    "y": 2007190.5688061,
-                    "z": -3239544.10544
+                    "x": 5108869.5731,  
+                    "y": 2007190.5688,
+                    "z": -3239544.1054
                 },
                 "geodetic": {
                     "interface": "https://schema.skao.int/ska-telmodel-layout-geodetic/1.0",
                     "coordinate_frame": "WGS84",
-                    "lat": -30.717210362,
-                    "lon": 21.449044654,
+                    "lat": -30.7172103,
+                    "lon": 21.4490446,
                     "h": 1104.6957
                 }
             },
