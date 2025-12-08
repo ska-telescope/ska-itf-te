@@ -16,6 +16,8 @@
   * Create `ska-mid-cbf-system-parameters.json` for site, separate from the ITF one
 * [AT-3454]
   * Update spfrx ec deployer to 1.4.4
+* [AT-3459]
+  * Update ska001 and ska100 layout files for delay calibrations
 * [AT-3452]
   * Update tango base and util to v1.0.2
 
