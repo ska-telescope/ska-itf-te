@@ -16,7 +16,9 @@
   * Create `ska-mid-cbf-system-parameters.json` for site, separate from the ITF one
 * [AT-3454]
   * Update spfrx ec deployer to 1.4.4
-
+* [AT-3459]
+  * Update ska001 and ska100 layout files for delay calibrations
+  
 ## 28.5.1
 * [AT-3442]
   * Update SPFRx console version 1.4.1 -> 1.4.2
