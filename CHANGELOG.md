@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3447]
+  * Added WMS device
 * [AT-3440]
   * update vis-receive to 6.2.0
 * [AT-3431]
@@ -8,6 +10,12 @@
   * Slightly refactored ska-mid-testing job template. 
 * [AT-3444]
   * Update tmc to 1.9.0-rc.2 and update lock file
+* [AT-3445]
+  * CBF MCS 1.3.8 and engineering console 1.1.10 updates to fix skb-1075
+* [AT-3451]
+  * Create `ska-mid-cbf-system-parameters.json` for site, separate from the ITF one
+* [AT-3454]
+  * Update spfrx ec deployer to 1.4.4
 * [AT-3420]
   * Enable the persistent deployment of the ODA db (not via the oso-integration chart) that does not rely on bitnami
 

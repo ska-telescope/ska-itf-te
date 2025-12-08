@@ -78,6 +78,10 @@ ska-dataproduct-dashboard:
 ska-tango-archiver:
   enabled: false
 
+# WMS
+ska-mid-wms:
+  enabled: false
+
 # Test helpers
 ska-log-consumer:
   enabled: false
