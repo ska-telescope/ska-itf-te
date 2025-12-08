@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ .Values.testJobName }}-job
+  name: smoke-test-job
   namespace: integration-tests
 spec:
   backoffLimit: 0
@@ -28,7 +28,7 @@ spec:
           - key: hw_config.yaml
             path: hw_config.yaml
       containers:
-      - name: {{ .Values.testJobName }}-job
+      - name: smoke-test
         image: {{ .Values.image.registry }}/{{ .Values.image.image }}:{{ .Values.image.tag }}
         imagePullPolicy: {{.Values.image.pullPolicy}}
         volumeMounts:

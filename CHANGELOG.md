@@ -14,6 +14,10 @@
   * CBF MCS 1.3.8 and engineering console 1.1.10 updates to fix skb-1075
 * [AT-3451]
   * Create `ska-mid-cbf-system-parameters.json` for site, separate from the ITF one
+* [AT-3454]
+  * Update spfrx ec deployer to 1.4.4
+* [AT-3459]
+  * Update ska001 and ska100 layout files for delay calibrations
 * [AT-3391]
   * Add EDA-Grafana Middlelayer chart along with build and deploy jobs.
 
