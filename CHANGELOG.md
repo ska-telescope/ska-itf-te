@@ -18,6 +18,8 @@
   * Update spfrx ec deployer to 1.4.4
 * [AT-3459]
   * Update ska001 and ska100 layout files for delay calibrations
+* [AT-3391]
+  * Add EDA-Grafana Middlelayer chart along with build and deploy jobs.
 * [AT-3452]
   * Update tango base and util to v1.0.2
 
