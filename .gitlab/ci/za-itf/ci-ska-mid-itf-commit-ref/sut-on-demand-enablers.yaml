@@ -49,6 +49,11 @@ ska-oso-integration:
   ska-oso-pht-services:
     secretProvider:
       enabled: false
+
+# ODA
+ska-db-oda-umbrella:
+  enabled: false
+
 # DISH LMC CHART
 ska-dish-lmc:
   enabled: false
@@ -97,8 +102,6 @@ ska-log-consumer:
 global:
   ska-tango-archiver:
     enabled: true
-ska-db-oda-umbrella:
-  enabled: false
 ska-ser-config-inspector:
   enabled: false
 temp_sdp_pvc:

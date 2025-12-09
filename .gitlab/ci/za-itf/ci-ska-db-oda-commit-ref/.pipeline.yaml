@@ -1,10 +1,12 @@
 .oda:
   tags:
     - ska-k8srunner-za-itf
+  stage: deploy-supplementary-services
   variables:
     CONFIG: mid
     K8S_CHART: ska-mid
     KUBE_APP: ska-db-oda
+    KUBE_NAMESPACE: ska-db-oda
     INGRESS_HOST: "k8s.miditf.internal.skao.int"
     CLUSTER_DOMAIN: "miditf.internal.skao.int"
     ODA_ENABLERS: "-f .gitlab/ci/za-itf/ci-ska-db-oda-commit-ref/oda-enablers.yaml"
@@ -22,56 +24,20 @@
     paths:
       - "build/"
 
-.oda-on-demand:
+deploy-oda:
   extends:
     - .oda
-    - .on_demand_rules
-  stage: on_demand_itf_sut
-  variables:
-    KUBE_NAMESPACE: ci-ska-db-oda-$CI_COMMIT_REF_NAME
-
-deploy-oda-on-demand:
-  extends:
-    - .oda-on-demand
-  variables:
-    K8S_EXTRA_PARAMS: "--set ska-db-oda-umbrella.ska-ser-skuid.skuid.config.generator_id=miditfci"
   script:
     - make k8s-install-chart
   after_script:
     - bash .make/resources/gitlab_section.sh deployment-config "Output deployment config information" make get-deployment-config-info
   environment:
-    on_stop: destroy-oda-on-demand
+    on_stop: destroy-oda
 
-destroy-oda-on-demand:
-  extends:
-    - .oda-on-demand
-  script:
-    - - !reference [.cleanup, script]
-  environment:
-    action: stop
-
-.oda-staging:
+destroy-oda:
   extends:
     - .oda
-    - .staging_rules
-  stage: staging
-  variables:
-    KUBE_NAMESPACE: ska-db-oda
-
-deploy-oda-staging:
-  extends:
-    - .oda-staging
   script:
-    - make k8s-install-chart
-  after_script:
-    - bash .make/resources/gitlab_section.sh deployment-config "Output deployment config information" make get-deployment-config-info
-  environment:
-    on_stop: destroy-oda-staging
-
-destroy-oda-staging:
-  extends:
-    - .oda-staging
-  script:
-    - !reference [.cleanup, script]
+    - !reference [.uninstall-chart, script]
   environment:
     action: stop
