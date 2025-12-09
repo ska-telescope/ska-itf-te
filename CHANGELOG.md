@@ -3,6 +3,10 @@
 ## Unreleased
 
 ## 28.6.0
+* [AT-3443]
+  * Added Taranta Dashboards for AA0.5 on Site
+* [AT-3452]
+  * Update tango base and util to v1.0.2
 * [AT-3447]
   * Added WMS device
 * [AT-3440]
