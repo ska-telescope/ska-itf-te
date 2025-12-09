@@ -1,5 +1,10 @@
 
 # Tango Base & Deployment Charts: TangoDB, iTango, Tango Operator Utils
+ska-tango-base:
+  enabled: false
+
+ska-tango-util:
+  enabled: false
 
 # Mid TMC
 ska-tmc-mid:
@@ -28,6 +33,14 @@ ska-sdp:
 # KAFKA
 kafka:
   enabled: false
+
+# OSO
+ska-oso-integration:
+  enabled: false
+
+# ODA
+ska-db-oda-umbrella:
+  enabled: true
 
 # DISH LMC CHART
 ska-dish-lmc:
@@ -74,8 +87,6 @@ ska-log-consumer:
   enabled: false
 
 # Uncategorized
-ska-db-oda-umbrella:
-  enabled: true
 ska-ser-config-inspector:
   enabled: false
 temp_sdp_pvc:
