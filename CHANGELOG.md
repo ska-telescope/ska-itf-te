@@ -20,6 +20,8 @@
   * Update ska001 and ska100 layout files for delay calibrations
 * [AT-3391]
   * Add EDA-Grafana Middlelayer chart along with build and deploy jobs.
+* [AT-3420]
+  * Enable the persistent deployment of the ODA db (not via the oso-integration chart) that does not rely on bitnami
 
 ## 28.5.1
 * [AT-3442]
