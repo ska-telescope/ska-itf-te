@@ -24,6 +24,8 @@
   * Enable the persistent deployment of the ODA db (not via the oso-integration chart) that does not rely on bitnami
 * [AT-3377]
   * Make `DISH_IDS` configurable for `make test-e2e-kapb`
+* [AT-3452]
+  * Update tango base and util to v1.0.2
 
 ## 28.5.1
 * [AT-3442]
