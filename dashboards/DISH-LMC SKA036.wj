@@ -1,10 +1,10 @@
 {
-  "id": "667281f35e5d4f00121a3312",
-  "name": "SKA-DISH-LMC",
-  "version": "2.11.4",
+  "id": "68652625255a5c0019d9eb3b",
+  "name": "SKA036 DISH.LMC",
+  "version": "undefined",
   "user": "ATLAS",
-  "insertTime": "2024-06-19T07:00:03.260Z",
-  "updateTime": "2024-10-24T07:36:33.078Z",
+  "insertTime": "2025-07-02T12:29:25.092Z",
+  "updateTime": "2025-11-25T13:10:00.594Z",
   "group": null,
   "groupWriteAccess": false,
   "lastUpdatedBy": "ATLAS",
@@ -357,7 +357,8 @@
             "yAxis": "left"
           }
         ],
-        "showTangoDB": false
+        "showTangoDB": false,
+        "legendPosition": "Top"
       },
       "order": 18
     },
@@ -446,7 +447,7 @@
       "valid": 1,
       "id": "98",
       "x": 46,
-      "y": 69,
+      "y": 68,
       "canvas": "0",
       "width": 10,
       "height": 3,
@@ -581,7 +582,7 @@
       "y": 93,
       "canvas": "0",
       "width": 40,
-      "height": 38,
+      "height": 37,
       "type": "LABEL",
       "inputs": {
         "text": ". DS .",
@@ -623,7 +624,7 @@
           },
           {
             "attribute": {
-              "device": "taranta://mid-dish/simulator-spfc/ska036",
+              "device": "taranta://(SPFDevice)",
               "attribute": "operatingmode",
               "label": "operatingMode"
             },
@@ -642,7 +643,8 @@
             "yAxis": "left"
           }
         ],
-        "showTangoDB": false
+        "showTangoDB": false,
+        "legendPosition": "Top"
       },
       "order": 27
     },
@@ -832,9 +834,9 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://mid-dish/simulator-spfc/ska036",
+          "device": "taranta://ska036/spf/spfc",
           "attribute": "operatingmode",
-          "label": "operatingMode"
+          "label": "SPF Operating Mode"
         },
         "precision": 2,
         "showDevice": false,
@@ -846,7 +848,7 @@
         "backgroundColor": "#ffffff",
         "size": 0.8,
         "font": "Helvetica",
-        "widgetCss": "border-top: 1px solid black\nborder-bottom: 1px solid black",
+        "widgetCss": "border-top: 1px solid black\nborder-bottom: 1px solid black\nalign:",
         "format": "",
         "showUnit": true,
         "jsonCollapsed": true,
@@ -858,18 +860,18 @@
     },
     {
       "valid": 1,
-      "id": "119",
+      "id": "120",
       "x": 98,
-      "y": 35,
+      "y": 39,
       "canvas": "0",
       "width": 26,
       "height": 4,
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://mid-dish/simulator-spfc/ska036",
-          "attribute": "healthstate",
-          "label": "healthState"
+          "device": "taranta://ska036/spf/spfc",
+          "attribute": "b2analogueinterfacetemp",
+          "label": "B2 Analogue Interface Temperature"
         },
         "precision": 2,
         "showDevice": false,
@@ -893,18 +895,18 @@
     },
     {
       "valid": 1,
-      "id": "120",
+      "id": "121",
       "x": 98,
-      "y": 39,
+      "y": 47,
       "canvas": "0",
       "width": 26,
       "height": 4,
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://mid-dish/simulator-spfc/ska036",
-          "attribute": "bandinfocus",
-          "label": "bandInFocus"
+          "device": "taranta://ska036/spf/spfc",
+          "attribute": "b2capabilitystate",
+          "label": "B2 Capability State"
         },
         "precision": 2,
         "showDevice": false,
@@ -925,41 +927,6 @@
         "alignValueRight": true
       },
       "order": 35
-    },
-    {
-      "valid": 1,
-      "id": "121",
-      "x": 98,
-      "y": 43,
-      "canvas": "0",
-      "width": 26,
-      "height": 4,
-      "type": "ATTRIBUTE_DISPLAY",
-      "inputs": {
-        "attribute": {
-          "device": "taranta://mid-dish/simulator-spfc/ska036",
-          "attribute": "b2capabilitystate",
-          "label": "b2CapabilityState"
-        },
-        "precision": 2,
-        "showDevice": false,
-        "showAttribute": "Label",
-        "scientificNotation": false,
-        "showEnumLabels": true,
-        "showAttrQuality": false,
-        "textColor": "#000000",
-        "backgroundColor": "#ffffff",
-        "size": 0.8,
-        "font": "Helvetica",
-        "widgetCss": "border-top: 1px solid black\nborder-bottom: 1px solid black",
-        "format": "",
-        "showUnit": true,
-        "jsonCollapsed": true,
-        "showTangoDB": false,
-        "alignTextCenter": false,
-        "alignValueRight": true
-      },
-      "order": 36
     },
     {
       "valid": 1,
@@ -1040,7 +1007,7 @@
         "alignTextCenter": false,
         "alignValueRight": true
       },
-      "order": 37
+      "order": 36
     },
     {
       "valid": 1,
@@ -1075,7 +1042,7 @@
         "alignTextCenter": false,
         "alignValueRight": true
       },
-      "order": 38
+      "order": 37
     },
     {
       "valid": 1,
@@ -1110,7 +1077,7 @@
         "alignTextCenter": false,
         "alignValueRight": true
       },
-      "order": 39
+      "order": 38
     },
     {
       "valid": 1,
@@ -1145,7 +1112,7 @@
         "alignTextCenter": false,
         "alignValueRight": true
       },
-      "order": 40
+      "order": 39
     },
     {
       "valid": 1,
@@ -1176,7 +1143,7 @@
         "alignTextCenter": false,
         "alignValueRight": true
       },
-      "order": 41
+      "order": 40
     },
     {
       "valid": 1,
@@ -1207,7 +1174,7 @@
         "alignTextCenter": false,
         "alignValueRight": true
       },
-      "order": 42
+      "order": 41
     },
     {
       "valid": 1,
@@ -1238,7 +1205,7 @@
         "alignTextCenter": false,
         "alignValueRight": true
       },
-      "order": 43
+      "order": 42
     },
     {
       "valid": 1,
@@ -1273,7 +1240,7 @@
         "alignTextCenter": false,
         "alignValueRight": true
       },
-      "order": 44
+      "order": 43
     },
     {
       "valid": 1,
@@ -1286,9 +1253,44 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://mid-dish/dish-manager/ska036",
+          "device": "taranta://ska036/spfrxpu/controller",
           "attribute": "operatingmode",
           "label": "operatingMode"
+        },
+        "precision": 2,
+        "showDevice": false,
+        "showAttribute": "Label",
+        "scientificNotation": false,
+        "showEnumLabels": true,
+        "showAttrQuality": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 0.8,
+        "font": "Helvetica",
+        "widgetCss": "border-top: 1px solid black\nborder-bottom: 1px solid black",
+        "format": "",
+        "showUnit": true,
+        "jsonCollapsed": true,
+        "showTangoDB": false,
+        "alignTextCenter": false,
+        "alignValueRight": true
+      },
+      "order": 44
+    },
+    {
+      "valid": 1,
+      "id": "135",
+      "x": 125,
+      "y": 43,
+      "canvas": "0",
+      "width": 26,
+      "height": 4,
+      "type": "ATTRIBUTE_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "taranta://ska036/spfrxpu/odl-3",
+          "attribute": "microwave_mixer_voltage",
+          "label": "microwave_mixer_voltage"
         },
         "precision": 2,
         "showDevice": false,
@@ -1312,18 +1314,18 @@
     },
     {
       "valid": 1,
-      "id": "135",
+      "id": "136",
       "x": 125,
-      "y": 35,
+      "y": 39,
       "canvas": "0",
       "width": 26,
       "height": 4,
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://mid-dish/dish-manager/ska036",
-          "attribute": "healthstate",
-          "label": "healthState"
+          "device": "taranta://ska036/spfrxpu/odl-3",
+          "attribute": "microwave_input_signal_power",
+          "label": "microwave_input_signal_power"
         },
         "precision": 2,
         "showDevice": false,
@@ -1347,44 +1349,9 @@
     },
     {
       "valid": 1,
-      "id": "136",
-      "x": 125,
-      "y": 39,
-      "canvas": "0",
-      "width": 26,
-      "height": 4,
-      "type": "ATTRIBUTE_DISPLAY",
-      "inputs": {
-        "attribute": {
-          "device": "taranta://mid-dish/dish-manager/ska036",
-          "attribute": "capturingdata",
-          "label": "capturingData"
-        },
-        "precision": 2,
-        "showDevice": false,
-        "showAttribute": "Label",
-        "scientificNotation": false,
-        "showEnumLabels": true,
-        "showAttrQuality": false,
-        "textColor": "#000000",
-        "backgroundColor": "#ffffff",
-        "size": 0.8,
-        "font": "Helvetica",
-        "widgetCss": "border-top: 1px solid black\nborder-bottom: 1px solid black",
-        "format": "",
-        "showUnit": true,
-        "jsonCollapsed": true,
-        "showTangoDB": false,
-        "alignTextCenter": false,
-        "alignValueRight": true
-      },
-      "order": 47
-    },
-    {
-      "valid": 1,
       "id": "137",
       "x": 125,
-      "y": 43,
+      "y": 35,
       "canvas": "0",
       "width": 26,
       "height": 4,
@@ -1413,7 +1380,7 @@
         "alignTextCenter": false,
         "alignValueRight": true
       },
-      "order": 48
+      "order": 47
     },
     {
       "valid": 1,
@@ -1426,9 +1393,9 @@
       "type": "ATTRIBUTE_DISPLAY",
       "inputs": {
         "attribute": {
-          "device": "taranta://ska036/spfrxpu/controller",
-          "attribute": "b2capabilitystate",
-          "label": "b2CapabilityState"
+          "device": "taranta://ska036/spfrxpu/odl-3",
+          "attribute": "optical_input_signal_current",
+          "label": "optical_input_signal_current"
         },
         "precision": 2,
         "showDevice": false,
@@ -1448,7 +1415,7 @@
         "alignTextCenter": false,
         "alignValueRight": true
       },
-      "order": 49
+      "order": 48
     },
     {
       "valid": 1,
@@ -1475,7 +1442,7 @@
         "customCss": "",
         "showTangoDB": false
       },
-      "order": 50
+      "order": 49
     },
     {
       "valid": 1,
@@ -1525,7 +1492,7 @@
         "customCss": "",
         "showTangoDB": false
       },
-      "order": 51
+      "order": 50
     },
     {
       "valid": 1,
@@ -1585,7 +1552,7 @@
         "btnCss": "",
         "widgetCss": ""
       },
-      "order": 52
+      "order": 51
     },
     {
       "valid": 1,
@@ -1622,7 +1589,7 @@
         "widgetCss": "",
         "title": "SetStandbyFPMode"
       },
-      "order": 53
+      "order": 52
     },
     {
       "valid": 1,
@@ -1659,7 +1626,7 @@
         "widgetCss": "",
         "title": "SetOperateMode"
       },
-      "order": 54
+      "order": 53
     },
     {
       "valid": 1,
@@ -1696,7 +1663,7 @@
         "widgetCss": "",
         "title": "SetStowMode"
       },
-      "order": 55
+      "order": 54
     },
     {
       "valid": 1,
@@ -1733,7 +1700,7 @@
         "widgetCss": "",
         "title": "AbortCommands"
       },
-      "order": 56
+      "order": 55
     },
     {
       "valid": 1,
@@ -1770,7 +1737,7 @@
         "widgetCss": "",
         "title": "Scan"
       },
-      "order": 57
+      "order": 56
     },
     {
       "valid": 1,
@@ -1807,42 +1774,7 @@
         "widgetCss": "",
         "title": "SetKValue"
       },
-      "order": 58
-    },
-    {
-      "valid": 1,
-      "id": "150",
-      "x": 17,
-      "y": 123,
-      "canvas": "0",
-      "width": 51,
-      "height": 6,
-      "type": "ATTRIBUTE_DISPLAY",
-      "inputs": {
-        "attribute": {
-          "device": "taranta://mid-dish/dish-manager/ska036",
-          "attribute": "buildstate",
-          "label": "buildState"
-        },
-        "precision": 2,
-        "format": "",
-        "showUnit": false,
-        "showDevice": false,
-        "jsonCollapsed": false,
-        "showTangoDB": false,
-        "showAttribute": "None",
-        "alignTextCenter": false,
-        "alignValueRight": false,
-        "scientificNotation": false,
-        "showEnumLabels": true,
-        "showAttrQuality": false,
-        "textColor": "#000000",
-        "backgroundColor": "#ffffff",
-        "size": 1,
-        "font": "Helvetica",
-        "widgetCss": ""
-      },
-      "order": 59
+      "order": 57
     },
     {
       "valid": 1,
@@ -1888,7 +1820,7 @@
         "linkTo": "",
         "customCss": ""
       },
-      "order": 60
+      "order": 58
     },
     {
       "valid": 1,
@@ -1911,9 +1843,16 @@
         "showAttribute": "Label",
         "showTitle": true,
         "showTangoDB": false,
-        "inelastic": false
+        "inelastic": false,
+        "xScientificNotation": false,
+        "yScientificNotation": false,
+        "xLogarithmicScale": false,
+        "yLogarithmicScale": false,
+        "lineColor": "#1f77b4",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff"
       },
-      "order": 61
+      "order": 59
     },
     {
       "valid": 1,
@@ -1936,9 +1875,16 @@
         "showAttribute": "Label",
         "showTitle": true,
         "showTangoDB": false,
-        "inelastic": false
+        "inelastic": false,
+        "xScientificNotation": false,
+        "yScientificNotation": false,
+        "xLogarithmicScale": false,
+        "yLogarithmicScale": false,
+        "lineColor": "#1f77b4",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff"
       },
-      "order": 62
+      "order": 60
     },
     {
       "valid": 1,
@@ -1961,7 +1907,7 @@
         "linkTo": "",
         "customCss": "font-weight: bold;\nborder-radius:8px\nborder:3px solid"
       },
-      "order": 63
+      "order": 61
     },
     {
       "valid": 1,
@@ -1984,33 +1930,513 @@
         "linkTo": "",
         "customCss": "font-weight: bold;\nborder-radius:8px\nborder:3px solid"
       },
+      "order": 62
+    },
+    {
+      "valid": 1,
+      "id": "159",
+      "x": 117,
+      "y": 1,
+      "canvas": "0",
+      "width": 20,
+      "height": 8,
+      "type": "PARAMETRIC_WIDGET",
+      "inputs": {
+        "name": "DishManager DSN",
+        "variable": "(DishManager)"
+      },
+      "order": 63
+    },
+    {
+      "valid": 1,
+      "id": "160",
+      "x": 98,
+      "y": 51,
+      "canvas": "0",
+      "width": 26,
+      "height": 4,
+      "type": "ATTRIBUTE_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "taranta://ska036/spf/spfc",
+          "attribute": "b2healthstate",
+          "label": "B2 Health State"
+        },
+        "precision": 2,
+        "showDevice": false,
+        "showAttribute": "Label",
+        "scientificNotation": false,
+        "showEnumLabels": true,
+        "showAttrQuality": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 0.8,
+        "font": "Helvetica",
+        "widgetCss": "border-top: 1px solid black\nborder-bottom: 1px solid black",
+        "format": "",
+        "showUnit": true,
+        "jsonCollapsed": true,
+        "showTangoDB": false,
+        "alignTextCenter": false,
+        "alignValueRight": true
+      },
       "order": 64
+    },
+    {
+      "valid": 1,
+      "id": "161",
+      "x": 19,
+      "y": 125,
+      "canvas": "0",
+      "width": 20,
+      "height": 4,
+      "type": "DASHLINK",
+      "inputs": {
+        "DefaultDashboard": "{\"name\":\"DishBuildState\",\"id\":\"6880ff1b255a5c0369da1abf\"}",
+        "HideDropdown": false,
+        "NewTab": true,
+        "ButtonText": "OPEN",
+        "DropDownCss": "",
+        "ButtonCss": "",
+        "CustomCss": ""
+      },
+      "order": 65
+    },
+    {
+      "valid": 1,
+      "id": "162",
+      "x": 98,
+      "y": 43,
+      "canvas": "0",
+      "width": 26,
+      "height": 4,
+      "type": "ATTRIBUTE_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "taranta://ska036/spf/spf2",
+          "attribute": "b2lnatemp",
+          "label": "LNA Temperature"
+        },
+        "precision": 2,
+        "showDevice": true,
+        "showAttribute": "Label",
+        "scientificNotation": false,
+        "showEnumLabels": true,
+        "showAttrQuality": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 0.8,
+        "font": "Helvetica",
+        "widgetCss": "border-top: 1px solid black\nborder-bottom: 1px solid black",
+        "format": "",
+        "showUnit": true,
+        "jsonCollapsed": true,
+        "showTangoDB": false,
+        "alignTextCenter": false,
+        "alignValueRight": true
+      },
+      "order": 66
+    },
+    {
+      "valid": 1,
+      "id": "163",
+      "x": 92,
+      "y": 58,
+      "canvas": "0",
+      "width": 19,
+      "height": 4,
+      "type": "LED_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "taranta://mid-dish/dish-manager/ska036",
+          "attribute": "achievedtargetlock",
+          "label": "achievedTargetLock"
+        },
+        "relation": "=",
+        "compare": "1",
+        "trueColor": "#3ac73a",
+        "falseColor": "#ff0000",
+        "ledSize": 1,
+        "textSize": 1,
+        "showAttributeValue": false,
+        "showDeviceName": false,
+        "showTangoDB": false,
+        "showAttribute": "Label",
+        "alignTextCenter": false,
+        "alignValueRight": true,
+        "customCss": ""
+      },
+      "order": 67
+    },
+    {
+      "valid": 1,
+      "id": "164",
+      "x": 125,
+      "y": 51,
+      "canvas": "0",
+      "width": 26,
+      "height": 4,
+      "type": "ATTRIBUTE_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "taranta://ska036/spfrxpu/controller",
+          "attribute": "b2ppsdeviation",
+          "label": "b2ppsDeviation"
+        },
+        "precision": 2,
+        "showDevice": false,
+        "showAttribute": "Label",
+        "scientificNotation": false,
+        "showEnumLabels": true,
+        "showAttrQuality": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 0.8,
+        "font": "Helvetica",
+        "widgetCss": "border-top: 1px solid black\nborder-bottom: 1px solid black",
+        "format": "",
+        "showUnit": true,
+        "jsonCollapsed": true,
+        "showTangoDB": false,
+        "alignTextCenter": false,
+        "alignValueRight": true
+      },
+      "order": 68
+    },
+    {
+      "valid": 1,
+      "id": "166",
+      "x": 132,
+      "y": 57,
+      "canvas": "0",
+      "width": 19,
+      "height": 4,
+      "type": "ATTRIBUTE_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "taranta://mid-dish/ds-manager/ska036",
+          "attribute": "dsccmdauth",
+          "label": "dscCmdAuth"
+        },
+        "precision": 2,
+        "showDevice": false,
+        "showAttribute": "Label",
+        "scientificNotation": false,
+        "showEnumLabels": true,
+        "showAttrQuality": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 0.8,
+        "font": "Helvetica",
+        "widgetCss": "border-top: 1px solid black\nborder-bottom: 1px solid black",
+        "format": "",
+        "showUnit": true,
+        "jsonCollapsed": true,
+        "showTangoDB": false,
+        "alignTextCenter": false,
+        "alignValueRight": true
+      },
+      "order": 69
+    },
+    {
+      "valid": 1,
+      "id": "167",
+      "x": 16,
+      "y": 133,
+      "canvas": "0",
+      "width": 49,
+      "height": 23,
+      "type": "SPECTRUM",
+      "inputs": {
+        "attribute": {
+          "device": "taranta://mid-dish/dish-manager/ska036",
+          "attribute": "band2pointingmodelparams",
+          "label": "band2PointingModelParams"
+        },
+        "timeWindow": 120,
+        "showAttribute": "Label",
+        "showTitle": true,
+        "showTangoDB": false,
+        "xScientificNotation": false,
+        "yScientificNotation": false,
+        "xLogarithmicScale": false,
+        "yLogarithmicScale": false,
+        "inelastic": false,
+        "lineColor": "#1f77b4",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff"
+      },
+      "order": 70
+    },
+    {
+      "valid": 1,
+      "id": "168",
+      "x": 67,
+      "y": 134,
+      "canvas": "0",
+      "width": 120,
+      "height": 9,
+      "type": "TABULAR_VIEW",
+      "inputs": {
+        "devices": [
+          {
+            "device": "taranta://ska036/spfrxpu/controller"
+          }
+        ],
+        "precision": 2,
+        "scientificNotation": false,
+        "showDefaultAttribute": false,
+        "showEnumLabels": true,
+        "showTangoDB": false,
+        "customAttributes": [
+          {
+            "attribute": {
+              "device": "taranta://ska036/spfrxpu/controller",
+              "attribute": "b2polhgain",
+              "label": "b2PolHGain"
+            }
+          },
+          {
+            "attribute": {
+              "device": "taranta://ska036/spfrxpu/controller",
+              "attribute": "b2polvgain",
+              "label": "b2PolVGain"
+            }
+          },
+          {
+            "attribute": {
+              "device": "taranta://ska036/spfrxpu/controller",
+              "attribute": "b2polvattenuation2",
+              "label": "b2PolVAttenuation2"
+            }
+          },
+          {
+            "attribute": {
+              "device": "taranta://ska036/spfrxpu/controller",
+              "attribute": "b2polvattenuation1",
+              "label": "b2PolVAttenuation1"
+            }
+          },
+          {
+            "attribute": {
+              "device": "taranta://ska036/spfrxpu/controller",
+              "attribute": "b2polhattenuation2",
+              "label": "b2PolHAttenuation2"
+            }
+          },
+          {
+            "attribute": {
+              "device": "taranta://ska036/spfrxpu/controller",
+              "attribute": "b2polhattenuation1",
+              "label": "b2PolHAttenuation1"
+            }
+          }
+        ],
+        "compactTable": true,
+        "borderedTable": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Courier new",
+        "widgetCss": ""
+      },
+      "order": 71
+    },
+    {
+      "valid": 1,
+      "id": "169",
+      "x": 67,
+      "y": 144,
+      "canvas": "0",
+      "width": 120,
+      "height": 9,
+      "type": "TABULAR_VIEW",
+      "inputs": {
+        "devices": [
+          {
+            "device": "taranta://ska036/spf/spf2"
+          }
+        ],
+        "precision": 2,
+        "scientificNotation": false,
+        "showDefaultAttribute": false,
+        "showEnumLabels": true,
+        "showTangoDB": false,
+        "customAttributes": [
+          {
+            "attribute": {
+              "device": "taranta://ska036/spf/spf2",
+              "attribute": "psuanalogue6vrectifiedvolt",
+              "label": "PSU 6V Rectified"
+            }
+          }
+        ],
+        "compactTable": true,
+        "borderedTable": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Courier new",
+        "widgetCss": ""
+      },
+      "order": 72
+    },
+    {
+      "valid": 1,
+      "id": "171",
+      "x": 112,
+      "y": 35,
+      "canvas": "0",
+      "width": 3,
+      "height": 4,
+      "type": "LED_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "taranta://ska036/spf/spfc",
+          "attribute": "b2lnavpowerstate",
+          "label": "B2 LNA V Power State"
+        },
+        "relation": "=",
+        "compare": "true",
+        "trueColor": "#3ac73a",
+        "falseColor": "#ff0000",
+        "ledSize": 1,
+        "textSize": 1,
+        "showAttributeValue": false,
+        "showDeviceName": false,
+        "showTangoDB": false,
+        "showAttribute": "None",
+        "alignTextCenter": false,
+        "alignValueRight": true,
+        "customCss": ""
+      },
+      "order": 73
+    },
+    {
+      "valid": 1,
+      "id": "172",
+      "x": 98,
+      "y": 35,
+      "canvas": "0",
+      "width": 14,
+      "height": 4,
+      "type": "LABEL",
+      "inputs": {
+        "text": "LNA Power States",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "automaticResize": "Disabled",
+        "size": 1,
+        "linkTo": "",
+        "customCss": ""
+      },
+      "order": 74
+    },
+    {
+      "valid": 1,
+      "id": "173",
+      "x": 115,
+      "y": 35,
+      "canvas": "0",
+      "width": 3,
+      "height": 4,
+      "type": "LABEL",
+      "inputs": {
+        "text": "H",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "automaticResize": "Disabled",
+        "size": 1,
+        "linkTo": "",
+        "customCss": ""
+      },
+      "order": 75
+    },
+    {
+      "valid": 1,
+      "id": "174",
+      "x": 121,
+      "y": 35,
+      "canvas": "0",
+      "width": 3,
+      "height": 4,
+      "type": "LABEL",
+      "inputs": {
+        "text": "V",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "automaticResize": "Disabled",
+        "size": 1,
+        "linkTo": "",
+        "customCss": ""
+      },
+      "order": 76
+    },
+    {
+      "valid": 1,
+      "id": "175",
+      "x": 118,
+      "y": 35,
+      "canvas": "0",
+      "width": 3,
+      "height": 4,
+      "type": "LED_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "taranta://ska036/spf/spfc",
+          "attribute": "b2lnavpowerstate",
+          "label": "B2 LNA V Power State"
+        },
+        "relation": "=",
+        "compare": "true",
+        "trueColor": "#3ac73a",
+        "falseColor": "#ff0000",
+        "ledSize": 1,
+        "textSize": 1,
+        "showAttributeValue": false,
+        "showDeviceName": false,
+        "showTangoDB": false,
+        "showAttribute": "None",
+        "alignTextCenter": false,
+        "alignValueRight": true,
+        "customCss": ""
+      },
+      "order": 77
     }
   ],
   "variables": [
     {
+      "_id": "687e40fc255a5c0019da1946",
+      "name": "(DishManager)",
+      "class": "dishmanager",
+      "device": "mid-dish/dish-manager/ska036"
+    },
+    {
       "_id": "671905cca978370012e1788b",
       "name": "DSManager",
-      "class": "DSManager",
+      "class": "dsmanager",
       "device": "mid-dish/ds-manager/ska036"
     },
     {
       "_id": "671905cca978370012e1788c",
       "name": "SPFDevice",
-      "class": "SPFDevice",
-      "device": "mid-dish/simulator-spfc/ska036"
+      "class": "spfc",
+      "device": ""
     },
     {
       "_id": "671905cca978370012e1788d",
       "name": "SPFRxDevice",
-      "class": "SPFRxDevice",
+      "class": "spfrxdevice",
       "device": "mid-dish/simulator-spfrx/ska036"
-    },
-    {
-      "_id": "671905cca978370012e1788e",
-      "name": "DishManager",
-      "class": "DishManager",
-      "device": "mid-dish/dish-manager/ska036"
     }
   ],
   "environment": [

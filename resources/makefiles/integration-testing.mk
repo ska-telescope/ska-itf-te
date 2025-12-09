@@ -65,8 +65,8 @@ test-assign-resources-kapb: ## Run assign resources test using ska-mid-testing K
 	@yq -i '.testJobName = "$(TEST_NAME)"' $(CWD)/charts/ska-mid-testing/values.yaml
 	$(call RENDER_AND_EXECUTE_TEST_JOB,$(TEST_NAME))
 
-test-configure-scan-kapb: ## Run configure scan test using ska-mid-testing K8s test job in the Mid-AA (Losberg) cluster
-	$(eval TEST_NAME := configure-scan-test)
+test-configure-kapb: ## Run configure scan test using ska-mid-testing K8s test job in the Mid-AA (Losberg) cluster
+	$(eval TEST_NAME := configure-test)
 	@yq -i '.testNodeID = "tests/integration/tmc/test_individual_commands.py::test_configure_scan_via_tmc"' $(CWD)/charts/ska-mid-testing/values.yaml
 	@yq -i '.testJobName = "$(TEST_NAME)"' $(CWD)/charts/ska-mid-testing/values.yaml
 	$(call RENDER_AND_EXECUTE_TEST_JOB,$(TEST_NAME))
