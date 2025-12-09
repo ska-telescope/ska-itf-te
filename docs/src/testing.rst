@@ -95,6 +95,14 @@ the appropriate VPN:
 
    make test-e2e-kapb
 
+The default dish IDs are set in the values file, however they can also be configured
+at run time by overriding the DISH_IDS variable with the space separated dish IDs needed:
+
+.. code-block:: bash
+
+  # Override DISH_IDS
+  make test-e2e-kapb DISH_IDS="SKA001 SKA100"
+
 Observing smoke and end-to-end test results
 -------------------------------------------
 1. Shell into the `test-reports-reader` pod in the `integration-tests` namespace 

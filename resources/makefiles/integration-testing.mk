@@ -17,12 +17,13 @@ define RENDER_AND_EXECUTE_TEST_JOB
 	export HELM_RELEASE=testing; \
 	export K8S_UMBRELLA_CHART_PATH=$(CWD)/charts/ska-mid-testing; \
 	export K8S_CHART=ska-mid-testing; \
+	$(if $(DISH_IDS), echo "Overriding DISH_IDS=$(DISH_IDS)"; yq -i '.environment.DISH_IDS = "$(DISH_IDS)"' $(CWD)/charts/ska-mid-testing/values.yaml;)
 	make k8s-template-chart > /dev/null
 	@yq eval-all "select(.kind == \"Job\" and .metadata.name == \"$(1)-job\" and .spec.template.spec.containers[].name == \"$(1)\")" manifests.yaml > $(1)-job.yaml
 	kubectl apply -f $(1)-job.yaml
-	kubectl wait jobs -n integration-tests -l job-name=$(1) --for=condition=complete --timeout="180s"	
+	kubectl wait jobs -n integration-tests -l job-name=$(1)-job --for=condition=complete --timeout="180s"	
 	@echo "Test completed"
-	@rm manifests.yaml || true
+	@rm $(1)-job.yaml manifests.yaml || true
 endef
 
 test-custom-kapb: ## Run a custom test (self configured testNodeID and values) using ska-mid-testing K8s test job in the Mid-AA (Losberg) cluster
@@ -38,6 +39,8 @@ test-custom-kapb: ## Run a custom test (self configured testNodeID and values) u
 ##  make target for running a smoke test using a kubernetes job in the Losberg cluster
 
 test-smoke-kapb: ## Run a smoke tests from the tests/smoke/ folder using ska-mid-testing K8s test job in the Mid-AA (Losberg) cluster
+	$(eval TEST_NAME := '')
+	@yq -i '.testJobName = "$(TEST_NAME)"' $(CWD)/charts/ska-mid-testing/values.yaml
 	$(call RENDER_AND_EXECUTE_TEST_JOB,smoke-test)
 
 ## TARGET: test-e2e-kapb
@@ -49,13 +52,19 @@ test-smoke-kapb: ## Run a smoke tests from the tests/smoke/ folder using ska-mid
 
 test-e2e-kapb: ## Run end-to-end test using ska-mid-testing K8s test job in the Mid-AA (Losberg) cluster
 	$(eval TEST_NAME := end-to-end-test)
-	@yq -i '.testNodeID = "tests/integration/tmc/test_scan.py::test_perform_a_scan_via_tmc"' $(CWD)/charts/ska-mid-testing/values.yaml
+	@yq -i '.testNodeID = "tests/integration/tmc/test_end_to_end.py::test_e2e_via_tmc_slow_without_off"' $(CWD)/charts/ska-mid-testing/values.yaml
 	@yq -i '.testJobName = "$(TEST_NAME)"' $(CWD)/charts/ska-mid-testing/values.yaml
 	$(call RENDER_AND_EXECUTE_TEST_JOB,$(TEST_NAME))
 
 test-telescope-on-kapb: ## Run telescope ON test using ska-mid-testing K8s test job in the Mid-AA (Losberg) cluster
 	$(eval TEST_NAME := telescope-on-test)
 	@yq -i '.testNodeID = "tests/integration/tmc/test_telescope_on.py::test_telescope_on_via_tmc"' $(CWD)/charts/ska-mid-testing/values.yaml
+	@yq -i '.testJobName = "$(TEST_NAME)"' $(CWD)/charts/ska-mid-testing/values.yaml
+	$(call RENDER_AND_EXECUTE_TEST_JOB,$(TEST_NAME))
+
+test-assign-configure-scan-kapb: ## Run assign resources, configure scan and scan commands combined using ska-mid-testing K8s test job in the Mid-AA (Losberg) cluster
+	$(eval TEST_NAME := assign-configure-scan-test)
+	@yq -i '.testNodeID = "tests/integration/tmc/test_scan.py::test_perform_a_scan_via_tmc"' $(CWD)/charts/ska-mid-testing/values.yaml
 	@yq -i '.testJobName = "$(TEST_NAME)"' $(CWD)/charts/ska-mid-testing/values.yaml
 	$(call RENDER_AND_EXECUTE_TEST_JOB,$(TEST_NAME))
 
