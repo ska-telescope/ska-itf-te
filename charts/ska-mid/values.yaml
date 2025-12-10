@@ -58,22 +58,27 @@ ska-dataproduct-dashboard:
 # OSO
 ska-oso-integration:
   enabled: false
-  ska-oso-slt-services:
-    secretProvider:
-      enabled: false
   ska-db-oda-umbrella:
-    enabled: false
-  ska-oso-pht-services:
-    secretProvider:
+    enabled: true # The ODA API server should be deployed in the same namespace as the apps, but not the database
+    postgres:
       enabled: false
+    ska-db-oda:
+      rest:
+        enabled: true
+      initPostgres:
+        runJob: false
   
 # ODA
 ska-db-oda-umbrella:
   enabled: false
-  ska-ser-skuid:
-    skuid:
-      config:
-        generator_id: miditf
+#  The below would make the db deploy but not the API server
+#  postgres:
+#    enabled: true
+#  ska-db-oda:
+#    rest:
+#      enabled: false
+#    initPostgres:
+#      runJob: true
 
 # DISH LMC
 ska-dish-lmc:
