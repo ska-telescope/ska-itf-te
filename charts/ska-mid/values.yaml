@@ -143,14 +143,14 @@ ska-mid-cbf-tdc-mcs:
 ska-mid-cbf-tdc-tmleafnode:
   enabled: false
 
-# SPFC
+# SPFC deployer
 ska-mid-dish-spfc-deployer:
   enabled: false
   spfc_simulated_mode: true
   update_firmware: false
   image:
     registry: registry.gitlab.com/ska-telescope/ska-mid-dish-spfc-deployer
-    tag: 0.4.3-dev.c6027568c
+    tag: 0.4.3-dev.c6578ce87
 
 # SPFRx
 ska-mid-dish-spfrx-talondx-console:
