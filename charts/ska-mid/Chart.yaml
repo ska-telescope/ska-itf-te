@@ -84,7 +84,7 @@ dependencies:
     condition: ska-ds-sim.enabled
     alias: ska-ds-sim
 
-  # SPFC DEPLOYER CHART
+  # SPFC DEPLOYER CHART for development
   # - name: ska-mid-dish-spfc-deployer
   #   version: 0.4.1
   #   repository: https://artefact.skao.int/repository/helm-internal
