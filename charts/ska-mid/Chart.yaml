@@ -90,10 +90,9 @@ dependencies:
   #   repository: https://artefact.skao.int/repository/helm-internal
   #   condition: ska-mid-dish-spfc-deployer.enabled
   - name: ska-mid-dish-spfc-deployer
-    version: 0.4.3-dev.cd94c8283
+    version: 0.4.3-dev.c26615b2a
     repository: https://gitlab.com/api/v4/projects/68468774/packages/helm/dev
     condition: ska-mid-dish-spfc-deployer.enabled
-
 
   # SPFRx DEPLOYER CHART
   - name: ska-mid-dish-spfrx-talondx-console
