@@ -1,8 +1,11 @@
 # Version History
 
 ## Unreleased
+* [AT-3463]
+  * updated tango-base and tango-util charts to 1.0.4
 * [AT-3462]
   * further layout file updates for ska001 ska036 and ska100
+
 ## 28.6.0
 * [AT-3447]
   * Added WMS device
