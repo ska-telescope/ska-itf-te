@@ -1,7 +1,8 @@
 # Version History
 
 ## Unreleased
-
+* [AT-3462]
+  * further layout file updates for ska001 ska036 and ska100
 ## 28.6.0
 * [AT-3447]
   * Added WMS device
