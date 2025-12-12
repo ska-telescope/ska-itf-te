@@ -29,7 +29,7 @@ author = "ATLAS Team"
 
 # The full version, including alpha/beta/rc tags
 
-release = "28.6.1rc1"
+release = "28.6.1-linearity-test"
 
 # -- General configuration ---------------------------------------------------
 
