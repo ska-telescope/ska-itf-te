@@ -1313,12 +1313,14 @@ def update_assign_resources(
     assign_resources_payload["sdp"]["processing_blocks"][0]["parameters"]["pod_settings"][0][
         "nodeSelector"
     ] = node_selector_sdp_param
-    assign_resources_payload["sdp"]["processing_blocks"][0]["parameters"]["extra_helm_values"][
-        "telmodel_source_uris"
-    ] = settings["dish_layout_telmodel_source"]
-    assign_resources_payload["sdp"]["processing_blocks"][0]["parameters"]["extra_helm_values"][
-        "telmodel_key"
-    ] = settings["dish_layout_telmodel_path"]
+    if settings["dish_layout_telmodel_source"]:
+        assign_resources_payload["sdp"]["processing_blocks"][0]["parameters"]["extra_helm_values"][
+            "telmodel_source_uris"
+        ] = settings["dish_layout_telmodel_source"]
+    if settings["dish_layout_telmodel_path"]:
+        assign_resources_payload["sdp"]["processing_blocks"][0]["parameters"]["extra_helm_values"][
+            "telmodel_key"
+        ] = settings["dish_layout_telmodel_path"]
 
     return assign_resources_payload
 
