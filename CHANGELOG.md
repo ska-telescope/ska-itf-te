@@ -3,6 +3,9 @@
 ## Unreleased
 * [AT-3462]
   * further layout file updates for ska001 ska036 and ska100
+* [AT-3377]
+  * Fix bug in make targets which render test jobs for site.
+
 ## 28.6.0
 * [AT-3447]
   * Added WMS device
