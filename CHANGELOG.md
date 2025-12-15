@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+
+## 29.0.0
 * [AT-3463]
   * updated tango-base and tango-util charts to 1.0.4
 * [AT-3377]
