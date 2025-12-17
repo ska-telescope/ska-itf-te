@@ -1,10 +1,12 @@
 # Version History
 
 ## Unreleased
-* [AT-3462]
-  * further layout file updates for ska001 ska036 and ska100
+* [AT-3463]
+  * updated tango-base and tango-util charts to 1.0.4
 * [AT-3377]
   * Fix bug in make targets which render test jobs for site.
+* [AT-3462]
+  * further layout file updates for ska001 ska036 and ska100
 
 ## 28.6.0
 * [AT-3447]
