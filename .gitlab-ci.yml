@@ -17,7 +17,7 @@ variables:
 
 default:
   tags:
-  - ${SKA_DEFAULT_RUNNER}
+    - ${SKA_DEFAULT_RUNNER}
 
   # PYTEST_SUBSYS_MARK: (csp_startup or sdp or eda)
   # K8S_INSTALL_FROM_CAR: "false"remove redundant cache
