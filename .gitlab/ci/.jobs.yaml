@@ -125,6 +125,8 @@ helm-chart-lint:
         - charts/**/*
 
 helm-chart-build:
+  tags:
+      - ${SKA_DEFAULT_RUNNER}
   rules:
     - if: $CI_PIPELINE_SOURCE == "pipeline"
       when: never
