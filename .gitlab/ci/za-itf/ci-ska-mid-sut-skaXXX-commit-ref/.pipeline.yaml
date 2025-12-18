@@ -2,7 +2,7 @@
   stage: on_demand_itf_sut
   image: $DEPLOY_IMAGE
   tags:
-    - ska-k8srunner-za-itf
+    - ${SKA_K8S_RUNNER}
   variables:
     CONFIG: mid
     K8S_CHART: ska-mid
