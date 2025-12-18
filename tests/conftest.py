@@ -54,6 +54,8 @@ def settings():
     settings["pointing_target_name"] = os.getenv("POINTING_TARGET_NAME", "")
     settings["pointing_target_right_ascension"] = os.getenv("POINTING_TARGET_RIGHT_ASCENSION", "")
     settings["pointing_target_declination"] = os.getenv("POINTING_TARGET_DECLINATION", "")
+    settings["telmodel_source"] = os.getenv("TELMODEL_SOURCE", "")
+    settings["dish_layout_telmodel_path"] = os.getenv("DISH_LAYOUT_TELMODEL_PATH", "")
     return settings
 
 
