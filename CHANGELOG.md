@@ -7,6 +7,8 @@
   * Fix bug in make targets which render test jobs for site.
 * [AT-3462]
   * further layout file updates for ska001 ska036 and ska100
+* [AT-3468]
+  * update tmc to 1.9.0
 
 ## 28.6.0
 * [AT-3447]
