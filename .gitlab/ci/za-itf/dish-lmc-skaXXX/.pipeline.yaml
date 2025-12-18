@@ -54,6 +54,8 @@
     - if ! [[ "$DISH_IDS" =~ .*${DISH_ID^^}.* ]]; then echo "DISH_IDS $DISH_IDS not matching $DISH_ID; exiting..." && exit 1; fi
   script:
     - bash .make/resources/gitlab_section.sh poetry "Poetry Install" poetry install
+    - wget -qO /usr/bin/yq  https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 && chmod +x /usr/bin/yq # TEMPORARY COMMIT: Move to Engineering Tools
+    - bash .make/resources/gitlab_section.sh gettext "install missing package" apt-get update && sudo apt-get install gettext-base # TEMPORARY COMMIT: Move to Engineering Tools
     - export PATH=.venv/bin:${PATH} # TEMPORARY COMMIT: fix in one place
     - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart;
     - bash .make/resources/gitlab_section.sh wait "Wait for completion" make k8s-wait
