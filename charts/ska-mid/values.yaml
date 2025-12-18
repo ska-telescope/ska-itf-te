@@ -156,7 +156,7 @@ ska-mid-dish-spfrx-talondx-console:
   bin: /usr/local/bin
   console:
     registry: registry.gitlab.com/ska-telescope/ska-mid-dish-spfrx-talondx-console
-    version: 1.4.4-dev.ca9a53a65
+    version: 1.4.4-dev.cba93ec7c
   instance: spfrx-20
   local_dir: artifacts
   logging_level: 4
