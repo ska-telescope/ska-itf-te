@@ -1,8 +1,12 @@
 # Version History
 
 ## Unreleased
+* [AT-3470]
+  * New Engineering Tools image version
 * [AT-3465]
   * Dish layout files can be chosen in tests using TELMODEL_SOURCE and DISH_LAYOUT_TELMODEL_PATH env vars.
+
+## 29.0.0
 * [AT-3463]
   * updated tango-base and tango-util charts to 1.0.4
 * [AT-3377]
