@@ -165,7 +165,7 @@
               "receiver": {
                 "options": {
                   "telescope_model": {
-                    "telmodel_key": "instrument/ska1_mid_aa/layout/mid-layout.json",
+                    "telmodel_key": "instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json",
                     "telmodel_source_uris": "car:ska-mid?main#tmdata"
                   }
                 }
