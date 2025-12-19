@@ -11,6 +11,7 @@
   * further layout file updates for ska001 ska036 and ska100
 * [AT-3468]
   * update tmc to 1.9.0
+  * update spfrx to 1.4.5
 
 ## 28.6.0
 * [AT-3447]
