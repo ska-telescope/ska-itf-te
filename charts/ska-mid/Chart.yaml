@@ -98,7 +98,7 @@ dependencies:
 
   # TARANTA SUITE
   - name: ska-tango-taranta
-    version: 2.15.0
+    version: 2.18.1
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tango-taranta.enabled
 
