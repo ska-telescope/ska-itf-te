@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3455]
+  * Update Archiver Chart to v5.0.0
 * [AT-3470]
   * New Engineering Tools image version
 * [AT-3465]
