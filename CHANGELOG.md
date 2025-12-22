@@ -1,6 +1,9 @@
 # Version History
 
 ## Unreleased
+* [AT-3468]
+  * update tmc to 1.9.0
+  * update spfrx to 1.4.5
 * [AT-3470]
   * New Engineering Tools image version
 * [AT-3465]
@@ -13,9 +16,6 @@
   * Fix bug in make targets which render test jobs for site.
 * [AT-3462]
   * further layout file updates for ska001 ska036 and ska100
-* [AT-3468]
-  * update tmc to 1.9.0
-  * update spfrx to 1.4.5
 
 ## 28.6.0
 * [AT-3447]
