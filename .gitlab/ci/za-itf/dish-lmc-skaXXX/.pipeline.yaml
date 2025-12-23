@@ -69,7 +69,7 @@
         .make/resources/gitlab_section.sh test-spfrx-qspi-bitstream-compatibility "Smoke Test SPFRx QSPI bitstream compatibility" make smoke-tests
       fi
   after_script:
-    - bash .make/resources/gitlab_section.sh deployment-config "Output deployment config information" make k8s-template-chart
+    - bash .make/resources/gitlab_section.sh deployment-config "Output deployment config information" make get-deployment-config-info
   extends:
     - .dish-lmc
     - .dish_rules
