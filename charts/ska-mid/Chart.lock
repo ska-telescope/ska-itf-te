@@ -55,9 +55,9 @@ dependencies:
   version: 0.8.0
 - name: ska-tango-archiver
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 2.9.1
+  version: 5.0.0
 - name: ska-log-consumer
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.1.6
-digest: sha256:811f32dd89713d63a05bb480fa8baf30ceea31e9333beffa94d8373b92816acd
-generated: "2025-12-22T22:37:32.038874+02:00"
+digest: sha256:2937bb5c1393079f29ec19ba74ba81496ba42cc29391c6bae518acb68739bb85
+generated: "2025-12-23T10:47:06.061071+02:00"
