@@ -3,8 +3,10 @@
 ## Unreleased
 * [AT-3455]
   * Update Archiver Chart to v5.0.0
+* [AT-3472]
+  * Updated Taranta - 2.18.1
 * [AT-3470]
-  * New Engineering Tools image version
+  * New Engineering Tools image version in pipelines - 0.10.2
 * [AT-3465]
   * Dish layout files can be chosen in tests using TELMODEL_SOURCE and DISH_LAYOUT_TELMODEL_PATH env vars.
 
