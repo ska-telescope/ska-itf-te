@@ -1,6 +1,10 @@
 # Version History
 
 ## Unreleased
+* [AT-3468]
+  * Upgraded TMC to 1.9.0 and SPFRx console to 1.4.5
+* [AT-3455]
+  * Update Archiver Chart to v5.0.0
 * [AT-3472]
   * Updated Taranta - 2.18.1
 * [AT-3470]
