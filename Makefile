@@ -399,10 +399,12 @@ upload-to-confluence:
 
 get-deployment-config-info:
 	@helm -n $(KUBE_NAMESPACE) get values $(HELM_RELEASE)
-	@make k8s-template-chart > template.log
+	@helm -n $(KUBE_NAMESPACE) get all $(HELM_RELEASE) >> manifests.yaml
 	@mkdir -p build
 	@mv manifests.yaml build/manifests.yaml
+	@echo "#####################################################################################################"
 	@echo "Find the chart template used to deploy all the things in the job artefacts - look for manifests.yaml."
+	@echo "#####################################################################################################"
 
 .PHONY: get-deployment-config-info
 
