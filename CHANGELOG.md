@@ -1,6 +1,10 @@
 # Version History
 
 ## Unreleased
+
+## 29.1.0
+* [AT-3468]
+  * Sped up deployment job completions - getting deployment config info using helm command
 * [AT-3468]
   * Upgraded TMC to 1.9.0 and SPFRx console to 1.4.5
 * [AT-3455]
