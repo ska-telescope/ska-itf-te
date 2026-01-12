@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3422]
+  * Updated ska-mid-dish-spfc-deployer chart to v1.4.3
 * [SKB-1174]
   * Integrated ska-tango-archiver v5.0.1-rc.1 which includes SKB-1174 resolution.
 
