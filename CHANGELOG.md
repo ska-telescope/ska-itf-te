@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [SKB-1174]
+  * Integrated ska-tango-archiver v5.0.1-rc.1 which includes SKB-1174 resolution.
 
 ## 29.1.0
 * [AT-3468]
