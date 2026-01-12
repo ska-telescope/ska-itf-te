@@ -192,3 +192,4 @@ results.json
 sut-logs
 helmcommands.sh
 charts/experimental
+autorelease.sh
