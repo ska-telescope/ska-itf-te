@@ -222,6 +222,7 @@ ska-tango-archiver:
   telescope: SKA-mid
   telescope_environment: MID-ITF
   api_id: <EDA_API_ID> # This is set in Gitlab CI variables for the ITF, and Vault stored values for Prod. Needs to contain prefix "api://"
+  ingress_host: k8s.miditf.internal.skao.int
 
 # TANGO BASE and UTILS
 ska-tango-base:
