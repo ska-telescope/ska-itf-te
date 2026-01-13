@@ -15,6 +15,8 @@
   script:
     - mkdir deploy
     - bash .make/resources/gitlab_section.sh poetry "Poetry Install" poetry install
+    # - wget -qO /usr/bin/yq  https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 && chmod +x /usr/bin/yq # TEMPORARY COMMIT: Move to Engineering Tools
+    # - bash .make/resources/gitlab_section.sh gettext "install missing package" apt-get update && sudo apt-get install gettext-base # TEMPORARY COMMIT: Move to Engineering Tools
     - export PATH=.venv/bin:${PATH} # TEMPORARY COMMIT: fix in one place
     - echo $CI_JOB_NAME - $CI_JOB_STAGE > deploy/ci_details.txt # This is just to double-check if the job output to the build folder works
     - echo $CI_JOB_NAME - $CI_JOB_STAGE

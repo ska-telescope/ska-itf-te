@@ -17,7 +17,7 @@ define RENDER_AND_EXECUTE_TEST_JOB
 	export HELM_RELEASE=testing; \
 	export K8S_UMBRELLA_CHART_PATH=$(CWD)/charts/ska-mid-testing; \
 	export K8S_CHART=ska-mid-testing; \
-	$(if $(DISH_IDS), echo "Overriding DISH_IDS=$(DISH_IDS)"; yq -i '.environment.DISH_IDS = "$(DISH_IDS)"' $(CWD)/charts/ska-mid-testing/values.yaml;)
+	$(if $(DISH_IDS), echo "Overriding DISH_IDS=$(DISH_IDS)"; yq -i '.environment.DISH_IDS = "$(DISH_IDS)"' $(CWD)/charts/ska-mid-testing/values.yaml;) \
 	make k8s-template-chart > /dev/null
 	@yq eval-all "select(.kind == \"Job\" and .metadata.name == \"$(1)-job\" and .spec.template.spec.containers[].name == \"$(1)\")" manifests.yaml > $(1)-job.yaml
 	kubectl apply -f $(1)-job.yaml

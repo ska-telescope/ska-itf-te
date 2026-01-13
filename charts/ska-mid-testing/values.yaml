@@ -1,7 +1,7 @@
 image:
   registry: registry.gitlab.com/ska-telescope/ska-mid
   image: ska-mid-testing
-  tag: 28.5.0-dev.c4669703a
+  tag: 29.1.0
   pullPolicy: IfNotPresent
 environment:
   E2E_TEST_EXECUTION_NAMESPACE: "ska-mid-central-controller"
@@ -21,6 +21,8 @@ environment:
   POINTING_TARGET_NAME: "J1939-6342"
   POINTING_TARGET_RIGHT_ASCENSION: "19:39:25.0264"
   POINTING_TARGET_DECLINATION: "-63:42:45.625"
+  TELMODEL_SOURCE: "car:ska-mid?main#tmdata"
+  DISH_LAYOUT_TELMODEL_PATH: "instrument/ska1_mid_aa/layout/mid-layout.json"
 testReportsPVC: pvc-test-data-storage
 mountPath: /data/test-reports
 CBFMCSconfigMountPath: /app/ska-mid/resources/mcs
