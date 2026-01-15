@@ -262,6 +262,11 @@ ska-tango-taranta:
       requests:
         cpu: 600m   # 600m = 0.6 CPU
         memory: 512Mi   # 512Mi = 0.5 GB mem
+  tarantanode:
+    image:
+      registry: registry.gitlab.com/ska-telescope/ska-tango-taranta-group/ska-tango-taranta-pipeline
+      image: ska-tango-taranta-pipeline
+      tag: ccddd4a8
 
 # TMC
 ska-tmc-mid:
