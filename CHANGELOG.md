@@ -1,6 +1,15 @@
 # Version History
 
 ## Unreleased
+* [AT-3422]
+  * Use updated SPFC deployer version 0.4.4:
+    * Download binary artefacts as uploaded by updated SPFC builder
+    * Update Tango version
+    * Implement Tango archiving
+    * Fixes for symbolic links of binaries
+    * Fixes for file permissions
+    * Fixes for configuration files
+    * Delete downloaded artefacts after deployment
 * [SKB-1174]
   * Integrated ska-tango-archiver v5.0.1-rc.2 which includes SKB-1174 resolution.
 
@@ -554,3 +563,4 @@
 
 * [AT-2044]
   * Use engineering console version 0.10.6 to mitigate SKB-352.
+
