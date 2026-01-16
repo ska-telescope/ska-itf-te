@@ -4,6 +4,17 @@
 * [SKB-1174]
   * Integrated ska-tango-archiver v5.0.1-rc.2 which includes SKB-1174 resolution.
 
+## 29.1.1
+* [AT-2344]
+  * Use updated SPFC deployer:
+    * Download binary artefacts as uploaded by updated SPFC builder
+    * Update Tango version
+    * Implement Tango archiving
+    * Fixes for symbolic links of binaries
+    * Fixes for file permissions
+    * Fixes for configuration files
+    * Delete downloaded artefacts after deployment
+
 ## 29.1.0
 * [AT-3468]
   * Sped up deployment job completions - getting deployment config info using helm command
