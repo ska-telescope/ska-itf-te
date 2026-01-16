@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+
+## 29.4.0
 * [AT-3422]
   * Use updated SPFC deployer version 0.4.4:
     * Download binary artefacts as uploaded by updated SPFC builder
