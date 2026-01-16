@@ -3,9 +3,7 @@
 ## Unreleased
 * [SKB-1174]
   * Integrated ska-tango-archiver v5.0.1-rc.2 which includes SKB-1174 resolution.
-
-## 29.1.1
-* [AT-2344]
+* [AT-3422]
   * Use updated SPFC deployer:
     * Download binary artefacts as uploaded by updated SPFC builder
     * Update Tango version
