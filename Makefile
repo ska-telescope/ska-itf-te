@@ -143,14 +143,20 @@ DISH_LMC_PARAMS ?= $(DISH_LMC_INITIAL_PARAMS) $(DISH_LMC_EXTRA_PARAMS) $(DISH_LM
 SKUID_URL ?= ska-ser-skuid-test-svc.$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN):9870
 ODA_PARAMS ?= --set ska-db-oda-umbrella.ska-db-oda.rest.skuid.url=$(SKUID_URL)
 
+ODA_NAMESPACE ?= ska-db-oda
+
+# Note: remember to update major versions here if charts have major version upgrades
+ODA_URL ?= $(KUBE_HOST)/$(ODA_NAMESPACE)/oda/api/v12
+ODA_SERVICE_URL ?= http://ska-db-oda-rest-test.$(ODA_NAMESPACE):5000/$(ODA_NAMESPACE)/oda/api/v12
+
 OET_URL ?= $(KUBE_HOST)/$(KUBE_NAMESPACE)/oet/api/v8
-ODA_URL ?= $(KUBE_HOST)/$(KUBE_NAMESPACE)/oda/api/v8
 PTT_SERVICES_URL ?= $(KUBE_HOST)/$(KUBE_NAMESPACE)/ptt/api/v0
 SLT_SERVICES_URL ?= $(KUBE_HOST)/$(KUBE_NAMESPACE)/slt/api/v0
 
 OSO_PARAMS ?= \
 	--set ska-oso-integration.ska-oso-oet-ui.backendURLOET=$(OET_URL) \
  	--set ska-oso-integration.ska-oso-oet-ui.backendURLODA=$(ODA_URL) \
+	--set ska-oso-integration.ska-oso-oet.rest.oda.url=$(ODA_SERVICE_URL) \
 	--set ska-oso-integration.ska-oso-ptt.backendURL=$(PTT_SERVICES_URL) \
 	--set ska-oso-integration.ska-oso-slt-ui.backendURL=$(SLT_SERVICES_URL) \
 

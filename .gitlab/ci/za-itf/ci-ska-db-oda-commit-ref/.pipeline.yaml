@@ -7,6 +7,7 @@
     K8S_CHART: ska-mid
     KUBE_APP: ska-db-oda
     KUBE_NAMESPACE: ska-db-oda
+    ODA_NAMESPACE: ska-db-oda
     INGRESS_HOST: "k8s.miditf.internal.skao.int"
     CLUSTER_DOMAIN: "miditf.internal.skao.int"
     ODA_ENABLERS: "-f .gitlab/ci/za-itf/ci-ska-db-oda-commit-ref/oda-enablers.yaml"
