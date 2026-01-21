@@ -10,3 +10,6 @@
 	path = .jupyter-notebooks
 	url = https://gitlab.com/ska-telescope/ska-mid-jupyter-notebooks
 	shallow = true
+[submodule ".eda-config-generator"]
+	path = .eda-config-generator
+	url = git@gitlab.com:ska-telescope/mid-dish/ska-dish-lmc/snippets/4875213.git
