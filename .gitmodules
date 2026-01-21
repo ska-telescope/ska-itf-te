@@ -13,3 +13,4 @@
 [submodule ".eda-config-generator"]
 	path = .eda-config-generator
 	url = https://gitlab.com/ska-telescope/mid-dish/ska-dish-lmc/snippets/4875213.git
+	shallow = true
