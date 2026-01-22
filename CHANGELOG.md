@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3476]
+  * Update tmc to 1.12.0 and csp-lmc to 1.3.0
 
 ## 29.4.0
 * [AT-3422]
