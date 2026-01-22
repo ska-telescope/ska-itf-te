@@ -1,6 +1,43 @@
 # Version History
 
 ## Unreleased
+* [SKB-1174]
+  * Integrate full release of ska-tango-archiver resolving SKB-1174 (5.0.1)
+
+## 29.4.0
+* [AT-3422]
+  * Use updated SPFC deployer version 0.4.4:
+    * Download binary artefacts as uploaded by updated SPFC builder
+    * Update Tango version
+    * Implement Tango archiving
+    * Fixes for symbolic links of binaries
+    * Fixes for file permissions
+    * Fixes for configuration files
+    * Delete downloaded artefacts after deployment
+* [SKB-1174]
+  * Integrated ska-tango-archiver v5.0.1-rc.2 which includes SKB-1174 resolution.
+
+## 29.1.0
+* [AT-3468]
+  * Sped up deployment job completions - getting deployment config info using helm command
+* [AT-3468]
+  * Upgraded TMC to 1.9.0 and SPFRx console to 1.4.5
+* [AT-3455]
+  * Update Archiver Chart to v5.0.0
+* [AT-3472]
+  * Updated Taranta - 2.18.1
+* [AT-3470]
+  * New Engineering Tools image version in pipelines - 0.10.2
+* [AT-3465]
+  * Dish layout files can be chosen in tests using TELMODEL_SOURCE and DISH_LAYOUT_TELMODEL_PATH env vars.
+
+## 29.0.0
+* [AT-3463]
+  * updated tango-base and tango-util charts to 1.0.4
+* [AT-3377]
+  * Fix bug in make targets which render test jobs for site.
+* [AT-3462]
+  * further layout file updates for ska001 ska036 and ska100
 
 ## 28.6.0
 * [AT-3447]
@@ -530,3 +567,4 @@
 
 * [AT-2044]
   * Use engineering console version 0.10.6 to mitigate SKB-352.
+

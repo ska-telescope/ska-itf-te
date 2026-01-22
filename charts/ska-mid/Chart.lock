@@ -1,13 +1,13 @@
 dependencies:
 - name: ska-tango-base
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.0.2
+  version: 1.0.4
 - name: ska-tango-util
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.0.2
+  version: 1.0.4
 - name: ska-tmc-mid
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.9.0-rc.2
+  version: 1.9.0
 - name: ska-mid-wms
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.4.0
@@ -37,13 +37,13 @@ dependencies:
   version: 0.11.0
 - name: ska-mid-dish-spfc-deployer
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 0.4.1
+  version: 0.4.4
 - name: ska-mid-dish-spfrx-talondx-console
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.4.4
+  version: 1.4.5
 - name: ska-tango-taranta
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 2.15.0
+  version: 2.18.1
 - name: ska-tango-tangogql-ariadne
   repository: https://artefact.skao.int/repository/helm-internal
   version: 1.0.7
@@ -55,9 +55,9 @@ dependencies:
   version: 0.8.0
 - name: ska-tango-archiver
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 2.9.1
+  version: 5.0.1
 - name: ska-log-consumer
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.1.6
-digest: sha256:a6d7eebb6952829a8014dd7b669824fb01d569e446495ddd8b54fac52c5604b3
-generated: "2025-12-10T15:36:28.084690972Z"
+digest: sha256:060335a48a3b946a6377278d17ee3ba3ae45753dd4e580654d6621c2e7384e62
+generated: "2026-01-20T15:59:52.612256355+02:00"
