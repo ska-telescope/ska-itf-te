@@ -232,6 +232,7 @@ SDP_PARAMS ?= --set ska-sdp.helmdeploy.namespace=$(KUBE_NAMESPACE_SDP) \
 EDA_EXTRA_PARAMS ?= --set ska-tango-archiver.archwizard_config=MyHDB=tango://tango-databaseds.$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN):10000/mid-eda/cm/01
 EDA_PARAMS ?= --set ska-tango-archiver.dbpassword=${EDA_DB_PASSWORD} \
 	--set ska-tango-archiver.archviewer.instances[0].timescale_login=admin:${EDA_DB_PASSWORD} \
+	--set ska-tango-archiver.api_id=${EDA_API_ID} --set ska-tango-archiver.vault.enabled=false \
 	$(EDA_EXTRA_PARAMS)
 ###################################################################
 
@@ -398,10 +399,12 @@ upload-to-confluence:
 
 get-deployment-config-info:
 	@helm -n $(KUBE_NAMESPACE) get values $(HELM_RELEASE)
-	@make k8s-template-chart > template.log
+	@helm -n $(KUBE_NAMESPACE) get all $(HELM_RELEASE) >> manifests.yaml
 	@mkdir -p build
 	@mv manifests.yaml build/manifests.yaml
+	@echo "#####################################################################################################"
 	@echo "Find the chart template used to deploy all the things in the job artefacts - look for manifests.yaml."
+	@echo "#####################################################################################################"
 
 .PHONY: get-deployment-config-info
 
