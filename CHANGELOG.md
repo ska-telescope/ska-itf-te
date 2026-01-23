@@ -3,6 +3,8 @@
 ## Unreleased
 * [AT-3456]
   * Add eda config generator snippet.
+* [SKB-1146]
+  * Update default target in assign resource default payload to match target used currently for site observations.
 
 ## 29.4.0
 * [AT-3422]
