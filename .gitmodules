@@ -1,6 +1,7 @@
 [submodule ".make"]
 	path = .make
 	url = https://gitlab.com/ska-telescope/sdi/ska-cicd-makefile.git
+	branch = st-2701-allow-helm-chart-build-to-save-artefacts
 	shallow = true
 [submodule ".engineering-tools"]
 	path = .engineering-tools

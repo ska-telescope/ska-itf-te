@@ -127,11 +127,18 @@ helm-chart-lint:
         - charts/**/*
 
 helm-chart-build:
+  artifacts:
+    paths:
+      - build/charts/
+  variables:
+    HELM_BUILD_KEEP_ARTEFACTS: true
   rules:
     - if: $CI_PIPELINE_SOURCE == "pipeline"
       when: never
     - exists:
         - charts/**/*
+  after_script:
+    - rm -rf build/charts  
 
 docs-build:
   rules:
