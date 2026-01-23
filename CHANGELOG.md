@@ -1,6 +1,9 @@
 # Version History
 
 ## Unreleased
+* [SKB-1146]
+  * Update default target in assign resource default payload to match target used currently for site observations.
+  * Update assign resources payload method to dynamically set field_a target coordinates based on pointing target env vars.
 * [SKB-1174]
   * Integrate full release of ska-tango-archiver resolving SKB-1174 (5.0.1)
 
