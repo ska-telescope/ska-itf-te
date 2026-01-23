@@ -132,3 +132,7 @@ container_scanning:
 docs-build-rtd:
   rules:
     - when: never
+
+k8s-test-runner:
+  rules:
+    - when: never
