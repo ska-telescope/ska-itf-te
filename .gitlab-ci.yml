@@ -136,3 +136,7 @@ docs-build-rtd:
 k8s-test-runner:
   rules:
     - when: never
+
+stop-k8s-test-runner:
+  rules:
+    - when: never
