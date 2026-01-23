@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3456]
+  * Add eda config generator snippet.
 
 ## 29.4.0
 * [AT-3422]
