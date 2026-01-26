@@ -143,7 +143,7 @@ DISH_LMC_PARAMS ?= $(DISH_LMC_INITIAL_PARAMS) $(DISH_LMC_EXTRA_PARAMS) $(DISH_LM
 ODA_NAMESPACE ?= ska-db-oda
 
 # Note: remember to update major versions here if charts have major version upgrades
-ODA_URL ?= $(KUBE_HOST)/$(ODA_NAMESPACE)/oda/api/v14
+ODA_URL ?= $(KUBE_HOST)/$(KUBE_NAMESPACE)/oda/api/v14
 SLT_SERVICES_URL ?= $(KUBE_HOST)/$(KUBE_NAMESPACE)/slt/api/v2
 
 OSO_PARAMS ?= \
