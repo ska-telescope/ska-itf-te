@@ -129,7 +129,7 @@ helm-chart-lint:
 helm-chart-build:
   artifacts:
     paths:
-      - build/charts/
+      - ./chart.tmp
   variables:
     HELM_BUILD_KEEP_ARTEFACTS: true
   rules:
@@ -137,8 +137,6 @@ helm-chart-build:
       when: never
     - exists:
         - charts/**/*
-  after_script:
-    - rm -rf build/charts  
 
 docs-build:
   rules:
