@@ -39,7 +39,6 @@ destroy-oda:
   extends:
     - .oda
   script:
-    - kubectl apply -f ska-db-oda.yaml --force=true
     - !reference [.uninstall-chart, script]
   environment:
     action: stop
