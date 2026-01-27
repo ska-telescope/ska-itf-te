@@ -133,6 +133,9 @@ k8s-test-runner:
     SIM_MODE: "true"
     SUT_CLUSTER_DOMAIN: miditf.internal.skao.int
     NODE_WITH_100G_INTERFACE: "za-itf-cloud05"
+    POINTING_TARGET_NAME: "PKS 1718-649"
+    POINTING_TARGET_RIGHT_ASCENSION: "17:23:41.03"
+    POINTING_TARGET_DECLINATION: "-65:00:36.61"
 
 stop-k8s-test-runner:
   tags:
