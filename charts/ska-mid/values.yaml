@@ -67,6 +67,12 @@ ska-oso-integration:
         enabled: true
       initPostgres:
         runJob: false
+  ska-oso-services:
+    vault:
+      enabled: false
+  ska-oso-slt-services:
+    secretProvider:
+      enabled: false
   
 # ODA
 ska-db-oda-umbrella:
