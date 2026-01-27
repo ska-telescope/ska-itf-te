@@ -132,6 +132,7 @@ k8s-test-runner:
     MARKS: "'not hw_in_the_loop'"
     SIM_MODE: "true"
     SUT_CLUSTER_DOMAIN: miditf.internal.skao.int
+    NODE_WITH_100G_INTERFACE: "za-itf-cloud05"
 
 stop-k8s-test-runner:
   tags:
