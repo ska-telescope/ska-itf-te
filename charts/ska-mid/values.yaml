@@ -120,7 +120,7 @@ ska-mid-cbf-engineering-console:
     image:
       registry: registry.gitlab.com/ska-telescope/ska-mid-cbf-engineering-console
       image: ska-mid-cbf-engineering-console
-      tag: 1.1.10-dev.cff3026a9
+      tag: 1.1.10-dev.c73f420e8
       pullPolicy: IfNotPresent
 
 # CBF Talon Demonstration Correlator Master Control Software
