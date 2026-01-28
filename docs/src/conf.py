@@ -29,7 +29,7 @@ author = "ATLAS Team"
 
 # The full version, including alpha/beta/rc tags
 
-release = "29.4.1-test-map-502-at-3476b"
+release = "29.4.1-test-map-502"
 
 # -- General configuration ---------------------------------------------------
 
