@@ -388,7 +388,7 @@ CLUSTER_HEADLAMP_BASE_URL?=https://k8s.miditf.internal.skao.int/headlamp
 CLUSTER_DATACENTRE?=mid-itf
 CLUSTER_MONITOR?=mid-itf-monitor
 
-integration-test: k8s-info
+integration-test:
 	@mkdir -p build
 	set -o pipefail; $(PYTHON_RUNNER) pytest $(INTEGRATION_TEST_SOURCE) $(INTEGRATION_TEST_ARGS); \
 	echo $$? > build/status
