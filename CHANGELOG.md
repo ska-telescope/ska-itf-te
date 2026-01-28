@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3483]
+  * Updated Engineering Tools image
 * [AT-3456]
   * Add eda config generator snippet.
 * [SKB-1146]
