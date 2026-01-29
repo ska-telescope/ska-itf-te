@@ -217,6 +217,7 @@ ska-tango-archiver:
   dbname: itf_eda
   dbuser: admin
   event_subscriber: mid-eda/es/01
+  event_subscriber_count: 9
   hostname: eda.ska-tango-archiver
   port: 5432
   telescope: SKA-mid
