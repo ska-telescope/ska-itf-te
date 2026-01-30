@@ -172,6 +172,9 @@ docs-build:
     MARKS: ""
     PYTEST_ADDOPTS: --log-cli-level=INFO
     SUT_CHART_DIR: ${CI_PROJECT_DIR}/charts/ska-mid
+    POINTING_TARGET_NAME: "Polaris Australis"
+    POINTING_TARGET_RIGHT_ASCENSION: "21:08:47.92"
+    POINTING_TARGET_DECLINATION: "-88:57:22.9"
   before_script:
     - make vars
     - mkdir -p config
