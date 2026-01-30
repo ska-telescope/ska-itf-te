@@ -8,6 +8,8 @@
   * Add eda config generator snippet.
 * [SKB-1174]
   * Integrate full release of ska-tango-archiver resolving SKB-1174 (5.0.1)
+* [AT-3476]
+  * Update tmc to 1.12.0 and csp-lmc to 1.3.0
 
 ## 29.4.0
 * [AT-3422]
@@ -58,6 +60,8 @@
   * CBF MCS 1.3.8 and engineering console 1.1.10 updates to fix skb-1075
 * [AT-3451]
   * Create `ska-mid-cbf-system-parameters.json` for site, separate from the ITF one
+* [MAP-502]
+  * update cbf ec deployer image
 * [AT-3454]
   * Update spfrx ec deployer to 1.4.4
 * [AT-3459]
