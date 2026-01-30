@@ -1,7 +1,7 @@
 image:
   registry: registry.gitlab.com/ska-telescope/ska-mid
   image: ska-mid-testing
-  tag: 29.4.1-test-at-3476
+  tag: 29.4.1-at-3476b
   pullPolicy: IfNotPresent
 environment:
   E2E_TEST_EXECUTION_NAMESPACE: "ska-mid-central-controller"
