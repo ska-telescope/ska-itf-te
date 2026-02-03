@@ -101,6 +101,7 @@ k8s-test-runner:
     - bash .make/resources/gitlab_section.sh poetry "Poetry Install" poetry install
     - bash .make/resources/gitlab_section.sh namespaces "Create namespaces" make sut-namespaces
     - export K8S_UMBRELLA_CHART_PATH=$(ls -t ./chart.tmp/ska-mid-[0-9]*.tgz | head -n1)
+    - sha256sum -c "$K8S_UMBRELLA_CHART_PATH.${CI_PIPELINE_ID}.sha256"
     - echo "Using chart archive - $K8S_UMBRELLA_CHART_PATH"
     - bash .make/resources/gitlab_section.sh install "K8S Install from .tgz" make k8s-install-chart
     - bash .make/resources/gitlab_section.sh wait "K8S wait" make k8s-wait
