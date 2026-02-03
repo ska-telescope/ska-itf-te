@@ -3042,12 +3042,6 @@ attributes:
     archive_abs_change: 1
   es: es9
   th: th1
-# - trl: mid-dish/ds-manager/ska001/Tracking_Status_tr_TimeRemaining
-  # configuration:
-    # code_push_event: true
-    # archive_abs_change: 1
-  # es: es9
-  # th: th1
 - trl: mid-dish/ds-manager/ska001/Tracking_Status_tr_valid
   configuration:
     code_push_event: true
