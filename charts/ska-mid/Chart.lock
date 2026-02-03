@@ -13,7 +13,7 @@ dependencies:
   version: 0.4.0
 - name: ska-csp-lmc-mid
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.2.0
+  version: 1.3.0
 - name: ska-mid-cbf-tdc-mcs
   repository: https://artefact.skao.int/repository/helm-internal
   version: 1.3.8
@@ -25,10 +25,10 @@ dependencies:
   version: 2.1.1
 - name: ska-oso-integration
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 0.1.1
+  version: 1.0.0
 - name: ska-db-oda-umbrella
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 12.0.1
+  version: 14.0.4
 - name: ska-dish-lmc
   repository: https://artefact.skao.int/repository/helm-internal
   version: 8.5.1
@@ -59,5 +59,5 @@ dependencies:
 - name: ska-log-consumer
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.1.6
-digest: sha256:060335a48a3b946a6377278d17ee3ba3ae45753dd4e580654d6621c2e7384e62
-generated: "2026-01-20T15:59:52.612256355+02:00"
+digest: sha256:29931e509b283bf9e4635232318715a46907cc7354ef72e5960c9acede61576a
+generated: "2026-02-02T09:36:54.610724+02:00"

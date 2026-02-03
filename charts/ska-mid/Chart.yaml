@@ -31,7 +31,7 @@ dependencies:
 
   # Mid CSP LMC
   - name: ska-csp-lmc-mid
-    version: 1.2.0
+    version: 1.3.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-csp-lmc-mid.enabled
 
@@ -61,14 +61,15 @@ dependencies:
 
   # OSO integration
   - name: ska-oso-integration
-    version: 0.1.1
+    version: 1.0.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-oso-integration.enabled
 
   # SKA ODA
+  # when upgrading this major version, also adjust versions in Makefile URLs
   - name: ska-db-oda-umbrella
     repository: https://artefact.skao.int/repository/helm-internal
-    version: 12.0.1
+    version: 14.0.4
     condition: ska-db-oda-umbrella.enabled
 
   # DISH LMC CHART

@@ -132,6 +132,9 @@ k8s-test-runner:
     MARKS: "'not hw_in_the_loop'"
     SIM_MODE: "true"
     SUT_CLUSTER_DOMAIN: miditf.internal.skao.int
+    POINTING_TARGET_NAME: "Polaris Australis"
+    POINTING_TARGET_RIGHT_ASCENSION: "21:08:47.92"
+    POINTING_TARGET_DECLINATION: "-88:57:22.9"
 
 stop-k8s-test-runner:
   tags:

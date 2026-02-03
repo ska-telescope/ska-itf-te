@@ -112,7 +112,7 @@
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
     - bash .make/resources/gitlab_section.sh env "Environment dump" env
     - make k8s-uninstall-chart || true
-    - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all --ignore-not-found
+    - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps,pgdbinstances.database.skao.int --all --ignore-not-found
     - make k8s-delete-namespace
 
 # If the pipeline is being exectued as a downstream, do not lint
@@ -172,6 +172,9 @@ docs-build:
     MARKS: ""
     PYTEST_ADDOPTS: --log-cli-level=INFO
     SUT_CHART_DIR: ${CI_PROJECT_DIR}/charts/ska-mid
+    POINTING_TARGET_NAME: "Polaris Australis"
+    POINTING_TARGET_RIGHT_ASCENSION: "21:08:47.92"
+    POINTING_TARGET_DECLINATION: "-88:57:22.9"
   before_script:
     - make vars
     - mkdir -p config
