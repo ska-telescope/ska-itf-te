@@ -29,7 +29,7 @@ author = "ATLAS Team"
 
 # The full version, including alpha/beta/rc tags
 
-release = "29.4.1-test-csp-1.3.0"
+release = "29.4.1-test-tmc-dev-im"
 
 # -- General configuration ---------------------------------------------------
 
