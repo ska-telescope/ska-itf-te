@@ -127,6 +127,11 @@ helm-chart-lint:
         - charts/**/*
 
 helm-chart-build:
+  artifacts:
+    paths:
+      - ./chart.tmp
+  variables:
+    HELM_BUILD_KEEP_ARTEFACTS: true
   rules:
     - if: $CI_PIPELINE_SOURCE == "pipeline"
       when: never
