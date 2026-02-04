@@ -1,6 +1,6 @@
 tango_hosts:
 - th1:
-    host: tango-databaseds.staging-dish-lmc-ska001.svc.miditf.internal.skao.int
+    host: tango-databaseds.staging.svc.miditf.internal.skao.int
     port: 10000
 event_subscribers:
 - es1:
@@ -24,6 +24,10 @@ event_subscribers:
 configuration_managers:
 - cm1:
     trl: mid-eda/cm/01
+defaults:
+  - th: th1
+  - cm: cm1  
+  - es: es1
 attributes:
 - trl: spfrxpu/controller/rxs123odlb12supply25voltage
   es: es1
