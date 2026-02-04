@@ -1,6 +1,6 @@
 tango_hosts:
 - th1:
-    host: tango-databaseds.staging.svc.miditf.internal.skao.int
+    host: tango-databaseds.staging-dish-lmc-ska001.svc.miditf.internal.skao.int
     port: 10000
 event_subscribers:
 - es1:
@@ -29,7 +29,7 @@ defaults:
   - cm: cm1  
   - es: es1
 attributes:
-- trl: spfrxpu/controller/rxs123odlb12supply25voltage
+- trl: ska001/spfrxpu/controller/rxs123odlb12supply25voltage
   es: es1
   cm: cm1
   configuration:
@@ -42,7 +42,7 @@ attributes:
   configuration:
     code_push_event: true
   th: th1
-- trl: spfrxpu/controller/rxs123odlpowersupply12voltage
+- trl: ska001/spfrxpu/controller/rxs123odlpowersupply12voltage
   es: es1
   cm: cm1
   configuration:
@@ -55,7 +55,7 @@ attributes:
   configuration:
     code_push_event: true
   th: th1
-- trl: spfrxpu/controller/b1capabilitystate
+- trl: ska001/spfrxpu/controller/b1capabilitystate
   es: es1
   cm: cm1
   configuration:
@@ -91,27 +91,27 @@ attributes:
   configuration:
     code_push_event: true
   th: th1
-- trl: spfrxpu/controller/b2capabilitystate
+- trl: ska001/spfrxpu/controller/b2capabilitystate
   es: es1
   cm: cm1
   configuration:
     code_push_event: true
   th: th1
-- trl: spfrxpu/controller/rxs123surgearrestervoltage
-  es: es1
-  cm: cm1
-  configuration:
-    code_push_event: true
-    archive_abs_change: 0.001
-  th: th1
-- trl: spfrxpu/controller/rxs123clkpowerlevelvoltage
+- trl: ska001/spfrxpu/controller/rxs123surgearrestervoltage
   es: es1
   cm: cm1
   configuration:
     code_push_event: true
     archive_abs_change: 0.001
   th: th1
-- trl: spfrxpu/controller/configuredband
+- trl: ska001/spfrxpu/controller/rxs123clkpowerlevelvoltage
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.001
+  th: th1
+- trl: ska001/spfrxpu/controller/configuredband
   es: es1
   cm: cm1
   configuration:
@@ -135,14 +135,14 @@ attributes:
   configuration:
     code_push_event: true
   th: th1
-- trl: spfrxpu/controller/rxs123odltemperature
+- trl: ska001/spfrxpu/controller/rxs123odltemperature
   es: es1
   cm: cm1
   configuration:
     code_push_event: true
     archive_abs_change: 0.001
   th: th1
-- trl: spfrxpu/controller/operatingmode
+- trl: ska001/spfrxpu/controller/operatingmode
   es: es1
   cm: cm1
   configuration:
@@ -154,33 +154,33 @@ attributes:
   configuration:
     code_push_event: true
   th: th1
-- trl: spfrxpu/controller/datastreamcurrentband
+- trl: ska001/spfrxpu/controller/datastreamcurrentband
   es: es1
   cm: cm1
   configuration:
     code_push_event: true
     archive_abs_change: 1.0
   th: th1
-- trl: spfrxpu/controller/b123proccntlwralignstatus
+- trl: ska001/spfrxpu/controller/b123proccntlwralignstatus
   es: es1
   cm: cm1
   configuration:
     code_push_event: true
   th: th1
-- trl: spfrxpu/controller/rxs123odlhumidity
+- trl: ska001/spfrxpu/controller/rxs123odlhumidity
   es: es1
   cm: cm1
   configuration:
     code_push_event: true
     archive_abs_change: 0.001
   th: th1
-- trl: spfrxpu/controller/b3capabilitystate
+- trl: ska001/spfrxpu/controller/b3capabilitystate
   es: es1
   cm: cm1
   configuration:
     code_push_event: true
   th: th1
-- trl: spfrxpu/controller/rxs123odlb12supply33voltage
+- trl: ska001/spfrxpu/controller/rxs123odlb12supply33voltage
   es: es1
   cm: cm1
   configuration:
@@ -193,7 +193,7 @@ attributes:
   configuration:
     code_push_event: true
   th: th1
-- trl: spfrxpu/controller/rxs123odlb3supply33voltage
+- trl: ska001/spfrxpu/controller/rxs123odlb3supply33voltage
   es: es1
   cm: cm1
   configuration:
@@ -206,7 +206,7 @@ attributes:
   configuration:
     code_push_event: true
   th: th1
-- trl: spfrxpu/controller/rxs123odlb3supply25voltage
+- trl: ska001/spfrxpu/controller/rxs123odlb3supply25voltage
   es: es1
   cm: cm1
   configuration:
@@ -225,7 +225,7 @@ attributes:
   configuration:
     code_push_event: true
   th: th1
-- trl: spfrxpu/controller/datastreambandchangestatus
+- trl: ska001/spfrxpu/controller/datastreambandchangestatus
   es: es1
   cm: cm1
   configuration:
@@ -255,13 +255,13 @@ attributes:
   configuration:
     code_push_event: true
   th: th1
-- trl: spfrxpu/controller/b123proccntlwrfifoovf
+- trl: ska001/spfrxpu/controller/b123proccntlwrfifoovf
   es: es1
   cm: cm1
   configuration:
     code_push_event: true
   th: th1
-- trl: spfrxpu/controller/rxs123odlpowersupply5voltage
+- trl: ska001/spfrxpu/controller/rxs123odlpowersupply5voltage
   es: es1
   cm: cm1
   configuration:
@@ -386,7 +386,7 @@ attributes:
     code_push_event: true
     archive_abs_change: 0.1
   th: th1
-- trl: spfrxpu/controller/b2ppsdeviation
+- trl: ska001/spfrxpu/controller/b2ppsdeviation
   es: es2
   cm: cm1
   configuration:
