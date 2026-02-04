@@ -286,6 +286,11 @@ ska-tmc-mid:
         DishVccUri: "car:ska-mid?27.3.0#tmdata"
         DishVccFilePath: "instrument/ska1_mid_itf/vcc-config/ska-mid-cbf-system-parameters.json"
     cspsubarrayleafnode:
+      image:
+        registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-cspleafnodes
+        image: ska-tmc-cspleafnodes
+        tag: 0.40.0-dev.c37189c9f
+        pullPolicy: IfNotPresent
       CommandTimeOutDefault: 300
       # DelayCadence: 10.0
       # DelayModelTimeInAdvance: 30
@@ -301,12 +306,6 @@ ska-tmc-mid:
     ska-tango-base:
       enabled: false
     cspmasterleafnode:
-      image:
-        registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-cspleafnodes
-        image: ska-tmc-cspleafnodes
-        tag: 0.40.0-dev.c37189c9f
-        pullPolicy: IfNotPresent
-    cspsubarrayleafnode:
       image:
         registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-cspleafnodes
         image: ska-tmc-cspleafnodes
