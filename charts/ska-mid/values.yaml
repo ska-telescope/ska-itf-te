@@ -309,8 +309,6 @@ ska-tmc-mid:
     subarraynode:
       CommandTimeOutDefault: 300
       CspScanInterfaceURL: https://schema.skao.int/ska-csp-scan/2.2   # TEMPORARY COMMIT - not to be overwritten in makefile
-    ska-tango-base:
-      enabled: false
   resources:
     # limits:
     #   cpu: 800m
