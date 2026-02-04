@@ -275,6 +275,19 @@ ska-tango-taranta:
 # TMC
 ska-tmc-mid:
   enabled: false
+  ## TEMPORARY DEV IMAGES BELOW
+  cspmasterleafnode:
+    image:
+      registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-cspleafnodes
+      image: ska-tmc-cspleafnodes
+      tag: 0.40.0-dev.c37189c9f
+      pullPolicy: IfNotPresent
+  cspsubarrayleafnode:
+    image:
+      registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-cspleafnodes
+      image: ska-tmc-cspleafnodes
+      tag: 0.40.0-dev.c37189c9f
+      pullPolicy: IfNotPresent
   deviceServers:
     mocks:
       enabled: true
@@ -285,18 +298,7 @@ ska-tmc-mid:
       DishVccConfig:
         DishVccUri: "car:ska-mid?27.3.0#tmdata"
         DishVccFilePath: "instrument/ska1_mid_itf/vcc-config/ska-mid-cbf-system-parameters.json"
-    cspmasterleafnode:
-      image:
-        registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-cspleafnodes
-        image: ska-tmc-cspleafnodes
-        tag: 0.40.0-dev.c37189c9f
-        pullPolicy: IfNotPresent
     cspsubarrayleafnode:
-      image:
-        registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-cspleafnodes
-        image: ska-tmc-cspleafnodes
-        tag: 0.40.0-dev.c37189c9f
-        pullPolicy: IfNotPresent
       CommandTimeOutDefault: 300
       # DelayCadence: 10.0
       # DelayModelTimeInAdvance: 30
