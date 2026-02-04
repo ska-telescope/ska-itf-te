@@ -228,6 +228,7 @@ ska-tango-archiver:
   dbname: itf_eda
   dbuser: admin
   event_subscriber: mid-eda/es/01
+  is_auto_config_format_new: true
   event_subscriber_count: 9
   hostname: eda.ska-tango-archiver
   port: 5432
