@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [ST-2701]
+  * Added Helm chart caching to speed up k8s-testrunner execution.
 * [SKB-1146]
   * Update default target in assign resource default payload to match target used currently for site observations.
   * Update assign resources payload method to dynamically set field_a target coordinates based on pointing target env vars.
