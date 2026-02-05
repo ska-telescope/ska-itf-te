@@ -1,6 +1,9 @@
 # Version History
 
 ## Unreleased
+* [SDR-1616] & [AT-3484]
+  * Bring OSO back into ska-mid (ska-oso-integration v1.0.0) for staging and integration namespaces
+  * Update ODA umbrella to v14.0.4
 * [ST-2701]
   * Added Helm chart caching to speed up k8s-testrunner execution.
 * [SKB-1146]

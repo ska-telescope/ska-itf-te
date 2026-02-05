@@ -112,7 +112,7 @@
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
     - bash .make/resources/gitlab_section.sh env "Environment dump" env
     - make k8s-uninstall-chart || true
-    - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all --ignore-not-found
+    - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps,pgdbinstances.database.skao.int --all --ignore-not-found
     - make k8s-delete-namespace
 
 # If the pipeline is being exectued as a downstream, do not lint

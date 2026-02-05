@@ -140,19 +140,14 @@ endif
 
 DISH_LMC_PARAMS ?= $(DISH_LMC_INITIAL_PARAMS) $(DISH_LMC_EXTRA_PARAMS) $(DISH_LMC_EDA_PARAMS)
 
-SKUID_URL ?= ska-ser-skuid-test-svc.$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN):9870
-ODA_PARAMS ?= --set ska-db-oda-umbrella.ska-db-oda.rest.skuid.url=$(SKUID_URL)
-
-OET_URL ?= $(KUBE_HOST)/$(KUBE_NAMESPACE)/oet/api/v8
-ODA_URL ?= $(KUBE_HOST)/$(KUBE_NAMESPACE)/oda/api/v8
-PTT_SERVICES_URL ?= $(KUBE_HOST)/$(KUBE_NAMESPACE)/ptt/api/v0
-SLT_SERVICES_URL ?= $(KUBE_HOST)/$(KUBE_NAMESPACE)/slt/api/v0
+# Note: remember to update major versions here if charts have major version upgrades
+ODA_URL ?= $(KUBE_HOST)/$(KUBE_NAMESPACE)/oda/api/v14
+SLT_SERVICES_URL ?= $(KUBE_HOST)/$(KUBE_NAMESPACE)/slt/api/v2
 
 OSO_PARAMS ?= \
-	--set ska-oso-integration.ska-oso-oet-ui.backendURLOET=$(OET_URL) \
+  	--set ska-oso-integration.ska-oso-oet.rest.ingress.enabled=true \
  	--set ska-oso-integration.ska-oso-oet-ui.backendURLODA=$(ODA_URL) \
-	--set ska-oso-integration.ska-oso-ptt.backendURL=$(PTT_SERVICES_URL) \
-	--set ska-oso-integration.ska-oso-slt-ui.backendURL=$(SLT_SERVICES_URL) \
+	--set ska-oso-integration.ska-oso-slt-ui.backendURL=$(SLT_SERVICES_URL)
 
 ###################################################################
 ### THIS SECTION NEEDS REVIEW FROM SDP ARCHITECTS
@@ -252,7 +247,6 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	--set ska-tango-base.jive.enabled=$(JIVE) \
 	--set ska-tango-base.itango.enabled=$(ITANGO_ENABLED) \
 	$(SDP_PARAMS) \
-	$(ODA_PARAMS) \
 	$(OSO_PARAMS) \
 	$(DISH_LMC_PARAMS) \
 	$(TARANTA_PARAMS) \
