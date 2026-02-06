@@ -86,7 +86,7 @@ dependencies:
 
   # SPFC DEPLOYER CHART
   - name: ska-mid-dish-spfc-deployer
-    version: 0.4.5-dev.c3cc04f0c
+    version: 0.4.5-dev.cd67a8248
     repository: https://gitlab.com/api/v4/projects/68468774/packages/helm/dev
     condition: ska-mid-dish-spfc-deployer.enabled
 
