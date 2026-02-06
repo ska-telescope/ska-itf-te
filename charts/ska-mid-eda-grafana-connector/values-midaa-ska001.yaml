@@ -3,7 +3,7 @@ app: eda-grafana-connector
 image:
   registry: registry.gitlab.com/ska-telescope/ska-mid
   image: ska-mid-eda-grafana-connector
-  tag: 0.0.9-dev.cbe183697
+  tag: 0.0.11-dev.c7c13416d
   pullPolicy: IfNotPresent
 vault:
   edaCredentials:
@@ -22,5 +22,6 @@ environment:
   CLUSTER_DOMAIN: "ska001.mid.internal.skao.int"
   ATTRIBUTE_CONTEXT_FILE: "/app/libhdbpp-grafana-connector/ArchivingDataSource/skao-attribute-context.yaml"
   EDA_DATABASE_NAME: ska001_eda
+  CONNECTION_POOL_MAX_CONN: 10
 startup:
   command: '"sh", "-c", "poetry run grafana-connector"'
