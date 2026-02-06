@@ -418,12 +418,6 @@ attributes:
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/loggingLevel
-  configuration:
-    code_push_event: true
-    archive_abs_change: 1
-  es: es2
-  th: th1
 - trl: mid-dish/ds-manager/ska001/loggingTargets
   configuration:
     code_push_event: true
