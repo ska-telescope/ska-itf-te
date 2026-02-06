@@ -150,7 +150,7 @@ ska-mid-dish-spfc-deployer:
   update_firmware: false
   image:
     registry: registry.gitlab.com/ska-telescope/ska-mid-dish-spfc-deployer
-    tag: 0.4.5-dev.c5e8ef48d
+    tag: 0.4.5-dev.ccab8724a
 # SPFRx
 ska-mid-dish-spfrx-talondx-console:
   enabled: false
