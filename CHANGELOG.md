@@ -19,6 +19,8 @@
   * Integrate full release of ska-tango-archiver resolving SKB-1174 (5.0.1)
 * [AT-3476]
   * Update csp-lmc to 1.3.0
+* [AT-3503]
+  * Add dish updated archiver configs for itf and staging and set multi ES configuration for the EDA
 
 ## 29.4.0
 * [AT-3422]
