@@ -1,6 +1,11 @@
 # Version History
 
 ## Unreleased
+* [SDR-1616] & [AT-3484]
+  * Bring OSO back into ska-mid (ska-oso-integration v1.0.0) for staging and integration namespaces
+  * Update ODA umbrella to v14.0.4
+* [ST-2701]
+  * Added Helm chart caching to speed up k8s-testrunner execution.
 * [SKB-1146]
   * Update default target in assign resource default payload to match target used currently for site observations.
   * Update assign resources payload method to dynamically set field_a target coordinates based on pointing target env vars.
@@ -9,7 +14,7 @@
 * [SKB-1174]
   * Integrate full release of ska-tango-archiver resolving SKB-1174 (5.0.1)
 * [AT-3476]
-  * Update tmc to 1.12.0 and csp-lmc to 1.3.0
+  * Update csp-lmc to 1.3.0
 * [AT-3503]
   * Add dish updated archiver configs for itf and staging and set multi ES configuration for the EDA
 
