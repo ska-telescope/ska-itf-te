@@ -25,9 +25,9 @@ configuration_managers:
 - cm1:
     trl: mid-eda/cm/01
 defaults:
-  - th: th1
-  - cm: cm1  
-  - es: es1
+- th: th1
+- cm: cm1  
+- es: es1
 attributes:
 - trl: ska001/spfrxpu/controller/rxs123odlb12supply25voltage
   es: es1
