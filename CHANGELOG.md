@@ -11,7 +11,7 @@
 * [AT-3476]
   * Update tmc to 1.12.0 and csp-lmc to 1.3.0
 * [AT-3503]
-  * Add dish update archiver configs and set multi ES configuration for the EDA
+  * Add dish updated archiver configs for itf and staging and set multi ES configuration for the EDA
 
 ## 29.4.0
 * [AT-3422]
