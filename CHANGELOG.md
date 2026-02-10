@@ -1,6 +1,10 @@
 # Version History
 
 ## Unreleased
+* [SKB-1203]
+  * Update tmc to 1.12.0
+  * Fix incorrect phase wrap introduced with tmc v1.12.0 by pointing to the correct layout file in `assign_resources.json` instead of in the chart values file (possibly to be removed later)
+  * Include these new keys in the bdd test step that updates the `assign_resources.json` file if overrides are provided
 * [SDR-1616] & [AT-3484]
   * Bring OSO back into ska-mid (ska-oso-integration v1.0.0) for staging and integration namespaces
   * Update ODA umbrella to v14.0.4

@@ -10,6 +10,12 @@
         "SKA100"
       ]
     },
+    "telmodel": {
+      "source_uris": [
+        "car:ska-mid?main#tmdata"
+      ],
+      "array_layout_path": "instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json"
+    },
     "sdp": {
       "interface": "https://schema.skao.int/ska-sdp-assignres/1.0",
       "resources": {
