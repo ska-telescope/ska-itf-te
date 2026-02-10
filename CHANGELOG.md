@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+
+## 29.5.0
 * [SKB-1203]
   * Update tmc to 1.12.0
   * Fix incorrect phase wrap introduced with tmc v1.12.0 by pointing to the correct layout file in `assign_resources.json` instead of in the chart values file (possibly to be removed later)
