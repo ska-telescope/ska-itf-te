@@ -296,7 +296,7 @@ ska-tmc-mid:
       dish: true
       sdp: false
     centralnode:
-      DefaultArrayLayoutSourceURIs: "car:ska-mid?main#tmdata"
+      DefaultArrayLayoutSourceURIs: "car:ska-mid?29.5.1-test-cable-delay-c#tmdata"
       DefaultArrayLayoutPath: "instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json"      
       DishVccConfig:
         DishVccUri: "car:ska-mid?27.3.0#tmdata"
