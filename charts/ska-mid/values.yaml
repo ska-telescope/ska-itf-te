@@ -284,6 +284,8 @@ ska-tmc-mid:
       dish: true
       sdp: false
     centralnode:
+      DefaultArrayLayoutSourceURIs: "car:ska-mid?main#tmdata"
+      DefaultArrayLayoutPath: "instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json"      
       DishVccConfig:
         DishVccUri: "car:ska-mid?27.3.0#tmdata"
         DishVccFilePath: "instrument/ska1_mid_itf/vcc-config/ska-mid-cbf-system-parameters.json"
@@ -293,8 +295,6 @@ ska-tmc-mid:
       # DelayModelTimeInAdvance: 30
       # DelayValidityPeriod: 20.0
       # SleepTime: 1.5
-      TelmodelSource: car:ska-mid?main#tmdata
-      TelmodelPath: instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json
     sdpsubarrayleafnode:
       CommandTimeOutDefault: 240
     subarraynode:
