@@ -277,6 +277,18 @@ ska-tango-taranta:
 # TMC
 ska-tmc-mid:
   enabled: false
+  cspmasterleafnode:
+    image:
+      registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-cspleafnodes
+      image: ska-tmc-cspleafnodes
+      tag: 0.40.0-dev.c37189c9f
+      pullPolicy: IfNotPresent
+  cspsubarrayleafnode:
+    image:
+      registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-cspleafnodes
+      image: ska-tmc-cspleafnodes
+      tag: 0.40.0-dev.c37189c9f
+      pullPolicy: IfNotPresent
   deviceServers:
     mocks:
       enabled: true
