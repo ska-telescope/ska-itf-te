@@ -1,59 +1,1869 @@
-db: tango-databaseds.staging.svc.miditf.internal.skao.int:10000
-manager: mid-eda/cm/01
-archiver: mid-eda/es/01
-configuration:
-- class: MidTmcCentralNode
-  attributes:
-    healthState:
-      code_push_event: true
-    adminMode:
-      code_push_event: true
-    controlMode:
-      code_push_event: true
-    simulationMode:
-      code_push_event: true
-    testMode:
-      code_push_event: true
-    lrcFinished:
-      code_push_event: true
-    longRunningCommandResult:
-      code_push_event: true
-    commandedState:
-      code_push_event: true
-    lastDeviceInfoChanged:
-      code_push_event: true
-    telescopeHealthState:
-      code_push_event: true
-    telescopeState:
-      code_push_event: true
-    tmOpState:
-      code_push_event: true
-    telescopeAvailability:
-      code_push_event: true
-    imaging:
-      code_push_event: true
-    isDishVccConfigSet:
-      code_push_event: true
-    DishVccCommandStatus:
-      code_push_event: true
-    DishVccValidationStatus:
-      code_push_event: true
-    lrcQueue:
-      code_push_event: true
-    lrcExecuting:
-      code_push_event: true
-    longRunningCommandStatus:
-      code_push_event: true
-    longRunningCommandsInQueue:
-      code_push_event: true
-    longRunningCommandIDsInQueue:
-      code_push_event: true
-    longRunningCommandInProgress:
-      code_push_event: true
-    longRunningCommandProgress:
-      code_push_event: true
-    State:
-      code_push_event: true
-    Status:
-      code_push_event: true
-
+tango_hosts:
+- th1:
+    host: tango-databaseds.staging.svc.miditf.internal.skao.int:10000
+    port: 10000
+event_subscribers:
+- es1:
+    trl: mid-eda/es/01
+- es2:
+    trl: mid-eda/es/02
+- es3:
+    trl: mid-eda/es/03
+- es4:
+    trl: mid-eda/es/04
+- es5:
+    trl: mid-eda/es/05
+- es6:
+    trl: mid-eda/es/06
+- es7:
+    trl: mid-eda/es/07
+configuration_managers:
+- cm1:
+    trl: mid-eda/cm/01
+defaults:
+  - th: th1
+  - cm: cm1  
+  - es: es1
+attributes:
+- trl: mid-tmc/central-node/0/healthState
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/central-node/0/adminMode
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/central-node/0/controlMode
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/central-node/0/simulationMode
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/central-node/0/testMode
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/central-node/0/lrcFinished
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/central-node/0/longRunningCommandResult
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/central-node/0/commandedState
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/central-node/0/commandedState
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/central-node/0/commandedState
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/central-node/0/commandedState
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1  
+- trl: mid-tmc/central-node/0/lastDeviceInfoChanged
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1  
+- trl: mid-tmc/central-node/0/telescopeHealthState
+- es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1  
+- trl: mid-tmc/central-node/0/telescopeState
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1  
+- trl: mid-tmc/central-node/0/ tmOpState
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/central-node/0/telescopeAvailability
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/central-node/0/imaging
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/central-node/0/isDishVccConfigSet
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/central-node/0/DishVccCommandStatus
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/central-node/0/DishVccValidationStatus
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/central-node/0/lrcQueue
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/central-node/0/lrcExecuting
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/central-node/0/longRunningCommandStatus
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/central-node/0/longRunningCommandsInQueue
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/central-node/0/longRunningCommandIDsInQueue
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/central-node/0/longRunningCommandInProgress
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/central-node/0/longRunningCommandProgress
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/central-node/0/State
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/central-node/0/Status
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/sub_elt/subarray_01/adminmode
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/sub_elt/subarray_01/healthState
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/sub_elt/subarray_01/obsState
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/sub_elt/subarray_01/state
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/sub_elt/controller/adminmode
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/sub_elt/controller/healthState
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/sub_elt/controller/simulationMode
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/sub_elt/controller/state
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/DishID
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1              
+- trl: mid_csp_cbf/talon_board/001/PingResult
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/State
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/SubarrayID
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/VccID  
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/BitstreamChecksum
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1  
+- trl: mid_csp_cbf/talon_board/001/BitstreamVersion
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/CommsIopllLockedFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/DimmTemperatures
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1.0
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/EmifBrFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/EmifBlFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/EmifTrFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/Ethernet0PllFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/Ethernet1PllFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/Eth100g0Counters
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/Eth100g0ErrorCounters
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/Eth100g0DataFlowActive
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/Eth100g0HasDataError
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/Eth100g0AllTxCounters
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/Eth100g0AllRxCounters
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/Eth100g1Counters
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/Eth100g1ErrorCounters
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/Eth100g1DataFlowActive
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/Eth100g1HasDataError
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/Eth100g1AllTxCounters
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1
+  archive_abs_change: 1
+- trl: mid_csp_cbf/talon_board/001/Eth100g1AllRxCounters
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/FansPwm
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 5
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/FansPwmEnable
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/FansRpm
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 50
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/FansFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/FpgaDieTemperature
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1.0
+  th: th1  
+- trl: mid_csp_cbf/talon_board/001/FpgaDieVoltage1
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/FpgaDieVoltage2
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/FpgaDieVoltage3
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/FpgaDieVoltage4
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/FpgaDieVoltage5
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/FpgaDieVoltage6
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/FsIopllLockedFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/HasFanControl
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/HumiditySensorTemperature
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1.0
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/IopllLockedFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/LtmInputVoltage
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/LtmOutputVoltage1
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/LtmOutputVoltage2
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/LtmInputCurrent
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.1
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/LtmOutputCurrent1
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/LtmOutputCurrent2
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/LtmTemperature1
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1.0
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/LtmTemperature2
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1.0
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/LtmVoltageWarning
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/LtmCurrentWarning
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/LtmTemperatureWarning
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/MboTxTemperatures
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1.0
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/MboTxVccVoltages
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.5
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/MboTxFaultStatus
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/MboTxLolStatus
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/MboTxLosStatus
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/MboRxVccVoltages
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/MboRxLolStatus
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/MboRxLosStatus
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/SlimPllFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/001/SystemClkFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/DishID
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1              
+- trl: mid_csp_cbf/talon_board/002/PingResult
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/State
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/SubarrayID
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/VccID  
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/BitstreamChecksum
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1  
+- trl: mid_csp_cbf/talon_board/002/BitstreamVersion
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/CommsIopllLockedFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/DimmTemperatures
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1.0
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/EmifBrFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/EmifBlFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/EmifTrFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/Ethernet0PllFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/Ethernet1PllFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/Eth100g0Counters
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/Eth100g0ErrorCounters
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/Eth100g0DataFlowActive
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/Eth100g0HasDataError
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/Eth100g0AllTxCounters
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/Eth100g0AllRxCounters
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/Eth100g1Counters
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/Eth100g1ErrorCounters
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/Eth100g1DataFlowActive
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/Eth100g1HasDataError
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/Eth100g1AllTxCounters
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1
+  archive_abs_change: 1
+- trl: mid_csp_cbf/talon_board/002/Eth100g1AllRxCounters
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/FansPwm
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 5
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/FansPwmEnable
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/FansRpm
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 50
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/FansFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/FpgaDieTemperature
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1.0
+  th: th1  
+- trl: mid_csp_cbf/talon_board/002/FpgaDieVoltage1
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/FpgaDieVoltage2
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/FpgaDieVoltage3
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/FpgaDieVoltage4
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/FpgaDieVoltage5
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/FpgaDieVoltage6
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/FsIopllLockedFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/HasFanControl
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/HumiditySensorTemperature
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1.0
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/IopllLockedFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/LtmInputVoltage
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/LtmOutputVoltage1
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/LtmOutputVoltage2
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/LtmInputCurrent
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.1
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/LtmOutputCurrent1
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/LtmOutputCurrent2
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/LtmTemperature1
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1.0
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/LtmTemperature2
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1.0
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/LtmVoltageWarning
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/LtmCurrentWarning
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/LtmTemperatureWarning
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/MboTxTemperatures
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1.0
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/MboTxVccVoltages
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.5
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/MboTxFaultStatus
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/MboTxLolStatus
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/MboTxLosStatus
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/MboRxVccVoltages
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/MboRxLolStatus
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/MboRxLosStatus
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/SlimPllFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/002/SystemClkFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/DishID
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1              
+- trl: mid_csp_cbf/talon_board/003/PingResult
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/State
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/SubarrayID
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/VccID  
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/BitstreamChecksum
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1  
+- trl: mid_csp_cbf/talon_board/003/BitstreamVersion
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/CommsIopllLockedFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/DimmTemperatures
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1.0
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/EmifBrFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/EmifBlFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/EmifTrFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/Ethernet0PllFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/Ethernet1PllFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/Eth100g0Counters
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/Eth100g0ErrorCounters
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/Eth100g0DataFlowActive
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/Eth100g0HasDataError
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/Eth100g0AllTxCounters
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/Eth100g0AllRxCounters
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/Eth100g1Counters
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/Eth100g1ErrorCounters
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/Eth100g1DataFlowActive
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/Eth100g1HasDataError
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/Eth100g1AllTxCounters
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1
+  archive_abs_change: 1
+- trl: mid_csp_cbf/talon_board/003/Eth100g1AllRxCounters
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/FansPwm
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 5
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/FansPwmEnable
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/FansRpm
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 50
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/FansFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/FpgaDieTemperature
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1.0
+  th: th1  
+- trl: mid_csp_cbf/talon_board/003/FpgaDieVoltage1
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/FpgaDieVoltage2
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/FpgaDieVoltage3
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/FpgaDieVoltage4
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/FpgaDieVoltage5
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/FpgaDieVoltage6
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/FsIopllLockedFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/HasFanControl
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/HumiditySensorTemperature
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1.0
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/IopllLockedFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/LtmInputVoltage
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/LtmOutputVoltage1
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/LtmOutputVoltage2
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/LtmInputCurrent
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.1
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/LtmOutputCurrent1
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/LtmOutputCurrent2
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/LtmTemperature1
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1.0
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/LtmTemperature2
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1.0
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/LtmVoltageWarning
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/LtmCurrentWarning
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/LtmTemperatureWarning
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/MboTxTemperatures
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1.0
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/MboTxVccVoltages
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.5
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/MboTxFaultStatus
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/MboTxLolStatus
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/MboTxLosStatus
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/MboRxVccVoltages
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/MboRxLolStatus
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/MboRxLosStatus
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/SlimPllFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/003/SystemClkFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/DishID
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1              
+- trl: mid_csp_cbf/talon_board/004/PingResult
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/State
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/SubarrayID
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/VccID  
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/BitstreamChecksum
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1  
+- trl: mid_csp_cbf/talon_board/004/BitstreamVersion
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/CommsIopllLockedFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/DimmTemperatures
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1.0
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/EmifBrFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/EmifBlFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/EmifTrFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/Ethernet0PllFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/Ethernet1PllFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/Eth100g0Counters
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/Eth100g0ErrorCounters
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/Eth100g0DataFlowActive
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/Eth100g0HasDataError
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/Eth100g0AllTxCounters
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/Eth100g0AllRxCounters
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/Eth100g1Counters
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/Eth100g1ErrorCounters
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/Eth100g1DataFlowActive
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/Eth100g1HasDataError
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/Eth100g1AllTxCounters
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1
+  archive_abs_change: 1
+- trl: mid_csp_cbf/talon_board/004/Eth100g1AllRxCounters
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/FansPwm
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 5
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/FansPwmEnable
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/FansRpm
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 50
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/FansFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/FpgaDieTemperature
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1.0
+  th: th1  
+- trl: mid_csp_cbf/talon_board/004/FpgaDieVoltage1
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/FpgaDieVoltage2
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/FpgaDieVoltage3
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/FpgaDieVoltage4
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/FpgaDieVoltage5
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/FpgaDieVoltage6
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/FsIopllLockedFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/HasFanControl
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/HumiditySensorTemperature
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1.0
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/IopllLockedFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/LtmInputVoltage
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/LtmOutputVoltage1
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/LtmOutputVoltage2
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/LtmInputCurrent
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.1
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/LtmOutputCurrent1
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/LtmOutputCurrent2
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/LtmTemperature1
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1.0
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/LtmTemperature2
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1.0
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/LtmVoltageWarning
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/LtmCurrentWarning
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/LtmTemperatureWarning
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/MboTxTemperatures
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 1.0
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/MboTxVccVoltages
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.5
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/MboTxFaultStatus
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/MboTxLolStatus
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/MboTxLosStatus
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/MboRxVccVoltages
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.05
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/MboRxLolStatus
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/MboRxLosStatus
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/SlimPllFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid_csp_cbf/talon_board/004/SystemClkFault
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
