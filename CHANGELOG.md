@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 29.5.1
+* [AT-3531]
+  * Update reference to tm data source and path in the ska-mid chart values
+    * Remove the keys from cspsubarrayleafnode and add keys to centralnode
+
 ## 29.5.0
 * [SKB-1203]
   * Update tmc to 1.12.0
