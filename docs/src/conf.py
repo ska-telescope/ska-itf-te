@@ -29,7 +29,7 @@ author = "ATLAS Team"
 
 # The full version, including alpha/beta/rc tags
 
-release = "29.5.2-test-staging-eda-b"
+release = "29.5.2-test-staging-eda-c"
 
 # -- General configuration ---------------------------------------------------
 
