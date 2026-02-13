@@ -2,8 +2,8 @@ apiVersion: v2
 name: ska-mid-itf-devices
 description: An umbrella Helm chart for providing resources to the Mid ITF cluster
 type: application
-version: 29.5.1-test-cable-delay-c
-appVersion: 29.5.1-test-cable-delay-c
+version: 29.5.1-test-cable-delay-d
+appVersion: 29.5.1-test-cable-delay-d
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
   # SPOOKD
