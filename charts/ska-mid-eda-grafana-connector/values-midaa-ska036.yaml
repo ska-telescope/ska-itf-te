@@ -1,4 +1,4 @@
-namespace: dish-connectors-ska001
+namespace: dish-connectors-ska036
 app: eda-grafana-connector
 image:
   registry: registry.gitlab.com/ska-telescope/ska-mid
@@ -9,19 +9,19 @@ vault:
   edaCredentials:
     secretName: vault-mid-aa-eda-credentials
     mount: mid-aa
-    mountPath: ska001/eda
+    mountPath: ska036/eda
     usernameKey: "PGPASSWORD"
-    version: 2
+    version: 3
 service:
   type: LoadBalancer
   port: 5001
 environment:
   CREDENTIALS_PATH: /secrets/eda-credentials
-  EDA_USER: ska001
-  EDA_HOST: "ska001-stackgres-eda.ska-tango-archiver.svc.ska001.mid.internal.skao.int"
-  CLUSTER_DOMAIN: "ska001.mid.internal.skao.int"
+  EDA_USER: ska036
+  EDA_HOST: "ska036-stackgres-eda.ska-tango-archiver.svc.ska036.mid.internal.skao.int"
+  CLUSTER_DOMAIN: "ska036.mid.internal.skao.int"
   ATTRIBUTE_CONTEXT_FILE: "/app/libhdbpp-grafana-connector/ArchivingDataSource/skao-attribute-context.yaml"
-  EDA_DATABASE_NAME: ska001_eda
+  EDA_DATABASE_NAME: ska036_eda
   CONNECTION_POOL_MAX_CONN: 10
 startup:
   command: '"sh", "-c", "poetry run grafana-connector"'
