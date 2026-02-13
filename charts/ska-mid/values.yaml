@@ -148,6 +148,10 @@ ska-mid-cbf-tdc-mcs:
   pvc:
     storageClassName: ceph-cephfs
     volumeMode: Filesystem
+  deviceServers:
+    tm-subarray-node:
+      enabled: true
+
 
 # CBF Delay model simulator
 # TEMPORARY for CBF Testing at KAPB. Default is False. VAULT will be overwritten for KAPB
