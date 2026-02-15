@@ -90,9 +90,7 @@ attributes:
     code_push_event: true
   th: th1
 - trl: mid-tmc/central-node/0/telescopeHealthState
-  th: th1
   es: es1
-- es: es1
   cm: cm1
   configuration:
     code_push_event: true
