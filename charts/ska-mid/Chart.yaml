@@ -147,12 +147,12 @@ dependencies:
   - name: ska-octopus-backend
     version: 0.1.68
     repository: https://artefact.skao.int/repository/helm-internal
-    condition: ska-octopus.enabled
+    condition: ska-octopus-backend.enabled
   
   - name: ska-octopus-frontend
     version: 0.1.68
     repository: https://artefact.skao.int/repository/helm-internal
-    condition: ska-octopus.enabled
+    condition: ska-octopus-frontend.enabled
 
   # EXAMPLE DEV CHART: DON'T DELETE THIS SECTION
   # - name: ska-sdp
