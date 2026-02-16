@@ -234,13 +234,13 @@ attributes:
   configuration:
     code_push_event: true
   th: th1
-- trl: ska001/spfrxpu/controller/datastreamcurrentband
-  es: es1
-  cm: cm1
-  configuration:
-    code_push_event: true
-    archive_abs_change: 1.0
-  th: th1
+# - trl: ska001/spfrxpu/controller/datastreamcurrentband
+#   es: es1
+#   cm: cm1
+#   configuration:
+#     code_push_event: true
+#     archive_abs_change: 1.0
+#   th: th1
 - trl: ska001/spf/spfc/b2manifoldpressure
   es: es1
   cm: cm1
@@ -531,18 +531,18 @@ attributes:
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/versionId
-  configuration:
-    code_push_event: true
-    archive_abs_change: 1
-  es: es2
-  th: th1
-- trl: mid-dish/ds-manager/ska001/loggingTargets
-  configuration:
-    code_push_event: true
-    archive_abs_change: 1
-  es: es2
-  th: th1
+# - trl: mid-dish/ds-manager/ska001/versionId
+#   configuration:
+#     code_push_event: true
+#     archive_abs_change: 1
+#   es: es2
+#   th: th1
+# - trl: mid-dish/ds-manager/ska001/loggingTargets
+#   configuration:
+#     code_push_event: true
+#     archive_abs_change: 1
+#   es: es2
+#   th: th1
 - trl: mid-dish/ds-manager/ska001/healthState
   configuration:
     code_push_event: true
@@ -573,24 +573,24 @@ attributes:
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/lrcProtocolVersions
-  configuration:
-    code_push_event: true
-    archive_abs_change: 1
-  es: es2
-  th: th1
+# - trl: mid-dish/ds-manager/ska001/lrcProtocolVersions
+#   configuration:
+#     code_push_event: true
+#     archive_abs_change: 1
+#   es: es2
+#   th: th1
 - trl: mid-dish/ds-manager/ska001/lrcFinished
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/_lrcEvent
-  configuration:
-    code_push_event: true
-    archive_abs_change: 1
-  es: es2
-  th: th1
+# - trl: mid-dish/ds-manager/ska001/_lrcEvent
+#   configuration:
+#     code_push_event: true
+#     archive_abs_change: 1
+#   es: es2
+#   th: th1
 - trl: mid-dish/ds-manager/ska001/longRunningCommandResult
   configuration:
     code_push_event: true
@@ -645,12 +645,12 @@ attributes:
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/hhpConnected
-  configuration:
-    code_push_event: true
-    archive_abs_change: 1
-  es: es2
-  th: th1
+# - trl: mid-dish/ds-manager/ska001/hhpConnected
+#   configuration:
+#     code_push_event: true
+#     archive_abs_change: 1
+#   es: es2
+#   th: th1
 - trl: mid-dish/ds-manager/ska001/achievedPointing
   configuration:
     code_push_event: true
@@ -1149,18 +1149,18 @@ attributes:
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/Azimuth_Status_v_SetMax
-  configuration:
-    code_push_event: true
-    archive_abs_change: 1
-  es: es4
-  th: th1
-- trl: mid-dish/ds-manager/ska001/Azimuth_Status_v_Shape
-  configuration:
-    code_push_event: true
-    archive_abs_change: 1
-  es: es4
-  th: th1
+# - trl: mid-dish/ds-manager/ska001/Azimuth_Status_v_SetMax
+#   configuration:
+#     code_push_event: true
+#     archive_abs_change: 1
+#   es: es4
+#   th: th1
+# - trl: mid-dish/ds-manager/ska001/Azimuth_Status_v_Shape
+#   configuration:
+#     code_push_event: true
+#     archive_abs_change: 1
+#   es: es4
+#   th: th1
 - trl: mid-dish/ds-manager/ska001/Azimuth_WarningStatus_waLim1CCW
   configuration:
     code_push_event: true
