@@ -69,24 +69,6 @@ attributes:
   configuration:
     code_push_event: true
   th: th1
-- trl: mid-tmc/central-node/0/commandedstate
-  es: es1
-  cm: cm1
-  configuration:
-    code_push_event: true
-  th: th1
-- trl: mid-tmc/central-node/0/commandedstate
-  es: es1
-  cm: cm1
-  configuration:
-    code_push_event: true
-  th: th1
-- trl: mid-tmc/central-node/0/commandedstate
-  es: es1
-  cm: cm1
-  configuration:
-    code_push_event: true
-  th: th1
 - trl: mid-tmc/central-node/0/lastdeviceinfochanged
   es: es1
   cm: cm1
@@ -105,7 +87,7 @@ attributes:
   configuration:
     code_push_event: true
   th: th1
-- trl: mid-tmc/central-node/0/ tmopstate
+- trl: mid-tmc/central-node/0/tmopstate
   es: es1
   cm: cm1
   configuration:
