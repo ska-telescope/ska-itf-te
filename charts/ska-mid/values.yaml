@@ -356,7 +356,7 @@ ska-octopus-backend:
     TANGO_MCCS_WS_URL: "ws://ska-tango-tangogql-ariadne-ska-octopus:5004/socket"
     ODA_URL: "http://ska-db-oda-rest-test.ska-oso-oet.svc.cluster.local:5000/ska-oso-oet/oda/api/v7"
     WORKERS: "2"
-    ALLOWED_ORIGINS: "*"
+    ALLOWED_ORIGINS: "https://k8s.miditf.internal.skao.int"
     TOKEN_TTL_MINUTES: 3600
     JWT_SECRET:
       secretName: octopus-jwt
