@@ -325,3 +325,9 @@ temp_sdp_pvc:
   enabled: false
   dpd_namespace: ska-dpd
   dpd_pvc: shared-mnl
+
+ska-octopus-backend:
+  enabled: false
+
+ska-octopus-frontend:
+  enabled: false
