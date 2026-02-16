@@ -326,8 +326,63 @@ temp_sdp_pvc:
   dpd_namespace: ska-dpd
   dpd_pvc: shared-mnl
 
-ska-octopus-backend:
-  enabled: false
-
 ska-octopus-frontend:
   enabled: false
+  backendServiceName: ska-octopus-backend
+  ingress:
+    paths:
+      frontend: "/octopus/ska-octopus-frontend"
+
+ska-octopus-backend:
+  enabled: false
+  ingress:
+    paths:
+      backend: "/octopus/ska-octopus-backend"
+  authUsers:
+    secretName: octopus-auth-users
+    secretKey: auth-users.json
+    optional: true
+  configUi:
+    password:
+      secretName: octopus-config-ui-password
+      secretKey: cfg-ui-password
+      optional: true
+  vars:
+    TANGO_HTTP_URL: "http://ska-tango-tangogql-ariadne-ska-octopus:5004/db"
+    TANGO_WS_URL: "ws://ska-tango-tangogql-ariadne-ska-octopus:5004/socket"
+    MONGO_URI: "mongodb://ska-octopus-backend-mongodb:27017"
+    TANGO_HOST: "databaseds-tango-base-test.ska-octopus-suite.svc.cluster.local:10000"
+    TANGO_MCCS_HTTP_URL: "http://ska-tango-tangogql-ariadne-ska-octopus:5004/db"
+    TANGO_MCCS_WS_URL: "ws://ska-tango-tangogql-ariadne-ska-octopus:5004/socket"
+    ODA_URL: "http://ska-db-oda-rest-test.ska-oso-oet.svc.cluster.local:5000/ska-oso-oet/oda/api/v7"
+    WORKERS: "2"
+    ALLOWED_ORIGINS: "*"
+    TOKEN_TTL_MINUTES: 3600
+    JWT_SECRET:
+      secretName: octopus-jwt
+      secretKey: token
+      optional: true
+    HDBPP_PG_DSN_EDA:
+      secretName: octopus-eda-readonly-postgresenv
+      secretKey: HDBPP_PG_DSN
+      optional: true
+    # HDBPP_PG_DSN_MCCS:
+    #   secretName: octopus-mccs-eda-readonly-postgresenv
+    #   secretKey: HDBPP_PG_DSN
+    GQL_WS_MAX_SIZE_BYTES: "16777216"
+    GQL_EXECUTE_TIMEOUT_S: "120"
+    CONFIG_AUTO_ROLLBACK: "true"
+    ENABLE_ENDPOINT_LOCALS: "true"
+    WIDGET_ALLOWED_HOSTS: "cdn.jsdelivr.net,unpkg.com,artefact.skao.int"
+    WIDGET_ALLOWED_NPM_SCOPES: "@ska-octopus-widgets"
+    WIDGET_ARTEFACT_BASE: https://artefact.skao.int/repository/npm-internal
+    WIDGET_SEED:
+      - "artefact:@ska-octopus-widgets/clock-widget@0.1.12"
+      - "artefact:@ska-octopus-widgets/live-data-widget@0.1.26"
+      - "artefact:@ska-octopus-widgets/gitlab-health-widget@0.1.22"
+      - "artefact:@ska-octopus-widgets/iframe-widget@0.1.29"
+      - "artefact:@ska-octopus-widgets/label-widget@0.1.14"
+      - "artefact:@ska-octopus-widgets/space-weather-widget@0.1.24"
+      - "artefact:@ska-octopus-widgets/svg-widget@0.1.29"
+      - "artefact:@ska-octopus-widgets/variable-selector-widget@0.1.14"
+      - "artefact:@ska-octopus-widgets/weather-widget@0.1.33"
