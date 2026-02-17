@@ -328,16 +328,16 @@ temp_sdp_pvc:
 
 ska-octopus-frontend:
   enabled: false
-  backendServiceName: octopus-backend
+  backendServiceName: ska-octopus-backend
   ingress:
     paths:
-      frontend: "/octopus"
+      frontend: "/octopus/ska-octopus-frontend"
 
 ska-octopus-backend:
   enabled: false
   ingress:
     paths:
-      backend: "/octopus-backend"
+      backend: "/octopus/ska-octopus-backend"
   authUsers:
     secretName: octopus-auth-users
     secretKey: auth-users.json
