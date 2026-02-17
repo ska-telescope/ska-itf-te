@@ -229,7 +229,7 @@ ska-tango-archiver:
   dbuser: admin
   event_subscriber: mid-eda/es/01
   is_auto_config_format_new: true
-  event_subscriber_count: 6
+  event_subscriber_count: 9
   hostname: eda.ska-tango-archiver
   port: 5432
   telescope: SKA-mid
@@ -277,18 +277,6 @@ ska-tango-taranta:
 # TMC
 ska-tmc-mid:
   enabled: false
-  cspmasterleafnode:
-    image:
-      registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-cspleafnodes
-      image: ska-tmc-cspleafnodes
-      tag: 0.40.0-dev.c37189c9f
-      pullPolicy: IfNotPresent
-  cspsubarrayleafnode:
-    image:
-      registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-cspleafnodes
-      image: ska-tmc-cspleafnodes
-      tag: 0.40.0-dev.c37189c9f
-      pullPolicy: IfNotPresent
   deviceServers:
     mocks:
       enabled: true
