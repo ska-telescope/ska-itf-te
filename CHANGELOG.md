@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3511]
+  * Create `testing` namespace and jobs for its deployment 
 
 ## 29.5.1
 * [AT-3531]
