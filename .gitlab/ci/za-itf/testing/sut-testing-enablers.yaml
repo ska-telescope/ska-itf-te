@@ -1,0 +1,57 @@
+
+# Tango Base & Deployment Charts: TangoDB, iTango, Tango Operator Utils
+
+# Mid TMC
+ska-tmc-mid:
+  enabled: true
+
+# Mid CSP LMC
+ska-csp-lmc-mid:
+  enabled: true
+
+# Mid CBF TDC MCS
+ska-mid-cbf-tdc-mcs:
+  enabled: true
+
+# Mid CBF TM Simulator - temporary only for CBF internal testing at the KAPB
+ska-mid-cbf-tdc-tmleafnode:
+  enabled: true
+
+# SDP
+ska-sdp:
+  enabled: true
+
+# KAFKA
+kafka:
+  enabled: true
+
+# OSO
+ska-oso-integration:
+  enabled: true
+
+# TARANTA SUITE
+ska-tango-taranta:
+  enabled: true
+
+# MULTIDB TANGOGQL
+tangogql:
+  enabled: true
+
+# AlarmHandler
+ska-tango-alarmhandler:
+  enabled: true
+
+# EDA
+ska-tango-archiver:
+  enabled: true
+
+# WMS
+ska-mid-wms:
+  enabled: true
+
+# Uncategorized
+global:
+  ska-tango-archiver:
+    enabled: true
+temp_sdp_pvc:
+  enabled: true

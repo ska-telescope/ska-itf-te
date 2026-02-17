@@ -70,6 +70,7 @@ include:
   - local: .gitlab/ci/za-itf/sdp-data-product-dashboard/.pipeline.yaml
   - local: .gitlab/ci/za-itf/cbf-engineering-console/.pipeline.yaml
   - local: .gitlab/ci/za-itf/eda-grafana-connector/.pipeline.yaml
+  - local: .gitlab/ci/za-itf/testing/.pipeline.yaml
 
 
 xray-publish:
