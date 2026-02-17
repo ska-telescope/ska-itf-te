@@ -328,16 +328,16 @@ temp_sdp_pvc:
 
 ska-octopus-frontend:
   enabled: false
-  backendServiceName: ska-octopus-backend
+  backendServiceName: octopus-backend
   ingress:
     paths:
-      frontend: "/octopus/ska-octopus-frontend"
+      frontend: "/octopus"
 
 ska-octopus-backend:
   enabled: false
   ingress:
     paths:
-      backend: "/octopus/ska-octopus-backend"
+      backend: "/octopus-backend"
   authUsers:
     secretName: octopus-auth-users
     secretKey: auth-users.json
@@ -357,41 +357,14 @@ ska-octopus-backend:
       - name: TANGOGQL_SECRET
         value: "s3cr3t"
   vars:
-    TANGO_HTTP_URL: "http://ska-tango-tangogql-ariadne-ska-octopus:5004/db"
-    TANGO_WS_URL: "ws://ska-tango-tangogql-ariadne-ska-octopus:5004/socket"
-    MONGO_URI: "mongodb://ska-octopus-backend-mongodb:27017"
-    TANGO_HOST: "databaseds-tango-base-test.ska-octopus-suite.svc.cluster.local:10000"
-    TANGO_MCCS_HTTP_URL: "http://ska-tango-tangogql-ariadne-ska-octopus:5004/db"
-    TANGO_MCCS_WS_URL: "ws://ska-tango-tangogql-ariadne-ska-octopus:5004/socket"
-    ODA_URL: "http://ska-db-oda-rest-test.ska-oso-oet.svc.cluster.local:5000/ska-oso-oet/oda/api/v7"
-    WORKERS: "2"
-    ALLOWED_ORIGINS: "https://k8s.miditf.internal.skao.int"
-    TOKEN_TTL_MINUTES: 3600
-    JWT_SECRET:
-      secretName: octopus-jwt
-      secretKey: token
-      optional: true
-    HDBPP_PG_DSN_EDA:
-      secretName: octopus-eda-readonly-postgresenv
-      secretKey: HDBPP_PG_DSN
-      optional: true
-    # HDBPP_PG_DSN_MCCS:
-    #   secretName: octopus-mccs-eda-readonly-postgresenv
-    #   secretKey: HDBPP_PG_DSN
-    GQL_WS_MAX_SIZE_BYTES: "16777216"
-    GQL_EXECUTE_TIMEOUT_S: "120"
-    CONFIG_AUTO_ROLLBACK: "true"
-    ENABLE_ENDPOINT_LOCALS: "true"
-    WIDGET_ALLOWED_HOSTS: "cdn.jsdelivr.net,unpkg.com,artefact.skao.int"
-    WIDGET_ALLOWED_NPM_SCOPES: "@ska-octopus-widgets"
-    WIDGET_ARTEFACT_BASE: https://artefact.skao.int/repository/npm-internal
-    WIDGET_SEED:
-      - "artefact:@ska-octopus-widgets/clock-widget@0.1.12"
-      - "artefact:@ska-octopus-widgets/live-data-widget@0.1.26"
-      - "artefact:@ska-octopus-widgets/gitlab-health-widget@0.1.22"
-      - "artefact:@ska-octopus-widgets/iframe-widget@0.1.29"
-      - "artefact:@ska-octopus-widgets/label-widget@0.1.14"
-      - "artefact:@ska-octopus-widgets/space-weather-widget@0.1.24"
-      - "artefact:@ska-octopus-widgets/svg-widget@0.1.29"
-      - "artefact:@ska-octopus-widgets/variable-selector-widget@0.1.14"
-      - "artefact:@ska-octopus-widgets/weather-widget@0.1.33"
+    TANGO_HTTP_URL_CENTRAL_CONTROLLER: "http://tangogql-staging.staging.svc.miditf.internal.skao.int:5004/db"
+    TANGO_WS_URL_CENTRAL_CONTROLLER: "ws://tangogql-staging.staging.svc.miditf.internal.skao.int:5004/socket"
+    TANGO_HTTP_URL_DISH_SKA001: "http://tangogql-staging-ska001.staging.svc.miditf.internal.skao.int:5004/db"
+    TANGO_WS_URL_DISH_SKA001: "ws://tangogql-staging-ska001.staging.svc.miditf.internal.skao.int:5004/socket"
+    TANGO_HTTP_URL_DISH_SKA036: "http://tangogql-staging-ska036.staging.svc.miditf.internal.skao.int:5004/db"
+    TANGO_WS_URL_DISH_SKA036: "ws://tangogql-staging-ska036.staging.svc.miditf.internal.skao.int:5004/socket"
+    TANGO_HTTP_URL_DISH_SKA063: "http://tangogql-staging-ska063.staging.svc.miditf.internal.skao.int:5004/db"
+    TANGO_WS_URL_DISH_SKA063: "ws://tangogql-staging-ska063.staging.svc.miditf.internal.skao.int:5004/socket"
+    TANGO_HTTP_URL_DISH_SKA100: "http://tangogql-staging-ska100.staging.svc.miditf.internal.skao.int:5004/db"
+    TANGO_WS_URL_DISH_SKA100: "ws://tangogql-staging-ska100.staging.svc.miditf.internal.skao.int:5004/socket"
+    ODA_URL: "http://ska-db-oda-rest-staging.staging.svc.miditf.internal.skao.int:5000/oda/api/v14"
