@@ -17,10 +17,6 @@ ska-mid-cbf-tdc-mcs:
 ska-mid-cbf-tdc-tmleafnode:
   enabled: true
 
-# Mid CBF EC
-ska-mid-cbf-engineering-console:
-  enabled: false
-
 # SDP
 ska-sdp:
   enabled: true
@@ -28,30 +24,6 @@ ska-sdp:
 # KAFKA
 kafka:
   enabled: true
-
-# OSO
-ska-oso-integration:
-  enabled: false
-
-# ODA
-ska-db-oda-umbrella:
-  enabled: false
-
-# DISH LMC CHART
-ska-dish-lmc:
-  enabled: false
-
-# DISH STRUCTURE SIMULATOR
-ska-ds-sim:
-  enabled: false
-
-# SPFC DEPLOYER CHART
-ska-mid-dish-spfc-deployer:
-  enabled: false
-
-# SPFRx DEPLOYER CHART
-ska-mid-dish-spfrx-talondx-console:
-  enabled: false
 
 # TARANTA SUITE
 ska-tango-taranta:
@@ -77,15 +49,9 @@ ska-tango-archiver:
 ska-mid-wms:
   enabled: true
 
-# Test helpers
-ska-log-consumer:
-  enabled: false
-
 # Uncategorized
 global:
   ska-tango-archiver:
     enabled: true
-ska-ser-config-inspector:
-  enabled: false
 temp_sdp_pvc:
   enabled: true
