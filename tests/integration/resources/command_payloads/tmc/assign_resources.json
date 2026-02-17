@@ -12,7 +12,7 @@
     },
     "telmodel": {
       "source_uris": [
-        "car:ska-mid?29.5.1-test-cable-delay-d#tmdata"
+        "car:ska-mid?29.5.1-test-cable-delay-f#tmdata"
       ],
       "array_layout_path": "instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json"
     },
