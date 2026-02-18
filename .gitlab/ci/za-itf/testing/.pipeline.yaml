@@ -27,6 +27,7 @@
     # HARDWARE AND DISH IN THE LOOP SETTINGS
     CBF_HW_IN_THE_LOOP: "false"
     DISH_LMC_IN_THE_LOOP: "true"
+    SIM_MODE: "true"
 
 deploy-sut-testing:
   extends:
