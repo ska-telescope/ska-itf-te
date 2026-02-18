@@ -24,6 +24,7 @@ stages:
   - test
   - lint
   - platform
+  - testing
   - integration
   - staging
   - upload
