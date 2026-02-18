@@ -1,6 +1,9 @@
 # Version History
 
 ## Unreleased
+* [AT-3551]
+  * Add Octopus dependencies and configuration for Mid ITF.
+  * Add deployment jobs for Octopus to Mid ITF.
 
 ## 29.5.1
 * [AT-3531]
