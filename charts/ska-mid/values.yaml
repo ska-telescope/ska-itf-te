@@ -347,15 +347,6 @@ ska-octopus-backend:
       secretName: octopus-config-ui-password
       secretKey: cfg-ui-password
       optional: true
-  ska-tango-tangogql-ariadne:
-    enabled: true
-    ska-tango-base:
-      enabled: false
-    ska-tango-examples:
-      enabled: false
-    env:
-      - name: TANGOGQL_SECRET
-        value: "s3cr3t"
   vars:
     TANGO_HTTP_URL_CENTRAL_CONTROLLER: "http://tangogql-staging.staging.svc.miditf.internal.skao.int:5004/db"
     TANGO_WS_URL_CENTRAL_CONTROLLER: "ws://tangogql-staging.staging.svc.miditf.internal.skao.int:5004/socket"
