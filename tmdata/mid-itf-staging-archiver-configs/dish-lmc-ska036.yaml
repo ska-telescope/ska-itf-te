@@ -29,3053 +29,3053 @@ defaults:
 - cm: cm1  
 - es: es1
 attributes:
-- trl: ska001/spfrxpu/controller/rxs123odlb12supply25voltage
+- trl: ska036/spfrxpu/controller/rxs123odlb12supply25voltage
   es: es1
   cm: cm1
   configuration:
     code_push_event: true
     archive_abs_change: 0.001
   th: th1
-- trl: mid-dish/dish-manager/ska001/azimuthoverwrap
+- trl: mid-dish/dish-manager/ska036/azimuthoverwrap
   es: es1
   cm: cm1
   configuration:
     code_push_event: true
   th: th1
-- trl: ska001/spfrxpu/controller/rxs123odlpowersupply12voltage
-  es: es1
-  cm: cm1
-  configuration:
-    code_push_event: true
-    archive_abs_change: 0.001
-  th: th1
-- trl: mid-dish/dish-manager/ska001/band2pointingmodelparams
-  es: es1
-  cm: cm1
-  configuration:
-    code_push_event: true
-  th: th1
-- trl: ska001/spfrxpu/controller/b1capabilitystate
-  es: es1
-  cm: cm1
-  configuration:
-    code_push_event: true
-  th: th1
-- trl: mid-dish/dish-manager/ska001/noisediodeconfig
-  es: es1
-  cm: cm1
-  configuration:
-    code_push_event: true
-  th: th1
-- trl: mid-dish/dish-manager/ska001/lastcommandedmode
-  es: es1
-  cm: cm1
-  configuration:
-    code_push_event: true
-  th: th1
-- trl: mid-dish/dish-manager/ska001/buildstate
-  es: es1
-  cm: cm1
-  configuration:
-    code_push_event: true
-  th: th1
-- trl: mid-dish/dish-manager/ska001/periodicnoisediodepars
-  es: es1
-  cm: cm1
-  configuration:
-    code_push_event: true
-  th: th1
-- trl: mid-dish/dish-manager/ska001/attenuationpolh
-  es: es1
-  cm: cm1
-  configuration:
-    code_push_event: true
-  th: th1
-- trl: ska001/spfrxpu/controller/b2capabilitystate
-  es: es1
-  cm: cm1
-  configuration:
-    code_push_event: true
-  th: th1
-- trl: ska001/spfrxpu/controller/rxs123surgearrestervoltage
+- trl: ska036/spfrxpu/controller/rxs123odlpowersupply12voltage
   es: es1
   cm: cm1
   configuration:
     code_push_event: true
     archive_abs_change: 0.001
   th: th1
-- trl: ska001/spfrxpu/controller/rxs123clkpowerlevelvoltage
+- trl: mid-dish/dish-manager/ska036/band2pointingmodelparams
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: ska036/spfrxpu/controller/b1capabilitystate
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-dish/dish-manager/ska036/noisediodeconfig
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-dish/dish-manager/ska036/lastcommandedmode
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-dish/dish-manager/ska036/buildstate
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-dish/dish-manager/ska036/periodicnoisediodepars
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-dish/dish-manager/ska036/attenuationpolh
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: ska036/spfrxpu/controller/b2capabilitystate
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: ska036/spfrxpu/controller/rxs123surgearrestervoltage
   es: es1
   cm: cm1
   configuration:
     code_push_event: true
     archive_abs_change: 0.001
   th: th1
-- trl: ska001/spfrxpu/controller/configuredband
-  es: es1
-  cm: cm1
-  configuration:
-    code_push_event: true
-  th: th1
-- trl: mid-dish/dish-manager/ska001/ignorespfrx
-  es: es1
-  cm: cm1
-  configuration:
-    code_push_event: true
-  th: th1
-- trl: mid-dish/dish-manager/ska001/band2samplerfrequency
-  es: es1
-  cm: cm1
-  configuration:
-    code_push_event: true
-  th: th1
-- trl: mid-dish/dish-manager/ska001/attenuationpolv
-  es: es1
-  cm: cm1
-  configuration:
-    code_push_event: true
-  th: th1
-- trl: ska001/spfrxpu/controller/rxs123odltemperature
+- trl: ska036/spfrxpu/controller/rxs123clkpowerlevelvoltage
   es: es1
   cm: cm1
   configuration:
     code_push_event: true
     archive_abs_change: 0.001
   th: th1
-- trl: ska001/spfrxpu/controller/operatingmode
+- trl: ska036/spfrxpu/controller/configuredband
   es: es1
   cm: cm1
   configuration:
     code_push_event: true
   th: th1
-- trl: mid-dish/dish-manager/ska001/noisediodemode
+- trl: mid-dish/dish-manager/ska036/ignorespfrx
   es: es1
   cm: cm1
   configuration:
     code_push_event: true
   th: th1
-- trl: ska001/spfrxpu/controller/b123proccntlwralignstatus
+- trl: mid-dish/dish-manager/ska036/band2samplerfrequency
   es: es1
   cm: cm1
   configuration:
     code_push_event: true
   th: th1
-- trl: ska001/spfrxpu/controller/rxs123odlhumidity
-  es: es1
-  cm: cm1
-  configuration:
-    code_push_event: true
-    archive_abs_change: 0.001
-  th: th1
-- trl: ska001/spfrxpu/controller/b3capabilitystate
+- trl: mid-dish/dish-manager/ska036/attenuationpolv
   es: es1
   cm: cm1
   configuration:
     code_push_event: true
   th: th1
-- trl: ska001/spfrxpu/controller/rxs123odlb12supply33voltage
+- trl: ska036/spfrxpu/controller/rxs123odltemperature
   es: es1
   cm: cm1
   configuration:
     code_push_event: true
     archive_abs_change: 0.001
   th: th1
-- trl: mid-dish/dish-manager/ska001/ignorespf
+- trl: ska036/spfrxpu/controller/operatingmode
   es: es1
   cm: cm1
   configuration:
     code_push_event: true
   th: th1
-- trl: ska001/spfrxpu/controller/rxs123odlb3supply33voltage
-  es: es1
-  cm: cm1
-  configuration:
-    code_push_event: true
-    archive_abs_change: 0.001
-  th: th1
-- trl: mid-dish/dish-manager/ska001/configuredband
+- trl: mid-dish/dish-manager/ska036/noisediodemode
   es: es1
   cm: cm1
   configuration:
     code_push_event: true
   th: th1
-- trl: ska001/spfrxpu/controller/rxs123odlb3supply25voltage
-  es: es1
-  cm: cm1
-  configuration:
-    code_push_event: true
-    archive_abs_change: 0.001
-  th: th1
-- trl: mid-dish/dish-manager/ska001/pointingbuffersize
+- trl: ska036/spfrxpu/controller/b123proccntlwralignstatus
   es: es1
   cm: cm1
   configuration:
     code_push_event: true
   th: th1
-- trl: mid-dish/dish-manager/ska001/spfrxconnectionstate
-  es: es1
-  cm: cm1
-  configuration:
-    code_push_event: true
-  th: th1
-- trl: ska001/spfrxpu/controller/datastreambandchangestatus
-  es: es1
-  cm: cm1
-  configuration:
-    code_push_event: true
-  th: th1
-- trl: mid-dish/dish-manager/ska001/dishmode
-  es: es1
-  cm: cm1
-  configuration:
-    code_push_event: true
-  th: th1
-- trl: mid-dish/dish-manager/ska001/healthstate
-  es: es1
-  cm: cm1
-  configuration:
-    code_push_event: true
-  th: th1
-- trl: mid-dish/dish-manager/ska001/kvalue
-  es: es1
-  cm: cm1
-  configuration:
-    code_push_event: true
-  th: th1
-- trl: mid-dish/dish-manager/ska001/tracktableloadmode
-  es: es1
-  cm: cm1
-  configuration:
-    code_push_event: true
-  th: th1
-- trl: ska001/spfrxpu/controller/b123proccntlwrfifoovf
-  es: es1
-  cm: cm1
-  configuration:
-    code_push_event: true
-  th: th1
-- trl: ska001/spfrxpu/controller/rxs123odlpowersupply5voltage
+- trl: ska036/spfrxpu/controller/rxs123odlhumidity
   es: es1
   cm: cm1
   configuration:
     code_push_event: true
     archive_abs_change: 0.001
   th: th1
-- trl: mid-dish/dish-manager/ska001/spfconnectionstate
+- trl: ska036/spfrxpu/controller/b3capabilitystate
   es: es1
   cm: cm1
   configuration:
     code_push_event: true
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_status_p_act
+- trl: ska036/spfrxpu/controller/rxs123odlb12supply33voltage
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.001
+  th: th1
+- trl: mid-dish/dish-manager/ska036/ignorespf
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: ska036/spfrxpu/controller/rxs123odlb3supply33voltage
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.001
+  th: th1
+- trl: mid-dish/dish-manager/ska036/configuredband
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: ska036/spfrxpu/controller/rxs123odlb3supply25voltage
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.001
+  th: th1
+- trl: mid-dish/dish-manager/ska036/pointingbuffersize
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-dish/dish-manager/ska036/spfrxconnectionstate
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: ska036/spfrxpu/controller/datastreambandchangestatus
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-dish/dish-manager/ska036/dishmode
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-dish/dish-manager/ska036/healthstate
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-dish/dish-manager/ska036/kvalue
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-dish/dish-manager/ska036/tracktableloadmode
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: ska036/spfrxpu/controller/b123proccntlwrfifoovf
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: ska036/spfrxpu/controller/rxs123odlpowersupply5voltage
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+    archive_abs_change: 0.001
+  th: th1
+- trl: mid-dish/dish-manager/ska036/spfconnectionstate
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-dish/ds-manager/ska036/azimuth_status_p_act
   es: es1
   cm: cm1
   configuration:
     code_push_event: true
     archive_abs_change: 0.0001
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_status_p_enc
+- trl: mid-dish/ds-manager/ska036/azimuth_status_p_enc
   es: es1
   cm: cm1
   configuration:
     code_push_event: true
     archive_abs_change: 0.001
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_status_p_set
+- trl: mid-dish/ds-manager/ska036/azimuth_status_p_set
   es: es1
   cm: cm1
   configuration:
     code_push_event: true
     archive_abs_change: 0.0001
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_status_p_shape
+- trl: mid-dish/ds-manager/ska036/azimuth_status_p_shape
   es: es2
   cm: cm1
   configuration:
     code_push_event: true
     archive_abs_change: 0.0001
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_status_p_act
+- trl: mid-dish/ds-manager/ska036/elevation_status_p_act
   es: es2
   cm: cm1
   configuration:
     code_push_event: true
     archive_abs_change: 0.0001
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_status_p_enc
+- trl: mid-dish/ds-manager/ska036/elevation_status_p_enc
   es: es2
   cm: cm1
   configuration:
     code_push_event: true
     archive_abs_change: 0.001
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_status_p_set
+- trl: mid-dish/ds-manager/ska036/elevation_status_p_set
   es: es2
   cm: cm1
   configuration:
     code_push_event: true
     archive_abs_change: 0.0001
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_status_p_shape
+- trl: mid-dish/ds-manager/ska036/elevation_status_p_shape
   es: es2
   cm: cm1
   configuration:
     code_push_event: true
     archive_abs_change: 0.0001
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_motorone_mactvelocity
+- trl: mid-dish/ds-manager/ska036/azimuth_motorone_mactvelocity
   es: es2
   cm: cm1
   configuration:
     code_push_event: true
     archive_abs_change: 0.1
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_motortwo_mactvelocity
+- trl: mid-dish/ds-manager/ska036/azimuth_motortwo_mactvelocity
   es: es2
   cm: cm1
   configuration:
     code_push_event: true
     archive_abs_change: 0.1
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_motorone_mactvelocity
+- trl: mid-dish/ds-manager/ska036/elevation_motorone_mactvelocity
   es: es2
   cm: cm1
   configuration:
     code_push_event: true
     archive_abs_change: 0.1
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_motortwo_mactvelocity
+- trl: mid-dish/ds-manager/ska036/elevation_motortwo_mactvelocity
   es: es2
   cm: cm1
   configuration:
     code_push_event: true
     archive_abs_change: 0.1
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_status_p_act
+- trl: mid-dish/ds-manager/ska036/feedindexer_status_p_act
   es: es2
   cm: cm1
   configuration:
     code_push_event: true
     archive_abs_change: 0.0001
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_motorone_mactvelocity
+- trl: mid-dish/ds-manager/ska036/feedindexer_motorone_mactvelocity
   es: es2
   cm: cm1
   configuration:
     code_push_event: true
     archive_abs_change: 0.1
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_motortwo_mactvelocity
+- trl: mid-dish/ds-manager/ska036/feedindexer_motortwo_mactvelocity
   es: es2
   cm: cm1
   configuration:
     code_push_event: true
     archive_abs_change: 0.1
   th: th1
-- trl: mid-dish/ds-manager/ska001/tracking_status_onsourcedev
+- trl: mid-dish/ds-manager/ska036/tracking_status_onsourcedev
   es: es2
   cm: cm1
   configuration:
     code_push_event: true
     archive_abs_change: 0.1
   th: th1
-- trl: ska001/spfrxpu/controller/b2ppsdeviation
+- trl: ska036/spfrxpu/controller/b2ppsdeviation
   es: es2
   cm: cm1
   configuration:
     code_push_event: true
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_status_totalpointcorr_el
+- trl: mid-dish/ds-manager/ska036/pointing_status_totalpointcorr_el
   es: es2
   cm: cm1
   configuration:
     code_push_event: true
     archive_abs_change: 0.0001
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_status_totalpointcorr_az
+- trl: mid-dish/ds-manager/ska036/pointing_status_totalpointcorr_az
   es: es2
   cm: cm1
   configuration:
     code_push_event: true
     archive_abs_change: 0.0001
   th: th1
-- trl: mid-dish/ds-manager/ska001/buildstate
+- trl: mid-dish/ds-manager/ska036/buildstate
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/healthstate
+- trl: mid-dish/ds-manager/ska036/healthstate
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/adminmode
+- trl: mid-dish/ds-manager/ska036/adminmode
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/controlmode
+- trl: mid-dish/ds-manager/ska036/controlmode
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/simulationmode
+- trl: mid-dish/ds-manager/ska036/simulationmode
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/testmode
+- trl: mid-dish/ds-manager/ska036/testmode
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/lrcfinished
+- trl: mid-dish/ds-manager/ska036/lrcfinished
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/longrunningcommandresult
+- trl: mid-dish/ds-manager/ska036/longrunningcommandresult
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/commandedstate
+- trl: mid-dish/ds-manager/ska036/commandedstate
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/connectionstate
+- trl: mid-dish/ds-manager/ska036/connectionstate
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/powerstate
+- trl: mid-dish/ds-manager/ska036/powerstate
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/operatingmode
+- trl: mid-dish/ds-manager/ska036/operatingmode
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/indexerposition
+- trl: mid-dish/ds-manager/ska036/indexerposition
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointingstate
+- trl: mid-dish/ds-manager/ska036/pointingstate
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/achievedtargetlock
+- trl: mid-dish/ds-manager/ska036/achievedtargetlock
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/dsccmdauth
+- trl: mid-dish/ds-manager/ska036/dsccmdauth
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/achievedpointing
+- trl: mid-dish/ds-manager/ska036/achievedpointing
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/currentpointing
+- trl: mid-dish/ds-manager/ska036/currentpointing
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/desiredpointingaz
+- trl: mid-dish/ds-manager/ska036/desiredpointingaz
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/desiredpointingel
+- trl: mid-dish/ds-manager/ska036/desiredpointingel
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/actstaticoffsetvaluexel
+- trl: mid-dish/ds-manager/ska036/actstaticoffsetvaluexel
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/actstaticoffsetvalueel
+- trl: mid-dish/ds-manager/ska036/actstaticoffsetvalueel
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/tracktablecurrentindex
+- trl: mid-dish/ds-manager/ska036/tracktablecurrentindex
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/tracktableendindex
+- trl: mid-dish/ds-manager/ska036/tracktableendindex
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/band0pointingmodelparams
+- trl: mid-dish/ds-manager/ska036/band0pointingmodelparams
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/band1pointingmodelparams
+- trl: mid-dish/ds-manager/ska036/band1pointingmodelparams
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/band2pointingmodelparams
+- trl: mid-dish/ds-manager/ska036/band2pointingmodelparams
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/band3pointingmodelparams
+- trl: mid-dish/ds-manager/ska036/band3pointingmodelparams
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/band4pointingmodelparams
+- trl: mid-dish/ds-manager/ska036/band4pointingmodelparams
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/band5apointingmodelparams
+- trl: mid-dish/ds-manager/ska036/band5apointingmodelparams
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/band5bpointingmodelparams
+- trl: mid-dish/ds-manager/ska036/band5bpointingmodelparams
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/band6pointingmodelparams
+- trl: mid-dish/ds-manager/ska036/band6pointingmodelparams
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/dscstate
+- trl: mid-dish/ds-manager/ska036/dscstate
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/trackinterpolationmode
+- trl: mid-dish/ds-manager/ska036/trackinterpolationmode
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevationspeed
+- trl: mid-dish/ds-manager/ska036/elevationspeed
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/trackprogrammode
+- trl: mid-dish/ds-manager/ska036/trackprogrammode
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/configuretargetlock
+- trl: mid-dish/ds-manager/ska036/configuretargetlock
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/dscpowerlimitkw
+- trl: mid-dish/ds-manager/ska036/dscpowerlimitkw
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es2
   th: th1
-- trl: mid-dish/ds-manager/ska001/lastcommandupdate
+- trl: mid-dish/ds-manager/ska036/lastcommandupdate
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/lastcommandinvoked
+- trl: mid-dish/ds-manager/ska036/lastcommandinvoked
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/currentmode
+- trl: mid-dish/ds-manager/ska036/currentmode
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/applicationstate
+- trl: mid-dish/ds-manager/ska036/applicationstate
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/staticoninput
+- trl: mid-dish/ds-manager/ska036/staticoninput
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltoninput
+- trl: mid-dish/ds-manager/ska036/tiltoninput
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/ambtoninput
+- trl: mid-dish/ds-manager/ska036/ambtoninput
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/dscctrlstate
+- trl: mid-dish/ds-manager/ska036/dscctrlstate
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/displayeddiagnosis
+- trl: mid-dish/ds-manager/ska036/displayeddiagnosis
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/lrcqueue
+- trl: mid-dish/ds-manager/ska036/lrcqueue
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/lrcexecuting
+- trl: mid-dish/ds-manager/ska036/lrcexecuting
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/longrunningcommandstatus
+- trl: mid-dish/ds-manager/ska036/longrunningcommandstatus
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/longrunningcommandsinqueue
+- trl: mid-dish/ds-manager/ska036/longrunningcommandsinqueue
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/longrunningcommandidsinqueue
+- trl: mid-dish/ds-manager/ska036/longrunningcommandidsinqueue
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/longrunningcommandinprogress
+- trl: mid-dish/ds-manager/ska036/longrunningcommandinprogress
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/longrunningcommandprogress
+- trl: mid-dish/ds-manager/ska036/longrunningcommandprogress
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_errorstatus_errerroractive
+- trl: mid-dish/ds-manager/ska036/azimuth_errorstatus_errerroractive
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_errorstatus_errfieldbus
+- trl: mid-dish/ds-manager/ska036/azimuth_errorstatus_errfieldbus
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_errorstatus_errlim2ccw
+- trl: mid-dish/ds-manager/ska036/azimuth_errorstatus_errlim2ccw
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_errorstatus_errlim2cw
+- trl: mid-dish/ds-manager/ska036/azimuth_errorstatus_errlim2cw
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_errorstatus_errlimv_err
+- trl: mid-dish/ds-manager/ska036/azimuth_errorstatus_errlimv_err
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_errorstatus_errmotcomm
+- trl: mid-dish/ds-manager/ska036/azimuth_errorstatus_errmotcomm
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_errorstatus_errmotenc
+- trl: mid-dish/ds-manager/ska036/azimuth_errorstatus_errmotenc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_errorstatus_errmotor
+- trl: mid-dish/ds-manager/ska036/azimuth_errorstatus_errmotor
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_errorstatus_errmotready
+- trl: mid-dish/ds-manager/ska036/azimuth_errorstatus_errmotready
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_errorstatus_erroverride
+- trl: mid-dish/ds-manager/ska036/azimuth_errorstatus_erroverride
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_errorstatus_errp_devexceed
+- trl: mid-dish/ds-manager/ska036/azimuth_errorstatus_errp_devexceed
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_errorstatus_errp_rangeexceed
+- trl: mid-dish/ds-manager/ska036/azimuth_errorstatus_errp_rangeexceed
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_errorstatus_errposenc
+- trl: mid-dish/ds-manager/ska036/azimuth_errorstatus_errposenc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_errorstatus_errposenc_fo
+- trl: mid-dish/ds-manager/ska036/azimuth_errorstatus_errposenc_fo
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_errorstatus_errpower
+- trl: mid-dish/ds-manager/ska036/azimuth_errorstatus_errpower
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_errorstatus_errv_devexceed
+- trl: mid-dish/ds-manager/ska036/azimuth_errorstatus_errv_devexceed
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_errorstatus_errv_motexceed
+- trl: mid-dish/ds-manager/ska036/azimuth_errorstatus_errv_motexceed
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_motorone_errorcode
+- trl: mid-dish/ds-manager/ska036/azimuth_motorone_errorcode
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_motorone_macttorq
+- trl: mid-dish/ds-manager/ska036/azimuth_motorone_macttorq
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_motorone_motoroverload
+- trl: mid-dish/ds-manager/ska036/azimuth_motorone_motoroverload
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_motorone_motortemp
+- trl: mid-dish/ds-manager/ska036/azimuth_motorone_motortemp
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_motorone_rateofutil
+- trl: mid-dish/ds-manager/ska036/azimuth_motorone_rateofutil
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_motortwo_errorcode
+- trl: mid-dish/ds-manager/ska036/azimuth_motortwo_errorcode
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_motortwo_macttorq
+- trl: mid-dish/ds-manager/ska036/azimuth_motortwo_macttorq
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_motortwo_motoroverload
+- trl: mid-dish/ds-manager/ska036/azimuth_motortwo_motoroverload
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_motortwo_motortemp
+- trl: mid-dish/ds-manager/ska036/azimuth_motortwo_motortemp
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_motortwo_rateofutil
+- trl: mid-dish/ds-manager/ska036/azimuth_motortwo_rateofutil
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_status_active
+- trl: mid-dish/ds-manager/ska036/azimuth_status_active
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_status_allactive
+- trl: mid-dish/ds-manager/ska036/azimuth_status_allactive
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_status_axismoving
+- trl: mid-dish/ds-manager/ska036/azimuth_status_axismoving
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_status_axisstate
+- trl: mid-dish/ds-manager/ska036/azimuth_status_axisstate
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_status_encboxop
+- trl: mid-dish/ds-manager/ska036/azimuth_status_encboxop
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_status_estop
+- trl: mid-dish/ds-manager/ska036/azimuth_status_estop
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_status_exceed
+- trl: mid-dish/ds-manager/ska036/azimuth_status_exceed
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_status_initok
+- trl: mid-dish/ds-manager/ska036/azimuth_status_initok
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_status_limoverride
+- trl: mid-dish/ds-manager/ska036/azimuth_status_limoverride
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_status_posdevok
+- trl: mid-dish/ds-manager/ska036/azimuth_status_posdevok
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_status_ready
+- trl: mid-dish/ds-manager/ska036/azimuth_status_ready
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_status_reset
+- trl: mid-dish/ds-manager/ska036/azimuth_status_reset
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_status_sectorsw
+- trl: mid-dish/ds-manager/ska036/azimuth_status_sectorsw
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_status_stowpos_minus
+- trl: mid-dish/ds-manager/ska036/azimuth_status_stowpos_minus
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_status_stowpos_plus
+- trl: mid-dish/ds-manager/ska036/azimuth_status_stowpos_plus
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_status_torquebias
+- trl: mid-dish/ds-manager/ska036/azimuth_status_torquebias
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_status_torquetotal
+- trl: mid-dish/ds-manager/ska036/azimuth_status_torquetotal
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es3
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_status_v_act
+- trl: mid-dish/ds-manager/ska036/azimuth_status_v_act
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-# - trl: mid-dish/ds-manager/ska001/azimuth_status_v_setmax
+# - trl: mid-dish/ds-manager/ska036/azimuth_status_v_setmax
 #   configuration:
 #     code_push_event: true
 #     archive_abs_change: 1
 #   es: es4
 #   th: th1
-# - trl: mid-dish/ds-manager/ska001/azimuth_status_v_shape
+# - trl: mid-dish/ds-manager/ska036/azimuth_status_v_shape
 #   configuration:
 #     code_push_event: true
 #     archive_abs_change: 1
 #   es: es4
 #   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_warningstatus_walim1ccw
+- trl: mid-dish/ds-manager/ska036/azimuth_warningstatus_walim1ccw
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_warningstatus_walim1cw
+- trl: mid-dish/ds-manager/ska036/azimuth_warningstatus_walim1cw
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_warningstatus_walimsoftccw
+- trl: mid-dish/ds-manager/ska036/azimuth_warningstatus_walimsoftccw
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_warningstatus_walimsoftcw
+- trl: mid-dish/ds-manager/ska036/azimuth_warningstatus_walimsoftcw
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_warningstatus_wammaxexceeded
+- trl: mid-dish/ds-manager/ska036/azimuth_warningstatus_wammaxexceeded
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_warningstatus_wamotready
+- trl: mid-dish/ds-manager/ska036/azimuth_warningstatus_wamotready
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_warningstatus_wamotwarn
+- trl: mid-dish/ds-manager/ska036/azimuth_warningstatus_wamotwarn
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_warningstatus_waoverride
+- trl: mid-dish/ds-manager/ska036/azimuth_warningstatus_waoverride
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_warningstatus_waparamfault
+- trl: mid-dish/ds-manager/ska036/azimuth_warningstatus_waparamfault
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_warningstatus_waposencwarn
+- trl: mid-dish/ds-manager/ska036/azimuth_warningstatus_waposencwarn
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_warningstatus_wastowpinsdep
+- trl: mid-dish/ds-manager/ska036/azimuth_warningstatus_wastowpinsdep
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/azimuth_warningstatus_wavellimit
+- trl: mid-dish/ds-manager/ska036/azimuth_warningstatus_wavellimit
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/commandarbiter_status_axisselect
+- trl: mid-dish/ds-manager/ska036/commandarbiter_status_axisselect
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/commandarbiter_status_lastcmdresponse
+- trl: mid-dish/ds-manager/ska036/commandarbiter_status_lastcmdresponse
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/commandarbiter_status_lastloadmode
+- trl: mid-dish/ds-manager/ska036/commandarbiter_status_lastloadmode
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/commandarbiter_status_lasttilton
+- trl: mid-dish/ds-manager/ska036/commandarbiter_status_lasttilton
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_errorstatus_errerroractive
+- trl: mid-dish/ds-manager/ska036/elevation_errorstatus_errerroractive
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_errorstatus_errfieldbus
+- trl: mid-dish/ds-manager/ska036/elevation_errorstatus_errfieldbus
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_errorstatus_errlim2ccw
+- trl: mid-dish/ds-manager/ska036/elevation_errorstatus_errlim2ccw
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_errorstatus_errlim2cw
+- trl: mid-dish/ds-manager/ska036/elevation_errorstatus_errlim2cw
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_errorstatus_errlimv_err
+- trl: mid-dish/ds-manager/ska036/elevation_errorstatus_errlimv_err
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_errorstatus_errmotcomm
+- trl: mid-dish/ds-manager/ska036/elevation_errorstatus_errmotcomm
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_errorstatus_errmotenc
+- trl: mid-dish/ds-manager/ska036/elevation_errorstatus_errmotenc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_errorstatus_errmotor
+- trl: mid-dish/ds-manager/ska036/elevation_errorstatus_errmotor
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_errorstatus_errmotready
+- trl: mid-dish/ds-manager/ska036/elevation_errorstatus_errmotready
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_errorstatus_erroverride
+- trl: mid-dish/ds-manager/ska036/elevation_errorstatus_erroverride
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_errorstatus_errp_devexceed
+- trl: mid-dish/ds-manager/ska036/elevation_errorstatus_errp_devexceed
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_errorstatus_errp_rangeexceed
+- trl: mid-dish/ds-manager/ska036/elevation_errorstatus_errp_rangeexceed
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_errorstatus_errposenc
+- trl: mid-dish/ds-manager/ska036/elevation_errorstatus_errposenc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_errorstatus_errposenc_fo
+- trl: mid-dish/ds-manager/ska036/elevation_errorstatus_errposenc_fo
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_errorstatus_errpower
+- trl: mid-dish/ds-manager/ska036/elevation_errorstatus_errpower
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_errorstatus_errv_devexceed
+- trl: mid-dish/ds-manager/ska036/elevation_errorstatus_errv_devexceed
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_errorstatus_errv_motexceed
+- trl: mid-dish/ds-manager/ska036/elevation_errorstatus_errv_motexceed
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_motorone_errorcode
+- trl: mid-dish/ds-manager/ska036/elevation_motorone_errorcode
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_motorone_macttorq
+- trl: mid-dish/ds-manager/ska036/elevation_motorone_macttorq
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_motorone_motoroverload
+- trl: mid-dish/ds-manager/ska036/elevation_motorone_motoroverload
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_motorone_motortemp
+- trl: mid-dish/ds-manager/ska036/elevation_motorone_motortemp
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_motorone_rateofutil
+- trl: mid-dish/ds-manager/ska036/elevation_motorone_rateofutil
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_motortwo_errorcode
+- trl: mid-dish/ds-manager/ska036/elevation_motortwo_errorcode
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_motortwo_macttorq
+- trl: mid-dish/ds-manager/ska036/elevation_motortwo_macttorq
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_motortwo_motoroverload
+- trl: mid-dish/ds-manager/ska036/elevation_motortwo_motoroverload
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_motortwo_motortemp
+- trl: mid-dish/ds-manager/ska036/elevation_motortwo_motortemp
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_motortwo_rateofutil
+- trl: mid-dish/ds-manager/ska036/elevation_motortwo_rateofutil
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_status_active
+- trl: mid-dish/ds-manager/ska036/elevation_status_active
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_status_allactive
+- trl: mid-dish/ds-manager/ska036/elevation_status_allactive
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_status_axismoving
+- trl: mid-dish/ds-manager/ska036/elevation_status_axismoving
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_status_axisstate
+- trl: mid-dish/ds-manager/ska036/elevation_status_axisstate
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_status_encboxop
+- trl: mid-dish/ds-manager/ska036/elevation_status_encboxop
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_status_estop
+- trl: mid-dish/ds-manager/ska036/elevation_status_estop
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_status_exceed
+- trl: mid-dish/ds-manager/ska036/elevation_status_exceed
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_status_initok
+- trl: mid-dish/ds-manager/ska036/elevation_status_initok
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_status_limoverride
+- trl: mid-dish/ds-manager/ska036/elevation_status_limoverride
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_status_posdevok
+- trl: mid-dish/ds-manager/ska036/elevation_status_posdevok
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_status_ready
+- trl: mid-dish/ds-manager/ska036/elevation_status_ready
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_status_reset
+- trl: mid-dish/ds-manager/ska036/elevation_status_reset
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_status_sectorsw
+- trl: mid-dish/ds-manager/ska036/elevation_status_sectorsw
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_status_stowpos_minus
+- trl: mid-dish/ds-manager/ska036/elevation_status_stowpos_minus
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es4
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_status_stowpos_plus
+- trl: mid-dish/ds-manager/ska036/elevation_status_stowpos_plus
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_status_torquebias
+- trl: mid-dish/ds-manager/ska036/elevation_status_torquebias
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_status_torquetotal
+- trl: mid-dish/ds-manager/ska036/elevation_status_torquetotal
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_status_v_act
+- trl: mid-dish/ds-manager/ska036/elevation_status_v_act
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_status_v_setmax
+- trl: mid-dish/ds-manager/ska036/elevation_status_v_setmax
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_status_v_shape
+- trl: mid-dish/ds-manager/ska036/elevation_status_v_shape
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_warningstatus_walim1ccw
+- trl: mid-dish/ds-manager/ska036/elevation_warningstatus_walim1ccw
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_warningstatus_walim1cw
+- trl: mid-dish/ds-manager/ska036/elevation_warningstatus_walim1cw
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_warningstatus_walimsoftccw
+- trl: mid-dish/ds-manager/ska036/elevation_warningstatus_walimsoftccw
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_warningstatus_walimsoftcw
+- trl: mid-dish/ds-manager/ska036/elevation_warningstatus_walimsoftcw
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_warningstatus_wammaxexceeded
+- trl: mid-dish/ds-manager/ska036/elevation_warningstatus_wammaxexceeded
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_warningstatus_wamotready
+- trl: mid-dish/ds-manager/ska036/elevation_warningstatus_wamotready
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_warningstatus_wamotwarn
+- trl: mid-dish/ds-manager/ska036/elevation_warningstatus_wamotwarn
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_warningstatus_waoverride
+- trl: mid-dish/ds-manager/ska036/elevation_warningstatus_waoverride
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_warningstatus_waparamfault
+- trl: mid-dish/ds-manager/ska036/elevation_warningstatus_waparamfault
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_warningstatus_waposencwarn
+- trl: mid-dish/ds-manager/ska036/elevation_warningstatus_waposencwarn
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_warningstatus_wastowpinsdep
+- trl: mid-dish/ds-manager/ska036/elevation_warningstatus_wastowpinsdep
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_warningstatus_wavellimit
+- trl: mid-dish/ds-manager/ska036/elevation_warningstatus_wavellimit
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_errorstatus_errerroractive
+- trl: mid-dish/ds-manager/ska036/feedindexer_errorstatus_errerroractive
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_errorstatus_errfieldbus
+- trl: mid-dish/ds-manager/ska036/feedindexer_errorstatus_errfieldbus
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_errorstatus_errlim2ccw
+- trl: mid-dish/ds-manager/ska036/feedindexer_errorstatus_errlim2ccw
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_errorstatus_errlim2cw
+- trl: mid-dish/ds-manager/ska036/feedindexer_errorstatus_errlim2cw
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_errorstatus_errlimv_err
+- trl: mid-dish/ds-manager/ska036/feedindexer_errorstatus_errlimv_err
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_errorstatus_errmotcomm
+- trl: mid-dish/ds-manager/ska036/feedindexer_errorstatus_errmotcomm
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_errorstatus_errmotenc
+- trl: mid-dish/ds-manager/ska036/feedindexer_errorstatus_errmotenc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_errorstatus_errmotor
+- trl: mid-dish/ds-manager/ska036/feedindexer_errorstatus_errmotor
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_errorstatus_errmotready
+- trl: mid-dish/ds-manager/ska036/feedindexer_errorstatus_errmotready
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_errorstatus_erroverride
+- trl: mid-dish/ds-manager/ska036/feedindexer_errorstatus_erroverride
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_errorstatus_errp_devexceed
+- trl: mid-dish/ds-manager/ska036/feedindexer_errorstatus_errp_devexceed
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_errorstatus_errp_rangeexceed
+- trl: mid-dish/ds-manager/ska036/feedindexer_errorstatus_errp_rangeexceed
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_errorstatus_errposenc
+- trl: mid-dish/ds-manager/ska036/feedindexer_errorstatus_errposenc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_errorstatus_errposenc_fo
+- trl: mid-dish/ds-manager/ska036/feedindexer_errorstatus_errposenc_fo
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_errorstatus_errpower
+- trl: mid-dish/ds-manager/ska036/feedindexer_errorstatus_errpower
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_errorstatus_errv_devexceed
+- trl: mid-dish/ds-manager/ska036/feedindexer_errorstatus_errv_devexceed
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_errorstatus_errv_motexceed
+- trl: mid-dish/ds-manager/ska036/feedindexer_errorstatus_errv_motexceed
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_motorone_errorcode
+- trl: mid-dish/ds-manager/ska036/feedindexer_motorone_errorcode
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_motorone_macttorq
+- trl: mid-dish/ds-manager/ska036/feedindexer_motorone_macttorq
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_motorone_motoroverload
+- trl: mid-dish/ds-manager/ska036/feedindexer_motorone_motoroverload
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_motorone_motortemp
+- trl: mid-dish/ds-manager/ska036/feedindexer_motorone_motortemp
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_motorone_rateofutil
+- trl: mid-dish/ds-manager/ska036/feedindexer_motorone_rateofutil
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_motortwo_errorcode
+- trl: mid-dish/ds-manager/ska036/feedindexer_motortwo_errorcode
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_motortwo_macttorq
+- trl: mid-dish/ds-manager/ska036/feedindexer_motortwo_macttorq
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_motortwo_motoroverload
+- trl: mid-dish/ds-manager/ska036/feedindexer_motortwo_motoroverload
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_motortwo_motortemp
+- trl: mid-dish/ds-manager/ska036/feedindexer_motortwo_motortemp
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_motortwo_rateofutil
+- trl: mid-dish/ds-manager/ska036/feedindexer_motortwo_rateofutil
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_status_active
+- trl: mid-dish/ds-manager/ska036/feedindexer_status_active
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_status_allactive
+- trl: mid-dish/ds-manager/ska036/feedindexer_status_allactive
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_status_axismoving
+- trl: mid-dish/ds-manager/ska036/feedindexer_status_axismoving
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_status_axisstate
+- trl: mid-dish/ds-manager/ska036/feedindexer_status_axisstate
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_status_encboxop
+- trl: mid-dish/ds-manager/ska036/feedindexer_status_encboxop
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_status_estop
+- trl: mid-dish/ds-manager/ska036/feedindexer_status_estop
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_status_exceed
+- trl: mid-dish/ds-manager/ska036/feedindexer_status_exceed
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_status_initok
+- trl: mid-dish/ds-manager/ska036/feedindexer_status_initok
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_status_limoverride
+- trl: mid-dish/ds-manager/ska036/feedindexer_status_limoverride
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_status_p_dev
+- trl: mid-dish/ds-manager/ska036/feedindexer_status_p_dev
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_status_p_enc
+- trl: mid-dish/ds-manager/ska036/feedindexer_status_p_enc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_status_p_pointcorr
+- trl: mid-dish/ds-manager/ska036/feedindexer_status_p_pointcorr
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_status_p_set
+- trl: mid-dish/ds-manager/ska036/feedindexer_status_p_set
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_status_p_shape
+- trl: mid-dish/ds-manager/ska036/feedindexer_status_p_shape
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_status_posdevok
+- trl: mid-dish/ds-manager/ska036/feedindexer_status_posdevok
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es5
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_status_ready
+- trl: mid-dish/ds-manager/ska036/feedindexer_status_ready
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_status_reset
+- trl: mid-dish/ds-manager/ska036/feedindexer_status_reset
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_status_sectorsw
+- trl: mid-dish/ds-manager/ska036/feedindexer_status_sectorsw
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_status_stowpos_minus
+- trl: mid-dish/ds-manager/ska036/feedindexer_status_stowpos_minus
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_status_stowpos_plus
+- trl: mid-dish/ds-manager/ska036/feedindexer_status_stowpos_plus
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_status_torquebias
+- trl: mid-dish/ds-manager/ska036/feedindexer_status_torquebias
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_status_torquetotal
+- trl: mid-dish/ds-manager/ska036/feedindexer_status_torquetotal
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_status_v_act
+- trl: mid-dish/ds-manager/ska036/feedindexer_status_v_act
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_status_v_setmax
+- trl: mid-dish/ds-manager/ska036/feedindexer_status_v_setmax
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_status_v_shape
+- trl: mid-dish/ds-manager/ska036/feedindexer_status_v_shape
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_warningstatus_walim1ccw
+- trl: mid-dish/ds-manager/ska036/feedindexer_warningstatus_walim1ccw
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_warningstatus_walim1cw
+- trl: mid-dish/ds-manager/ska036/feedindexer_warningstatus_walim1cw
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_warningstatus_walimsoftccw
+- trl: mid-dish/ds-manager/ska036/feedindexer_warningstatus_walimsoftccw
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_warningstatus_walimsoftcw
+- trl: mid-dish/ds-manager/ska036/feedindexer_warningstatus_walimsoftcw
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_warningstatus_wammaxexceeded
+- trl: mid-dish/ds-manager/ska036/feedindexer_warningstatus_wammaxexceeded
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_warningstatus_wamotready
+- trl: mid-dish/ds-manager/ska036/feedindexer_warningstatus_wamotready
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_warningstatus_wamotwarn
+- trl: mid-dish/ds-manager/ska036/feedindexer_warningstatus_wamotwarn
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_warningstatus_waoverride
+- trl: mid-dish/ds-manager/ska036/feedindexer_warningstatus_waoverride
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_warningstatus_waparamfault
+- trl: mid-dish/ds-manager/ska036/feedindexer_warningstatus_waparamfault
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_warningstatus_waposencwarn
+- trl: mid-dish/ds-manager/ska036/feedindexer_warningstatus_waposencwarn
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_warningstatus_wastowpinsdep
+- trl: mid-dish/ds-manager/ska036/feedindexer_warningstatus_wastowpinsdep
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/feedindexer_warningstatus_wavellimit
+- trl: mid-dish/ds-manager/ska036/feedindexer_warningstatus_wavellimit
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_errorstatus_errauthlost
+- trl: mid-dish/ds-manager/ska036/management_errorstatus_errauthlost
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_errorstatus_errazimuth
+- trl: mid-dish/ds-manager/ska036/management_errorstatus_errazimuth
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_errorstatus_errcmd
+- trl: mid-dish/ds-manager/ska036/management_errorstatus_errcmd
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_errorstatus_errelevation
+- trl: mid-dish/ds-manager/ska036/management_errorstatus_errelevation
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_errorstatus_errfeedindexer
+- trl: mid-dish/ds-manager/ska036/management_errorstatus_errfeedindexer
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_errorstatus_errgeneral
+- trl: mid-dish/ds-manager/ska036/management_errorstatus_errgeneral
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_errorstatus_errmngmnt
+- trl: mid-dish/ds-manager/ska036/management_errorstatus_errmngmnt
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_errorstatus_errpoint
+- trl: mid-dish/ds-manager/ska036/management_errorstatus_errpoint
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_errorstatus_errpwr24vdc
+- trl: mid-dish/ds-manager/ska036/management_errorstatus_errpwr24vdc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_errorstatus_errpwr400vac
+- trl: mid-dish/ds-manager/ska036/management_errorstatus_errpwr400vac
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_errorstatus_errpwr600vdc
+- trl: mid-dish/ds-manager/ska036/management_errorstatus_errpwr600vdc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_errorstatus_errpwrmetercomms
+- trl: mid-dish/ds-manager/ska036/management_errorstatus_errpwrmetercomms
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_errorstatus_errsafety
+- trl: mid-dish/ds-manager/ska036/management_errorstatus_errsafety
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_errorstatus_errstwpin
+- trl: mid-dish/ds-manager/ska036/management_errorstatus_errstwpin
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_errorstatus_errtiltonecomms
+- trl: mid-dish/ds-manager/ska036/management_errorstatus_errtiltonecomms
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_errorstatus_errtiltoneiounit
+- trl: mid-dish/ds-manager/ska036/management_errorstatus_errtiltoneiounit
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_errorstatus_errtilttwocomms
+- trl: mid-dish/ds-manager/ska036/management_errorstatus_errtilttwocomms
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_errorstatus_errtilttwoiounit
+- trl: mid-dish/ds-manager/ska036/management_errorstatus_errtilttwoiounit
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_errorstatus_errtime
+- trl: mid-dish/ds-manager/ska036/management_errorstatus_errtime
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_errorstatus_errtrack
+- trl: mid-dish/ds-manager/ska036/management_errorstatus_errtrack
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_nameplate_dishid
+- trl: mid-dish/ds-manager/ska036/management_nameplate_dishid
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_nameplate_dishstructureserialno
+- trl: mid-dish/ds-manager/ska036/management_nameplate_dishstructureserialno
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_nameplate_dscsoftwareversion
+- trl: mid-dish/ds-manager/ska036/management_nameplate_dscsoftwareversion
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_nameplate_icdversion
+- trl: mid-dish/ds-manager/ska036/management_nameplate_icdversion
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_nameplate_runhours
+- trl: mid-dish/ds-manager/ska036/management_nameplate_runhours
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_nameplate_totaldist_az
+- trl: mid-dish/ds-manager/ska036/management_nameplate_totaldist_az
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_nameplate_totaldist_el_deg
+- trl: mid-dish/ds-manager/ska036/management_nameplate_totaldist_el_deg
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_nameplate_totaldist_el_m
+- trl: mid-dish/ds-manager/ska036/management_nameplate_totaldist_el_m
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_nameplate_totaldist_fi
+- trl: mid-dish/ds-manager/ska036/management_nameplate_totaldist_fi
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_powerstatus_actpwrcnsm
+- trl: mid-dish/ds-manager/ska036/management_powerstatus_actpwrcnsm
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_powerstatus_cbemisc
+- trl: mid-dish/ds-manager/ska036/management_powerstatus_cbemisc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_powerstatus_cbfan_psc
+- trl: mid-dish/ds-manager/ska036/management_powerstatus_cbfan_psc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_powerstatus_cbhe_comp
+- trl: mid-dish/ds-manager/ska036/management_powerstatus_cbhe_comp
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_powerstatus_cbpdu_fi
+- trl: mid-dish/ds-manager/ska036/management_powerstatus_cbpdu_fi
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_powerstatus_cbped_spare
+- trl: mid-dish/ds-manager/ska036/management_powerstatus_cbped_spare
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_powerstatus_cbpsc_spare
+- trl: mid-dish/ds-manager/ska036/management_powerstatus_cbpsc_spare
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_powerstatus_currentph1
+- trl: mid-dish/ds-manager/ska036/management_powerstatus_currentph1
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_powerstatus_currentph2
+- trl: mid-dish/ds-manager/ska036/management_powerstatus_currentph2
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es6
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_powerstatus_currentph3
+- trl: mid-dish/ds-manager/ska036/management_powerstatus_currentph3
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_powerstatus_frequencyph1
+- trl: mid-dish/ds-manager/ska036/management_powerstatus_frequencyph1
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_powerstatus_frequencyph2
+- trl: mid-dish/ds-manager/ska036/management_powerstatus_frequencyph2
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_powerstatus_frequencyph3
+- trl: mid-dish/ds-manager/ska036/management_powerstatus_frequencyph3
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_powerstatus_powerfactor
+- trl: mid-dish/ds-manager/ska036/management_powerstatus_powerfactor
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_powerstatus_spdfnctnl_pdu1
+- trl: mid-dish/ds-manager/ska036/management_powerstatus_spdfnctnl_pdu1
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_powerstatus_spdfnctnl_pdu2
+- trl: mid-dish/ds-manager/ska036/management_powerstatus_spdfnctnl_pdu2
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_powerstatus_voltageph1
+- trl: mid-dish/ds-manager/ska036/management_powerstatus_voltageph1
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_powerstatus_voltageph2
+- trl: mid-dish/ds-manager/ska036/management_powerstatus_voltageph2
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_powerstatus_voltageph3
+- trl: mid-dish/ds-manager/ska036/management_powerstatus_voltageph3
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_status_hhp_az
+- trl: mid-dish/ds-manager/ska036/management_status_hhp_az
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_status_hhp_dir_minus
+- trl: mid-dish/ds-manager/ska036/management_status_hhp_dir_minus
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_status_hhp_dir_plus
+- trl: mid-dish/ds-manager/ska036/management_status_hhp_dir_plus
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_status_hhp_el
+- trl: mid-dish/ds-manager/ska036/management_status_hhp_el
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_status_hhp_fi
+- trl: mid-dish/ds-manager/ska036/management_status_hhp_fi
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_temphumidstatus_humiddrivecab
+- trl: mid-dish/ds-manager/ska036/management_temphumidstatus_humiddrivecab
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_temphumidstatus_humidpsc_inlet
+- trl: mid-dish/ds-manager/ska036/management_temphumidstatus_humidpsc_inlet
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_temphumidstatus_humidpsc_outlet
+- trl: mid-dish/ds-manager/ska036/management_temphumidstatus_humidpsc_outlet
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_temphumidstatus_tempdrivecab
+- trl: mid-dish/ds-manager/ska036/management_temphumidstatus_tempdrivecab
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_temphumidstatus_tempemisc_outlet
+- trl: mid-dish/ds-manager/ska036/management_temphumidstatus_tempemisc_outlet
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_temphumidstatus_temppsc_inlet
+- trl: mid-dish/ds-manager/ska036/management_temphumidstatus_temppsc_inlet
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_temphumidstatus_temppsc_outlet
+- trl: mid-dish/ds-manager/ska036/management_temphumidstatus_temppsc_outlet
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_warningstatus_waazimuth
+- trl: mid-dish/ds-manager/ska036/management_warningstatus_waazimuth
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_warningstatus_wacmd
+- trl: mid-dish/ds-manager/ska036/management_warningstatus_wacmd
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_warningstatus_wadoordrive
+- trl: mid-dish/ds-manager/ska036/management_warningstatus_wadoordrive
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_warningstatus_wadooremisc
+- trl: mid-dish/ds-manager/ska036/management_warningstatus_wadooremisc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_warningstatus_wadoorped
+- trl: mid-dish/ds-manager/ska036/management_warningstatus_wadoorped
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_warningstatus_wadoorpsc
+- trl: mid-dish/ds-manager/ska036/management_warningstatus_wadoorpsc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_warningstatus_waelevation
+- trl: mid-dish/ds-manager/ska036/management_warningstatus_waelevation
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_warningstatus_wafeedindexer
+- trl: mid-dish/ds-manager/ska036/management_warningstatus_wafeedindexer
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_warningstatus_wahatchazbearing
+- trl: mid-dish/ds-manager/ska036/management_warningstatus_wahatchazbearing
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_warningstatus_wahatchpscroof
+- trl: mid-dish/ds-manager/ska036/management_warningstatus_wahatchpscroof
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_warningstatus_wahornon
+- trl: mid-dish/ds-manager/ska036/management_warningstatus_wahornon
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_warningstatus_wamngmnt
+- trl: mid-dish/ds-manager/ska036/management_warningstatus_wamngmnt
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_warningstatus_waovertempdrive
+- trl: mid-dish/ds-manager/ska036/management_warningstatus_waovertempdrive
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_warningstatus_waovertempemisc
+- trl: mid-dish/ds-manager/ska036/management_warningstatus_waovertempemisc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_warningstatus_waovertempped
+- trl: mid-dish/ds-manager/ska036/management_warningstatus_waovertempped
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_warningstatus_waovertemppsc
+- trl: mid-dish/ds-manager/ska036/management_warningstatus_waovertemppsc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_warningstatus_wapoint
+- trl: mid-dish/ds-manager/ska036/management_warningstatus_wapoint
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_warningstatus_wasafe2approachlight
+- trl: mid-dish/ds-manager/ska036/management_warningstatus_wasafe2approachlight
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_warningstatus_wasafety
+- trl: mid-dish/ds-manager/ska036/management_warningstatus_wasafety
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_warningstatus_wastwpin
+- trl: mid-dish/ds-manager/ska036/management_warningstatus_wastwpin
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_warningstatus_watime
+- trl: mid-dish/ds-manager/ska036/management_warningstatus_watime
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/management_warningstatus_watrack
+- trl: mid-dish/ds-manager/ska036/management_warningstatus_watrack
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_ambtempparameters_ambtempparam1
+- trl: mid-dish/ds-manager/ska036/pointing_ambtempparameters_ambtempparam1
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_ambtempparameters_ambtempparam2
+- trl: mid-dish/ds-manager/ska036/pointing_ambtempparameters_ambtempparam2
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_ambtempparameters_ambtempparam3
+- trl: mid-dish/ds-manager/ska036/pointing_ambtempparameters_ambtempparam3
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_ambtempparameters_ambtempparam4
+- trl: mid-dish/ds-manager/ska036/pointing_ambtempparameters_ambtempparam4
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_ambtempparameters_ambtempparam5
+- trl: mid-dish/ds-manager/ska036/pointing_ambtempparameters_ambtempparam5
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_ambtempparameters_ambtempparam6
+- trl: mid-dish/ds-manager/ska036/pointing_ambtempparameters_ambtempparam6
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_ambtempparameters_filt_dt
+- trl: mid-dish/ds-manager/ska036/pointing_ambtempparameters_filt_dt
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_staticpmparameters_dimensions
+- trl: mid-dish/ds-manager/ska036/pointing_staticpmparameters_dimensions
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_staticpmparameters_indexmax
+- trl: mid-dish/ds-manager/ska036/pointing_staticpmparameters_indexmax
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_staticpmparameters_indexmin
+- trl: mid-dish/ds-manager/ska036/pointing_staticpmparameters_indexmin
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_status_actambtemp_east
+- trl: mid-dish/ds-manager/ska036/pointing_status_actambtemp_east
   configuration:
     code_push_event: true
     archive_abs_change: 0.5
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_status_actambtemp_south
+- trl: mid-dish/ds-manager/ska036/pointing_status_actambtemp_south
   configuration:
     code_push_event: true
     archive_abs_change: 0.5
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_status_actambtemp_west
+- trl: mid-dish/ds-manager/ska036/pointing_status_actambtemp_west
   configuration:
     code_push_event: true
     archive_abs_change: 0.5
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_status_ambtempcorractive
+- trl: mid-dish/ds-manager/ska036/pointing_status_ambtempcorractive
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_status_ambtempcorrval_az
+- trl: mid-dish/ds-manager/ska036/pointing_status_ambtempcorrval_az
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_status_ambtempcorrval_el
+- trl: mid-dish/ds-manager/ska036/pointing_status_ambtempcorrval_el
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es7
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_status_bandforcorr
+- trl: mid-dish/ds-manager/ska036/pointing_status_bandforcorr
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_status_staticcorractive
+- trl: mid-dish/ds-manager/ska036/pointing_status_staticcorractive
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_status_staticpmcorrval_az
+- trl: mid-dish/ds-manager/ska036/pointing_status_staticpmcorrval_az
   configuration:
     code_push_event: true
     archive_abs_change: 0.1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_status_staticpmcorrval_el
+- trl: mid-dish/ds-manager/ska036/pointing_status_staticpmcorrval_el
   configuration:
     code_push_event: true
     archive_abs_change: 0.1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_status_tiltcorractive
+- trl: mid-dish/ds-manager/ska036/pointing_status_tiltcorractive
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_status_tiltcorrval_az
+- trl: mid-dish/ds-manager/ska036/pointing_status_tiltcorrval_az
   configuration:
     code_push_event: true
     archive_abs_change: 0.1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_status_tiltcorrval_el
+- trl: mid-dish/ds-manager/ska036/pointing_status_tiltcorrval_el
   configuration:
     code_push_event: true
     archive_abs_change: 0.1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_status_tiltone_on
+- trl: mid-dish/ds-manager/ska036/pointing_status_tiltone_on
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_status_tilttemp_one
+- trl: mid-dish/ds-manager/ska036/pointing_status_tilttemp_one
   configuration:
     code_push_event: true
     archive_abs_change: 0.1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_status_tilttemp_two
+- trl: mid-dish/ds-manager/ska036/pointing_status_tilttemp_two
   configuration:
     code_push_event: true
     archive_abs_change: 0.1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_status_tilttwo_on
+- trl: mid-dish/ds-manager/ska036/pointing_status_tilttwo_on
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_status_tiltxarcsec_one
+- trl: mid-dish/ds-manager/ska036/pointing_status_tiltxarcsec_one
   configuration:
     code_push_event: true
     archive_abs_change: 0.5
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_status_tiltxarcsec_two
+- trl: mid-dish/ds-manager/ska036/pointing_status_tiltxarcsec_two
   configuration:
     code_push_event: true
     archive_abs_change: 0.5
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_status_tiltxfilt_one
+- trl: mid-dish/ds-manager/ska036/pointing_status_tiltxfilt_one
   configuration:
     code_push_event: true
     archive_abs_change: 0.5
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_status_tiltxfilt_two
+- trl: mid-dish/ds-manager/ska036/pointing_status_tiltxfilt_two
   configuration:
     code_push_event: true
     archive_abs_change: 0.5
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_status_tiltxraw_mv_one
+- trl: mid-dish/ds-manager/ska036/pointing_status_tiltxraw_mv_one
   configuration:
     code_push_event: true
     archive_abs_change: 0.01
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_status_tiltxraw_mv_two
+- trl: mid-dish/ds-manager/ska036/pointing_status_tiltxraw_mv_two
   configuration:
     code_push_event: true
     archive_abs_change: 0.01
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_status_tiltyarcsec_one
+- trl: mid-dish/ds-manager/ska036/pointing_status_tiltyarcsec_one
   configuration:
     code_push_event: true
     archive_abs_change: 0.5
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_status_tiltyarcsec_two
+- trl: mid-dish/ds-manager/ska036/pointing_status_tiltyarcsec_two
   configuration:
     code_push_event: true
     archive_abs_change: 0.5
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_status_tiltyfilt_one
+- trl: mid-dish/ds-manager/ska036/pointing_status_tiltyfilt_one
   configuration:
     code_push_event: true
     archive_abs_change: 0.5
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_status_tiltyfilt_two
+- trl: mid-dish/ds-manager/ska036/pointing_status_tiltyfilt_two
   configuration:
     code_push_event: true
     archive_abs_change: 0.5
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_status_tiltyraw_mv_one
+- trl: mid-dish/ds-manager/ska036/pointing_status_tiltyraw_mv_one
   configuration:
     code_push_event: true
     archive_abs_change: 0.01
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/pointing_status_tiltyraw_mv_two
+- trl: mid-dish/ds-manager/ska036/pointing_status_tiltyraw_mv_two
   configuration:
     code_push_event: true
     archive_abs_change: 0.01
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmeterone_tilt_temp_scale
+- trl: mid-dish/ds-manager/ska036/tiltmeterparameters_tiltmeterone_tilt_temp_scale
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmeterone_tiltmeter_serial_no
+- trl: mid-dish/ds-manager/ska036/tiltmeterparameters_tiltmeterone_tiltmeter_serial_no
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmeterone_x_filt_dt
+- trl: mid-dish/ds-manager/ska036/tiltmeterparameters_tiltmeterone_x_filt_dt
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmeterone_x_off
+- trl: mid-dish/ds-manager/ska036/tiltmeterparameters_tiltmeterone_x_off
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmeterone_x_offtc
+- trl: mid-dish/ds-manager/ska036/tiltmeterparameters_tiltmeterone_x_offtc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmeterone_x_scale
+- trl: mid-dish/ds-manager/ska036/tiltmeterparameters_tiltmeterone_x_scale
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmeterone_x_scaletc
+- trl: mid-dish/ds-manager/ska036/tiltmeterparameters_tiltmeterone_x_scaletc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmeterone_x_zero
+- trl: mid-dish/ds-manager/ska036/tiltmeterparameters_tiltmeterone_x_zero
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmeterone_x_zerotc
+- trl: mid-dish/ds-manager/ska036/tiltmeterparameters_tiltmeterone_x_zerotc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmeterone_y_filt_dt
+- trl: mid-dish/ds-manager/ska036/tiltmeterparameters_tiltmeterone_y_filt_dt
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmeterone_y_off
+- trl: mid-dish/ds-manager/ska036/tiltmeterparameters_tiltmeterone_y_off
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmeterone_y_offtc
+- trl: mid-dish/ds-manager/ska036/tiltmeterparameters_tiltmeterone_y_offtc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmeterone_y_scale
+- trl: mid-dish/ds-manager/ska036/tiltmeterparameters_tiltmeterone_y_scale
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmeterone_y_scaletc
+- trl: mid-dish/ds-manager/ska036/tiltmeterparameters_tiltmeterone_y_scaletc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmeterone_y_zero
+- trl: mid-dish/ds-manager/ska036/tiltmeterparameters_tiltmeterone_y_zero
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmeterone_y_zerotc
+- trl: mid-dish/ds-manager/ska036/tiltmeterparameters_tiltmeterone_y_zerotc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmetertwo_tilt_temp_scale
+- trl: mid-dish/ds-manager/ska036/tiltmeterparameters_tiltmetertwo_tilt_temp_scale
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmetertwo_tiltmeter_serial_no
+- trl: mid-dish/ds-manager/ska036/tiltmeterparameters_tiltmetertwo_tiltmeter_serial_no
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmetertwo_x_filt_dt
+- trl: mid-dish/ds-manager/ska036/tiltmeterparameters_tiltmetertwo_x_filt_dt
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmetertwo_x_off
+- trl: mid-dish/ds-manager/ska036/tiltmeterparameters_tiltmetertwo_x_off
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmetertwo_x_offtc
+- trl: mid-dish/ds-manager/ska036/tiltmeterparameters_tiltmetertwo_x_offtc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmetertwo_x_scale
+- trl: mid-dish/ds-manager/ska036/tiltmeterparameters_tiltmetertwo_x_scale
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmetertwo_x_scaletc
+- trl: mid-dish/ds-manager/ska036/tiltmeterparameters_tiltmetertwo_x_scaletc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmetertwo_x_zero
+- trl: mid-dish/ds-manager/ska036/tiltmeterparameters_tiltmetertwo_x_zero
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmetertwo_x_zerotc
+- trl: mid-dish/ds-manager/ska036/tiltmeterparameters_tiltmetertwo_x_zerotc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmetertwo_y_filt_dt
+- trl: mid-dish/ds-manager/ska036/tiltmeterparameters_tiltmetertwo_y_filt_dt
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmetertwo_y_off
+- trl: mid-dish/ds-manager/ska036/tiltmeterparameters_tiltmetertwo_y_off
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmetertwo_y_offtc
+- trl: mid-dish/ds-manager/ska036/tiltmeterparameters_tiltmetertwo_y_offtc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmetertwo_y_scale
+- trl: mid-dish/ds-manager/ska036/tiltmeterparameters_tiltmetertwo_y_scale
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmetertwo_y_scaletc
+- trl: mid-dish/ds-manager/ska036/tiltmeterparameters_tiltmetertwo_y_scaletc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmetertwo_y_zero
+- trl: mid-dish/ds-manager/ska036/tiltmeterparameters_tiltmetertwo_y_zero
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmetertwo_y_zerotc
+- trl: mid-dish/ds-manager/ska036/tiltmeterparameters_tiltmetertwo_y_zerotc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/safety_status_autostowactive
+- trl: mid-dish/ds-manager/ska036/safety_status_autostowactive
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/safety_status_axes_initfault
+- trl: mid-dish/ds-manager/ska036/safety_status_axes_initfault
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/safety_status_estopfi
+- trl: mid-dish/ds-manager/ska036/safety_status_estopfi
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/safety_status_estophhp
+- trl: mid-dish/ds-manager/ska036/safety_status_estophhp
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/safety_status_estopped
+- trl: mid-dish/ds-manager/ska036/safety_status_estopped
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/safety_status_estopturnhead
+- trl: mid-dish/ds-manager/ska036/safety_status_estopturnhead
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/safety_status_hatchazbearing
+- trl: mid-dish/ds-manager/ska036/safety_status_hatchazbearing
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/safety_status_interlockclearable
+- trl: mid-dish/ds-manager/ska036/safety_status_interlockclearable
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/safety_status_lim2_ccw_az
+- trl: mid-dish/ds-manager/ska036/safety_status_lim2_ccw_az
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/safety_status_lim2_ccw_fi
+- trl: mid-dish/ds-manager/ska036/safety_status_lim2_ccw_fi
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/safety_status_lim2_cw_az
+- trl: mid-dish/ds-manager/ska036/safety_status_lim2_cw_az
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/safety_status_lim2_cw_fi
+- trl: mid-dish/ds-manager/ska036/safety_status_lim2_cw_fi
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/safety_status_lim2_dn_el
+- trl: mid-dish/ds-manager/ska036/safety_status_lim2_dn_el
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/safety_status_lim2_up_el
+- trl: mid-dish/ds-manager/ska036/safety_status_lim2_up_el
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/safety_status_safetylockout_az
+- trl: mid-dish/ds-manager/ska036/safety_status_safetylockout_az
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/safety_status_safetylockout_el
+- trl: mid-dish/ds-manager/ska036/safety_status_safetylockout_el
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/safety_status_safetylockout_fi
+- trl: mid-dish/ds-manager/ska036/safety_status_safetylockout_fi
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/safety_status_safetystate
+- trl: mid-dish/ds-manager/ska036/safety_status_safetystate
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/safety_status_sto_az
+- trl: mid-dish/ds-manager/ska036/safety_status_sto_az
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/safety_status_sto_el
+- trl: mid-dish/ds-manager/ska036/safety_status_sto_el
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/safety_status_sto_fi
+- trl: mid-dish/ds-manager/ska036/safety_status_sto_fi
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/safety_status_stowpinstatus
+- trl: mid-dish/ds-manager/ska036/safety_status_stowpinstatus
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/time_cds_status_dsctimesyncsource
+- trl: mid-dish/ds-manager/ska036/time_cds_status_dsctimesyncsource
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/time_cds_status_leapsecptp
+- trl: mid-dish/ds-manager/ska036/time_cds_status_leapsecptp
   configuration:
     code_push_event: true
     archive_abs_change: 0.001
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/time_cds_status_taioffset
+- trl: mid-dish/ds-manager/ska036/time_cds_status_taioffset
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/time_cds_status_timesourceaddrntp
+- trl: mid-dish/ds-manager/ska036/time_cds_status_timesourceaddrntp
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/time_cds_status_timesynced
+- trl: mid-dish/ds-manager/ska036/time_cds_status_timesynced
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/time_cds_status_utctoskaepochsec
+- trl: mid-dish/ds-manager/ska036/time_cds_status_utctoskaepochsec
   configuration:
     code_push_event: true
     archive_abs_change: 0.001
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/tracking_polystatus_act_polyvalue_az
+- trl: mid-dish/ds-manager/ska036/tracking_polystatus_act_polyvalue_az
   configuration:
     code_push_event: true
     archive_abs_change: 0.0001
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/tracking_polystatus_act_polyvalue_el
+- trl: mid-dish/ds-manager/ska036/tracking_polystatus_act_polyvalue_el
   configuration:
     code_push_event: true
     archive_abs_change: 0.0001
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/tracking_polystatus_pts_completed
+- trl: mid-dish/ds-manager/ska036/tracking_polystatus_pts_completed
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/tracking_polystatus_pts_datavalid
+- trl: mid-dish/ds-manager/ska036/tracking_polystatus_pts_datavalid
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/tracking_polystatus_pts_err
+- trl: mid-dish/ds-manager/ska036/tracking_polystatus_pts_err
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/tracking_polystatus_pts_interpolerror
+- trl: mid-dish/ds-manager/ska036/tracking_polystatus_pts_interpolerror
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/tracking_polystatus_pts_running
+- trl: mid-dish/ds-manager/ska036/tracking_polystatus_pts_running
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/tracking_polystatus_pts_startpos
+- trl: mid-dish/ds-manager/ska036/tracking_polystatus_pts_startpos
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/tracking_polystatus_pts_timedistfault
+- trl: mid-dish/ds-manager/ska036/tracking_polystatus_pts_timedistfault
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/tracking_polystatus_pts_trackid_err
+- trl: mid-dish/ds-manager/ska036/tracking_polystatus_pts_trackid_err
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/tracking_status_tr_initok
+- trl: mid-dish/ds-manager/ska036/tracking_status_tr_initok
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/tracking_status_tr_obj_valid
+- trl: mid-dish/ds-manager/ska036/tracking_status_tr_obj_valid
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/tracking_status_tr_selpoly
+- trl: mid-dish/ds-manager/ska036/tracking_status_tr_selpoly
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/tracking_status_tr_valid
+- trl: mid-dish/ds-manager/ska036/tracking_status_tr_valid
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/tracking_tablestatus_act_pt_value_az
+- trl: mid-dish/ds-manager/ska036/tracking_tablestatus_act_pt_value_az
   configuration:
     code_push_event: true
     archive_abs_change: 0.0001
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/tracking_tablestatus_act_pt_value_el
+- trl: mid-dish/ds-manager/ska036/tracking_tablestatus_act_pt_value_el
   configuration:
     code_push_event: true
     archive_abs_change: 0.0001
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/tracking_tablestatus_pts_completed
+- trl: mid-dish/ds-manager/ska036/tracking_tablestatus_pts_completed
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/tracking_tablestatus_pts_datavalid
+- trl: mid-dish/ds-manager/ska036/tracking_tablestatus_pts_datavalid
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/tracking_tablestatus_pts_err
+- trl: mid-dish/ds-manager/ska036/tracking_tablestatus_pts_err
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/tracking_tablestatus_pts_interpol
+- trl: mid-dish/ds-manager/ska036/tracking_tablestatus_pts_interpol
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/tracking_tablestatus_pts_interpolerror
+- trl: mid-dish/ds-manager/ska036/tracking_tablestatus_pts_interpolerror
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/tracking_tablestatus_pts_running
+- trl: mid-dish/ds-manager/ska036/tracking_tablestatus_pts_running
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/tracking_tablestatus_pts_startpos
+- trl: mid-dish/ds-manager/ska036/tracking_tablestatus_pts_startpos
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/tracking_tablestatus_pts_tablealmostfull
+- trl: mid-dish/ds-manager/ska036/tracking_tablestatus_pts_tablealmostfull
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/state
+- trl: mid-dish/ds-manager/ska036/state
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es9
   th: th1
-- trl: mid-dish/ds-manager/ska001/status
+- trl: mid-dish/ds-manager/ska036/status
   configuration:
     code_push_event: true
     archive_abs_change: 1
