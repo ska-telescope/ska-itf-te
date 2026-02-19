@@ -4,6 +4,8 @@
 * [AT-3511] & [AT-3512]
   * Create `testing` namespace and jobs for its deployment
   * Ensure OSO tools are enabled in the new namespace job's enablers
+* [AT-3533]
+  * Corrections to dish EDA attributes to remove attributes not configured for push events
 
 ## 29.5.1
 * [AT-3531]
