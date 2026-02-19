@@ -17,8 +17,8 @@ variables:
   # K8S_INSTALL_FROM_CAR: "false"remove redundant cache
 stages:
   - on_demand_itf_sut
-  - deploy-supplementary-services
   - build
+  - deploy-supplementary-services
   - deploy-dish-aiv
   - remove-dish-aiv
   - test
