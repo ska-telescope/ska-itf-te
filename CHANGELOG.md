@@ -4,6 +4,8 @@
 * [AT-3551]
   * Add Octopus dependencies and configuration for Mid ITF.
   * Add deployment jobs for Octopus to Mid ITF.
+* [AT-3533]
+  * Corrections to dish EDA attributes to remove attributes not configured for push events
 
 ## 29.5.1
 * [AT-3531]
