@@ -261,6 +261,7 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	$(DISH_ENABLERS) \
 	$(ODA_ENABLERS) \
 	$(DPD_ENABLERS) \
+	$(OCTOPUS_ENABLERS) \
 
 
 TMC_VALUES_PATH?=charts/ska-mid/tmc-values.yaml

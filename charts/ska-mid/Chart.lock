@@ -59,5 +59,11 @@ dependencies:
 - name: ska-log-consumer
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.1.6
-digest: sha256:511342e4f63785b46a9510665dac4e5b88984074217fbe93adcd49a236a8b703
-generated: "2026-02-06T10:47:52.976111157+02:00"
+- name: ska-octopus-backend
+  repository: https://artefact.skao.int/repository/helm-internal
+  version: 0.1.70
+- name: ska-octopus-frontend
+  repository: https://artefact.skao.int/repository/helm-internal
+  version: 0.1.70
+digest: sha256:f627704007a4b408719edebeefdd6ab887b0eb683209f12436e19f5f1314f052
+generated: "2026-02-19T13:04:36.840090436+02:00"
