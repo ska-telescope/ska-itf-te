@@ -43,6 +43,8 @@
         KUBE_NAMESPACE_PREFIX: testing-dish-lmc-
         ENV_NAME: dish.itf/dish-lmc-aa05/testing
       allow_failure: true
+  environment:
+    name: $ENV_NAME
 
 deploy-aa05-dishes:
   extends:
