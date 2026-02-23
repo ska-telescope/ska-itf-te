@@ -3,7 +3,7 @@
 ## Unreleased
 * [AT-3537]
   * update dish-lmc and spfrx revisions
-* [AT-3551]
+* [AT-3515]
   * Add Octopus dependencies and configuration for Mid ITF.
   * Add deployment jobs for Octopus to Mid ITF.
 * [AT-3533]
