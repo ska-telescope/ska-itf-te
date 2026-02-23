@@ -17,8 +17,8 @@ variables:
   # K8S_INSTALL_FROM_CAR: "false"remove redundant cache
 stages:
   - on_demand_itf_sut
-  - deploy-supplementary-services
   - build
+  - deploy-supplementary-services
   - deploy-dish-aiv
   - remove-dish-aiv
   - test
@@ -71,6 +71,7 @@ include:
   - local: .gitlab/ci/za-itf/sdp-data-product-dashboard/.pipeline.yaml
   - local: .gitlab/ci/za-itf/cbf-engineering-console/.pipeline.yaml
   - local: .gitlab/ci/za-itf/eda-grafana-connector/.pipeline.yaml
+  - local: .gitlab/ci/za-itf/octopus/.pipeline.yaml
   - local: .gitlab/ci/za-itf/testing/.pipeline.yaml
 
 

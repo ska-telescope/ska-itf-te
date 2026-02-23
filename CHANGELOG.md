@@ -4,6 +4,9 @@
 * [AT-3511] & [AT-3512]
   * Create `testing` namespace and jobs for its deployment
   * Ensure OSO tools are enabled in the new namespace job's enablers
+* [AT-3551]
+  * Add Octopus dependencies and configuration for Mid ITF.
+  * Add deployment jobs for Octopus to Mid ITF.
 * [AT-3533]
   * Corrections to dish EDA attributes to remove attributes not configured for push events
 

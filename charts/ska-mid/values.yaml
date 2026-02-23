@@ -325,3 +325,37 @@ temp_sdp_pvc:
   enabled: false
   dpd_namespace: ska-dpd
   dpd_pvc: shared-mnl
+
+ska-octopus-frontend:
+  enabled: false
+  backendServiceName: ska-octopus-backend
+  ingress:
+    paths:
+      frontend: "/octopus/ska-octopus-frontend"
+
+ska-octopus-backend:
+  enabled: false
+  ingress:
+    paths:
+      backend: "/octopus/ska-octopus-backend"
+  authUsers:
+    secretName: octopus-auth-users
+    secretKey: auth-users.json
+    optional: true
+  configUi:
+    password:
+      secretName: octopus-config-ui-password
+      secretKey: cfg-ui-password
+      optional: true
+  vars:
+    TANGO_HTTP_URL_CENTRAL_CONTROLLER: "http://tangogql-staging.staging.svc.miditf.internal.skao.int:5004/db"
+    TANGO_WS_URL_CENTRAL_CONTROLLER: "ws://tangogql-staging.staging.svc.miditf.internal.skao.int:5004/socket"
+    TANGO_HTTP_URL_DISH_SKA001: "http://tangogql-staging-ska001.staging.svc.miditf.internal.skao.int:5004/db"
+    TANGO_WS_URL_DISH_SKA001: "ws://tangogql-staging-ska001.staging.svc.miditf.internal.skao.int:5004/socket"
+    TANGO_HTTP_URL_DISH_SKA036: "http://tangogql-staging-ska036.staging.svc.miditf.internal.skao.int:5004/db"
+    TANGO_WS_URL_DISH_SKA036: "ws://tangogql-staging-ska036.staging.svc.miditf.internal.skao.int:5004/socket"
+    TANGO_HTTP_URL_DISH_SKA063: "http://tangogql-staging-ska063.staging.svc.miditf.internal.skao.int:5004/db"
+    TANGO_WS_URL_DISH_SKA063: "ws://tangogql-staging-ska063.staging.svc.miditf.internal.skao.int:5004/socket"
+    TANGO_HTTP_URL_DISH_SKA100: "http://tangogql-staging-ska100.staging.svc.miditf.internal.skao.int:5004/db"
+    TANGO_WS_URL_DISH_SKA100: "ws://tangogql-staging-ska100.staging.svc.miditf.internal.skao.int:5004/socket"
+    ODA_URL: "http://ska-db-oda-rest-staging.staging.svc.miditf.internal.skao.int:5000/oda/api/v14"
