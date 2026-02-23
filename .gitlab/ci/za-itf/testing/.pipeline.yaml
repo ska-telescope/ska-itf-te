@@ -34,19 +34,19 @@
       variables:
         KUBE_NAMESPACE: testing-$KUBE_APP-$DISH_ID
         KUBE_NAMESPACE_PREFIX: testing-dish-lmc-
-        ENV_NAME: dish.itf/dish-lmc-aa05/testing
+        ENV_NAME: dish.itf/dish-lmc-testing/testing
       allow_failure: true
     - if: "$CI_COMMIT_TAG"
       when: manual
       variables:
         KUBE_NAMESPACE: testing-$KUBE_APP-$DISH_ID
         KUBE_NAMESPACE_PREFIX: testing-dish-lmc-
-        ENV_NAME: dish.itf/dish-lmc-aa05/testing
+        ENV_NAME: dish.itf/dish-lmc-testing/testing
       allow_failure: true
   environment:
     name: $ENV_NAME
 
-deploy-aa05-dishes:
+deploy-testing-dishes:
   extends:
     - .testing-env
   script:
@@ -56,11 +56,11 @@ deploy-aa05-dishes:
     - echo "Deploying dishes $DISH_IDS:"
     - make itf-dish-ids
   environment:
-    on_stop: uninstall-aa05-dishes
+    on_stop: uninstall-testing-dishes
   variables:
     SUT_CHART_DIR: ${CI_PROJECT_DIR}/charts/ska-mid
 
-uninstall-aa05-dishes:
+uninstall-testing-dishes:
   extends:
     - .testing-env
   script:
