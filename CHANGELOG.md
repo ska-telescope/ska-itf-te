@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3540]
+  * Updated sequence diagrammer
 * [AT-3551]
   * Add Octopus dependencies and configuration for Mid ITF.
   * Add deployment jobs for Octopus to Mid ITF.
