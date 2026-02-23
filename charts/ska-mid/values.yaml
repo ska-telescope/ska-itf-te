@@ -58,22 +58,33 @@ ska-dataproduct-dashboard:
 # OSO
 ska-oso-integration:
   enabled: false
-  ska-oso-slt-services:
-    secretProvider:
-      enabled: false
   ska-db-oda-umbrella:
-    enabled: false
-  ska-oso-pht-services:
+    enabled: true # The ODA API server should be deployed in the same namespace as the apps, but not the database
+    postgres:
+      enabled: false
+    ska-db-oda:
+      rest:
+        enabled: true
+      initPostgres:
+        runJob: false
+  ska-oso-services:
+    vault:
+      enabled: false
+  ska-oso-slt-services:
     secretProvider:
       enabled: false
   
 # ODA
 ska-db-oda-umbrella:
   enabled: false
-  ska-ser-skuid:
-    skuid:
-      config:
-        generator_id: miditf
+#  The below would make the db deploy but not the API server
+  postgres:
+    enabled: true
+  ska-db-oda:
+    rest:
+      enabled: false
+    initPostgres:
+      runJob: true
 
 # DISH LMC
 ska-dish-lmc:
@@ -116,12 +127,12 @@ ska-mid-cbf-engineering-console:
   enabled: false
   # Comment section below to use engineering-console image from CAR
   # Uncomment section below to use engineering-console image from gitlab
-  # engineeringconsole:
-  #   image:
-  #     registry: registry.gitlab.com/ska-telescope/ska-mid-cbf-engineering-console
-  #     image: ska-mid-cbf-engineering-console
-  #     tag: 0.10.10-dev.caa2206e3
-  #     pullPolicy: IfNotPresent
+  engineeringconsole:
+    image:
+      registry: registry.gitlab.com/ska-telescope/ska-mid-cbf-engineering-console
+      image: ska-mid-cbf-engineering-console
+      tag: 1.1.10-dev.c5b25fbd3
+      pullPolicy: IfNotPresent
 
 # CBF Talon Demonstration Correlator Master Control Software
 ska-mid-cbf-tdc-mcs:
@@ -212,11 +223,13 @@ ska-tango-archiver:
         # e.g: timescale_databases: ""
         timescale_databases: itf_eda
   archwizard_config: MyHDB=tango://tango-databaseds:10000/mid-eda/cm/01
-  configuration_file_url: https://gitlab.com/ska-telescope/ska-mid-itf/-/raw/26.1.1/tmdata/mid-itf-staging-archiver-configs/dish-lmc-ska001.yaml?ref_type=tags&inline=false
+  configuration_file_url: https://gitlab.com/ska-telescope/ska-mid/-/raw/main/tmdata/mid-itf-staging-archiver-configs/staging-config.yaml?ref_type=heads&inline=false
   configuration_manager: mid-eda/cm/01
   dbname: itf_eda
   dbuser: admin
   event_subscriber: mid-eda/es/01
+  is_auto_config_format_new: true
+  event_subscriber_count: 9
   hostname: eda.ska-tango-archiver
   port: 5432
   telescope: SKA-mid
@@ -271,6 +284,8 @@ ska-tmc-mid:
       dish: true
       sdp: false
     centralnode:
+      DefaultArrayLayoutSourceURIs: "car:ska-mid?main#tmdata"
+      DefaultArrayLayoutPath: "instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json"      
       DishVccConfig:
         DishVccUri: "car:ska-mid?27.3.0#tmdata"
         DishVccFilePath: "instrument/ska1_mid_itf/vcc-config/ska-mid-cbf-system-parameters.json"
@@ -280,8 +295,6 @@ ska-tmc-mid:
       # DelayModelTimeInAdvance: 30
       # DelayValidityPeriod: 20.0
       # SleepTime: 1.5
-      TelmodelSource: car:ska-mid?main#tmdata
-      TelmodelPath: instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json
     sdpsubarrayleafnode:
       CommandTimeOutDefault: 240
     subarraynode:
@@ -312,3 +325,37 @@ temp_sdp_pvc:
   enabled: false
   dpd_namespace: ska-dpd
   dpd_pvc: shared-mnl
+
+ska-octopus-frontend:
+  enabled: false
+  backendServiceName: ska-octopus-backend
+  ingress:
+    paths:
+      frontend: "/octopus/ska-octopus-frontend"
+
+ska-octopus-backend:
+  enabled: false
+  ingress:
+    paths:
+      backend: "/octopus/ska-octopus-backend"
+  authUsers:
+    secretName: octopus-auth-users
+    secretKey: auth-users.json
+    optional: true
+  configUi:
+    password:
+      secretName: octopus-config-ui-password
+      secretKey: cfg-ui-password
+      optional: true
+  vars:
+    TANGO_HTTP_URL_CENTRAL_CONTROLLER: "http://tangogql-staging.staging.svc.miditf.internal.skao.int:5004/db"
+    TANGO_WS_URL_CENTRAL_CONTROLLER: "ws://tangogql-staging.staging.svc.miditf.internal.skao.int:5004/socket"
+    TANGO_HTTP_URL_DISH_SKA001: "http://tangogql-staging-ska001.staging.svc.miditf.internal.skao.int:5004/db"
+    TANGO_WS_URL_DISH_SKA001: "ws://tangogql-staging-ska001.staging.svc.miditf.internal.skao.int:5004/socket"
+    TANGO_HTTP_URL_DISH_SKA036: "http://tangogql-staging-ska036.staging.svc.miditf.internal.skao.int:5004/db"
+    TANGO_WS_URL_DISH_SKA036: "ws://tangogql-staging-ska036.staging.svc.miditf.internal.skao.int:5004/socket"
+    TANGO_HTTP_URL_DISH_SKA063: "http://tangogql-staging-ska063.staging.svc.miditf.internal.skao.int:5004/db"
+    TANGO_WS_URL_DISH_SKA063: "ws://tangogql-staging-ska063.staging.svc.miditf.internal.skao.int:5004/socket"
+    TANGO_HTTP_URL_DISH_SKA100: "http://tangogql-staging-ska100.staging.svc.miditf.internal.skao.int:5004/db"
+    TANGO_WS_URL_DISH_SKA100: "ws://tangogql-staging-ska100.staging.svc.miditf.internal.skao.int:5004/socket"
+    ODA_URL: "http://ska-db-oda-rest-staging.staging.svc.miditf.internal.skao.int:5000/oda/api/v14"

@@ -1,12 +1,38 @@
 # Version History
 
 ## Unreleased
-* [AT-3456]
-  * Add eda config generator snippet.
+* [AT-3551]
+  * Add Octopus dependencies and configuration for Mid ITF.
+  * Add deployment jobs for Octopus to Mid ITF.
+* [AT-3533]
+  * Corrections to dish EDA attributes to remove attributes not configured for push events
+
+## 29.5.1
+* [AT-3531]
+  * Update reference to tm data source and path in the ska-mid chart values
+    * Remove the keys from cspsubarrayleafnode and add keys to centralnode
+
+## 29.5.0
+* [SKB-1203]
+  * Update tmc to 1.12.0
+  * Fix incorrect phase wrap introduced with tmc v1.12.0 by pointing to the correct layout file in `assign_resources.json` instead of in the chart values file (possibly to be removed later)
+  * Include these new keys in the bdd test step that updates the `assign_resources.json` file if overrides are provided
+* [SDR-1616] & [AT-3484]
+  * Bring OSO back into ska-mid (ska-oso-integration v1.0.0) for staging and integration namespaces
+  * Update ODA umbrella to v14.0.4
+* [ST-2701]
+  * Added Helm chart caching to speed up k8s-testrunner execution.
 * [SKB-1146]
   * Update default target in assign resource default payload to match target used currently for site observations.
+  * Update assign resources payload method to dynamically set field_a target coordinates based on pointing target env vars.
+* [AT-3456]
+  * Add eda config generator snippet.
 * [SKB-1174]
   * Integrate full release of ska-tango-archiver resolving SKB-1174 (5.0.1)
+* [AT-3476]
+  * Update csp-lmc to 1.3.0
+* [AT-3503]
+  * Add dish updated archiver configs for itf and staging and set multi ES configuration for the EDA
 
 ## 29.4.0
 * [AT-3422]
@@ -57,6 +83,8 @@
   * CBF MCS 1.3.8 and engineering console 1.1.10 updates to fix skb-1075
 * [AT-3451]
   * Create `ska-mid-cbf-system-parameters.json` for site, separate from the ITF one
+* [MAP-502]
+  * update cbf ec deployer image
 * [AT-3454]
   * Update spfrx ec deployer to 1.4.4
 * [AT-3459]

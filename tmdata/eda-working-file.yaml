@@ -1,9 +1,0 @@
-db: tango-databaseds.dish-lmc-ska001.svc.ska001.mid.internal.skao.int:10000
-manager: mid-eda/cm/01
-archiver: mid-eda/es/01
- 
-configuration:
-- class: Spfc
-  attributes:
-    healthstate:
-      code_push_event: true

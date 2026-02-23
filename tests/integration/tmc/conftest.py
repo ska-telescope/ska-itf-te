@@ -10,7 +10,9 @@ from queue import Empty, Queue
 from time import localtime, sleep, strftime, time
 from typing import Any, Generator, List, Tuple
 
+import astropy.units as u
 import pytest
+from astropy.coordinates import SkyCoord
 from pytest_bdd import given, parsers, then, when
 from ska_control_model import HealthState, ObsState
 from tango import DeviceProxy, DevState, EventType
@@ -1313,15 +1315,42 @@ def update_assign_resources(
     assign_resources_payload["sdp"]["processing_blocks"][0]["parameters"]["pod_settings"][0][
         "nodeSelector"
     ] = node_selector_sdp_param
+
     if settings["telmodel_source"]:
+        assign_resources_payload["telmodel"]["source_uris"][0] = settings["telmodel_source"]
         assign_resources_payload["sdp"]["processing_blocks"][0]["parameters"]["extra_helm_values"][
             "receiver"
         ]["options"]["telescope_model"]["telmodel_source_uris"] = settings["telmodel_source"]
+
     if settings["dish_layout_telmodel_path"]:
+        assign_resources_payload["telmodel"]["array_layout_path"] = settings[
+            "dish_layout_telmodel_path"
+        ]
         assign_resources_payload["sdp"]["processing_blocks"][0]["parameters"]["extra_helm_values"][
             "receiver"
         ]["options"]["telescope_model"]["telmodel_key"] = settings["dish_layout_telmodel_path"]
 
+    if all(
+        [
+            settings["pointing_target_name"],
+            settings["pointing_target_right_ascension"],
+            settings["pointing_target_declination"],
+        ]
+    ):
+        pointing_coords = SkyCoord(
+            ra=settings["pointing_target_right_ascension"],
+            dec=settings["pointing_target_declination"],
+            unit=(u.hourangle, u.deg),
+        )
+        assign_resources_payload["sdp"]["execution_block"]["fields"][0]["phase_dir"][
+            "target_name"
+        ] = settings["pointing_target_name"]
+        # Update only field_a for now, which is used in science and science_band2 scans
+        for field in assign_resources_payload["sdp"]["execution_block"]["fields"]:
+            if field.get("field_id") == "field_a":
+                field["phase_dir"]["attrs"]["c1"] = pointing_coords.ra.value.round(8)
+                field["phase_dir"]["attrs"]["c2"] = pointing_coords.dec.value.round(8)
+                break
     return assign_resources_payload
 
 
