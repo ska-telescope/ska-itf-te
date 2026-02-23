@@ -4,6 +4,8 @@
 * [AT-3511] & [AT-3512]
   * Create `testing` namespace and jobs for its deployment
   * Ensure OSO tools are enabled in the new namespace job's enablers
+* [AT-3435]
+  * Add SKA036 EDA API deployment configuration and generate EDA API 0.0.12
 * [AT-3551]
   * Add Octopus dependencies and configuration for Mid ITF.
   * Add deployment jobs for Octopus to Mid ITF.
