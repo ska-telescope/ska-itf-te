@@ -28,6 +28,44 @@
     CBF_HW_IN_THE_LOOP: "false"
     DISH_LMC_IN_THE_LOOP: "true"
     SIM_MODE: "true"
+  rules:    
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: manual
+      variables:
+        KUBE_NAMESPACE: testing-$KUBE_APP-$DISH_ID
+        KUBE_NAMESPACE_PREFIX: testing-dish-lmc-
+        ENV_NAME: dish.itf/dish-lmc-aa05/testing
+      allow_failure: true
+    - if: "$CI_COMMIT_TAG"
+      when: manual
+      variables:
+        KUBE_NAMESPACE: testing-$KUBE_APP-$DISH_ID
+        KUBE_NAMESPACE_PREFIX: testing-dish-lmc-
+        ENV_NAME: dish.itf/dish-lmc-aa05/testing
+      allow_failure: true
+
+deploy-aa05-dishes:
+  extends:
+    - .testing-env
+  script:
+    - export PATH=.venv/bin:${PATH} # TEMPORARY COMMIT: fix in one place
+    - poetry install
+    - echo "Deploying multiple dishes in downstream dish-aiv stage - first deploy ska001 manually"
+    - echo "Deploying dishes $DISH_IDS:"
+    - make itf-dish-ids
+  environment:
+    on_stop: uninstall-aa05-dishes
+  variables:
+    SUT_CHART_DIR: ${CI_PROJECT_DIR}/charts/ska-mid
+
+uninstall-aa05-dishes:
+  extends:
+    - .testing-env
+  script:
+    - echo "Uninstalling all dishes in downstream dish-aiv stage"
+    - echo "Uninstalling 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
+  environment:
+    action: stop
 
 deploy-sut-testing:
   extends:
