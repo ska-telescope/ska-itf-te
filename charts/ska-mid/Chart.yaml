@@ -23,7 +23,7 @@ dependencies:
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tmc-mid.enabled
 
-# Mid WMS Simulator
+  # Mid WMS Simulator
   - name: ska-mid-wms
     version: 0.4.0
     repository: https://artefact.skao.int/repository/helm-internal
@@ -145,12 +145,12 @@ dependencies:
 
   # Octopus Suite
   - name: ska-octopus-backend
-    version: 0.1.70
+    version: 0.1.72
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-octopus-backend.enabled
-  
+
   - name: ska-octopus-frontend
-    version: 0.1.70
+    version: 0.1.72
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-octopus-frontend.enabled
 
