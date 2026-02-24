@@ -28,20 +28,6 @@
       allow_failure: true
     - when: never
 
-.testing_rules:
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "pipeline"
-      when: never
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      when: never
-    - if: "$CI_COMMIT_TAG"
-      when: manual
-      variables:
-        KUBE_NAMESPACE_PREFIX: testing-dish-lmc-
-        SPFRX_IN_THE_LOOP: "false"
-      allow_failure: true
-    - when: never
-
 # If the pipeline is being exectued as a downstream, do not lint
 # or build
 
