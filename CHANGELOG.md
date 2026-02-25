@@ -2,8 +2,7 @@
 
 ## Unreleased
 * [AT-3537]
-  * update dish-lmc, tmc, csp, mcs, ec and spfrx revisions for new s&m testing.
-  * added pst component.  set enabled=false for now
+  * update dish-lmc, tmc, csp and spfrx revisions for new states&modes testing.
 * [AT-3541]
   * Upgrade Octopus to 0.1.72
 * [AT-3435]
