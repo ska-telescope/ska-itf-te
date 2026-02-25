@@ -93,6 +93,9 @@ ska-dish-lmc:
     enabled: true
   ska-mid-dish-manager:
     enabled: true
+    dishmanager:
+      actions:
+        timeout_seconds: "300"
     # Leaving this here just as an example
     # dishmanager:
     #   image:
@@ -299,7 +302,10 @@ ska-tmc-mid:
       CommandTimeOutDefault: 240
     subarraynode:
       CommandTimeOutDefault: 300
+      AbortCommandTimeOut: 35
       CspScanInterfaceURL: https://schema.skao.int/ska-csp-scan/2.2   # TEMPORARY COMMIT - not to be overwritten in makefile
+    dishleafnode:
+      CommandTimeOutDefault: 320
   resources:
     # limits:
     #   cpu: 800m
