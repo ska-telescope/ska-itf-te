@@ -388,6 +388,7 @@ integration-test: k8s-info
 	set -o pipefail; $(PYTHON_RUNNER) pytest $(INTEGRATION_TEST_SOURCE) $(INTEGRATION_TEST_ARGS); \
 	echo $$? > build/status
 	@mv sequence-diagram.puml build/sequence-diagram.puml 2>/dev/null || echo "sequence diagram not moved"
+	@mv events_and_logs-ALL.txt build/events_and_logs-ALL.txt 2>/dev/null || echo "events and logs file not moved"
 
 upload-to-confluence:
 	@poetry run upload-to-confluence sut_config.yaml build/reports/cucumber.json

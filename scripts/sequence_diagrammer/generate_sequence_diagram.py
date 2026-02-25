@@ -7,6 +7,12 @@ from datetime import datetime, timezone
 from scripts.sequence_diagrammer.event_printer import EventPrinter, TrackedDevice
 from scripts.sequence_diagrammer.events_and_logs_parser import EventsAndLogsFileParser
 from scripts.sequence_diagrammer.log_retriever import LogRetriever
+from scripts.sequence_diagrammer.sequence_diagram_setup import (
+    # Functions
+    define_pods_for_logs,
+    define_tracked_device_trls,
+    setup_device_hierarchy,
+)
 
 # Submodule imports
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Directory of the script
@@ -14,12 +20,6 @@ SUBMODULE_PATH = os.path.abspath(os.path.join(BASE_DIR, "../../.jupyter-notebook
 sys.path.append(SUBMODULE_PATH)
 
 from ska_mid_jupyter_notebooks.helpers.configuration import get_dish_namespace
-from notebook_tools.sequence_diagram_setup import (
-    # Functions
-    define_pods_for_logs,
-    define_tracked_device_trls,
-    setup_device_hierarchy,
-)
 
 
 class sequenceDiagrammer:
@@ -85,7 +85,7 @@ class sequenceDiagrammer:
         time_start = datetime_start.strftime("%H%M%S")
 
         self.events_file_name = f"generated_events-{date}-{time_start}.txt"
-        self.events_and_logs_file_name = f"events_and_logs-{date}-{time_start}.txt"
+        self.events_and_logs_file_name = f"events_and_logs-ALL.txt"
 
         self.event_printer = EventPrinter(
             self.events_file_name, self.tracked_devices
