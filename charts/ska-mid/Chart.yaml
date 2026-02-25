@@ -19,7 +19,7 @@ dependencies:
 
   # Mid TMC
   - name: ska-tmc-mid
-    version: 1.12.0
+    version: 1.13.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tmc-mid.enabled
 
@@ -31,13 +31,13 @@ dependencies:
 
   # Mid CSP LMC
   - name: ska-csp-lmc-mid
-    version: 1.3.0
+    version: 1.4.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-csp-lmc-mid.enabled
 
   # Mid CBF TDC MCS
   - name: ska-mid-cbf-tdc-mcs
-    version: 1.3.8
+    version: 1.4.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-mid-cbf-tdc-mcs.enabled
 
@@ -49,7 +49,7 @@ dependencies:
 
   # Mid CBF EC
   - name: ska-mid-cbf-engineering-console
-    version: 1.1.10
+    version: 1.2.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-mid-cbf-engineering-console.enabled
 
@@ -74,7 +74,7 @@ dependencies:
 
   # DISH LMC CHART
   - name: ska-dish-lmc
-    version: 9.2.0
+    version: 9.3.0-rc.1
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-dish-lmc.enabled
 
@@ -149,10 +149,17 @@ dependencies:
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-octopus-backend.enabled
   
+    # Octopus Suite
   - name: ska-octopus-frontend
     version: 0.1.70
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-octopus-frontend.enabled
+
+    # PST
+  - name: ska-pst
+    version: 1.3.2
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-pst.enabled=false
 
   # EXAMPLE DEV CHART: DON'T DELETE THIS SECTION
   # - name: ska-sdp

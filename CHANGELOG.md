@@ -2,7 +2,9 @@
 
 ## Unreleased
 * [AT-3537]
-  * update dish-lmc and spfrx revisions
+  * update dish-lmc, tmc, csp, mcs, ec and spfrx revisions for new s&m testing.
+  * added pst component.  set enabled=false for now
+  
 * [AT-3515]
   * Add Octopus dependencies and configuration for Mid ITF.
   * Add deployment jobs for Octopus to Mid ITF.
