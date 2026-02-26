@@ -12,10 +12,6 @@
     },
     "correction": "UPDATE"
   },
-  "dish": {
-        "interface": "https://schema.skao.int/ska-dish-configure/1.0",
-        "receiver_band": "1"
-  },  
   "sdp": {
     "interface": "https://schema.skao.int/ska-sdp-configure/0.4",
     "scan_type": "science"
