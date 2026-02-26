@@ -1,5 +1,5 @@
 {
-  "interface": "https://schema.skao.int/ska-tmc-configure/4.1",
+  "interface": "https://schema.skao.int/ska-tmc-configure/5.0",
   "transaction_id": "",
   "pointing": {
     "target": {
@@ -12,6 +12,10 @@
     },
     "correction": "UPDATE"
   },
+  "dish": {
+        "interface": "https://schema.skao.int/ska-dish-configure/1.0",
+        "receiver_band": "1"
+  },  
   "sdp": {
     "interface": "https://schema.skao.int/ska-sdp-configure/0.4",
     "scan_type": "science"
