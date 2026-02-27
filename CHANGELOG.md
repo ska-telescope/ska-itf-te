@@ -2,7 +2,16 @@
 
 ## Unreleased
 * [AT-3537]
-  * update dish-lmc, tmc, csp and spfrx revisions for new states&modes testing.
+  * update the following for new states & modes:
+    * dish-lmc to `9.3.0-rc.3`
+    * spfrx to `2.1.0`
+    * tmc to `1.13.0`
+  * update CBF components to allow for PST testing:
+    * cbf-tdc-mcs to `1.4.0`
+    * cbf ec to `1.4.0`
+    * ska-tmc-configure schema to v6.0
+    * ska-csp-configurescan schema to v8.1
+    * removed use of cbf ec dev image `1.1.10-dev.c5b25fbd3`
 * [AT-3544]
   * change abs_change eda spec for spfrx voltages from 1mV to 5mV
 * [AT-3541]
