@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3475]
+  * Fix container scan job failure on tagged pipelines
 * [AT-3541]
   * Upgrade Octopus to 0.1.72
 * [AT-3435]
