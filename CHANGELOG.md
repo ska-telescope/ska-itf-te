@@ -8,7 +8,7 @@
     * tmc to `1.13.0`
   * update CBF components to allow for PST testing:
     * cbf-tdc-mcs to `1.4.0`
-    * cbf ec to `1.4.0`
+    * cbf ec to `1.2.0`
     * ska-tmc-configure schema to v6.0
     * ska-csp-configurescan schema to v8.1
     * removed use of cbf ec dev image `1.1.10-dev.c5b25fbd3`
