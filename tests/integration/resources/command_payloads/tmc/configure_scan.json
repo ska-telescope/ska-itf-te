@@ -1,5 +1,5 @@
 {
-  "interface": "https://schema.skao.int/ska-tmc-configure/5.0",
+  "interface": "https://schema.skao.int/ska-tmc-configure/6.0",
   "transaction_id": "",
   "pointing": {
     "target": {
@@ -24,7 +24,6 @@
       "eb_id": "eb-m001-20230712-56789",
       "frequency_band": "1"
     },
-    "pst": {},
     "midcbf": {
       "correlation": {
         "processing_regions": [
