@@ -301,8 +301,8 @@ ska-tmc-mid:
     sdpsubarrayleafnode:
       CommandTimeOutDefault: 240
     subarraynode:
-      CommandTimeOutDefault: 300
-      AbortCommandTimeOut: 35
+      CommandTimeOutDefault: 350
+      AbortCommandTimeOut: 350
       CspScanInterfaceURL: https://schema.skao.int/ska-csp-scan/2.2   # TEMPORARY COMMIT - not to be overwritten in makefile
     dishleafnode:
       CommandTimeOutDefault: 320
