@@ -34,7 +34,7 @@ attributes:
   cm: cm1
   configuration:
     code_push_event: true
-    archive_abs_change: 0.001
+    archive_abs_change: 0.005
   th: th1
 - trl: mid-dish/dish-manager/ska100/azimuthoverwrap
   es: es1
@@ -47,7 +47,7 @@ attributes:
   cm: cm1
   configuration:
     code_push_event: true
-    archive_abs_change: 0.001
+    archive_abs_change: 0.005
   th: th1
 - trl: mid-dish/dish-manager/ska100/band2pointingmodelparams
   es: es1
@@ -102,14 +102,14 @@ attributes:
   cm: cm1
   configuration:
     code_push_event: true
-    archive_abs_change: 0.001
+    archive_abs_change: 0.005
   th: th1
 - trl: ska100/spfrxpu/controller/rxs123clkpowerlevelvoltage
   es: es1
   cm: cm1
   configuration:
     code_push_event: true
-    archive_abs_change: 0.001
+    archive_abs_change: 0.005
   th: th1
 - trl: ska100/spfrxpu/controller/configuredband
   es: es1
@@ -178,7 +178,7 @@ attributes:
   cm: cm1
   configuration:
     code_push_event: true
-    archive_abs_change: 0.001
+    archive_abs_change: 0.005
   th: th1
 - trl: mid-dish/dish-manager/ska100/ignorespf
   es: es1
@@ -191,7 +191,7 @@ attributes:
   cm: cm1
   configuration:
     code_push_event: true
-    archive_abs_change: 0.001
+    archive_abs_change: 0.005
   th: th1
 - trl: mid-dish/dish-manager/ska100/configuredband
   es: es1
@@ -204,7 +204,7 @@ attributes:
   cm: cm1
   configuration:
     code_push_event: true
-    archive_abs_change: 0.001
+    archive_abs_change: 0.005
   th: th1
 - trl: mid-dish/dish-manager/ska100/pointingbuffersize
   es: es1
@@ -259,7 +259,7 @@ attributes:
   cm: cm1
   configuration:
     code_push_event: true
-    archive_abs_change: 0.001
+    archive_abs_change: 0.005
   th: th1
 - trl: mid-dish/dish-manager/ska100/spfconnectionstate
   es: es1
