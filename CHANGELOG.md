@@ -6,6 +6,7 @@
     * dish-lmc to `9.3.0-rc.3`
     * spfrx to `2.1.0`
     * tmc to `1.13.0`
+    * csp to `1.4.0`
   * update CBF components to allow for PST testing:
     * cbf-tdc-mcs to `1.4.0`
     * cbf ec to `1.2.0`
