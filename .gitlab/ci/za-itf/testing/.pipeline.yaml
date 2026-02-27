@@ -1,3 +1,17 @@
+.testing_rules:
+  allow_failure: true
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "pipeline"
+      when: never
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: never
+    - if: "$CI_COMMIT_TAG"
+      when: manual
+      variables:
+        KUBE_NAMESPACE_PREFIX: testing-dish-lmc-
+      allow_failure: true
+    - when: never
+
 .testing-env:
   stage: testing
   tags:
@@ -6,7 +20,6 @@
     - .testing_rules
   variables:
     CONFIG: mid
-    # HELM_RELEASE: "testing-$CI_COMMIT_REF_SLUG"
     HELM_RELEASE: "testing-main"
     KUBE_NAMESPACE: "testing"
     KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
@@ -28,41 +41,50 @@
     CBF_HW_IN_THE_LOOP: "false"
     DISH_LMC_IN_THE_LOOP: "true"
     SIM_MODE: "true"
-  rules:    
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      when: manual
-      variables:
-        KUBE_NAMESPACE: testing-$KUBE_APP-$DISH_ID
-        KUBE_NAMESPACE_PREFIX: testing-dish-lmc-
-        ENV_NAME: dish.itf/dish-lmc-testing/testing
-      allow_failure: true
-    - if: "$CI_COMMIT_TAG"
-      when: manual
-      variables:
-        KUBE_NAMESPACE: testing-$KUBE_APP-$DISH_ID
-        KUBE_NAMESPACE_PREFIX: testing-dish-lmc-
-        ENV_NAME: dish.itf/dish-lmc-testing/testing
+
+.testing_dish_env:
+  stage: testing
+  tags:
+    - ska-k8srunner-za-itf
+  extends:
+    - .testing_rules
+  image: $DEPLOY_IMAGE
+  variables:
+    SUT_CHART_DIR: ${CI_PROJECT_DIR}/charts/ska-mid
+    DISH_ENABLERS: "-f .gitlab/ci/za-itf/dish-lmc-skaXXX/dish-enablers.yaml"
+    DISH_LMC_INITIAL_PARAMS: -f charts/ska-mid/values.yaml --set global.dishes={$DISH_INDEX} --set global.raw_user_account=$CAR_RAW_USERNAME --set global.raw_user_pass=$CAR_RAW_PASSWORD --set ska-tango-archiver.dbpassword=${EDA_DB_PASSWORD} --set ska-tango-archiver.archviewer.instances[0].timescale_login=admin:${EDA_DB_PASSWORD} --set ska-tango-taranta.TANGO_DBS=[]
+    KUBE_APP: dish-lmc
+    KUBE_NAMESPACE: testing-$KUBE_APP-$DISH_ID
+    KUBE_NAMESPACE_PREFIX: testing-dish-lmc-
+    SPFRX_BIN: /usr/local/bin
+    SPFRX_LOCAL_DIR: artifacts
+    SPFRX_SCRIPTS_DIR: scripts
+    SPFRX_TANGO_LOGGING_LEVEL: 4
+    SPFRX_IN_THE_LOOP: "false"
+    ENV_NAME: dish.itf/dish-lmc-testing/testing
+  rules:
+    - when: manual
       allow_failure: true
   environment:
     name: $ENV_NAME
+  needs:
+    - helm-chart-build
 
 deploy-testing-dishes:
   extends:
-    - .testing-env
+    - .testing_dish_env
+    - .deploy-dish-lmc
   script:
     - export PATH=.venv/bin:${PATH} # TEMPORARY COMMIT: fix in one place
     - poetry install
-    - echo "Deploying multiple dishes in downstream dish-aiv stage - first deploy ska001 manually"
     - echo "Deploying dishes $DISH_IDS:"
     - make itf-dish-ids
   environment:
     on_stop: uninstall-testing-dishes
-  variables:
-    SUT_CHART_DIR: ${CI_PROJECT_DIR}/charts/ska-mid
 
 uninstall-testing-dishes:
   extends:
-    - .testing-env
+    - .testing_dish_env
   script:
     - echo "Uninstalling all dishes in downstream dish-aiv stage"
     - echo "Uninstalling 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
