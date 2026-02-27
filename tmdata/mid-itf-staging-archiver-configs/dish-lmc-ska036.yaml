@@ -165,7 +165,7 @@ attributes:
   cm: cm1
   configuration:
     code_push_event: true
-    archive_abs_change: 0.005
+    archive_abs_change: 0.001
   th: th1
 - trl: ska036/spfrxpu/controller/b3capabilitystate
   es: es1
