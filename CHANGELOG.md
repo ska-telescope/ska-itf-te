@@ -1,13 +1,25 @@
 # Version History
 
 ## Unreleased
+* [AT-3537]
+  * update the following for new states & modes:
+    * dish-lmc to `9.3.0-rc.3`
+    * spfrx to `2.1.0`
+    * tmc to `1.13.0`
+    * csp to `1.4.0`
+  * update CBF components to allow for PST testing:
+    * cbf-tdc-mcs to `1.4.0`
+    * cbf ec to `1.2.0`
+    * ska-tmc-configure schema to v6.0
+    * ska-csp-configurescan schema to v8.1
+    * removed use of cbf ec dev image `1.1.10-dev.c5b25fbd3`
 * [AT-3544]
   * change abs_change eda spec for spfrx voltages from 1mV to 5mV
 * [AT-3541]
   * Upgrade Octopus to 0.1.72
 * [AT-3435]
   * Add SKA036 EDA API deployment configuration and generate EDA API 0.0.12
-* [AT-3551]
+* [AT-3515]
   * Add Octopus dependencies and configuration for Mid ITF.
   * Add deployment jobs for Octopus to Mid ITF.
 * [AT-3533]
