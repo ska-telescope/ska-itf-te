@@ -121,7 +121,7 @@ container_scanning:
   needs:
     - oci-image-build-testing
   variables:
-    CS_IMAGE: "${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}/ska-mid-testing:${VERSION}-dev.c${CI_COMMIT_SHORT_SHA}"
+    CS_IMAGE: "${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}/ska-mid-testing:${CI_COMMIT_SHORT_SHA}"
   rules:
     - if: '$CI_COMMIT_TAG'
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
