@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3544]
+  * change abs_change eda spec for spfrx voltages from 1mV to 5mV
 * [AT-3541]
   * Upgrade Octopus to 0.1.72
 * [AT-3435]
