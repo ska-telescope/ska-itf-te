@@ -31,7 +31,7 @@ dependencies:
   version: 14.0.4
 - name: ska-dish-lmc
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 9.3.0-rc.3
+  version: 9.3.0-rc.5
 - name: ska-te-dish-structure-simulator
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.11.0
@@ -65,5 +65,5 @@ dependencies:
 - name: ska-octopus-frontend
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.1.72
-digest: sha256:abe3d747df509ab5ea52e034b1f316318b49c989bd6547634b1648cbc5ca35cf
-generated: "2026-02-26T09:08:46.794476058+02:00"
+digest: sha256:e1dcf8704d30468abe16688c4760357e8736b29a187dfb0e0fad545075621fc9
+generated: "2026-02-27T16:26:18.647342467+02:00"
