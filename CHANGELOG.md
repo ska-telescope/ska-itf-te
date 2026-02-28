@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3475]
+  * Fix container scan job failure on tagged pipelines
 * [AT-3537]
   * update the following for new states & modes:
     * dish-lmc to `9.3.0-rc.3`
