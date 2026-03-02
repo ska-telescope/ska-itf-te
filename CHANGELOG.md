@@ -1,6 +1,10 @@
 # Version History
 
 ## Unreleased
+
+## 29.5.2-test-b5dc-a
+* [AT-3545]
+  * update dish-lmc to `9.3.0-rc.5`
 * [AT-3537]
   * update the following for new states & modes:
     * dish-lmc to `9.3.0-rc.3`
