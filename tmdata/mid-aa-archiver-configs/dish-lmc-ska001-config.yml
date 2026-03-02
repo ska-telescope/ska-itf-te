@@ -41,7 +41,7 @@ attributes:
   cm: cm1
   configuration:
     code_push_event: true
-    archive_abs_change: 0.001
+    archive_abs_change: 0.005
   th: th1
 - trl: mid-dish/dish-manager/ska001/azimuthoverwrap
   es: es1
@@ -54,7 +54,7 @@ attributes:
   cm: cm1
   configuration:
     code_push_event: true
-    archive_abs_change: 0.001
+    archive_abs_change: 0.005
   th: th1
 - trl: mid-dish/dish-manager/ska001/band2pointingmodelparams
   es: es1
@@ -129,14 +129,14 @@ attributes:
   cm: cm1
   configuration:
     code_push_event: true
-    archive_abs_change: 0.001
+    archive_abs_change: 0.005
   th: th1
 - trl: ska001/spfrxpu/controller/rxs123clkpowerlevelvoltage
   es: es1
   cm: cm1
   configuration:
     code_push_event: true
-    archive_abs_change: 0.001
+    archive_abs_change: 0.005
   th: th1
 - trl: ska001/spf/spfc/b2amp2hpowerstate
   es: es1
@@ -278,7 +278,7 @@ attributes:
   cm: cm1
   configuration:
     code_push_event: true
-    archive_abs_change: 0.001
+    archive_abs_change: 0.005
   th: th1
 - trl: mid-dish/dish-manager/ska001/ignorespf
   es: es1
@@ -297,7 +297,7 @@ attributes:
   cm: cm1
   configuration:
     code_push_event: true
-    archive_abs_change: 0.001
+    archive_abs_change: 0.005
   th: th1
 - trl: ska001/spf/spfc/b2cryopressure
   es: es1
@@ -317,7 +317,7 @@ attributes:
   cm: cm1
   configuration:
     code_push_event: true
-    archive_abs_change: 0.001
+    archive_abs_change: 0.005
   th: th1
 - trl: ska001/spf/spfc/b2calsourcepowerstate
   es: es1
@@ -378,7 +378,7 @@ attributes:
   cm: cm1
   configuration:
     code_push_event: true
-    archive_abs_change: 0.001
+    archive_abs_change: 0.005
   th: th1
 - trl: mid-dish/dish-manager/ska001/spfconnectionstate
   es: es1

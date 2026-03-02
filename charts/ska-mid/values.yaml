@@ -93,6 +93,9 @@ ska-dish-lmc:
     enabled: true
   ska-mid-dish-manager:
     enabled: true
+    dishmanager:
+      actions:
+        timeout_seconds: "300"
     # Leaving this here just as an example
     # dishmanager:
     #   image:
@@ -127,12 +130,12 @@ ska-mid-cbf-engineering-console:
   enabled: false
   # Comment section below to use engineering-console image from CAR
   # Uncomment section below to use engineering-console image from gitlab
-  engineeringconsole:
-    image:
-      registry: registry.gitlab.com/ska-telescope/ska-mid-cbf-engineering-console
-      image: ska-mid-cbf-engineering-console
-      tag: 1.1.10-dev.c5b25fbd3
-      pullPolicy: IfNotPresent
+  # engineeringconsole:
+  #   image:
+  #     registry: registry.gitlab.com/ska-telescope/ska-mid-cbf-engineering-console
+  #     image: ska-mid-cbf-engineering-console
+  #     tag: 1.1.10-dev.c5b25fbd3
+  #     pullPolicy: IfNotPresent
 
 # CBF Talon Demonstration Correlator Master Control Software
 ska-mid-cbf-tdc-mcs:
@@ -298,8 +301,11 @@ ska-tmc-mid:
     sdpsubarrayleafnode:
       CommandTimeOutDefault: 240
     subarraynode:
-      CommandTimeOutDefault: 300
+      CommandTimeOutDefault: 350
+      AbortCommandTimeOut: 350
       CspScanInterfaceURL: https://schema.skao.int/ska-csp-scan/2.2   # TEMPORARY COMMIT - not to be overwritten in makefile
+    dishleafnode:
+      CommandTimeOutDefault: 320
   resources:
     # limits:
     #   cpu: 800m

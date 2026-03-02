@@ -1,5 +1,5 @@
 {
-  "interface": "https://schema.skao.int/ska-tmc-configure/4.1",
+  "interface": "https://schema.skao.int/ska-tmc-configure/6.0",
   "transaction_id": "",
   "pointing": {
     "target": {
@@ -17,14 +17,13 @@
     "scan_type": "science"
   },
   "csp": {
-    "interface": "https://schema.skao.int/ska-csp-configurescan/4.1",
+    "interface": "https://schema.skao.int/ska-csp-configurescan/8.1",
     "transaction_id": "txn-....-00001",
     "common": {
       "config_id": "1 receptor, band 1, 2 FSP, no options",
       "eb_id": "eb-m001-20230712-56789",
       "frequency_band": "1"
     },
-    "pst": {},
     "midcbf": {
       "correlation": {
         "processing_regions": [
