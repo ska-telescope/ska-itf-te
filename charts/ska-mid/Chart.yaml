@@ -61,7 +61,7 @@ dependencies:
 
   # SDP
   - name: ska-sdp
-    version: 2.1.1
+    version: 2.3
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-sdp.enabled
 
@@ -80,7 +80,7 @@ dependencies:
 
   # DISH LMC CHART
   - name: ska-dish-lmc
-    version: 9.3.0-rc.3
+    version: 9.3.0-rc.5
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-dish-lmc.enabled
 
