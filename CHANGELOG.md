@@ -2,9 +2,9 @@
 
 ## Unreleased
 * [AT-3560]
-  * update sdp to 2.3.0
-  * update vis-receive to 8.1.0
-  * update dish-lmc to 9.3.0-rc.5
+  * update sdp to `2.3.0`
+  * update vis-receive to `8.1.0`
+  * update dish-lmc to `9.3.0-rc.5`
 * [AT-3475]
   * Fix container scan job failure on tagged pipelines
 * [AT-3537]
