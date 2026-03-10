@@ -13,11 +13,10 @@ helm upgrade --install staging \
 --set ska-tango-base.xauthority=/root/.Xauthority
 --set ska-tango-base.jive.enabled=false
 --set ska-tango-base.itango.enabled=true
---set ska-sdp.helmdeploy.namespace=staging-sdp
 --set ska-sdp.ska-sdp-qa.zookeeper.clusterDomain=miditf.internal.skao.int
 --set ska-sdp.kafka.clusterDomain=miditf.internal.skao.int
 --set ska-sdp.ska-sdp-qa.redis.clusterDomain=miditf.internal.skao.int
---set global.sdp.processingNamespace=staging-sdp
+--set ska-sdp.processingNamespace=staging-sdp
 --set ska-db-oda-umbrella.ska-db-oda.rest.skuid.url=ska-ser-skuid-test-svc.staging.svc.miditf.internal.skao.int:9870     
 --set global.ska-tango-archiver.enabled=false 
 --set ska-tango-archiver.enabled=false -f charts/ska-mid/tmc-values.yaml 
