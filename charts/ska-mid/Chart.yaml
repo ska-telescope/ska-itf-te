@@ -105,13 +105,13 @@ dependencies:
 
   # TARANTA SUITE
   - name: ska-tango-taranta
-    version: 2.18.1
+    version: 2.18.3
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tango-taranta.enabled
 
   # MULTIDB TANGOGQL
   - name: ska-tango-tangogql-ariadne
-    version: 1.0.7
+    version: 1.0.8
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tango-taranta.enabled
     alias: tangogql
