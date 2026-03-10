@@ -90,6 +90,9 @@ k8s-test-runner:
       - "logs/"
   extends:
     - .ci-env
+  needs:
+    - job: helm-chart-build
+      artifacts: true
   before_script:
     - make vars
     - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
@@ -97,7 +100,10 @@ k8s-test-runner:
     - kubectl delete deployment sut-config-inspector --namespace $KUBE_NAMESPACE --ignore-not-found
     - bash .make/resources/gitlab_section.sh poetry "Poetry Install" poetry install
     - bash .make/resources/gitlab_section.sh namespaces "Create namespaces" make sut-namespaces
-    - bash .make/resources/gitlab_section.sh install "K8S Install" make k8s-install-chart
+    - export K8S_UMBRELLA_CHART_PATH=$(ls -t ./chart.tmp/ska-mid-[0-9]*.tgz | head -n1)
+    - sha256sum -c "$K8S_UMBRELLA_CHART_PATH.${CI_PIPELINE_ID}.sha256"
+    - echo "Using chart archive - $K8S_UMBRELLA_CHART_PATH"
+    - bash .make/resources/gitlab_section.sh install "K8S Install from .tgz" make k8s-install-chart
     - bash .make/resources/gitlab_section.sh wait "K8S wait" make k8s-wait
     - make itf-cbf-setup --dry
     - mkdir -p build config
@@ -118,6 +124,8 @@ k8s-test-runner:
       fi
     - '[ -f build/status ] || (echo "Something went wrong with the test (no build/status file); exit 1")'
     - exit $(cat build/status)
+  after_script:
+    - rm -rf ./chart.tmp
   variables:
     DEBUG_ENTRYPOINT: "True"
     DEBUG_ENTRYPOINT_EXTENDED: "True"
@@ -132,6 +140,10 @@ k8s-test-runner:
     MARKS: "'not hw_in_the_loop'"
     SIM_MODE: "true"
     SUT_CLUSTER_DOMAIN: miditf.internal.skao.int
+    POINTING_TARGET_NAME: "Polaris Australis"
+    POINTING_TARGET_RIGHT_ASCENSION: "21:08:47.92"
+    POINTING_TARGET_DECLINATION: "-88:57:22.9"
+    K8S_SKIP_DEP_BUILD: "true"
 
 stop-k8s-test-runner:
   tags:
