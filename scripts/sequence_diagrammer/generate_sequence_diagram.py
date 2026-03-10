@@ -141,5 +141,16 @@ class sequenceDiagrammer:
             events_and_logs_file_path, self.sequence_diagram_file_name, actor='test'
         )
 
+        # Remove lines starting with '<' from sequence-diagram.puml
+        try:
+            with open(self.sequence_diagram_file_name, "r", encoding="utf-8") as f:
+                lines = f.readlines()
+            with open(self.sequence_diagram_file_name, "w", encoding="utf-8") as f:
+                for line in lines:
+                    if not line.lstrip().startswith("<"):
+                        f.write(line)
+        except Exception as e:
+            print(f"Warning: Failed to clean sequence-diagram.puml: {e}")
+
     def get_puml_filename(self) -> str:
         return self.sequence_diagram_file_name
