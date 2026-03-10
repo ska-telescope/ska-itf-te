@@ -43,10 +43,10 @@ dependencies:
   version: 2.1.0
 - name: ska-tango-taranta
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 2.18.1
+  version: 2.18.3
 - name: ska-tango-tangogql-ariadne
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.0.7
+  version: 1.0.8
 - name: ska-tango-alarmhandler
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.6.0-rc.1
@@ -65,5 +65,5 @@ dependencies:
 - name: ska-octopus-frontend
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.1.72
-digest: sha256:86c72bb7dea3557dd6356510deab955e96948f1da903b78cd26059c46e5e687e
-generated: "2026-03-10T08:17:25.882779494+02:00"
+digest: sha256:b4fb0d2fa4ee7f043cacdc203a5861f153186bb6bf376e1ccb12ebfcf4a02e38
+generated: "2026-03-10T16:06:03.925493+02:00"
