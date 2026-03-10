@@ -213,11 +213,10 @@ endif
 #   --set ska-sdp.data-pvc.create=true # check syntax for this one
 # endif
 
-SDP_PARAMS ?= --set ska-sdp.helmdeploy.namespace=$(KUBE_NAMESPACE_SDP) \
-	--set ska-sdp.ska-sdp-qa.zookeeper.clusterDomain=$(CLUSTER_DOMAIN) \
+SDP_PARAMS ?= --set ska-sdp.ska-sdp-qa.zookeeper.clusterDomain=$(CLUSTER_DOMAIN) \
 	--set ska-sdp.kafka.clusterDomain=$(CLUSTER_DOMAIN) \
 	--set ska-sdp.ska-sdp-qa.redis.clusterDomain=$(CLUSTER_DOMAIN) \
-	--set global.sdp.processingNamespace=$(KUBE_NAMESPACE_SDP) \
+	--set ska-sdp.processingNamespace=$(KUBE_NAMESPACE_SDP) \
 	$(SDP_EXTRA_PARAMS)
 
 ###################################################################
