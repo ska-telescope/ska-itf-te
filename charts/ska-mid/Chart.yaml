@@ -3,8 +3,8 @@ apiVersion: v2
 name: ska-mid
 description: An umbrella Helm chart for deployment of the Mid System
 type: application
-version: 29.5.2-test-staging-eda-d
-appVersion: 29.5.2-test-staging-eda-d
+version: 29.5.2-test-new-products-f
+appVersion: 29.5.2-test-new-products-f
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
   # Tango Base & Deployment Charts: TangoDB, iTango, Tango Operator Utils
@@ -19,7 +19,7 @@ dependencies:
 
   # Mid TMC
   - name: ska-tmc-mid
-    version: 1.12.0
+    version: 1.13.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tmc-mid.enabled
 
@@ -31,13 +31,13 @@ dependencies:
 
   # Mid CSP LMC
   - name: ska-csp-lmc-mid
-    version: 1.3.0
+    version: 1.4.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-csp-lmc-mid.enabled
 
   # Mid CBF TDC MCS
   - name: ska-mid-cbf-tdc-mcs
-    version: 1.3.8
+    version: 1.4.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-mid-cbf-tdc-mcs.enabled
 
@@ -49,9 +49,15 @@ dependencies:
 
   # Mid CBF EC
   - name: ska-mid-cbf-engineering-console
-    version: 1.1.10
+    version: 1.2.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-mid-cbf-engineering-console.enabled
+
+  # PST
+  # - name: ska-pst
+  #   version: 1.3.2
+  #   repository: https://artefact.skao.int/repository/helm-internal
+  #   condition: ska-pst.enabled
 
   # SDP
   - name: ska-sdp
@@ -74,7 +80,7 @@ dependencies:
 
   # DISH LMC CHART
   - name: ska-dish-lmc
-    version: 8.5.1
+    version: 9.3.0-rc.3
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-dish-lmc.enabled
 
@@ -93,7 +99,7 @@ dependencies:
 
   # SPFRx DEPLOYER CHART
   - name: ska-mid-dish-spfrx-talondx-console
-    version: 1.4.5
+    version: 2.1.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-mid-dish-spfrx-talondx-console.enabled
 
