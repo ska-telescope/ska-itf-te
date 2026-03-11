@@ -6,11 +6,15 @@
 IMAGE=registry.gitlab.com/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools
 # registry.gitlab.com/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools:0.10.3
 IMAGE_VERSION=0.10.3
+
+# LINTING
+IMAGE=artefact.skao.int/ska-cicd-k8s-tools-build-deploy
+IMAGE_VERSION=0.17.0
 docker run -it -e CI_COMMIT_SHA=$(git rev-parse --short HEAD) --env-file PrivateRules.mak $IMAGE:$IMAGE_VERSION
 
 # git clone (to mimic the pipeline start)
 mkdir /build && mkdir /build/ska-telescope && cd /build/ska-telescope 
-git clone --recurse-submodules https://gitlab.com/ska-telescope/ska-mid-itf.git && cd ska-mid-itf
+git clone --recurse-submodules https://gitlab.com/ska-telescope/ska-mid.git && cd ska-mid
 git checkout $CI_COMMIT_SHA -q && git show -q
 
 # log into infra from the container
@@ -35,6 +39,32 @@ PATH=/build/ska-telescope/ska-mid-itf/.venv/bin:/app/.venv/bin:/app/bin:/app/.ve
 
 # Once the shell is active, install everything
 poetry install && export PATH=/build/ska-telescope/ska-mid-itf/.venv/bin:${PATH}
+
+# THIS SEEMS TO BE THE LATEST METHOD - SEE https://gitlab.com/ska-telescope/ska-mid/-/jobs/13430013166
+poetry config virtualenvs.in-project true
+poetry config virtualenvs.create true
+# FROM https://gitlab.com/ska-telescope/templates-repository/-/blob/master/gitlab-ci/includes/python-lint.gitlab-ci.yml#L33:
+if [[ -f pyproject.toml ]]; then
+    if [[ -n $CI_POETRY_VERSION ]]; then
+        # Check installed Poetry version
+        CURRENT_POETRY_VERSION=$(poetry --version | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
+        echo "python-lint: Installed Poetry version: $CURRENT_POETRY_VERSION, Required: $CI_POETRY_VERSION"
+        # Compare versions
+        if [[ $(printf '%s\n' "$CURRENT_POETRY_VERSION" "$CI_POETRY_VERSION" | sort -V | head -n1) != "$CI_POETRY_VERSION" ]]; then
+            echo "python-lint: Updating poetry to $CI_POETRY_VERSION";
+            pipx uninstall poetry && pipx install poetry==$CI_POETRY_VERSION;
+        fi;
+    fi;
+    echo "python-lint: Installing with poetry";
+    time poetry install --all-extras;
+    else
+    if  [[ -f requirements.txt ]]; then
+        echo "python-lint: Installing with pip";
+        time pip3 install -r requirements.txt;
+    fi;
+fi;
+ 
+
 
 make python-format
 make python-lint # add a few #noqas to get the thing going
