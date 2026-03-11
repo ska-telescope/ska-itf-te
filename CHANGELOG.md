@@ -1,6 +1,11 @@
 # Version History
 
 ## Unreleased
+
+## 30.0.0
+* [AT-3486]
+  * update taranta to `2.18.3`
+  * update tangogql to `1.0.8`
 * [AT-3560]
   * update sdp to `2.3.0`
   * update vis-receive to `8.1.0`
