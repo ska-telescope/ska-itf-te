@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3534]
+  * Use vault to set octopus credentials
 * [AT-3560]
   * update sdp to `2.3.0`
   * update vis-receive to `8.1.0`
