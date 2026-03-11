@@ -345,12 +345,12 @@ ska-octopus-backend:
     paths:
       backend: "/octopus/ska-octopus-backend"
   authUsers:
-    secretName: octopus-auth-users
+    secretName: octopus-credentials
     secretKey: auth-users.json
     optional: true
   configUi:
     password:
-      secretName: octopus-config-ui-password
+      secretName: octopus-credentials
       secretKey: cfg-ui-password
       optional: true
   vars:
