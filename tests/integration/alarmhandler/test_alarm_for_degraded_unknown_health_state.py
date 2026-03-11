@@ -16,7 +16,8 @@ namespace = os.getenv("KUBE_NAMESPACE")
 
 logger = logging.getLogger(__name__)
 
-@pytest.mark.skip(reason="intermittently failing test") # TEMPORARY COMMIT
+
+@pytest.mark.skip(reason="intermittently failing test")  # TEMPORARY COMMIT
 @pytest.mark.skamid
 @scenario(
     "features/configure_healthstate_degraded_unknown.feature",
