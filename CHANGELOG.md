@@ -5,6 +5,7 @@
 ## 30.0.1
 * [AT-3560]
   * fixed sdp chart version to `x.y.z` format
+
 ## 30.0.0
 * [AT-3486]
   * update taranta to `2.18.3`
