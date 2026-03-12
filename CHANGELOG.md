@@ -3,6 +3,19 @@
 ## Unreleased
 * [AT-3540]
   * Updated sequence diagrammer
+
+## 30.0.1
+* [AT-3560]
+  * fixed sdp chart version to `x.y.z` format
+
+## 30.0.0
+* [AT-3486]
+  * update taranta to `2.18.3`
+  * update tangogql to `1.0.8`
+* [AT-3560]
+  * update sdp to `2.3.0`
+  * update vis-receive to `8.1.0`
+  * update dish-lmc to `9.3.0-rc.5`
 * [AT-3475]
   * Fix container scan job failure on tagged pipelines
 * [AT-3537]
