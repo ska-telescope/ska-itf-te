@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3534]
+  * Use vault to set octopus credentials
 
 ## 30.0.1
 * [AT-3560]
