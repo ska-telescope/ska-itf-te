@@ -3,6 +3,15 @@
 ## Unreleased
 * [AT-3534]
   * Use vault to set octopus credentials
+
+## 30.0.1
+* [AT-3560]
+  * fixed sdp chart version to `x.y.z` format
+
+## 30.0.0
+* [AT-3486]
+  * update taranta to `2.18.3`
+  * update tangogql to `1.0.8`
 * [AT-3560]
   * update sdp to `2.3.0`
   * update vis-receive to `8.1.0`
