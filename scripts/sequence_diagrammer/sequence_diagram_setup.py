@@ -199,11 +199,12 @@ def get_cleaned_device_name(device: str, info_type: str = "none") -> str:
         cleaned_device = device.split("(", 1)[1]
     elif "log" in info_type:
         # e.g. tango-device:mid-csp/subarray/01
-        if "tango-device:" in device:
-            cleaned_device = device.split("tango-device:", 1)[1]
-        else:
-            print(f"[DEBUG] Unexpected device format in log: '{device}'")
-            cleaned_device = device
+        cleaned_device = device.split("tango-device:", 1)[1]
+        # if "tango-device:" in device:
+        #     cleaned_device = device.split("tango-device:", 1)[1]
+        # else:
+        #     print(f"[DEBUG] Unexpected device format in log: '{device}'")
+        #     cleaned_device = device
     else:
         # e.g. mid-csp/subarray/01 or [ska001/spfrxpu/controller]
         cleaned_device = device.strip("[")
