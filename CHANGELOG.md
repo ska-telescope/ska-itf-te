@@ -2,7 +2,7 @@
 
 ## Unreleased
 * [AT-3540]
-  * Updated sequence diagrammer
+  * Fixed sequence diagrammer so it no longer crashes. Removed dependency on jupyter-notebooks submodule
 
 ## 30.0.1
 * [AT-3560]
