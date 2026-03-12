@@ -85,7 +85,7 @@ class sequenceDiagrammer:
         time_start = datetime_start.strftime("%H%M%S")
 
         self.events_file_name = f"generated_events-{date}-{time_start}.txt"
-        self.events_and_logs_file_name = f"events_and_logs-ALL.txt"
+        self.events_and_logs_file_name = f"events_and_logs-{date}-{time_start}.txt"
 
         self.event_printer = EventPrinter(
             self.events_file_name, self.tracked_devices
