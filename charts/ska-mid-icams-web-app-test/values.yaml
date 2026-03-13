@@ -1,0 +1,18 @@
+global:
+  sub-system:
+    ska-tango-base:
+      enabled: false
+      
+test-parent:
+  enabled: true
+
+  ska-icams-web-app:
+    ingress:
+      hosts:
+        - host: null
+          paths:
+            - path: /ska-ams
+              pathType: ImplementationSpecific
+  
+  ska-tango-examples:
+    enabled: false

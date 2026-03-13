@@ -1,0 +1,6 @@
+dependencies:
+- name: test-parent
+  repository: https://artefact.skao.int/repository/helm-internal
+  version: 0.0.6
+digest: sha256:bad9526267820dbfa8eb58a82a1c18f92c1076b65ea363709901eaccaf11dc84
+generated: "2026-03-13T16:45:11.69088+02:00"
