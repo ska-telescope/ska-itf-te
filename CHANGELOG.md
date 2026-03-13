@@ -3,6 +3,8 @@
 ## Unreleased
 * [AT-3540]
   * Fixed sequence diagrammer so it no longer crashes. Removed dependency on jupyter-notebooks submodule
+* [AT-3534]
+  * Use vault to set octopus credentials
 
 ## 30.0.1
 * [AT-3560]
