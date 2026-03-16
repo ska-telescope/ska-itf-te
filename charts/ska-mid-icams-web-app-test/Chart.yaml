@@ -18,6 +18,4 @@ dependencies:
 - name: ska-tangogql
   version: 1.2.0
   repository: https://artefact.skao.int/repository/helm-internal
-- name: ska-tango-alarmhandler
-  version: 0.6.1
-  repository: https://artefact.skao.int/repository/helm-internal
+

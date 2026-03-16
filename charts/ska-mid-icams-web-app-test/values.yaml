@@ -1,11 +1,5 @@
 enabled: true
 
-ska-icams-web-app:
-  image:
-    repository: artefact.skao.int/ska-icams-web-app
-    pullPolicy: IfNotPresent
-    tag: 1.2.1
-
 global:
   cluster_domain: miditf.internal.skao.int
   clusterDomain: miditf.internal.skao.int
@@ -17,6 +11,12 @@ global:
   sub-system:
     ska-tango-base:
       enabled: false
+
+ska-icams-web-app: # TEMP COMMIT: Incorrect image version in tag 1.2.1
+  image:
+    repository: artefact.skao.int/ska-icams-web-app
+    pullPolicy: IfNotPresent
+    tag: 1.2.1
 
 ska-app-s2i-icams-scheduler:
   config:
