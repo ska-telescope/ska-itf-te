@@ -1,6 +1,18 @@
 dependencies:
-- name: test-parent
+- name: ska-icams-web-app
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 0.0.6
-digest: sha256:bad9526267820dbfa8eb58a82a1c18f92c1076b65ea363709901eaccaf11dc84
-generated: "2026-03-13T16:45:11.69088+02:00"
+  version: 1.2.1
+- name: ska-web-s2i-flask-tango-panicapi
+  repository: https://artefact.skao.int/repository/helm-internal
+  version: 1.2.0
+- name: ska-app-s2i-icams-scheduler
+  repository: https://artefact.skao.int/repository/helm-internal
+  version: 1.0.5
+- name: ska-tangogql
+  repository: https://artefact.skao.int/repository/helm-internal
+  version: 1.2.0
+- name: ska-tango-alarmhandler
+  repository: https://artefact.skao.int/repository/helm-internal
+  version: 0.6.1
+digest: sha256:f395f0a4eb3a0230f3143af242a8bd3bdc3ae2b45f7dbdb8fa0dd9e3b5dd21fe
+generated: "2026-03-16T15:43:24.335732+02:00"

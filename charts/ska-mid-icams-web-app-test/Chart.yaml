@@ -1,11 +1,23 @@
 apiVersion: v2
 name: ska-mid-icams-web-app-test
-description: An Helm chart which deploys a custom build of ska-icams-web-app
+description: A Helm parent chart for the Tango Example
 type: application
-version: 0.0.1
-appVersion: 0.0.1
+version: 0.1.0
+appVersion: 0.1.0
+icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
-- name: test-parent
-  version: 0.0.6
+- name: ska-icams-web-app
+  version: 1.2.1
   repository: https://artefact.skao.int/repository/helm-internal
-  condition: test-parent.enabled
+- name: ska-web-s2i-flask-tango-panicapi
+  version: 1.2.0
+  repository: https://artefact.skao.int/repository/helm-internal
+- name: ska-app-s2i-icams-scheduler
+  version: 1.0.5
+  repository: https://artefact.skao.int/repository/helm-internal
+- name: ska-tangogql
+  version: 1.2.0
+  repository: https://artefact.skao.int/repository/helm-internal
+- name: ska-tango-alarmhandler
+  version: 0.6.1
+  repository: https://artefact.skao.int/repository/helm-internal

@@ -1,18 +1,38 @@
+enabled: true
+
+ska-icams-web-app:
+  image:
+    repository: artefact.skao.int/ska-icams-web-app
+    pullPolicy: IfNotPresent
+    tag: 1.2.1
+
 global:
+  cluster_domain: miditf.internal.skao.int
+  clusterDomain: miditf.internal.skao.int
+  labels:
+    app: ska-mid-icams-web-app-test
+  tango_host: tango-databaseds.staging.svc.miditf.internal.skao.int:10000
+  operator: true
+  minikube: false
   sub-system:
     ska-tango-base:
       enabled: false
-      
-test-parent:
-  enabled: true
 
-  ska-icams-web-app:
-    ingress:
-      hosts:
-        - host: null
-          paths:
-            - path: /ska-ams
-              pathType: ImplementationSpecific
-  
-  ska-tango-examples:
+ska-app-s2i-icams-scheduler:
+  config:
+    tango_host: tango-databaseds.staging.svc.miditf.internal.skao.int:10000
+    icams_admin_password: admin
+
+ska-web-s2i-flask-tango-panicapi:
+  config:
+    tango_host: tango-databaseds.staging.svc.miditf.internal.skao.int:10000
+    icams_admin: admin@gmail.com
+    icams_admin_password: admin
+    customPath:
+      prefixPath: "/{{ $.Release.Namespace }}/ska-ams"
+  ingress:
     enabled: false
+
+ska-tangogql:
+  config:
+    tango_host: tango-databaseds.staging.svc.miditf.internal.skao.int:10000
