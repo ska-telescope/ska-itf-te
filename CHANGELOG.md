@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3553]
+  * Add IC@MS umbrella chart and deployment jobs for Mid ITF.
 * [AT-3534]
   * Use vault to set octopus credentials
 
