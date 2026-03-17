@@ -1,0 +1,14 @@
+
+# Tango Base & Deployment Charts: TangoDB, iTango, Tango Operator Utils
+ska-tango-base:
+  enabled: false
+
+ska-tango-util:
+  enabled: false
+
+# Octopus suite of products
+ska-octopus-backend:
+  enabled: true
+
+ska-octopus-frontend:
+  enabled: true

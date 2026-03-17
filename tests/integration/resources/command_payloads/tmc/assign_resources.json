@@ -10,6 +10,12 @@
         "SKA100"
       ]
     },
+    "telmodel": {
+      "source_uris": [
+        "car:ska-mid?main#tmdata"
+      ],
+      "array_layout_path": "instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json"
+    },
     "sdp": {
       "interface": "https://schema.skao.int/ska-sdp-assignres/1.0",
       "resources": {
@@ -75,11 +81,11 @@
         "fields": [ {
             "field_id": "field_a",
             "phase_dir": {
-              "target_name": "target_a",
+              "target_name": "J1939-6342",
               "reference_frame": "icrs",
               "attrs": {
-                "c1": 317.19966667,  
-                "c2": -88.95637778,
+                "c1": 294.85427667,
+                "c2": -63.71267361,
                 "epoch": 2000.0
               }
             },
@@ -151,7 +157,7 @@
           "script": {
             "kind": "realtime",
             "name": "vis-receive",
-            "version": "6.2.0"
+            "version": "8.1.0"
           },
           "parameters": {
             "channels_per_port": 20,

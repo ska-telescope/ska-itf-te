@@ -1,8 +1,73 @@
 # Version History
 
 ## Unreleased
+* [AT-3534]
+  * Use vault to set octopus credentials
+
+## 30.0.1
+* [AT-3560]
+  * fixed sdp chart version to `x.y.z` format
+
+## 30.0.0
+* [AT-3486]
+  * update taranta to `2.18.3`
+  * update tangogql to `1.0.8`
+* [AT-3560]
+  * update sdp to `2.3.0`
+  * update vis-receive to `8.1.0`
+  * update dish-lmc to `9.3.0-rc.5`
+* [AT-3475]
+  * Fix container scan job failure on tagged pipelines
+* [AT-3537]
+  * update the following for new states & modes:
+    * dish-lmc to `9.3.0-rc.3`
+    * spfrx to `2.1.0`
+    * tmc to `1.13.0`
+    * csp to `1.4.0`
+  * update CBF components to allow for PST testing:
+    * cbf-tdc-mcs to `1.4.0`
+    * cbf ec to `1.2.0`
+    * ska-tmc-configure schema to v6.0
+    * ska-csp-configurescan schema to v8.1
+    * removed use of cbf ec dev image `1.1.10-dev.c5b25fbd3`
+* [AT-3544]
+  * change abs_change eda spec for spfrx voltages from 1mV to 5mV
+* [AT-3541]
+  * Upgrade Octopus to 0.1.72
+* [AT-3435]
+  * Add SKA036 EDA API deployment configuration and generate EDA API 0.0.12
+* [AT-3515]
+  * Add Octopus dependencies and configuration for Mid ITF.
+  * Add deployment jobs for Octopus to Mid ITF.
+* [AT-3533]
+  * Corrections to dish EDA attributes to remove attributes not configured for push events
+
+## 29.5.1
+* [AT-3531]
+  * Update reference to tm data source and path in the ska-mid chart values
+    * Remove the keys from cspsubarrayleafnode and add keys to centralnode
+
+## 29.5.0
+* [SKB-1203]
+  * Update tmc to 1.12.0
+  * Fix incorrect phase wrap introduced with tmc v1.12.0 by pointing to the correct layout file in `assign_resources.json` instead of in the chart values file (possibly to be removed later)
+  * Include these new keys in the bdd test step that updates the `assign_resources.json` file if overrides are provided
+* [SDR-1616] & [AT-3484]
+  * Bring OSO back into ska-mid (ska-oso-integration v1.0.0) for staging and integration namespaces
+  * Update ODA umbrella to v14.0.4
+* [ST-2701]
+  * Added Helm chart caching to speed up k8s-testrunner execution.
+* [SKB-1146]
+  * Update default target in assign resource default payload to match target used currently for site observations.
+  * Update assign resources payload method to dynamically set field_a target coordinates based on pointing target env vars.
+* [AT-3456]
+  * Add eda config generator snippet.
 * [SKB-1174]
   * Integrate full release of ska-tango-archiver resolving SKB-1174 (5.0.1)
+* [AT-3476]
+  * Update csp-lmc to 1.3.0
+* [AT-3503]
+  * Add dish updated archiver configs for itf and staging and set multi ES configuration for the EDA
 
 ## 29.4.0
 * [AT-3422]
@@ -53,6 +118,8 @@
   * CBF MCS 1.3.8 and engineering console 1.1.10 updates to fix skb-1075
 * [AT-3451]
   * Create `ska-mid-cbf-system-parameters.json` for site, separate from the ITF one
+* [MAP-502]
+  * update cbf ec deployer image
 * [AT-3454]
   * Update spfrx ec deployer to 1.4.4
 * [AT-3459]

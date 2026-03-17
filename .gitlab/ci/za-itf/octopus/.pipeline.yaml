@@ -1,0 +1,51 @@
+.deploy-octopus:
+  tags:
+    - ska-k8srunner-za-itf
+  stage: deploy-supplementary-services
+  image: $DEPLOY_IMAGE
+  variables:
+    KUBE_APP: octopus
+    K8S_CHART: ska-mid
+    OCTOPUS_ENABLERS: "-f .gitlab/ci/za-itf/octopus/octopus-enablers.yaml"
+    KUBE_NAMESPACE: octopus
+    HELM_RELEASE: octopus
+    K8S_SKIP_DEP_BUILD: "true"
+  when: manual
+  script:
+    - make vars
+    - export K8S_UMBRELLA_CHART_PATH=$(ls -t ./chart.tmp/ska-mid-[0-9]*.tgz | head -n1)
+    - sha256sum -c "$K8S_UMBRELLA_CHART_PATH.${CI_PIPELINE_ID}.sha256"
+    - echo "Using chart archive - $K8S_UMBRELLA_CHART_PATH"
+    - bash .make/resources/gitlab_section.sh install "K8S Install from .tgz" make k8s-install-chart
+    - bash .make/resources/gitlab_section.sh wait "Wait for installation" make k8s-wait  
+  needs:
+    - job: helm-chart-build
+      artifacts: true
+  after_script:
+    - rm -rf ./chart.tmp
+
+.redeploy-octopus:
+  extends:
+    - .deploy-octopus
+  before_script:
+    - !reference [.uninstall-chart, script]
+    - kubectl wait --for=delete namespace/$KUBE_NAMESPACE --timeout=60s
+
+.destroy-octopus:
+  extends:
+    - .deploy-octopus
+  script:
+    - !reference [.uninstall-chart, script]
+    - kubectl wait --for=delete namespace/$KUBE_NAMESPACE --timeout=60s
+
+deploy-octopus:
+  extends:
+    - .deploy-octopus
+
+redeploy-octopus:
+  extends:
+    - .redeploy-octopus
+
+destroy-octopus:
+  extends:
+    - .destroy-octopus
