@@ -16,8 +16,6 @@ from scripts.sequence_diagrammer.sequence_diagram_setup import (
 
 # Submodule imports
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Directory of the script
-SUBMODULE_PATH = os.path.abspath(os.path.join(BASE_DIR, "../../.jupyter-notebooks/src"))
-sys.path.append(SUBMODULE_PATH)
 
 from ska_mid_jupyter_notebooks.helpers.configuration import get_dish_namespace
 
