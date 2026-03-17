@@ -35,11 +35,10 @@ ska-web-s2i-flask-tango-panicapi:
   ###### THIS IS A TEMPORARY SECTION AND NEEDS TO BE REMOVED ONCE INTEGRATION IS DONE #####
   image:
     # repository: artefact.skao.int/ska-web-s2i-flask-tango-panicapi
-    repository: http://registry.gitlab.com/ska-telescope/ska-ams/ska-web-s2i-flask-tango-panicapi/ska-web-s2i-flask-tango-panicapi
+    repository: registry.gitlab.com/ska-telescope/ska-ams/ska-web-s2i-flask-tango-panicapi/ska-web-s2i-flask-tango-panicapi
     pullPolicy: IfNotPresent
     tag: 1.0.5-dev.c07813809
 ######################################################################################
-
 
 ska-tangogql:
   config:
