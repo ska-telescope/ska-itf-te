@@ -67,7 +67,7 @@ dependencies:
 
   # OSO integration
   - name: ska-oso-integration
-    version: 1.0.0
+    version: 2.0.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-oso-integration.enabled
 
@@ -75,7 +75,7 @@ dependencies:
   # when upgrading this major version, also adjust versions in Makefile URLs
   - name: ska-db-oda-umbrella
     repository: https://artefact.skao.int/repository/helm-internal
-    version: 14.0.4
+    version: 17.1.0
     condition: ska-db-oda-umbrella.enabled
 
   # DISH LMC CHART
