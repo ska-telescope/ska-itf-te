@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3538]
+  * update EDA API to V0.0.12
 * [AT-3534]
   * Use vault to set octopus credentials
 
