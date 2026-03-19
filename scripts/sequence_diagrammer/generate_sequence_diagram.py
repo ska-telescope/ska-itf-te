@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Directory of the script
 from ska_mid_jupyter_notebooks.helpers.configuration import get_dish_namespace
 
 
-class sequenceDiagrammer:
+class SequenceDiagrammer:
     """Class for starting event listing and generating sequence diagrams."""
 
     def __init__(self, sut_namespace: str = ''):
