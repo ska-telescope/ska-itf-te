@@ -142,7 +142,7 @@ class sequenceDiagrammer:
         # Remove lines starting with '<' from sequence-diagram.puml
         try:
             with open(self.sequence_diagram_file_name, "r", encoding="utf-8") as f:
-                lines = f.readlines()
+                lines = [line for line in f if not line.lstrip().startswith("<")]
             with open(self.sequence_diagram_file_name, "w", encoding="utf-8") as f:
                 for line in lines:
                     if not line.lstrip().startswith("<"):
