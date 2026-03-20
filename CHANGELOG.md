@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3580]
+  * update aa-archiver-configs
 * [AT-3534]
   * Use vault to set octopus credentials
 
