@@ -105,7 +105,37 @@ attributes:
   configuration:
     code_push_event: true
   th: th1
-- trl: mid-dish/dish-manager/ska063/attenuationpolh
+- trl: mid-dish/dish-manager/ska063/attenuation1polhx
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-dish/dish-manager/ska063/attenuation1polvy
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-dish/dish-manager/ska063/attenuation2polhx
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-dish/dish-manager/ska063/attenuation2polvy
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-dish/dish-manager/ska063/attenuationpolhx
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-dish/dish-manager/ska063/attenuationpolvy
   es: es1
   cm: cm1
   configuration:
@@ -208,12 +238,6 @@ attributes:
   configuration:
     code_push_event: true
     archive_abs_change: 0.1
-  th: th1
-- trl: mid-dish/dish-manager/ska063/attenuationpolv
-  es: es1
-  cm: cm1
-  configuration:
-    code_push_event: true
   th: th1
 - trl: ska063/spfrxpu/controller/rxs123odltemperature
   es: es1
