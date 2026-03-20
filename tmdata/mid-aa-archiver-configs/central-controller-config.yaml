@@ -581,12 +581,6 @@ attributes:
     code_push_event: true
     archive_abs_change: 0.5
   th: th1
-- trl: mid_csp_cbf/talon_board/001/mbotxfaultstatus
-  es: es2
-  cm: cm1
-  configuration:
-    code_push_event: true
-  th: th1
 - trl: mid_csp_cbf/talon_board/001/mbotxlolstatus
   es: es2
   cm: cm1
@@ -985,12 +979,6 @@ attributes:
   configuration:
     code_push_event: true
     archive_abs_change: 0.5
-  th: th1
-- trl: mid_csp_cbf/talon_board/002/mbotxfaultstatus
-  es: es3
-  cm: cm1
-  configuration:
-    code_push_event: true
   th: th1
 - trl: mid_csp_cbf/talon_board/002/mbotxlolstatus
   es: es3
@@ -1391,12 +1379,6 @@ attributes:
     code_push_event: true
     archive_abs_change: 0.5
   th: th1
-- trl: mid_csp_cbf/talon_board/003/mbotxfaultstatus
-  es: es4
-  cm: cm1
-  configuration:
-    code_push_event: true
-  th: th1
 - trl: mid_csp_cbf/talon_board/003/mbotxlolstatus
   es: es4
   cm: cm1
@@ -1795,12 +1777,6 @@ attributes:
   configuration:
     code_push_event: true
     archive_abs_change: 0.5
-  th: th1
-- trl: mid_csp_cbf/talon_board/004/mbotxfaultstatus
-  es: es5
-  cm: cm1
-  configuration:
-    code_push_event: true
   th: th1
 - trl: mid_csp_cbf/talon_board/004/mbotxlolstatus
   es: es5
