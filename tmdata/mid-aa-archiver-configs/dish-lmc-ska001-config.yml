@@ -477,21 +477,21 @@ attributes:
   cm: cm1
   configuration:
     code_push_event: true
-    archive_abs_change: 3
+    archive_abs_change: 3.0
   th: th1
 - trl: mid-dish/ds-manager/ska001/azimuth_motortwo_mactvelocity
   es: es2
   cm: cm1
   configuration:
     code_push_event: true
-    archive_abs_change: 3
+    archive_abs_change: 3.0
   th: th1
 - trl: mid-dish/ds-manager/ska001/elevation_motorone_mactvelocity
   es: es2
   cm: cm1
   configuration:
     code_push_event: true
-    archive_abs_change: 3
+    archive_abs_change: 3.0
   th: th1
 - trl: mid-dish/ds-manager/ska001/feedindexer_status_p_act
   es: es2
