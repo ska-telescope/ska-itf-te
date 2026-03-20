@@ -105,7 +105,37 @@ attributes:
   configuration:
     code_push_event: true
   th: th1
-- trl: mid-dish/dish-manager/ska001/attenuationpolh
+- trl: mid-dish/dish-manager/ska001/attenuation1polhx
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-dish/dish-manager/ska001/attenuation1polvy
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-dish/dish-manager/ska001/attenuation2polhx
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-dish/dish-manager/ska001/attenuation2polvy
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-dish/dish-manager/ska001/attenuationpolhx
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-dish/dish-manager/ska001/attenuationpolvy
   es: es1
   cm: cm1
   configuration:
@@ -391,91 +421,84 @@ attributes:
   cm: cm1
   configuration:
     code_push_event: true
-    archive_abs_change: 0.0001
+    archive_abs_change: 0.001
   th: th1
 - trl: mid-dish/ds-manager/ska001/azimuth_status_p_enc
   es: es1
   cm: cm1
   configuration:
     code_push_event: true
-    archive_abs_change: 0.001
+    archive_abs_change: 0.01
   th: th1
 - trl: mid-dish/ds-manager/ska001/azimuth_status_p_set
   es: es1
   cm: cm1
   configuration:
     code_push_event: true
-    archive_abs_change: 0.0001
+    archive_abs_change: 0.01
   th: th1
 - trl: mid-dish/ds-manager/ska001/azimuth_status_p_shape
   es: es2
   cm: cm1
   configuration:
     code_push_event: true
-    archive_abs_change: 0.0001
+    archive_abs_change: 0.01
   th: th1
 - trl: mid-dish/ds-manager/ska001/elevation_status_p_act
   es: es2
   cm: cm1
   configuration:
     code_push_event: true
-    archive_abs_change: 0.0001
+    archive_abs_change: 0.01
   th: th1
 - trl: mid-dish/ds-manager/ska001/elevation_status_p_enc
   es: es2
   cm: cm1
   configuration:
     code_push_event: true
-    archive_abs_change: 0.001
+    archive_abs_change: 0.01
   th: th1
 - trl: mid-dish/ds-manager/ska001/elevation_status_p_set
   es: es2
   cm: cm1
   configuration:
     code_push_event: true
-    archive_abs_change: 0.0001
+    archive_abs_change: 0.01
   th: th1
 - trl: mid-dish/ds-manager/ska001/elevation_status_p_shape
   es: es2
   cm: cm1
   configuration:
     code_push_event: true
-    archive_abs_change: 0.0001
+    archive_abs_change: 0.01
   th: th1
 - trl: mid-dish/ds-manager/ska001/azimuth_motorone_mactvelocity
   es: es2
   cm: cm1
   configuration:
     code_push_event: true
-    archive_abs_change: 0.1
+    archive_abs_change: 3
   th: th1
 - trl: mid-dish/ds-manager/ska001/azimuth_motortwo_mactvelocity
   es: es2
   cm: cm1
   configuration:
     code_push_event: true
-    archive_abs_change: 0.1
+    archive_abs_change: 3
   th: th1
 - trl: mid-dish/ds-manager/ska001/elevation_motorone_mactvelocity
   es: es2
   cm: cm1
   configuration:
     code_push_event: true
-    archive_abs_change: 0.1
-  th: th1
-- trl: mid-dish/ds-manager/ska001/elevation_motortwo_mactvelocity
-  es: es2
-  cm: cm1
-  configuration:
-    code_push_event: true
-    archive_abs_change: 0.1
+    archive_abs_change: 3
   th: th1
 - trl: mid-dish/ds-manager/ska001/feedindexer_status_p_act
   es: es2
   cm: cm1
   configuration:
     code_push_event: true
-    archive_abs_change: 0.0001
+    archive_abs_change: 0.01
   th: th1
 - trl: mid-dish/ds-manager/ska001/feedindexer_motorone_mactvelocity
   es: es2
@@ -509,14 +532,14 @@ attributes:
   cm: cm1
   configuration:
     code_push_event: true
-    archive_abs_change: 0.0001
+    archive_abs_change: 0.01
   th: th1
 - trl: mid-dish/ds-manager/ska001/pointing_status_totalpointcorr_az
   es: es2
   cm: cm1
   configuration:
     code_push_event: true
-    archive_abs_change: 0.0001
+    archive_abs_change: 0.01
   th: th1
 - trl: mid-dish/ds-manager/ska001/buildstate
   configuration:
