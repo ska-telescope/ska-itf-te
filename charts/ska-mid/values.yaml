@@ -218,6 +218,7 @@ ska-ser-config-inspector:
 # EDA
 ska-tango-archiver:
   enabled: false
+  pgappname: "ska-tango-archiver"
   archviewer:
     instances:
       - name: mid
