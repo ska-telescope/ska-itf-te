@@ -22,16 +22,16 @@ dependencies:
   version: 1.2.0
 - name: ska-sdp
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 2.1.1
+  version: 2.3.0
 - name: ska-oso-integration
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.0.0
+  version: 2.0.0
 - name: ska-db-oda-umbrella
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 14.0.4
+  version: 17.1.0
 - name: ska-dish-lmc
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 9.3.0-rc.3
+  version: 9.3.0-rc.5
 - name: ska-te-dish-structure-simulator
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.11.0
@@ -43,10 +43,10 @@ dependencies:
   version: 2.1.0
 - name: ska-tango-taranta
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 2.18.1
+  version: 2.18.3
 - name: ska-tango-tangogql-ariadne
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.0.7
+  version: 1.0.8
 - name: ska-tango-alarmhandler
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.6.0-rc.1
@@ -55,7 +55,7 @@ dependencies:
   version: 0.8.0
 - name: ska-tango-archiver
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 5.0.1
+  version: 5.0.2-rc.2
 - name: ska-log-consumer
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.1.6
@@ -65,5 +65,5 @@ dependencies:
 - name: ska-octopus-frontend
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.1.72
-digest: sha256:abe3d747df509ab5ea52e034b1f316318b49c989bd6547634b1648cbc5ca35cf
-generated: "2026-02-26T09:08:46.794476058+02:00"
+digest: sha256:f2b09ede383bd7250726fb7646e0c14b5387e80a26d036947ea3ee6a9fd09bbf
+generated: "2026-03-23T13:31:32.249373+02:00"

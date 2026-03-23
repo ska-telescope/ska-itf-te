@@ -4,6 +4,31 @@
 * [AT-3511] & [AT-3512]
   * Create `testing` namespace and jobs for its deployment
   * Ensure OSO tools are enabled in the new namespace job's enablers
+* [AT-3582]
+  * Upgrade ska-tango-archiver to `5.0.2-rc.2` to resolve SKB-1224
+* [AT-3577]
+  * Set Mid ITF dish archiver configs to be pulled from main.
+* [AT-3540]
+  * Fixed sequence diagrammer so it no longer crashes. Removed dependency on jupyter-notebooks submodule
+* [AT-3548]
+  * Upgrade ODA umbrella to `17.1.0`
+  * Upgrade oso-integration to `2.0.0`
+  * Upgrade ska-tmc-assignresources schema to v2.4
+* [AT-3534]
+  * Use vault to set octopus credentials
+
+## 30.0.1
+* [AT-3560]
+  * fixed sdp chart version to `x.y.z` format
+
+## 30.0.0
+* [AT-3486]
+  * update taranta to `2.18.3`
+  * update tangogql to `1.0.8`
+* [AT-3560]
+  * update sdp to `2.3.0`
+  * update vis-receive to `8.1.0`
+  * update dish-lmc to `9.3.0-rc.5`
 * [AT-3475]
   * Fix container scan job failure on tagged pipelines
 * [AT-3537]

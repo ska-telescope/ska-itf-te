@@ -1,5 +1,5 @@
 {
-    "interface": "https://schema.skao.int/ska-tmc-assignresources/2.2",
+    "interface": "https://schema.skao.int/ska-tmc-assignresources/2.4",
     "transaction_id": "txn-....-00001",
     "subarray_id": 1,
     "dish": {
@@ -157,7 +157,7 @@
           "script": {
             "kind": "realtime",
             "name": "vis-receive",
-            "version": "6.2.0"
+            "version": "8.1.0"
           },
           "parameters": {
             "channels_per_port": 20,

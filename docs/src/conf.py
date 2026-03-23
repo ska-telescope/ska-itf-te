@@ -29,7 +29,7 @@ author = "ATLAS Team"
 
 # The full version, including alpha/beta/rc tags
 
-release = "29.5.2-test-testing-ns-c"
+release = "30.1.0-test-oso-updates"
 
 # -- General configuration ---------------------------------------------------
 
