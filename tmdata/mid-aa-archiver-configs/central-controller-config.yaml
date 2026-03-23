@@ -177,6 +177,210 @@ attributes:
   configuration:
     code_push_event: true
   th: th1
+- trl: mid-tmc/subarray/01/state
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/subarray/01/healthstate
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/subarray/01/obsstate
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/subarray/01/issubarrayavailable
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/leaf-node-csp/0/state
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/leaf-node-csp/0/healthstate
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/leaf-node-csp/0/issubsystemavailable
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/subarray-leaf-node-csp/01/state
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/subarray-leaf-node-csp/01/healthstate
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/subarray-leaf-node-csp/01/issubsystemavailable
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/subarray-leaf-node-csp/01/delaymodel
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/subarray-leaf-node-csp/01/cspsubarrayobsState
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/leaf-node-sdp/0/state
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/leaf-node-sdp/0/healthstate
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/leaf-node-sdp/0/issubsystemavailable
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/subarray-leaf-node-sdp/01/state
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/subarray-leaf-node-sdp/01/healthstate
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/subarray-leaf-node-sdp/01/state/issubsystemavailable
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/subarray-leaf-node-sdp/01/sdpsubarrayobsstate
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/leaf-node-dish/ska001/state
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/leaf-node-dish/ska001/healthstate
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/leaf-node-dish/ska001/issubsystemavailable
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/leaf-node-dish/ska001/kvaluevalidationresult
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/leaf-node-dish/ska001/kvalue
+  es: es1
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/leaf-node-dish/ska036/state
+  es: es2
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/leaf-node-dish/ska036/healthstate
+  es: es2
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/leaf-node-dish/ska036/issubsystemavailable
+  es: es2
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/leaf-node-dish/ska036/kvaluevalidationresult
+  es: es2
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/leaf-node-dish/ska036/kvalue
+  es: es2
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/leaf-node-dish/ska100/state
+  es: es3
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/leaf-node-dish/ska100/healthstate
+  es: es3
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/leaf-node-dish/ska100/issubsystemavailable
+  es: es3
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/leaf-node-dish/ska100/kvaluevalidationresult
+  es: es3
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
+- trl: mid-tmc/leaf-node-dish/ska100/kvalue
+  es: es3
+  cm: cm1
+  configuration:
+    code_push_event: true
+  th: th1
 - trl: mid_csp_cbf/sub_elt/subarray_01/adminmode
   es: es1
   cm: cm1
