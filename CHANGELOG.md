@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3577]
+  * Set Mid ITF dish archiver configs to be pulled from main.
 * [AT-3534]
   * Use vault to set octopus credentials
 
