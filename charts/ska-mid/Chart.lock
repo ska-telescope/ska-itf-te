@@ -25,10 +25,10 @@ dependencies:
   version: 2.3.0
 - name: ska-oso-integration
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.0.0
+  version: 2.0.0
 - name: ska-db-oda-umbrella
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 14.0.4
+  version: 17.1.0
 - name: ska-dish-lmc
   repository: https://artefact.skao.int/repository/helm-internal
   version: 9.3.0-rc.5
@@ -65,5 +65,5 @@ dependencies:
 - name: ska-octopus-frontend
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.1.72
-digest: sha256:d223a91656f436c70aaa2e2777b3e5ad5d20ed4ce294d0beb85ad6787ae68210
-generated: "2026-03-11T11:08:25.946879+02:00"
+digest: sha256:faab29d0353b0a3f562db51173c3c716eceae8363bd9cb0d99e12f8dfab2e257
+generated: "2026-03-18T10:50:30.762799737+08:00"
