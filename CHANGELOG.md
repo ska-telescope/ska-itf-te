@@ -1,6 +1,10 @@
 # Version History
 
 ## Unreleased
+* [AT-3548]
+  * Upgrade ODA umbrella to `17.1.0`
+  * Upgrade oso-integration to `2.0.0`
+  * Upgrade ska-tmc-assignresources schema to v2.4
 * [AT-3534]
   * Use vault to set octopus credentials
 
