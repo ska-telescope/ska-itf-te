@@ -140,7 +140,7 @@ class SequenceDiagrammer:
         )
 
         # Remove lines starting with '<' from sequence-diagram.puml
-        # This is a workaround to be potentially removed once the standard log 
+        # TEMPCOMMIT: This is a workaround to be potentially removed once the standard log 
         # format is adopted by the teams. For now, it keeps the diagram from failing.
         try:
             with open(self.sequence_diagram_file_name, "r", encoding="utf-8") as f:
