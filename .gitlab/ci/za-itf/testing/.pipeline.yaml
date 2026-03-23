@@ -1,3 +1,6 @@
+variables:
+  DISH_IDS: "SKA001 SKA036 SKA063 SKA100"
+
 .testing_rules:
   allow_failure: true
   rules:
@@ -52,7 +55,14 @@
   variables:
     SUT_CHART_DIR: ${CI_PROJECT_DIR}/charts/ska-mid
     DISH_ENABLERS: "-f .gitlab/ci/za-itf/dish-lmc-skaXXX/dish-enablers.yaml"
-    DISH_LMC_INITIAL_PARAMS: -f charts/ska-mid/values.yaml --set global.dishes={$DISH_INDEX} --set global.raw_user_account=$CAR_RAW_USERNAME --set global.raw_user_pass=$CAR_RAW_PASSWORD --set ska-tango-archiver.dbpassword=${EDA_DB_PASSWORD} --set ska-tango-archiver.archviewer.instances[0].timescale_login=admin:${EDA_DB_PASSWORD} --set ska-tango-taranta.TANGO_DBS=[]
+    DISH_LMC_INITIAL_PARAMS: >-
+      -f charts/ska-mid/values.yaml
+      --set global.dishes={${DISH_INDEX}}
+      --set global.raw_user_account=$CAR_RAW_USERNAME
+      --set global.raw_user_pass=$CAR_RAW_PASSWORD
+      --set ska-tango-archiver.dbpassword=${EDA_DB_PASSWORD}
+      --set ska-tango-archiver.archviewer.instances[0].timescale_login=admin:${EDA_DB_PASSWORD}
+      --set ska-tango-taranta.TANGO_DBS=[]
     KUBE_APP: dish-lmc
     KUBE_NAMESPACE: testing-$KUBE_APP-$DISH_ID
     KUBE_NAMESPACE_PREFIX: testing-dish-lmc-
@@ -74,16 +84,23 @@ deploy-testing-dishes:
   extends:
     - .testing_dish_env
     - .deploy-dish-lmc
-  script:
-    - export PATH=.venv/bin:${PATH} # TEMPORARY COMMIT: fix in one place
-    - poetry install
-    - echo "Deploying dishes $DISH_IDS:"
-    - make itf-dish-ids
+  parallel:
+    matrix:
+      - DISH_ID: "SKA001"
+        DISH_INDEX: "001"
+      - DISH_ID: "SKA036"
+        DISH_INDEX: "036"
+      - DISH_ID: "SKA063"
+        DISH_INDEX: "063"
+      - DISH_ID: "SKA100"
+        DISH_INDEX: "100"
+    name: "deploy-$DISH_ID"
   environment:
     on_stop: uninstall-testing-dishes
 
 uninstall-testing-dishes:
   extends:
+    - .destroy-dish-lmc
     - .testing_dish_env
   script:
     - echo "Uninstalling all dishes in downstream dish-aiv stage"
@@ -91,10 +108,22 @@ uninstall-testing-dishes:
   environment:
     action: stop
 
+generate-tmc-config-testing:
+  extends:
+    - .testing-env
+  needs:
+    - job: deploy-testing-dishes
+      optional: true
+  script:
+    - echo "Generating TMC config for $DISH_IDS"
+    - make itf-dish-ids
+
 deploy-sut-testing:
   extends:
     - .deploy
     - .testing-env
+  needs:
+    - generate-tmc-config-testing
   image: $DEPLOY_IMAGE
   environment:
     name: mid-itf/ska-$CONFIG-testing
@@ -108,6 +137,8 @@ redeploy-sut-testing:
   extends:
     - .redeploy
     - .testing-env
+  needs:
+    - generate-tmc-config-testing
   environment:
     name: mid-itf/ska-$CONFIG-testing
     kubernetes:
