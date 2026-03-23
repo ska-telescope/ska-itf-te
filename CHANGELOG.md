@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3576]
+  * Upgrade tangogql Ariadne to v1.0.10
 * [AT-3548]
   * Upgrade ODA umbrella to `17.1.0`
   * Upgrade oso-integration to `2.0.0`
