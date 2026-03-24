@@ -102,6 +102,8 @@ deploy-testing-dishes-trigger:
   stage: testing
   rules:
     - when: manual
+  script:
+    - echo "Triggering all dish deployments in their own jobs"
 
 uninstall-testing-dishes:
   extends:
