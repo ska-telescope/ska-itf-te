@@ -3,6 +3,12 @@
 ## Unreleased
 * [AT-3576]
   * Upgrade tangogql Ariadne to v1.0.10
+* [AT-3582]
+  * Upgrade ska-tango-archiver to `5.0.2-rc.2` to resolve SKB-1224
+* [AT-3577]
+  * Set Mid ITF dish archiver configs to be pulled from main.
+* [AT-3540]
+  * Fixed sequence diagrammer so it no longer crashes. Removed dependency on jupyter-notebooks submodule
 * [AT-3548]
   * Upgrade ODA umbrella to `17.1.0`
   * Upgrade oso-integration to `2.0.0`
