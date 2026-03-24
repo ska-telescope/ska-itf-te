@@ -52,6 +52,9 @@ variables:
   extends:
     - .testing_rules
   image: $DEPLOY_IMAGE
+  before_script:
+  - echo "Dish: $DISH_ID (index $DISH_INDEX)"
+  - echo "Namespace: $KUBE_NAMESPACE"
   variables:
     SUT_CHART_DIR: ${CI_PROJECT_DIR}/charts/ska-mid
     DISH_ENABLERS: "-f .gitlab/ci/za-itf/dish-lmc-skaXXX/dish-enablers.yaml"
@@ -94,18 +97,21 @@ deploy-testing-dishes:
         DISH_INDEX: "063"
       - DISH_ID: "ska100"
         DISH_INDEX: "100"
-  environment:
-    on_stop: uninstall-testing-dishes
 
 uninstall-testing-dishes:
   extends:
     - .destroy-dish-lmc
     - .testing_dish_env
-  script:
-    - echo "Uninstalling all dishes in downstream dish-aiv stage"
-    - echo "Uninstalling 'SKA001', 'SKA036', 'SKA063', 'SKA100'"
-  environment:
-    action: stop
+  parallel:
+    matrix:
+      - DISH_ID: "ska001"
+        DISH_INDEX: "001"
+      - DISH_ID: "ska036"
+        DISH_INDEX: "036"
+      - DISH_ID: "ska063"
+        DISH_INDEX: "063"
+      - DISH_ID: "ska100"
+        DISH_INDEX: "100"
 
 generate-tmc-config-testing:
   extends:
