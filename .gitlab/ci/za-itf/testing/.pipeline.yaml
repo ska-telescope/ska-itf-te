@@ -86,15 +86,14 @@ deploy-testing-dishes:
     - .deploy-dish-lmc
   parallel:
     matrix:
-      - DISH_ID: "SKA001"
+      - DISH_ID: "ska001"
         DISH_INDEX: "001"
-      - DISH_ID: "SKA036"
+      - DISH_ID: "ska036"
         DISH_INDEX: "036"
-      - DISH_ID: "SKA063"
+      - DISH_ID: "ska063"
         DISH_INDEX: "063"
-      - DISH_ID: "SKA100"
+      - DISH_ID: "ska100"
         DISH_INDEX: "100"
-    name: "deploy-$DISH_ID"
   environment:
     on_stop: uninstall-testing-dishes
 
