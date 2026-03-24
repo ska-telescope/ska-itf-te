@@ -124,8 +124,6 @@ redeploy-sut-testing:
   extends:
     - .redeploy
     - .testing-env
-  needs:
-    - generate-tmc-config-testing
   environment:
     name: mid-itf/ska-$CONFIG-testing
     kubernetes:
