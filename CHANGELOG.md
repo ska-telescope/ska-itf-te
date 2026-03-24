@@ -1,6 +1,9 @@
 # Version History
 
 ## Unreleased
+* [AT-3511] & [AT-3512]
+  * Create `testing` namespace and jobs for its deployment
+  * Ensure OSO tools are enabled in the new namespace job's enablers
 * [AT-3576]
   * Upgrade tangogql Ariadne to `1.0.10`
 * [AT-3582]
