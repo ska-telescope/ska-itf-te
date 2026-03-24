@@ -31,7 +31,7 @@ kafka:
 
 # OSO
 ska-oso-integration:
-  enabled: false
+  enabled: true
 
 # ODA
 ska-db-oda-umbrella:
