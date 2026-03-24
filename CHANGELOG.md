@@ -2,7 +2,7 @@
 
 ## Unreleased
 * [AT-3576]
-  * Upgrade tangogql Ariadne to v1.0.10
+  * Upgrade tangogql Ariadne to `1.0.10`
 * [AT-3582]
   * Upgrade ska-tango-archiver to `5.0.2-rc.2` to resolve SKB-1224
 * [AT-3577]
