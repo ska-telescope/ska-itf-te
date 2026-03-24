@@ -77,7 +77,7 @@ variables:
   needs:
     - helm-chart-build
 
-deploy-testing-dishes-per-dish:
+deploy-testing-dishes-target:
   extends:
     - .deploy-dish-lmc
     - .testing_dish_env
@@ -96,9 +96,9 @@ deploy-testing-dishes-per-dish:
       when: on_success
     - when: never
   needs:
-    - deploy-testing-dishes-trigger
+    - deploy-all-testing-dishes-trigger
 
-deploy-testing-dishes-trigger:
+deploy-all-testing-dishes-trigger:
   stage: testing
   rules:
     - when: manual
