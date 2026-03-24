@@ -82,8 +82,8 @@ variables:
 
 deploy-testing-dishes:
   extends:
-    - .testing_dish_env
     - .deploy-dish-lmc
+    - .testing_dish_env
   parallel:
     matrix:
       - DISH_ID: "ska001"
