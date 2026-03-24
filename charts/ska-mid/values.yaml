@@ -58,6 +58,8 @@ ska-dataproduct-dashboard:
 # OSO
 ska-oso-integration:
   enabled: false
+  credentials:
+    secretName: oso-credentials
   ska-db-oda-umbrella:
     enabled: true # The ODA API server should be deployed in the same namespace as the apps, but not the database
     postgres:
