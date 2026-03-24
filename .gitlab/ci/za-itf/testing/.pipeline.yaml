@@ -52,9 +52,6 @@ variables:
   extends:
     - .testing_rules
   image: $DEPLOY_IMAGE
-  before_script:
-  - echo "Dish: $DISH_ID (index $DISH_INDEX)"
-  - echo "Namespace: $KUBE_NAMESPACE"
   variables:
     SUT_CHART_DIR: ${CI_PROJECT_DIR}/charts/ska-mid
     DISH_ENABLERS: "-f .gitlab/ci/za-itf/dish-lmc-skaXXX/dish-enablers.yaml"
