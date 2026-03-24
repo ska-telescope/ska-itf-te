@@ -99,9 +99,9 @@ deploy-testing-dishes-indiv:
     - deploy-testing-dishes
 
 deploy-testing-dishes:
+  extends:
+    - .testing_rules
   stage: testing
-  rules:
-    - when: manual
   script:
     - echo "Triggering all dish deployments in their own jobs"
 
