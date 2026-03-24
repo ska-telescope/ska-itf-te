@@ -72,9 +72,6 @@ variables:
     SPFRX_TANGO_LOGGING_LEVEL: 4
     SPFRX_IN_THE_LOOP: "false"
     ENV_NAME: dish.itf/dish-lmc-testing/testing
-  rules:
-    - when: manual
-      allow_failure: true
   environment:
     name: $ENV_NAME
   needs:
