@@ -107,22 +107,10 @@ uninstall-testing-dishes:
       - DISH_ID: "ska100"
         DISH_INDEX: "100"
 
-generate-tmc-config-testing:
-  extends:
-    - .testing-env
-  needs:
-    - job: deploy-testing-dishes
-      optional: true
-  script:
-    - echo "Generating TMC config for $DISH_IDS"
-    - make itf-dish-ids
-
 deploy-sut-testing:
   extends:
     - .deploy
     - .testing-env
-  needs:
-    - generate-tmc-config-testing
   image: $DEPLOY_IMAGE
   environment:
     name: mid-itf/ska-$CONFIG-testing
