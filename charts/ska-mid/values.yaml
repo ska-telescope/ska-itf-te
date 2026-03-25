@@ -226,7 +226,7 @@ ska-tango-archiver:
         # e.g: timescale_databases: ""
         timescale_databases: itf_eda
   archwizard_config: MyHDB=tango://tango-databaseds:10000/mid-eda/cm/01
-  configuration_file_url: 
+  configuration_file_url: https://gitlab.com/ska-telescope/ska-mid/-/raw/at-3580-archiver-update/tmdata/mid-aa-archiver-configs/central-controller-config.yaml?inline=false
   configuration_manager: mid-eda/cm/01
   dbname: itf_eda
   dbuser: admin
