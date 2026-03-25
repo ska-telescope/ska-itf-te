@@ -1,6 +1,6 @@
 tango_hosts:
 - th1:
-    host: tango-databaseds.ska-mid-central-controller.svc.mid.internal.skao.int
+    host: tango-databaseds.staging.svc.miditf.internal.skao.int
     port: 10000
 event_subscribers:
 - es1:
@@ -279,7 +279,7 @@ attributes:
   configuration:
     code_push_event: true
   th: th1
-- trl: mid-tmc/subarray-leaf-node-sdp/01/state/issubsystemavailable
+- trl: mid-tmc/subarray-leaf-node-sdp/01/issubsystemavailable
   es: es1
   cm: cm1
   configuration:
