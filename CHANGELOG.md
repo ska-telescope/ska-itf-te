@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+
+## 30.1.0
 * [AT-3538]
   * update EDA API to V0.0.12
 * [AT-3511] & [AT-3512]
