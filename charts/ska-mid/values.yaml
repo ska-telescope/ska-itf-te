@@ -65,7 +65,7 @@ ska-oso-integration:
     ska-db-oda:
       rest:
         enabled: true
-      initPostgres:
+      liquibase:
         runJob: false
   ska-oso-services:
     vault:
@@ -83,7 +83,7 @@ ska-db-oda-umbrella:
   ska-db-oda:
     rest:
       enabled: false
-    initPostgres:
+    liquibase:
       runJob: true
 
 # DISH LMC
