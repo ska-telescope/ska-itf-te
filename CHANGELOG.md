@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3547]
+  * Upgrade SPFC deployer to `0.4.5`
 * [AT-3511] & [AT-3512]
   * Create `testing` namespace and jobs for its deployment
   * Ensure OSO tools are enabled in the new namespace job's enablers
