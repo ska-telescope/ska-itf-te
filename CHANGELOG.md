@@ -3,6 +3,8 @@
 ## Unreleased
 * [AT-3547]
   * Upgrade SPFC deployer to `0.4.5`
+* [AT-3538]
+  * update EDA API to V0.0.12
 * [AT-3511] & [AT-3512]
   * Create `testing` namespace and jobs for its deployment
   * Ensure OSO tools are enabled in the new namespace job's enablers
