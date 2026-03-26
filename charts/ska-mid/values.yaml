@@ -72,6 +72,17 @@ ska-oso-integration:
   ska-oso-services:
     vault:
       enabled: false
+    secretProvider:
+      enabled: true
+      provider:
+        name: "vault"
+        vaultAddress: "https://vault.skao.int"
+        roleName: "kube-role"
+        secretsPath: "mid-itf/data/ost-credentials"
+        secrets:
+        - secretKey: "ost_client_secret"
+          targetEnv: OST_CLIENT_SECRET
+
   ska-oso-slt-services:
     secretProvider:
       enabled: false
