@@ -1,0 +1,214 @@
+variables:
+  DISH_IDS: "SKA001 SKA036 SKA063 SKA100"
+
+.testing_rules:
+  allow_failure: true
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "pipeline"
+      when: never
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: never
+    - if: "$CI_COMMIT_TAG"
+      when: manual
+      variables:
+        KUBE_NAMESPACE_PREFIX: testing-dish-lmc-
+      allow_failure: true
+    - when: never
+
+.testing-env:
+  stage: testing
+  tags:
+    - ska-k8srunner-za-itf
+  extends:
+    - .testing_rules
+  variables:
+    CONFIG: mid
+    HELM_RELEASE: "testing-main"
+    KUBE_NAMESPACE: "testing"
+    KUBE_NAMESPACE_SDP: "$KUBE_NAMESPACE-sdp"
+    SERVICE_ACCOUNT: "ci-svc-testing"
+    ARCHIVER_DBNAME: "testing_archiver_db"
+    KEEP_NAMESPACE: "true"
+    K8S_CHART: "ska-mid"
+    CLUSTER_DOMAIN_POSTFIX: miditf.internal.skao.int
+    KUBE_APP: ska-mid-sut
+    INGRESS_HOST: "k8s.miditf.internal.skao.int"
+    CLUSTER_DOMAIN: "miditf.internal.skao.int"
+    SUT_ENABLERS: "-f .gitlab/ci/za-itf/testing/sut-testing-enablers.yaml"
+    K8S_EXTRA_PARAMS: "--set global.kafka_host=ska-sdp-kafka.$KUBE_NAMESPACE --set global.ska-tango-archiver.enabled=true --set ska-tango-archiver.enabled=true --set ska-tango-archiver.dbuser=admin --set ska-tango-archiver.dbpassword=${EDA_DB_PASSWORD} --set ska-tango-archiver.archviewer.instances[0].timescale_login=admin:${EDA_DB_PASSWORD} --set ska-tango-archiver.archviewer.instances[0].timescale_databases=itf_eda --set ska-tango-archiver.archviewer.instances[0].timescale_host=10.164.11.33 --set ska-tango-archiver.archviewer.instances[0].name=mid"
+    TANGO_DATABASE_DS: tango-databaseds
+    K8S_AUTH_NAMESPACES: "$KUBE_NAMESPACE $KUBE_NAMESPACE_SDP"
+    K8S_AUTH_SERVICE_ACCOUNT: "ci-svc-ska-miditf-$CI_PIPELINE_ID"
+    PDU_IP: "10.20.2.14"
+    # HARDWARE AND DISH IN THE LOOP SETTINGS
+    CBF_HW_IN_THE_LOOP: "false"
+    DISH_LMC_IN_THE_LOOP: "true"
+    SIM_MODE: "true"
+
+.testing_dish_env:
+  stage: testing
+  tags:
+    - ska-k8srunner-za-itf
+  extends:
+    - .testing_rules
+  image: $DEPLOY_IMAGE
+  variables:
+    SUT_CHART_DIR: ${CI_PROJECT_DIR}/charts/ska-mid
+    DISH_ENABLERS: "-f .gitlab/ci/za-itf/dish-lmc-skaXXX/dish-enablers.yaml"
+    DISH_LMC_INITIAL_PARAMS: >-
+      -f charts/ska-mid/values.yaml
+      --set global.dishes={${DISH_INDEX}}
+      --set global.raw_user_account=$CAR_RAW_USERNAME
+      --set global.raw_user_pass=$CAR_RAW_PASSWORD
+      --set ska-tango-archiver.dbpassword=${EDA_DB_PASSWORD}
+      --set ska-tango-archiver.archviewer.instances[0].timescale_login=admin:${EDA_DB_PASSWORD}
+      --set ska-tango-taranta.TANGO_DBS=[]
+    KUBE_APP: dish-lmc
+    KUBE_NAMESPACE: testing-$KUBE_APP-$DISH_ID
+    KUBE_NAMESPACE_PREFIX: testing-dish-lmc-
+    SPFRX_BIN: /usr/local/bin
+    SPFRX_LOCAL_DIR: artifacts
+    SPFRX_SCRIPTS_DIR: scripts
+    SPFRX_TANGO_LOGGING_LEVEL: 4
+    SPFRX_IN_THE_LOOP: "false"
+    ENV_NAME: dish.itf/dish-lmc-testing/testing
+  environment:
+    name: $ENV_NAME
+  needs:
+    - helm-chart-build
+
+deploy-testing-dishes-indiv:
+  extends:
+    - .deploy-dish-lmc
+    - .testing_dish_env
+  parallel:
+    matrix:
+      - DISH_ID: "ska001"
+        DISH_INDEX: "001"
+      - DISH_ID: "ska036"
+        DISH_INDEX: "036"
+      - DISH_ID: "ska063"
+        DISH_INDEX: "063"
+      - DISH_ID: "ska100"
+        DISH_INDEX: "100"
+  rules:
+    - if: "$CI_COMMIT_TAG"
+      when: on_success
+    - when: never
+  needs:
+    - deploy-testing-dishes
+
+deploy-testing-dishes:
+  extends:
+    - .testing_rules
+  stage: testing
+  script:
+    - echo "Triggering all dish deployments in their own jobs"
+
+uninstall-testing-dishes:
+  extends:
+    - .destroy-dish-lmc
+    - .testing_dish_env
+  parallel:
+    matrix:
+      - DISH_ID: "ska001"
+        DISH_INDEX: "001"
+      - DISH_ID: "ska036"
+        DISH_INDEX: "036"
+      - DISH_ID: "ska063"
+        DISH_INDEX: "063"
+      - DISH_ID: "ska100"
+        DISH_INDEX: "100"
+
+deploy-sut-testing:
+  extends:
+    - .deploy
+    - .testing-env
+  image: $DEPLOY_IMAGE
+  environment:
+    name: mid-itf/ska-$CONFIG-testing
+    kubernetes:
+      # This repetition is needed for gitlab to parse the namespace correctly
+      namespace: $KUBE_NAMESPACE
+    url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
+    on_stop: destroy-sut-testing
+
+redeploy-sut-testing:
+  extends:
+    - .redeploy
+    - .testing-env
+  environment:
+    name: mid-itf/ska-$CONFIG-testing
+    kubernetes:
+      # This repetition is needed for gitlab to parse the namespace correctly
+      namespace: $KUBE_NAMESPACE
+    url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
+    on_stop: destroy-sut-testing
+
+info-sut-testing:
+  extends:
+    - .info
+    - .testing-env
+
+destroy-sut-testing:
+  extends:
+    - .cleanup
+    - .testing-env
+  environment:
+    name: mid-itf/ska-$CONFIG-testing
+    kubernetes:
+      # This repetition is needed for gitlab to parse the namespace correctly
+      namespace: $KUBE_NAMESPACE
+    url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
+    action: stop
+
+.test-testing-rules:
+  rules:
+    - if: '$CI_COMMIT_TAG != null'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: manual
+      allow_failure: true
+    - when: never
+
+test-end-to-end-testing:
+  stage: test
+  extends:
+    - .testing-env
+    - .test-end-to-end-with-hw
+    - .test-testing-rules
+
+test-telescope-on-testing:
+  stage: test
+  extends:
+    - .testing-env
+    - .test-telescope-on-with-hw
+    - .test-testing-rules
+
+test-scan-testing:
+  stage: test
+  extends:
+    - .testing-env
+    - .test-scan-with-hw
+    - .test-testing-rules
+
+test-multiscan-with-reconfigure-testing:
+  stage: test
+  extends:
+    - .testing-env
+    - .test-multiscan-with-reconfigure-with-hw
+    - .test-testing-rules
+
+test-multiscan-without-reconfigure-testing:
+  stage: test
+  extends:
+    - .testing-env
+    - .test-multiscan-without-reconfigure-with-hw
+    - .test-testing-rules
+
+test-telescope-off-testing:
+  stage: test
+  extends:
+    - .testing-env
+    - .test-telescope-off-with-hw
+    - .test-testing-rules
