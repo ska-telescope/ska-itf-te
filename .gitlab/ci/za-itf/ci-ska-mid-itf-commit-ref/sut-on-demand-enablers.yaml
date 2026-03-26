@@ -33,6 +33,10 @@ ska-tango-taranta:
 tangogql:
   enabled: true
 
+# OSO
+ska-oso-integration:
+  enabled: true
+
 # AlarmHandler
 ska-tango-alarmhandler:
   enabled: true
