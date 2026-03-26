@@ -19,14 +19,14 @@ stages:
   - on_demand_itf_sut
   - build
   - deploy-supplementary-services
+  - platform
   - deploy-dish-aiv
   - remove-dish-aiv
   - test
   - lint
-  - platform
+  - staging
   - testing
   - integration
-  - staging
   - upload
   - publish
   - pages
