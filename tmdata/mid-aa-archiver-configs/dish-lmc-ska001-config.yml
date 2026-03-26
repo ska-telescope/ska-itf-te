@@ -2695,193 +2695,193 @@ attributes:
     archive_abs_change: 0.01
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmeterone_tilt_temp_scale
+- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_one_tilt_temp_scale
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmeterone_tiltmeter_serial_no
+- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_one_tiltmeter_serial_no
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmeterone_x_filt_dt
+- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_one_x_filt_dt
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmeterone_x_off
+- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_one_x_off
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmeterone_x_offtc
+- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_one_x_offtc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmeterone_x_scale
+- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_one_x_scale
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmeterone_x_scaletc
+- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_one_x_scaletc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmeterone_x_zero
+- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_one_x_zero
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmeterone_x_zerotc
+- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_one_x_zerotc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmeterone_y_filt_dt
+- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_one_y_filt_dt
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmeterone_y_off
+- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_one_y_off
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmeterone_y_offtc
+- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_one_y_offtc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmeterone_y_scale
+- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_one_y_scale
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmeterone_y_scaletc
+- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_one_y_scaletc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmeterone_y_zero
+- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_one_y_zero
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmeterone_y_zerotc
+- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_one_y_zerotc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmetertwo_tilt_temp_scale
+- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_two_tilt_temp_scale
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmetertwo_tiltmeter_serial_no
+- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_two_tiltmeter_serial_no
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmetertwo_x_filt_dt
+- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_two_x_filt_dt
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmetertwo_x_off
+- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_two_x_off
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmetertwo_x_offtc
+- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_two_x_offtc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmetertwo_x_scale
+- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_two_x_scale
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmetertwo_x_scaletc
+- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_two_x_scaletc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmetertwo_x_zero
+- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_two_x_zero
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmetertwo_x_zerotc
+- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_two_x_zerotc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmetertwo_y_filt_dt
+- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_two_y_filt_dt
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmetertwo_y_off
+- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_two_y_off
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmetertwo_y_offtc
+- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_two_y_offtc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmetertwo_y_scale
+- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_two_y_scale
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmetertwo_y_scaletc
+- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_two_y_scaletc
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmetertwo_y_zero
+- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_two_y_zero
   configuration:
     code_push_event: true
     archive_abs_change: 1
   es: es8
   th: th1
-- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_tiltmetertwo_y_zerotc
+- trl: mid-dish/ds-manager/ska001/tiltmeterparameters_two_y_zerotc
   configuration:
     code_push_event: true
     archive_abs_change: 1
