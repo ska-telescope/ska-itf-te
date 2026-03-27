@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3586]
+  * Add OST Vault secret to deployment
 
 ## 30.1.0
 * [AT-3538]
