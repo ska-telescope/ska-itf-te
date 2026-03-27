@@ -421,7 +421,7 @@ attributes:
   cm: cm1
   configuration:
     code_push_event: true
-    archive_abs_change: 0.001
+    archive_abs_change: 0.01
   th: th1
 - trl: mid-dish/ds-manager/ska001/azimuth_status_p_enc
   es: es1
