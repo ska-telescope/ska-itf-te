@@ -72,6 +72,8 @@ ska-oso-integration:
   ska-oso-services:
     vault:
       enabled: false
+  ska-oso-ost-services:
+    enabled: true
     secretProvider:
       enabled: true
       provider:
