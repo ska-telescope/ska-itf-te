@@ -82,7 +82,7 @@ ska-oso-integration:
         roleName: "kube-role"
         secretsPath: "mid-itf/data/ost-credentials"
         secrets:
-        - secretKey: "ost_client_secret"
+        - secretKey: "ost-client-secret"
           targetEnv: OST_CLIENT_SECRET
 
   ska-oso-slt-services:
