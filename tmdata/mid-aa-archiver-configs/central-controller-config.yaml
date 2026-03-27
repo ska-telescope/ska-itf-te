@@ -320,6 +320,7 @@ attributes:
   cm: cm1
   configuration:
     code_push_event: true
+    archive_abs_change: 1.0
   th: th1
 - trl: mid-tmc/leaf-node-dish/ska036/state
   es: es2
@@ -350,6 +351,7 @@ attributes:
   cm: cm1
   configuration:
     code_push_event: true
+    archive_abs_change: 1.0
   th: th1
 - trl: mid-tmc/leaf-node-dish/ska100/state
   es: es3
@@ -380,6 +382,7 @@ attributes:
   cm: cm1
   configuration:
     code_push_event: true
+    archive_abs_change: 1.0
   th: th1
 - trl: mid_csp_cbf/sub_elt/subarray_01/adminmode
   es: es1
