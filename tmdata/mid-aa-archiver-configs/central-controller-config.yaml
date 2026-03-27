@@ -1,6 +1,6 @@
 tango_hosts:
 - th1:
-    host: tango-databaseds.staging.svc.miditf.internal.skao.int
+    host: tango-databaseds.ska-mid-central-controller.svc.mid.internal.skao.int
     port: 10000
 event_subscribers:
 - es1:
