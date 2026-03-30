@@ -3,6 +3,11 @@
 ## Unreleased
 * [AT-3580]
   * update aa-archiver-configs
+* [AT-3602]
+  * Upgrade ODA umbrella to `17.2.0`
+  * Upgrade oso-integration to `2.0.2`
+* [AT-3586]
+  * Add OST Vault secret to deployment
 
 ## 30.1.0
 * [AT-3538]
