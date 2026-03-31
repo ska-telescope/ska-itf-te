@@ -28,7 +28,11 @@ h11 = "^0.14.0"
 annotated-types = ">=0.6.0,<1.0.0"
 black = "^24.3.0"
 ska-telmodel = "^1.13.0"
-ska-oso-scripting = "^17.0.0"
+ska-oso-scripting = "17.0.0"
+astropy = "^6.0.0" 
+pydantic = {extras = ["email"], version = "^2.12.5"}
+ska-schemas = "^1.36.0"
+psycopg = "^3.3.3"
 
 [tool.poetry.group.docs.dependencies]
 Sphinx = "^7.2.6"
