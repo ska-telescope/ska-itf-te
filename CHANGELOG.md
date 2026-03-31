@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3547]
+  * Upgrade SPFC deployer to `0.4.5`
 * [AT-3580]
   * update aa-archiver-configs
 * [AT-3602]
