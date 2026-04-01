@@ -48,8 +48,8 @@ dependencies:
   repository: https://artefact.skao.int/repository/helm-internal
   version: 1.0.10
 - name: ska-tango-alarmhandler
-  repository: https://artefact.skao.int/repository/helm-internal
-  version: 0.6.0-rc.1
+  repository: https://gitlab.com/api/v4/projects/41921390/packages/helm/dev
+  version: 0.6.1-dev.cd44d75eb
 - name: ska-sdp-dataproduct-dashboard
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.8.0
@@ -65,5 +65,5 @@ dependencies:
 - name: ska-octopus-frontend
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.1.72
-digest: sha256:145a0145f097ac34e8312fde17ab02312775dc18b2ab0a0b71f88dcd9eabad0f
-generated: "2026-03-24T10:29:48.537747+02:00"
+digest: sha256:e2da2c83cfc925a7e6a5779f287c82707b68213a19f564351f8ffcb320ed4037
+generated: "2026-04-01T10:44:42.034481419Z"
