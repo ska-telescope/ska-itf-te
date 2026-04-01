@@ -29,7 +29,7 @@ author = "ATLAS Team"
 
 # The full version, including alpha/beta/rc tags
 
-release = "30.1.0"
+release = "30.1.0-test-add-alarmhandler-dev-2"
 
 # -- General configuration ---------------------------------------------------
 
