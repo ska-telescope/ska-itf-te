@@ -322,6 +322,7 @@ ska-tmc-mid:
       AbortCommandTimeOut: 350
       CspScanInterfaceURL: https://schema.skao.int/ska-csp-scan/2.2   # TEMPORARY COMMIT - not to be overwritten in makefile
       LoggingLevel: "5"
+      DishIDs: ["SKA001"]
     dishleafnode:
       CommandTimeOutDefault: 320
       LoggingLevel: "5"
