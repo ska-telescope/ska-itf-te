@@ -32,7 +32,7 @@ ska-oso-scripting = "17.0.0"
 astropy = "^6.0.0" 
 pydantic = {extras = ["email"], version = "^2.12.5"}
 ska-schemas = "^1.36.0"
-psycopg = "^3.3.3"
+psycopg = {extras = ["binary"], version = "^3.3.3"}
 
 [tool.poetry.group.docs.dependencies]
 Sphinx = "^7.2.6"
