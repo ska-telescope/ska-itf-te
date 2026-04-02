@@ -19,7 +19,7 @@ dependencies:
 
   # Mid TMC
   - name: ska-tmc-mid
-    version: 1.13.0
+    version: 1.18.0-rc.2
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tmc-mid.enabled
 
@@ -80,7 +80,7 @@ dependencies:
 
   # DISH LMC CHART
   - name: ska-dish-lmc
-    version: 9.3.0-rc.5
+    version: 9.3.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-dish-lmc.enabled
 

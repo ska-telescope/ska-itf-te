@@ -305,20 +305,25 @@ ska-tmc-mid:
       DishVccConfig:
         DishVccUri: "car:ska-mid?27.3.0#tmdata"
         DishVccFilePath: "instrument/ska1_mid_itf/vcc-config/ska-mid-cbf-system-parameters.json"
+      LoggingLevel: "5"
     cspsubarrayleafnode:
       CommandTimeOutDefault: 300
+      LoggingLevel: "5"
       # DelayCadence: 10.0
       # DelayModelTimeInAdvance: 30
       # DelayValidityPeriod: 20.0
       # SleepTime: 1.5
     sdpsubarrayleafnode:
       CommandTimeOutDefault: 240
+      LoggingLevel: "5"
     subarraynode:
       CommandTimeOutDefault: 350
       AbortCommandTimeOut: 350
       CspScanInterfaceURL: https://schema.skao.int/ska-csp-scan/2.2   # TEMPORARY COMMIT - not to be overwritten in makefile
+      LoggingLevel: "5"
     dishleafnode:
       CommandTimeOutDefault: 320
+      LoggingLevel: "5"
   resources:
     # limits:
     #   cpu: 800m
