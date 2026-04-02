@@ -306,6 +306,7 @@ ska-tmc-mid:
         DishVccUri: "car:ska-mid?27.3.0#tmdata"
         DishVccFilePath: "instrument/ska1_mid_itf/vcc-config/ska-mid-cbf-system-parameters.json"
       LoggingLevel: "5"
+      DishIDs: ["SKA001"]
     cspsubarrayleafnode:
       CommandTimeOutDefault: 300
       LoggingLevel: "5"
