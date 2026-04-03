@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+
+## 30.2.0
 * [AT-3547]
   * Upgrade SPFC deployer to `0.4.5`
 * [AT-3580]
