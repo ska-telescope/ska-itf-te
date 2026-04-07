@@ -3,7 +3,7 @@ app: eda-grafana-connector
 image:
   registry: registry.gitlab.com/ska-telescope/ska-mid
   image: ska-mid-eda-grafana-connector
-  tag: 0.0.12-dev.c557b9753
+  tag: 0.0.13-dev.ca444caba
   pullPolicy: IfNotPresent
 vault:
   edaCredentials:
