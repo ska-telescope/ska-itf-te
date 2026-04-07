@@ -45,7 +45,7 @@ def generate_configure_tmc_payloads():
 if __name__ == "__main__":
     # Show Assign Resources payload and configure payloads that would be generated from the test SBD, as well as a scan command for the first scan in the SBD. This is not a test of the correctness of these payloads, but just a demonstration of how to use the wrapper functions to generate them.
     assign_resources_payload = generate_assign_resources_tmc_payload()
-    print("AssignResources payload:")
+    print("Assign Resources payload:")
     print(assign_resources_payload)
 
     # Show Configure payloads for each scan in the SBD
