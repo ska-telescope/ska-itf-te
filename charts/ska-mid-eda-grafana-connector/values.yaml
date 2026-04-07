@@ -22,5 +22,6 @@ environment:
   ATTRIBUTE_CONTEXT_FILE: "/app/libhdbpp-grafana-connector/ArchivingDataSource/skao-attribute-context.yaml"
   EDA_DATABASE_NAME: itf_eda
   CONNECTION_POOL_MAX_CONN: 10
+  REQUEST_TIMESTAMPS_MAX_LEN: 100
 startup:
   command: '"sh", "-c", "poetry run grafana-connector"'
