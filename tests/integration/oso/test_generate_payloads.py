@@ -1,12 +1,13 @@
-"""Basic functions for generating TMC payloads using OSO. To be converted into tests with AT-3619."""
+"""Basic functions for generating TMC payloads using OSO. See AT-3619."""
+
+import os
 
 from ska_oso_scripting import api
+from ska_oso_scripting.api.functional.devicecontrol.subarray_control import get_scan_command
 from ska_oso_scripting.pdm_transforms import (
     create_cdm_assign_resources_request_from_scheduling_block,
     create_cdm_configure_requests_from_scheduling_block,
 )
-from ska_oso_scripting.api.functional.devicecontrol.subarray_control import get_scan_command
-import os
 
 # Mock vars
 os.environ["EB_ID"] = "eb-986-20260218-6tmxr3kxn4c"
@@ -43,7 +44,11 @@ def generate_configure_tmc_payloads():
 
 
 if __name__ == "__main__":
-    # Show Assign Resources payload and configure payloads that would be generated from the test SBD, as well as a scan command for the first scan in the SBD. This is not a test of the correctness of these payloads, but just a demonstration of how to use the wrapper functions to generate them.
+    # Show Assign Resources payload and configure payloads that
+    # would be generated from the test SBD, as well as a scan command
+    # for the first scan in the SBD. This is not a test of the correctness
+    # of these payloads, but just a demonstration of how to use the wrapper functions
+    # to generate them.
     assign_resources_payload = generate_assign_resources_tmc_payload()
     print("Assign Resources payload:")
     print(assign_resources_payload)
