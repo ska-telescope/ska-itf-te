@@ -1,6 +1,9 @@
 # Version History
 
 ## Unreleased
+* [AT-2200]
+  * Added ska-oso-scripting dependency and made a number of adjustments to dependencies to allow package version resolution.
+  * Added methods to generate TMC Assign, Configure, Scan payloads using oso-scripting
 * [AT-3534]
   * Use vault to set octopus credentials
 
