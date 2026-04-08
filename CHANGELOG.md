@@ -4,6 +4,38 @@
 * [AT-2200]
   * Added ska-oso-scripting dependency and made a number of adjustments to dependencies to allow package version resolution.
   * Added methods to generate TMC Assign, Configure, Scan payloads using oso-scripting
+* [AT-3590]
+  * Add basic staging alarmhandler config
+
+## 30.2.0
+* [AT-3547]
+  * Upgrade SPFC deployer to `0.4.5`
+* [AT-3580]
+  * update aa-archiver-configs
+* [AT-3602]
+  * Upgrade ODA umbrella to `17.2.0`
+  * Upgrade oso-integration to `2.0.2`
+* [AT-3586]
+  * Add OST Vault secret to deployment
+
+## 30.1.0
+* [AT-3538]
+  * update EDA API to V0.0.12
+* [AT-3511] & [AT-3512]
+  * Create `testing` namespace and jobs for its deployment
+  * Ensure OSO tools are enabled in the new namespace job's enablers
+* [AT-3576]
+  * Upgrade tangogql Ariadne to `1.0.10`
+* [AT-3582]
+  * Upgrade ska-tango-archiver to `5.0.2-rc.2` to resolve SKB-1224
+* [AT-3577]
+  * Set Mid ITF dish archiver configs to be pulled from main.
+* [AT-3540]
+  * Fixed sequence diagrammer so it no longer crashes. Removed dependency on jupyter-notebooks submodule
+* [AT-3548]
+  * Upgrade ODA umbrella to `17.1.0`
+  * Upgrade oso-integration to `2.0.0`
+  * Upgrade ska-tmc-assignresources schema to v2.4
 * [AT-3534]
   * Use vault to set octopus credentials
 

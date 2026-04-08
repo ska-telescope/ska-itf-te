@@ -17,7 +17,7 @@ from pytest_bdd import given, parsers, then, when
 from ska_control_model import HealthState, ObsState
 from tango import DeviceProxy, DevState, EventType
 
-from scripts.sequence_diagrammer.generate_sequence_diagram import sequenceDiagrammer
+from scripts.sequence_diagrammer.generate_sequence_diagram import SequenceDiagrammer
 from utils.enums import DishMode
 
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), ".jupyter-notebooks")))
@@ -385,10 +385,10 @@ def sequence_diagrammer(settings):
 
     :param settings: test settings
     :type settings: dict[str]
-    :yield: An instance of sequenceDiagrammer for tracking events.
-    :rtype: sequenceDiagrammer
+    :yield: An instance of SequenceDiagrammer for tracking events.
+    :rtype: SequenceDiagrammer
     """
-    sequence_diagrammer = sequenceDiagrammer(settings["SUT_namespace"])
+    sequence_diagrammer = SequenceDiagrammer(settings["SUT_namespace"])
 
     try:
         yield sequence_diagrammer  # Provide instance to test
@@ -420,9 +420,9 @@ def _(sequence_diagrammer, settings):
     The events captured during the test will be used to generate a sequence
     diagram at the end of the test.
 
-    :param sequence_diagrammer: An instance of sequenceDiagrammer that manages
+    :param sequence_diagrammer: An instance of SequenceDiagrammer that manages
                                 event tracking and diagram generation.
-    :type sequence_diagrammer: sequenceDiagrammer
+    :type sequence_diagrammer: SequenceDiagrammer
     :param settings: test settings
     :type settings: dict[str]
     """

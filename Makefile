@@ -141,13 +141,11 @@ endif
 DISH_LMC_PARAMS ?= $(DISH_LMC_INITIAL_PARAMS) $(DISH_LMC_EXTRA_PARAMS) $(DISH_LMC_EDA_PARAMS)
 
 # Note: remember to update major versions here if charts have major version upgrades
-ODA_URL ?= $(KUBE_HOST)/$(KUBE_NAMESPACE)/oda/api/v14
-SLT_SERVICES_URL ?= $(KUBE_HOST)/$(KUBE_NAMESPACE)/slt/api/v2
+ODA_URL ?= $(KUBE_HOST)/$(KUBE_NAMESPACE)/oda/api/v17
 
 OSO_PARAMS ?= \
   	--set ska-oso-integration.ska-oso-oet.rest.ingress.enabled=true \
- 	--set ska-oso-integration.ska-oso-oet-ui.backendURLODA=$(ODA_URL) \
-	--set ska-oso-integration.ska-oso-slt-ui.backendURL=$(SLT_SERVICES_URL)
+ 	--set ska-oso-integration.ska-oso-oet-ui.backendURLODA=$(ODA_URL)
 
 ###################################################################
 ### THIS SECTION NEEDS REVIEW FROM SDP ARCHITECTS

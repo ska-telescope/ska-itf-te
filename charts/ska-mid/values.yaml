@@ -65,11 +65,24 @@ ska-oso-integration:
     ska-db-oda:
       rest:
         enabled: true
-      initPostgres:
+      liquibase:
         runJob: false
   ska-oso-services:
     vault:
       enabled: false
+  ska-oso-ost-services:
+    enabled: true
+    secretProvider:
+      enabled: true
+      provider:
+        name: "vault"
+        vaultAddress: "https://vault.skao.int"
+        roleName: "kube-role"
+        secretsPath: "mid-itf/data/ost-credentials"
+        secrets:
+        - secretKey: "ost-client-secret"
+          targetEnv: OST_CLIENT_SECRET
+
   ska-oso-slt-services:
     secretProvider:
       enabled: false
@@ -83,7 +96,7 @@ ska-db-oda-umbrella:
   ska-db-oda:
     rest:
       enabled: false
-    initPostgres:
+    liquibase:
       runJob: true
 
 # DISH LMC

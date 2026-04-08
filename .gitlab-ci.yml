@@ -19,13 +19,14 @@ stages:
   - on_demand_itf_sut
   - build
   - deploy-supplementary-services
+  - platform
   - deploy-dish-aiv
   - remove-dish-aiv
   - test
   - lint
-  - platform
-  - integration
   - staging
+  - testing
+  - integration
   - upload
   - publish
   - pages
@@ -71,6 +72,8 @@ include:
   - local: .gitlab/ci/za-itf/cbf-engineering-console/.pipeline.yaml
   - local: .gitlab/ci/za-itf/eda-grafana-connector/.pipeline.yaml
   - local: .gitlab/ci/za-itf/octopus/.pipeline.yaml
+  - local: .gitlab/ci/za-itf/testing/.pipeline.yaml
+
 
 xray-publish:
   when: always
