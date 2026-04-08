@@ -344,6 +344,8 @@ ska-mid_wms:
   labels:
     app: ska-tmc-integration
   enabled: true
+  ska-tango-taranta:
+    enabled: false
   ska-tango-base:
     enabled: false
   simulator:
