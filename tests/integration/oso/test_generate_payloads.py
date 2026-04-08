@@ -1,4 +1,4 @@
-"""."""
+"""Basic functions for generating TMC payloads using OSO. To be converted into tests with AT-3619."""
 
 from ska_oso_scripting import api
 from ska_oso_scripting.pdm_transforms import (
@@ -17,7 +17,7 @@ sbd = api.load_sbd("tests/integration/resources/sbds/test_sbd.json")
 
 
 def generate_assign_resources_tmc_payload():
-    """_summary_.
+    """Generate assign resource TMC payload using oso scripting methods.
 
     :return: _description_
     :rtype: _type_
