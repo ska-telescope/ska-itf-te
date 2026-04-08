@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3590]
+  * Add basic staging alarmhandler config
 * [AT-3547]
   * Upgrade SPFC deployer to `0.4.5`
 * [AT-3580]
