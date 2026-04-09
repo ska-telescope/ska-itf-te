@@ -2,6 +2,8 @@
 
 ## Unreleased
 * [AT-3590]
+  * Upgrade Octopus to `0.3.0` and update config vars for Mid ITF staging environment
+* [AT-3590]
   * Add basic staging alarmhandler config
 
 ## 30.2.0
