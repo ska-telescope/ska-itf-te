@@ -1,6 +1,12 @@
 # Version History
 
 ## Unreleased
+* [AT-3630]
+  * product updates
+    * ska-csp-lmc-mid to `1.5.0`
+    * ska-tango-base and ska-tango-util to `1.0.7`
+    * ska-dish-lmc to `9.3.0`
+    * ska-tango-taranta to `2.18.5`
 * [AT-3590]
   * Upgrade Octopus to `0.3.0` and update config vars for Mid ITF staging environment
 * [AT-3590]
