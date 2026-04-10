@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3631]
+  * Upgrade tangogql in taranta-itf chart to `1.0.10`
 * [AT-3590]
   * Upgrade Octopus to `0.3.0` and update config vars for Mid ITF staging environment
 * [AT-3590]
