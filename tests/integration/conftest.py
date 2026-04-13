@@ -5,13 +5,11 @@ import os
 from typing import Any, Callable
 
 import pytest
-
 from pytest_bdd import given
 from pytest_bdd.parser import Feature, Scenario, Step
 from tango import DeviceProxy
 
 from tests.integration.tmc.conftest import TMC
-
 
 logger = logging.getLogger(__name__)
 
@@ -45,45 +43,6 @@ def pytest_bdd_before_step_call(
             f"***** {step.keyword} {step.name} *****\n"
             "**********************************************************"
         )
-
-    @property
-    def nr_of_receptors(self):
-        """_summary_.
-
-        :return: _description_
-        :rtype: _type_
-        """
-        return self._nr_of_receptors
-
-    @nr_of_receptors.setter
-    def nr_of_receptors(self, value: int):
-        """_summary_.
-
-        :param value: _description_
-        :type value: int
-        """
-        self._nr_of_receptors = value
-        self._receptors = [  # pylint: disable=unnecessary-comprehension
-            i for i in range(1, value + 1)
-        ]
-
-    @property
-    def receptors(self):
-        """_summary_.
-
-        :return: _description_
-        :rtype: _type_
-        """
-        return self._receptors
-
-    @receptors.setter
-    def receptors(self, receptor: list[int]):
-        """_summary_.
-
-        :param receptor: _description_
-        :type receptor: list[int]
-        """
-        self._receptors = receptor
 
 
 @given("a mid telescope")
