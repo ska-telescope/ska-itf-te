@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3631]
+  * Upgrade tangogql in taranta-itf chart to `1.0.10`
 * [AT-3630]
   * product updates
     * ska-csp-lmc-mid to `1.5.0`
