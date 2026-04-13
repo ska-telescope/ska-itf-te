@@ -4,6 +4,16 @@
 * [AT-2200]
   * Added ska-oso-scripting dependency and made a number of adjustments to dependencies to allow package version resolution.
   * Added methods to generate TMC Assign, Configure, Scan payloads using oso-scripting
+* [AT-3631]
+  * Upgrade tangogql in taranta-itf chart to `1.0.10`
+* [AT-3630]
+  * product updates
+    * ska-csp-lmc-mid to `1.5.0`
+    * ska-tango-base and ska-tango-util to `1.0.7`
+    * ska-dish-lmc to `9.3.0`
+    * ska-tango-taranta to `2.18.5`
+* [AT-3590]
+  * Upgrade Octopus to `0.3.0` and update config vars for Mid ITF staging environment
 * [AT-3590]
   * Add basic staging alarmhandler config
 
