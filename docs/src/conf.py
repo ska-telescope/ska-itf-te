@@ -29,11 +29,7 @@ author = "ATLAS Team"
 
 # The full version, including alpha/beta/rc tags
 
-<<<<<<< HEAD
-release = "30.2.0-dish-tangogql-upgrade"
-=======
 release = "30.3.0rc1"
->>>>>>> main
 
 # -- General configuration ---------------------------------------------------
 
