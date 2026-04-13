@@ -118,7 +118,7 @@ dependencies:
 
   # AlarmHandler
   - name: ska-tango-alarmhandler
-    version: 0.6.2
+    version: 0.6.3-rc.1
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tango-alarmhandler.enabled
 
