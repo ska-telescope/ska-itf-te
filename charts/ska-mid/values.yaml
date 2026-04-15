@@ -260,6 +260,8 @@ ska-tango-base:
     enabled: true
   tangodb:
     use_pv: true
+  databaseds:
+    exposeDS: true
 ska-tango-util:
   enabled: true
 
