@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3636]
+  * Expose tangodatabaseds using LoadBalancer service type (ska-tango-base made all DS ClusterIP by default)
 * [AT-3631]
   * Upgrade tangogql in taranta-itf chart to `1.0.10`
 * [AT-3630]
