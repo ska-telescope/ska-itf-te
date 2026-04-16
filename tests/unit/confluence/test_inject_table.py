@@ -7,7 +7,7 @@ import pytest
 from assertpy import assert_that
 from lxml import etree
 
-from ska_ser_skallop.confluence.helper import get_template, insert_xhtml_table
+from scripts.confluence.confluence.helper import get_template, insert_xhtml_table
 
 from .conftest import XHTMLTable
 

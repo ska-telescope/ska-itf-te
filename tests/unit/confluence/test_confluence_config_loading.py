@@ -6,9 +6,9 @@ from pathlib import Path
 import pytest
 from assertpy import assert_that
 
-from ska_ser_skallop.confluence.config.factory import Dependency, get_config
-from ska_ser_skallop.confluence.config.generate_diagram import generate_diagrams_from_config
-from ska_ser_skallop.confluence.config.implementation import Factory
+from scripts.confluence.confluence.config.factory import Dependency, get_config
+from scripts.confluence.confluence.config.generate_diagram import generate_diagrams_from_config
+from scripts.confluence.confluence.config.implementation import Factory
 
 
 @pytest.fixture(name="test_data")

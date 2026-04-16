@@ -2,7 +2,7 @@ import argparse
 import os
 from pathlib import Path
 
-from ska_ser_skallop.confluence import (
+from scripts.confluence.confluence import (
     generate_diagrams_from_config,
     get_attachment_data,
     get_results_as_html_table,

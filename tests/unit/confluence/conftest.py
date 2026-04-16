@@ -6,8 +6,8 @@ import pytest
 from assertpy import add_extension
 from lxml import etree
 
-from ska_ser_skallop.confluence.results import XHTMLTable, get_results_as_html_table
-from ska_ser_skallop.confluence.results.jira_helper import mock_requests
+from scripts.confluence.confluence.results import XHTMLTable, get_results_as_html_table
+from scripts.confluence.confluence.results.jira_helper import mock_requests
 
 
 def is_the_same_element_as(self: Any, other: str, write: str | None = None):

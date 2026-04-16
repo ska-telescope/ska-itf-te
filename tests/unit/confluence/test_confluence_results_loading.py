@@ -7,11 +7,11 @@ import pytest
 from assertpy import assert_that
 from lxml import etree
 
-from ska_ser_skallop.confluence.results import (
+from scripts.confluence.confluence.results import (
     get_results_as_html_table_element,
     get_results_as_html_table_str,
 )
-from ska_ser_skallop.confluence.results.file_helper import find_in_test_file
+from scripts.confluence.confluence.results.file_helper import find_in_test_file
 
 
 @pytest.fixture(name="expected_results_path")

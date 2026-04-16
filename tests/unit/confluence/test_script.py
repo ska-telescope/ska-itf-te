@@ -4,8 +4,8 @@ from unittest.mock import patch
 import pytest
 from assertpy import assert_that
 
-from ska_ser_skallop.confluence.config.implementation import Factory
-from ska_ser_skallop.scripts.confluence import upload_to_confluence
+from scripts.confluence.confluence.config.implementation import Factory
+from scripts.confluence import upload_to_confluence
 
 
 @pytest.fixture(name="factory")
@@ -34,7 +34,7 @@ def fxt_test_results() -> Path:
 
 
 @pytest.mark.usefixtures("mock_requests")
-@patch("ska_ser_skallop.scripts.confluence.upload_to_confluence.main")
+@patch("scripts.confluence.upload_to_confluence.main")
 def test_confluence_upload_script(main_mock_response):
     assert_that(
         main_mock_response["message"],
