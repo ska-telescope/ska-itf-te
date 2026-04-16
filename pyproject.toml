@@ -34,6 +34,9 @@ pydantic = {extras = ["email"], version = "^2.12.5"}
 ska-schemas = "^1.36.0"
 psycopg = {extras = ["binary"], version = "^3.3.3"}
 assertpy = "^1.1"
+lxml = "^6.0.4"
+diagrams = "^0.25.1"
+mock = "^5.2.0"
 
 [tool.poetry.group.docs.dependencies]
 Sphinx = "^7.2.6"
