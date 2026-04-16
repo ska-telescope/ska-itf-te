@@ -1,3 +1,5 @@
+"""."""
+
 import json
 import os
 import re
@@ -27,17 +29,36 @@ PAGE_ID = 232111210
 
 @pytest.fixture(name="page_id")
 def fxt_page_id() -> int:
+    """_summary_.
+
+    :return: _description_
+    :rtype: int
+    """
     return PAGE_ID
 
 
 @pytest.mark.usefixtures("mock_requests")
 def test_update_page_content(page_id: int, expected_results_path: Path):
+    """_summary_.
+
+    :param page_id: _description_
+    :type page_id: int
+    :param expected_results_path: _description_
+    :type expected_results_path: Path
+    """
     response = update_page_content(page_id, expected_results_path)
     assert_that(response.status_code).is_equal_to(200)
 
 
 @pytest.fixture(name="html_content_path")
 def fxt_html_content_path(tmp_path: Path):
+    """_summary_.
+
+    :param tmp_path: _description_
+    :type tmp_path: Path
+    :return: _description_
+    :rtype: _type_
+    """
     if os.getenv("USE_LOCAL"):
         return Path("html_temp.xhtml")
     return tmp_path.joinpath("html_temp.txt")
@@ -47,6 +68,15 @@ def fxt_html_content_path(tmp_path: Path):
 def test_get_page_html_content(
     page_id: int, html_content_path: Path, expected_get_contents_response: str
 ):
+    """_summary_.
+
+    :param page_id: _description_
+    :type page_id: int
+    :param html_content_path: _description_
+    :type html_content_path: Path
+    :param expected_get_contents_response: _description_
+    :type expected_get_contents_response: str
+    """
     results = get_page_html_content(page_id, html_content_path)
     assert_that(results).is_equal_to(expected_get_contents_response, write="xhtml")
 
@@ -55,12 +85,26 @@ def test_get_page_html_content(
 def test_get_page_attachments(
     expected_dependency_title: str, expected_dependency_attachment: Attachment
 ):
+    """_summary_.
+
+    :param expected_dependency_title: _description_
+    :type expected_dependency_title: str
+    :param expected_dependency_attachment: _description_
+    :type expected_dependency_attachment: Attachment
+    """
     page_attachment = get_page_attachments(PAGE_ID, expected_dependency_title)
     assert_that(page_attachment).is_equal_to(expected_dependency_attachment)
 
 
 @pytest.fixture(name="metadata_path")
 def fxt_metadata_path(tmp_path: Path):
+    """_summary_.
+
+    :param tmp_path: _description_
+    :type tmp_path: Path
+    :return: _description_
+    :rtype: _type_
+    """
     if os.getenv("USE_LOCAL"):
         return Path("temp-metadata.json")
     return tmp_path.joinpath("temp-metadata.json")
@@ -68,6 +112,11 @@ def fxt_metadata_path(tmp_path: Path):
 
 @pytest.fixture(name="get_metadata_response")
 def fxt_get_metadata_response() -> dict[str, Any]:
+    """_summary_.
+
+    :return: _description_
+    :rtype: dict[str, Any]
+    """
     path = Path(__file__).parent.joinpath("data/expected_metadata.json")
     with path.open(encoding="utf-8") as file:
         return json.load(file)
@@ -75,17 +124,36 @@ def fxt_get_metadata_response() -> dict[str, Any]:
 
 @pytest.fixture(name="expected_get_metadata_response")
 def fxt_expected_get_metadata_response(get_metadata_response: dict[str, Any]):
+    """_summary_.
+
+    :param get_metadata_response: _description_
+    :type get_metadata_response: dict[str, Any]
+    :return: _description_
+    :rtype: _type_
+    """
     data = json.dumps(get_metadata_response)
     return sha256(data.encode()).hexdigest()
 
 
 @pytest.fixture(name="mock_get_contents_id")
 def fxt_mock_get_contents_id(page_id: str):
+    """_summary_.
+
+    :param page_id: _description_
+    :type page_id: str
+    :return: _description_
+    :rtype: _type_
+    """
     return f"{page_id}expand_body.storage"
 
 
 @pytest.fixture(name="get_contents_response")
 def fxt_get_contents_response():
+    """_summary_.
+
+    :return: _description_
+    :rtype: _type_
+    """
     path = Path(__file__).parent.joinpath("data/expected_page.xhtml")
     with path.open(encoding="utf-8") as file:
         return file.read()
@@ -93,17 +161,36 @@ def fxt_get_contents_response():
 
 @pytest.fixture(name="expected_get_contents_response")
 def fxt_expected_get_contents_response(get_contents_response: str):
+    """_summary_.
+
+    :param get_contents_response: _description_
+    :type get_contents_response: str
+    :return: _description_
+    :rtype: _type_
+    """
     return get_contents_response
     # return "be7b858f23e3fffe5462e70438254563c21bdea71e453cb0eb389e2c226c4328"
 
 
 @pytest.fixture(name="mock_put_contents_id")
 def fxt_mock_put_contents_id(page_id: str):
+    """_summary_.
+
+    :param page_id: _description_
+    :type page_id: str
+    :return: _description_
+    :rtype: _type_
+    """
     return f"{page_id}expand_body.storage"
 
 
 @pytest.fixture(name="mock_get_attachments_results")
 def fxt_mock_get_attachments_results():
+    """_summary_.
+
+    :return: _description_
+    :rtype: _type_
+    """
     path = Path(__file__).parent.joinpath("data/expected_attachment_results.json")
     with path.open("r", encoding="utf-8") as file:
         return json.load(file)
@@ -111,6 +198,13 @@ def fxt_mock_get_attachments_results():
 
 @pytest.fixture(name="mock_get_attachments_key")
 def fxt_mock_get_attachments_key(page_id: int):
+    """_summary_.
+
+    :param page_id: _description_
+    :type page_id: int
+    :return: _description_
+    :rtype: _type_
+    """
     return f"{page_id}child_attachment"
 
 
@@ -123,6 +217,23 @@ def fxt_mock_gets(
     mock_get_attachments_key: str,
     mock_get_attachments_results: dict[str, Any],
 ):
+    """_summary_.
+
+    :param page_id: _description_
+    :type page_id: int
+    :param get_metadata_response: _description_
+    :type get_metadata_response: dict[str, Any]
+    :param mock_get_contents_id: _description_
+    :type mock_get_contents_id: str
+    :param get_contents_response: _description_
+    :type get_contents_response: str
+    :param mock_get_attachments_key: _description_
+    :type mock_get_attachments_key: str
+    :param mock_get_attachments_results: _description_
+    :type mock_get_attachments_results: dict[str, Any]
+    :return: _description_
+    :rtype: _type_
+    """
     return {
         str(page_id): get_metadata_response,
         mock_get_contents_id: get_contents_response,
@@ -132,6 +243,11 @@ def fxt_mock_gets(
 
 @pytest.fixture(name="put_contents_response")
 def fxt_put_contents_response() -> dict[str, Any]:
+    """_summary_.
+
+    :return: _description_
+    :rtype: dict[str, Any]
+    """
     return {}
 
 
@@ -140,6 +256,15 @@ def fxt_mock_puts(
     mock_put_contents_id: str,
     put_contents_response: dict[str, Any],
 ):
+    """_summary_.
+
+    :param mock_put_contents_id: _description_
+    :type mock_put_contents_id: str
+    :param put_contents_response: _description_
+    :type put_contents_response: dict[str, Any]
+    :return: _description_
+    :rtype: _type_
+    """
     return {mock_put_contents_id: put_contents_response}
 
 
@@ -148,6 +273,15 @@ def fxt_mock_posts(
     page_id: int,
     mock_get_attachments_key: str,
 ) -> dict[str, Any]:
+    """_summary_.
+
+    :param page_id: _description_
+    :type page_id: int
+    :param mock_get_attachments_key: _description_
+    :type mock_get_attachments_key: str
+    :return: _description_
+    :rtype: dict[str, Any]
+    """
     return {
         str(page_id): {},
         mock_get_attachments_key: {},
@@ -160,6 +294,17 @@ def fxt_mock_requests(
     mock_puts: dict[str, Any],
     mock_posts: dict[str, Any],
 ):
+    """_summary_.
+
+    :param mock_gets: _description_
+    :type mock_gets: dict[str, Any]
+    :param mock_puts: _description_
+    :type mock_puts: dict[str, Any]
+    :param mock_posts: _description_
+    :type mock_posts: dict[str, Any]
+
+    :yields: None
+    """
     if not os.getenv("DISABLE_MOCKING"):
         os.environ["CONFLUENCE_HOST"] = "dummy"
         os.environ["CONFLUENCE_SERVICE_ACCOUNT_TOKEN"] = "dummy"
@@ -181,12 +326,28 @@ def _hash_json(data: dict[str, Any]):
 
 
 def hash_str(data: str):
+    """_summary_.
+
+    :param data: _description_
+    :type data: str
+    :return: _description_
+    :rtype: _type_
+    """
     data = re.sub(r"\n|\s{2,}", "", data)
     return sha256(data.encode()).hexdigest()
 
 
 @pytest.mark.usefixtures("mock_requests")
 def test_get_page_metadata(page_id: int, metadata_path: Path, expected_get_metadata_response: str):
+    """_summary_.
+
+    :param page_id: _description_
+    :type page_id: int
+    :param metadata_path: _description_
+    :type metadata_path: Path
+    :param expected_get_metadata_response: _description_
+    :type expected_get_metadata_response: str
+    """
     get_page_meta_data(page_id, metadata_path)
     with metadata_path.open() as file:
         result = _hash_json(json.load(file))
@@ -195,16 +356,35 @@ def test_get_page_metadata(page_id: int, metadata_path: Path, expected_get_metad
 
 @pytest.fixture(name="attachment_id")
 def fxt_attachment_id():
+    """_summary_.
+
+    :return: _description_
+    :rtype: _type_
+    """
     return 232111237
 
 
 @pytest.fixture(name="test_image_path")
 def fxt_test_image_path():
+    """_summary_.
+
+    :return: _description_
+    :rtype: _type_
+    """
     return Path(__file__).parent.joinpath("data/dependencies.png")
 
 
 @pytest.mark.usefixtures("mock_requests")
 def test_update_attachment_by_id(page_id: int, attachment_id: int, test_image_path: Path):
+    """_summary_.
+
+    :param page_id: _description_
+    :type page_id: int
+    :param attachment_id: _description_
+    :type attachment_id: int
+    :param test_image_path: _description_
+    :type test_image_path: Path
+    """
     results = update_attachment_by_id(
         page_id=page_id, attachment_id=attachment_id, path=test_image_path
     )
@@ -213,6 +393,11 @@ def test_update_attachment_by_id(page_id: int, attachment_id: int, test_image_pa
 
 @pytest.fixture(name="expected_attachment_data_path")
 def fxt_expected_attachment_data_path():
+    """_summary_.
+
+    :return: _description_
+    :rtype: _type_
+    """
     if os.getenv("USE_LOCAL"):
         return Path("expected_attachment_results.json")
     return Path(__file__).parent.joinpath("data/expected_attachment_results.json")
@@ -222,17 +407,36 @@ def fxt_expected_attachment_data_path():
 def fxt_expected_attachment_data(
     expected_attachment_data_path: Path,
 ) -> dict[str, Any]:
+    """_summary_.
+
+    :param expected_attachment_data_path: _description_
+    :type expected_attachment_data_path: Path
+    :return: _description_
+    :rtype: dict[str, Any]
+    """
     with expected_attachment_data_path.open() as file:
         return json.load(file)
 
 
 @pytest.fixture(name="expected_dependency_title")
 def fxt_expected_dependency_title() -> str:
+    """_summary_.
+
+    :return: _description_
+    :rtype: str
+    """
     return "test.png"
 
 
 @pytest.fixture(name="expected_dependency_attachment")
 def fxt_expected_dependency_attachment(expected_dependency_title: str):
+    """_summary_.
+
+    :param expected_dependency_title: _description_
+    :type expected_dependency_title: str
+    :return: _description_
+    :rtype: _type_
+    """
     return Attachment(id="232111237", name=expected_dependency_title, file_size=61997)
 
 
@@ -242,6 +446,15 @@ def test_get_attachment_data(
     expected_dependency_attachment: Attachment,
     expected_dependency_title: str,
 ):
+    """_summary_.
+
+    :param page_id: _description_
+    :type page_id: int
+    :param expected_dependency_attachment: _description_
+    :type expected_dependency_attachment: Attachment
+    :param expected_dependency_title: _description_
+    :type expected_dependency_title: str
+    """
     results = get_attachment_data(page_id=page_id)
     assert_that(results).contains_entry(
         {expected_dependency_title: expected_dependency_attachment}
@@ -250,6 +463,7 @@ def test_get_attachment_data(
 
 @pytest.mark.usefixtures("mock_requests")
 def test_token_authentication():
+    """_summary_."""
     confluence_connection = ConfluenceConnection()
     header = {**confluence_connection._base_headers, **confluence_connection._auth_header}
     resource = confluence_connection.contents_url.format(PAGE_ID)

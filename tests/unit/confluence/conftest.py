@@ -1,3 +1,5 @@
+"""."""
+
 import os
 from pathlib import Path
 from typing import Any
@@ -11,6 +13,15 @@ from scripts.confluence.confluence.results.jira_helper import mock_requests
 
 
 def is_the_same_element_as(self: Any, other: str, write: str | None = None):
+    """_summary_.
+
+    :param self: _description_
+    :type self: Any
+    :param other: _description_
+    :type other: str
+    :param write: _description_, defaults to None
+    :type write: str | None, optional
+    """
     parser = etree.XMLParser(encoding="utf-8", recover=True)
     self_as_element = etree.fromstring(self.val, parser=parser)
     other_as_element = etree.fromstring(other, parser=parser)
@@ -30,6 +41,11 @@ add_extension(is_the_same_element_as)
 
 @pytest.fixture(name="test_data")
 def fxt_test_data() -> Path:
+    """_summary_.
+
+    :return: _description_
+    :rtype: Path
+    """
     return Path(__file__).parent.joinpath("data/cucumber.json")
 
 
@@ -68,6 +84,10 @@ def _issue(_id: str):
 
 @pytest.fixture(name="mock_requests")
 def fxt_mock_requests():
+    """_summary_.
+
+    :yields: None
+    """
     mock_responses = {
         "XTP-4506": _issue("1234"),
         "XTP-20083": _issue("0000"),
@@ -89,9 +109,23 @@ def fxt_mock_requests():
 
 @pytest.fixture(name="results_table")
 def fxt_results_table(mock_requests: None, test_data: Path) -> XHTMLTable:
+    """_summary_.
+
+    :param mock_requests: _description_
+    :type mock_requests: None
+    :param test_data: _description_
+    :type test_data: Path
+    :return: _description_
+    :rtype: XHTMLTable
+    """
     return get_results_as_html_table(test_data)
 
 
 @pytest.fixture(name="expected_results_path")
 def fxt_expected_results_path() -> Path:
+    """_summary_.
+
+    :return: _description_
+    :rtype: Path
+    """
     return Path(__file__).parent.joinpath("data/expected_page.xhtml")

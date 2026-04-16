@@ -1,3 +1,18 @@
+"""
+Script for updating Confluence pages with configuration diagrams and test results.
+
+This script reads a configuration file and test results file, generates diagrams from the config,
+and updates an existing Confluence page with the diagrams as attachments and test results as a
+table.
+
+Command-line Arguments:
+    config (Path): The configuration file representing the configuration item.
+    results (Path): The test results file (e.g. cucumber.json).
+
+Environment Variables:
+    PAGE_ID (str): The Confluence page ID to update. Defaults to "232111210".
+"""
+
 import argparse
 import os
 from pathlib import Path
@@ -32,6 +47,7 @@ PAGE_ID = os.getenv("PAGE_ID", "232111210")
 
 
 def main():
+    """."""
     args = parser.parse_args()
     config = args.config
     results = args.results
