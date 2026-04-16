@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3637]
+  * Upgrade SPFC to `0.5.0` - archiving on ChangeEvents enabled for all devices
 * [AT-3636]
   * Expose tangodatabaseds using LoadBalancer service type (ska-tango-base made all DS ClusterIP by default)
 * [AT-3631]
