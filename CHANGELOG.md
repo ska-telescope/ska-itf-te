@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3621]
+  * Migrated the confluence tooling from ska-ser-skallop into this repository. Added python dependencies required by these tools.
 * [AT-2200]
   * Added ska-oso-scripting dependency and made a number of adjustments to dependencies to allow package version resolution.
   * Added methods to generate TMC Assign, Configure, Scan payloads using oso-scripting
