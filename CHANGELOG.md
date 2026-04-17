@@ -1,6 +1,10 @@
 # Version History
 
 ## Unreleased
+
+## 30.3.0
+* [SKB-1253]
+  * Upgrade Taranta to `2.18.6` - fix enum labels disappearing when devices are unavailable
 * [AT-3637]
   * Upgrade SPFC to `0.5.0` - archiving on ChangeEvents enabled for all devices
 * [AT-3636]
