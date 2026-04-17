@@ -7,7 +7,7 @@ from dataclasses import dataclass, field
 from typing import Dict, List
 
 from ska_control_model import ObsState
-from ska_control_model._dev_state import DevState
+from tango import DevState
 
 # TODO: Get these  helper classes moved into utils
 from tests.integration.tmc.conftest import TMC, EventWaitTimeout, wait_for_event

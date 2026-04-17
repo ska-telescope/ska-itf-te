@@ -1,9 +1,10 @@
 """Telescope state reporting and control."""
+
 import argparse
 import logging
 
 from utils.telescope_teardown import TelescopeHandler, TelescopeState
-from ska_control_model._dev_state import DevState
+from tango import DevState
 from ska_control_model import ObsState
 from utils.enums import DishMode
 
@@ -28,11 +29,12 @@ parser.add_argument(
 parser.add_argument(
     "-s", "--subarray-base-state", help="Provide the base subarray node state e.g. READY"
 )
+parser.add_argument("-b", "--dish-base-state", help="Provide the base dish state e.g. STANDBY_FP")
 parser.add_argument(
-    "-b", "--dish-base-state", help="Provide the base dish state e.g. STANDBY_FP"
-)
-parser.add_argument(
-    "-k", "--cluster-domain", default="miditf.internal.skao.int", help="Provide cluster domain (default: miditf.internal.skao.int)"
+    "-k",
+    "--cluster-domain",
+    default="miditf.internal.skao.int",
+    help="Provide cluster domain (default: miditf.internal.skao.int)",
 )
 args = parser.parse_args()
 
@@ -43,7 +45,7 @@ def main(args=args):
     :param args: _description_, defaults to args
     :type args: _type_, optional
     """
-    
+
     if args.namespace and args.dish_ids:
         dish_ids = args.dish_ids.split(" ")
         telescope = TelescopeHandler(args.namespace, args.cluster_domain, dish_ids)
@@ -59,7 +61,7 @@ def main(args=args):
             state_name = args.subarray_base_state.upper()
             base_state.subarray = ObsState[state_name]
             logger.info("Set subarray base state")
-                
+
         if args.dish_base_state:
             state_name = args.dish_base_state.upper()
             dish_base_state = {dish_id: DishMode[state_name] for dish_id in dish_ids}
@@ -67,7 +69,7 @@ def main(args=args):
             logger.info("Set dish base state")
 
         telescope.telescope_base_state = base_state
-                
+
         if args.print_state:
             logger.info(f"Current telescope state: {telescope.get_current_state()}")
 
