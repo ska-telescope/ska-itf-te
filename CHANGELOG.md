@@ -6,6 +6,7 @@
 * [AT-2200]
   * Added ska-oso-scripting dependency and made a number of adjustments to dependencies to allow package version resolution.
   * Added methods to generate TMC Assign, Configure, Scan payloads using oso-scripting
+  * Bump ska-mid-itf-engineering tools to `0.10.4`
 * [AT-3590]
   * Add basic staging alarmhandler config
 
