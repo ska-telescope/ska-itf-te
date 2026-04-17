@@ -1,6 +1,12 @@
 # Version History
 
 ## Unreleased
+
+## 30.3.0
+* [SKB-1253]
+  * Upgrade Taranta to `2.18.6` - fix enum labels disappearing when devices are unavailable
+* [AT-3637]
+  * Upgrade SPFC to `0.5.0` - archiving on ChangeEvents enabled for all devices
 * [AT-3636]
   * Expose tangodatabaseds using LoadBalancer service type (ska-tango-base made all DS ClusterIP by default)
 * [AT-3631]
