@@ -3,17 +3,17 @@ apiVersion: v2
 name: ska-mid
 description: An umbrella Helm chart for deployment of the Mid System
 type: application
-version: 30.2.0
-appVersion: 30.2.0
+version: 30.3.0-rc.1
+appVersion: 30.3.0-rc.1
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
   # Tango Base & Deployment Charts: TangoDB, iTango, Tango Operator Utils
   - name: ska-tango-base
-    version: 1.0.4
+    version: 1.0.7
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tango-base.enabled
   - name: ska-tango-util
-    version: 1.0.4
+    version: 1.0.7
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tango-util.enabled
 
@@ -31,7 +31,7 @@ dependencies:
 
   # Mid CSP LMC
   - name: ska-csp-lmc-mid
-    version: 1.4.0
+    version: 1.5.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-csp-lmc-mid.enabled
 
@@ -80,7 +80,7 @@ dependencies:
 
   # DISH LMC CHART
   - name: ska-dish-lmc
-    version: 9.3.0-rc.5
+    version: 9.3.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-dish-lmc.enabled
 
@@ -105,7 +105,7 @@ dependencies:
 
   # TARANTA SUITE
   - name: ska-tango-taranta
-    version: 2.18.3
+    version: 2.18.6
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tango-taranta.enabled
 
@@ -151,12 +151,12 @@ dependencies:
 
   # Octopus Suite
   - name: ska-octopus-backend
-    version: 0.1.72
+    version: 0.3.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-octopus-backend.enabled
 
   - name: ska-octopus-frontend
-    version: 0.1.72
+    version: 0.3.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-octopus-frontend.enabled
 
