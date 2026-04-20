@@ -1,6 +1,17 @@
 # Version History
 
 ## Unreleased
+* [AT-3629]
+  * Upgrade Octopus frontend and backend to `0.4.8` and `0.4.1` respectively.
+  * Add Mid ITF EDA API connection strings to Octopus config.
+
+## 30.3.0
+* [SKB-1253]
+  * Upgrade Taranta to `2.18.6` - fix enum labels disappearing when devices are unavailable
+* [AT-3637]
+  * Upgrade SPFC to `0.5.0` - archiving on ChangeEvents enabled for all devices
+* [AT-3636]
+  * Expose tangodatabaseds using LoadBalancer service type (ska-tango-base made all DS ClusterIP by default)
 * [AT-3631]
   * Upgrade tangogql in taranta-itf chart to `1.0.10`
 * [AT-3630]
