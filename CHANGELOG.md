@@ -4,6 +4,8 @@
 * [AT-3629]
   * Upgrade Octopus frontend and backend to `0.4.8` and `0.4.1` respectively.
   * Add Mid ITF EDA API connection strings to Octopus config.
+* [AT-3601]
+  * Upgrade Tango Alarmhandler to `0.6.3`
 
 ## 30.3.0
 * [SKB-1253]
