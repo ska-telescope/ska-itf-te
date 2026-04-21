@@ -7,6 +7,11 @@
   * Added ska-oso-scripting dependency and made a number of adjustments to dependencies to allow package version resolution.
   * Added methods to generate TMC Assign, Configure, Scan payloads using oso-scripting
   * Bump ska-mid-itf-engineering tools to `0.10.4`
+* [AT-3601]
+  * Upgrade Tango Alarmhandler to `0.6.3`
+* [AT-3629]
+  * Upgrade Octopus frontend and backend to `0.4.8` and `0.4.1` respectively.
+  * Add Mid ITF EDA API connection strings to Octopus config.
 
 ## 30.3.0
 * [SKB-1253]
