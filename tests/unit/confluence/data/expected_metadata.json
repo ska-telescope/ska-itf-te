@@ -1,0 +1,106 @@
+{
+    "id": "232111210",
+    "type": "page",
+    "status": "current",
+    "title": "Temp",
+    "space": {
+        "id": 819201,
+        "key": "TS",
+        "name": "Test Space",
+        "type": "global",
+        "_links": {
+            "webui": "/display/TS",
+            "self": "https://confluence.skatelescope.org/rest/api/space/TS"
+        },
+        "_expandable": {
+            "metadata": "",
+            "icon": "",
+            "description": "",
+            "homepage": "/rest/api/content/786434"
+        }
+    },
+    "history": {
+        "latest": true,
+        "createdBy": {
+            "type": "known",
+            "username": "g.leroux",
+            "userKey": "42d15a78523c09830152ab9fc3c6000e",
+            "profilePicture": {
+                "path": "/images/icons/profilepics/default.svg",
+                "width": 48,
+                "height": 48,
+                "isDefault": true
+            },
+            "displayName": "Le Roux, Gerhard",
+            "_links": {
+                "self": "https://confluence.skatelescope.org/rest/api/user?key=42d15a78523c09830152ab9fc3c6000e"
+            },
+            "_expandable": {
+                "status": ""
+            }
+        },
+        "createdDate": "2023-08-10T11:49:07.825+01:00",
+        "_links": {
+            "self": "https://confluence.skatelescope.org/rest/api/content/232111210/history"
+        },
+        "_expandable": {
+            "lastUpdated": "",
+            "previousVersion": "",
+            "contributors": "",
+            "nextVersion": ""
+        }
+    },
+    "version": {
+        "by": {
+            "type": "known",
+            "username": "g.leroux",
+            "userKey": "42d15a78523c09830152ab9fc3c6000e",
+            "profilePicture": {
+                "path": "/images/icons/profilepics/default.svg",
+                "width": 48,
+                "height": 48,
+                "isDefault": true
+            },
+            "displayName": "Le Roux, Gerhard",
+            "_links": {
+                "self": "https://confluence.skatelescope.org/rest/api/user?key=42d15a78523c09830152ab9fc3c6000e"
+            },
+            "_expandable": {
+                "status": ""
+            }
+        },
+        "when": "2023-08-14T17:40:08.746+01:00",
+        "message": "",
+        "number": 21,
+        "minorEdit": false,
+        "hidden": false,
+        "_links": {
+            "self": "https://confluence.skatelescope.org/rest/experimental/content/232111210/version/21"
+        },
+        "_expandable": {
+            "content": "/rest/api/content/232111210"
+        }
+    },
+    "extensions": {
+        "position": 101
+    },
+    "_links": {
+        "webui": "/display/TS/Temp",
+        "edit": "/pages/resumedraft.action?draftId=232111210&draftShareId=6acd141d-3bd4-4acc-be86-1875ae34d1df",
+        "tinyui": "/x/arzVDQ",
+        "collection": "/rest/api/content",
+        "base": "https://confluence.skatelescope.org",
+        "context": "",
+        "self": "https://confluence.skatelescope.org/rest/api/content/232111210"
+    },
+    "_expandable": {
+        "container": "/rest/api/space/TS",
+        "metadata": "",
+        "operations": "",
+        "children": "/rest/api/content/232111210/child",
+        "restrictions": "/rest/api/content/232111210/restriction/byOperation",
+        "ancestors": "",
+        "body": "",
+        "descendants": "/rest/api/content/232111210/descendant"
+    }
+}

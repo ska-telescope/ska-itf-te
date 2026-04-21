@@ -7,8 +7,7 @@ import subprocess
 import pytest
 from kubernetes import client, config
 from kubernetes.config.config_exception import ConfigException
-from ska_control_model._dev_state import DevState
-from tango import DeviceProxy
+from tango import DeviceProxy, DevState
 
 from utils.enums import DishMode
 from utils.telescope_teardown import TelescopeHandler, TelescopeState

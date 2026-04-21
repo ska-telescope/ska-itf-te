@@ -1,0 +1,92 @@
+[
+    {
+        "keyword": "Feature",
+        "uri": "tests/features/sdpln_assign_resources_mid.feature",
+        "name": "Assign resources to sdp subarray using the leaf node",
+        "id": "tests/features/sdpln_assign_resources_mid.feature",
+        "line": 1,
+        "description": "",
+        "tags": [],
+        "elements": [
+            {
+                "keyword": "Scenario",
+                "id": "test_assign_resources_on_sdp_in_low",
+                "name": "Assign resources to sdp low subarray using TMC leaf node",
+                "line": 4,
+                "description": "",
+                "tags": [
+                    {
+                        "name": "XTP-16191",
+                        "line": 3
+                    }
+                ],
+                "type": "scenario",
+                "steps": [
+                    {
+                        "keyword": "Given",
+                        "name": "a SDP subarray in the EMPTY state",
+                        "line": 5,
+                        "match": {
+                            "location": ""
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 2017150
+                        }
+                    },
+                    {
+                        "keyword": "And",
+                        "name": "a TMC SDP subarray Leaf Node",
+                        "line": 6,
+                        "match": {
+                            "location": ""
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 112202
+                        }
+                    },
+                    {
+                        "keyword": "When",
+                        "name": "I assign resources for the first time",
+                        "line": 7,
+                        "match": {
+                            "location": ""
+                        },
+                        "result": {
+                            "status": "failed",
+                            "error_message": "self = <ska_ser_skallop.subscribing.message_board.MessageBoard object at 0x7fc6d4182980>\ntimeout = 100\n\n    def get_items(self, timeout: float = 0) -> Iterator[EventItem]:\n        \"\"\"Iterates over the :py:class:`~ska_ser_skallop.subscribing.event_item.EventItem`\n        instances placed in its internal queue as a consequence of subscriptions to\n        :py:class:`~ska_ser_skallop.subscribing.base.Producer` instances. If the queue is\n        currently empty it will wait for a given timeout until either returning with a\n        :py:class:`StopIteration` or raising an\n        :py:exc:`ska_ser_skallop.subscribing.exceptions.EventTimedOut` exception\n        (depending on whether a subscription is configured to suppress or not suppress\n        timeouts)\n    \n        :param timeout: the maximum amount of time to wait for any events to be placed\n            on the queue, defaults to 0 in the case of call back subscriptions,\n            otherwise in case of a polling subscription, it will wait at least for the\n            :py:attr:`gathered_sleep_time` amount of time.\n    \n        :raises EventTimedOut: if timeout is not suppressed by\n            subscription (note a timeout condition will result in all remaining\n            subscriptions to be canceled)\n    \n        :return: returns a :py:class:`StopIteration` during a suppressed timeout or when\n            all subscriptions have been removed.\n    \n        :yield: yields an item in the queue if not empty\n        \"\"\"\n        while self.subscriptions:\n            try:\n                with self._concurrent_if_polling() as polling:\n                    # timeout out can not be zero in case of polling\n                    timeout = timeout if not polling else self.gathered_sleep_time\n>                   item = self.board.get(timeout=timeout)\n\n/usr/local/lib/python3.10/dist-packages/ska_ser_skallop/subscribing/message_board.py:340: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <queue.Queue object at 0x7fc6d3d060e0>, block = True, timeout = 100\n\n    def get(self, block=True, timeout=None):\n        '''Remove and return an item from the queue.\n    \n        If optional args 'block' is true and 'timeout' is None (the default),\n        block if necessary until an item is available. If 'timeout' is\n        a non-negative number, it blocks at most 'timeout' seconds and raises\n        the Empty exception if no item was available within that time.\n        Otherwise ('block' is false), return an item if one is immediately\n        available, else raise the Empty exception ('timeout' is ignored\n        in that case).\n        '''\n        with self.not_empty:\n            if not block:\n                if not self._qsize():\n                    raise Empty\n            elif timeout is None:\n                while not self._qsize():\n                    self.not_empty.wait()\n            elif timeout < 0:\n                raise ValueError(\"'timeout' must be a non-negative number\")\n            else:\n                endtime = time() + timeout\n                while not self._qsize():\n                    remaining = endtime - time()\n                    if remaining <= 0.0:\n>                       raise Empty\nE                       _queue.Empty\n\n/usr/lib/python3.10/queue.py:179: Empty\n\nDuring handling of the above exception, another exception occurred:\n\nboard = <ska_ser_skallop.subscribing.message_board.MessageBoard object at 0x7fc6d4182980>\ntimeout = 100, live_logging = True, attr_synching = True, recorder = None\n\n    def wait(\n        board: MessageBoardBase,\n        timeout: float,\n        live_logging: bool = False,\n        attr_synching: bool = False,\n        recorder: Union[None, Recorder] = None,\n    ) -> Union[str, None]:\n        if os.getenv(\"DEBUG_WAIT\"):\n            logger.info(f\"starting wait with subscriptions: {board.describe()}\")\n        try:\n>           for item in board.get_items(timeout):\n\n/usr/local/lib/python3.10/dist-packages/ska_ser_skallop/mvp_control/event_waiting/wait.py:70: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <ska_ser_skallop.subscribing.message_board.MessageBoard object at 0x7fc6d4182980>\ntimeout = 100\n\n    def get_items(self, timeout: float = 0) -> Iterator[EventItem]:\n        \"\"\"Iterates over the :py:class:`~ska_ser_skallop.subscribing.event_item.EventItem`\n        instances placed in its internal queue as a consequence of subscriptions to\n        :py:class:`~ska_ser_skallop.subscribing.base.Producer` instances. If the queue is\n        currently empty it will wait for a given timeout until either returning with a\n        :py:class:`StopIteration` or raising an\n        :py:exc:`ska_ser_skallop.subscribing.exceptions.EventTimedOut` exception\n        (depending on whether a subscription is configured to suppress or not suppress\n        timeouts)\n    \n        :param timeout: the maximum amount of time to wait for any events to be placed\n            on the queue, defaults to 0 in the case of call back subscriptions,\n            otherwise in case of a polling subscription, it will wait at least for the\n            :py:attr:`gathered_sleep_time` amount of time.\n    \n        :raises EventTimedOut: if timeout is not suppressed by\n            subscription (note a timeout condition will result in all remaining\n            subscriptions to be canceled)\n    \n        :return: returns a :py:class:`StopIteration` during a suppressed timeout or when\n            all subscriptions have been removed.\n    \n        :yield: yields an item in the queue if not empty\n        \"\"\"\n        while self.subscriptions:\n            try:\n                with self._concurrent_if_polling() as polling:\n                    # timeout out can not be zero in case of polling\n                    timeout = timeout if not polling else self.gathered_sleep_time\n                    item = self.board.get(timeout=timeout)\n            except Empty:\n                if all(s.suppress_timeout() for s in self.subscriptions):\n                    self.tracer.message(\n                        f\"iteration stopped by surpressed timeout; \"\n                        f\"{len(self.subscriptions)} subscriptions with be cancelled\"\n                    )\n                    self.remove_all_subscriptions()\n                    return StopIteration()\n                message = self._get_printeable_timedout(timeout)\n                # message = self.play_log_book()\n                remaining_subscriptions = self.print_remaining_subscriptions()\n                self.remove_all_subscriptions()\n>               raise EventTimedOut(message, remaining_events=remaining_subscriptions)\nE               ska_ser_skallop.subscribing.exceptions.EventTimedOut: event timed out after 100 seconds\nE               remaining subscriptions:\nE               Device: ska_low/tm_leaf_node/sdp_subarray01 Attribute: longrunningcommandresult handler used: handler that waits for longrunningcommandresult on device ska_low/tm_leaf_node/sdp_subarray01 to be equal to Execution block eb-mvp01-20210623-00000 already exists\n\n/usr/local/lib/python3.10/dist-packages/ska_ser_skallop/subscribing/message_board.py:353: EventTimedOut\n\nThe above exception was the direct cause of the following exception:\n\nrequest = <FixtureRequest for <Function test_assign_resources_on_sdp_in_low>>\n_pytest_bdd_example = {}\n\n    @pytest.mark.usefixtures(*args)\n    def scenario_wrapper(request, _pytest_bdd_example):\n        scenario = templated_scenario.render(_pytest_bdd_example)\n>       _execute_scenario(feature, scenario, request)\n\n/usr/local/lib/python3.10/dist-packages/pytest_bdd/scenario.py:174: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n/usr/local/lib/python3.10/dist-packages/pytest_bdd/scenario.py:144: in _execute_scenario\n    _execute_step_function(request, scenario, step, step_func)\n/usr/local/lib/python3.10/dist-packages/pytest_bdd/scenario.py:114: in _execute_step_function\n    return_value = step_func(**kwargs)\ntests/integration/conftest.py:458: in i_assign_resources_to\n    context_monitoring.wait_for(sdp_leafnode).for_attribute(\n/usr/local/lib/python3.10/dist-packages/ska_ser_skallop/mvp_fixtures/context_monitoring.py:244: in to_become_equal_to\n    self._block_if_waited(settings)\n/usr/local/lib/python3.10/dist-packages/ska_ser_skallop/mvp_fixtures/context_monitoring.py:208: in _block_if_waited\n    wait(\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nboard = <ska_ser_skallop.subscribing.message_board.MessageBoard object at 0x7fc6d4182980>\ntimeout = 100, live_logging = True, attr_synching = True, recorder = None\n\n    def wait(\n        board: MessageBoardBase,\n        timeout: float,\n        live_logging: bool = False,\n        attr_synching: bool = False,\n        recorder: Union[None, Recorder] = None,\n    ) -> Union[str, None]:\n        if os.getenv(\"DEBUG_WAIT\"):\n            logger.info(f\"starting wait with subscriptions: {board.describe()}\")\n        try:\n            for item in board.get_items(timeout):\n                handler = item.handler\n                if handler:\n                    handler.handle_event(item.event, item.subscription)\n                    message = handler.print_event(item.event, ignore_first=False)\n                    if live_logging:\n                        if message:  # ignore emoptry strings (if filtered)\n                            logger.info(message)\n                    if recorder:\n                        recorder.record(handler)\n            if attr_synching:\n                return wait_until_attrs_in_sync(board, timeout)\n            return None\n        except Exception as err:\n>           raise EWhilstWaiting(err) from err\nE           ska_ser_skallop.mvp_control.event_waiting.wait.EWhilstWaiting: event timed out after 100 seconds\nE           remaining subscriptions:\nE           Device: ska_low/tm_leaf_node/sdp_subarray01 Attribute: longrunningcommandresult handler used: handler that waits for longrunningcommandresult on device ska_low/tm_leaf_node/sdp_subarray01 to be equal to Execution block eb-mvp01-20210623-00000 already exists\n\n/usr/local/lib/python3.10/dist-packages/ska_ser_skallop/mvp_control/event_waiting/wait.py:84: EWhilstWaiting",
+                            "duration": 108217544390
+                        }
+                    },
+                    {
+                        "keyword": "Then",
+                        "name": "the SDP subarray must be in IDLE state",
+                        "line": 8,
+                        "match": {
+                            "location": ""
+                        },
+                        "result": {
+                            "status": "failed",
+                            "error_message": "",
+                            "duration": 1409
+                        }
+                    },
+                    {
+                        "keyword": "Then",
+                        "name": "the lrcr event throws error",
+                        "line": 9,
+                        "match": {
+                            "location": ""
+                        },
+                        "result": {
+                            "status": "failed",
+                            "error_message": "",
+                            "duration": 450
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+]

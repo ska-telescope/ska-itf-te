@@ -1,0 +1,177 @@
+{
+    "type": "array",
+    "items": {
+        "type": "object",
+        "properties": {
+            "keyword": {
+                "const": "Feature"
+            },
+            "uri": {
+                "type": "string"
+            },
+            "name": {
+                "type": "string"
+            },
+            "id": {
+                "type": "string"
+            },
+            "line": {
+                "type": "integer"
+            },
+            "description": {
+                "type": "string"
+            },
+            "tags": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "line": {
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "name",
+                        "line"
+                    ],
+                    "additionalProperties": false
+                }
+            },
+            "elements": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "keyword": {
+                            "const": "Scenario"
+                        },
+                        "id": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "line": {
+                            "type": "integer"
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "tags": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "line": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "line"
+                                ],
+                                "additionalProperties": false
+                            }
+                        },
+                        "type": {
+                            "const": "scenario"
+                        },
+                        "steps": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "keyword": {
+                                        "enum": [
+                                            "Given",
+                                            "When",
+                                            "Then"
+                                        ]
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "line": {
+                                        "type": "integer"
+                                    },
+                                    "match": {
+                                        "type": "object",
+                                        "properties": {
+                                            "location": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "location"
+                                        ],
+                                        "additionalProperties": false
+                                    },
+                                    "result": {
+                                        "type": "object",
+                                        "properties": {
+                                            "status": {
+                                                "enum": [
+                                                    "passed",
+                                                    "failed"
+                                                ]
+                                            },
+                                            "duration": {
+                                                "type": "integer"
+                                            },
+                                            "error_message": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "status",
+                                            "duration"
+                                        ],
+                                        "additionalProperties": false
+                                    }
+                                },
+                                "required": [
+                                    "keyword",
+                                    "name",
+                                    "line",
+                                    "match",
+                                    "result"
+                                ],
+                                "additionalProperties": false
+                            }
+                        }
+                    },
+                    "required": [
+                        "keyword",
+                        "id",
+                        "name",
+                        "line",
+                        "description",
+                        "tags",
+                        "type",
+                        "steps"
+                    ],
+                    "additionalProperties": false
+                }
+            }
+        },
+        "required": [
+            "keyword",
+            "uri",
+            "name",
+            "id",
+            "line",
+            "description",
+            "tags",
+            "elements"
+        ],
+        "additionalProperties": false
+    },
+    "$id": "https://gitlab.com/ska-telescope/ska-ser-skallop/results-schema.json",
+    "$schema": "http://json-schema.org/draft-07/schema#"
+}

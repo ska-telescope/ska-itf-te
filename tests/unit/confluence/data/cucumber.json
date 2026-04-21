@@ -1,0 +1,542 @@
+[
+    {
+        "keyword": "Feature",
+        "uri": "tests/features/sdp_assign_resources.feature",
+        "name": "Assign resources to sdp subarray",
+        "id": "tests/features/sdp_assign_resources.feature",
+        "line": 2,
+        "description": "",
+        "tags": [
+            {
+                "name": "XTP-4511",
+                "line": 1
+            }
+        ],
+        "elements": [
+            {
+                "keyword": "Scenario",
+                "id": "test_get_results_as_html_table",
+                "name": "Assign resources to sdp subarray in mid",
+                "line": 6,
+                "description": "",
+                "tags": [
+                    {
+                        "name": "XTP-3324",
+                        "line": 5
+                    },
+                    {
+                        "name": "XTP-4503",
+                        "line": 5
+                    },
+                    {
+                        "name": "XTP-4506",
+                        "line": 5
+                    }
+                ],
+                "type": "scenario",
+                "steps": [
+                    {
+                        "keyword": "Given",
+                        "name": "an SDP subarray",
+                        "line": 7,
+                        "match": {
+                            "location": ""
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 1525994
+                        }
+                    },
+                    {
+                        "keyword": "When",
+                        "name": "I assign resources to it",
+                        "line": 8,
+                        "match": {
+                            "location": ""
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 3256797545
+                        }
+                    },
+                    {
+                        "keyword": "Then",
+                        "name": "the subarray must be in IDLE state",
+                        "line": 9,
+                        "match": {
+                            "location": ""
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 1693753
+                        }
+                    }
+                ]
+            },
+            {
+                "keyword": "Scenario",
+                "id": "test_abort_in_resourcing_sdp_subarray_in_mid",
+                "name": "Abort assigning SDP",
+                "line": 25,
+                "description": "",
+                "tags": [
+                    {
+                        "name": "XTP-20083",
+                        "line": 24
+                    }
+                ],
+                "type": "scenario",
+                "steps": [
+                    {
+                        "keyword": "Given",
+                        "name": "an subarray busy assigning",
+                        "line": 26,
+                        "match": {
+                            "location": ""
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 463001360
+                        }
+                    },
+                    {
+                        "keyword": "When",
+                        "name": "I command it to Abort",
+                        "line": 27,
+                        "match": {
+                            "location": ""
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 167424892
+                        }
+                    },
+                    {
+                        "keyword": "Then",
+                        "name": "the subarray should go into an aborted state",
+                        "line": 28,
+                        "match": {
+                            "location": ""
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 27482536
+                        }
+                    }
+                ]
+            },
+            {
+                "keyword": "Scenario",
+                "id": "test_release_all_resources_from_sdp_subarray_in_mid",
+                "name": "Releasing all resources from sdp sub-array in mid",
+                "line": 19,
+                "description": "",
+                "tags": [
+                    {
+                        "name": "XTP-14873",
+                        "line": 18
+                    },
+                    {
+                        "name": "XTP-3324",
+                        "line": 18
+                    },
+                    {
+                        "name": "XTP-4503",
+                        "line": 18
+                    }
+                ],
+                "type": "scenario",
+                "steps": [
+                    {
+                        "keyword": "Given",
+                        "name": "an SDP subarray in IDLE state",
+                        "line": 20,
+                        "match": {
+                            "location": ""
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 836161
+                        }
+                    },
+                    {
+                        "keyword": "When",
+                        "name": "I release all resources assigned to it",
+                        "line": 21,
+                        "match": {
+                            "location": ""
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 3886058088
+                        }
+                    },
+                    {
+                        "keyword": "Then",
+                        "name": "the subarray must be in EMPTY state",
+                        "line": 22,
+                        "match": {
+                            "location": ""
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 20191670
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "keyword": "Feature",
+        "uri": "tests/features/sdp_configure_scan.feature",
+        "name": "Configure scan on sdp subarray",
+        "id": "tests/features/sdp_configure_scan.feature",
+        "line": 2,
+        "description": "",
+        "tags": [
+            {
+                "name": "XTP-4595",
+                "line": 1
+            }
+        ],
+        "elements": [
+            {
+                "keyword": "Scenario",
+                "id": "test_abort_configuring_in_mid",
+                "name": "Configure scan on sdp subarray in mid",
+                "line": 6,
+                "description": "",
+                "tags": [
+                    {
+                        "name": "XTP-3324",
+                        "line": 5
+                    },
+                    {
+                        "name": "XTP-4592",
+                        "line": 5
+                    },
+                    {
+                        "name": "XTP-16343",
+                        "line": 5
+                    }
+                ],
+                "type": "scenario",
+                "steps": [
+                    {
+                        "keyword": "Given",
+                        "name": "an SDP subarray in IDLE state",
+                        "line": 7,
+                        "match": {
+                            "location": ""
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 689452
+                        }
+                    },
+                    {
+                        "keyword": "When",
+                        "name": "I configure it for a scan",
+                        "line": 8,
+                        "match": {
+                            "location": ""
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 3075297391
+                        }
+                    },
+                    {
+                        "keyword": "Then",
+                        "name": "the subarray must be in the READY state",
+                        "line": 9,
+                        "match": {
+                            "location": ""
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 614433
+                        }
+                    }
+                ]
+            },
+            {
+                "keyword": "Scenario",
+                "id": "test_configure_scan_on_sdp_subarray_in_mid",
+                "name": "Configure scan on sdp subarray in mid",
+                "line": 6,
+                "description": "",
+                "tags": [
+                    {
+                        "name": "XTP-3324",
+                        "line": 5
+                    },
+                    {
+                        "name": "XTP-4592",
+                        "line": 5
+                    },
+                    {
+                        "name": "XTP-4593",
+                        "line": 5
+                    }
+                ],
+                "type": "scenario",
+                "steps": [
+                    {
+                        "keyword": "Given",
+                        "name": "an SDP subarray in IDLE state",
+                        "line": 7,
+                        "match": {
+                            "location": ""
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 1019671
+                        }
+                    },
+                    {
+                        "keyword": "When",
+                        "name": "I configure it for a scan",
+                        "line": 8,
+                        "match": {
+                            "location": ""
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 3927630515
+                        }
+                    },
+                    {
+                        "keyword": "Then",
+                        "name": "the subarray must be in the READY state",
+                        "line": 9,
+                        "match": {
+                            "location": ""
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 670052
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "keyword": "Feature",
+        "uri": "tests/features/sdp_scan.feature",
+        "name": "Run a scan on sdp subarray",
+        "id": "tests/features/sdp_scan.feature",
+        "line": 2,
+        "description": "",
+        "tags": [
+            {
+                "name": "XTP-4782",
+                "line": 1
+            }
+        ],
+        "elements": [
+            {
+                "keyword": "Scenario",
+                "id": "test_run_a_scan_on_sdp_subarray_in_mid",
+                "name": "Run a scan on sdp subarray in mid",
+                "line": 5,
+                "description": "",
+                "tags": [
+                    {
+                        "name": "XTP-3324",
+                        "line": 4
+                    },
+                    {
+                        "name": "XTP-4676",
+                        "line": 4
+                    },
+                    {
+                        "name": "XTP-4679",
+                        "line": 4
+                    },
+                    {
+                        "name": "XTP-4773",
+                        "line": 4
+                    },
+                    {
+                        "name": "XTP-4774",
+                        "line": 4
+                    }
+                ],
+                "type": "scenario",
+                "steps": [
+                    {
+                        "keyword": "Given",
+                        "name": "an SDP subarray in READY state",
+                        "line": 6,
+                        "match": {
+                            "location": ""
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 797462
+                        }
+                    },
+                    {
+                        "keyword": "When",
+                        "name": "I command it to scan for a given period",
+                        "line": 7,
+                        "match": {
+                            "location": ""
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 4032831651
+                        }
+                    },
+                    {
+                        "keyword": "Then",
+                        "name": "the SDP subarray must be in the SCANNING state until finished",
+                        "line": 8,
+                        "match": {
+                            "location": ""
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 2160954019
+                        }
+                    }
+                ]
+            },
+            {
+                "keyword": "Scenario",
+                "id": "test_abort_scanning",
+                "name": "Abort SDP scanning",
+                "line": 18,
+                "description": "",
+                "tags": [
+                    {
+                        "name": "XTP-16344",
+                        "line": 17
+                    }
+                ],
+                "type": "scenario",
+                "steps": [
+                    {
+                        "keyword": "Given",
+                        "name": "an subarray busy scanning",
+                        "line": 19,
+                        "match": {
+                            "location": ""
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 93846555
+                        }
+                    },
+                    {
+                        "keyword": "When",
+                        "name": "I command it to Abort",
+                        "line": 20,
+                        "match": {
+                            "location": ""
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 172715965
+                        }
+                    },
+                    {
+                        "keyword": "Then",
+                        "name": "the subarray should go into an aborted state",
+                        "line": 21,
+                        "match": {
+                            "location": ""
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 19160864
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "keyword": "Feature",
+        "uri": "tests/features/sdp_start_up_telescope.feature",
+        "name": "Start up the sdp",
+        "id": "tests/features/sdp_start_up_telescope.feature",
+        "line": 2,
+        "description": "",
+        "tags": [
+            {
+                "name": "XTP-3961",
+                "line": 1
+            }
+        ],
+        "elements": [
+            {
+                "keyword": "Scenario",
+                "id": "test_sdp_start_up_telescope_mid",
+                "name": "Start up the sdp in mid",
+                "line": 13,
+                "description": "",
+                "tags": [
+                    {
+                        "name": "XTP-3324",
+                        "line": 12
+                    },
+                    {
+                        "name": "XTP-3958",
+                        "line": 12
+                    },
+                    {
+                        "name": "XTP-3960",
+                        "line": 12
+                    },
+                    {
+                        "name": "XTP-4020",
+                        "line": 12
+                    }
+                ],
+                "type": "scenario",
+                "steps": [
+                    {
+                        "keyword": "Given",
+                        "name": "an SDP",
+                        "line": 14,
+                        "match": {
+                            "location": ""
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 149650
+                        }
+                    },
+                    {
+                        "keyword": "When",
+                        "name": "I start up the telescope",
+                        "line": 15,
+                        "match": {
+                            "location": ""
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 384066752
+                        }
+                    },
+                    {
+                        "keyword": "Then",
+                        "name": "the sdp must be on",
+                        "line": 16,
+                        "match": {
+                            "location": ""
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 2321524
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+]

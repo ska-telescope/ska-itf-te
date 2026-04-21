@@ -1,0 +1,113 @@
+# yaml-language-server: $schema=../../../../scripts/confluence/confluence/config/config-schema.json
+name: mid-itf
+version: 1.0.0
+parts:
+  ska-tango-base:
+    version: "file://../data/Chart.yaml"
+    platformDependents:
+      - ska-mid-cbf
+      - ska-csp-lmc-mid
+      - ska-sdp
+      - ska-tmc-mid
+      - ska-tango-tangogql
+      - ska-sim-dishmaster
+      - ska-tango-archiver
+      - ska-log-consumer
+      - ska-oso-oet
+      - ska-tango-alarmhandler
+    alias: "Tango Base"
+  ska-tango-util:
+    version: 1.1.2
+    dependencies: []
+    platformDependents:
+      - ska-mid-cbf
+      - ska-csp-lmc-mid
+      - ska-sdp
+      - ska-tmc-mid
+      - ska-sim-dishmaster
+      - ska-oso-oet
+    alias: "Tango Util"
+  ska-mid-cbf:
+    version: 1.1.3
+    dependencies: []
+    platformDependents: []
+    alias: "CBF"
+  ska-csp-lmc-mid:
+    version: 1.1.4
+    dependencies: ["ska-mid-cbf"]
+    platformDependents: []
+    alias: "CSP"
+  ska-sdp:
+    version: 1.1.5
+    dependencies: []
+    platformDependents: []
+    alias: "SDP"
+  ska-tmc-mid:
+    version: 1.1.6
+    dependencies: ["ska-csp-lmc-mid", "ska-sdp", "ska-sim-dishmaster"]
+    platformDependents: []
+    alias: "TMC"
+  ska-tango-taranta:
+    version: 1.1.6
+    dependencies:
+      [
+        "ska-tango-tangogql",
+        "ska-tango-taranta-auth",
+        "ska-tango-taranta-dashboard-pvc",
+      ]
+    platformDependents: []
+    alias: "Taranta"
+  ska-tango-tangogql:
+    version: 1.1.8
+    dependencies: []
+    platformDependents: []
+    alias: "TangoGQL"
+  ska-tango-taranta-auth:
+    version: 1.1.9
+    dependencies: []
+    platformDependents: []
+    alias: "Taranta Auth"
+  ska-tango-taranta-dashboard-pvc:
+    version: 1.1.10
+    dependencies: []
+    platformDependents: []
+    alias: "Taranta Dashboard PVC"
+  ska-ser-skuid:
+    version: 1.1.11
+    dependencies: []
+    platformDependents:
+      - ska-csp-lmc-mid
+      - ska-sdp
+      - ska-tmc-mid
+      - ska-oso-oet
+  ska-landingpage:
+    version: 1.1.12
+    dependencies: []
+    platformDependents: []
+  ska-sim-dishmaster:
+    version: 1.1.13
+    dependencies: []
+    platformDependents: []
+  ska-tango-archiver:
+    version: 1.1.14
+    dependencies: []
+    platformDependents: []
+  ska-log-consumer:
+    version: 1.1.15
+    dependencies: []
+    platformDependents: []
+  ska-oso-oet:
+    version: 1.1.16
+    dependencies: ["ska-tmc-mid"]
+    platformDependents: []
+    root:
+  ska-tango-alarmhandler:
+    version: 1.1.17
+    dependencies: []
+    platformDependents: []
+    alias: "Alarm Handler"
+  ska-db-oda:
+    version: 1.1.18
+    dependencies: []
+    platformDependents: []
+    alias: "ODA"

@@ -4,7 +4,7 @@ import os
 
 import pytest
 from pytest_bdd import scenario, then
-from ska_control_model._dev_state import DevState
+from tango import DevState
 
 from utils.enums import DishMode
 from utils.telescope_teardown import TelescopeHandler, TelescopeState

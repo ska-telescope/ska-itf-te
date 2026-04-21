@@ -1,6 +1,12 @@
 # Version History
 
 ## Unreleased
+* [AT-3621]
+  * Migrated the confluence tooling from ska-ser-skallop into this repository. Added python dependencies required by these tools.
+* [AT-2200]
+  * Added ska-oso-scripting dependency and made a number of adjustments to dependencies to allow package version resolution.
+  * Added methods to generate TMC Assign, Configure, Scan payloads using oso-scripting
+  * Bump ska-mid-itf-engineering tools to `0.10.4`
 * [AT-3601]
   * Upgrade Tango Alarmhandler to `0.6.3`
 * [AT-3629]
