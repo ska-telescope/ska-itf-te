@@ -191,6 +191,47 @@ ska-mid-dish-spfrx-talondx-console:
   scripts_dir: scripts
   # k_value: 1111  # used to set k value to a value other than 1 - around as a result of spfrx limitation
 
+# OCTOPUS
+ska-octopus-frontend:
+  enabled: false
+  backendServiceName: ska-octopus-backend
+  ingress:
+    paths:
+      frontend: "/octopus/ska-octopus-frontend"
+
+ska-octopus-backend:
+  enabled: false
+  ingress:
+    paths:
+      backend: "/octopus/ska-octopus-backend"
+  authUsers:
+    secretName: octopus-credentials
+    secretKey: auth-users.json
+    optional: true
+  configUi:
+    password:
+      secretName: octopus-credentials
+      secretKey: cfg-ui-password
+      optional: true
+  vars:
+    TANGO_DBS:
+      - value: "http://tangogql-staging.staging.svc.miditf.internal.skao.int:5004/db"
+        label: "Central Controller"
+      - value: "http://tangogql-staging-ska001.staging.svc.miditf.internal.skao.int:5004/db"
+        label: "Dish SKA001"
+      - value: "http://tangogql-staging-ska036.staging.svc.miditf.internal.skao.int:5004/db"
+        label: "Dish SKA036"
+      - value: "http://tangogql-staging-ska063.staging.svc.miditf.internal.skao.int:5004/db"
+        label: "Dish SKA063"
+      - value: "http://tangogql-staging-ska100.staging.svc.miditf.internal.skao.int:5004/db"
+        label: "Dish SKA100"
+    EDA_API: http://eda-grafana-connector.eda-grafana-connector.svc.miditf.internal.skao.int:5001/query
+    EDA_API_SKA0001_TARGET: staging-dish-lmc-ska001
+    EDA_API_SKA036_TARGET: staging-dish-lmc-ska036
+    EDA_API_SKA063_TARGET: staging-dish-lmc-ska063
+    EDA_API_SKA100_TARGET: staging-dish-lmc-ska100
+    ODA_URL: "http://ska-db-oda-rest-staging.staging.svc.miditf.internal.skao.int:5000/oda/api/v14"
+
 # SDP
 ska-sdp:
   enabled: false
@@ -355,44 +396,3 @@ temp_sdp_pvc: # Hmm... what's this again for?
   enabled: false
   dpd_namespace: ska-dpd
   dpd_pvc: shared-mnl
-
-# OCTOPUS
-ska-octopus-frontend:
-  enabled: false
-  backendServiceName: ska-octopus-backend
-  ingress:
-    paths:
-      frontend: "/octopus/ska-octopus-frontend"
-
-ska-octopus-backend:
-  enabled: false
-  ingress:
-    paths:
-      backend: "/octopus/ska-octopus-backend"
-  authUsers:
-    secretName: octopus-credentials
-    secretKey: auth-users.json
-    optional: true
-  configUi:
-    password:
-      secretName: octopus-credentials
-      secretKey: cfg-ui-password
-      optional: true
-  vars:
-    TANGO_DBS:
-      - value: "http://tangogql-staging.staging.svc.miditf.internal.skao.int:5004/db"
-        label: "Central Controller"
-      - value: "http://tangogql-staging-ska001.staging.svc.miditf.internal.skao.int:5004/db"
-        label: "Dish SKA001"
-      - value: "http://tangogql-staging-ska036.staging.svc.miditf.internal.skao.int:5004/db"
-        label: "Dish SKA036"
-      - value: "http://tangogql-staging-ska063.staging.svc.miditf.internal.skao.int:5004/db"
-        label: "Dish SKA063"
-      - value: "http://tangogql-staging-ska100.staging.svc.miditf.internal.skao.int:5004/db"
-        label: "Dish SKA100"
-    EDA_API: http://eda-grafana-connector.eda-grafana-connector.svc.miditf.internal.skao.int:5001/query
-    EDA_API_SKA0001_TARGET: staging-dish-lmc-ska001
-    EDA_API_SKA036_TARGET: staging-dish-lmc-ska036
-    EDA_API_SKA063_TARGET: staging-dish-lmc-ska063
-    EDA_API_SKA100_TARGET: staging-dish-lmc-ska100
-    ODA_URL: "http://ska-db-oda-rest-staging.staging.svc.miditf.internal.skao.int:5000/oda/api/v14"
