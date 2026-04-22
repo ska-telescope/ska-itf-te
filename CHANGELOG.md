@@ -9,6 +9,8 @@
     * ska-db-oda-umbrella to `17.4.0`
     * ska-mid-dish-spfrx-talondx-console to `2.1.1`
     * updated the ska-sdp-configure interface to `1.0`
+* [AT-3646]
+  * Upgrade dpd to `0.17.0`
 * [AT-3621]
   * Migrated the confluence tooling from ska-ser-skallop into this repository. Added python dependencies required by these tools.
 * [AT-2200]
