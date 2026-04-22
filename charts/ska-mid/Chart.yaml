@@ -124,7 +124,7 @@ dependencies:
 
   # DPD
   - name: ska-sdp-dataproduct-dashboard
-    version: 0.8.0
+    version: 0.17.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-dataproduct-dashboard.enabled
     alias: ska-dataproduct-dashboard

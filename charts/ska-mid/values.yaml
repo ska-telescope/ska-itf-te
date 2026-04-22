@@ -54,6 +54,8 @@ ska-dataproduct-dashboard:
       enabled: false
       size: 2Ti
       storageClassName: ceph-cephfs
+  api:
+    sdpConfigdbHost: "ska-sdp-etcd.ska-mid-central-controller"
 
 # OSO
 ska-oso-integration:

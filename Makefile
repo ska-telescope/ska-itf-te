@@ -172,6 +172,7 @@ ifeq ($(KUBE_NAMESPACE),staging)
 	SDP_EXTRA_PARAMS += \
 		--set global.data-product-pvc-name=staging-pvc \
 		--set ska-dataproduct-dashboard.dataProductPVC.name=staging-pvc \
+		--set ska-dataproduct-dashboard.api.sdpConfigdbHost=ska-sdp-etcd.ska-mid-central-controller \
 		--set ska-sdp.data-pvc.create.clone-pvc=staging-pvc \
 		--set ska-sdp.data-pvc.create.clone-pvc-namespace=shared-ska-dataproducts \
 		--set ska-sdp.data-pvc.create.enabled=true \
