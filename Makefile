@@ -152,10 +152,10 @@ OSO_PARAMS ?= \
 SDP_EXTRA_PARAMS ?=
 DPD_PARAMS ?= 
 
-ifeq ($(KUBE_APP),ska-mid-itf-dpd)
-	DPD_PARAMS += \
-	--set global.ska-sdp.processingNamespace=$(KUBE_NAMESPACE_SDP)
-endif
+# ifeq ($(KUBE_APP),ska-mid-itf-dpd)
+# 	DPD_PARAMS += \
+# 	--set global.ska-sdp.processingNamespace=$(KUBE_NAMESPACE_SDP)
+# endif
 
 ifneq ($(DPD_PVC_NAME),)
 	SDP_EXTRA_PARAMS += \
@@ -212,10 +212,9 @@ endif
 #   --set ska-sdp.data-pvc.create=true # check syntax for this one
 # endif
 
-SDP_PARAMS ?= --set ska-sdp.ska-sdp-qa.zookeeper.clusterDomain=$(CLUSTER_DOMAIN) \
-	--set ska-sdp.kafka.clusterDomain=$(CLUSTER_DOMAIN) \
-	--set ska-sdp.ska-sdp-qa.redis.clusterDomain=$(CLUSTER_DOMAIN) \
-	--set ska-sdp.processingNamespace=$(KUBE_NAMESPACE_SDP) \
+SDP_PARAMS ?= --set ska-sdp.processingNamespace=$(KUBE_NAMESPACE_SDP) \
+	--set ska-sdp.qa.api.grafanaBaseUrl=https://k8s.miditf.internal.skao.int/grafana \
+	--set ska-sdp.qa.api.kibanaBaseUrl=https://k8s.stfc.skao.int \
 	$(SDP_EXTRA_PARAMS)
 
 ###################################################################

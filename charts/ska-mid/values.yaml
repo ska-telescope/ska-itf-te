@@ -201,16 +201,23 @@ ska-sdp:
       storageClassName: ceph-cephfs
   helmdeploy:
     enableNADClusterRole: true
-  legacy_compatibility: true
   lmc:
     prefix: mid
-    nsubarray: 3
+    nsubarray: 1
+    subarray:
+      timeoutAssignResources: 60 # Increase if timeouts occur during AssignResources - pulling docker images may take longer than 60s
+      timeoutConfigure: 60 # Increase if timeouts occur during Configure - pulling docker images may take longer than 60s
+  # QA display
   qa:
-    display:
-      vault:
-        useVault: false
-  ska-tango-base:
-    enabled: false
+    api:
+      workerCount: 2 # We may want to update this if every-man-and-his-dog want to watch the data
+      ########
+      # This section should be changed to point to the correct dashboards once it's available in Prod,
+      # and overridden in the Makefile for ITF
+      grafanaDashboard: dad0e09f-32f5-4181-b273-c7a1017221ff/kubernetes-resource-monitoring-dashboard 
+      grafanaBaseUrl: https://k8s.mid.internal.skao.int/grafana
+      kibanaBaseUrl: https://k8s.mid.internal.skao.int/kibana
+      ########
 
 # KAFKA
 kafka:
@@ -344,11 +351,12 @@ ska-mid-wms:
       enabled: false
 
 # Temporary configuration for PVC
-temp_sdp_pvc:
+temp_sdp_pvc: # Hmm... what's this again for?
   enabled: false
   dpd_namespace: ska-dpd
   dpd_pvc: shared-mnl
 
+# OCTOPUS
 ska-octopus-frontend:
   enabled: false
   backendServiceName: ska-octopus-backend
