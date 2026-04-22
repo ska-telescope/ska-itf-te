@@ -8,7 +8,7 @@
     * oso-integration to `2.1.0`
     * ska-db-oda-umbrella to `17.4.0`
     * ska-mid-dish-spfrx-talondx-console to `2.1.1`
-    * updated the ska-sdp-configure interface to `1.0`
+  * Updated the ska-sdp-configure schema interface to `1.0`
 * [AT-3646]
   * Upgrade dpd to `0.17.0`
 * [AT-3621]
