@@ -78,7 +78,10 @@ ska-oso-integration:
       enabled: true
       mount: mid-itf
       path: ost-credentials
-
+  ska-oso-oet:
+    rest:
+      image:
+        tag: 10.8.2 # temporary measure while bug in 10.10.0 is investigated
   ska-oso-slt-services:
     secretProvider:
       enabled: false
