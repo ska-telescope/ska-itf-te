@@ -13,7 +13,7 @@
     "correction": "UPDATE"
   },
   "sdp": {
-    "interface": "https://schema.skao.int/ska-sdp-configure/0.4",
+    "interface": "https://schema.skao.int/ska-sdp-configure/1.0",
     "scan_type": "science"
   },
   "csp": {

@@ -3,17 +3,17 @@ apiVersion: v2
 name: ska-mid
 description: An umbrella Helm chart for deployment of the Mid System
 type: application
-version: 30.3.0
-appVersion: 30.3.0
+version: 30.3.1-test-upgrades-d
+appVersion: 30.3.1-test-upgrades-d
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
   # Tango Base & Deployment Charts: TangoDB, iTango, Tango Operator Utils
   - name: ska-tango-base
-    version: 1.0.7
+    version: 1.1.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tango-base.enabled
   - name: ska-tango-util
-    version: 1.0.7
+    version: 1.1.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tango-util.enabled
 
@@ -31,7 +31,7 @@ dependencies:
 
   # Mid CSP LMC
   - name: ska-csp-lmc-mid
-    version: 1.5.0
+    version: 1.6.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-csp-lmc-mid.enabled
 
@@ -67,7 +67,7 @@ dependencies:
 
   # OSO integration
   - name: ska-oso-integration
-    version: 2.0.2
+    version: 2.1.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-oso-integration.enabled
 
@@ -75,7 +75,7 @@ dependencies:
   # when upgrading this major version, also adjust versions in Makefile URLs
   - name: ska-db-oda-umbrella
     repository: https://artefact.skao.int/repository/helm-internal
-    version: 17.2.0
+    version: 17.4.0
     condition: ska-db-oda-umbrella.enabled
 
   # DISH LMC CHART
@@ -99,7 +99,7 @@ dependencies:
 
   # SPFRx DEPLOYER CHART
   - name: ska-mid-dish-spfrx-talondx-console
-    version: 2.1.0
+    version: 2.1.1
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-mid-dish-spfrx-talondx-console.enabled
 
