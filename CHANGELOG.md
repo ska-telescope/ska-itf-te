@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+
+## 30.3.1
 * [AT-3645]
   * Product upgrades:
     * ska-tango-base and ska-tango-util to `1.1.0`
