@@ -379,19 +379,20 @@ ska-tmc-mid:
   telescope: SKA-mid
 
 # Mid WMS Simulator
-ska-mid-wms:
+ska-mid_wms:
   deviceServers:
     wms:
-      station_ids: [ "s1", "s2" ]
-      modbus_server_hostnames: [ "wms-sim-s1", "wms-sim-s2" ]
-      modbus_server_ports: [ "1502", "1502" ]
-    labels:
-      app: ska-tmc-integration
-    enabled: true
-    ska-tango-base:
-      enabled: false
-    simulator:
-      enabled: false
+      station_ids: ["s1", "s2"]
+      modbus_server_hostnames: ["wms-sim-s1", "wms-sim-s2"]
+      modbus_server_ports: ["1502", "1502"]
+  labels:
+    app: ska-tmc-integration
+  enabled: true
+  ska-tango-base:
+    enabled: false
+  simulator:
+    enabled: false
+
 
 # Temporary configuration for PVC
 temp_sdp_pvc: # Hmm... what's this again for?
