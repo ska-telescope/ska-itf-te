@@ -29,12 +29,26 @@ defaults:
   - cm: cm1  
   - es: es1
 attributes:
-  - trl: ska001/spf/spfc/hecompreturnpressure
+  - trl: ska001/spf/spfc/hecompdiffpressure
+    es: es1
+    cm: cm1
+    configuration:
+      code_push_event: true
+      archive_abs_change: 0.2
+    th: th1
+  - trl: ska001/spf/spfc/b2bodytemp
     es: es1
     cm: cm1
     configuration:
       code_push_event: true
       archive_abs_change: 0.1
+    th: th1
+  - trl: ska001/spf/spfc/hecompreturnpressure
+    es: es1
+    cm: cm1
+    configuration:
+      code_push_event: true
+      archive_abs_change: 0.2
     th: th1
   - trl: ska001/spfrxpu/controller/rxs123odlb12supply25voltage
     es: es1
@@ -186,7 +200,7 @@ attributes:
     cm: cm1
     configuration:
       code_push_event: true
-      archive_abs_change: 0.1
+      archive_abs_change: 0.2
     th: th1
   - trl: ska001/spfrxpu/controller/configuredband
     es: es1
@@ -237,7 +251,7 @@ attributes:
     cm: cm1
     configuration:
       code_push_event: true
-      archive_abs_change: 0.1
+      archive_abs_change: 0.2
     th: th1
   - trl: ska001/spfrxpu/controller/rxs123odltemperature
     es: es1
@@ -328,7 +342,7 @@ attributes:
     cm: cm1
     configuration:
       code_push_event: true
-      archive_abs_change: 0.1
+      archive_abs_change: 0.00001
     th: th1
   - trl: mid-dish/dish-manager/ska001/configuredband
     es: es1
