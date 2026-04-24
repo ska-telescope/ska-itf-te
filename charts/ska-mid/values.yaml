@@ -380,12 +380,17 @@ ska-tmc-mid:
 
 # Mid WMS Simulator
 ska-mid-wms:
-  enabled: false
-  legacy_compatibility: true
-  dev-name: "mid/wms/0"
-  ska-tango-base:
-    enabled: false
-    itango:
+  deviceServers:
+    wms:
+      station_ids: [ "s1", "s2" ]
+      modbus_server_hostnames: [ "wms-sim-s1", "wms-sim-s2" ]
+      modbus_server_ports: [ "1502", "1502" ]
+    labels:
+      app: ska-tmc-integration
+    enabled: true
+    ska-tango-base:
+      enabled: false
+    simulator:
       enabled: false
 
 # Temporary configuration for PVC
