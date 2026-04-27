@@ -346,7 +346,7 @@ ska-tmc-mid:
     image:
       registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-dishleafnode
       image: ska-tmc-dishleafnode
-      tag: 0.44.0-dev.c0c657535
+      tag: 0.44.0-dev.c83bbae8a
       pullPolicy: IfNotPresent
   deviceServers:
     mocks:
