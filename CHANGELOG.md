@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+* [AT-3655]
+  * Updated [vcc-config](tmdata/instrument/ska1_mid_itf/vcc-config/ska-mid-cbf-system-parameters.json) file for Mid-AA (Mid CBF SysParams)
+
 ## 30.3.1
 * [AT-3645]
   * Product upgrades:
