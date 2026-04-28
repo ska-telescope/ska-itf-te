@@ -511,10 +511,16 @@ def _(telescope_handlers, receptor_ids, settings):
     with open(DISH_CONFIG_FILE, encoding="utf-8") as f:
         dish_config_json = json.load(f)
 
-    dish_config_json["tm_data_sources"][0] = "car:ska-mid?27.3.0#tmdata"
+    dish_config_json["tm_data_sources"][0] = "car:ska-mid?main#tmdata"
     dish_config_json["tm_data_filepath"] = (
-        "instrument/ska1_mid_itf/vcc-config/ska-mid-cbf-system-parameters.json"
+        "instrument/ska1_mid_aa/vcc-config/ska-mid-cbf-system-parameters.json"
     )
+
+    # dish_config_json["tm_data_sources"][0] = "car:ska-mid?27.3.0#tmdata"
+    # dish_config_json["tm_data_filepath"] = (
+    #     "instrument/ska1_mid_itf/vcc-config/ska-mid-cbf-system-parameters.json"
+    # )
+
     logger.debug(f"dish_config_json file contents: \n{dish_config_json}")
 
     is_k_value_correct = True
