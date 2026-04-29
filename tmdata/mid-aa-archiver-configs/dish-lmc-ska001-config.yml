@@ -3219,3 +3219,10 @@ attributes:
       archive_abs_change: 1
     es: es9
     th: th1
+  - trl: ska001/spfrxpu/odl-3/microwave_mixer_voltage
+    es: es9
+    cm: cm1
+    configuration:
+      code_push_event: true
+      archive_abs_change: 0.1
+    th: th1
