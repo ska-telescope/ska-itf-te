@@ -1,9 +1,12 @@
 # Version History
 
 ## Unreleased
-
+* [AT-3659]
+  * Upgrade octopus backend to `0.4.6`
+  * Upgrade octopus frontend to `0.4.27`
+  * Add `deployEnv` variable to octopus values
 * [AT-3655]
-  * Updated [vcc-config](tmdata/instrument/ska1_mid_itf/vcc-config/ska-mid-cbf-system-parameters.json) file for Mid-AA (Mid CBF SysParams)
+  * Updated [vcc-config](tmdata/instrument/ska1_mid_aa/vcc-config/ska-mid-cbf-system-parameters.json) file for Mid-AA (Mid CBF SysParams)
 * [AT-3658]
   * Added microwave_mixer_voltage to archiver config files.
 
