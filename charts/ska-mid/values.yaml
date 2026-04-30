@@ -228,7 +228,7 @@ ska-octopus-backend:
     EDA_API_SKA036_TARGET: staging-dish-lmc-ska036
     EDA_API_SKA063_TARGET: staging-dish-lmc-ska063
     EDA_API_SKA100_TARGET: staging-dish-lmc-ska100
-    ODA_URL: "http://ska-db-oda-rest-staging.staging.svc.miditf.internal.skao.int:5000/oda/api/v14"
+    ODA_URL: "http://ska-db-oda-rest-staging.staging.svc.miditf.internal.skao.int:5000/oda/api/v17"
 
 # SDP
 ska-sdp:
