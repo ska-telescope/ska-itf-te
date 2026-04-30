@@ -1,9 +1,9 @@
 {
-    "interface": "https://schema.skao.int/ska-telmodel-layout/1.1",
+    "interface": "https://schema.skao.int/ska-telmodel-layout/1.3",
     "telescope": "ska1_mid",
     "receptors": [
         {
-            "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.1",
+            "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
             "diameter": 15.0,
             "location": {
                 "interface": "https://schema.skao.int/ska-telmodel-layout-location/1.0",
@@ -24,14 +24,14 @@
             },
             "fixed_delays": [
                 {
-                    "interface": "https://schema.skao.int/ska-telmodel-layout-receptor-fixed-delay/0.0",
+                    "interface": "https://schema.skao.int/ska-telmodel-layout-receptor-fixed-delay/1.0",
                     "fixed_delay_id": "FIX_H",
                     "polarisation": 0,
                     "units": "m",
                     "delay": 0.0
                 },
                 {
-                    "interface": "https://schema.skao.int/ska-telmodel-layout-receptor-fixed-delay/0.0",
+                    "interface": "https://schema.skao.int/ska-telmodel-layout-receptor-fixed-delay/1.0",
                     "fixed_delay_id": "FIX_V",
                     "polarisation": 0,
                     "units": "m",
@@ -39,11 +39,10 @@
                 }
             ],
             "niao": 0.0,
-            "station_label": "AC",
-            "station_id": 0
+            "dish_id": "AC"
         },
         {
-            "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.1",
+            "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
             "diameter": 13.5,
             "location": {
                 "interface": "https://schema.skao.int/ska-telmodel-layout-location/1.0",
@@ -64,14 +63,14 @@
             },
             "fixed_delays": [
                 {
-                    "interface": "https://schema.skao.int/ska-telmodel-layout-receptor-fixed-delay/0.0",
+                    "interface": "https://schema.skao.int/ska-telmodel-layout-receptor-fixed-delay/1.0",
                     "fixed_delay_id": "FIX_H",
                     "polarisation": 0,
                     "units": "m",
                     "delay": 0.0
                 },
                 {
-                    "interface": "https://schema.skao.int/ska-telmodel-layout-receptor-fixed-delay/0.0",
+                    "interface": "https://schema.skao.int/ska-telmodel-layout-receptor-fixed-delay/1.0",
                     "fixed_delay_id": "FIX_V",
                     "polarisation": 0,
                     "units": "m",
@@ -79,11 +78,10 @@
                 }
             ],
             "niao": 0.0,
-            "station_label": "MKT000",
-            "station_id": 1
+            "dish_id": "MKT000"
         },
         {
-            "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.1",
+            "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
             "diameter": 13.5,
             "location": {
                 "interface": "https://schema.skao.int/ska-telmodel-layout-location/1.0",
@@ -104,14 +102,14 @@
             },
             "fixed_delays": [
                 {
-                    "interface": "https://schema.skao.int/ska-telmodel-layout-receptor-fixed-delay/0.0",
+                    "interface": "https://schema.skao.int/ska-telmodel-layout-receptor-fixed-delay/1.0",
                     "fixed_delay_id": "FIX_H",
                     "polarisation": 0,
                     "units": "m",
                     "delay": 0.0
                 },
                 {
-                    "interface": "https://schema.skao.int/ska-telmodel-layout-receptor-fixed-delay/0.0",
+                    "interface": "https://schema.skao.int/ska-telmodel-layout-receptor-fixed-delay/1.0",
                     "fixed_delay_id": "FIX_V",
                     "polarisation": 0,
                     "units": "m",
@@ -119,11 +117,10 @@
                 }
             ],
             "niao": 0.0,
-            "station_label": "MKT001",
-            "station_id": 2
+            "dish_id": "MKT001"
         },
         {
-            "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.1",
+            "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
             "diameter": 15.0,
             "location": {
                 "interface": "https://schema.skao.int/ska-telmodel-layout-location/1.0",
@@ -144,14 +141,14 @@
             },
             "fixed_delays": [
                 {
-                    "interface": "https://schema.skao.int/ska-telmodel-layout-receptor-fixed-delay/0.0",
+                    "interface": "https://schema.skao.int/ska-telmodel-layout-receptor-fixed-delay/1.0",
                     "fixed_delay_id": "FIX_H",
                     "polarisation": 0,
                     "units": "m",
                     "delay": 0.0
                 },
                 {
-                    "interface": "https://schema.skao.int/ska-telmodel-layout-receptor-fixed-delay/0.0",
+                    "interface": "https://schema.skao.int/ska-telmodel-layout-receptor-fixed-delay/1.0",
                     "fixed_delay_id": "FIX_V",
                     "polarisation": 0,
                     "units": "m",
@@ -159,11 +156,10 @@
                 }
             ],
             "niao": 0.0,
-            "station_label": "SKA001",
-            "station_id": 65
+            "dish_id": "SKA001"
         },
         {
-            "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.1",
+            "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
             "diameter": 15.0,
             "location": {
                 "interface": "https://schema.skao.int/ska-telmodel-layout-location/1.0",
@@ -184,14 +180,14 @@
             },
             "fixed_delays": [
                 {
-                    "interface": "https://schema.skao.int/ska-telmodel-layout-receptor-fixed-delay/0.0",
+                    "interface": "https://schema.skao.int/ska-telmodel-layout-receptor-fixed-delay/1.0",
                     "fixed_delay_id": "FIX_H",
                     "polarisation": 0,
                     "units": "m",
                     "delay": 0.0
                 },
                 {
-                    "interface": "https://schema.skao.int/ska-telmodel-layout-receptor-fixed-delay/0.0",
+                    "interface": "https://schema.skao.int/ska-telmodel-layout-receptor-fixed-delay/1.0",
                     "fixed_delay_id": "FIX_V",
                     "polarisation": 0,
                     "units": "m",
@@ -199,11 +195,10 @@
                 }
             ],
             "niao": 0.0,
-            "station_label": "SKA036",
-            "station_id": 100
+            "dish_id": "SKA036"
         },
         {
-            "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.1",
+            "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
             "diameter": 15.0,
             "location": {
                 "interface": "https://schema.skao.int/ska-telmodel-layout-location/1.0",
@@ -224,14 +219,14 @@
             },
             "fixed_delays": [
                 {
-                    "interface": "https://schema.skao.int/ska-telmodel-layout-receptor-fixed-delay/0.0",
+                    "interface": "https://schema.skao.int/ska-telmodel-layout-receptor-fixed-delay/1.0",
                     "fixed_delay_id": "FIX_H",
                     "polarisation": 0,
                     "units": "m",
                     "delay": 0.0
                 },
                 {
-                    "interface": "https://schema.skao.int/ska-telmodel-layout-receptor-fixed-delay/0.0",
+                    "interface": "https://schema.skao.int/ska-telmodel-layout-receptor-fixed-delay/1.0",
                     "fixed_delay_id": "FIX_V",
                     "polarisation": 0,
                     "units": "m",
@@ -239,11 +234,10 @@
                 }
             ],
             "niao": 0.0,
-            "station_label": "SKA063",
-            "station_id": 127
+            "dish_id": "SKA063"
         },
         {
-            "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.1",
+            "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
             "diameter": 15.0,
             "location": {
                 "interface": "https://schema.skao.int/ska-telmodel-layout-location/1.0",
@@ -264,14 +258,14 @@
             },
             "fixed_delays": [
                 {
-                    "interface": "https://schema.skao.int/ska-telmodel-layout-receptor-fixed-delay/0.0",
+                    "interface": "https://schema.skao.int/ska-telmodel-layout-receptor-fixed-delay/1.0",
                     "fixed_delay_id": "FIX_H",
                     "polarisation": 0,
                     "units": "m",
                     "delay": 0.0
                 },
                 {
-                    "interface": "https://schema.skao.int/ska-telmodel-layout-receptor-fixed-delay/0.0",
+                    "interface": "https://schema.skao.int/ska-telmodel-layout-receptor-fixed-delay/1.0",
                     "fixed_delay_id": "FIX_V",
                     "polarisation": 0,
                     "units": "m",
@@ -279,8 +273,7 @@
                 }
             ],
             "niao": 0.0,
-            "station_label": "SKA100",
-            "station_id": 164
+            "dish_id": "SKA100"
         }
     ]
 }
