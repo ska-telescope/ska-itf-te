@@ -192,6 +192,7 @@ ska-mid-dish-spfrx-talondx-console:
 ska-octopus-frontend:
   enabled: false
   backendServiceName: ska-octopus-backend
+  deployEnv: "MID"
   ingress:
     paths:
       frontend: "/octopus/ska-octopus-frontend"

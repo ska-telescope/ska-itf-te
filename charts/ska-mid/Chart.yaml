@@ -150,12 +150,12 @@ dependencies:
 
   # Octopus Suite
   - name: ska-octopus-backend
-    version: 0.4.1
+    version: 0.4.6
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-octopus-backend.enabled
 
   - name: ska-octopus-frontend
-    version: 0.4.8
+    version: 0.4.27
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-octopus-frontend.enabled
 
