@@ -6,6 +6,8 @@
   * Updated [vcc-config](tmdata/instrument/ska1_mid_itf/vcc-config/ska-mid-cbf-system-parameters.json) file for Mid-AA (Mid CBF SysParams)
 * [AT-3658]
   * Added microwave_mixer_voltage to archiver config files.
+* [SKB-956]
+  * Update layout files to schema version 1.3
 
 ## 30.3.1
 * [AT-3645]
