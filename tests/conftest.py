@@ -57,7 +57,7 @@ def settings():
     settings["telmodel_source"] = os.getenv("TELMODEL_SOURCE", "")
     settings["dish_layout_telmodel_path"] = os.getenv("DISH_LAYOUT_TELMODEL_PATH", "")
     settings["dish_vcc_config_source"] = os.getenv("DISH_VCC_CONFIG_SOURCE", "")
-    settings["dish_vcc_config_source_path"] = os.getenv("DISH_VCC_CONFIG_SOURCE_PATH", "")
+    settings["dish_vcc_config_file_path"] = os.getenv("DISH_VCC_CONFIG_FILE_PATH", "")
     return settings
 
 
