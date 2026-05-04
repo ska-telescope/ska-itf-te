@@ -7,6 +7,7 @@
   * Add `deployEnv` variable to octopus values
 * [AT-3655]
   * Updated [vcc-config](tmdata/instrument/ska1_mid_aa/vcc-config/ska-mid-cbf-system-parameters.json) file for Mid-AA (Mid CBF SysParams)
+  * Allow configuration of dish VCC config source and filepath in tests using DISH_VCC_CONFIG_SOURCE and DISH_VCC_CONFIG_FILE_PATH env vars respectively.
 * [AT-3658]
   * Added microwave_mixer_voltage to archiver config files.
 
