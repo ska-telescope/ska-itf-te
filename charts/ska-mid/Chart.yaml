@@ -49,7 +49,7 @@ dependencies:
 
   # Mid CBF EC
   - name: ska-mid-cbf-engineering-console
-    version: 1.2.0
+    version: 2.0.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-mid-cbf-engineering-console.enabled
 
