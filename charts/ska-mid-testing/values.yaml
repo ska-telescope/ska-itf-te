@@ -23,6 +23,8 @@ environment:
   POINTING_TARGET_DECLINATION: "-63:42:45.625"
   TELMODEL_SOURCE: "car:ska-mid?main#tmdata"
   DISH_LAYOUT_TELMODEL_PATH: "instrument/ska1_mid_aa/layout/mid-layout.json"
+  DISH_VCC_CONFIG_SOURCE: "car:ska-mid?main#tmdata"
+  DISH_VCC_CONFIG_SOURCE_PATH: "instrument/ska1_mid_aa/vcc-config/ska-mid-cbf-system-parameters.json"
 testReportsPVC: pvc-test-data-storage
 mountPath: /data/test-reports
 CBFMCSconfigMountPath: /app/ska-mid/resources/mcs
