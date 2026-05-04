@@ -514,9 +514,11 @@ def _(telescope_handlers, receptor_ids, settings):
     if settings["dish_vcc_config_source"]:
         logger.info(f"Overriding dish VCC config source to {settings['dish_vcc_config_source']}")
         dish_config_json["tm_data_sources"][0] = settings["dish_vcc_config_source"]
-    
+
     if settings["dish_vcc_config_file_path"]:
-        logger.info(f"Overriding dish VCC config filepath to {settings['dish_vcc_config_file_path']}")
+        logger.info(
+            f"Overriding dish VCC config filepath to {settings['dish_vcc_config_file_path']}"
+        )
         dish_config_json["tm_data_filepath"] = settings["dish_vcc_config_file_path"]
 
     logger.debug(f"dish_config_json file contents: \n{dish_config_json}")
