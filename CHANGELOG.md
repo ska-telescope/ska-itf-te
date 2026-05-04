@@ -1,6 +1,9 @@
 # Version History
 
 ## Unreleased
+* [AT-3656]
+  * Upgrade ska-mid-cbf-tdc-mcs to `1.4.1`
+  * Upgrade ska-mid-cbf-engineering-console `2.0.0` which includes using BAR for artefact downloads
 * [AT-3659]
   * Upgrade octopus backend to `0.4.6`
   * Upgrade octopus frontend to `0.4.27`
