@@ -29,7 +29,7 @@ author = "ATLAS Team"
 
 # The full version, including alpha/beta/rc tags
 
-release = "30.4.0-test-cbf-upgrades"
+release = "30.4.0-test-cbf-upgrades-b"
 
 # -- General configuration ---------------------------------------------------
 
