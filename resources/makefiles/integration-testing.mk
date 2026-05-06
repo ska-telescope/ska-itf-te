@@ -80,6 +80,12 @@ test-configure-scan-kapb: ## Run configure scan test using ska-mid-testing K8s t
 	@yq -i '.testJobName = "$(TEST_NAME)"' $(CWD)/charts/ska-mid-testing/values.yaml
 	$(call RENDER_AND_EXECUTE_TEST_JOB,$(TEST_NAME))
 
+test-multiple-scans-without-reconfiguration-kapb: ## Run scan test using ska-mid-testing K8s test job in the Mid-AA (Losberg) cluster
+	$(eval TEST_NAME := multiple-scan-test-no-reconfig)
+	@yq -i '.testNodeID = "tests/integration/tmc/test_scan.py::test_perform_multiple_scans_via_tmc_without_reconfiguring"' $(CWD)/charts/ska-mid-testing/values.yaml
+	@yq -i '.testJobName = "$(TEST_NAME)"' $(CWD)/charts/ska-mid-testing/values.yaml
+	$(call RENDER_AND_EXECUTE_TEST_JOB,$(TEST_NAME))
+
 test-scan-kapb: ## Run scan test using ska-mid-testing K8s test job in the Mid-AA (Losberg) cluster
 	$(eval TEST_NAME := scan-test)
 	@yq -i '.testNodeID = "tests/integration/tmc/test_individual_commands.py::test_scan_via_tmc"' $(CWD)/charts/ska-mid-testing/values.yaml
