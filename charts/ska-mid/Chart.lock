@@ -10,7 +10,7 @@ dependencies:
   version: 1.13.0
 - name: ska-mid-wms
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 0.4.0
+  version: 1.1.1
 - name: ska-csp-lmc-mid
   repository: https://artefact.skao.int/repository/helm-internal
   version: 1.6.0
@@ -46,7 +46,7 @@ dependencies:
   version: 2.18.6
 - name: ska-tango-tangogql-ariadne
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.0.10
+  version: 1.0.11
 - name: ska-tango-alarmhandler
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.6.3
@@ -65,5 +65,5 @@ dependencies:
 - name: ska-octopus-frontend
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.4.27
-digest: sha256:fe8c71c2683e8d5568617a1d358d533264ffd0e22570a254254d7f08187ae301
-generated: "2026-04-30T11:19:03.130556+02:00"
+digest: sha256:e667b4b9fcf103312f65dae3ecfe7969c2381ef24799a0796bf952c30db3cab7
+generated: "2026-05-06T12:21:04.737726+02:00"
