@@ -1,6 +1,10 @@
 # Version History
 
 ## Unreleased
+* [AT-3665]
+  * Upgrade ska-tangogql-ariadne to `1.0.11`
+  * Upgrade vis-receive to `8.1.1`
+  * Upgrade ska-mid-wms to `1.1.1`
 * [AT-3659]
   * Upgrade octopus backend to `0.4.6`
   * Upgrade octopus frontend to `0.4.27`

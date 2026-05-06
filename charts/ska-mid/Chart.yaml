@@ -25,7 +25,7 @@ dependencies:
 
   # Mid WMS Simulator
   - name: ska-mid-wms
-    version: 0.4.0
+    version: 1.1.1
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-mid-wms.enabled
 
@@ -111,7 +111,7 @@ dependencies:
 
   # MULTIDB TANGOGQL
   - name: ska-tango-tangogql-ariadne
-    version: 1.0.10
+    version: 1.0.11
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tango-taranta.enabled
     alias: tangogql
