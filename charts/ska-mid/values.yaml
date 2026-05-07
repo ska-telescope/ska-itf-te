@@ -301,6 +301,7 @@ ska-tango-archiver:
   api_id: <EDA_API_ID> # This is set in Gitlab CI variables for the ITF, and Vault stored values for Prod. Needs to contain prefix "api://"
   ingress_host: k8s.miditf.internal.skao.int
   logLevel: "DEBUG"
+  logTarget: "console"
 
 # TANGO BASE and UTILS
 ska-tango-base:
