@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3669]
+  * Add make target for executing multiple scan test (no reconfigure) in KAPB
 * [AT-3659]
   * Upgrade octopus backend to `0.4.6`
   * Upgrade octopus frontend to `0.4.27`
