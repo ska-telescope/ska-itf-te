@@ -3,14 +3,15 @@
 #############################################################################################################################
 
 # run the dockerfile
-IMAGE=registry.gitlab.com/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools
+export IMAGE=registry.gitlab.com/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools
 # IMAGE_VERSION=0.9.2-dev.c0ef99b9c
-IMAGE_VERSION=0.10.1-rc.2
+export IMAGE_VERSION=0.10.4
 docker run -it -e CI_COMMIT_SHA=$(git rev-parse --short HEAD) --env-file PrivateRules.mak $IMAGE:$IMAGE_VERSION
 
 # git clone (to mimic the pipeline start)
 mkdir /build && mkdir /build/ska-telescope && cd /build/ska-telescope 
-git clone --recurse-submodules https://gitlab.com/ska-telescope/ska-mid-itf.git && cd ska-mid-itf
+git clone https://gitlab.com/ska-telescope/ska-mid-itf.git && cd ska-mid-itf
+git submodule update --init .make
 git checkout $CI_COMMIT_SHA -q && git show -q
 
 # log into infra from the container
@@ -21,15 +22,15 @@ git checkout $CI_COMMIT_SHA -q && git show -q
 # # Activate the virtual environment in the container if you want to run make lint
 # poetry shell
 
-# BEFORE poetry shell:
-root@30ce45f0f0aa:/build/ska-telescope/ska-mid-itf# env | grep PATH
-PYTHONPATH=/app/src:/app/src:/app/.venv/lib/python3.10/site-packages
-PATH=/app/.venv/bin:/app/bin:/app/.venv/bin:/app/.local/bin:/app/bin:/app/.local/bin:/app/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+# # BEFORE poetry shell:
+# root@30ce45f0f0aa:/build/ska-telescope/ska-mid-itf# env | grep PATH
+# PYTHONPATH=/app/src:/app/src:/app/.venv/lib/python3.10/site-packages
+# PATH=/app/.venv/bin:/app/bin:/app/.venv/bin:/app/.local/bin:/app/bin:/app/.local/bin:/app/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
-# AFTER poetry shell:
-(ska-mid-itf-py3.10) root@30ce45f0f0aa:/build/ska-telescope/ska-mid-itf# env | grep PATH
-PYTHONPATH=/app/src:/app/src:/app/.venv/lib/python3.10/site-packages
-PATH=/build/ska-telescope/ska-mid-itf/.venv/bin:/app/.venv/bin:/app/bin:/app/.venv/bin:/app/.local/bin:/app/bin:/app/.local/bin:/app/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+# # AFTER poetry shell:
+# (ska-mid-itf-py3.10) root@30ce45f0f0aa:/build/ska-telescope/ska-mid-itf# env | grep PATH
+# PYTHONPATH=/app/src:/app/src:/app/.venv/lib/python3.10/site-packages
+# PATH=/build/ska-telescope/ska-mid-itf/.venv/bin:/app/.venv/bin:/app/bin:/app/.venv/bin:/app/.local/bin:/app/bin:/app/.local/bin:/app/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 # INSTEAD OF poetry shell, run:
 
@@ -70,3 +71,21 @@ export TANGO_DATABASE_DS=tango-databaseds
 export KUBE_NAMESPACE=integration
 export CLUSTER_DOMAIN=miditf.internal.skao.int
 make integration-test TANGO_HOST=$TANGO_DATABASE_DS.$KUBE_NAMESPACE.svc.$CLUSTER_DOMAIN:10000
+
+
+# tmc-values.yaml should contain:
+# "ska-tmc-mid":
+#   "deviceServers":
+#     "centralnode":
+#       "DishIDs":
+#       - "SKA418"
+#     "dishleafnode":
+#       "instances":
+#       - "418"
+#     "subarraynode":
+#       "DishIDs":
+#       - "SKA418"
+#   "global":
+#     "namespace_dish":
+#       "dish_names":
+#       - "tango://tango-databaseds.dish-lmc-ska418.svc.ska418.miditf.internal.skao.int:10000/mid-dish/dish-manager/SKA418"
