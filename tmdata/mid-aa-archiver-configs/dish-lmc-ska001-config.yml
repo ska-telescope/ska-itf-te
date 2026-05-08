@@ -3226,3 +3226,21 @@ attributes:
       code_push_event: true
       archive_abs_change: 0.1
     th: th1
+  - trl: ska001/spf/spfc/operatingmode
+    es: es9
+    cm: cm1
+    configuration:
+      code_push_event: true
+    th: th1
+  - trl: mid-dish/dish-manager/ska001/status
+    es: es9
+    cm: cm1
+    configuration:
+      code_push_event: true
+    th: th1
+  - trl: mid-dish/dish-manager/ska001/dscerrorstatuses
+    es: es9
+    cm: cm1
+    configuration:
+      code_push_event: true
+    th: th1
