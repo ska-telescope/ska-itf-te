@@ -415,3 +415,16 @@ helm-rebuild-ska-mid:
 	@rm -f charts/ska-mid/Chart.lock
 	@rm -rf charts/ska-mid/charts
 	@make k8s-template-chart K8S_CHART=ska-mid
+
+.PHONY: bash-lint
+bash-lint:
+	shellcheck --severity=error scripts/01-hello-spfc.sh
+	shellcheck --severity=error scripts/02-check-databaseds-ready.sh
+	shellcheck --severity=error scripts/03-configure-spfc.sh
+	shellcheck --severity=error scripts/04-register-spfc-on-tangodb.sh
+	shellcheck --severity=error scripts/05-download-firmware.sh
+	shellcheck --severity=error scripts/06-stop-spfc-services.sh
+	shellcheck --severity=error scripts/07-upload-extract-artefacts.sh
+	shellcheck --severity=error scripts/08-restart-spfc-services.sh
+	shellcheck --severity=error scripts/09-smoke-test-spfc-services.sh
+	shellcheck --severity=error scripts/10-smoke-test-tango.sh
