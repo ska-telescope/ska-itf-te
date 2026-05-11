@@ -14,7 +14,7 @@ os.environ["EB_ID"] = "eb-986-20260218-6tmxr3kxn4c"
 os.environ["SKUID_URL"] = "http://localhost:4000/no/where"
 
 # Load Scheduling Block Definition
-sbd = api.load_sbd("tests/integration/resources/sbds/test_sbd.json")
+sbd = api.load_sbd("tests/integration/resources/sbds/golden_sample_sbd_band1.json")
 
 
 def generate_assign_resources_tmc_payload():
