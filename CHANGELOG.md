@@ -1,6 +1,14 @@
 # Version History
 
 ## Unreleased
+* [AT-3668]
+  * Added the following attributes to the dish archiver configs (example for ska001):
+  * ska001/spf/spfc/b1defaultstartstate
+  * ska001/spf/spfc/b2defaultstartstate
+  * ska001/spf/spfc/b345defaultstartstate
+  * ska001/spf/spfc/operatingmode
+  * mid-dish/dish-manager/ska001/status
+  * mid-dish/dish-manager/ska001/dscerrorstatuses
 * [AT-3656]
   * Upgrade ska-mid-cbf-tdc-mcs to `1.4.1`
   * Upgrade ska-mid-cbf-engineering-console `2.0.0` which includes using BAR for artefact downloads
