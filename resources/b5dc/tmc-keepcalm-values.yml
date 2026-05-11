@@ -1,0 +1,15 @@
+"ska-tmc-mid":
+  "deviceservers":
+    "centralnode":
+      "dishids":
+      - "ska420"
+    "dishleafnode":
+      "instances":
+      - "420"
+    "subarraynode":
+      "dishids":
+      - "ska420"
+  "global":
+    "namespace_dish":
+      "dish_names":
+      - "tango://tango-databaseds.dish-lmc-ska420.svc.ska418.miditf.internal.skao.int:10000/mid-dish/dish-manager/ska420"
