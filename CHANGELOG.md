@@ -4,6 +4,8 @@
 * [AT-3656]
   * Upgrade ska-mid-cbf-tdc-mcs to `1.4.1`
   * Upgrade ska-mid-cbf-engineering-console `2.0.0` which includes using BAR for artefact downloads
+* [AT-3651]
+  * Add kubernetes python package to resolve ITF smoke tests failure following AT-2200.
 * [AT-3669]
   * Add make target for executing multiple scan test (no reconfigure) in KAPB
 * [AT-3659]
