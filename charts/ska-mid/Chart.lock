@@ -65,5 +65,5 @@ dependencies:
 - name: ska-octopus-frontend
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.4.27
-digest: sha256:e667b4b9fcf103312f65dae3ecfe7969c2381ef24799a0796bf952c30db3cab7
-generated: "2026-05-11T12:57:33.262265571+02:00"
+digest: sha256:611b5e397f1f8678e8cf0f0c61ff90ec93e50693ef1c254ea26d9b2874dcc33f
+generated: "2026-05-11T16:07:44.130187+02:00"
