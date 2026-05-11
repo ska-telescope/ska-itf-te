@@ -6,6 +6,8 @@
   * Upgrade vis-receive to `8.1.1`
   * Upgrade ska-mid-wms to `1.1.1`
   * Upgrade ska-mid-tmc to `1.17.0`
+* [AT-3669]
+  * Add make target for executing multiple scan test (no reconfigure) in KAPB
 * [AT-3659]
   * Upgrade octopus backend to `0.4.6`
   * Upgrade octopus frontend to `0.4.27`
