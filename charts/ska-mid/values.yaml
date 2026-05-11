@@ -56,9 +56,11 @@ ska-dataproduct-dashboard:
       storageClassName: ceph-cephfs
   api:
     sdpConfigdbHost: "ska-sdp-etcd.ska-mid-central-controller"
+  ####### TEMPORARY PATCH - DELETE ONCE UPDATE ON 0.17.0 IS RELEASED ########
   dashboard:
     container: registry.gitlab.com/ska-telescope/ska-dataproduct-dashboard/ska-dataproduct-dashboard
     version: 0.17.0-dev.ce74f2227
+  ###########################################################################
 
 # OSO
 ska-oso-integration:
