@@ -3244,3 +3244,21 @@ attributes:
     configuration:
       code_push_event: true
     th: th1
+  - trl: ska001/spf/spfc/b1defaultstartstate
+    es: es9
+    cm: cm1
+    configuration:
+      code_push_event: true
+    th: th1
+  - trl: ska001/spf/spfc/b2defaultstartstate
+    es: es9
+    cm: cm1
+    configuration:
+      code_push_event: true
+    th: th1
+  - trl: ska001/spf/spfc/b345defaultstartstate
+    es: es9
+    cm: cm1
+    configuration:
+      code_push_event: true
+    th: th1
