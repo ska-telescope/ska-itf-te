@@ -37,6 +37,7 @@ assertpy = "^1.1"
 lxml = "^6.0.4"
 diagrams = "^0.25.1"
 mock = "^5.2.0"
+kubernetes = "^35.0.0"
 
 [tool.poetry.group.docs.dependencies]
 Sphinx = "^7.2.6"
