@@ -8,15 +8,20 @@ from ska_oso_scripting.pdm_transforms import (
     create_cdm_assign_resources_request_from_scheduling_block,
     create_cdm_configure_requests_from_scheduling_block,
 )
+from ska_ser_skuid import EntityType, mint_skuid
 
 # Mock vars
-os.environ["EB_ID"] = "eb-986-20260218-6tmxr3kxn4c"
+os.environ["EB_ID"] = mint_skuid(EntityType.EB)
 os.environ["SKUID_URL"] = "http://localhost:4000/no/where"
 
 
 def generate_assign_resources_tmc_payload(subarray_id: int, sbd: dict):
     """Generate assign resource TMC payload using oso scripting methods.
 
+    :param subarray_id: _description_
+    :type subarray_id: int
+    :param sbd: _description_
+    :type sbd: dict
     :return: _description_
     :rtype: _type_
     """
@@ -27,8 +32,10 @@ def generate_assign_resources_tmc_payload(subarray_id: int, sbd: dict):
 
 
 def generate_configure_tmc_payloads(sbd: dict):
-    """_summary_.
+    """Generate configure TMC payloads using oso scripting methods.
 
+    :param sbd: _description_
+    :type sbd: dict
     :return: _description_
     :rtype: _type_
     """
