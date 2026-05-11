@@ -16,10 +16,10 @@ dependencies:
   version: 1.6.0
 - name: ska-mid-cbf-tdc-mcs
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.4.0
+  version: 1.4.1
 - name: ska-mid-cbf-engineering-console
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.2.0
+  version: 2.0.0
 - name: ska-sdp
   repository: https://artefact.skao.int/repository/helm-internal
   version: 2.3.0
@@ -65,5 +65,5 @@ dependencies:
 - name: ska-octopus-frontend
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.4.27
-digest: sha256:fe8c71c2683e8d5568617a1d358d533264ffd0e22570a254254d7f08187ae301
-generated: "2026-04-30T11:19:03.130556+02:00"
+digest: sha256:abf2fcb641e2ef37b9113bb0762f55c145dc5b7859de3efd86ad990e1a52d33a
+generated: "2026-05-04T15:01:18.767334+02:00"
