@@ -55,7 +55,8 @@ deploy-sut-staging:
     - .staging-env
   when: on_success
   needs:
-    - k8s-test-runner
+    # - k8s-test-runner # TEMPORARY COMMIT - LET'S SEE HOW THIS WORKS
+    - helm-chart-build
   environment:
     name: mid-itf/ska-$CONFIG-staging
     kubernetes:
@@ -74,7 +75,8 @@ redeploy-sut-staging:
     - .redeploy
     - .staging-env
   needs:
-    - k8s-test-runner
+    - helm-chart-build
+    # - k8s-test-runner # TEMPORARY COMMIT - LET'S SEE HOW THIS WORKS
   environment:
     name: mid-itf/ska-$CONFIG-staging
     kubernetes:
