@@ -44,7 +44,6 @@
       }
     }
   },
-  "pst": {},
   "tmc": {
     "scan_duration": 920.0,
     "partial_configuration": false
