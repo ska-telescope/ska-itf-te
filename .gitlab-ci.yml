@@ -22,9 +22,9 @@ stages:
   - platform
   - deploy-dish-aiv
   - remove-dish-aiv
+  - staging # TEMPORARY COMMIT: MOVE BACK TO AFTER TEST STAGE
   - test
   - lint
-  - staging
   - testing
   - integration
   - upload
