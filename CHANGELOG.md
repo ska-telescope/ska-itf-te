@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3651]
+  * Add kubernetes python package to resolve ITF smoke tests failure following AT-2200.
 * [AT-3669]
   * Add make target for executing multiple scan test (no reconfigure) in KAPB
 * [AT-3659]
