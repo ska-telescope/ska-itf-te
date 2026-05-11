@@ -5,7 +5,6 @@
   * Upgrade ska-tangogql-ariadne to `1.0.11`
   * Upgrade vis-receive to `8.1.1`
   * Upgrade ska-mid-wms to `1.1.1`
-  * Upgrade ska-mid-tmc to `1.17.0`
 * [AT-3656]
   * Upgrade ska-mid-cbf-tdc-mcs to `1.4.1`
   * Upgrade ska-mid-cbf-engineering-console `2.0.0` which includes using BAR for artefact downloads
