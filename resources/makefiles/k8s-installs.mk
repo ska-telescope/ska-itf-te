@@ -248,6 +248,8 @@ vars:
 	$(info #####################################)
 	$(info CLUSTER_DOMAIN=$(CLUSTER_DOMAIN))
 	$(info #####################################)
+	$(info TMC_VALUES_PATH=$(TMC_VALUES_PATH))
+	$(info #####################################)
 	$(info MINIKUBE=$(MINIKUBE))
 	$(info EXPOSE_All_DS=$(EXPOSE_All_DS))
 	$(info TANGO_HOST=$(TANGO_HOST))

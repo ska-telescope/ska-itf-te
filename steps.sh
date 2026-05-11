@@ -71,21 +71,3 @@ export TANGO_DATABASE_DS=tango-databaseds
 export KUBE_NAMESPACE=integration
 export CLUSTER_DOMAIN=miditf.internal.skao.int
 make integration-test TANGO_HOST=$TANGO_DATABASE_DS.$KUBE_NAMESPACE.svc.$CLUSTER_DOMAIN:10000
-
-
-# tmc-values.yaml should contain:
-# "ska-tmc-mid":
-#   "deviceServers":
-#     "centralnode":
-#       "DishIDs":
-#       - "SKA418"
-#     "dishleafnode":
-#       "instances":
-#       - "418"
-#     "subarraynode":
-#       "DishIDs":
-#       - "SKA418"
-#   "global":
-#     "namespace_dish":
-#       "dish_names":
-#       - "tango://tango-databaseds.dish-lmc-ska418.svc.ska418.miditf.internal.skao.int:10000/mid-dish/dish-manager/SKA418"

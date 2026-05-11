@@ -41,12 +41,20 @@
       variables:
         KUBE_NAMESPACE_PREFIX: staging-dish-lmc-
       allow_failure: true
-    - if: "$CI_COMMIT_TAG != null && $DISH_IDS =~ /SKA418|SKA420/"
-    ### TODO: modify TMC_VALUES_PATH env variable according to the dish ids chosen, and remove lines 24-28 in .jobs.yaml - check logic before attempting again!
+    - if: "$CI_COMMIT_TAG != null && $DISH_IDS = SKA418"
       when: manual
       variables:
-        KUBE_NAMESPACE_PREFIX: dish-lmc-
-        CLUSTER_DOMAIN_POSTFIX: "ska418.miditf.internal.skao.int"
+        TMC_VALUES_PATH: resources/b5dc/tmc-teapot-only-values.yml
+      allow_failure: true
+    - if: "$CI_COMMIT_TAG != null && $DISH_IDS = SKA420"
+      when: manual
+      variables:
+        TMC_VALUES_PATH: resources/b5dc/tmc-keepcalm-only-values.yml
+      allow_failure: true
+    - if: "$CI_COMMIT_TAG != null && $DISH_IDS = SKA418 SKA420"
+      when: manual
+      variables:
+        TMC_VALUES_PATH: resources/b5dc/tmc-teapot-and-keepcalm-values.yml
       allow_failure: true
     - when: never
 
