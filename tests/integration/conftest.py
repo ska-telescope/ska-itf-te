@@ -138,3 +138,25 @@ def alarm_handler_test_context():
     """
     test_context = AlarmHandlerTestContext()
     yield test_context
+
+
+@pytest.fixture
+def sbd(settings):
+    """Fixture to manage SBD used in tests.
+
+    :param settings: _description_
+    :type settings: _type_
+    :return: _description_
+    :rtype: _type_
+    """
+    sbd = None
+
+    if settings["use_oso_payloads"]:
+        from ska_oso_scripting.api import load_sbd
+
+        if settings["sbd_id"]:
+            pass
+        elif settings["sbd_path"]:
+            sbd = load_sbd(settings["sbd_path"])
+
+    return sbd

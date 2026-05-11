@@ -590,7 +590,7 @@ def _(telescope_handlers, receptor_ids, settings):
 
 
 @when("I assign resources")
-def _(telescope_handlers, receptor_ids, pb_and_eb_ids, default_assign_resources, settings):
+def _(telescope_handlers, receptor_ids, pb_and_eb_ids, default_assign_resources, settings, sbd):
     """Assign resources via TMC.
 
     :param telescope_handlers: _description_
@@ -616,7 +616,7 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids, default_assign_resources,
     RECEPTORS = receptor_ids
 
     assign_resources_payload = update_assign_resources(
-        default_assign_resources, RECEPTORS, pb_id, eb_id, settings
+        default_assign_resources, RECEPTORS, pb_id, eb_id, settings, sbd
     )
 
     logger.info(f"PB ID: {pb_id}, EB ID: {eb_id}")
@@ -627,7 +627,7 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids, default_assign_resources,
     with open(assign_resources_artifact_path, "w") as assign_resources_config_file:
         json.dump(assign_resources_payload, assign_resources_config_file, indent=4)
 
-    tmc.central_node.AssignResources(json.dumps(assign_resources_payload))
+    tmc.central_node.AssignResources(assign_resources_payload)
     wait_for_event(cbf_subarray, "obsState", ObsState.IDLE)
     wait_for_event(sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.IDLE)
     wait_for_event(csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.IDLE)
@@ -648,6 +648,7 @@ def _(
     scan_time,
     default_configure_scan_payload,
     settings,
+    sbd,
 ):
     """Configure scan via TMC.
 
@@ -675,7 +676,7 @@ def _(
     RECEPTORS = receptor_ids
 
     configure_scan_payload = update_configure_scan(
-        default_configure_scan_payload, scan_band, scan_time, 1, settings
+        default_configure_scan_payload, scan_band, scan_time, 1, settings, sbd
     )
 
     logger.debug(json.dumps(configure_scan_payload))
@@ -1282,6 +1283,7 @@ def update_assign_resources(
     pb_id: str,
     eb_id: str,
     settings: dict,
+    sbd: dict = None,
 ) -> dict:
     """Update assign resources payload with test specific parameters.
 
@@ -1298,6 +1300,15 @@ def update_assign_resources(
     :return: Updated assign resources payload
     :rtype: dict
     """
+
+    if sbd:
+        # Use OSO generated payloads if SBD is provided
+        from scripts.oso.generate_payloads import generate_assign_resources_tmc_payload
+
+        logger.info("Generating assign resources payload using OSO scripting")
+        assign_resources_payload = generate_assign_resources_tmc_payload(subarray_id=1, sbd=sbd)
+        return assign_resources_payload
+
     NODE_WITH_100G_INTERFACE = settings["node_with_100G_interface"]
     NODE_LABEL_FOR_100G_GROUP = settings["node_label_for_100G_group"]
 
@@ -1383,6 +1394,7 @@ def update_configure_scan(
     scan_duration: int,
     scan_number: int,
     settings: dict,
+    sbd: dict = None,
 ) -> dict:
     """Update configure scan payload with test specific parameters.
 
@@ -1399,6 +1411,15 @@ def update_configure_scan(
     :return: Updated configure scan JSON payload
     :rtype: dict
     """
+
+    if sbd:
+        # Use OSO generated payloads if SBD is provided
+        from scripts.oso.generate_payloads import generate_configure_tmc_payloads
+
+        logger.info("Generating configure payload using OSO scripting")
+        configure_payload = generate_configure_tmc_payloads(sbd=sbd)
+        return configure_payload
+
     band_params = generate_fsp.generate_band_params(scan_band)
 
     configure_scan_payload["dish"]["receiver_band"] = str(scan_band)
@@ -1458,7 +1479,7 @@ def default_scan_payload(settings):
     return scan_json
 
 
-def update_scan_payload(scan_payload: dict, scan_number: int) -> dict:
+def update_scan_payload(scan_payload: dict, scan_number: int, sbd: dict = None) -> dict:
     """Update scan payload with test specific parameters.
 
     :param scan_payload: Scan JSON payload to update
@@ -1468,6 +1489,13 @@ def update_scan_payload(scan_payload: dict, scan_number: int) -> dict:
     :return: Updated scan JSON payload
     :rtype: dict
     """
+    if sbd:
+        # Use OSO generated payloads if SBD is provided
+        from scripts.oso.generate_payloads import get_scan_command
+
+        scan_payload = get_scan_command(subarray_id=1)
+        return scan_payload
+
     scan_payload["scan_id"] = scan_number
     scan_payload["transaction_id"] = f"txn-....-{scan_number:05}"
     return scan_payload

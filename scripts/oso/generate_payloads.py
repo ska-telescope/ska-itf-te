@@ -13,23 +13,20 @@ from ska_oso_scripting.pdm_transforms import (
 os.environ["EB_ID"] = "eb-986-20260218-6tmxr3kxn4c"
 os.environ["SKUID_URL"] = "http://localhost:4000/no/where"
 
-# Load Scheduling Block Definition
-sbd = api.load_sbd("tests/integration/resources/sbds/golden_sample_sbd_band1.json")
 
-
-def generate_assign_resources_tmc_payload():
+def generate_assign_resources_tmc_payload(subarray_id: int, sbd: dict):
     """Generate assign resource TMC payload using oso scripting methods.
 
     :return: _description_
     :rtype: _type_
     """
     assign_resources = create_cdm_assign_resources_request_from_scheduling_block(
-        subarray_id=1, sbd=sbd
+        subarray_id=subarray_id, sbd=sbd
     )
-    return assign_resources.model_dump_json(indent=2)
+    return assign_resources.model_dump_json(by_alias=True, indent=2)
 
 
-def generate_configure_tmc_payloads():
+def generate_configure_tmc_payloads(sbd: dict):
     """_summary_.
 
     :return: _description_
@@ -49,12 +46,15 @@ if __name__ == "__main__":
     # for the first scan in the SBD. This is not a test of the correctness
     # of these payloads, but just a demonstration of how to use the wrapper functions
     # to generate them.
-    assign_resources_payload = generate_assign_resources_tmc_payload()
+
+    # Load Scheduling Block Definition
+    sbd = api.load_sbd("tests/integration/resources/sbds/golden_sample_sbd_band1.json")
+    assign_resources_payload = generate_assign_resources_tmc_payload(subarray_id=1, sbd=sbd)
     print("Assign Resources payload:")
     print(assign_resources_payload)
 
     # Show Configure payloads for each scan in the SBD
-    configure_payloads = generate_configure_tmc_payloads()
+    configure_payloads = generate_configure_tmc_payloads(sbd)
     for idx, payload in enumerate(configure_payloads):
         print(f"Configure payload {idx}:")
         print(payload)
