@@ -288,7 +288,7 @@ ska-tango-archiver:
   archviewer:
     instances:
       - name: mid
-        timescale_host: 10.164.11.32
+        timescale_host: 10.164.11.33
         # keep below field empty if db names are unknown, app will display all dbs present
         # e.g: timescale_databases: ""
         timescale_databases: itf_eda
