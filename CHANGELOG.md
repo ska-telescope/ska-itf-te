@@ -1,6 +1,9 @@
 # Version History
 
 ## Unreleased
+* [SKB-1006]
+  * Upgrade ska-tango-archiver to `5.0.4-rc.1`
+  * Set archiver default logging level to INFO and add console logging target
 * [AT-3665]
   * Upgrade ska-tangogql-ariadne to `1.0.11`
   * Upgrade vis-receive to `8.1.1`
