@@ -7,8 +7,9 @@ from typing import Any, Callable
 import pytest
 from pytest_bdd import given
 from pytest_bdd.parser import Feature, Scenario, Step
-from tango import DeviceProxy
 from ska_oso_scripting.api import load_sbd
+from tango import DeviceProxy
+
 from tests.integration.tmc.conftest import TMC
 
 logger = logging.getLogger(__name__)
