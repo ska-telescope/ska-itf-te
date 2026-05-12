@@ -36,35 +36,25 @@
   rules:
     - if: $CI_PIPELINE_SOURCE == "pipeline"
       when: never
-    - if: "$CI_COMMIT_TAG != null && $DISH_IDS = SKA418"
-      when: manual
-      variables:
-        TMC_VALUES_PATH: resources/b5dc/tmc-teapot-only-values.yml
-      allow_failure: true
-    - if: "$CI_COMMIT_TAG != null && $DISH_IDS = SKA420"
-      when: manual
-      variables:
-        TMC_VALUES_PATH: resources/b5dc/tmc-keepcalm-only-values.yml
-      allow_failure: true
-    - if: "$CI_COMMIT_TAG != null && $DISH_IDS = SKA418 SKA420"
+    - if: "$CI_COMMIT_TAG != null && $DISH_IDS == 'SKA418 SKA420'"
       when: manual
       variables:
         TMC_VALUES_PATH: resources/b5dc/tmc-teapot-and-keepcalm-values.yml
       allow_failure: true
-    - if: "$CI_COMMIT_TAG != null && $DISH_IDS = SKA418"
+    - if: "$CI_COMMIT_TAG != null && $DISH_IDS == 'SKA418'"
       when: manual
       variables:
         TMC_VALUES_PATH: resources/b5dc/tmc-teapot-only-values.yml
       allow_failure: true
-    - if: "$CI_COMMIT_TAG != null && $DISH_IDS = SKA420"
+    - if: "$CI_COMMIT_TAG != null && $DISH_IDS == 'SKA420'"
       when: manual
       variables:
         TMC_VALUES_PATH: resources/b5dc/tmc-keepcalm-only-values.yml
       allow_failure: true
-    - if: "$CI_COMMIT_TAG != null && $DISH_IDS = SKA418 SKA420"
+    - if: "$CI_COMMIT_TAG != null"
       when: manual
       variables:
-        TMC_VALUES_PATH: resources/b5dc/tmc-teapot-and-keepcalm-values.yml
+        KUBE_NAMESPACE_PREFIX: staging-dish-lmc-
       allow_failure: true
     - when: never
 
