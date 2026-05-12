@@ -8,7 +8,7 @@ import pytest
 from pytest_bdd import given
 from pytest_bdd.parser import Feature, Scenario, Step
 from tango import DeviceProxy
-
+from ska_oso_scripting.api import load_sbd
 from tests.integration.tmc.conftest import TMC
 
 logger = logging.getLogger(__name__)
@@ -152,8 +152,6 @@ def sbd(settings):
     sbd = None
 
     if settings["use_oso_payloads"]:
-        from ska_oso_scripting.api import load_sbd
-
         if settings["sbd_id"]:
             pass
         elif settings["sbd_path"]:
