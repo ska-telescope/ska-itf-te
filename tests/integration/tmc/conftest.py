@@ -18,6 +18,11 @@ from ska_control_model import HealthState, ObsState
 from ska_ser_skuid import EntityType, mint_skuid
 from tango import DeviceProxy, DevState, EventType
 
+from scripts.oso.generate_payloads import (
+    generate_assign_resources_tmc_payload,
+    generate_configure_tmc_payloads,
+    get_scan_command,
+)
 from scripts.sequence_diagrammer.generate_sequence_diagram import SequenceDiagrammer
 from utils.enums import DishMode
 
@@ -1322,8 +1327,6 @@ def update_assign_resources(
     """
     if sbd:
         # Use OSO generated payloads if SBD is provided
-        from scripts.oso.generate_payloads import generate_assign_resources_tmc_payload
-
         logger.info("Generating assign resources payload using OSO scripting")
         assign_resources_payload = generate_assign_resources_tmc_payload(subarray_id=1, sbd=sbd)
         return assign_resources_payload
@@ -1434,8 +1437,6 @@ def update_configure_scan(
     """
     if sbd:
         # Use OSO generated payloads if SBD is provided
-        from scripts.oso.generate_payloads import generate_configure_tmc_payloads
-
         logger.info("Generating configure payload using OSO scripting")
         configure_payload = generate_configure_tmc_payloads(sbd=sbd)[0]
         return configure_payload
@@ -1513,8 +1514,6 @@ def update_scan_payload(scan_payload: dict, scan_number: int, sbd: dict = None) 
     """
     if sbd:
         # Use OSO generated payloads if SBD is provided
-        from scripts.oso.generate_payloads import get_scan_command
-
         scan_payload = get_scan_command(subarray_id=1)
         return scan_payload
 
