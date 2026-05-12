@@ -384,12 +384,12 @@ ska-tmc-mid:
     enabled: false
   subarray_count: 1
   telescope: SKA-mid
+  ska-mid-wms:
+    dev-name: "ska-mid/weather-monitoring/s1"
 
 # Mid WMS Simulator
 ska-mid-wms:
   enabled: false
-  legacy_compatibility: true
-  dev-name: "mid/wms/0"
   ska-tango-base:
     enabled: false
     itango:
