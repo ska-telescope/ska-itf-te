@@ -3,6 +3,24 @@
 ## Unreleased
 * [AT-3619]
   * Add option to run TMC tests using TMC command payloads generated using OSO scripting.
+* [SKB-1006]
+  * Upgrade ska-tango-archiver to `5.0.4-rc.1`
+  * Set archiver default logging level to INFO and add console logging target
+* [AT-3665]
+  * Upgrade ska-tangogql-ariadne to `1.0.11`
+  * Upgrade vis-receive to `8.1.1`
+  * Upgrade ska-mid-wms to `1.1.1`
+* [AT-3668]
+  * Added the following attributes to the dish archiver configs (example for ska001):
+  * ska001/spf/spfc/b1defaultstartstate
+  * ska001/spf/spfc/b2defaultstartstate
+  * ska001/spf/spfc/b345defaultstartstate
+  * ska001/spf/spfc/operatingmode
+  * mid-dish/dish-manager/ska001/status
+  * mid-dish/dish-manager/ska001/dscerrorstatuses
+* [AT-3656]
+  * Upgrade ska-mid-cbf-tdc-mcs to `1.4.1`
+  * Upgrade ska-mid-cbf-engineering-console `2.0.0` which includes using BAR for artefact downloads
 * [AT-3651]
   * Add kubernetes python package to resolve ITF smoke tests failure following AT-2200.
 * [AT-3669]

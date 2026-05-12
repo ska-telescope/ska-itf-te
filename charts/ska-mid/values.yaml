@@ -140,6 +140,12 @@ ska-log-consumer:
 # CBF EC
 ska-mid-cbf-engineering-console:
   enabled: false
+  bar:
+    secret:
+      vault:
+        enabled: true
+        mount: mid-itf
+        secretPath: bar-token
   # Comment section below to use engineering-console image from CAR
   # Uncomment section below to use engineering-console image from gitlab
   # engineeringconsole:
@@ -300,6 +306,8 @@ ska-tango-archiver:
   telescope_environment: MID-ITF
   api_id: <EDA_API_ID> # This is set in Gitlab CI variables for the ITF, and Vault stored values for Prod. Needs to contain prefix "api://"
   ingress_host: k8s.miditf.internal.skao.int
+  logLevel: "INFO"
+  logTarget: "console"
 
 # TANGO BASE and UTILS
 ska-tango-base:
@@ -378,12 +386,12 @@ ska-tmc-mid:
     enabled: false
   subarray_count: 1
   telescope: SKA-mid
+  ska-mid-wms:
+    dev-name: "ska-mid/weather-monitoring/s1"
 
 # Mid WMS Simulator
 ska-mid-wms:
   enabled: false
-  legacy_compatibility: true
-  dev-name: "mid/wms/0"
   ska-tango-base:
     enabled: false
     itango:
