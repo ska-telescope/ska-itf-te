@@ -25,7 +25,9 @@
     #   if [ "$DISH_LMC_IN_THE_LOOP" != "true" ]; then
     #     export TMC_VALUES_PATH=charts/ska-mid/values.yaml
     #   else
-    #     bash .make/resources/gitlab_section.sh tmc-values "Generate tmc-values.yaml file from Dish IDs" make itf-dish-ids
+    #     if [ "$DISH_IDS" != "SKA418" ] && [ "$DISH_IDS" != "SKA420" ] && [ "$DISH_IDS" != "SKA418 SKA420" ] && [ "$DISH_IDS" != "SKA420 SKA418"]; then
+    #       bash .make/resources/gitlab_section.sh tmc-values "Generate tmc-values.yaml file from Dish IDs" make itf-dish-ids
+    #     fi
     #   fi
     #############################################################################################################################################################################################################
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
@@ -55,7 +57,9 @@
     - make pvc-patch-apply
     - |
       if [ "$DISH_LMC_IN_THE_LOOP" == "true" ]; then 
-        bash .make/resources/gitlab_section.sh install_tangoGQL "Install TangoGQL for multiDB" make taranta-deploy-all-tangogql-instances;
+        if [ "$DISH_IDS" != "SKA418" ] && [ "$DISH_IDS" != "SKA420" ] && [ "$DISH_IDS" != "SKA418 SKA420" ] && [ "$DISH_IDS" != "SKA420 SKA418"]; then # TEMPORARY COMMIT: This is to avoid running this step for the B5DC branch
+          bash .make/resources/gitlab_section.sh install_tangoGQL "Install TangoGQL for multiDB" make taranta-deploy-all-tangogql-instances;
+        fi
       fi
     - |
       if [[ "${KUBE_NAMESPACE}" =~ ^(staging|integration|testing)$ ]]; then
@@ -66,7 +70,6 @@
       fi
     - env | grep RUNNER_AFTER_SCRIPT_TIMEOUT
     - export SUT_CLUSTER_DOMAIN=miditf.internal.skao.int ADDMARKS=true SMOKE_TEST_MARKS="not requires_talons_on and not dish_deployment"
-    - chmod +x .make/resources/gitlab_section.sh
     - .make/resources/gitlab_section.sh smoketest-general "More smoke tests" make smoke-tests
   after_script:
     - make links
