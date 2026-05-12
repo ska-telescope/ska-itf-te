@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3619]
+  * Add option to run TMC tests using TMC command payloads generated using OSO scripting.
 * [AT-3651]
   * Add kubernetes python package to resolve ITF smoke tests failure following AT-2200.
 * [AT-3669]
