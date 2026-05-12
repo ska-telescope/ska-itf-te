@@ -1,6 +1,9 @@
 # Version History
 
 ## Unreleased
+* [SKB-1006]
+  * Upgrade ska-tango-archiver to `5.0.4-rc.1`
+  * Set archiver default logging level to INFO and add console logging target
 * [AT-3669]
   * Add make target for executing multiple scan test (no reconfigure) in KAPB
 * [AT-3659]
