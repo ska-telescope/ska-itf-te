@@ -3,8 +3,8 @@ apiVersion: v2
 name: ska-mid
 description: An umbrella Helm chart for deployment of the Mid System
 type: application
-version: 30.4.0-rc.1
-appVersion: 30.4.0-rc.1
+version: 30.4.0-test-updates-c
+appVersion: 30.4.0-test-updates-c
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
   # Tango Base & Deployment Charts: TangoDB, iTango, Tango Operator Utils
@@ -25,7 +25,7 @@ dependencies:
 
   # Mid WMS Simulator
   - name: ska-mid-wms
-    version: 0.4.0
+    version: 1.1.1
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-mid-wms.enabled
 
@@ -37,7 +37,7 @@ dependencies:
 
   # Mid CBF TDC MCS
   - name: ska-mid-cbf-tdc-mcs
-    version: 1.4.0
+    version: 1.4.1
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-mid-cbf-tdc-mcs.enabled
 
@@ -49,7 +49,7 @@ dependencies:
 
   # Mid CBF EC
   - name: ska-mid-cbf-engineering-console
-    version: 1.2.0
+    version: 2.0.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-mid-cbf-engineering-console.enabled
 
@@ -111,7 +111,7 @@ dependencies:
 
   # MULTIDB TANGOGQL
   - name: ska-tango-tangogql-ariadne
-    version: 1.0.10
+    version: 1.0.11
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tango-taranta.enabled
     alias: tangogql
