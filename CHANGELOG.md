@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+
+## 30.5.0
 * [AT-3675]
   * Update SKA077 coordinates in the mid-layout file
 * [SKB-1006]
