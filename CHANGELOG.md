@@ -3,6 +3,8 @@
 ## Unreleased
 
 ## 30.5.0
+* [AT-3675]
+  * Update SKA077 coordinates in the mid-layout file
 * [SKB-1006]
   * Upgrade ska-tango-archiver to `5.0.4-rc.1`
   * Set archiver default logging level to INFO and add console logging target
