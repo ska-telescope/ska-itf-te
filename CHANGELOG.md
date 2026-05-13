@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3619]
+  * Add option to run TMC tests using TMC command payloads generated using OSO scripting.
 
 ## 30.5.0
 * [AT-3675]

@@ -1,37 +1,34 @@
 {
   "interface": "https://schema.skao.int/ska-oso-pdm-sbd/0.1",
-  "sbd_id": "sbd-cmzthgpzpp2",
-  "name": "ITF testing SBD",
+  "sbd_id": "sbd-jxwxad1739g",
+  "name": "ITF testing B2",
+  "description": "Band 2 SBD pointing to Polaris Australis for basic ITF scan testing",
   "telescope": "ska_mid",
   "validate_against": "Mid_ITF",
   "metadata": {
-    "version": 5,
+    "version": 4,
     "created_by": "a23f42cb-baca-4704-bde7-25e2fc657b50",
-    "created_on": "2026-03-26T15:24:43.143964Z",
-    "last_modified_by": "DefaultUser",
-    "last_modified_on": "2026-03-27T10:54:11.233217Z",
-    "pdm_version": "27.1.1"
+    "created_on": "2026-05-04T15:42:56.204384Z",
+    "last_modified_by": "a23f42cb-baca-4704-bde7-25e2fc657b50",
+    "last_modified_on": "2026-05-11T13:43:40.761978Z",
+    "pdm_version": "27.2.1"
   },
-  "ob_ref": "ob-cmzrsa5bdcn",
+  "ob_ref": "ob-jxww3gtzvdp",
   "activities": {
     "observe": {
       "function_args": {
-        "init": {
-          "kwargs": {
-            "subarray_id": "1"
-          }
-        },
+        "init": {},
         "main": {}
       },
       "kind": "git",
       "repo": "https://gitlab.com/ska-telescope/oso/ska-oso-scripting.git",
       "path": "git://scripts/allocate_and_observe_sb.py",
-      "branch": "itf-mid-branch"
+      "branch": "mid-itf-v17"
     }
   },
   "targets": [
     {
-      "target_id": "target-89178",
+      "target_id": "target-13591",
       "name": "Polaris Australis",
       "pointing_pattern": {
         "active": "PointedMosaicParameters",
@@ -68,12 +65,13 @@
       }
     }
   ],
+  "observing_constraints": {},
   "csp_configurations": [
     {
       "config_id": "csp-configuration-12754",
-      "name": "Config B1 IF10",
+      "name": "Config B2 IF10",
       "midcbf": {
-        "frequency_band": "1",
+        "frequency_band": "2",
         "subbands": [
           {
             "frequency_slice_offset": {
@@ -84,8 +82,8 @@
               {
                 "spw_id": 1,
                 "zoom_factor": 0,
-                "centre_frequency": 700000000,
-                "number_of_channels": 52080,
+                "centre_frequency": 1425000000,
+                "number_of_channels": 49840,
                 "channel_averaging_factor": 1,
                 "time_integration_factor": 10
               }
@@ -106,14 +104,14 @@
     ],
     "scan_sequence": [
       {
-        "scan_definition_id": "scan-definition-91254",
-        "target_ref": "target-89178",
+        "scan_definition_id": "scan-definition-16425",
+        "target_ref": "target-13591",
         "csp_configuration_ref": "csp-configuration-12754",
         "scan_intent": "Science",
         "pointing_correction": "RESET",
-        "scan_duration_ms": 120000,
+        "scan_duration_ms": 180000,
         "scan_duration": {
-          "value": 120,
+          "value": 180,
           "unit": "s"
         }
       }
@@ -124,21 +122,26 @@
       "sdp_script": "vis-receive",
       "script_version": "8.1.0",
       "script_parameters": {
+        "rcal": {
+          "fov": 5,
+          "uv_min": 100,
+          "enabled": false,
+          "autoflag": true,
+          "flip_uvw": false,
+          "flux_limit": 0,
+          "scale_gains": false,
+          "gain_headroom": 0.1,
+          "accumulation_time": 10,
+          "low_gain_threshold": 0.1,
+          "threshold_headroom": false
+        },
         "dry_run": false,
         "mswriter": {
           "upper_triangular_baselines": false
         },
         "port_start": 21000,
         "processors": {},
-        "pod_settings": [
-          {
-            "networkMapping": {},
-            "securityContext": {
-              "fsGroup": "0",
-              "runAsUser": 0
-            }
-          }
-        ],
+        "pod_settings": [],
         "signal_display": {
           "metrics": [
             "all"
@@ -156,7 +159,16 @@
           "station_data_key_path": "stations"
         },
         "channels_per_port": 20,
-        "extra_helm_values": {},
+        "extra_helm_values": {
+          "receiver": {
+            "options": {
+              "telescope_model": {
+                "telmodel_key": "instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json",
+                "telmodel_source_uris": "car:ska-mid?main#tmdata"
+              }
+            }
+          }
+        },
         "reception_network": "auto",
         "transport_protocol": "udp",
         "allow_hostnames_in_receive_addresses": false
