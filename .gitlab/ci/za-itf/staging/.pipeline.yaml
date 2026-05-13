@@ -58,6 +58,24 @@ deploy-sut-staging:
     url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
     on_stop: destroy-sut-staging
 
+deploy-sut-staging-teapot:
+  extends:
+    - .deploy
+    - .staging-env
+  when: on_success
+  needs:
+    - k8s-test-runner
+  environment:
+    name: mid-itf/ska-$CONFIG-staging
+    kubernetes:
+      # This repetition is needed for gitlab to parse the namespace correctly
+      namespace: $KUBE_NAMESPACE
+    url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
+    on_stop: destroy-sut-staging
+  variables:
+    TEAPOT_LMC_IN_THE_LOOP: "true"
+    KUBE_NAMESPACE_PREFIX: dish-lmc-
+
 redeploy-sut-staging:
   variables:
     CBF_HW_IN_THE_LOOP: "true"

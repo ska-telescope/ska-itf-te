@@ -73,6 +73,8 @@ DISH_LMC_INITIAL_PARAMS ?=
 DISH_LMC_EXTRA_PARAMS ?=
 DISH_LMC_EDA_PARAMS ?=
 
+TEAPOT_LMC_IN_THE_LOOP ?= false
+
 ifneq ($(DISH_ID),)
 DISH_LMC_EXTRA_PARAMS = \
 	--set global.dish_id=$(DISH_ID) \
@@ -254,6 +256,7 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	$(TMC_PARAMS) \
 	$(CSP_PARAMS) \
 	$(EDA_PARAMS) \
+	$(TEAPOT_PARAMS) \
 	$(SUT_ENABLERS) \
 	$(DISH_ENABLERS) \
 	$(ODA_ENABLERS) \
