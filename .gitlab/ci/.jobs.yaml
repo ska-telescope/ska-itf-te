@@ -22,8 +22,8 @@
     - echo $CI_JOB_NAME - $CI_JOB_STAGE
     - |
       if [ "$TEAPOT_LMC_IN_THE_LOOP" == "true" ]; then
-        export TMC_VALUES_PATH=resources/teapot/tmc-values-ska418-cluster.yaml
-        cat resources/teapot/tmc-values-ska418-cluster.yaml
+        touch $SUT_CHART_DIR/tmc-values.yaml
+        cp resources/teapot/tmc-values-ska418-cluster.yaml $SUT_CHART_DIR/tmc-values.yaml
       elif [ "$DISH_LMC_IN_THE_LOOP" != "true" ]; then
         export TMC_VALUES_PATH=charts/ska-mid/values.yaml
       else
