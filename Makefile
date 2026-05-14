@@ -256,7 +256,6 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	$(TMC_PARAMS) \
 	$(CSP_PARAMS) \
 	$(EDA_PARAMS) \
-	$(TEAPOT_PARAMS) \
 	$(SUT_ENABLERS) \
 	$(DISH_ENABLERS) \
 	$(ODA_ENABLERS) \

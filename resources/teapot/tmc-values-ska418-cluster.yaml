@@ -1,11 +1,11 @@
 ska-tmc-mid:
-  deviceservers:
+  deviceServers:
     centralnode:
-      dishids: ["ska418"]
+      DishIDs: ["SKA418"]
     dishleafnode:
       instances: ["418"]
     subarraynode:
-      dishids: ["ska418"]
+      DishIDs: ["SKA418"]
   global:
     namespace_dish:
-      dish_names: ["tango://tango-databaseds.dish-lmc-ska418.svc.ska418.miditf.internal.skao.int:10000/mid-dish/dish-manager/ska418"]
+      dish_names: ["tango://tango-databaseds.dish-lmc-ska418.svc.ska418.miditf.internal.skao.int:10000/mid-dish/dish-manager/SKA418"]
