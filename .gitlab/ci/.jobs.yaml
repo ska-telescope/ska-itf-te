@@ -51,7 +51,7 @@
       fi
     - make pvc-patch-apply
     - |
-      if [ "$DISH_LMC_IN_THE_LOOP" == "true" ]; then 
+      if [ "$DISH_LMC_IN_THE_LOOP" == "true" && "$TEAPOT_LMC_IN_THE_LOOP" != "true" ]; then 
         bash .make/resources/gitlab_section.sh install_tangoGQL "Install TangoGQL for multiDB" make taranta-deploy-all-tangogql-instances;
       fi
     - |
