@@ -1,6 +1,9 @@
 # Version History
 
 ## Unreleased
+* [AT-3673]
+  * Upgrade ska-mid-dish-spfrx-talondx-console to `3.0.0`
+  * Upgrade taranta to `2.18.7`
 * [AT-3619]
   * Add option to run TMC tests using TMC command payloads generated using OSO scripting.
 
