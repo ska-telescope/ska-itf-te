@@ -193,6 +193,13 @@ ska-mid-dish-spfrx-talondx-console:
   logging_level: 4
   scripts_dir: scripts
   # k_value: 1111  # used to set k value to a value other than 1 - around as a result of spfrx limitation
+  enabled: true
+  bar:
+    secret:
+      vault:
+        enabled: true
+      mount: mid-itf
+      secretPath: bar-token
 
 # OCTOPUS
 ska-octopus-frontend:
