@@ -197,8 +197,8 @@ ska-mid-dish-spfrx-talondx-console:
     secret:
       vault:
         enabled: true
-      mount: mid-itf
-      secretPath: bar-token
+        mount: mid-itf
+        secretPath: bar-token
 
 # OCTOPUS
 ska-octopus-frontend:
