@@ -11,6 +11,8 @@
     SPFC_INSTANCE: spfc-devkit
     # Remember to explicitly quote the URL to prevent parsing errors
     DISH_LMC_EDA_PARAMS: '--set ska-tango-archiver.configuration_file_url="https://gitlab.com/ska-telescope/ska-mid/-/raw/main/tmdata/mid-itf-staging-archiver-configs/dish-lmc-ska001.yaml?ref_type=heads&inline=false"'
+    PLC_IN_THE_LOOP: "true"
+    DS_PLC_OPCUA_FQDN: "opc.tcp://10.165.3.42:4840/"
 
 1-deploy-dishlmc-ska001:
   extends:
@@ -20,8 +22,8 @@
   # needs:
   #   - deploy-ds-sim-ska001
   # when: on_success
-  variables:
-    DISH_LMC_INITIAL_PARAMS: -f charts/ska-mid/values-plc-42.yaml
+  # variables:
+  #   DISH_LMC_INITIAL_PARAMS: -f charts/ska-mid/values-plc-42.yaml
   when: manual
   environment:
     on_stop: 1-uninstall-dishlmc-ska001
@@ -31,8 +33,8 @@
     - .redeploy-dish-lmc
     - .ska001-env
   when: manual
-  variables:
-    DISH_LMC_INITIAL_PARAMS: -f charts/ska-mid/values-plc-42.yaml
+  # variables:
+  #   DISH_LMC_INITIAL_PARAMS: -f charts/ska-mid/values-plc-42.yaml
   environment:
     on_stop: 1-uninstall-dishlmc-ska001
 

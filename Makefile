@@ -81,6 +81,15 @@ DISH_LMC_EXTRA_PARAMS = \
 	--set global.tangodb_port=10000
 endif
 
+PLC_IN_THE_LOOP ?=
+DS_PLC_OPCUA_FQDN ?= opc.tcp://10.165.3.42:4840/
+DS_PLC_NAMESPACE ?= http://www.boschrexroth.com/IndraLogic
+ifeq ($(PLC_IN_THE_LOOP), true)
+	DISH_LMC_EXTRA_PARAMS += \
+	--set ska-dish-lmc.ska-mid-dish-ds-manager.dishstructuremanager.dsc.fqdns={${DS_PLC_OPCUA_FQDN}} \
+	--set ska-dish-lmc.ska-mid-dish-ds-manager.dishstructuremanager.ds_opcua_namespace={${DS_PLC_NAMESPACE}}
+endif
+
 SPFC_IN_THE_LOOP ?= #Boolean flag to control deployment of the SPFC Tango device in a Dish
 SPFC_INSTANCE ?= that_one #Default value that needs to be overwritten during deployment
 ifeq ($(SPFC_IN_THE_LOOP), true)
