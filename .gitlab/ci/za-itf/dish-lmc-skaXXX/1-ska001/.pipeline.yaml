@@ -9,6 +9,7 @@
     SPFRX_IN_THE_LOOP: "false"
     SPFC_IN_THE_LOOP: "false"
     SPFC_INSTANCE: spfc-devkit
+    DS_PLC_OPCUA_FQDN: "opc.tcp://10.165.3.42:4840/"
     # Remember to explicitly quote the URL to prevent parsing errors
     DISH_LMC_EDA_PARAMS: '--set ska-tango-archiver.configuration_file_url="https://gitlab.com/ska-telescope/ska-mid/-/raw/main/tmdata/mid-itf-staging-archiver-configs/dish-lmc-ska001.yaml?ref_type=heads&inline=false"'
 
@@ -20,8 +21,8 @@
   # needs:
   #   - deploy-ds-sim-ska001
   # when: on_success
-  # variables:
-  #   DISH_LMC_EXTRA_PARAMS: -f charts/ska-mid/values-cetc.yaml --set ska-dish-lmc.ska-mid-dish-ds-manager.dishstructuremanager.dsSim.fqdn=$DS_SIM_OPCUA_FQDN
+  variables:
+    DISH_LMC_EXTRA_PARAMS: -f charts/ska-mid/values-plc.yaml  --set ska-dish-lmc.ska-mid-dish-ds-manager.dishstructuremanager.dsc.fqdns=$DS_PLC_OPCUA_FQDN
   when: manual
   environment:
     on_stop: 1-uninstall-dishlmc-ska001
@@ -31,8 +32,8 @@
     - .redeploy-dish-lmc
     - .ska001-env
   when: manual
-  # variables:
-  #   DISH_LMC_EXTRA_PARAMS: -f charts/ska-mid/values-cetc.yaml --set ska-dish-lmc.ska-mid-dish-ds-manager.dishstructuremanager.dsSim.fqdn=$DS_SIM_OPCUA_FQDN
+  variables:
+    DISH_LMC_EXTRA_PARAMS: -f charts/ska-mid/values-plc.yaml  --set ska-dish-lmc.ska-mid-dish-ds-manager.dishstructuremanager.dsc.fqdns=$DS_PLC_OPCUA_FQDN
   environment:
     on_stop: 1-uninstall-dishlmc-ska001
 
