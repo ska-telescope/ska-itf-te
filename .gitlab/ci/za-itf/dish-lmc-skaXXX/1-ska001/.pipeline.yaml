@@ -22,7 +22,7 @@
   #   - deploy-ds-sim-ska001
   # when: on_success
   variables:
-    DISH_LMC_INITIAL_PARAMS: -f charts/ska-mid/values-plc.yaml  --set ska-dish-lmc.ska-mid-dish-ds-manager.dishstructuremanager.dsc.fqdns=$DS_PLC_OPCUA_FQDN
+    DISH_LMC_INITIAL_PARAMS: -f charts/ska-mid/values-plc.yaml  --set ska-dish-lmc.ska-mid-dish-ds-manager.dishstructuremanager.dsc.fqdns={$DS_PLC_OPCUA_FQDN}
   when: manual
   environment:
     on_stop: 1-uninstall-dishlmc-ska001
