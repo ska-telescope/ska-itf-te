@@ -232,11 +232,11 @@ EDA_PARAMS ?= --set ska-tango-archiver.dbpassword=${EDA_DB_PASSWORD} \
 
 K8S_TEST_RUNNER_PARAMS ?=
 
-TEAPOT_PARAMS ?= "--set ska-tango-taranta.TANGO_DBS=['ska418'] \
-	--set ska-tmc-mid.deviceservers.centralnode.DefaultArrayLayoutPath='instrument/ska1_mid_itf/layout/b5dc-test-itf-layout.json' \
-	--set ska-tmc-mid.deviceservers.centralnode.DefaultArrayLayoutSourceURIs='car:ska-mid?at-3650-teapot-b5dc\#tmdata' \
-	--set ska-tmc-mid.deviceservers.centralnode.DishVccConfig.DishVccUri='car:ska-mid?at-3650-teapot-b5dc\#tmdata' \
-	--set ska-tmc-mid.deviceservers.centralnode.DishVccConfig.DishVccFilePath='instrument/ska1_mid_itf/vcc-config/ska-mid-b5dc-cbf-system-parameters.json'"
+TEAPOT_PARAMS ?= --set ska-tango-taranta.TANGO_DBS=["ska418"] \
+	--set ska-tmc-mid.deviceservers.centralnode.DefaultArrayLayoutPath="instrument/ska1_mid_itf/layout/b5dc-test-itf-layout.json" \
+	--set ska-tmc-mid.deviceservers.centralnode.DefaultArrayLayoutSourceURIs="car:ska-mid?at-3650-teapot-b5dc\#tmdata" \
+	--set ska-tmc-mid.deviceservers.centralnode.DishVccConfig.DishVccUri="car:ska-mid?at-3650-teapot-b5dc\#tmdata" \
+	--set ska-tmc-mid.deviceservers.centralnode.DishVccConfig.DishVccFilePath="instrument/ska1_mid_itf/vcc-config/ska-mid-b5dc-cbf-system-parameters.json"
 
 K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	--set global.exposeAllDS=$(EXPOSE_All_DS) \
