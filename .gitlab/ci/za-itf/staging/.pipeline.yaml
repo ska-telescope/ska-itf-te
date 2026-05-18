@@ -80,7 +80,6 @@ deploy-sut-staging-teapot:
       allow_failure: true
   variables:
     TEAPOT_LMC_IN_THE_LOOP: "true"
-    TEAPOT_PARAMS: '--set ska-tango-taranta.TANGO_DBS=["ska418"]'
     DISH_IDS: SKA418
     GENERATE_SEQUENCE_DIAGRAM: "false"
 
