@@ -238,13 +238,16 @@ TEAPOT_PARAMS ?= \
 	--set ska-tmc-mid.deviceServers.centralnode.DishVccConfig.DishVccUri="car:ska-mid?at-3650-teapot-b5dc\#tmdata" \
 	--set ska-tmc-mid.deviceServers.centralnode.DishVccConfig.DishVccFilePath="instrument/ska1_mid_itf/vcc-config/ska-mid-b5dc-cbf-system-parameters.json" \
 	
-ifeq ($(DISH_IDS),SKA418)
+ifeq ($(KIND_OF_TEA),Rooibos)
+	TEAPOT_PARAMS += \
 	--set ska-tango-taranta.TANGO_DBS=["ska418"] \
 	-f resources/teapot/tmc-values-ska418.yaml
-else ifeq ($(DISH_IDS),SKA420)
+else ifeq ($(KIND_OF_TEA),Buchu)
+	TEAPOT_PARAMS += \
 	--set ska-tango-taranta.TANGO_DBS=["ska420"] \
 	-f resources/teapot/tmc-values-ska420.yaml
-else ifeq ($(DISH_IDS),SKA418-SKA420)
+else ifeq ($(KIND_OF_TEA),Mix)
+	TEAPOT_PARAMS += \
 	--set ska-tango-taranta.TANGO_DBS=["ska418","ska420"] \
 	-f resources/teapot/tmc-values-ska418-ska420.yaml
 endif
