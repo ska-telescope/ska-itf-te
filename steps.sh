@@ -3,10 +3,9 @@
 #############################################################################################################################
 
 # run the dockerfile
-IMAGE=registry.gitlab.com/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools
-# IMAGE_VERSION=0.9.2-dev.c0ef99b9c
-IMAGE_VERSION=0.10.4
-docker run -it -e CI_COMMIT_SHA=$(git rev-parse --short HEAD) --env-file PrivateRules.mak $IMAGE:$IMAGE_VERSION
+export IMAGE=registry.gitlab.com/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools
+export IMAGE_VERSION=0.10.2
+docker run --platform linux/amd64 -it -e CI_COMMIT_SHA=$(git rev-parse --short HEAD) --env-file PrivateRules.mak $IMAGE:$IMAGE_VERSION
 
 # git clone (to mimic the pipeline start)
 mkdir /build && mkdir /build/ska-telescope && cd /build/ska-telescope 
