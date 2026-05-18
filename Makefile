@@ -232,12 +232,22 @@ EDA_PARAMS ?= --set ska-tango-archiver.dbpassword=${EDA_DB_PASSWORD} \
 
 K8S_TEST_RUNNER_PARAMS ?=
 
-TEAPOT_PARAMS ?= --set ska-tango-taranta.TANGO_DBS=["ska418"] \
+TEAPOT_PARAMS ?= \
 	--set ska-tmc-mid.deviceServers.centralnode.DefaultArrayLayoutPath="instrument/ska1_mid_itf/layout/b5dc-test-itf-layout.json" \
 	--set ska-tmc-mid.deviceServers.centralnode.DefaultArrayLayoutSourceURIs="car:ska-mid?at-3650-teapot-b5dc\#tmdata" \
 	--set ska-tmc-mid.deviceServers.centralnode.DishVccConfig.DishVccUri="car:ska-mid?at-3650-teapot-b5dc\#tmdata" \
 	--set ska-tmc-mid.deviceServers.centralnode.DishVccConfig.DishVccFilePath="instrument/ska1_mid_itf/vcc-config/ska-mid-b5dc-cbf-system-parameters.json" \
-	-f resources/teapot/tmc-values-ska418-cluster.yaml
+	
+ifeq ($(DISH_IDS),SKA418)
+	--set ska-tango-taranta.TANGO_DBS=["ska418"] \
+	-f resources/teapot/tmc-values-ska418.yaml
+else ifeq ($(DISH_IDS),SKA420)
+	--set ska-tango-taranta.TANGO_DBS=["ska420"] \
+	-f resources/teapot/tmc-values-ska420.yaml
+else ifeq ($(DISH_IDS),SKA418-SKA420)
+	--set ska-tango-taranta.TANGO_DBS=["ska418","ska420"] \
+	-f resources/teapot/tmc-values-ska418-ska420.yaml
+endif
 
 K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	--set global.exposeAllDS=$(EXPOSE_All_DS) \
