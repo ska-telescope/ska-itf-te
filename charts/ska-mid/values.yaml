@@ -319,7 +319,7 @@ ska-eda-api:
       secretName: vault-mid-itf-eda-credentials
       mount: mid-itf
       mountPath: production/eda
-      user: eda_ro
+      usernameKey: eda_ro
   environment:
     CREDENTIALS_PATH: /secrets/eda-credentials
     EDA_USER: eda_ro
