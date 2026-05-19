@@ -5,11 +5,11 @@ ska-tmc-mid:
       - SKA418
     dishleafnode:
       instances:
-      - 418
+      - "418"
     subarraynode:
       DishIDs:
       - SKA418
   global:
     namespace_dish:
       dish_names:
-      - tango://tango-databaseds.dish-lmc-ska418.svc.ska418.miditf.internal.skao.int:10000/mid-dish/dish-manager/ska418
+      - "tango://tango-databaseds.dish-lmc-ska418.svc.ska418.miditf.internal.skao.int:10000/mid-dish/dish-manager/ska418"

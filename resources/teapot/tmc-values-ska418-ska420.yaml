@@ -6,8 +6,8 @@ ska-tmc-mid:
       - SKA420
     dishleafnode:
       instances:
-      - 418
-      - 420
+      - "418"
+      - "420"
     subarraynode:
       DishIDs:
       - SKA418
@@ -15,5 +15,5 @@ ska-tmc-mid:
   global:
     namespace_dish:
       dish_names:
-      - tango://tango-databaseds.dish-lmc-ska418.svc.ska418.miditf.internal.skao.int:10000/mid-dish/dish-manager/ska418
-      - tango://tango-databaseds.dish-lmc-ska420.svc.ska420.miditf.internal.skao.int:10000/mid-dish/dish-manager/ska420
+      - "tango://tango-databaseds.dish-lmc-ska418.svc.ska418.miditf.internal.skao.int:10000/mid-dish/dish-manager/ska418"
+      - "tango://tango-databaseds.dish-lmc-ska420.svc.ska420.miditf.internal.skao.int:10000/mid-dish/dish-manager/ska420"
