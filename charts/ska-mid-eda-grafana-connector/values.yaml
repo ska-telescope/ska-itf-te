@@ -1,9 +1,9 @@
 namespace: eda-grafana-connector
 app: eda-grafana-connector
 image:
-  registry: registry.gitlab.com/ska-telescope/ska-mid
-  image: ska-mid-eda-grafana-connector
-  tag: 0.0.13-dev.ca444caba
+  registry: registry.gitlab.com/ska-telescope/ska-eda-api
+  image: ska-eda-api
+  tag: 0.1.0-dev.cbbbfafa0
   pullPolicy: IfNotPresent
 vault:
   edaCredentials:

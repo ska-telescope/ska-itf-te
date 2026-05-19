@@ -2,5 +2,5 @@ apiVersion: v2
 name: ska-mid-eda-grafana-connector
 description: An Helm chart which deploys an API which serves as a Grafana datasource for EDA data
 type: application
-version: 0.0.13-dev.ca444caba
-appVersion: 0.0.13-dev.ca444caba
+version: 0.1.0-dev.cbbbfafa0
+appVersion: 0.1.0-dev.cbbbfafa0
