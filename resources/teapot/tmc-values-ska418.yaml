@@ -1,14 +1,20 @@
+global:
+  dishids: 
+    - "SKA418"
 ska-tmc-mid:
   deviceServers:
+    resourcemonitor:
+      DishIDs:
+      - "SKA418"
     centralnode:
       DishIDs:
-      - SKA418
+      - "SKA418"
     dishleafnode:
       instances:
       - "418"
     subarraynode:
       DishIDs:
-      - SKA418
+      - "SKA418"
   global:
     namespace_dish:
       dish_names:

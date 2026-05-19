@@ -234,22 +234,35 @@ K8S_TEST_RUNNER_PARAMS ?=
 
 TEAPOT_PARAMS ?= \
 	--set ska-tmc-mid.deviceServers.centralnode.DefaultArrayLayoutPath="instrument/ska1_mid_itf/layout/b5dc-test-itf-layout.json" \
-	--set ska-tmc-mid.deviceServers.centralnode.DefaultArrayLayoutSourceURIs="car:ska-mid?at-3650-teapot-b5dc\#tmdata" \
-	--set ska-tmc-mid.deviceServers.centralnode.DishVccConfig.DishVccUri="car:ska-mid?at-3650-teapot-b5dc\#tmdata" \
+	--set ska-tmc-mid.deviceServers.centralnode.DefaultArrayLayoutSourceURIs="car:ska-mid?30.5.1-test-tmc-teapot-j\#tmdata" \
+	--set ska-tmc-mid.deviceServers.centralnode.DishVccConfig.DishVccUri="car:ska-mid?30.5.1-test-tmc-teapot-j\#tmdata" \
 	--set ska-tmc-mid.deviceServers.centralnode.DishVccConfig.DishVccFilePath="instrument/ska1_mid_itf/vcc-config/ska-mid-b5dc-cbf-system-parameters.json" \
-	
-ifeq ($(KIND_OF_TEA),Rooibos)
-	TEAPOT_PARAMS += \
 	--set ska-tango-taranta.TANGO_DBS=["ska418"] \
 	-f resources/teapot/tmc-values-ska418.yaml
-else ifeq ($(KIND_OF_TEA),Buchu)
-	TEAPOT_PARAMS += \
-	--set ska-tango-taranta.TANGO_DBS=["ska420"] \
-	-f resources/teapot/tmc-values-ska420.yaml
-else ifeq ($(KIND_OF_TEA),Mix)
-	TEAPOT_PARAMS += \
-	--set ska-tango-taranta.TANGO_DBS=["ska418","ska420"] \
-	-f resources/teapot/tmc-values-ska418-ska420.yaml
+	
+# ifeq ($(KIND_OF_TEA),Rooibos)
+# 	TEAPOT_PARAMS += \
+# 	--set ska-tango-taranta.TANGO_DBS=["ska418"] \
+# 	--set global.dishids=["SKA418"] \
+# 	-f resources/teapot/tmc-values-ska418.yaml
+# else ifeq ($(KIND_OF_TEA),Buchu)
+# 	TEAPOT_PARAMS += \
+# 	--set ska-tango-taranta.TANGO_DBS=["ska420"] \
+# 	--set global.dishids=["SKA420"] \
+# 	-f resources/teapot/tmc-values-ska420.yaml
+# else ifeq ($(KIND_OF_TEA),Mix)
+# 	TEAPOT_PARAMS += \
+# 	--set ska-tango-taranta.TANGO_DBS=["ska418","ska420"] \
+# 	--set global.dishids=["SKA418","SKA420"] \
+# 	-f resources/teapot/tmc-values-ska418-ska420.yaml
+# endif
+
+TMC_VALUES_PATH?=charts/ska-mid/tmc-values.yaml
+ifneq ("$(wildcard $(TMC_VALUES_PATH))","")
+	K8S_EXTRA_PARAMS+=-f $(TMC_VALUES_PATH)
+endif
+ifneq ("$(wildcard $(SUT_CHART_DIR))","")
+	K8S_EXTRA_PARAMS+=-f charts/ska-mid/values.yaml
 endif
 
 K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
@@ -281,16 +294,8 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	$(DISH_ENABLERS) \
 	$(ODA_ENABLERS) \
 	$(DPD_ENABLERS) \
-	$(OCTOPUS_ENABLERS) \
+	$(OCTOPUS_ENABLERS)
 
-
-TMC_VALUES_PATH?=charts/ska-mid/tmc-values.yaml
-ifneq ("$(wildcard $(TMC_VALUES_PATH))","")
-	K8S_EXTRA_PARAMS+=-f $(TMC_VALUES_PATH)
-endif
-ifneq ("$(wildcard $(SUT_CHART_DIR))","")
-	K8S_EXTRA_PARAMS+=-f charts/ska-mid/values.yaml
-endif
 
 
 # # TODO: remove if no longer needed.

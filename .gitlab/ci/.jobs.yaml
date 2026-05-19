@@ -23,7 +23,6 @@
     - |
       if [ "$TEAPOT_LMC_IN_THE_LOOP" == "true" ]; then
         touch $SUT_CHART_DIR/tmc-values.yaml
-        cp resources/teapot/tmc-values-ska418-cluster.yaml $SUT_CHART_DIR/tmc-values.yaml
       elif [ "$DISH_LMC_IN_THE_LOOP" != "true" ]; then
         export TMC_VALUES_PATH=charts/ska-mid/values.yaml
       else
