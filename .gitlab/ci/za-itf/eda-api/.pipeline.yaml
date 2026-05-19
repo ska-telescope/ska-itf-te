@@ -1,42 +1,43 @@
-.deploy-eda-grafana-connector:
+.deploy-eda-api:
   tags:
     - ska-k8srunner-za-itf
   stage: deploy-supplementary-services
   image: $DEPLOY_IMAGE
   variables:
-    KUBE_APP: eda-grafana-connector-api
-    K8S_CHART: ska-mid-eda-grafana-connector
-    K8S_CHART_PARAMS: "-f ./charts/ska-mid-eda-grafana-connector/values.yaml"
+    KUBE_APP: eda-api
+    K8S_CHART: ska-mid
+    K8S_CHART_PARAMS: "-f ./charts/ska-mid/values-eda-api-miditf.yaml"
     KUBE_NAMESPACE: eda-grafana-connector
-    HELM_RELEASE: eda-grafana-connector
+    HELM_RELEASE: eda-api
+    EDA_API_ENABLERS: "-f .gitlab/ci/za-itf/eda-grafana-connector/eda-api-enablers.yaml"
   when: manual
   script:
     - make vars
     - bash .make/resources/gitlab_section.sh install "Install chart" make k8s-install-chart
     - bash .make/resources/gitlab_section.sh wait "Wait for installation" make k8s-wait
 
-.redeploy-eda-grafana-connector:
+.redeploy-eda-api:
   extends:
-    - .deploy-eda-grafana-connector
+    - .deploy-eda-api
   before_script:
     - !reference [.uninstall-chart, script]
     - kubectl wait --for=delete namespace/$KUBE_NAMESPACE --timeout=60s
 
-.destroy-eda-grafana-connector:
+.destroy-eda-api:
   extends:
-    - .deploy-eda-grafana-connector
+    - .deploy-eda-api
   script:
     - !reference [.uninstall-chart, script]
     - kubectl wait --for=delete namespace/$KUBE_NAMESPACE --timeout=60s
 
-deploy-eda-grafana-connector:
+deploy-eda-api:
   extends:
-    - .deploy-eda-grafana-connector
+    - .deploy-eda-api
 
-redeploy-eda-grafana-connector:
+redeploy-eda-api:
   extends:
-    - .redeploy-eda-grafana-connector
+    - .redeploy-eda-api
 
-destroy-eda-grafana-connector:
+destroy-eda-api:
   extends:
-    - .destroy-eda-grafana-connector
+    - .destroy-eda-api
