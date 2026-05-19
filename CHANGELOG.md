@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3640]
+  * Added ska-eda-api as a dependency of ska-mid. The EDA API charts and core values have been migrated to the ska-eda-api repository.
 * [AT-3619]
   * Add option to run TMC tests using TMC command payloads generated using OSO scripting.
 
