@@ -159,6 +159,12 @@ dependencies:
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-octopus-frontend.enabled
 
+  # EDA API
+  - name: ska-eda-api
+    version: 0.1.0-rc.3
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-eda-api.enabled
+
   # EXAMPLE DEV CHART: DON'T DELETE THIS SECTION
   # - name: ska-sdp
   #   version: 0.19.0-dev.c651132b9

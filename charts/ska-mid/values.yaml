@@ -309,6 +309,27 @@ ska-tango-archiver:
   logLevel: "INFO"
   logTarget: "console"
 
+# EDA API
+ska-eda-api:
+  enabled: false
+  namespace: eda-grafana-connector
+  vault:
+    enabled: true
+    edaCredentials:
+      secretName: vault-mid-itf-eda-credentials
+      mount: mid-itf
+      mountPath: production/eda
+      user: eda_ro
+  environment:
+    CREDENTIALS_PATH: /secrets/eda-credentials
+    EDA_USER: eda_ro
+    EDA_HOST: "eda.ska-tango-archiver.svc.miditf.internal.skao.int"
+    SOURCE_CLUSTER_DOMAIN: "miditf.internal.skao.int"
+    ATTRIBUTE_CONTEXT_FILE: "/app/libhdbpp-grafana-connector/ArchivingDataSource/skao-attribute-context.yaml"
+    EDA_DATABASE_NAME: itf_eda
+    CONNECTION_POOL_MAX_CONN: 10
+    REQUEST_TIMESTAMPS_MAX_LEN: 100
+
 # TANGO BASE and UTILS
 ska-tango-base:
   enabled: true
