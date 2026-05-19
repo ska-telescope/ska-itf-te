@@ -8,7 +8,7 @@
     K8S_CHART: ska-mid
     KUBE_NAMESPACE: eda-grafana-connector
     HELM_RELEASE: eda-api
-    EDA_API_ENABLERS: "-f .gitlab/ci/za-itf/eda-grafana-connector/eda-api-enablers.yaml"
+    EDA_API_ENABLERS: "-f .gitlab/ci/za-itf/eda-api/eda-api-enablers.yaml"
     K8S_SKIP_DEP_BUILD: "true"
   when: manual
   script:
