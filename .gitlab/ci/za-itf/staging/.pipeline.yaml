@@ -81,6 +81,7 @@ deploy-sut-staging-teapot:
   variables:
     TEAPOT_LMC_IN_THE_LOOP: "true"
     KIND_OF_TEA: Rooibos
+    DISH_IDS: SKA418
     GENERATE_SEQUENCE_DIAGRAM: "false"
 
 redeploy-sut-staging:
