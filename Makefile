@@ -244,18 +244,20 @@ endif
 	
 ifeq ($(KIND_OF_TEA),Rooibos)
 	TEAPOT_PARAMS += \
-	--set ska-tango-taranta.TANGO_DBS=["ska418"] \
-	--set global.dishids=["SKA418"] \
+	--set ska-tango-taranta.TANGO_DBS[0]="ska418" \
+	--set global.dishids[0]="SKA418" \
 	-f resources/teapot/tmc-values-ska418.yaml
 else ifeq ($(KIND_OF_TEA),Buchu)
 	TEAPOT_PARAMS += \
-	--set ska-tango-taranta.TANGO_DBS=["ska420"] \
-	--set global.dishids=["SKA420"] \
+	--set ska-tango-taranta.TANGO_DBS[0]="ska420" \
+	--set global.dishids[0]="SKA420" \
 	-f resources/teapot/tmc-values-ska420.yaml
 else ifeq ($(KIND_OF_TEA),Mix)
 	TEAPOT_PARAMS += \
-	--set ska-tango-taranta.TANGO_DBS=["ska418","ska420"] \
-	--set global.dishids=["SKA418","SKA420"] \
+	--set ska-tango-taranta.TANGO_DBS[0]="ska418" \
+	--set ska-tango-taranta.TANGO_DBS[1]="ska420" \
+	--set global.dishids[0]="SKA418" \
+	--set global.dishids[1]="SKA420" \
 	-f resources/teapot/tmc-values-ska418-ska420.yaml
 endif
 
