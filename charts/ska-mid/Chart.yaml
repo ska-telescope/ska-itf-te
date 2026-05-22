@@ -99,13 +99,13 @@ dependencies:
 
   # SPFRx DEPLOYER CHART
   - name: ska-mid-dish-spfrx-talondx-console
-    version: 2.1.1
+    version: 3.0.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-mid-dish-spfrx-talondx-console.enabled
 
   # TARANTA SUITE
   - name: ska-tango-taranta
-    version: 2.18.6
+    version: 2.18.7
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tango-taranta.enabled
 
