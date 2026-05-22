@@ -79,8 +79,8 @@
                 }
             ],
             "niao": 0.0,
-            "station_label": "SKA418",
-            "station_id": 482
+            "station_label": "SKA101",
+            "station_id": 165
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.1",
@@ -119,8 +119,8 @@
                 }
             ],
             "niao": 0.0,
-            "station_label": "SKA420",
-            "station_id": 484
+            "station_label": "SKA102",
+            "station_id": 166
         }
     ]
 }

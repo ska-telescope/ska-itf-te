@@ -1,0 +1,20 @@
+ska-tmc-mid:
+  deviceServers:
+    centralnode:
+      DishIDs:
+      - SKA101
+      - SKA102
+    dishleafnode:
+      instances:
+      - "101"
+      - "102"
+    subarraynode:
+      DishIDs:
+      - SKA101
+      - SKA102
+  global:
+    namespace_dish:
+      dish_names:
+      - "tango://tango-databaseds.dish-lmc-ska101.svc.ska418.miditf.internal.skao.int:10000/mid-dish/dish-manager/SKA101"
+      - "tango://tango-databaseds.dish-lmc-ska102.svc.ska418.miditf.internal.skao.int:10000/mid-dish/dish-manager/SKA102"
+  

@@ -244,21 +244,21 @@ endif
 	
 ifeq ($(KIND_OF_TEA),Rooibos)
 	TEAPOT_PARAMS += \
-	--set ska-tango-taranta.TANGO_DBS[0]="ska418" \
-	--set global.dishids[0]="SKA418" \
-	-f resources/teapot/tmc-values-ska418.yaml
+	--set ska-tango-taranta.TANGO_DBS[0]="ska101" \
+	--set global.dishids[0]="SKA101" \
+	-f resources/teapot/tmc-values-ska101.yaml
 else ifeq ($(KIND_OF_TEA),Buchu)
 	TEAPOT_PARAMS += \
-	--set ska-tango-taranta.TANGO_DBS[0]="ska420" \
-	--set global.dishids[0]="SKA420" \
-	-f resources/teapot/tmc-values-ska420.yaml
+	--set ska-tango-taranta.TANGO_DBS[0]="ska102" \
+	--set global.dishids[0]="SKA102" \
+	-f resources/teapot/tmc-values-ska102.yaml
 else ifeq ($(KIND_OF_TEA),Mix)
 	TEAPOT_PARAMS += \
-	--set ska-tango-taranta.TANGO_DBS[0]="ska418" \
-	--set ska-tango-taranta.TANGO_DBS[1]="ska420" \
-	--set global.dishids[0]="SKA418" \
-	--set global.dishids[1]="SKA420" \
-	-f resources/teapot/tmc-values-ska418-ska420.yaml
+	--set ska-tango-taranta.TANGO_DBS[0]="ska101" \
+	--set ska-tango-taranta.TANGO_DBS[1]="ska102" \
+	--set global.dishids[0]="SKA101" \
+	--set global.dishids[1]="SKA102" \
+	-f resources/teapot/tmc-values-ska101-ska102.yaml
 endif
 
 TMC_VALUES_PATH?=charts/ska-mid/tmc-values.yaml
