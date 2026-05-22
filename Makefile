@@ -239,7 +239,7 @@ TEAPOT_PARAMS += \
 	--set ska-tmc-mid.deviceServers.centralnode.DefaultArrayLayoutPath="instrument/ska1_mid_itf/layout/b5dc-test-itf-layout.json" \
 	--set ska-tmc-mid.deviceServers.centralnode.DefaultArrayLayoutSourceURIs="car:ska-mid?30.5.1-test-tmc-teapot-o\#tmdata" \
 	--set ska-tmc-mid.deviceServers.centralnode.DishVccConfig.DishVccUri="car:ska-mid?30.5.1-test-tmc-teapot-o\#tmdata" \
-	--set ska-tmc-mid.deviceServers.centralnode.DishVccConfig.DishVccFilePath="instrument/ska1_mid_itf/vcc-config/ska-mid-b5dc-101-cbf-system-parameters.json"
+	--set ska-tmc-mid.deviceServers.centralnode.DishVccConfig.DishVccFilePath="instrument/ska1_mid_itf/vcc-config/ska-mid-b5dc-both-cbf-system-parameters.json"
 endif
 	
 ifeq ($(KIND_OF_TEA),Rooibos)
