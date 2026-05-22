@@ -49,9 +49,9 @@
       when: manual
       variables:
         KUBE_NAMESPACE_PREFIX: dish-lmc-
-        DISH_VCC_CONFIG_SOURCE: "car:ska-mid?30.5.1-test-tmc-teapot-j#tmdata"
+        DISH_VCC_CONFIG_SOURCE: "car:ska-mid?30.5.1-test-tmc-teapot-o#tmdata"
         DISH_VCC_CONFIG_FILE_PATH: "tmdata/instrument/ska1_mid_itf/vcc-config/ska-mid-b5dc-101-cbf-system-parameters.json"
-        TELMODEL_SOURCE: "car:ska-mid?30.5.1-test-tmc-teapot-j#tmdata"
+        TELMODEL_SOURCE: "car:ska-mid?30.5.1-test-tmc-teapot-o#tmdata"
         DISH_LAYOUT_TELMODEL_PATH: "instrument/ska1_mid_itf/layout/b5dc-test-itf-layout.json"
         TEAPOT_LMC_IN_THE_LOOP: "true"
         KIND_OF_TEA: Rooibos
