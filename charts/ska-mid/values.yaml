@@ -203,6 +203,9 @@ ska-mid-dish-spfrx-talondx-console:
 # OCTOPUS
 ska-octopus-frontend:
   enabled: false
+  config:
+    MSENTRA_REDIRECT_URI: "https://k8s.mid.internal.skao.int/octopus/ska-octopus-frontend"
+    ROLE_PREFIX: "mid"
   backendServiceName: ska-octopus-backend
   deployEnv: "MID"
   ingress:
@@ -224,6 +227,7 @@ ska-octopus-backend:
       secretKey: cfg-ui-password
       optional: true
   vars:
+    ROLE_PREFIX: "mid"
     TANGO_DBS:
       - value: "http://tangogql-staging.staging.svc.miditf.internal.skao.int:5004/db"
         label: "Central Controller"
