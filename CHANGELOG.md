@@ -2,7 +2,6 @@
 
 ## Unreleased
 * [AT-3683]
-  * Upgrade ska-tango-tangogql-ariadne to `1.0.12`
   * Upgrade octopus backend to `0.6.2`
   * Upgrade octopus frontend to `0.6.3`
 * [AT-3673]
