@@ -204,7 +204,7 @@ ska-mid-dish-spfrx-talondx-console:
 ska-octopus-frontend:
   enabled: false
   config:
-    MSENTRA_REDIRECT_URI: "https://k8s.miditf.internal.skao.int/octopus/ska-octopus-frontend"
+    MSENTRA_REDIRECT_URI: "https://k8s.mid.internal.skao.int/octopus/ska-octopus-frontend"
     ROLE_PREFIX: "mid"
   backendServiceName: ska-octopus-backend
   deployEnv: "MID"
