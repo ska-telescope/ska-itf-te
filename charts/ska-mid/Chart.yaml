@@ -160,8 +160,8 @@ dependencies:
     condition: ska-octopus-frontend.enabled
 
   # EDA API
-  - name: ska-eda-api
-    version: 0.1.0-rc.3
+  - name: ska-eda-rest-api
+    version: 0.1.0-rc.7
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-eda-api.enabled
 

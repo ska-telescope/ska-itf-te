@@ -310,7 +310,7 @@ ska-tango-archiver:
   logTarget: "console"
 
 # EDA API
-ska-eda-api:
+ska-eda-rest-api:
   enabled: false
   namespace: eda-grafana-connector
   vault:
