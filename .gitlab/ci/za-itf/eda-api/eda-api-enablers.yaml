@@ -7,5 +7,5 @@ ska-tango-util:
   enabled: false
 
 # EDA API
-ska-eda-api:
+ska-eda-rest-api:
   enabled: true

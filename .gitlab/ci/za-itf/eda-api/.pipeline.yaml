@@ -1,4 +1,4 @@
-.deploy-eda-api:
+.deploy-eda-rest-api:
   tags:
     - ska-k8srunner-za-itf
   stage: deploy-supplementary-services
@@ -24,28 +24,28 @@
   after_script:
     - rm -rf ./chart.tmp
 
-.redeploy-eda-api:
+.redeploy-eda-rest-api:
   extends:
-    - .deploy-eda-api
+    - .deploy-eda-rest-api
   before_script:
     - !reference [.uninstall-chart, script]
     - kubectl wait --for=delete namespace/$KUBE_NAMESPACE --timeout=60s
 
-.destroy-eda-api:
+.destroy-eda-rest-api:
   extends:
-    - .deploy-eda-api
+    - .deploy-eda-rest-api
   script:
     - !reference [.uninstall-chart, script]
     - kubectl wait --for=delete namespace/$KUBE_NAMESPACE --timeout=60s
 
-deploy-eda-api:
+deploy-eda-rest-api:
   extends:
-    - .deploy-eda-api
+    - .deploy-eda-rest-api
 
-redeploy-eda-api:
+redeploy-eda-rest-api:
   extends:
-    - .redeploy-eda-api
+    - .redeploy-eda-rest-api
 
-destroy-eda-api:
+destroy-eda-rest-api:
   extends:
-    - .destroy-eda-api
+    - .destroy-eda-rest-api
