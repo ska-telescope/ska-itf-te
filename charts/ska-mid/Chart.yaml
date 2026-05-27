@@ -161,7 +161,7 @@ dependencies:
 
   # EDA API
   - name: ska-eda-rest-api
-    version: 0.1.0-rc.7
+    version: 0.1.0-rc.8
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-eda-api.enabled
 
