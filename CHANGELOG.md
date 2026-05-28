@@ -3,6 +3,12 @@
 ## Unreleased
 * [AT-3640]
   * Added ska-eda-api as a dependency of ska-mid. The EDA API charts and core values have been migrated to the ska-eda-api repository.
+* [AT-3683]
+  * Upgrade octopus backend to `0.6.3` 
+  * Upgrade octopus frontend to `0.6.3`
+* [AT-3673]
+  * Upgrade ska-mid-dish-spfrx-talondx-console to `3.0.0`
+  * Upgrade taranta to `2.18.7`
 * [AT-3619]
   * Add option to run TMC tests using TMC command payloads generated using OSO scripting.
 
