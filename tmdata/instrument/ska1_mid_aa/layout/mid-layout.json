@@ -39,7 +39,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "AC"
+            "dish_id": "AC",
+            "station_label": "AC",
+            "station_id": 0
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -78,7 +80,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT000"
+            "dish_id": "MKT000",
+            "station_label": "MKT000",
+            "station_id": 1
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -117,7 +121,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT001"
+            "dish_id": "MKT001",
+            "station_label": "MKT001",
+            "station_id": 2
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -156,7 +162,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT002"
+            "dish_id": "MKT002",
+            "station_label": "MKT002",
+            "station_id": 3
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -195,7 +203,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT003"
+            "dish_id": "MKT003",
+            "station_label": "MKT003",
+            "station_id": 4
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -234,7 +244,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT004"
+            "dish_id": "MKT004",
+            "station_label": "MKT004",
+            "station_id": 5
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -273,7 +285,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT005"
+            "dish_id": "MKT005",
+            "station_label": "MKT005",
+            "station_id": 6
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -312,7 +326,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT006"
+            "dish_id": "MKT006",
+            "station_label": "MKT006",
+            "station_id": 7
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -351,7 +367,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT007"
+            "dish_id": "MKT007",
+            "station_label": "MKT007",
+            "station_id": 8
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -390,7 +408,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT008"
+            "dish_id": "MKT008",
+            "station_label": "MKT008",
+            "station_id": 9
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -429,7 +449,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT009"
+            "dish_id": "MKT009",
+            "station_label": "MKT009",
+            "station_id": 10
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -468,7 +490,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT010"
+            "dish_id": "MKT010",
+            "station_label": "MKT010",
+            "station_id": 11
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -507,7 +531,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT011"
+            "dish_id": "MKT011",
+            "station_label": "MKT011",
+            "station_id": 12
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -546,7 +572,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT012"
+            "dish_id": "MKT012",
+            "station_label": "MKT012",
+            "station_id": 13
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -585,7 +613,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT013"
+            "dish_id": "MKT013",
+            "station_label": "MKT013",
+            "station_id": 14
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -624,7 +654,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT014"
+            "dish_id": "MKT014",
+            "station_label": "MKT014",
+            "station_id": 15
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -663,7 +695,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT015"
+            "dish_id": "MKT015",
+            "station_label": "MKT015",
+            "station_id": 16
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -702,7 +736,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT016"
+            "dish_id": "MKT016",
+            "station_label": "MKT016",
+            "station_id": 17
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -741,7 +777,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT017"
+            "dish_id": "MKT017",
+            "station_label": "MKT017",
+            "station_id": 18
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -780,7 +818,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT018"
+            "dish_id": "MKT018",
+            "station_label": "MKT018",
+            "station_id": 19
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -819,7 +859,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT019"
+            "dish_id": "MKT019",
+            "station_label": "MKT019",
+            "station_id": 20
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -858,7 +900,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT020"
+            "dish_id": "MKT020",
+            "station_label": "MKT020",
+            "station_id": 21
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -897,7 +941,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT021"
+            "dish_id": "MKT021",
+            "station_label": "MKT021",
+            "station_id": 22
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -936,7 +982,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT022"
+            "dish_id": "MKT022",
+            "station_label": "MKT022",
+            "station_id": 23
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -975,7 +1023,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT023"
+            "dish_id": "MKT023",
+            "station_label": "MKT023",
+            "station_id": 24
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -1014,7 +1064,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT024"
+            "dish_id": "MKT024",
+            "station_label": "MKT024",
+            "station_id": 25
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -1053,7 +1105,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT025"
+            "dish_id": "MKT025",
+            "station_label": "MKT025",
+            "station_id": 26
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -1092,7 +1146,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT026"
+            "dish_id": "MKT026",
+            "station_label": "MKT026",
+            "station_id": 27
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -1131,7 +1187,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT027"
+            "dish_id": "MKT027",
+            "station_label": "MKT027",
+            "station_id": 28
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -1170,7 +1228,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT028"
+            "dish_id": "MKT028",
+            "station_label": "MKT028",
+            "station_id": 29
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -1209,7 +1269,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT029"
+            "dish_id": "MKT029",
+            "station_label": "MKT029",
+            "station_id": 30
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -1248,7 +1310,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT030"
+            "dish_id": "MKT030",
+            "station_label": "MKT030",
+            "station_id": 31
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -1287,7 +1351,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT031"
+            "dish_id": "MKT031",
+            "station_label": "MKT031",
+            "station_id": 32
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -1326,7 +1392,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT032"
+            "dish_id": "MKT032",
+            "station_label": "MKT032",
+            "station_id": 33
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -1365,7 +1433,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT033"
+            "dish_id": "MKT033",
+            "station_label": "MKT033",
+            "station_id": 34
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -1404,7 +1474,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT034"
+            "dish_id": "MKT034",
+            "station_label": "MKT034",
+            "station_id": 35
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -1443,7 +1515,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT035"
+            "dish_id": "MKT035",
+            "station_label": "MKT035",
+            "station_id": 36
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -1482,7 +1556,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT036"
+            "dish_id": "MKT036",
+            "station_label": "MKT036",
+            "station_id": 37
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -1521,7 +1597,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT037"
+            "dish_id": "MKT037",
+            "station_label": "MKT037",
+            "station_id": 38
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -1560,7 +1638,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT038"
+            "dish_id": "MKT038",
+            "station_label": "MKT038",
+            "station_id": 39
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -1599,7 +1679,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT039"
+            "dish_id": "MKT039",
+            "station_label": "MKT039",
+            "station_id": 40
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -1638,7 +1720,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT040"
+            "dish_id": "MKT040",
+            "station_label": "MKT040",
+            "station_id": 41
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -1677,7 +1761,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT041"
+            "dish_id": "MKT041",
+            "station_label": "MKT041",
+            "station_id": 42
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -1716,7 +1802,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT042"
+            "dish_id": "MKT042",
+            "station_label": "MKT042",
+            "station_id": 43
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -1755,7 +1843,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT043"
+            "dish_id": "MKT043",
+            "station_label": "MKT043",
+            "station_id": 44
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -1794,7 +1884,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT044"
+            "dish_id": "MKT044",
+            "station_label": "MKT044",
+            "station_id": 45
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -1833,7 +1925,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT045"
+            "dish_id": "MKT045",
+            "station_label": "MKT045",
+            "station_id": 46
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -1872,7 +1966,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT046"
+            "dish_id": "MKT046",
+            "station_label": "MKT046",
+            "station_id": 47
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -1911,7 +2007,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT047"
+            "dish_id": "MKT047",
+            "station_label": "MKT047",
+            "station_id": 48
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -1950,7 +2048,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT048"
+            "dish_id": "MKT048",
+            "station_label": "MKT048",
+            "station_id": 49
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -1989,7 +2089,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT049"
+            "dish_id": "MKT049",
+            "station_label": "MKT049",
+            "station_id": 50
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -2028,7 +2130,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT050"
+            "dish_id": "MKT050",
+            "station_label": "MKT050",
+            "station_id": 51
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -2067,7 +2171,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT051"
+            "dish_id": "MKT051",
+            "station_label": "MKT051",
+            "station_id": 52
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -2106,7 +2212,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT052"
+            "dish_id": "MKT052",
+            "station_label": "MKT052",
+            "station_id": 53
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -2145,7 +2253,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT053"
+            "dish_id": "MKT053",
+            "station_label": "MKT053",
+            "station_id": 54
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -2184,7 +2294,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT054"
+            "dish_id": "MKT054",
+            "station_label": "MKT054",
+            "station_id": 55
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -2223,7 +2335,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT055"
+            "dish_id": "MKT055",
+            "station_label": "MKT055",
+            "station_id": 56
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -2262,7 +2376,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT056"
+            "dish_id": "MKT056",
+            "station_label": "MKT056",
+            "station_id": 57
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -2301,7 +2417,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT057"
+            "dish_id": "MKT057",
+            "station_label": "MKT057",
+            "station_id": 58
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -2340,7 +2458,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT058"
+            "dish_id": "MKT058",
+            "station_label": "MKT058",
+            "station_id": 59
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -2379,7 +2499,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT059"
+            "dish_id": "MKT059",
+            "station_label": "MKT059",
+            "station_id": 60
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -2418,7 +2540,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT060"
+            "dish_id": "MKT060",
+            "station_label": "MKT060",
+            "station_id": 61
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -2457,7 +2581,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT061"
+            "dish_id": "MKT061",
+            "station_label": "MKT061",
+            "station_id": 62
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -2496,7 +2622,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT062"
+            "dish_id": "MKT062",
+            "station_label": "MKT062",
+            "station_id": 63
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -2535,7 +2663,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "MKT063"
+            "dish_id": "MKT063",
+            "station_label": "MKT063",
+            "station_id": 64
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -2574,7 +2704,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA001"
+            "dish_id": "SKA001",
+            "station_label": "SKA001",
+            "station_id": 65
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -2613,7 +2745,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA002"
+            "dish_id": "SKA002",
+            "station_label": "SKA002",
+            "station_id": 66
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -2652,7 +2786,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA003"
+            "dish_id": "SKA003",
+            "station_label": "SKA003",
+            "station_id": 67
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -2691,7 +2827,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA004"
+            "dish_id": "SKA004",
+            "station_label": "SKA004",
+            "station_id": 68
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -2730,7 +2868,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA005"
+            "dish_id": "SKA005",
+            "station_label": "SKA005",
+            "station_id": 69
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -2769,7 +2909,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA006"
+            "dish_id": "SKA006",
+            "station_label": "SKA006",
+            "station_id": 70
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -2808,7 +2950,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA007"
+            "dish_id": "SKA007",
+            "station_label": "SKA007",
+            "station_id": 71
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -2847,7 +2991,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA008"
+            "dish_id": "SKA008",
+            "station_label": "SKA008",
+            "station_id": 72
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -2886,7 +3032,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA009"
+            "dish_id": "SKA009",
+            "station_label": "SKA009",
+            "station_id": 73
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -2925,7 +3073,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA010"
+            "dish_id": "SKA010",
+            "station_label": "SKA010",
+            "station_id": 74
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -2964,7 +3114,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA011"
+            "dish_id": "SKA011",
+            "station_label": "SKA011",
+            "station_id": 75
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -3003,7 +3155,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA012"
+            "dish_id": "SKA012",
+            "station_label": "SKA012",
+            "station_id": 76
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -3042,7 +3196,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA013"
+            "dish_id": "SKA013",
+            "station_label": "SKA013",
+            "station_id": 77
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -3081,7 +3237,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA014"
+            "dish_id": "SKA014",
+            "station_label": "SKA014",
+            "station_id": 78
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -3120,7 +3278,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA015"
+            "dish_id": "SKA015",
+            "station_label": "SKA015",
+            "station_id": 79
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -3159,7 +3319,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA016"
+            "dish_id": "SKA016",
+            "station_label": "SKA016",
+            "station_id": 80
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -3198,7 +3360,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA017"
+            "dish_id": "SKA017",
+            "station_label": "SKA017",
+            "station_id": 81
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -3237,7 +3401,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA018"
+            "dish_id": "SKA018",
+            "station_label": "SKA018",
+            "station_id": 82
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -3276,7 +3442,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA019"
+            "dish_id": "SKA019",
+            "station_label": "SKA019",
+            "station_id": 83
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -3315,7 +3483,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA020"
+            "dish_id": "SKA020",
+            "station_label": "SKA020",
+            "station_id": 84
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -3354,7 +3524,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA021"
+            "dish_id": "SKA021",
+            "station_label": "SKA021",
+            "station_id": 85
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -3393,7 +3565,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA022"
+            "dish_id": "SKA022",
+            "station_label": "SKA022",
+            "station_id": 86
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -3432,7 +3606,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA023"
+            "dish_id": "SKA023",
+            "station_label": "SKA023",
+            "station_id": 87
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -3471,7 +3647,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA024"
+            "dish_id": "SKA024",
+            "station_label": "SKA024",
+            "station_id": 88
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -3510,7 +3688,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA025"
+            "dish_id": "SKA025",
+            "station_label": "SKA025",
+            "station_id": 89
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -3549,7 +3729,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA026"
+            "dish_id": "SKA026",
+            "station_label": "SKA026",
+            "station_id": 90
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -3588,7 +3770,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA027"
+            "dish_id": "SKA027",
+            "station_label": "SKA027",
+            "station_id": 91
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -3627,7 +3811,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA028"
+            "dish_id": "SKA028",
+            "station_label": "SKA028",
+            "station_id": 92
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -3666,7 +3852,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA029"
+            "dish_id": "SKA029",
+            "station_label": "SKA029",
+            "station_id": 93
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -3705,7 +3893,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA030"
+            "dish_id": "SKA030",
+            "station_label": "SKA030",
+            "station_id": 94
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -3744,7 +3934,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA031"
+            "dish_id": "SKA031",
+            "station_label": "SKA031",
+            "station_id": 95
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -3783,7 +3975,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA032"
+            "dish_id": "SKA032",
+            "station_label": "SKA032",
+            "station_id": 96
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -3822,7 +4016,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA033"
+            "dish_id": "SKA033",
+            "station_label": "SKA033",
+            "station_id": 97
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -3861,7 +4057,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA034"
+            "dish_id": "SKA034",
+            "station_label": "SKA034",
+            "station_id": 98
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -3900,7 +4098,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA035"
+            "dish_id": "SKA035",
+            "station_label": "SKA035",
+            "station_id": 99
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -3939,7 +4139,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA036"
+            "dish_id": "SKA036",
+            "station_label": "SKA036",
+            "station_id": 100
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -3978,7 +4180,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA037"
+            "dish_id": "SKA037",
+            "station_label": "SKA037",
+            "station_id": 101
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -4017,7 +4221,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA038"
+            "dish_id": "SKA038",
+            "station_label": "SKA038",
+            "station_id": 102
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -4056,7 +4262,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA039"
+            "dish_id": "SKA039",
+            "station_label": "SKA039",
+            "station_id": 103
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -4095,7 +4303,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA040"
+            "dish_id": "SKA040",
+            "station_label": "SKA040",
+            "station_id": 104
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -4134,7 +4344,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA041"
+            "dish_id": "SKA041",
+            "station_label": "SKA041",
+            "station_id": 105
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -4173,7 +4385,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA042"
+            "dish_id": "SKA042",
+            "station_label": "SKA042",
+            "station_id": 106
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -4212,7 +4426,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA043"
+            "dish_id": "SKA043",
+            "station_label": "SKA043",
+            "station_id": 107
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -4251,7 +4467,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA044"
+            "dish_id": "SKA044",
+            "station_label": "SKA044",
+            "station_id": 108
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -4290,7 +4508,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA045"
+            "dish_id": "SKA045",
+            "station_label": "SKA045",
+            "station_id": 109
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -4329,7 +4549,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA046"
+            "dish_id": "SKA046",
+            "station_label": "SKA046",
+            "station_id": 110
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -4368,7 +4590,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA047"
+            "dish_id": "SKA047",
+            "station_label": "SKA047",
+            "station_id": 111
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -4407,7 +4631,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA048"
+            "dish_id": "SKA048",
+            "station_label": "SKA048",
+            "station_id": 112
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -4446,7 +4672,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA049"
+            "dish_id": "SKA049",
+            "station_label": "SKA049",
+            "station_id": 113
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -4485,7 +4713,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA050"
+            "dish_id": "SKA050",
+            "station_label": "SKA050",
+            "station_id": 114
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -4524,7 +4754,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA051"
+            "dish_id": "SKA051",
+            "station_label": "SKA051",
+            "station_id": 115
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -4563,7 +4795,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA052"
+            "dish_id": "SKA052",
+            "station_label": "SKA052",
+            "station_id": 116
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -4602,7 +4836,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA053"
+            "dish_id": "SKA053",
+            "station_label": "SKA053",
+            "station_id": 117
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -4641,7 +4877,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA054"
+            "dish_id": "SKA054",
+            "station_label": "SKA054",
+            "station_id": 118
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -4680,7 +4918,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA055"
+            "dish_id": "SKA055",
+            "station_label": "SKA055",
+            "station_id": 119
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -4719,7 +4959,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA056"
+            "dish_id": "SKA056",
+            "station_label": "SKA056",
+            "station_id": 120
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -4758,7 +5000,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA057"
+            "dish_id": "SKA057",
+            "station_label": "SKA057",
+            "station_id": 121
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -4797,7 +5041,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA058"
+            "dish_id": "SKA058",
+            "station_label": "SKA058",
+            "station_id": 122
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -4836,7 +5082,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA059"
+            "dish_id": "SKA059",
+            "station_label": "SKA059",
+            "station_id": 123
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -4875,7 +5123,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA060"
+            "dish_id": "SKA060",
+            "station_label": "SKA060",
+            "station_id": 124
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -4914,7 +5164,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA061"
+            "dish_id": "SKA061",
+            "station_label": "SKA061",
+            "station_id": 125
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -4953,7 +5205,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA062"
+            "dish_id": "SKA062",
+            "station_label": "SKA062",
+            "station_id": 126
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -4992,7 +5246,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA063"
+            "dish_id": "SKA063",
+            "station_label": "SKA063",
+            "station_id": 127
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -5031,7 +5287,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA064"
+            "dish_id": "SKA064",
+            "station_label": "SKA064",
+            "station_id": 128
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -5070,7 +5328,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA065"
+            "dish_id": "SKA065",
+            "station_label": "SKA065",
+            "station_id": 129
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -5109,7 +5369,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA066"
+            "dish_id": "SKA066",
+            "station_label": "SKA066",
+            "station_id": 130
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -5148,7 +5410,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA067"
+            "dish_id": "SKA067",
+            "station_label": "SKA067",
+            "station_id": 131
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -5187,7 +5451,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA068"
+            "dish_id": "SKA068",
+            "station_label": "SKA068",
+            "station_id": 132
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -5226,7 +5492,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA069"
+            "dish_id": "SKA069",
+            "station_label": "SKA069",
+            "station_id": 133
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -5265,7 +5533,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA070"
+            "dish_id": "SKA070",
+            "station_label": "SKA070",
+            "station_id": 134
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -5304,7 +5574,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA071"
+            "dish_id": "SKA071",
+            "station_label": "SKA071",
+            "station_id": 135
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -5343,7 +5615,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA072"
+            "dish_id": "SKA072",
+            "station_label": "SKA072",
+            "station_id": 136
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -5382,7 +5656,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA073"
+            "dish_id": "SKA073",
+            "station_label": "SKA073",
+            "station_id": 137
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -5421,7 +5697,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA074"
+            "dish_id": "SKA074",
+            "station_label": "SKA074",
+            "station_id": 138
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -5460,7 +5738,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA075"
+            "dish_id": "SKA075",
+            "station_label": "SKA075",
+            "station_id": 139
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -5499,7 +5779,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA076"
+            "dish_id": "SKA076",
+            "station_label": "SKA076",
+            "station_id": 140
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -5538,7 +5820,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA077"
+            "dish_id": "SKA077",
+            "station_label": "SKA077",
+            "station_id": 141
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -5577,7 +5861,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA078"
+            "dish_id": "SKA078",
+            "station_label": "SKA078",
+            "station_id": 142
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -5616,7 +5902,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA079"
+            "dish_id": "SKA079",
+            "station_label": "SKA079",
+            "station_id": 143
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -5655,7 +5943,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA080"
+            "dish_id": "SKA080",
+            "station_label": "SKA080",
+            "station_id": 144
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -5694,7 +5984,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA081"
+            "dish_id": "SKA081",
+            "station_label": "SKA081",
+            "station_id": 145
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -5733,7 +6025,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA082"
+            "dish_id": "SKA082",
+            "station_label": "SKA082",
+            "station_id": 146
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -5772,7 +6066,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA083"
+            "dish_id": "SKA083",
+            "station_label": "SKA083",
+            "station_id": 147
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -5811,7 +6107,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA084"
+            "dish_id": "SKA084",
+            "station_label": "SKA084",
+            "station_id": 148
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -5850,7 +6148,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA085"
+            "dish_id": "SKA085",
+            "station_label": "SKA085",
+            "station_id": 149
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -5889,7 +6189,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA086"
+            "dish_id": "SKA086",
+            "station_label": "SKA086",
+            "station_id": 150
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -5928,7 +6230,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA087"
+            "dish_id": "SKA087",
+            "station_label": "SKA087",
+            "station_id": 151
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -5967,7 +6271,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA088"
+            "dish_id": "SKA088",
+            "station_label": "SKA088",
+            "station_id": 152
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -6006,7 +6312,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA089"
+            "dish_id": "SKA089",
+            "station_label": "SKA089",
+            "station_id": 153
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -6045,7 +6353,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA090"
+            "dish_id": "SKA090",
+            "station_label": "SKA090",
+            "station_id": 154
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -6084,7 +6394,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA091"
+            "dish_id": "SKA091",
+            "station_label": "SKA091",
+            "station_id": 155
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -6123,7 +6435,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA092"
+            "dish_id": "SKA092",
+            "station_label": "SKA092",
+            "station_id": 156
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -6162,7 +6476,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA093"
+            "dish_id": "SKA093",
+            "station_label": "SKA093",
+            "station_id": 157
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -6201,7 +6517,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA094"
+            "dish_id": "SKA094",
+            "station_label": "SKA094",
+            "station_id": 158
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -6240,7 +6558,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA095"
+            "dish_id": "SKA095",
+            "station_label": "SKA095",
+            "station_id": 159
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -6279,7 +6599,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA096"
+            "dish_id": "SKA096",
+            "station_label": "SKA096",
+            "station_id": 160
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -6318,7 +6640,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA097"
+            "dish_id": "SKA097",
+            "station_label": "SKA097",
+            "station_id": 161
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -6357,7 +6681,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA098"
+            "dish_id": "SKA098",
+            "station_label": "SKA098",
+            "station_id": 162
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -6396,7 +6722,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA099"
+            "dish_id": "SKA099",
+            "station_label": "SKA099",
+            "station_id": 163
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -6435,7 +6763,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA100"
+            "dish_id": "SKA100",
+            "station_label": "SKA100",
+            "station_id": 164
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -6474,7 +6804,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA101"
+            "dish_id": "SKA101",
+            "station_label": "SKA101",
+            "station_id": 165
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -6513,7 +6845,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA102"
+            "dish_id": "SKA102",
+            "station_label": "SKA102",
+            "station_id": 166
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -6552,7 +6886,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA103"
+            "dish_id": "SKA103",
+            "station_label": "SKA103",
+            "station_id": 167
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -6591,7 +6927,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA104"
+            "dish_id": "SKA104",
+            "station_label": "SKA104",
+            "station_id": 168
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -6630,7 +6968,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA105"
+            "dish_id": "SKA105",
+            "station_label": "SKA105",
+            "station_id": 169
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -6669,7 +7009,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA106"
+            "dish_id": "SKA106",
+            "station_label": "SKA106",
+            "station_id": 170
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -6708,7 +7050,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA107"
+            "dish_id": "SKA107",
+            "station_label": "SKA107",
+            "station_id": 171
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -6747,7 +7091,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA108"
+            "dish_id": "SKA108",
+            "station_label": "SKA108",
+            "station_id": 172
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -6786,7 +7132,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA109"
+            "dish_id": "SKA109",
+            "station_label": "SKA109",
+            "station_id": 173
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -6825,7 +7173,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA110"
+            "dish_id": "SKA110",
+            "station_label": "SKA110",
+            "station_id": 174
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -6864,7 +7214,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA111"
+            "dish_id": "SKA111",
+            "station_label": "SKA111",
+            "station_id": 175
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -6903,7 +7255,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA112"
+            "dish_id": "SKA112",
+            "station_label": "SKA112",
+            "station_id": 176
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -6942,7 +7296,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA113"
+            "dish_id": "SKA113",
+            "station_label": "SKA113",
+            "station_id": 177
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -6981,7 +7337,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA114"
+            "dish_id": "SKA114",
+            "station_label": "SKA114",
+            "station_id": 178
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -7020,7 +7378,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA115"
+            "dish_id": "SKA115",
+            "station_label": "SKA115",
+            "station_id": 179
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -7059,7 +7419,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA116"
+            "dish_id": "SKA116",
+            "station_label": "SKA116",
+            "station_id": 180
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -7098,7 +7460,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA117"
+            "dish_id": "SKA117",
+            "station_label": "SKA117",
+            "station_id": 181
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -7137,7 +7501,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA118"
+            "dish_id": "SKA118",
+            "station_label": "SKA118",
+            "station_id": 182
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -7176,7 +7542,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA119"
+            "dish_id": "SKA119",
+            "station_label": "SKA119",
+            "station_id": 183
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -7215,7 +7583,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA120"
+            "dish_id": "SKA120",
+            "station_label": "SKA120",
+            "station_id": 184
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -7254,7 +7624,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA121"
+            "dish_id": "SKA121",
+            "station_label": "SKA121",
+            "station_id": 185
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -7293,7 +7665,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA122"
+            "dish_id": "SKA122",
+            "station_label": "SKA122",
+            "station_id": 186
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -7332,7 +7706,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA123"
+            "dish_id": "SKA123",
+            "station_label": "SKA123",
+            "station_id": 187
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -7371,7 +7747,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA124"
+            "dish_id": "SKA124",
+            "station_label": "SKA124",
+            "station_id": 188
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -7410,7 +7788,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA125"
+            "dish_id": "SKA125",
+            "station_label": "SKA125",
+            "station_id": 189
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -7449,7 +7829,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA126"
+            "dish_id": "SKA126",
+            "station_label": "SKA126",
+            "station_id": 190
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -7488,7 +7870,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA127"
+            "dish_id": "SKA127",
+            "station_label": "SKA127",
+            "station_id": 191
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -7527,7 +7911,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA128"
+            "dish_id": "SKA128",
+            "station_label": "SKA128",
+            "station_id": 192
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -7566,7 +7952,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA129"
+            "dish_id": "SKA129",
+            "station_label": "SKA129",
+            "station_id": 193
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -7605,7 +7993,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA130"
+            "dish_id": "SKA130",
+            "station_label": "SKA130",
+            "station_id": 194
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -7644,7 +8034,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA131"
+            "dish_id": "SKA131",
+            "station_label": "SKA131",
+            "station_id": 195
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -7683,7 +8075,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA132"
+            "dish_id": "SKA132",
+            "station_label": "SKA132",
+            "station_id": 196
         },
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",
@@ -7722,7 +8116,9 @@
                 }
             ],
             "niao": 0.0,
-            "dish_id": "SKA133"
+            "dish_id": "SKA133",
+            "station_label": "SKA133",
+            "station_id": 197
         }
     ]
 }
