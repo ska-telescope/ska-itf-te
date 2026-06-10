@@ -1,6 +1,6 @@
 # Version History
 
-## Unreleased
+## 31.0.0
 * [AT-3683]
   * Upgrade octopus backend to `0.6.3` 
   * Upgrade octopus frontend to `0.6.3`
