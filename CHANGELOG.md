@@ -3,6 +3,7 @@
 ## Unreleased
 * [SKB-1387]
   * Upgrade to ska-tmc-mid `1.21.0-rc.3` for 5-point scan testing
+  * Upgrade ska-tmc-configure schema interface to v6.1
 * [AT-3683]
   * Upgrade octopus backend to `0.6.3` 
   * Upgrade octopus frontend to `0.6.3`
