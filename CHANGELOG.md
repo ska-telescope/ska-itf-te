@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [SKB-1387]
+  * Upgrade to ska-tmc-mid `1.21.0-rc.3` for 5-point scan testing
 * [AT-3683]
   * Upgrade octopus backend to `0.6.3` 
   * Upgrade octopus frontend to `0.6.3`
