@@ -155,7 +155,7 @@ dependencies:
     condition: ska-octopus-backend.enabled
 
   - name: ska-octopus-frontend
-    version: 0.6.3
+    version: 0.6.5
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-octopus-frontend.enabled
 
