@@ -5,7 +5,7 @@
   * Upgrade dish-lmc to `9.4.0`
   * Upgrade csp-lmc to `1.7.0`
   * merge in skb-956 which introduces changes to the layout files and an update to the schema to 1.3
-  * Upgrade octopus frontend to `0.6.5`
+  * Upgrade octopus frontend to `0.6.6`
 * [AT-3683]
   * Upgrade octopus backend to `0.6.3` 
   * Upgrade octopus frontend to `0.6.3`
