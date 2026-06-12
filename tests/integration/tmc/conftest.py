@@ -1467,17 +1467,17 @@ def update_configure_scan(
     configure_scan_payload["tmc"]["scan_duration"] = float(scan_duration)
 
     if settings["pointing_target_name"]:
-        configure_scan_payload["pointing"]["target"]["target_name"] = settings[
+        configure_scan_payload["pointing"]["groups"][0]["field"]["target_name"] = settings[
             "pointing_target_name"
         ]
 
     if settings["pointing_target_right_ascension"]:
-        configure_scan_payload["pointing"]["target"]["ra"] = settings[
+        configure_scan_payload["pointing"]["groups"][0]["field"]["attrs"]["c1"] = settings[
             "pointing_target_right_ascension"
         ]
 
     if settings["pointing_target_declination"]:
-        configure_scan_payload["pointing"]["target"]["dec"] = settings[
+        configure_scan_payload["pointing"]["groups"][0]["field"]["attrs"]["c2"] = settings[
             "pointing_target_declination"
         ]
 
