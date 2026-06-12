@@ -6,6 +6,8 @@
   * Upgrade csp-lmc to `1.7.0`
   * merge in skb-956 which introduces changes to the layout files and an update to the schema to 1.3
   * Upgrade octopus frontend to `0.6.6`
+* [SKB-956]
+  * Update layout files to schema version 1.3
 
 ## 31.0.0
 * [AT-3683]
@@ -51,8 +53,6 @@
   * Allow configuration of dish VCC config source and filepath in tests using DISH_VCC_CONFIG_SOURCE and DISH_VCC_CONFIG_FILE_PATH env vars respectively.
 * [AT-3658]
   * Added microwave_mixer_voltage to archiver config files.
-* [SKB-956]
-  * Update layout files to schema version 1.3
 
 ## 30.3.1
 * [AT-3645]
