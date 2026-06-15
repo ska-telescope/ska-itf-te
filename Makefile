@@ -132,7 +132,7 @@ ifeq ($(SPFRX_IN_THE_LOOP), true)
 	--set ska-dish-lmc.ska-mid-dish-simulators.deviceServers.spfrxdevice.enabled=$(SPFRX_SIM_ENABLE) \
 	--set ska-mid-dish-spfrx-talondx-console.bar.secret.vault.enabled=true \
 	--set ska-mid-dish-spfrx-talondx-console.bar.secret.vault.mount=mid-itf \
-	--set ska-mid-dish-spfrx-talondx-console.bar.secret.vault.secretPath=bar-token
+	--set ska-mid-dish-spfrx-talondx-console.bar.secret.vault.secretPath=foo-token
 endif
 
 CBF_HW_IN_THE_LOOP ?= 

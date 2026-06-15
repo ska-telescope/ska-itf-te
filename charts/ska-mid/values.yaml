@@ -145,7 +145,7 @@ ska-mid-cbf-engineering-console:
       vault:
         enabled: true
         mount: mid-itf
-        secretPath: bar-token
+        secretPath: foo-token
   # Comment section below to use engineering-console image from CAR
   # Uncomment section below to use engineering-console image from gitlab
   # engineeringconsole:
