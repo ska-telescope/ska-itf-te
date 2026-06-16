@@ -29,7 +29,7 @@ author = "ATLAS Team"
 
 # The full version, including alpha/beta/rc tags
 
-release = "31.0.0"
+release = "31.0.1-test-tangogql"
 
 # -- General configuration ---------------------------------------------------
 
