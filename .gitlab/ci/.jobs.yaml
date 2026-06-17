@@ -71,6 +71,10 @@
     paths:
       - "build/"
       - "deploy/"
+  needs:
+    - job: helm-chart-build
+      artifacts: true
+      optional: true
   variables:
     HELM_BUILD_CACHE_DIR: ./chart.tmp
     K8S_USE_CACHED_CHARTS: "true"
