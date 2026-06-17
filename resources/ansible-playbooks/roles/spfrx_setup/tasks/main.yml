@@ -14,12 +14,22 @@
     path: "{{ backup_dir }}"
     state: directory
     mode: '0755'
+  tags:
+    - spfrx
 
-- name: Update DNS
-  ansible.builtin.include_tasks: "network.yml"
-  loop: "{{ network_paths }}"
-  loop_control:
-    loop_var: network_path
+- name: Update DNS in 00-eth.network
+  ansible.builtin.import_tasks: network.yml
+  vars:
+    network_path: "{{ network_dir }}/00-eth.network"
+  tags:
+    - spfrx
+
+- name: Update DNS in 10-eth.network
+  ansible.builtin.import_tasks: network.yml
+  vars:
+    network_path: "{{ network_dir }}/10-eth.network"
+  tags:
+    - spfrx
 
 - name: Restart networking
   ansible.builtin.systemd:
@@ -27,3 +37,5 @@
     daemon_reload: true
     name: systemd-networkd.service
   become: true
+  tags:
+    - spfrx
