@@ -28,6 +28,7 @@
       fi
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
     - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
+    - bash .make/resources/gitlab_section.sh setup-cache "Setup cached charts if available" make k8s-setup-cached-charts
     - |
       if [ "$K8S_INSTALL_FROM_CAR" != "true" ]; then
         bash .make/resources/gitlab_section.sh install "Installing $K8S_CHART Charts - not from CAR" make k8s-install-chart
@@ -71,6 +72,8 @@
       - "build/"
       - "deploy/"
   variables:
+    HELM_BUILD_CACHE_DIR: ./chart.tmp
+    K8S_USE_CACHED_CHARTS: "true"
     SWITCH_CSP_ON: "false"
     SUT_CHART_DIR: ${CI_PROJECT_DIR}/charts/ska-mid
     RUNNER_AFTER_SCRIPT_TIMEOUT: 6m
