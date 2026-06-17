@@ -30,8 +30,18 @@
     - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
     - bash .make/resources/gitlab_section.sh setup-cache "Setup cached charts if available" make k8s-setup-cached-charts
     - |
+      # Use cached charts if available, skip dependency build
+      if [ -d "chart-repo-cache" ] && [ "$(ls -A chart-repo-cache/*.tgz 2>/dev/null)" ]; then
+        export CACHED_CHART=$(ls -1 chart-repo-cache/*.tgz | head -1)
+        if [ -f "$CACHED_CHART" ]; then
+          export K8S_UMBRELLA_CHART_PATH="$CACHED_CHART"
+          export K8S_SKIP_DEP_BUILD=true
+          echo "Using cached chart: $CACHED_CHART"
+        fi
+      fi
+    - |
       if [ "$K8S_INSTALL_FROM_CAR" != "true" ]; then
-        bash .make/resources/gitlab_section.sh install "Installing $K8S_CHART Charts - not from CAR" make k8s-install-chart
+        bash .make/resources/gitlab_section.sh install "Installing $K8S_CHART Charts - not from CAR" make k8s-install-chart K8S_SKIP_DEP_BUILD=${K8S_SKIP_DEP_BUILD:-false}
       else
         bash .make/resources/gitlab_section.sh install "Installing $K8S_CHART Charts from CAR" make k8s-install-chart-car
       fi
