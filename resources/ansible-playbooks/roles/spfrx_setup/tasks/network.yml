@@ -1,18 +1,23 @@
-- name: Get configuration from Vault
-  set_fact:
-    current_host_id: "{{ inventory_hostname }}"
+- name: Backup existing file
+  ansible.builtin.copy:
+    remote_src: true
+    src: "{{ network_path }}"
+    dest: "{{ backup_dir }}/{{ network_path | basename }}.backup"
+    owner: root
+    group: root
+    force: false
+    mode: preserve
 
-- name: Read SPFRx config file
-  set_fact:
-    spfrx_config_data: "{{ lookup('file', '/tmp/spfrx_configs.yaml') | from_yaml }}"
+- name: Remove other DNS IPs
+  ansible.builtin.lineinfile:
+    path: "{{ network_path }}"
+    regexp: '^DNS='
+    state: absent
 
-- name: Check if search_key exists in the dictionary
-  set_fact:
-    key_exists: "{{ current_host_id in spfrx_config_data.spfrx_configs }}" 
-
-- name: Submit SPFRx configuration to SPFRx hosts. 
-  lineinfile:
-    path: /etc/systemd/network/00-eth.network
-    line: "{{ spfrx_config_data.spfrx_configs[current_host_id] }}"
-    create: true
-  when: key_exists
+- name: Set DNS IP to k8s cluster DNS IP
+  ansible.builtin.blockinfile:
+    path: "{{ network_path }}"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK: DO NOT EDIT by Team Atlas"
+    block: |
+      DNS={{ dns_ip }}
+    insertafter: "[Network]"
