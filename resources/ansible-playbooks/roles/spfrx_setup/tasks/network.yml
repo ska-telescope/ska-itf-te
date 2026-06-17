@@ -21,3 +21,47 @@
     block: |
       DNS={{ dns_ip }}
     insertafter: "[Network]"
+
+- name: Comment out existing non-comment lines in 00-eth.network
+  ansible.builtin.replace:
+    path: "{{ network_path }}"
+    regexp: '^(?!#)(.+)$'
+    replace: '# \1'
+  when: network_path | basename == "00-eth.network"
+
+- name: Append static SPFRx block to 00-eth.network
+  ansible.builtin.blockinfile:
+    path: "{{ network_path }}"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK: SPFRX 00-eth.network"
+    block: |
+      [Match]
+      Name=eth0
+
+      [Address]
+      Address=10.160.100.5/26
+      [Network]
+      Netmask=255.255.255.192
+      Network=10.160.100.0
+      Gateway={{ gateway_ip }}
+      DNS={{ dns1_ip }}
+      DNS={{ dns2_ip }}
+
+      [Link]
+      MACAddress=00:11:22:33:44:05
+    insertafter: EOF
+  when: network_path | basename == "00-eth.network"
+
+
+- name: Comment out existing non-comment lines in 10-eth.network
+  ansible.builtin.replace:
+    path: "{{ network_path }}"
+    regexp: '^(?!#)(.+)$'
+    replace: '# \1'
+  when: network_path | basename == "10-eth.network"
+
+- name: Uncomment allowlist lines in 10-eth.network
+  ansible.builtin.replace:
+    path: "{{ network_path }}"
+    regexp: '^# (Name=eth1|\[Address\]|MTUBytes=4000|\[Link\]|Address=192.168.8.53/16|\[Network\])$'
+    replace: '\1'
+  when: network_path | basename == "10-eth.network"
