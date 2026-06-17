@@ -243,14 +243,14 @@ get-deployed-charts:
 ##   HELM_BUILD_CACHE_DIR - Directory containing cached .tgz chart files
 
 k8s-setup-cached-charts:
-    @if [ "$(K8S_USE_CACHED_CHARTS)" = "true" ] && [ -d "$(HELM_BUILD_CACHE_DIR)" ]; then \
-        echo "Using cached charts from $(HELM_BUILD_CACHE_DIR)"; \
-        mkdir -p chart-repo-cache; \
-        cp $(HELM_BUILD_CACHE_DIR)/*.tgz chart-repo-cache/ 2>/dev/null || true; \
-        ls -la chart-repo-cache/ || echo "No cached charts found"; \
-    else \
-        echo "Not using cached charts (K8S_USE_CACHED_CHARTS=$(K8S_USE_CACHED_CHARTS), HELM_BUILD_CACHE_DIR=$(HELM_BUILD_CACHE_DIR))"; \
-    fi
+	@if [ "$(K8S_USE_CACHED_CHARTS)" = "true" ] && [ -d "$(HELM_BUILD_CACHE_DIR)" ]; then \
+		echo "Using cached charts from $(HELM_BUILD_CACHE_DIR)"; \
+		mkdir -p chart-repo-cache; \
+		cp $(HELM_BUILD_CACHE_DIR)/*.tgz chart-repo-cache/ 2>/dev/null || true; \
+		ls -la chart-repo-cache/ || echo "No cached charts found"; \
+	else \
+		echo "Not using cached charts (K8S_USE_CACHED_CHARTS=$(K8S_USE_CACHED_CHARTS), HELM_BUILD_CACHE_DIR=$(HELM_BUILD_CACHE_DIR))"; \
+	fi
 .PHONY: k8s-setup-cached-charts
 
 vars:
