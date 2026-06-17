@@ -1,2 +1,30 @@
-- name: Update SPFRx
-  ansible.builtin.include_tasks: "network.yml"
+- name: Create backup dir
+  ansible.builtin.file:
+    path: "{{ backup_dir }}"
+    state: directory
+    mode: '0755'
+  tags:
+    - spfrx
+
+- name: Update DNS in 00-eth.network
+  ansible.builtin.import_tasks: network.yml
+  vars:
+    network_path: "{{ network_dir }}/00-eth.network"
+  tags:
+    - spfrx
+
+- name: Update DNS in 10-eth.network
+  ansible.builtin.import_tasks: network.yml
+  vars:
+    network_path: "{{ network_dir }}/10-eth.network"
+  tags:
+    - spfrx
+
+- name: Restart networking
+  ansible.builtin.systemd:
+    state: restarted
+    daemon_reload: true
+    name: systemd-networkd.service
+  become: true
+  tags:
+    - spfrx
