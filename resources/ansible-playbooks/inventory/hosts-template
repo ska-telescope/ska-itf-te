@@ -30,4 +30,4 @@ spfrx4 ansible_host=10.165.3.23 host_identifier="spfrx4"
 
 # Testing only
 [spfrx_test]
-spfrx5 ansible_host=10.165.3.50 host_identifier="spfrx5" ansible_user=root
+spfrx5 ansible_host=10.165.3.50 host_identifier="spfrx5"
