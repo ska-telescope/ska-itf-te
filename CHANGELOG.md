@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3711]
+  * Upgrade tangoGQL-ariadne to `1.0.13`
 * [AT-3704]
   * Upgrade dish-lmc to `9.4.0`
   * Upgrade csp-lmc to `1.7.0`
