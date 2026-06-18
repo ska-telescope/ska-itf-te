@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [SKB-1368]
+  * Fix telescope name in layout files
 * [AT-3711]
   * Upgrade tangoGQL-ariadne to `1.0.13`
 * [AT-3704]
