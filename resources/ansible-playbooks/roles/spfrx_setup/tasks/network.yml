@@ -1,62 +1,80 @@
-- name: Backup existing file
-  ansible.builtin.copy:
-    remote_src: true
-    src: "{{ network_path }}"
-    dest: "{{ backup_dir }}/{{ network_path | basename }}.backup"
+- name: Check if network file exists before backup
+  ansible.builtin.stat:
+    path: "{{ network_path }}"
+  register: network_file_stat
+
+- name: Check if backup folder exists
+  ansible.builtin.stat:
+    path: "{{ backup_dir }}"
+  register: backup_dir_stat
+  when: network_file_stat.stat.exists
+
+- name: Create backup folder if missing
+  ansible.builtin.file:
+    path: "{{ backup_dir }}"
+    state: directory
     owner: root
     group: root
-    force: false
-    mode: preserve
+    mode: "0755"
+  when:
+    - network_file_stat.stat.exists
+    - not (backup_dir_stat.stat.exists | default(false))
 
-- name: Remove other DNS IPs
-  ansible.builtin.lineinfile:
-    path: "{{ network_path }}"
-    regexp: '^DNS='
-    state: absent
+- name: Find existing numbered backup files
+  ansible.builtin.find:
+    paths: "{{ backup_dir }}"
+    file_type: file
+    patterns: "{{ network_path | basename }}*.backup"
+  register: existing_backups
+  when: network_file_stat.stat.exists
 
-- name: Set DNS IP to k8s cluster DNS IP
-  ansible.builtin.blockinfile:
-    path: "{{ network_path }}"
-    marker: "# {mark} ANSIBLE MANAGED BLOCK: DO NOT EDIT by Team Atlas"
-    block: |
-      DNS={{ dns_ip }}
-    insertafter: "[Network]"
+- name: Calculate next backup number
+  ansible.builtin.set_fact:
+    backup_next_index: >-
+      {{
+        (
+          existing_backups.files
+          | map(attribute='path')
+          | map('basename')
+          | map('regex_replace', '^' ~ (network_path | basename | regex_escape) ~ '([0-9]+)\\.backup$', '\\1')
+          | select('match', '^[0-9]+$')
+          | map('int')
+          | list
+          + [0]
+        )
+        | max
+        + 1
+      }}
+  when: network_file_stat.stat.exists
 
-- name: Comment out existing non-comment lines in 00-eth.network
-  ansible.builtin.replace:
-    path: "{{ network_path }}"
-    regexp: '^(?!#)(.+)$'
-    replace: '# \1'
+# - name: Backup existing file
+#   ansible.builtin.copy:
+#     remote_src: true
+#     src: "{{ network_path }}"
+#     dest: "{{ backup_dir }}/{{ network_path | basename }}{{ '%03d' | format(backup_next_index | int) }}.backup"
+#     owner: root
+#     group: root
+#     force: false
+#     mode: preserve
+#   when: network_file_stat.stat.exists
+
+- name: Configuration for 00-eth.network
+  become: true
+  ansible.builtin.template:
+    src: 00-eth.network.j2
+    dest: "{{ network_path }}"
+    mode: "755"
+    owner: "root"
+    group: "root"
   when: network_path | basename == "00-eth.network"
 
-- name: Append static SPFRx block to 00-eth.network
-  ansible.builtin.blockinfile:
-    path: "{{ network_path }}"
-    marker: "# {mark} ANSIBLE MANAGED BLOCK: SPFRX 00-eth.network"
-    block: |
-      [Match]
-      Name=eth0
-
-      [Network]
-      Netmask=255.255.255.192
-      Network=10.160.100.0
-      Gateway={{ gateway_ip }}
-      DNS={{ dns1_ip }}
-      DNS={{ dns2_ip }}
-    insertafter: EOF
-  when: network_path | basename == "00-eth.network"
-
-
-- name: Comment out existing non-comment lines in 10-eth.network
-  ansible.builtin.replace:
-    path: "{{ network_path }}"
-    regexp: '^(?!#)(.+)$'
-    replace: '# \1'
+- name: Configuration for 10-eth.network
+  become: true
+  ansible.builtin.template:
+    src: 10-eth.network.j2
+    dest: "{{ network_path }}"
+    mode: "755"
+    owner: "root"
+    group: "root"
   when: network_path | basename == "10-eth.network"
 
-- name: Uncomment allowlist lines in 10-eth.network
-  ansible.builtin.replace:
-    path: "{{ network_path }}"
-    regexp: '^# (Name=eth1|\[Address\]|MTUBytes=4000|\[Link\]|Address=192.168.8.53/16|\[Network\])$'
-    replace: '\1'
-  when: network_path | basename == "10-eth.network"

@@ -4,10 +4,14 @@
     patterns:
       - '*.network'
   register: find_result
+  tags:
+    - spfrx
 
 - name: Map network paths
   ansible.builtin.set_fact:
     network_paths: "{{ find_result.files | map(attribute='path') | list }}"
+  tags:
+    - spfrx
 
 - name: Create backup dir
   ansible.builtin.file:
