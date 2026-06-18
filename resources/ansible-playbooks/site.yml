@@ -69,5 +69,7 @@
 - name: Setup SPFRx
   hosts:
     - spfrx
+    - spfrx_itf
+    - spfrx_test
   roles:
     - role: spfrx_setup

@@ -2,11 +2,6 @@ dns1_ip: 10.81.228.213
 dns2_ip: 10.81.228.214
 network_dir:  /etc/systemd/network
 backup_dir: /home/root/network_backups
-rxpu1_itp_ip: 10.165.3.20
-rxpu2_itp_ip: 10.165.3.21
-rxpu3_itp_ip: 10.165.3.22
-rxpu4_itp_ip: 10.165.3.23
-rxpu5_itp_ip: 10.165.3.50
 gateway_ip: 10.165.3.245
 ntp_ip: 10.165.3.11
 
