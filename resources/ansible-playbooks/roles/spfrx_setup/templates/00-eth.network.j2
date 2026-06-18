@@ -1,0 +1,18 @@
+
+# Ethernet Configuration file
+
+[Match]
+Name=eth0
+
+[Network]
+Gateway=10.160.{dish_index}.62
+Netmask=255.255.255.192
+Network=10.160.{dish_index}.0
+DNS=10.81.228.213
+DNS=10.81.228.214
+
+[Address]
+Address=10.160.{dish_index}.5/26
+
+[Link]
+MACAddress=00:11:22:33:44:01
