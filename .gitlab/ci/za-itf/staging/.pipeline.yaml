@@ -56,7 +56,7 @@
     DISH_LAYOUT_TELMODEL_PATH: "instrument/ska1_mid_itf/layout/b5dc-test-itf-layout.json"
     TEAPOT_LMC_IN_THE_LOOP: "true"
     KIND_OF_TEA: Rooibos
-    DISH_IDS: SKA101
+    DISH_IDS: SKA102
     GENERATE_SEQUENCE_DIAGRAM: "false"
     OVERRIDE_SCAN_BAND: "1"
 
