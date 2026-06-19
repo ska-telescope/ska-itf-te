@@ -68,7 +68,7 @@
 # Configure SPFRx (za-itf-sw)
 - name: Setup SPFRx
   hosts:
-    - spfrx
+    - spfrx_mid
     - spfrx_itf
     - spfrx_test
   roles:
