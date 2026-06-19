@@ -1,6 +1,22 @@
 # Version History
 
 ## Unreleased
+* [AT-3424]
+  * Extended Helm chart caching to deployment jobs to speed up deploy stage execution
+* [AT-3711]
+  * Upgrade tangoGQL-ariadne to `1.0.13`
+* [AT-3704]
+  * Upgrade dish-lmc to `9.4.0`
+  * Upgrade csp-lmc to `1.7.0`
+  * merge in skb-956 which introduces changes to the layout files and an update to the schema to 1.3
+  * Upgrade octopus frontend to `0.6.6`
+* [SKB-956]
+  * Update layout files to schema version 1.3
+
+## 31.0.0
+* [AT-3683]
+  * Upgrade octopus backend to `0.6.3` 
+  * Upgrade octopus frontend to `0.6.3`
 * [AT-3673]
   * Upgrade ska-mid-dish-spfrx-talondx-console to `3.0.0`
   * Upgrade taranta to `2.18.7`

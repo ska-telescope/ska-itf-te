@@ -131,7 +131,10 @@ ifeq ($(SPFRX_IN_THE_LOOP), true)
 	--set ska-mid-dish-spfrx-talondx-console.instance=$(SPFRX_TANGO_INSTANCE) \
 	--set ska-mid-dish-spfrx-talondx-console.logging_level=$(SPFRX_TANGO_LOGGING_LEVEL) \
 	--set ska-dish-lmc.ska-mid-dish-manager.dishmanager.spfrx.fqdn=$(SPFRX_TRL) \
-	--set ska-dish-lmc.ska-mid-dish-simulators.deviceServers.spfrxdevice.enabled=$(SPFRX_SIM_ENABLE)
+	--set ska-dish-lmc.ska-mid-dish-simulators.deviceServers.spfrxdevice.enabled=$(SPFRX_SIM_ENABLE) \
+	--set ska-mid-dish-spfrx-talondx-console.bar.secret.vault.enabled=true \
+	--set ska-mid-dish-spfrx-talondx-console.bar.secret.vault.mount=mid-itf \
+	--set ska-mid-dish-spfrx-talondx-console.bar.secret.vault.secretPath=bar-token
 endif
 
 CBF_HW_IN_THE_LOOP ?= 
