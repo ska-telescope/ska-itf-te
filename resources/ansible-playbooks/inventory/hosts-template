@@ -33,6 +33,6 @@ spfrx4 ansible_host=10.165.3.23 host_identifier="spfrx4"
 spfrx5 ansible_host=10.165.3.50 host_identifier="spfrx5"
 
 [spfrx_mid]
-spfrx001 ansible_host=10.160.1.5 host_identifier="spfrx001" dish_index=1
-spfrx002 ansible_host=10.160.2.5 host_identifier="spfrx002" dish_index=2
-spfrx003 ansible_host=10.160.3.5 host_identifier="spfrx003" dish_index=3
+spfrx1 ansible_host=10.160.1.5 host_identifier="spfrx1" dish_index=1
+spfrx2 ansible_host=10.160.2.5 host_identifier="spfrx2" dish_index=2
+spfrx3 ansible_host=10.160.3.5 host_identifier="spfrx3" dish_index=3
