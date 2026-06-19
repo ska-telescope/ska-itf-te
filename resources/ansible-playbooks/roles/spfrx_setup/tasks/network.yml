@@ -24,34 +24,22 @@
   ansible.builtin.find:
     paths: "{{ backup_dir }}"
     file_type: file
-    patterns: "{{ network_path | basename }}*.backup"
+    patterns:
+      - "{{ network_path | basename }}*.backup"
+      - "{{ network_path | basename | regex_replace('\\.network$', '') }}-*.network.backup"
   register: existing_backups
   when: network_file_stat.stat.exists
 
 - name: Calculate next backup number
   ansible.builtin.set_fact:
-    backup_next_index: >-
-      {{
-        (
-          existing_backups.files
-          | map(attribute='path')
-          | map('basename')
-          | map('regex_replace', '^' ~ (network_path | basename | regex_escape) ~ '([0-9]+)\\.backup$', '\\1')
-          | select('match', '^[0-9]+$')
-          | map('int')
-          | list
-          + [0]
-        )
-        | max
-        + 1
-      }}
+    backup_next_index: "{{ (existing_backups.files | length) + 1 }}"
   when: network_file_stat.stat.exists
 
 - name: Backup existing file
   ansible.builtin.copy:
     remote_src: true
     src: "{{ network_path }}"
-    dest: "{{ backup_dir }}/{{ network_path | basename }}{{ '%03d' | format(backup_next_index | int) }}.backup"
+    dest: "{{ backup_dir }}/{{ network_path | basename | regex_replace('\\.network$', '') }}-{{ '%03d' | format(backup_next_index | int) }}.network.backup"
     owner: root
     group: root
     force: false
