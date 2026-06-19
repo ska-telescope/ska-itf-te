@@ -26,7 +26,7 @@ ansible_user="<AD_USER>"
 spfrx01 ansible_host=10.165.3.20 host_identifier="spfrx01"
 spfrx02 ansible_host=10.165.3.21 host_identifier="spfrx02"
 spfrx03 ansible_host=10.165.3.22 host_identifier="spfrx03"
-spfrx4 ansible_host=10.165.3.23 host_identifier="spfrx4"
+spfrx04 ansible_host=10.165.3.23 host_identifier="spfrx04"
 
 # Testing only
 [spfrx_test]
