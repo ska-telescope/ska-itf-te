@@ -3,6 +3,8 @@
 ## Unreleased
 * [AT-3698]
   * Ansible playbook updates for SPFRx network configuration changes (ITF and provisionally site)
+* [AT-3424]
+  * Extended Helm chart caching to deployment jobs to speed up deploy stage execution
 * [AT-3711]
   * Upgrade tangoGQL-ariadne to `1.0.13`
 * [AT-3704]
