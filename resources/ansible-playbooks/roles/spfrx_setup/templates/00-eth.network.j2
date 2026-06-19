@@ -5,14 +5,26 @@
 Name=eth0
 
 [Network]
-Gateway=10.160.{dish_index}.62
+{% if dish_index is defined %}
+Gateway=10.160.{{ dish_index }}.62
+{% else %}
+Gateway=10.165.3.245
+{% endif %}
 Netmask=255.255.255.192
-Network=10.160.{dish_index}.0
+{% if dish_index is defined %}
+Network=10.160.{{ dish_index }}.0
+{% else %}
+Network=10.165.3.0
+{% endif %}
 DNS=10.81.228.213
 DNS=10.81.228.214
 
 [Address]
-Address=10.160.{dish_index}.5/26
+{% if dish_index is defined %}
+Address=10.160.{{ dish_index }}.5/26
+{% else %}
+Address={{ ansible_host }}
+{% endif %}
 
 [Link]
 MACAddress=00:11:22:33:44:01

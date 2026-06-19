@@ -47,16 +47,16 @@
       }}
   when: network_file_stat.stat.exists
 
-# - name: Backup existing file
-#   ansible.builtin.copy:
-#     remote_src: true
-#     src: "{{ network_path }}"
-#     dest: "{{ backup_dir }}/{{ network_path | basename }}{{ '%03d' | format(backup_next_index | int) }}.backup"
-#     owner: root
-#     group: root
-#     force: false
-#     mode: preserve
-#   when: network_file_stat.stat.exists
+- name: Backup existing file
+  ansible.builtin.copy:
+    remote_src: true
+    src: "{{ network_path }}"
+    dest: "{{ backup_dir }}/{{ network_path | basename }}{{ '%03d' | format(backup_next_index | int) }}.backup"
+    owner: root
+    group: root
+    force: false
+    mode: preserve
+  when: network_file_stat.stat.exists
 
 - name: Configuration for 00-eth.network
   become: true
