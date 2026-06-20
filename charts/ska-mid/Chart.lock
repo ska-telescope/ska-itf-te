@@ -13,7 +13,7 @@ dependencies:
   version: 1.1.1
 - name: ska-csp-lmc-mid
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.6.0
+  version: 1.7.0
 - name: ska-mid-cbf-tdc-mcs
   repository: https://artefact.skao.int/repository/helm-internal
   version: 1.4.1
@@ -31,7 +31,7 @@ dependencies:
   version: 17.4.0
 - name: ska-dish-lmc
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 9.3.0
+  version: 9.4.0
 - name: ska-te-dish-structure-simulator
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.11.0
@@ -46,7 +46,7 @@ dependencies:
   version: 2.18.7
 - name: ska-tango-tangogql-ariadne
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.0.11
+  version: 1.0.13
 - name: ska-tango-alarmhandler
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.6.3
@@ -64,9 +64,9 @@ dependencies:
   version: 0.6.3
 - name: ska-octopus-frontend
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 0.4.27
+  version: 0.6.6
 - name: ska-eda-rest-api
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.1.0-rc.8
-digest: sha256:276b0b10a6ac988403d0ea4e80fd522ec94d303c892a666c0deefa7d0b0fe355
-generated: "2026-05-27T14:32:09.975831501Z"
+digest: sha256:754f27d2e7d617386ef5522780ac57b453be98bb52c74d86e0ed09bc00ca2cbd
+generated: "2026-06-20T13:24:42.324372+02:00"
