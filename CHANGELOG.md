@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3715]
+  * Upgrade dish-lmc to `9.5.0`
 
 ## 31.1.0
 * [AT-3424]
