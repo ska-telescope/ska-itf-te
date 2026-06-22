@@ -105,8 +105,9 @@ setup_local_ssh_config_dry_run: setup ## Sets up your localhost for using the an
 
 $(INVENTORY_FILE): # Sets up the inventory file with the correct user variables. Make sure you have AD_USER set.
 	cp $(INVENTORY_TEMPLATE) $(INVENTORY_FILE)
-	sed -i 's/<AD_USER>/$(AD_USER)/g' $(INVENTORY_FILE)
-	sed -i 's/<USER>/$(USER)/g' $(INVENTORY_FILE)
+	sed -i.x 's/<AD_USER>/$(AD_USER)/g' $(INVENTORY_FILE)
+	sed -i.x 's/<USER>/$(USER)/g' $(INVENTORY_FILE)
+	rm -f $(INVENTORY_FILE).x
 
 lint: ## Lint check playbook
 	poetry run ansible-lint -v -c $(MKFILE_DIR).ansible-lint $(MKFILE_DIR)site.yml
