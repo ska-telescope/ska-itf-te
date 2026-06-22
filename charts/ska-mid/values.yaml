@@ -61,14 +61,7 @@ ska-dataproduct-dashboard:
 ska-oso-integration:
   enabled: false
   ska-db-oda-umbrella:
-    enabled: true # The ODA API server should be deployed in the same namespace as the apps, but not the database
-    postgres:
-      enabled: false
-    ska-db-oda:
-      rest:
-        enabled: true
-      liquibase:
-        runJob: false
+    enabled: false # The ODA database is provisioned separately, and the liquibase job runs in a separate namespace
   ska-oso-services:
     vault:
       enabled: false
@@ -85,14 +78,11 @@ ska-oso-integration:
 # ODA
 ska-db-oda-umbrella:
   enabled: false
-#  The below would make the db deploy but not the API server
   postgres:
     enabled: true
   ska-db-oda:
-    rest:
-      enabled: false
-    liquibase:
-      runJob: true
+    ska-db-migrations:
+      runMigrations: true
 
 # DISH LMC
 ska-dish-lmc:
