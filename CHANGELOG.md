@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+
+## 31.1.0
 * [AT-3424]
   * Extended Helm chart caching to deployment jobs to speed up deploy stage execution
 * [AT-3711]
