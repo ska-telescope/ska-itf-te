@@ -56,6 +56,16 @@ def settings():
     settings["pointing_target_declination"] = os.getenv("POINTING_TARGET_DECLINATION", "")
     settings["telmodel_source"] = os.getenv("TELMODEL_SOURCE", "")
     settings["dish_layout_telmodel_path"] = os.getenv("DISH_LAYOUT_TELMODEL_PATH", "")
+    settings["dish_vcc_config_source"] = os.getenv("DISH_VCC_CONFIG_SOURCE", "")
+    settings["dish_vcc_config_file_path"] = os.getenv("DISH_VCC_CONFIG_FILE_PATH", "")
+
+    # These settings are used to determine whether to use OSO generated payloads or not.
+    settings["use_oso_payloads"] = os.getenv("USE_OSO_PAYLOADS", "false").lower() in ("true", "1")
+    settings["sbd_id"] = os.getenv("SBD_ID", "")
+    settings["sbd_path"] = os.getenv(
+        "SBD_PATH", "tests/integration/resources/sbds/golden_sample_sbd_band1.json"
+    )
+
     return settings
 
 

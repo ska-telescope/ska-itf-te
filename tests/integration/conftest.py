@@ -7,6 +7,7 @@ from typing import Any, Callable
 import pytest
 from pytest_bdd import given
 from pytest_bdd.parser import Feature, Scenario, Step
+from ska_oso_scripting.api import load_sbd
 from tango import DeviceProxy
 
 from tests.integration.tmc.conftest import TMC
@@ -138,3 +139,23 @@ def alarm_handler_test_context():
     """
     test_context = AlarmHandlerTestContext()
     yield test_context
+
+
+@pytest.fixture
+def sbd(settings):
+    """Fixture to manage SBD used in tests.
+
+    :param settings: _description_
+    :type settings: _type_
+    :return: _description_
+    :rtype: _type_
+    """
+    sbd = None
+
+    if settings["use_oso_payloads"]:
+        if settings["sbd_id"]:
+            pass
+        elif settings["sbd_path"]:
+            sbd = load_sbd(settings["sbd_path"])
+
+    return sbd

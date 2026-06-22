@@ -15,8 +15,14 @@ import pytest
 from astropy.coordinates import SkyCoord
 from pytest_bdd import given, parsers, then, when
 from ska_control_model import HealthState, ObsState
+from ska_ser_skuid import EntityType, mint_skuid
 from tango import DeviceProxy, DevState, EventType
 
+from scripts.oso.generate_payloads import (
+    generate_assign_resources_tmc_payload,
+    generate_configure_tmc_payloads,
+    get_scan_command,
+)
 from scripts.sequence_diagrammer.generate_sequence_diagram import SequenceDiagrammer
 from utils.enums import DishMode
 
@@ -339,6 +345,9 @@ def pb_and_eb_ids(settings) -> Tuple[str, str]:
     :return: pb_id and eb_id for use in the assign_resources.json
     :rtype: Tuple[str, str]
     """
+    if settings["use_oso_payloads"]:
+        logger.info("Generating SKUID-based pb and eb ids for oso payloads")
+        return mint_skuid(EntityType.PB), mint_skuid(EntityType.EB)
     time_now = localtime()
     date = strftime("%Y%m%d", time_now)
     time_now = strftime("%H%M%S", time_now)
@@ -511,10 +520,16 @@ def _(telescope_handlers, receptor_ids, settings):
     with open(DISH_CONFIG_FILE, encoding="utf-8") as f:
         dish_config_json = json.load(f)
 
-    dish_config_json["tm_data_sources"][0] = "car:ska-mid?27.3.0#tmdata"
-    dish_config_json["tm_data_filepath"] = (
-        "instrument/ska1_mid_itf/vcc-config/ska-mid-cbf-system-parameters.json"
-    )
+    if settings["dish_vcc_config_source"]:
+        logger.info(f"Overriding dish VCC config source to {settings['dish_vcc_config_source']}")
+        dish_config_json["tm_data_sources"][0] = settings["dish_vcc_config_source"]
+
+    if settings["dish_vcc_config_file_path"]:
+        logger.info(
+            f"Overriding dish VCC config filepath to {settings['dish_vcc_config_file_path']}"
+        )
+        dish_config_json["tm_data_filepath"] = settings["dish_vcc_config_file_path"]
+
     logger.debug(f"dish_config_json file contents: \n{dish_config_json}")
 
     is_k_value_correct = True
@@ -584,11 +599,10 @@ def _(telescope_handlers, receptor_ids, settings):
 
 
 @when("I assign resources")
-def _(telescope_handlers, receptor_ids, pb_and_eb_ids, default_assign_resources, settings):
+def _(telescope_handlers, receptor_ids, pb_and_eb_ids, default_assign_resources, settings, sbd):
     """Assign resources via TMC.
 
     :param telescope_handlers: _description_
-    :type settings: _type_
     :type telescope_handlers: _type_
     :param receptor_ids: _description_
     :type receptor_ids: _type_
@@ -596,6 +610,10 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids, default_assign_resources,
     :type pb_and_eb_ids: _type_
     :param default_assign_resources: _description_
     :type default_assign_resources: _type_
+    :param settings: _description_
+    :type settings: _type_
+    :param sbd: _description_
+    :type sbd: _type_
     """
     logger.info("Assigning resources")
 
@@ -610,7 +628,7 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids, default_assign_resources,
     RECEPTORS = receptor_ids
 
     assign_resources_payload = update_assign_resources(
-        default_assign_resources, RECEPTORS, pb_id, eb_id, settings
+        default_assign_resources, RECEPTORS, pb_id, eb_id, settings, sbd
     )
 
     logger.info(f"PB ID: {pb_id}, EB ID: {eb_id}")
@@ -621,7 +639,11 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids, default_assign_resources,
     with open(assign_resources_artifact_path, "w") as assign_resources_config_file:
         json.dump(assign_resources_payload, assign_resources_config_file, indent=4)
 
-    tmc.central_node.AssignResources(json.dumps(assign_resources_payload))
+    tmc.central_node.AssignResources(
+        assign_resources_payload
+        if isinstance(assign_resources_payload, str)
+        else json.dumps(assign_resources_payload)
+    )
     wait_for_event(cbf_subarray, "obsState", ObsState.IDLE)
     wait_for_event(sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.IDLE)
     wait_for_event(csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.IDLE)
@@ -642,11 +664,11 @@ def _(
     scan_time,
     default_configure_scan_payload,
     settings,
+    sbd,
 ):
     """Configure scan via TMC.
 
     :param telescope_handlers: _description_
-    :type settings: _type_
     :type telescope_handlers: _type_
     :param receptor_ids: _description_
     :type receptor_ids: _type_
@@ -656,6 +678,10 @@ def _(
     :type scan_time: _type_
     :param default_configure_scan_payload: _description_
     :type default_configure_scan_payload: _type_
+    :param settings: _description_
+    :type settings: _type_
+    :param sbd: _description_
+    :type sbd: _type_
     """
     if settings["override_scan_band"]:
         scan_band = int(settings["override_scan_band"])
@@ -669,16 +695,20 @@ def _(
     RECEPTORS = receptor_ids
 
     configure_scan_payload = update_configure_scan(
-        default_configure_scan_payload, scan_band, scan_time, 1, settings
+        default_configure_scan_payload, scan_band, scan_time, 1, settings, sbd
     )
 
-    logger.debug(json.dumps(configure_scan_payload))
+    logger.debug(configure_scan_payload)
 
     configure_scan_artifact_path = f"{settings['artifact_dir']}/configure_scan.json"
     with open(configure_scan_artifact_path, "w") as configure_scan_config_file:
         json.dump(configure_scan_payload, configure_scan_config_file, indent=4)
 
-    tmc.subarray_node.Configure(json.dumps(configure_scan_payload))
+    tmc.subarray_node.Configure(
+        configure_scan_payload
+        if isinstance(configure_scan_payload, str)
+        else json.dumps(configure_scan_payload)
+    )
     wait_for_event(tmc.csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.READY)
     wait_for_event(tmc.sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.READY)
     for receptor in RECEPTORS:
@@ -1276,6 +1306,7 @@ def update_assign_resources(
     pb_id: str,
     eb_id: str,
     settings: dict,
+    sbd: dict = None,
 ) -> dict:
     """Update assign resources payload with test specific parameters.
 
@@ -1289,9 +1320,17 @@ def update_assign_resources(
     :type eb_id: str
     :param settings: _description_
     :type settings: dict
+    :param sbd: _description_
+    :type sbd: dict
     :return: Updated assign resources payload
     :rtype: dict
     """
+    if sbd:
+        # Use OSO generated payloads if SBD is provided
+        logger.info("Generating assign resources payload using OSO scripting")
+        assign_resources_payload = generate_assign_resources_tmc_payload(subarray_id=1, sbd=sbd)
+        return assign_resources_payload
+
     NODE_WITH_100G_INTERFACE = settings["node_with_100G_interface"]
     NODE_LABEL_FOR_100G_GROUP = settings["node_label_for_100G_group"]
 
@@ -1377,6 +1416,7 @@ def update_configure_scan(
     scan_duration: int,
     scan_number: int,
     settings: dict,
+    sbd: dict = None,
 ) -> dict:
     """Update configure scan payload with test specific parameters.
 
@@ -1390,9 +1430,17 @@ def update_configure_scan(
     :type scan_number: int
     :param settings: _description_
     :type settings: dict
+    :param sbd: _description_
+    :type sbd: dict
     :return: Updated configure scan JSON payload
     :rtype: dict
     """
+    if sbd:
+        # Use OSO generated payloads if SBD is provided
+        logger.info("Generating configure payload using OSO scripting")
+        configure_payload = generate_configure_tmc_payloads(sbd=sbd)[0]
+        return configure_payload
+
     band_params = generate_fsp.generate_band_params(scan_band)
 
     configure_scan_payload["dish"]["receiver_band"] = str(scan_band)
@@ -1452,7 +1500,7 @@ def default_scan_payload(settings):
     return scan_json
 
 
-def update_scan_payload(scan_payload: dict, scan_number: int) -> dict:
+def update_scan_payload(scan_payload: dict, scan_number: int, sbd: dict = None) -> dict:
     """Update scan payload with test specific parameters.
 
     :param scan_payload: Scan JSON payload to update
@@ -1461,7 +1509,14 @@ def update_scan_payload(scan_payload: dict, scan_number: int) -> dict:
     :type scan_number: int
     :return: Updated scan JSON payload
     :rtype: dict
+    :param sbd: _description_
+    :type sbd: dict
     """
+    if sbd:
+        # Use OSO generated payloads if SBD is provided
+        scan_payload = get_scan_command(subarray_id=1)
+        return scan_payload
+
     scan_payload["scan_id"] = scan_number
     scan_payload["transaction_id"] = f"txn-....-{scan_number:05}"
     return scan_payload
