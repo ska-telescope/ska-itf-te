@@ -69,6 +69,16 @@ setup_spfrx_dry_run: setup ## Runs the full playbook against the SPFRX's.
 	$(ANSIBLE_COMMAND_DRY_RUN) --limit spfrx $(MKFILE_DIR)site.yml
 .PHONY: setup_spfrx_dry_run
 
+setup_spfrx_host: setup ## Runs the playbook against a specific SPFRX host with spfrx tags. Usage: make setup_spfrx_host AD_USER=youruser HOST=spfrx03
+	@if [ -z "$(HOST)" ]; then echo "ERROR: HOST variable not set. Usage: make setup_spfrx_host AD_USER=youruser HOST=spfrx03"; exit 1; fi
+	$(ANSIBLE_COMMAND) --limit $(HOST) --tags spfrx $(MKFILE_DIR)site.yml
+.PHONY: setup_spfrx_host
+
+setup_spfrx_host_dry_run: setup ## Runs the playbook against a specific SPFRX host with spfrx tags in dry-run mode. Usage: make setup_spfrx_host_dry_run AD_USER=youruser HOST=spfrx03
+	@if [ -z "$(HOST)" ]; then echo "ERROR: HOST variable not set. Usage: make setup_spfrx_host_dry_run AD_USER=youruser HOST=spfrx03"; exit 1; fi
+	$(ANSIBLE_COMMAND_DRY_RUN) --limit $(HOST) --tags spfrx $(MKFILE_DIR)site.yml
+.PHONY: setup_spfrx_host_dry_run
+
 setup_gaia: setup ## Runs the full playbook against Gaia.
 	$(ANSIBLE_COMMAND) --limit gaia $(MKFILE_DIR)site.yml
 .PHONY: setup_gaia
