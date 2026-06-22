@@ -62,15 +62,19 @@ ska-oso-integration:
   enabled: false
   ska-db-oda-umbrella:
     enabled: false # The ODA database is provisioned separately, and the liquibase job runs in a separate namespace
-  ska-oso-services:
-    vault:
-      enabled: false
+  ska-oso-oet:
+    rest:
+      ingress:
+        enabled: true
   ska-oso-ost-services:
     enabled: true
     vaultStaticSecret:
       enabled: true
       mount: mid-itf
       path: ost-credentials
+  ska-oso-services:
+    vault:
+      enabled: false
   ska-oso-slt-services:
     secretProvider:
       enabled: false

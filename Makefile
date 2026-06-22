@@ -143,8 +143,6 @@ endif
 
 DISH_LMC_PARAMS ?= $(DISH_LMC_INITIAL_PARAMS) $(DISH_LMC_EXTRA_PARAMS) $(DISH_LMC_EDA_PARAMS)
 
-OSO_PARAMS ?= --set ska-oso-integration.ska-oso-oet.rest.ingress.enabled=true 
-
 ###################################################################
 ### THIS SECTION NEEDS REVIEW FROM SDP ARCHITECTS
 SDP_EXTRA_PARAMS ?=
@@ -242,7 +240,6 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	--set ska-tango-base.jive.enabled=$(JIVE) \
 	--set ska-tango-base.itango.enabled=$(ITANGO_ENABLED) \
 	$(SDP_PARAMS) \
-	$(OSO_PARAMS) \
 	$(DISH_LMC_PARAMS) \
 	$(TARANTA_PARAMS) \
 	${K8S_TEST_TANGO_IMAGE_PARAMS} \
