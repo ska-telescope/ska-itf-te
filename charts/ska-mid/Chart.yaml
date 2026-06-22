@@ -72,7 +72,6 @@ dependencies:
     condition: ska-oso-integration.enabled
 
   # SKA ODA
-  # when upgrading this major version, also adjust versions in Makefile URLs
   - name: ska-db-oda-umbrella
     repository: https://artefact.skao.int/repository/helm-internal
     version: 18.1.0
