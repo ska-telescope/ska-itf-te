@@ -7,7 +7,7 @@ dependencies:
   version: 1.1.0
 - name: ska-tmc-mid
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.13.0
+  version: 1.21.0-rc.3
 - name: ska-mid-wms
   repository: https://artefact.skao.int/repository/helm-internal
   version: 1.1.1
@@ -65,5 +65,5 @@ dependencies:
 - name: ska-octopus-frontend
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.6.6
-digest: sha256:6c5f86930ff8075f0bcf324bacd6458b9c0154398c596a4efca7a34843535edb
-generated: "2026-06-22T16:34:29.241011+02:00"
+digest: sha256:8472398cc85e2df8a4e8c2a35b6530e9a517cad0cf443dcc1eaa58e9b24d52e7
+generated: "2026-06-23T14:31:55.690501+02:00"
