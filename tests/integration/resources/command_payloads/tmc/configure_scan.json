@@ -1,5 +1,5 @@
 {
-  "interface": "https://schema.skao.int/ska-tmc-configure/6.0",
+  "interface": "https://schema.skao.int/ska-tmc-configure/6.1",
   "transaction_id": "",
   "pointing": {
     "groups": [
