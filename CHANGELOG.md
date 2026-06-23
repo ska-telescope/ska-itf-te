@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3698]
+  * Ansible playbook updates for SPFRx network configuration changes (ITF and provisionally site)
 * [AT-3715]
   * Upgrade dish-lmc to `9.5.0`
 

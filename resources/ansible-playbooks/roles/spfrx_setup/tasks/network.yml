@@ -1,18 +1,57 @@
-- name: Get configuration from Vault
-  set_fact:
-    current_host_id: "{{ inventory_hostname }}"
+- name: Check if network file exists before backup
+  ansible.builtin.stat:
+    path: "{{ network_path }}"
+  register: network_file_stat
 
-- name: Read SPFRx config file
-  set_fact:
-    spfrx_config_data: "{{ lookup('file', '/tmp/spfrx_configs.yaml') | from_yaml }}"
+- name: Check if backup folder exists
+  ansible.builtin.stat:
+    path: "{{ backup_dir }}"
+  register: backup_dir_stat
+  when: network_file_stat.stat.exists
 
-- name: Check if search_key exists in the dictionary
-  set_fact:
-    key_exists: "{{ current_host_id in spfrx_config_data.spfrx_configs }}" 
+- name: Create backup folder if missing
+  ansible.builtin.file:
+    path: "{{ backup_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  when:
+    - network_file_stat.stat.exists
+    - not (backup_dir_stat.stat.exists | default(false))
 
-- name: Submit SPFRx configuration to SPFRx hosts. 
-  lineinfile:
-    path: /etc/systemd/network/00-eth.network
-    line: "{{ spfrx_config_data.spfrx_configs[current_host_id] }}"
-    create: true
-  when: key_exists
+- name: Find existing numbered backup files
+  ansible.builtin.find:
+    paths: "{{ backup_dir }}"
+    file_type: file
+    patterns:
+      - "{{ network_path | basename }}*.backup"
+      - "{{ network_path | basename | regex_replace('\\.network$', '') }}-*.network.backup"
+  register: existing_backups
+  when: network_file_stat.stat.exists
+
+- name: Calculate next backup number
+  ansible.builtin.set_fact:
+    backup_next_index: "{{ (existing_backups.files | length) + 1 }}"
+  when: network_file_stat.stat.exists
+
+- name: Backup existing file
+  ansible.builtin.copy:
+    remote_src: true
+    src: "{{ network_path }}"
+    dest: "{{ backup_dir }}/{{ network_path | basename | regex_replace('\\.network$', '') }}-{{ '%03d' | format(backup_next_index | int) }}.network.backup"
+    owner: root
+    group: root
+    force: false
+    mode: preserve
+  when: network_file_stat.stat.exists
+
+- name: Configuration for {{ network_path | basename }}
+  become: true
+  ansible.builtin.template:
+    src: "{{ network_path | basename }}.j2"
+    dest: "{{ network_path }}"
+    mode: "644"
+    owner: "root"
+    group: "root"
+
