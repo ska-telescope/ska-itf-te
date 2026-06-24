@@ -2,7 +2,7 @@
 
 ## Unreleased
 * [AT-3640]
-  * Added ska-eda-api as a dependency of ska-mid. The EDA API charts and core values have been migrated to the ska-eda-api repository.
+  * Added ska-eda-rest-api as a dependency of ska-mid. The EDA API charts and core values have been migrated to the ska-eda-api repository.
 * [AT-3424]
   * Extended Helm chart caching to deployment jobs to speed up deploy stage execution
 * [AT-3711]

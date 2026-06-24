@@ -163,7 +163,7 @@ dependencies:
   - name: ska-eda-rest-api
     version: 0.1.0-rc.8
     repository: https://artefact.skao.int/repository/helm-internal
-    condition: ska-eda-api.enabled
+    condition: ska-eda-rest-api.enabled
 
   # EXAMPLE DEV CHART: DON'T DELETE THIS SECTION
   # - name: ska-sdp
