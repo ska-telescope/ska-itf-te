@@ -50,9 +50,8 @@ vars:  ## Variables
 .PHONY: vars
 
 # Guard target: fails with a clear error if the named variable is unset.
-# Usage as a prerequisite: setup_spfrx: setup guard-dish_index
 guard-%:
-	@if [ -z "$($(*)" ]; then echo "ERROR: $* is not set. Run 'make help' for usage."; exit 1; fi
+	@if [ -z "$($(*))" ]; then echo "ERROR: $* is not set. Run 'make help' for usage."; exit 1; fi
 .PHONY: guard-%
 
 setup: $(INVENTORY_FILE)
@@ -78,10 +77,12 @@ setup_spfrx_dry_run: setup guard-dish_index ## Runs the playbook against the SPF
 .PHONY: setup_spfrx_dry_run
 
 setup_spfrx_host: setup guard-HOST ## Runs the playbook for a specific SPFRX host, with spfrx tags. Usage: make setup_spfrx_host AD_USER=youruser HOST=spfrx03
+	@if ! grep -qE "^$(HOST)[[:space:]]" $(INVENTORY_FILE); then echo "ERROR: No host '$(HOST)' found in $(INVENTORY_FILE)"; exit 1; fi; \
 	$(ANSIBLE_COMMAND) --limit $(HOST) --tags spfrx $(MKFILE_DIR)site.yml
 .PHONY: setup_spfrx_host
 
 setup_spfrx_host_dry_run: setup guard-HOST ## Runs the playbook for a specific SPFRX host with spfrx tags in dry-run mode. Usage: make setup_spfrx_host_dry_run AD_USER=youruser HOST=spfrx03
+	@if ! grep -qE "^$(HOST)[[:space:]]" $(INVENTORY_FILE); then echo "ERROR: No host '$(HOST)' found in $(INVENTORY_FILE)"; exit 1; fi; \
 	$(ANSIBLE_COMMAND_DRY_RUN) --limit $(HOST) --tags spfrx $(MKFILE_DIR)site.yml
 .PHONY: setup_spfrx_host_dry_run
 
@@ -111,8 +112,8 @@ setup_local_ssh_config_dry_run: setup ## Sets up your localhost for using the an
 
 $(INVENTORY_FILE): # Sets up the inventory file with the correct user variables. Make sure you have AD_USER set.
 	cp $(INVENTORY_TEMPLATE) $(INVENTORY_FILE)
-	sed -i.x 's/<AD_USER>/$(AD_USER)/g' $(INVENTORY_FILE)
-	sed -i.x 's/<USER>/$(USER)/g' $(INVENTORY_FILE)
+	sed -i.x 's|<AD_USER>|$(AD_USER)|g' $(INVENTORY_FILE)
+	sed -i.x 's|<USER>|$(USER)|g' $(INVENTORY_FILE)
 	rm -f $(INVENTORY_FILE).x
 
 lint: ## Lint check playbook
