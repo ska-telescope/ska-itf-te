@@ -50,9 +50,9 @@
       allow_failure: true
   variables:
     KUBE_NAMESPACE_PREFIX: dish-lmc-
-    DISH_VCC_CONFIG_SOURCE: "car:ska-mid?30.5.1-test-tmc-teapot-q#tmdata"
+    DISH_VCC_CONFIG_SOURCE: "car:ska-mid?30.5.1-test-tmc-teapot-t#tmdata"
     DISH_VCC_CONFIG_FILE_PATH: "instrument/ska1_mid_itf/vcc-config/ska-mid-b5dc-102-cbf-system-parameters.json"
-    TELMODEL_SOURCE: "car:ska-mid?30.5.1-test-tmc-teapot-q#tmdata"
+    TELMODEL_SOURCE: "car:ska-mid?30.5.1-test-tmc-teapot-t#tmdata"
     DISH_LAYOUT_TELMODEL_PATH: "instrument/ska1_mid_itf/layout/b5dc-test-itf-layout.json"
     TEAPOT_LMC_IN_THE_LOOP: "true"
     KIND_OF_TEA: Buchu

@@ -2,7 +2,7 @@
     "interface": "https://schema.skao.int/ska-mid-cbf-initsysparam/1.0",
     "dish_parameters": {
         "SKA102": {
-            "vcc": 3,
+            "vcc": 2,
             "k"  : 1
         }
     }
