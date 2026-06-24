@@ -1,6 +1,6 @@
 {
     "interface": "https://schema.skao.int/ska-telmodel-layout/1.3",
-    "telescope": "ska1_mid",
+    "telescope": "SKA-Mid",
     "receptors": [
         {
             "interface": "https://schema.skao.int/ska-telmodel-layout-receptor/1.3",

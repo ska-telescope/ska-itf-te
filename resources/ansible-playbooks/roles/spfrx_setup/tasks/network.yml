@@ -46,23 +46,12 @@
     mode: preserve
   when: network_file_stat.stat.exists
 
-- name: Configuration for 00-eth.network
+- name: Configuration for {{ network_path | basename }}
   become: true
   ansible.builtin.template:
-    src: 00-eth.network.j2
+    src: "{{ network_path | basename }}.j2"
     dest: "{{ network_path }}"
-    mode: "755"
+    mode: "644"
     owner: "root"
     group: "root"
-  when: network_path | basename == "00-eth.network"
-
-- name: Configuration for 10-eth.network
-  become: true
-  ansible.builtin.template:
-    src: 10-eth.network.j2
-    dest: "{{ network_path }}"
-    mode: "755"
-    owner: "root"
-    group: "root"
-  when: network_path | basename == "10-eth.network"
 

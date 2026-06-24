@@ -3,6 +3,12 @@
 ## Unreleased
 * [AT-3698]
   * Ansible playbook updates for SPFRx network configuration changes (ITF and provisionally site)
+* [AT-3715]
+  * Upgrade dish-lmc to `9.5.0`
+* [SKB-1368]
+  * Fix telescope name in layout files
+
+## 31.1.0
 * [AT-3424]
   * Extended Helm chart caching to deployment jobs to speed up deploy stage execution
 * [AT-3711]
