@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+
+## 31.2.0
 * [AT-3698]
   * Ansible playbook updates for SPFRx network configuration changes (ITF and provisionally site)
 * [AT-3715]
