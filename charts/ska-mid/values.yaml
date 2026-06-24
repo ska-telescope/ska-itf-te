@@ -370,10 +370,15 @@ ska-tmc-mid:
       sdp: false
     centralnode:
       DefaultArrayLayoutSourceURIs: "car:ska-mid?main#tmdata"
-      DefaultArrayLayoutPath: "instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json"      
+      DefaultArrayLayoutPath: "instrument/ska1_mid_itf/layout/b5dc-test-itf-layout.json"
       DishVccConfig:
-        DishVccUri: "car:ska-mid?27.3.0#tmdata"
-        DishVccFilePath: "instrument/ska1_mid_itf/vcc-config/ska-mid-cbf-system-parameters.json"
+        DishVccUri: "car:ska-mid?30.5.1-test-tmc-teapot-q#tmdata"
+        DishVccFilePath: "instrument/ska1_mid_itf/vcc-config/ska-mid-b5dc-102-cbf-system-parameters.json"
+      global_pointing_model:
+        version: "1.0"
+        interface: "https://schema.skao.int/ska-mid-global-pointing-model/1.0"
+        data_sources_prefix: "car:ska-mid?30.5.1-test-tmc-teapot-q#tmdata"
+        file_path_prefix: "instrument/ska1_mid_itf/global_pointing_model_data"
     cspsubarrayleafnode:
       CommandTimeOutDefault: 300
       # DelayCadence: 10.0
