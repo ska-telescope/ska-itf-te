@@ -235,14 +235,19 @@ EDA_PARAMS ?= --set ska-tango-archiver.dbpassword=${EDA_DB_PASSWORD} \
 
 K8S_TEST_RUNNER_PARAMS ?=
 
-TEAPOT_PARAMS ?=
+DISH_LAYOUT_TELMODEL_PATH ?=
+DISH_VCC_CONFIG_SOURCE ?=
+DISH_VCC_CONFIG_FILE_PATH ?=
+TELMODEL_SOURCE ?=
+
+TEAPOT_PARAMS ?= 
 
 ifeq ($(TEAPOT_LMC_IN_THE_LOOP),true)
 TEAPOT_PARAMS += \
-	--set ska-tmc-mid.deviceServers.centralnode.DefaultArrayLayoutPath="instrument/ska1_mid_itf/layout/b5dc-test-itf-layout.json" \
-	--set ska-tmc-mid.deviceServers.centralnode.DefaultArrayLayoutSourceURIs="car:ska-mid?30.5.1-test-tmc-teapot-o\#tmdata" \
-	--set ska-tmc-mid.deviceServers.centralnode.DishVccConfig.DishVccUri="car:ska-mid?30.5.1-test-tmc-teapot-o\#tmdata" \
-	--set ska-tmc-mid.deviceServers.centralnode.DishVccConfig.DishVccFilePath="instrument/ska1_mid_itf/vcc-config/ska-mid-b5dc-both-cbf-system-parameters.json"
+	--set ska-tmc-mid.deviceServers.centralnode.DefaultArrayLayoutPath=${DISH_LAYOUT_TELMODEL_PATH} \
+	--set ska-tmc-mid.deviceServers.centralnode.DefaultArrayLayoutSourceURIs=${TELMODEL_SOURCE} \
+	--set ska-tmc-mid.deviceServers.centralnode.DishVccConfig.DishVccUri=${DISH_VCC_CONFIG_SOURCE} \
+	--set ska-tmc-mid.deviceServers.centralnode.DishVccConfig.DishVccFilePath=${DISH_VCC_CONFIG_FILE_PATH}
 endif
 	
 ifeq ($(KIND_OF_TEA),Rooibos)
