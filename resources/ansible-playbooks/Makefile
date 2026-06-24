@@ -49,6 +49,12 @@ vars:  ## Variables
 	@echo "V=$(V)"
 .PHONY: vars
 
+# Guard target: fails with a clear error if the named variable is unset.
+# Usage as a prerequisite: setup_spfrx: setup guard-dish_index
+guard-%:
+	@if [ -z "$($(*)" ]; then echo "ERROR: $* is not set. Run 'make help' for usage."; exit 1; fi
+.PHONY: guard-%
+
 setup: $(INVENTORY_FILE)
 
 setup_pi: setup ## Runs the full playbook against the Raspberry Pi.
@@ -59,23 +65,23 @@ setup_pi_dry_run: setup ## Runs the full playbook against the Raspberry Pi in dr
 	$(ANSIBLE_COMMAND_DRY_RUN) --limit raspberry_pi $(MKFILE_DIR)site.yml
 .PHONY: setup_pi_dry_run
 
-setup_spfrx: setup ## Runs the full playbook against the SPFRX's.
-	$(SPFRX_CONFIG) $(shell vault kv get --field SPFRX_CONFIG -mount="kv" "groups/ska-dev/atlas" > /tmp/spfrx_configs.yaml)
-	$(ANSIBLE_COMMAND) --limit spfrx $(MKFILE_DIR)site.yml
+setup_spfrx: setup guard-dish_index ## Runs the playbook against the SPFRX host for a given dish_index. Usage: make setup_spfrx AD_USER=youruser dish_index=1
+	@SPFRX_HOST=$$(awk '/dish_index=$(dish_index)([[:space:]]|$$)/{print $$1}' $(INVENTORY_FILE)); \
+	if [ -z "$$SPFRX_HOST" ]; then echo "ERROR: No host with dish_index=$(dish_index) found in $(INVENTORY_FILE)"; exit 1; fi; \
+	$(ANSIBLE_COMMAND) --limit $$SPFRX_HOST $(MKFILE_DIR)site.yml
 .PHONY: setup_spfrx
 
-setup_spfrx_dry_run: setup ## Runs the full playbook against the SPFRX's.
-	$(SPFRX_CONFIG) $(shell vault kv get --field SPFRX_CONFIG -mount="kv" "groups/ska-dev/atlas" > /tmp/spfrx_configs.yaml)
-	$(ANSIBLE_COMMAND_DRY_RUN) --limit spfrx $(MKFILE_DIR)site.yml
+setup_spfrx_dry_run: setup guard-dish_index ## Runs the playbook against the SPFRX host for a given dish_index in dry-run mode. Usage: make setup_spfrx_dry_run AD_USER=youruser dish_index=1
+	@SPFRX_HOST=$$(awk '/dish_index=$(dish_index)([[:space:]]|$$)/{print $$1}' $(INVENTORY_FILE)); \
+	if [ -z "$$SPFRX_HOST" ]; then echo "ERROR: No host with dish_index=$(dish_index) found in $(INVENTORY_FILE)"; exit 1; fi; \
+	$(ANSIBLE_COMMAND_DRY_RUN) --limit $$SPFRX_HOST $(MKFILE_DIR)site.yml
 .PHONY: setup_spfrx_dry_run
 
-setup_spfrx_host: setup ## Runs the playbook against a specific SPFRX host with spfrx tags. Usage: make setup_spfrx_host AD_USER=youruser HOST=spfrx03
-	@if [ -z "$(HOST)" ]; then echo "ERROR: HOST variable not set. Usage: make setup_spfrx_host AD_USER=youruser HOST=spfrx03"; exit 1; fi
+setup_spfrx_host: setup guard-HOST ## Runs the playbook for a specific SPFRX host, with spfrx tags. Usage: make setup_spfrx_host AD_USER=youruser HOST=spfrx03
 	$(ANSIBLE_COMMAND) --limit $(HOST) --tags spfrx $(MKFILE_DIR)site.yml
 .PHONY: setup_spfrx_host
 
-setup_spfrx_host_dry_run: setup ## Runs the playbook against a specific SPFRX host with spfrx tags in dry-run mode. Usage: make setup_spfrx_host_dry_run AD_USER=youruser HOST=spfrx03
-	@if [ -z "$(HOST)" ]; then echo "ERROR: HOST variable not set. Usage: make setup_spfrx_host_dry_run AD_USER=youruser HOST=spfrx03"; exit 1; fi
+setup_spfrx_host_dry_run: setup guard-HOST ## Runs the playbook for a specific SPFRX host with spfrx tags in dry-run mode. Usage: make setup_spfrx_host_dry_run AD_USER=youruser HOST=spfrx03
 	$(ANSIBLE_COMMAND_DRY_RUN) --limit $(HOST) --tags spfrx $(MKFILE_DIR)site.yml
 .PHONY: setup_spfrx_host_dry_run
 
