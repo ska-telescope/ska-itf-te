@@ -240,7 +240,7 @@ ska-octopus-backend:
         label: "Dish SKA063"
       - value: "http://tangogql-staging-ska100.staging.svc.miditf.internal.skao.int:5004/db"
         label: "Dish SKA100"
-    EDA_API: http://eda-grafana-connector.eda-grafana-connector.svc.miditf.internal.skao.int:5001/query
+    EDA_API: http://eda-rest-api.ska-mid-eda-api.svc.miditf.internal.skao.int:5001/query
     EDA_API_SKA001_TARGET: staging-dish-lmc-ska001
     EDA_API_SKA036_TARGET: staging-dish-lmc-ska036
     EDA_API_SKA063_TARGET: staging-dish-lmc-ska063
@@ -323,7 +323,7 @@ ska-tango-archiver:
 # EDA API
 ska-eda-rest-api:
   enabled: false
-  namespace: eda-grafana-connector
+  namespace: ska-mid-eda-rest-api
   vault:
     enabled: true
     edaCredentials:

@@ -4,10 +4,10 @@
   stage: deploy-supplementary-services
   image: $DEPLOY_IMAGE
   variables:
-    KUBE_APP: eda-api
+    KUBE_APP: eda-rest-api
     K8S_CHART: ska-mid
-    KUBE_NAMESPACE: eda-grafana-connector
-    HELM_RELEASE: eda-api
+    KUBE_NAMESPACE: ska-mid-eda-api
+    HELM_RELEASE: eda-rest-api
     EDA_API_ENABLERS: "-f .gitlab/ci/za-itf/eda-api/eda-api-enablers.yaml"
     K8S_SKIP_DEP_BUILD: "true"
   when: manual
