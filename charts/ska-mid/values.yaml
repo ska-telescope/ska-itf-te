@@ -323,7 +323,7 @@ ska-tango-archiver:
 # EDA API
 ska-eda-rest-api:
   enabled: false
-  namespace: ska-mid-eda-rest-api
+  namespace: ska-mid-eda-api
   vault:
     enabled: true
     edaCredentials:
