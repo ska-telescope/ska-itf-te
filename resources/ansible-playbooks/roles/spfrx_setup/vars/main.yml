@@ -1,2 +1,4 @@
 network_dir:  /etc/systemd/network
 backup_dir: /home/root/network_backups
+ntp_backup_dir: /home/root/ntp_backups
+ntp_dir: /etc/ntp.conf

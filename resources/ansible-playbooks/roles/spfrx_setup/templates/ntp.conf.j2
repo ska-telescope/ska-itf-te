@@ -1,0 +1,8 @@
+server 10.97.64.1 iburst 
+fudge 127.127.1.0 stratum 14 
+driftfile /var/lib/ntp/drift 
+# Defining a default security setting 
+restrict -4 default notrap nomodify nopeer noquery 
+restrict -6 default notrap nomodify nopeer noquery
+restrict 127.0.0.1 # allow local host 
+restrict ::1 # allow local host  

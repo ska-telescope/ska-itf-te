@@ -12,6 +12,13 @@
   tags:
     - spfrx
 
+- name: Update NTP Configuration
+  ansible.builtin.import_tasks: ntp.yml
+  vars:
+    ntp_path: "{{ ntp_dir }}"
+  tags:
+    - spfrx
+
 - name: Restart networking
   ansible.builtin.systemd:
     state: restarted
