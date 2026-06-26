@@ -1,15 +1,19 @@
 {
-  "interface": "https://schema.skao.int/ska-tmc-configure/6.0",
+  "interface": "https://schema.skao.int/ska-tmc-configure/6.1",
   "transaction_id": "",
   "pointing": {
-    "target": {
-      "reference_frame": "ICRS",
-      "target_name": "J1939-6342",
-      "ra":  "19:39:25.0264",
-      "dec": "-63:42:45.625",
-      "ca_offset_arcsec": 0.0,
-      "ie_offset_arcsec": 0.0
-    },
+    "groups": [
+      {
+        "field": {
+          "target_name": "J1939-6342",
+          "reference_frame": "ICRS",
+          "attrs": {
+            "c1": 294.85427667,
+            "c2": -63.71267361
+          }
+        }
+      }
+    ],
     "correction": "UPDATE"
   },
   "sdp": {

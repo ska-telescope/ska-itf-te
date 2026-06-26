@@ -1,6 +1,9 @@
 # Version History
 
 ## Unreleased
+* [AT-3708] & [SKB-1387]
+  * Upgrade to ska-tmc-mid `1.21.0` for 5-point scan testing and holography
+  * Upgrade ska-tmc-configure schema interface to v6.1
 
 ## 31.2.0
 * [AT-3698]
