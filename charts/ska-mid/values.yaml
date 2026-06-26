@@ -61,42 +61,32 @@ ska-dataproduct-dashboard:
 ska-oso-integration:
   enabled: false
   ska-db-oda-umbrella:
-    enabled: true # The ODA API server should be deployed in the same namespace as the apps, but not the database
-    postgres:
-      enabled: false
-    ska-db-oda:
-      rest:
+    enabled: false # The ODA database is provisioned separately, and the liquibase job runs in a separate namespace
+  ska-oso-oet:
+    rest:
+      ingress:
         enabled: true
-      liquibase:
-        runJob: false
-  ska-oso-services:
-    vault:
-      enabled: false
   ska-oso-ost-services:
     enabled: true
     vaultStaticSecret:
       enabled: true
       mount: mid-itf
       path: ost-credentials
-  ska-oso-oet:
-    rest:
-      image:
-        tag: 10.8.2 # temporary measure while bug in 10.10.0 is investigated
+  ska-oso-services:
+    vault:
+      enabled: false
   ska-oso-slt-services:
-    secretProvider:
+    vaultStaticSecret:
       enabled: false
   
 # ODA
 ska-db-oda-umbrella:
   enabled: false
-#  The below would make the db deploy but not the API server
   postgres:
     enabled: true
   ska-db-oda:
-    rest:
-      enabled: false
-    liquibase:
-      runJob: true
+    ska-db-migrations:
+      runMigrations: true
 
 # DISH LMC
 ska-dish-lmc:
@@ -195,9 +185,10 @@ ska-mid-dish-spfrx-talondx-console:
   # k_value: 1111  # used to set k value to a value other than 1 - around as a result of spfrx limitation
   bar:
     secret:
-      bar_api_token: kanban
       vault:
-        enabled: false
+        enabled: true
+        mount: mid-itf
+        secretPath: bar-token
 
 # OCTOPUS
 ska-octopus-frontend:
@@ -245,7 +236,6 @@ ska-octopus-backend:
     EDA_API_SKA036_TARGET: staging-dish-lmc-ska036
     EDA_API_SKA063_TARGET: staging-dish-lmc-ska063
     EDA_API_SKA100_TARGET: staging-dish-lmc-ska100
-    ODA_URL: "http://ska-db-oda-rest-staging.staging.svc.miditf.internal.skao.int:5000/oda/api/v17"
 
 # SDP
 ska-sdp:
