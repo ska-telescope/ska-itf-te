@@ -4,6 +4,9 @@
 * [AT-3714]
   * Upgrade ska-oso-integration to `2.3.0`
   * Upgrade ska-db-oda-umbrella to `18.1.0`
+* [AT-3708] & [SKB-1387]
+  * Upgrade to ska-tmc-mid `1.21.0` for 5-point scan testing and holography
+  * Upgrade ska-tmc-configure schema interface to v6.1
 
 ## 31.2.0
 * [AT-3698]
