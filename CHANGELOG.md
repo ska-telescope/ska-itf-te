@@ -1,9 +1,30 @@
 # Version History
 
 ## Unreleased
-* [SKB-1387]
-  * Upgrade to ska-tmc-mid `1.21.0-rc.3` for 5-point scan testing
+* [AT-3708] & [SKB-1387]
+  * Upgrade to ska-tmc-mid `1.21.0` for 5-point scan testing and holography
   * Upgrade ska-tmc-configure schema interface to v6.1
+
+## 31.2.0
+* [AT-3698]
+  * Ansible playbook updates for SPFRx network configuration changes (ITF and provisionally site)
+* [AT-3715]
+  * Upgrade dish-lmc to `9.5.0`
+* [SKB-1368]
+  * Fix telescope name in layout files
+
+## 31.1.0
+* [AT-3424]
+  * Extended Helm chart caching to deployment jobs to speed up deploy stage execution
+* [AT-3711]
+  * Upgrade tangoGQL-ariadne to `1.0.13`
+* [AT-3704]
+  * Upgrade dish-lmc to `9.4.0`
+  * Upgrade csp-lmc to `1.7.0`
+  * merge in skb-956 which introduces changes to the layout files and an update to the schema to 1.3
+  * Upgrade octopus frontend to `0.6.6`
+* [SKB-956]
+  * Update layout files to schema version 1.3
 
 ## 31.0.0
 * [AT-3683]

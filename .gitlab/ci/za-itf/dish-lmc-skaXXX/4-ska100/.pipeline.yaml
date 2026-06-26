@@ -32,5 +32,5 @@
 
 4-uninstall-dishlmc-ska100:
   extends:
-    - .destroy-aa05-dishes
+    - .destroy-dish-lmc
     - .ska100-env
