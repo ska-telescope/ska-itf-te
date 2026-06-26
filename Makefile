@@ -143,13 +143,6 @@ endif
 
 DISH_LMC_PARAMS ?= $(DISH_LMC_INITIAL_PARAMS) $(DISH_LMC_EXTRA_PARAMS) $(DISH_LMC_EDA_PARAMS)
 
-# Note: remember to update major versions here if charts have major version upgrades
-ODA_URL ?= $(KUBE_HOST)/$(KUBE_NAMESPACE)/oda/api/v17
-
-OSO_PARAMS ?= \
-  	--set ska-oso-integration.ska-oso-oet.rest.ingress.enabled=true \
- 	--set ska-oso-integration.ska-oso-oet-ui.backendURLODA=$(ODA_URL)
-
 ###################################################################
 ### THIS SECTION NEEDS REVIEW FROM SDP ARCHITECTS
 SDP_EXTRA_PARAMS ?=
@@ -247,7 +240,6 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	--set ska-tango-base.jive.enabled=$(JIVE) \
 	--set ska-tango-base.itango.enabled=$(ITANGO_ENABLED) \
 	$(SDP_PARAMS) \
-	$(OSO_PARAMS) \
 	$(DISH_LMC_PARAMS) \
 	$(TARANTA_PARAMS) \
 	${K8S_TEST_TANGO_IMAGE_PARAMS} \
