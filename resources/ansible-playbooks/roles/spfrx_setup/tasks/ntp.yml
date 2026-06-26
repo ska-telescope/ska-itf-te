@@ -3,6 +3,15 @@
     path: "{{ ntp_path }}"
   register: ntp_file_stat
 
+- name: Create empty ntp file if it does not exist
+  ansible.builtin.file:
+    path: "{{ ntp_path }}"
+    state: touch
+    owner: root
+    group: root
+    mode: "0644"
+  when: not ntp_file_stat.stat.exists
+
 - name: Check if backup folder exists
   ansible.builtin.stat:
     path: "{{ ntp_backup_dir }}"
@@ -25,8 +34,8 @@
     paths: "{{ ntp_backup_dir }}"
     file_type: file
     patterns:
-      - "{{ ntp_path }}*.backup"
-      - "{{ ntp_path | regex_replace('\\.conf$', '') }}-*.conf.backup"
+      - "{{ ntp_path | basename }}*.backup"
+      - "{{ ntp_path | basename | regex_replace('\\.conf$', '') }}-*.conf.backup"
   register: existing_backups
   when: ntp_file_stat.stat.exists
 
@@ -39,28 +48,20 @@
   ansible.builtin.copy:
     remote_src: true
     src: "{{ ntp_path }}"
-    dest: "{{ ntp_backup_dir }}/{{ ntp_path | regex_replace('\\.conf$', '') }}-{{ '%03d' | format(backup_next_index | int) }}.conf.backup"
+    dest: "{{ ntp_backup_dir }}/{{ ntp_path | basename | regex_replace('\\.conf$', '') }}-{{ '%03d' | format(backup_next_index | int) }}.conf.backup"
     owner: root
     group: root
     force: false
     mode: preserve
   when: ntp_file_stat.stat.exists
 
-- name: Configuration for {{ ntp_path }}
+- name: Configuration for {{ ntp_path | basename }}
   become: true
   ansible.builtin.template:
-    src: "ntp.conf.j2"
+    src: "{{ ntp_path | basename }}.j2"
     dest: "{{ ntp_path }}"
     mode: "644"
     owner: "root"
     group: "root"
 
-# - name: Start up {{ ntp_path }}
-#   become: true
-#   ansible.builtin.template:
-#     src: "ntp.conf.j2"
-#     dest: "{{ ntp_path }}"
-#     mode: "644"
-#     owner: "root"
-#     group: "root"
 
