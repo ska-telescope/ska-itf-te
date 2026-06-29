@@ -76,15 +76,15 @@ setup_pi_dry_run: setup ## Runs the full playbook against the Raspberry Pi in dr
 	$(ANSIBLE_COMMAND_DRY_RUN) --limit raspberry_pi $(MKFILE_DIR)site.yml
 .PHONY: setup_pi_dry_run
 
-setup_spfrx: refresh_inventory guard-dish_index ## Runs the playbook against the SPFRX host for a given dish_index. Usage: make setup_spfrx AD_USER=youruser dish_index=1
-	@SPFRX_HOST=$$(awk '/dish_index=$(dish_index)([[:space:]]|$$)/{print $$1}' $(INVENTORY_FILE)); \
-	if [ -z "$$SPFRX_HOST" ]; then echo "ERROR: No host with dish_index=$(dish_index) found in $(INVENTORY_FILE)"; exit 1; fi; \
+setup_spfrx: refresh_inventory guard-DISH_INDEX ## Runs the playbook against the SPFRX host for a given DISH_INDEX. Usage: make setup_spfrx AD_USER=youruser DISH_INDEX=1
+	@SPFRX_HOST=$$(awk '/dish_index=$(DISH_INDEX)([[:space:]]|$$)/{print $$1}' $(INVENTORY_FILE)); \
+	if [ -z "$$SPFRX_HOST" ]; then echo "ERROR: No host with dish_index=$(DISH_INDEX) found in $(INVENTORY_FILE)"; exit 1; fi; \
 	$(ANSIBLE_COMMAND) --limit $$SPFRX_HOST $(MKFILE_DIR)site.yml
 .PHONY: setup_spfrx
 
-setup_spfrx_dry_run: refresh_inventory guard-dish_index ## Runs the playbook against the SPFRX host for a given dish_index in dry-run mode. Usage: make setup_spfrx_dry_run AD_USER=youruser dish_index=1
-	@SPFRX_HOST=$$(awk '/dish_index=$(dish_index)([[:space:]]|$$)/{print $$1}' $(INVENTORY_FILE)); \
-	if [ -z "$$SPFRX_HOST" ]; then echo "ERROR: No host with dish_index=$(dish_index) found in $(INVENTORY_FILE)"; exit 1; fi; \
+setup_spfrx_dry_run: refresh_inventory guard-DISH_INDEX ## Runs the playbook against the SPFRX host for a given DISH_INDEX in dry-run mode. Usage: make setup_spfrx_dry_run AD_USER=youruser DISH_INDEX=1
+	@SPFRX_HOST=$$(awk '/dish_index=$(DISH_INDEX)([[:space:]]|$$)/{print $$1}' $(INVENTORY_FILE)); \
+	if [ -z "$$SPFRX_HOST" ]; then echo "ERROR: No host with dish_index=$(DISH_INDEX) found in $(INVENTORY_FILE)"; exit 1; fi; \
 	$(ANSIBLE_COMMAND_DRY_RUN) --limit $$SPFRX_HOST $(MKFILE_DIR)site.yml
 .PHONY: setup_spfrx_dry_run
 

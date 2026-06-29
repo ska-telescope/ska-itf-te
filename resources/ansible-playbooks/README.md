@@ -188,15 +188,23 @@ make test_gaia
 
 ### SPFRx
 
-The SPFRx playbook can be executed as follows:
-If the SPFRx is ran for the first time, please pass the `INITIAL_LOGIN` flag set to 1 as follows:
+The SPFRx playbook can be executed by targeting a dish index using `DISH_INDEX`.
+If the SPFRx is run for the first time, pass `INITIAL_LOGIN=1` as follows:
 
 ```bash
-make setup_spfrx INITIAL_LOGIN=1
+make setup_spfrx DISH_INDEX=1 INITIAL_LOGIN=1
 ```
-If the SPFRx notebook has been ran recently and Vault login is still active, please execute the command below:
+
+If the SPFRx notebook has been run recently and Vault login is still active, execute:
+
 ```bash
-make setup_spfrx
+make setup_spfrx DISH_INDEX=1
+```
+
+Dry run for a specific dish index:
+
+```bash
+make setup_spfrx_dry_run DISH_INDEX=1
 ```
 Please ensure that SPFRX_CONFIG variable is set in the PrivateRules.mak file
 
