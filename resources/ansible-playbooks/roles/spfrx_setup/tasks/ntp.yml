@@ -64,4 +64,40 @@
     owner: "root"
     group: "root"
 
+- name: Disable systemd-timesyncd
+  become: true
+  ansible.builtin.systemd:
+    name: systemd-timesyncd
+    enabled: false
+
+- name: Enable ntpd
+  become: true
+  ansible.builtin.systemd:
+    name: ntpd
+    enabled: true
+
+- name: Reload systemd daemon
+  become: true
+  ansible.builtin.systemd:
+    daemon_reload: true
+
+- name: Verify system date and time
+  ansible.builtin.command: date
+  register: date_output
+  changed_when: false
+
+- name: Show date output
+  ansible.builtin.debug:
+    msg: "{{ date_output.stdout }}"
+
+- name: Query NTP server offset
+  become: true
+  ansible.builtin.command: ntpdate -q {{ ntp_server }}
+  register: ntpdate_output
+  changed_when: false
+
+- name: Show NTP offset output
+  ansible.builtin.debug:
+    msg: "{{ ntpdate_output.stdout }}"
+
 

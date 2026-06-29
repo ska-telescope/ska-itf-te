@@ -1,4 +1,4 @@
-server 10.97.64.1 iburst 
+server {{ ntp_server }} iburst 
 fudge 127.127.1.0 stratum 14 
 driftfile /var/lib/ntp/drift 
 # Defining a default security setting 
