@@ -6734,15 +6734,15 @@
                 "geocentric": {
                     "interface": "https://schema.skao.int/ska-telmodel-layout-geocentric/1.0",
                     "coordinate_frame": "ITRF",
-                    "x": 5108869.5411,  
-                    "y": 2007190.5562,
-                    "z": -3239544.0850
+                    "x": 5108873.759,  
+                    "y": 2007186.073,
+                    "z": -3239540.237
                 },
                 "geodetic": {
                     "interface": "https://schema.skao.int/ska-telmodel-layout-geodetic/1.0",
                     "coordinate_frame": "WGS84",
-                    "lat": -30.7172104,
-                    "lon": 21.4490446,
+                    "lat": -30.71717,
+                    "lon": 21.448985,
                     "h": 1104.656
                 }
             },
