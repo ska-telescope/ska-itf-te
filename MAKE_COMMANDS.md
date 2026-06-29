@@ -6,7 +6,7 @@ Called using `make itf-cbf-talonlru-status`
 cd $(HW_CONFIG_FILE_PATH) && ./talon_power_apc.sh lru1 && ./talon_power_apc.sh lru2
 ~~~
 
-## Step 2: Switch Talon LRUs off
+## Step 2: Switch Talon LRUs off (REMOVED)
 
 Called using `make itf-cbf-talonlru-off`
 
@@ -14,7 +14,7 @@ Called using `make itf-cbf-talonlru-off`
 cd $(HW_CONFIG_FILE_PATH) && ./talon_power_apc.sh lru1 off && ./talon_power_apc.sh lru2 off
 ~~~
 
-## Step 3: Switch Talon LRUs on
+## Step 3: Switch Talon LRUs on (REMOVED)
 
 Called using `make itf-cbf-talonlru-on`
 
