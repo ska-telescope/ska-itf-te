@@ -1,2 +1,6 @@
-ntp_server: "10.165.3.11"
+# NTP server on site
 # ntp_server: "10.97.64.1"
+
+# NTP server in ITF
+ntp_server: "10.165.3.11"
+
