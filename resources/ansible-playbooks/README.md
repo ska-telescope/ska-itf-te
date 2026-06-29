@@ -195,7 +195,7 @@ If the SPFRx is run for the first time, pass `INITIAL_LOGIN=1` as follows:
 make setup_spfrx DISH_INDEX=1 INITIAL_LOGIN=1
 ```
 
-If the SPFRx notebook has been run recently and Vault login is still active, execute:
+To execute the SPFRx playbook:
 
 ```bash
 make setup_spfrx DISH_INDEX=1
@@ -206,7 +206,6 @@ Dry run for a specific dish index:
 ```bash
 make setup_spfrx_dry_run DISH_INDEX=1
 ```
-Please ensure that SPFRX_CONFIG variable is set in the PrivateRules.mak file
 
 ## Additional Info
 

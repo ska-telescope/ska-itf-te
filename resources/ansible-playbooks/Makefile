@@ -28,14 +28,6 @@ ifneq ($(filter $(SPFRX_GOALS),$(MAKECMDGOALS)),)
 AD_USER ?= $(USER)
 endif
 
-#Extract SPFRX network config file from Vault
-SPFRX_CONFIG ?=
-ifndef INITIAL_LOGIN
-	SPFRX_CONFIG = $(shell vault login  -method=github token=$(VAULT_TOKEN))
-else
-	SPFRX_CONFIG = $(shell vault login -method=oidc & vault login  -method=github token=$(VAULT_TOKEN))
-endif
-
 ifndef AD_USER
 $(error AD_USER is not set: set this to your active directory user (i.e. Jira username.))
 endif
