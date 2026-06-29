@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3640]
+  * Added ska-eda-rest-api as a dependency of ska-mid. The EDA API charts and core values have been migrated to the ska-eda-api repository.
 * [AT-3714]
   * Upgrade ska-oso-integration to `2.3.0`
   * Upgrade ska-db-oda-umbrella to `18.1.0`
