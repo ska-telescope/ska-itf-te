@@ -1,0 +1,334 @@
+USER-SUPPLIED VALUES:
+global:
+  cluster_domain: miditf.internal.skao.int
+  data-product-pvc-name: shared-dataproduct-pvc
+  device_server_port: 45450
+  dish_id: ska001
+  dishes:
+  - "001"
+  exposeAllDS: true
+  exposeDatabaseDS: true
+  facility: mid-itf
+  ingress:
+    host: https://k8s.miditf.internal.skao.int
+  labels:
+    app: dish-lmc
+  minikube: false
+  oda:
+    postgres:
+      cluster: pgmiditf
+      clusterNamespace: pgprod
+      database: ska_mid_itf_oda
+      secret:
+        existingSecret:
+          name: null
+        vault:
+          enabled: false
+      user: ska_mid_itf_oda_admin
+  operator: true
+  raw_user_account: publisher
+  raw_user_pass: erq4IjP8tg5Vkuq3
+  ska-tango-archiver:
+    enabled: true
+  sub-system:
+    ska-tango-base:
+      enabled: false
+  tango_host: tango-databaseds:10000
+  tangodb_fqdn: tango-databaseds.staging-dish-lmc-ska001.svc.miditf.internal.skao.int
+  tangodb_port: 10000
+  use_aws: true
+kafka:
+  enabled: false
+  image: apache/kafka
+  imagePullPolicy: IfNotPresent
+  resources:
+    limits:
+      cpu: 2000m
+      memory: 4096Mi
+    requests:
+      cpu: 1000m
+      memory: 1024Mi
+  version: 3.8.0
+ska-csp-lmc-mid:
+  defaultAdminMode: 1
+  enabled: false
+ska-dataproduct-dashboard:
+  api:
+    sdpConfigdbHost: ska-sdp-etcd.ska-mid-central-controller
+  dataProductPVC:
+    create:
+      enabled: false
+      size: 2Ti
+      storageClassName: ceph-cephfs
+    name: shared-dataproduct-pvc
+  enabled: false
+  ingress:
+    hostname: https://k8s.miditf.internal.skao.int
+ska-db-oda-umbrella:
+  enabled: false
+  postgres:
+    enabled: true
+  ska-db-oda:
+    liquibase:
+      runJob: true
+    rest:
+      enabled: false
+ska-dish-lmc:
+  enabled: true
+  ska-mid-dish-ds-manager:
+    enabled: true
+  ska-mid-dish-manager:
+    dishmanager:
+      actions:
+        timeout_seconds: "300"
+      spfrx:
+        fqdn: ska001/spfrxpu/controller
+    enabled: true
+  ska-mid-dish-simulators:
+    deviceServers:
+      spfdevice:
+        enabled: true
+      spfrxdevice:
+        enabled: false
+    dsOpcuaSimulator:
+      enabled: true
+    enabled: true
+  ska-tango-base:
+    enabled: false
+ska-ds-sim:
+  enabled: false
+  instances:
+  - dish-id: SKA001
+    novnc-enabled: true
+ska-log-consumer:
+  enabled: false
+ska-mid-cbf-engineering-console:
+  enabled: false
+ska-mid-cbf-tdc-mcs:
+  enabled: false
+  global:
+    labels:
+      skao.int/clone-pvc: cbf-ec-pvc
+      skao.int/clone-pvc-namespace: cbf-engineering-console
+  hostInfo:
+    clusterDomain: miditf.internal.skao.int
+    environment: mid-itf
+  num_subarrays: 3
+  pvc:
+    storageClassName: ceph-cephfs
+    volumeMode: Filesystem
+ska-mid-cbf-tdc-tmleafnode:
+  enabled: false
+ska-mid-dish-spfc-deployer:
+  enabled: false
+  spfc_simulated_mode: true
+  update_firmware: false
+ska-mid-dish-spfrx-talondx-console:
+  address: 10.165.3.20
+  bin: /usr/local/bin
+  enabled: true
+  instance: rxpu-1
+  local_dir: artifacts
+  logging_level: 4
+  scripts_dir: scripts
+ska-mid-wms:
+  dev-name: mid/wms/0
+  enabled: false
+  legacy_compatibility: true
+  ska-tango-base:
+    enabled: false
+    itango:
+      enabled: false
+ska-octopus-backend:
+  authUsers:
+    optional: true
+    secretKey: auth-users.json
+    secretName: octopus-credentials
+  configUi:
+    password:
+      optional: true
+      secretKey: cfg-ui-password
+      secretName: octopus-credentials
+  enabled: false
+  ingress:
+    paths:
+      backend: /octopus/ska-octopus-backend
+  vars:
+    EDA_API: http://eda-rest-api.ska-mid-eda-api.svc.miditf.internal.skao.int:5001/query
+    EDA_API_SKA001_TARGET: staging-dish-lmc-ska001
+    EDA_API_SKA036_TARGET: staging-dish-lmc-ska036
+    EDA_API_SKA063_TARGET: staging-dish-lmc-ska063
+    EDA_API_SKA100_TARGET: staging-dish-lmc-ska100
+    ODA_URL: http://ska-db-oda-rest-staging.staging.svc.miditf.internal.skao.int:5000/oda/api/v17
+    TANGO_DBS:
+    - label: Central Controller
+      value: http://tangogql-staging.staging.svc.miditf.internal.skao.int:5004/db
+    - label: Dish SKA001
+      value: http://tangogql-staging-ska001.staging.svc.miditf.internal.skao.int:5004/db
+    - label: Dish SKA036
+      value: http://tangogql-staging-ska036.staging.svc.miditf.internal.skao.int:5004/db
+    - label: Dish SKA063
+      value: http://tangogql-staging-ska063.staging.svc.miditf.internal.skao.int:5004/db
+    - label: Dish SKA100
+      value: http://tangogql-staging-ska100.staging.svc.miditf.internal.skao.int:5004/db
+ska-octopus-frontend:
+  backendServiceName: ska-octopus-backend
+  deployEnv: MID
+  enabled: false
+  ingress:
+    paths:
+      frontend: /octopus/ska-octopus-frontend
+ska-oso-integration:
+  enabled: false
+  ska-db-oda-umbrella:
+    enabled: true
+    postgres:
+      enabled: false
+    ska-db-oda:
+      liquibase:
+        runJob: false
+      rest:
+        enabled: true
+  ska-oso-oet:
+    rest:
+      image:
+        tag: 10.8.2
+      ingress:
+        enabled: true
+  ska-oso-oet-ui:
+    backendURLODA: https://k8s.miditf.internal.skao.int/staging-dish-lmc-ska001/oda/api/v17
+  ska-oso-ost-services:
+    enabled: true
+    vaultStaticSecret:
+      enabled: true
+      mount: mid-itf
+      path: ost-credentials
+  ska-oso-services:
+    vault:
+      enabled: false
+  ska-oso-slt-services:
+    secretProvider:
+      enabled: false
+ska-sdp:
+  data-pvc:
+    create:
+      enabled: true
+      size: 2Ti
+      storageClassName: ceph-cephfs
+  enabled: false
+  helmdeploy:
+    enableNADClusterRole: true
+  lmc:
+    nsubarray: 1
+    prefix: mid
+    subarray:
+      timeoutAssignResources: 60
+      timeoutConfigure: 60
+  processingNamespace: ""
+  qa:
+    api:
+      grafanaBaseUrl: https://k8s.miditf.internal.skao.int/grafana
+      grafanaDashboard: dad0e09f-32f5-4181-b273-c7a1017221ff/kubernetes-resource-monitoring-dashboard
+      kibanaBaseUrl: https://k8s.stfc.skao.int
+      workerCount: 2
+ska-ser-config-inspector:
+  enabled: true
+ska-tango-alarmhandler:
+  enabled: false
+ska-tango-archiver:
+  api_id: api://388b4a4f-3045-412f-8490-b70fef3a6298
+  archviewer:
+    instances:
+    - name: mid
+      timescale_databases: itf_eda
+      timescale_host: 10.164.11.32
+      timescale_login: admin:_8zBqXk5wenAtyVEJUTj1Z5x
+  archwizard_config: MyHDB=tango://tango-databaseds.staging-dish-lmc-ska001.svc.miditf.internal.skao.int:10000/mid-eda/cm/01
+  configuration_file_url: https://gitlab.com/ska-telescope/ska-mid/-/raw/main/tmdata/mid-itf-staging-archiver-configs/dish-lmc-ska001.yaml?ref_type=heads&inline=false
+  configuration_manager: mid-eda/cm/01
+  dbname: itf_eda
+  dbpassword: _8zBqXk5wenAtyVEJUTj1Z5x
+  dbuser: admin
+  enabled: true
+  event_subscriber: mid-eda/es/01
+  event_subscriber_count: 9
+  hostname: eda.ska-tango-archiver
+  ingress_host: k8s.miditf.internal.skao.int
+  is_auto_config_format_new: true
+  logLevel: DEBUG
+  port: 5432
+  telescope: SKA-mid
+  telescope_environment: MID-ITF
+  vault:
+    enabled: false
+ska-tango-base:
+  databaseds:
+    exposeDS: true
+  display: :0
+  enabled: true
+  itango:
+    enabled: true
+  jive:
+    enabled: false
+  tangodb:
+    use_pv: true
+  xauthority: /app/.Xauthority
+ska-tango-taranta:
+  TANGO_DBS: '[]'
+  enabled: true
+  ingress:
+    enabled: true
+    nginx: true
+  tangogql:
+    replicas: 1
+    resources:
+      limits:
+        cpu: 1000m
+        memory: 1024Mi
+      requests:
+        cpu: 600m
+        memory: 512Mi
+ska-tango-util:
+  enabled: true
+ska-tmc-mid:
+  deviceServers:
+    centralnode:
+      DefaultArrayLayoutPath: instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json
+      DefaultArrayLayoutSourceURIs: car:ska-mid?main#tmdata
+      DishVccConfig:
+        DishVccFilePath: instrument/ska1_mid_itf/vcc-config/ska-mid-cbf-system-parameters.json
+        DishVccUri: car:ska-mid?27.3.0#tmdata
+    cspsubarrayleafnode:
+      CommandTimeOutDefault: 300
+    dishleafnode:
+      CommandTimeOutDefault: 320
+    mocks:
+      csp: false
+      dish: true
+      enabled: true
+      sdp: false
+    sdpsubarrayleafnode:
+      CommandTimeOutDefault: 240
+    subarraynode:
+      AbortCommandTimeOut: 350
+      CommandTimeOutDefault: 350
+      CspScanInterfaceURL: https://schema.skao.int/ska-csp-scan/2.2
+  enabled: false
+  resources:
+    requests:
+      cpu: 400m
+  ska-tango-base:
+    enabled: false
+  subarray_count: 1
+  telescope: SKA-mid
+tangogql:
+  enabled: true
+  ska-tango-base:
+    enabled: false
+  ska-tango-examples:
+    enabled: false
+  tangoDB: taranta
+temp_sdp_pvc:
+  dpd_namespace: ska-dpd
+  dpd_pvc: shared-mnl
+  enabled: false

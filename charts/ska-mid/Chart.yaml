@@ -3,8 +3,8 @@ apiVersion: v2
 name: ska-mid
 description: An umbrella Helm chart for deployment of the Mid System
 type: application
-version: 30.5.1-test-tmc-teapot-g
-appVersion: 30.5.1-test-tmc-teapot-g
+version: 31.2.0
+appVersion: 31.2.0
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
   # Tango Base & Deployment Charts: TangoDB, iTango, Tango Operator Utils
@@ -19,7 +19,7 @@ dependencies:
 
   # Mid TMC
   - name: ska-tmc-mid
-    version: 1.13.0
+    version: 1.21.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tmc-mid.enabled
 
@@ -31,7 +31,7 @@ dependencies:
 
   # Mid CSP LMC
   - name: ska-csp-lmc-mid
-    version: 1.6.0
+    version: 1.7.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-csp-lmc-mid.enabled
 
@@ -67,20 +67,19 @@ dependencies:
 
   # OSO integration
   - name: ska-oso-integration
-    version: 2.1.0
+    version: 2.3.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-oso-integration.enabled
 
   # SKA ODA
-  # when upgrading this major version, also adjust versions in Makefile URLs
   - name: ska-db-oda-umbrella
     repository: https://artefact.skao.int/repository/helm-internal
-    version: 17.4.0
+    version: 18.1.0
     condition: ska-db-oda-umbrella.enabled
 
   # DISH LMC CHART
   - name: ska-dish-lmc
-    version: 9.3.0
+    version: 9.5.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-dish-lmc.enabled
 
@@ -111,7 +110,7 @@ dependencies:
 
   # MULTIDB TANGOGQL
   - name: ska-tango-tangogql-ariadne
-    version: 1.0.11
+    version: 1.0.13
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tango-taranta.enabled
     alias: tangogql
@@ -150,14 +149,20 @@ dependencies:
 
   # Octopus Suite
   - name: ska-octopus-backend
-    version: 0.4.6
+    version: 0.6.3
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-octopus-backend.enabled
 
   - name: ska-octopus-frontend
-    version: 0.4.27
+    version: 0.6.6
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-octopus-frontend.enabled
+
+  # EDA API
+  - name: ska-eda-rest-api
+    version: 0.1.0-rc.8
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-eda-rest-api.enabled
 
   # EXAMPLE DEV CHART: DON'T DELETE THIS SECTION
   # - name: ska-sdp

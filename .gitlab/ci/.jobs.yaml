@@ -64,13 +64,6 @@
       if [[ "$DISH_LMC_IN_THE_LOOP" == "true" && "$TEAPOT_LMC_IN_THE_LOOP" != "true" ]]; then 
         bash .make/resources/gitlab_section.sh install_tangoGQL "Install TangoGQL for multiDB" make taranta-deploy-all-tangogql-instances;
       fi
-    - |
-      if [[ "${KUBE_NAMESPACE}" =~ ^(staging|integration|testing)$ ]]; then
-        bash .jupyter-notebooks/scripts/load_sbd_oda.sh \
-        "http://ska-db-oda-rest-${HELM_RELEASE}.${KUBE_NAMESPACE}.svc.${CLUSTER_DOMAIN}:5000" \
-        ".jupyter-notebooks/data/scheduling_block/itf/" \
-        "${KUBE_NAMESPACE}"
-      fi
     - env | grep RUNNER_AFTER_SCRIPT_TIMEOUT
     - export SUT_CLUSTER_DOMAIN=miditf.internal.skao.int ADDMARKS=true SMOKE_TEST_MARKS="not requires_talons_on and not dish_deployment"
     - chmod +x .make/resources/gitlab_section.sh
@@ -198,8 +191,8 @@ docs-build:
     PYTEST_ADDOPTS: --log-cli-level=INFO
     SUT_CHART_DIR: ${CI_PROJECT_DIR}/charts/ska-mid
     POINTING_TARGET_NAME: "Polaris Australis"
-    POINTING_TARGET_RIGHT_ASCENSION: "21:08:47.92"
-    POINTING_TARGET_DECLINATION: "-88:57:22.9"
+    POINTING_TARGET_RIGHT_ASCENSION: 317.199
+    POINTING_TARGET_DECLINATION: -88.95636
   before_script:
     - make vars
     - mkdir -p config

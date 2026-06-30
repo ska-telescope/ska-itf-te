@@ -1,7 +1,7 @@
 image:
   registry: registry.gitlab.com/ska-telescope/ska-mid
   image: ska-mid-testing
-  tag: 30.5.1-test-tmc-teapot-g
+  tag: 31.2.0
   pullPolicy: IfNotPresent
 environment:
   E2E_TEST_EXECUTION_NAMESPACE: "ska-mid-central-controller"
@@ -19,8 +19,8 @@ environment:
   OVERRIDE_MULTISCAN_NUMBER_OF_SCANS: ""
   OVERRIDE_MULTISCAN_DELAY_BETWEEN_SCANS: ""
   POINTING_TARGET_NAME: "J1939-6342"
-  POINTING_TARGET_RIGHT_ASCENSION: "19:39:25.0264"
-  POINTING_TARGET_DECLINATION: "-63:42:45.625"
+  POINTING_TARGET_RIGHT_ASCENSION: 294.85427667
+  POINTING_TARGET_DECLINATION: -63.71267361
   TELMODEL_SOURCE: "car:ska-mid?main#tmdata"
   DISH_LAYOUT_TELMODEL_PATH: "instrument/ska1_mid_aa/layout/mid-layout.json"
   DISH_VCC_CONFIG_SOURCE: "car:ska-mid?main#tmdata"

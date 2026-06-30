@@ -73,8 +73,6 @@ DISH_LMC_INITIAL_PARAMS ?=
 DISH_LMC_EXTRA_PARAMS ?=
 DISH_LMC_EDA_PARAMS ?=
 
-TEAPOT_LMC_IN_THE_LOOP ?= false
-
 ifneq ($(DISH_ID),)
 DISH_LMC_EXTRA_PARAMS = \
 	--set global.dish_id=$(DISH_ID) \
@@ -144,13 +142,6 @@ ifeq ($(CBF_HW_IN_THE_LOOP),true)
 endif
 
 DISH_LMC_PARAMS ?= $(DISH_LMC_INITIAL_PARAMS) $(DISH_LMC_EXTRA_PARAMS) $(DISH_LMC_EDA_PARAMS)
-
-# Note: remember to update major versions here if charts have major version upgrades
-ODA_URL ?= $(KUBE_HOST)/$(KUBE_NAMESPACE)/oda/api/v17
-
-OSO_PARAMS ?= \
-  	--set ska-oso-integration.ska-oso-oet.rest.ingress.enabled=true \
- 	--set ska-oso-integration.ska-oso-oet-ui.backendURLODA=$(ODA_URL)
 
 ###################################################################
 ### THIS SECTION NEEDS REVIEW FROM SDP ARCHITECTS
@@ -235,48 +226,6 @@ EDA_PARAMS ?= --set ska-tango-archiver.dbpassword=${EDA_DB_PASSWORD} \
 
 K8S_TEST_RUNNER_PARAMS ?=
 
-DISH_LAYOUT_TELMODEL_PATH ?=
-DISH_VCC_CONFIG_SOURCE ?=
-DISH_VCC_CONFIG_FILE_PATH ?=
-TELMODEL_SOURCE ?=
-
-TEAPOT_PARAMS ?= 
-
-ifeq ($(TEAPOT_LMC_IN_THE_LOOP),true)
-TEAPOT_PARAMS += \
-	--set ska-tmc-mid.deviceServers.centralnode.DefaultArrayLayoutPath=${DISH_LAYOUT_TELMODEL_PATH} \
-	--set ska-tmc-mid.deviceServers.centralnode.DefaultArrayLayoutSourceURIs=${TELMODEL_SOURCE} \
-	--set ska-tmc-mid.deviceServers.centralnode.DishVccConfig.DishVccUri=${DISH_VCC_CONFIG_SOURCE} \
-	--set ska-tmc-mid.deviceServers.centralnode.DishVccConfig.DishVccFilePath=${DISH_VCC_CONFIG_FILE_PATH}
-endif
-	
-ifeq ($(KIND_OF_TEA),Rooibos)
-	TEAPOT_PARAMS += \
-	--set ska-tango-taranta.TANGO_DBS[0]="ska101" \
-	--set global.dishids[0]="SKA101" \
-	-f resources/teapot/tmc-values-ska101.yaml
-else ifeq ($(KIND_OF_TEA),Buchu)
-	TEAPOT_PARAMS += \
-	--set ska-tango-taranta.TANGO_DBS[0]="ska102" \
-	--set global.dishids[0]="SKA102" \
-	-f resources/teapot/tmc-values-ska102.yaml
-else ifeq ($(KIND_OF_TEA),Mix)
-	TEAPOT_PARAMS += \
-	--set ska-tango-taranta.TANGO_DBS[0]="ska101" \
-	--set ska-tango-taranta.TANGO_DBS[1]="ska102" \
-	--set global.dishids[0]="SKA101" \
-	--set global.dishids[1]="SKA102" \
-	-f resources/teapot/tmc-values-ska101-ska102.yaml
-endif
-
-TMC_VALUES_PATH?=charts/ska-mid/tmc-values.yaml
-ifneq ("$(wildcard $(TMC_VALUES_PATH))","")
-	K8S_EXTRA_PARAMS+=-f $(TMC_VALUES_PATH)
-endif
-ifneq ("$(wildcard $(SUT_CHART_DIR))","")
-	K8S_EXTRA_PARAMS+=-f charts/ska-mid/values.yaml
-endif
-
 K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	--set global.exposeAllDS=$(EXPOSE_All_DS) \
 	--set global.exposeDatabaseDS=$(EXPOSE_DATABASE_DS) \
@@ -291,7 +240,6 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	--set ska-tango-base.jive.enabled=$(JIVE) \
 	--set ska-tango-base.itango.enabled=$(ITANGO_ENABLED) \
 	$(SDP_PARAMS) \
-	$(OSO_PARAMS) \
 	$(DISH_LMC_PARAMS) \
 	$(TARANTA_PARAMS) \
 	${K8S_TEST_TANGO_IMAGE_PARAMS} \
@@ -301,13 +249,21 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	$(TMC_PARAMS) \
 	$(CSP_PARAMS) \
 	$(EDA_PARAMS) \
-	$(TEAPOT_PARAMS) \
 	$(SUT_ENABLERS) \
 	$(DISH_ENABLERS) \
 	$(ODA_ENABLERS) \
 	$(DPD_ENABLERS) \
-	$(OCTOPUS_ENABLERS)
+	$(OCTOPUS_ENABLERS) \
+	$(EDA_API_ENABLERS)
 
+
+TMC_VALUES_PATH?=charts/ska-mid/tmc-values.yaml
+ifneq ("$(wildcard $(TMC_VALUES_PATH))","")
+	K8S_EXTRA_PARAMS+=-f $(TMC_VALUES_PATH)
+endif
+ifneq ("$(wildcard $(SUT_CHART_DIR))","")
+	K8S_EXTRA_PARAMS+=-f charts/ska-mid/values.yaml
+endif
 
 
 # # TODO: remove if no longer needed.
