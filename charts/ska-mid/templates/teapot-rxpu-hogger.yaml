@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: rxpu-2-hogger
+  namespace: staging
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.14.2
+    ports:
+    - containerPort: 80
+    resources:
+      limits:
+        miditf/rxpu-2: "1"
+---
+# apiVersion: v1
+# kind: Pod
+# metadata:
+#   name: rxpu-1-hogger
+#   namespace: staging
+# spec:
+#   containers:
+#   - name: nginx
+#     image: nginx:1.14.2
+#     ports:
+#     - containerPort: 80
+#     resources:
+#       limits:
+#         miditf/rxpu-1: "1"
