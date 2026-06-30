@@ -103,7 +103,7 @@ ska-dish-lmc:
       image:
         image: ska-mid-dish-manager
         registry: registry.gitlab.com/ska-telescope/mid-dish/ska-mid-dish-manager
-        tag: 801e6a78
+        tag: 9.5.0-dev.c0d43cdf2
   ska-mid-dish-simulators:
     enabled: true
     deviceServers:
