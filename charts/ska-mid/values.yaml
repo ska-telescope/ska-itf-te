@@ -231,7 +231,7 @@ ska-octopus-backend:
         label: "Dish SKA063"
       - value: "http://tangogql-staging-ska100.staging.svc.miditf.internal.skao.int:5004/db"
         label: "Dish SKA100"
-    EDA_API: http://eda-grafana-connector.eda-grafana-connector.svc.miditf.internal.skao.int:5001/query
+    EDA_API: http://eda-rest-api.ska-mid-eda-api.svc.miditf.internal.skao.int:5001/query
     EDA_API_SKA001_TARGET: staging-dish-lmc-ska001
     EDA_API_SKA036_TARGET: staging-dish-lmc-ska036
     EDA_API_SKA063_TARGET: staging-dish-lmc-ska063
@@ -309,6 +309,27 @@ ska-tango-archiver:
   ingress_host: k8s.miditf.internal.skao.int
   logLevel: "INFO"
   logTarget: "console"
+
+# EDA API
+ska-eda-rest-api:
+  enabled: false
+  namespace: ska-mid-eda-api
+  vault:
+    enabled: true
+    edaCredentials:
+      secretName: vault-mid-itf-eda-credentials
+      mount: mid-itf
+      mountPath: production/eda
+      usernameKey: eda_ro
+  environment:
+    CREDENTIALS_PATH: /secrets/eda-credentials
+    EDA_USER: eda_ro
+    EDA_HOST: "eda.ska-tango-archiver.svc.miditf.internal.skao.int"
+    SOURCE_CLUSTER_DOMAIN: "miditf.internal.skao.int"
+    ATTRIBUTE_CONTEXT_FILE: "/app/libhdbpp-grafana-connector/ArchivingDataSource/skao-attribute-context.yaml"
+    EDA_DATABASE_NAME: itf_eda
+    CONNECTION_POOL_MAX_CONN: 10
+    REQUEST_TIMESTAMPS_MAX_LEN: 100
 
 # TANGO BASE and UTILS
 ska-tango-base:
