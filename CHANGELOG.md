@@ -2,7 +2,7 @@
 
 ## Unreleased
 * [AT-3726]
-  * Upgrade ska-mid-dish-spfrx-talondx-console to `3.1.0`
+  * Upgrade ska-mid-dish-spfrx-talondx-console to `3.1.1`
 
 ## 31.2.0
 * [AT-3698]
