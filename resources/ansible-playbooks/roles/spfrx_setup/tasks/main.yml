@@ -1,16 +1,16 @@
-# - name: Update DNS in 00-eth.network
-#   ansible.builtin.import_tasks: network.yml
-#   vars:
-#     network_path: "{{ network_dir }}/00-eth.network"
-#   tags:
-#     - spfrx
+- name: Update DNS in 00-eth.network
+  ansible.builtin.import_tasks: network.yml
+  vars:
+    network_path: "{{ network_dir }}/00-eth.network"
+  tags:
+    - spfrx
 
-# - name: Update DNS in 10-eth.network
-#   ansible.builtin.import_tasks: network.yml
-#   vars:
-#     network_path: "{{ network_dir }}/10-eth.network"
-#   tags:
-#     - spfrx
+- name: Update DNS in 10-eth.network
+  ansible.builtin.import_tasks: network.yml
+  vars:
+    network_path: "{{ network_dir }}/10-eth.network"
+  tags:
+    - spfrx
 
 - name: Update NTP Configuration
   ansible.builtin.import_tasks: ntp.yml
@@ -19,11 +19,11 @@
   tags:
     - spfrx
 
-# - name: Restart networking
-#   ansible.builtin.systemd:
-#     state: restarted
-#     daemon_reload: true
-#     name: systemd-networkd.service
-#   become: true
-#   tags:
-#     - spfrx
+- name: Restart networking
+  ansible.builtin.systemd:
+    state: restarted
+    daemon_reload: true
+    name: systemd-networkd.service
+  become: true
+  tags:
+    - spfrx
