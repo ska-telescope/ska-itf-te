@@ -1,5 +1,5 @@
-# INTRODUCTION
-This file outlines the pipeline steps that execute during a deployment of the SUT in the Mid ITF, following the user manual provided by the MAPLE Team. After the ec-deployer was converted to a Tango device, the `talon_on.py` script was added (see [Step 9](#step-9-run-talon-tango-on-entrypoint)).
+# Introduction
+This file outlines the commands called on the Talon Demonstrator Correlator (TDC) during a deployment of the SUT in the Mid ITF, following the user manual provided by the MAPLE Team. After the Engineering Console was converted to a Tango device (ec-deployer), the `talon_on.py` script was added - see [Step 9](#step-9-run-talon-tango-on-entrypoint).
 
 There may still be duplication of steps, but after [review](https://skao.slack.com/archives/C06H6ESMQNP/p1782480715183219) and recommendations from MAPLE, Steps 2 and 3 were removed in [!776](https://gitlab.com/ska-telescope/ska-mid/-/merge_requests/776), in order to reduce the number of power cycles that the TDCs experience.
 
