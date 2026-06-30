@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3713]
+  * Ansible playbook updates for SPFRx in Makefile
 * [AT-3640]
   * Added ska-eda-rest-api as a dependency of ska-mid. The EDA API charts and core values have been migrated to the ska-eda-api repository.
 * [AT-3714]
