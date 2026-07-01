@@ -89,7 +89,7 @@ ska-db-oda-umbrella:
       runMigrations: true
 
 # DISH LMC
-ska-dish-lmc:          
+ska-dish-lmc:
   enabled: false
   ska-mid-dish-ds-manager:
     enabled: true
