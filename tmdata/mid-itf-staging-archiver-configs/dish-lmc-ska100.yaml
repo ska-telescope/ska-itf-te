@@ -2607,3 +2607,19 @@ attributes:
     es: es9
     configuration:
       code_push_event: true
+  - trl: mid-dish/ds-manager/ska100/staticoninput
+    configuration:
+      code_push_event: true
+    es: es9
+  - trl: mid-dish/ds-manager/ska100/ambtoninput
+    configuration:
+      code_push_event: true
+    es: es9
+  - trl: mid-dish/ds-manager/ska100/Pointing_Status_StaticCorrActive
+    configuration:
+      code_push_event: true
+    es: es9
+  - trl: mid-dish/ds-manager/ska100/Pointing_Status_AmbTempCorrActive
+    configuration:
+      code_push_event: true
+    es: es9
