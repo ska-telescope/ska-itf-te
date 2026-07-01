@@ -23,12 +23,9 @@ ANSIBLE_COMMAND_DRY_RUN := $(ANSIBLE_COMMAND) --check --diff
 V ?=
 USER ?= $(shell whoami)
 
-#Extract SPFRX network config file from Vault
-SPFRX_CONFIG ?=
-ifndef INITIAL_LOGIN
-	SPFRX_CONFIG = $(shell vault login  -method=github token=$(VAULT_TOKEN))
-else
-	SPFRX_CONFIG = $(shell vault login -method=oidc & vault login  -method=github token=$(VAULT_TOKEN))
+SPFRX_GOALS := setup_spfrx setup_spfrx_dry_run setup_spfrx_host setup_spfrx_host_dry_run
+ifneq ($(filter $(SPFRX_GOALS),$(MAKECMDGOALS)),)
+AD_USER ?= $(USER)
 endif
 
 ifndef AD_USER
@@ -49,7 +46,19 @@ vars:  ## Variables
 	@echo "V=$(V)"
 .PHONY: vars
 
+# Guard target: fails with a clear error if the named variable is unset.
+guard-%:
+	@if [ -z "$($(*))" ]; then echo "ERROR: $* is not set. Run 'make help' for usage."; exit 1; fi
+.PHONY: guard-%
+
 setup: $(INVENTORY_FILE)
+
+refresh_inventory: ## Regenerates the inventory file from the template.
+	cp $(INVENTORY_TEMPLATE) $(INVENTORY_FILE)
+	sed -i.x 's|<AD_USER>|$(AD_USER)|g' $(INVENTORY_FILE)
+	sed -i.x 's|<USER>|$(USER)|g' $(INVENTORY_FILE)
+	rm -f $(INVENTORY_FILE).x
+.PHONY: refresh_inventory
 
 setup_pi: setup ## Runs the full playbook against the Raspberry Pi.
 	$(ANSIBLE_COMMAND) --limit raspberry_pi $(MKFILE_DIR)site.yml
@@ -59,15 +68,27 @@ setup_pi_dry_run: setup ## Runs the full playbook against the Raspberry Pi in dr
 	$(ANSIBLE_COMMAND_DRY_RUN) --limit raspberry_pi $(MKFILE_DIR)site.yml
 .PHONY: setup_pi_dry_run
 
-setup_spfrx: setup ## Runs the full playbook against the SPFRX's.
-	$(SPFRX_CONFIG) $(shell vault kv get --field SPFRX_CONFIG -mount="kv" "groups/ska-dev/atlas" > /tmp/spfrx_configs.yaml)
-	$(ANSIBLE_COMMAND) --limit spfrx $(MKFILE_DIR)site.yml
+setup_spfrx: refresh_inventory guard-DISH_INDEX ## Runs the playbook against the SPFRX host for a given DISH_INDEX. Usage: make setup_spfrx AD_USER=youruser DISH_INDEX=1
+	@SPFRX_HOST=$$(awk '/dish_index=$(DISH_INDEX)([[:space:]]|$$)/{print $$1}' $(INVENTORY_FILE)); \
+	if [ -z "$$SPFRX_HOST" ]; then echo "ERROR: No host with dish_index=$(DISH_INDEX) found in $(INVENTORY_FILE)"; exit 1; fi; \
+	$(ANSIBLE_COMMAND) --limit $$SPFRX_HOST $(MKFILE_DIR)site.yml
 .PHONY: setup_spfrx
 
-setup_spfrx_dry_run: setup ## Runs the full playbook against the SPFRX's.
-	$(SPFRX_CONFIG) $(shell vault kv get --field SPFRX_CONFIG -mount="kv" "groups/ska-dev/atlas" > /tmp/spfrx_configs.yaml)
-	$(ANSIBLE_COMMAND_DRY_RUN) --limit spfrx $(MKFILE_DIR)site.yml
+setup_spfrx_dry_run: refresh_inventory guard-DISH_INDEX ## Runs the playbook against the SPFRX host for a given DISH_INDEX in dry-run mode. Usage: make setup_spfrx_dry_run AD_USER=youruser DISH_INDEX=1
+	@SPFRX_HOST=$$(awk '/dish_index=$(DISH_INDEX)([[:space:]]|$$)/{print $$1}' $(INVENTORY_FILE)); \
+	if [ -z "$$SPFRX_HOST" ]; then echo "ERROR: No host with dish_index=$(DISH_INDEX) found in $(INVENTORY_FILE)"; exit 1; fi; \
+	$(ANSIBLE_COMMAND_DRY_RUN) --limit $$SPFRX_HOST $(MKFILE_DIR)site.yml
 .PHONY: setup_spfrx_dry_run
+
+setup_spfrx_host: refresh_inventory guard-HOST ## Runs the playbook for a specific SPFRX host, with spfrx tags. Usage: make setup_spfrx_host AD_USER=youruser HOST=spfrx03
+	@if ! grep -qE "^$(HOST)[[:space:]]" $(INVENTORY_FILE); then echo "ERROR: No host '$(HOST)' found in $(INVENTORY_FILE)"; exit 1; fi; \
+	$(ANSIBLE_COMMAND) --limit $(HOST) --tags spfrx $(MKFILE_DIR)site.yml
+.PHONY: setup_spfrx_host
+
+setup_spfrx_host_dry_run: refresh_inventory guard-HOST ## Runs the playbook for a specific SPFRX host with spfrx tags in dry-run mode. Usage: make setup_spfrx_host_dry_run AD_USER=youruser HOST=spfrx03
+	@if ! grep -qE "^$(HOST)[[:space:]]" $(INVENTORY_FILE); then echo "ERROR: No host '$(HOST)' found in $(INVENTORY_FILE)"; exit 1; fi; \
+	$(ANSIBLE_COMMAND_DRY_RUN) --limit $(HOST) --tags spfrx $(MKFILE_DIR)site.yml
+.PHONY: setup_spfrx_host_dry_run
 
 setup_gaia: setup ## Runs the full playbook against Gaia.
 	$(ANSIBLE_COMMAND) --limit gaia $(MKFILE_DIR)site.yml
@@ -93,10 +114,8 @@ setup_local_ssh_config_dry_run: setup ## Sets up your localhost for using the an
 	$(ANSIBLE_COMMAND_DRY_RUN) --limit localhost $(MKFILE_DIR)site.yml
 .PHONY: setup_local_ssh_config_dry_run
 
-$(INVENTORY_FILE): # Sets up the inventory file with the correct user variables. Make sure you have AD_USER set.
-	cp $(INVENTORY_TEMPLATE) $(INVENTORY_FILE)
-	sed -i 's/<AD_USER>/$(AD_USER)/g' $(INVENTORY_FILE)
-	sed -i 's/<USER>/$(USER)/g' $(INVENTORY_FILE)
+$(INVENTORY_FILE): $(INVENTORY_TEMPLATE) # Sets up the inventory file with the correct user variables. Make sure you have AD_USER set.
+	$(MAKE) refresh_inventory
 
 lint: ## Lint check playbook
 	poetry run ansible-lint -v -c $(MKFILE_DIR).ansible-lint $(MKFILE_DIR)site.yml

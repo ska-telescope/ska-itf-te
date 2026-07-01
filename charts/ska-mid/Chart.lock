@@ -7,7 +7,7 @@ dependencies:
   version: 1.1.0
 - name: ska-tmc-mid
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.13.0
+  version: 1.21.0
 - name: ska-mid-wms
   repository: https://artefact.skao.int/repository/helm-internal
   version: 1.1.1
@@ -25,10 +25,10 @@ dependencies:
   version: 2.3.0
 - name: ska-oso-integration
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 2.1.0
+  version: 2.3.0
 - name: ska-db-oda-umbrella
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 17.4.0
+  version: 18.1.0
 - name: ska-dish-lmc
   repository: https://artefact.skao.int/repository/helm-internal
   version: 9.5.0
@@ -65,5 +65,8 @@ dependencies:
 - name: ska-octopus-frontend
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.6.6
-digest: sha256:ad05ebf93c17d693caa477438423d377cdd62002460ce23261b119769d33760f
-generated: "2026-07-01T10:40:43.261282824+02:00"
+- name: ska-eda-rest-api
+  repository: https://artefact.skao.int/repository/helm-internal
+  version: 0.1.0-rc.8
+digest: sha256:e1afa0bdc9ec509efc62d7f7268a29866a54fa018bb4fdc3c2d6697d4ef8a70a
+generated: "2026-06-26T15:54:38.399165+02:00"
