@@ -29,7 +29,7 @@ author = "ATLAS Team"
 
 # The full version, including alpha/beta/rc tags
 
-release = "31.3.0-test-spfrx-3-1-1-a"
+release = "31.3.0-test-spfrx-3-1-2-a"
 
 # -- General configuration ---------------------------------------------------
 
