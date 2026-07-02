@@ -16,6 +16,9 @@ RUN git checkout $GIT_COMMIT_SHA && \
     git submodule update && \
     mkdir -p config && \
     (command -v uv >/dev/null 2>&1 || python3 -m pip install uv) && \
+    python3 -m pip install --no-cache-dir "packaging>=24.2" && \
     rm -rf .venv && \
-    uv sync --all-groups
+    uv venv .venv && \
+    uv pip install --python .venv/bin/python "setuptools>=68" "wheel" "packaging>=24.2" && \
+    uv sync --all-groups --no-build-isolation
 

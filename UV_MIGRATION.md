@@ -113,6 +113,25 @@ Mitigation: explicitly configure uv sources and test in clean CI environment.
 Risk: behavior drift in scripts expecting Poetry virtualenv layout.
 Mitigation: search and patch scripts; prefer uv run and stable executable paths.
 
+## Deferred References (Intentional)
+
+The following Poetry references are intentionally deferred for now:
+
+- images/ska-mid-eda-grafana-connector/Dockerfile
+Reason: this image builds an external cloned project (`libhdbpp-grafana-connector`) that is still Poetry-based; not part of root `ska-mid` uv migration scope.
+
+- .make/.gitlab-ci.yml
+Reason: this is shared makefile template infrastructure; changing it here is out of scope and should be done in the upstream template workflow.
+
+- .engineering-tools/.gitlab/ci/check-dependencies/.pipeline.yaml
+Reason: belongs to the engineering-tools submodule project. Migrate as part of the dedicated engineering-tools uv effort.
+
+Exit criteria to remove these deferrals:
+
+- engineering-tools publishes a uv-native image and root pipeline has been switched and stabilized.
+- external image projects are either migrated to uv or explicitly documented as Poetry exceptions.
+- template-level Poetry references are handled in upstream template repositories and consumed via version bump.
+
 ## Rollback Plan
 
 If failures occur after engineering-tools migration:
