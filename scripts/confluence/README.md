@@ -13,7 +13,7 @@ pip3 install -U ska-ser-skallop --extra-index-url https://artefact.skao.int/repo
 
 Once installed the `upload-to-confluence` and `generate-sut-diagrams` scripts will be available in your Python bin directory.
 
-Alternatively, the scripts can also be installed with `poetry install` from this repository.
+Alternatively, the scripts can be run from this repository with `uv sync` followed by `uv run upload-to-confluence ...`.
 
 ## Usage
 
