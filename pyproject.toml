@@ -89,7 +89,7 @@ ska-db-oda = { index = "skao" }
 ska-schemas = { index = "skao" }
 
 [build-system]
-requires = ["setuptools>=68", "wheel"]
+requires = ["setuptools>=68", "wheel", "packaging>=24.2"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
