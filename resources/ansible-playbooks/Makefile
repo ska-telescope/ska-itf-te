@@ -68,15 +68,25 @@ setup_pi_dry_run: setup ## Runs the full playbook against the Raspberry Pi in dr
 	$(ANSIBLE_COMMAND_DRY_RUN) --limit raspberry_pi $(MKFILE_DIR)site.yml
 .PHONY: setup_pi_dry_run
 
-setup_spfrx: refresh_inventory guard-DISH_INDEX ## Runs the playbook against the SPFRX host for a given DISH_INDEX. Usage: make setup_spfrx AD_USER=youruser DISH_INDEX=1
-	@SPFRX_HOST=$$(awk '/dish_index=$(DISH_INDEX)([[:space:]]|$$)/{print $$1}' $(INVENTORY_FILE)); \
-	if [ -z "$$SPFRX_HOST" ]; then echo "ERROR: No host with dish_index=$(DISH_INDEX) found in $(INVENTORY_FILE)"; exit 1; fi; \
+setup_spfrx: $(INVENTORY_FILE) guard-DISH_INDEX ## Runs the playbook against the SPFRX host for a given DISH_INDEX. Usage: make setup_spfrx AD_USER=youruser DISH_INDEX=1
+	@if ! echo "$(DISH_INDEX)" | grep -qE '^[0-9]+$$'; then echo "ERROR: DISH_INDEX must be a numerical value."; exit 1; fi; \
+	SPFRX_HOST=$$(awk '/dish_index=$(DISH_INDEX)([[:space:]]|$$)/{print $$1}' $(INVENTORY_FILE)); \
+	if [ -z "$$SPFRX_HOST" ]; then \
+		echo "No host with dish_index=$(DISH_INDEX) found. Adding spfrx$(DISH_INDEX) to [spfrx_mid]."; \
+		printf 'spfrx$(DISH_INDEX) ansible_host=10.10.141.1 host_identifier="spfrx$(DISH_INDEX)" dish_index=$(DISH_INDEX)\n' >> $(INVENTORY_FILE); \
+		SPFRX_HOST=spfrx$(DISH_INDEX); \
+	fi; \
 	$(ANSIBLE_COMMAND) --limit $$SPFRX_HOST $(MKFILE_DIR)site.yml
 .PHONY: setup_spfrx
 
-setup_spfrx_dry_run: refresh_inventory guard-DISH_INDEX ## Runs the playbook against the SPFRX host for a given DISH_INDEX in dry-run mode. Usage: make setup_spfrx_dry_run AD_USER=youruser DISH_INDEX=1
-	@SPFRX_HOST=$$(awk '/dish_index=$(DISH_INDEX)([[:space:]]|$$)/{print $$1}' $(INVENTORY_FILE)); \
-	if [ -z "$$SPFRX_HOST" ]; then echo "ERROR: No host with dish_index=$(DISH_INDEX) found in $(INVENTORY_FILE)"; exit 1; fi; \
+setup_spfrx_dry_run: $(INVENTORY_FILE) guard-DISH_INDEX ## Runs the playbook against the SPFRX host for a given DISH_INDEX in dry-run mode. Usage: make setup_spfrx_dry_run AD_USER=youruser DISH_INDEX=1
+	@if ! echo "$(DISH_INDEX)" | grep -qE '^[0-9]+$$'; then echo "ERROR: DISH_INDEX must be a numerical value."; exit 1; fi; \
+	SPFRX_HOST=$$(awk '/dish_index=$(DISH_INDEX)([[:space:]]|$$)/{print $$1}' $(INVENTORY_FILE)); \
+	if [ -z "$$SPFRX_HOST" ]; then \
+		echo "No host with dish_index=$(DISH_INDEX) found. Adding spfrx$(DISH_INDEX) to [spfrx_mid]."; \
+		printf 'spfrx$(DISH_INDEX) ansible_host=10.10.141.1 host_identifier="spfrx$(DISH_INDEX)" dish_index=$(DISH_INDEX)\n' >> $(INVENTORY_FILE); \
+		SPFRX_HOST=spfrx$(DISH_INDEX); \
+	fi; \
 	$(ANSIBLE_COMMAND_DRY_RUN) --limit $$SPFRX_HOST $(MKFILE_DIR)site.yml
 .PHONY: setup_spfrx_dry_run
 
