@@ -47,7 +47,8 @@ deploy-aa05-dishes:
     - .aa05-env
   script:
     - export PATH=.venv/bin:${PATH} # TEMPORARY COMMIT: fix in one place
-    - poetry install
+    - command -v uv >/dev/null 2>&1 || python3 -m pip install uv
+    - uv sync --all-groups
     - echo "Deploying multiple dishes in downstream dish-aiv stage - first deploy ska001 manually"
     - echo "Deploying dishes $DISH_IDS:"
     - make itf-dish-ids

@@ -98,7 +98,8 @@ k8s-test-runner:
     - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
     - "make help | grep k8s-test"
     - kubectl delete deployment sut-config-inspector --namespace $KUBE_NAMESPACE --ignore-not-found
-    - bash .make/resources/gitlab_section.sh poetry "Poetry Install" poetry install
+    - &uv_bootstrap_cmd command -v uv >/dev/null 2>&1 || python3 -m pip install uv
+    - bash .make/resources/gitlab_section.sh uv "Sync Python dependencies" uv sync --all-groups
     - bash .make/resources/gitlab_section.sh namespaces "Create namespaces" make sut-namespaces
     - export K8S_UMBRELLA_CHART_PATH=$(ls -t ./chart.tmp/ska-mid-[0-9]*.tgz | head -n1)
     - sha256sum -c "$K8S_UMBRELLA_CHART_PATH.${CI_PIPELINE_ID}.sha256"
@@ -178,7 +179,8 @@ publish-k8s-test-results:
   script:
     - make get-deployed-charts
     - echo "Test result code from k8s-test-runner job was $(cat build/status)"
-    - poetry install
+    - *uv_bootstrap_cmd
+    - uv sync --all-groups
     - make upload-to-confluence
     - echo "Results uploaded to https://confluence.skatelescope.org/x/arzVDQ"
 
