@@ -376,7 +376,7 @@ CLUSTER_HEADLAMP_BASE_URL?=https://k8s.miditf.internal.skao.int/headlamp
 CLUSTER_DATACENTRE?=mid-itf
 CLUSTER_MONITOR?=mid-itf-monitor
 
-integration-test: k8s-info
+integration-test: k8s-info loop-dishes-k8s-info
 	@mkdir -p build
 	set -o pipefail; $(PYTHON_RUNNER) pytest $(INTEGRATION_TEST_SOURCE) $(INTEGRATION_TEST_ARGS); \
 	echo $$? > build/status
@@ -411,3 +411,15 @@ helm-rebuild-ska-mid:
 	@rm -f charts/ska-mid/Chart.lock
 	@rm -rf charts/ska-mid/charts
 	@make k8s-template-chart K8S_CHART=ska-mid
+
+loop-dishes-k8s-info:
+	@if [ "$(KUBE_NAMESPACE)" != "staging" ]; then \
+		echo "Warning: currently only KUBE_NAMESPACE 'staging' is supported, not '$(KUBE_NAMESPACE)'"; \
+		exit 0; \
+	fi; \
+	DISH_IDS_CLEAN="$(strip $(subst ",,$(DISH_IDS)))"; \
+	echo "Looping through dish IDs: $$DISH_IDS_CLEAN"; \
+	for DISH_ID in $$DISH_IDS_CLEAN; do \
+		echo "Container info for $$DISH_ID:"; \
+		make k8s-info KUBE_NAMESPACE=staging-dish-lmc-$$DISH_ID; \
+	done
