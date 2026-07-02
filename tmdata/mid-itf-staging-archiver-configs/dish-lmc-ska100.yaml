@@ -1,6 +1,6 @@
 tango_hosts:
   - th1:
-      host: tango-databaseds.dish-lmc-ska100.svc.ska100.mid.internal.skao.int
+      host: tango-databaseds.staging-dish-lmc-ska100.svc.miditf.internal.skao.int
       port: 10000
 event_subscribers:
   - es1:
@@ -2607,19 +2607,3 @@ attributes:
     es: es9
     configuration:
       code_push_event: true
-  - trl: mid-dish/ds-manager/ska100/staticoninput
-    configuration:
-      code_push_event: true
-    es: es9
-  - trl: mid-dish/ds-manager/ska100/ambtoninput
-    configuration:
-      code_push_event: true
-    es: es9
-  - trl: mid-dish/ds-manager/ska100/Pointing_Status_StaticCorrActive
-    configuration:
-      code_push_event: true
-    es: es9
-  - trl: mid-dish/ds-manager/ska100/Pointing_Status_AmbTempCorrActive
-    configuration:
-      code_push_event: true
-    es: es9
