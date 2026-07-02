@@ -15,7 +15,7 @@ RUN git checkout $GIT_COMMIT_SHA && \
     git submodule init && \
     git submodule update && \
     mkdir -p config && \
-    poetry config virtualenvs.in-project true && \
+    (command -v uv >/dev/null 2>&1 || python3 -m pip install uv) && \
     rm -rf .venv && \
-    poetry install --no-cache
+    uv sync --all-groups
 
