@@ -25,5 +25,7 @@
     daemon_reload: true
     name: systemd-networkd.service
   become: true
+  async: 1
+  poll: 0
   tags:
     - spfrx
