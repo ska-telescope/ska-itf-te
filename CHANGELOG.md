@@ -3,6 +3,8 @@
 ## Unreleased
 * [AT-3712]
   * Ansible playbook to set up NTP server on SPFRx, implemented adding hosts according to DISH_INDEX
+* [AT-3726]
+  * Upgrade ska-mid-dish-spfrx-talondx-console to `3.1.2`
 * [AT-3713]
   * Ansible playbook updates for SPFRx in Makefile
 * [AT-3640]
