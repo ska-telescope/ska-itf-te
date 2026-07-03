@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+
+## 31.2.1
 * [AT-3726]
   * Upgrade ska-mid-dish-spfrx-talondx-console to `3.1.2`
 * [AT-3713]
