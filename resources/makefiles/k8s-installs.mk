@@ -67,9 +67,11 @@ sut-namespaces: ## Create both normal & SDP helmdeploy namespaces for SUT.
 	@make k8s-namespace KUBE_NAMESPACE=$(KUBE_NAMESPACE_SDP)
 
 remove-sut-deployment:
+	$(eval KUBE_NAMESPACE_SDP ?= $(KUBE_NAMESPACE)-sdp)
 	@make k8s-uninstall-chart || true
-	@kubectl -n $(KUBE_NAMESPACE) delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all --ignore-not-found
-	@kubectl -n $(KUBE_NAMESPACE_SDP) delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all --ignore-not-found
+	@echo "Attempted to uninstall Helm release "$(HELM_RELEASE)". Now forcefully removing all resources in the namespace $(KUBE_NAMESPACE) and $(KUBE_NAMESPACE_SDP):"
+	@kubectl -n $(KUBE_NAMESPACE) delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all --ignore-not-found --force
+	@kubectl -n $(KUBE_NAMESPACE_SDP) delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all --ignore-not-found --force
 	@make k8s-delete-namespace || true
 	@make k8s-delete-namespace KUBE_NAMESPACE=$(KUBE_NAMESPACE_SDP) || true
 
