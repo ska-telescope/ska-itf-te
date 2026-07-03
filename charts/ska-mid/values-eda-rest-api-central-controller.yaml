@@ -1,0 +1,17 @@
+ska-eda-rest-api:
+  enabled: true
+  namespace: ska-mid-eda-api
+  vault:
+    enabled: true
+    edaCredentials:
+      secretName: vault-mid-aa-eda-credentials
+      mount: mid-aa
+      mountPath: production/eda/ska-eda-mid/eda_ro
+      usernameKey: "PGPASSWORD"
+  environment:
+    CREDENTIALS_PATH: /secrets/eda-credentials
+    EDA_USER: eda_ro
+    EDA_HOST: "eda.ska-eda-mid.svc.mid.internal.skao.int"
+    CLUSTER_DOMAIN: "mid.internal.skao.int"
+    EDA_DATABASE_NAME: eda
+    CONNECTION_POOL_MAX_CONN: 10
