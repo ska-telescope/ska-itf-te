@@ -4,6 +4,7 @@ import json
 import logging
 import os
 import pathlib
+import socket
 import sys
 from itertools import cycle
 from queue import Empty, Queue
@@ -232,6 +233,52 @@ class Dish:
 
 class EventWaitTimeout(Exception):
     """Exception raised when an event does not occur within a specified timeout."""
+
+
+def _tcp_probe(host: str, port: int, connect_timeout: float = 1.0) -> bool:
+    """Check whether a TCP endpoint is accepting connections.
+
+    :param host: Hostname or IP address to connect to
+    :param port: Port number to connect to
+    :param connect_timeout: Seconds to wait for the connection attempt
+    :return: True if the connection succeeded, False otherwise
+    """
+    try:
+        with socket.create_connection((host, port), timeout=connect_timeout):
+            return True
+    except OSError:
+        return False
+
+
+def wait_for_vis_receive_ready(sdp_subarray_dp: DeviceProxy, timeout: float = 120.0) -> None:
+    """Wait for all vis-receive endpoints to accept TCP connections.
+
+    Reads ``receiveAddresses`` from the SDP subarray device, extracts every
+    host/port pair published by SDP, and polls them until they all accept
+    connections or the timeout expires.
+
+    :param sdp_subarray_dp: Device proxy for the SDP subarray
+    :param timeout: Maximum seconds to wait before raising
+    :raises AssertionError: If any endpoint is not ready within the timeout
+    """
+    deadline = time() + timeout
+    while time() < deadline:
+        raw = sdp_subarray_dp.receiveAddresses
+        if raw:
+            addresses = json.loads(raw) if isinstance(raw, str) else raw
+            endpoints = [
+                (h[1], p[1])
+                for stream in addresses.values()
+                for h in stream.get("host", [])
+                for p in stream.get("port", [])
+            ]
+            if endpoints and all(_tcp_probe(host, port) for host, port in endpoints):
+                logger.info(f"vis-receive ready on {len(endpoints)} endpoint(s): {endpoints}")
+                return
+        sleep(2)
+    raise AssertionError(
+        f"vis-receive endpoints from receiveAddresses not ready within {timeout}s"
+    )
 
 
 def wait_for_event(
@@ -648,7 +695,7 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids, default_assign_resources,
     wait_for_event(sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.IDLE)
     wait_for_event(csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.IDLE)
     wait_for_event(tmc_subarray_node, "obsState", ObsState.IDLE)
-    sleep(30)  # TODO: Remove sleep for vis-receive
+    wait_for_vis_receive_ready(DeviceProxy("mid-sdp/subarray/01"))
 
 
 @when(
