@@ -253,31 +253,43 @@ def _tcp_probe(host: str, port: int, connect_timeout: float = 1.0) -> bool:
 def wait_for_vis_receive_ready(sdp_subarray_dp: DeviceProxy, timeout: float = 120.0) -> None:
     """Wait for all vis-receive endpoints to accept TCP connections.
 
-    Reads ``receiveAddresses`` from the SDP subarray device, extracts every
-    host/port pair published by SDP, and polls them until they all accept
-    connections or the timeout expires.
+    Reads ``receiveAddresses`` from the SDP subarray device (which SDP populates
+    just before obsState reaches IDLE, so by the time this is called the addresses
+    are already present), extracts every host/port pair, and polls them until they
+    all accept connections or the timeout expires.
 
-    :param sdp_subarray_dp: Device proxy for the SDP subarray
-    :param timeout: Maximum seconds to wait before raising
+    Note: SDP marks AssignResources complete and publishes receiveAddresses before
+    the vis-receive pod finishes starting. There is no SDP subarray attribute that
+    directly signals pod readiness, so TCP probing is the reliable signal.
+
+    :param sdp_subarray_dp: Device proxy for the SDP subarray (mid-sdp/subarray/01)
+    :param timeout: Maximum seconds to wait for all endpoints to accept connections
     :raises AssertionError: If any endpoint is not ready within the timeout
     """
+    raw = sdp_subarray_dp.receiveAddresses
+    if not raw:
+        raise AssertionError("receiveAddresses is empty on mid-sdp/subarray/01 — cannot probe vis-receive")
+
+    addresses = json.loads(raw) if isinstance(raw, str) else raw
+    endpoints = [
+        (h[1], p[1])
+        for stream in addresses.values()
+        for h in stream.get("host", [])
+        for p in stream.get("port", [])
+    ]
+
+    if not endpoints:
+        raise AssertionError(f"No endpoints found in receiveAddresses: {raw}")
+
+    logger.info(f"Waiting for vis-receive on {len(endpoints)} endpoint(s): {endpoints}")
     deadline = time() + timeout
     while time() < deadline:
-        raw = sdp_subarray_dp.receiveAddresses
-        if raw:
-            addresses = json.loads(raw) if isinstance(raw, str) else raw
-            endpoints = [
-                (h[1], p[1])
-                for stream in addresses.values()
-                for h in stream.get("host", [])
-                for p in stream.get("port", [])
-            ]
-            if endpoints and all(_tcp_probe(host, port) for host, port in endpoints):
-                logger.info(f"vis-receive ready on {len(endpoints)} endpoint(s): {endpoints}")
-                return
+        if all(_tcp_probe(host, port) for host, port in endpoints):
+            logger.info(f"vis-receive ready on {len(endpoints)} endpoint(s)")
+            return
         sleep(2)
     raise AssertionError(
-        f"vis-receive endpoints from receiveAddresses not ready within {timeout}s"
+        f"vis-receive endpoints not ready within {timeout}s: {endpoints}"
     )
 
 
