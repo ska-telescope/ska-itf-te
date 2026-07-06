@@ -383,7 +383,8 @@ ska-tmc-mid:
       sdp: false
     centralnode:
       DefaultArrayLayoutSourceURIs: "car:ska-mid?main#tmdata"
-      DefaultArrayLayoutPath: "instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json"      
+      DefaultArrayLayoutPath: "instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json"
+      LoggingLevel: "5"
       DishVccConfig:
         DishVccUri: "car:ska-mid?27.3.0#tmdata"
         DishVccFilePath: "instrument/ska1_mid_itf/vcc-config/ska-mid-cbf-system-parameters.json"
@@ -399,8 +400,10 @@ ska-tmc-mid:
       CommandTimeOutDefault: 350
       AbortCommandTimeOut: 350
       CspScanInterfaceURL: https://schema.skao.int/ska-csp-scan/2.2   # TEMPORARY COMMIT - not to be overwritten in makefile
+      LoggingLevel: "5"
     dishleafnode:
       CommandTimeOutDefault: 320
+      LoggingLevel: "5"
   resources:
     # limits:
     #   cpu: 800m
