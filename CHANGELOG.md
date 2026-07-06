@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3712]
+  * Ansible playbook to set up NTP server on SPFRx, implemented adding hosts according to DISH_INDEX
 
 ## 31.2.1
 * [AT-3726]
