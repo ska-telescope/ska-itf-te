@@ -268,7 +268,9 @@ def wait_for_vis_receive_ready(sdp_subarray_dp: DeviceProxy, timeout: float = 12
     """
     raw = sdp_subarray_dp.receiveAddresses
     if not raw:
-        raise AssertionError("receiveAddresses is empty on mid-sdp/subarray/01 — cannot probe vis-receive")
+        raise AssertionError(
+            "receiveAddresses is empty on mid-sdp/subarray/01 — cannot probe vis-receive"
+        )
 
     addresses = json.loads(raw) if isinstance(raw, str) else raw
     endpoints = [
@@ -288,9 +290,7 @@ def wait_for_vis_receive_ready(sdp_subarray_dp: DeviceProxy, timeout: float = 12
             logger.info(f"vis-receive ready on {len(endpoints)} endpoint(s)")
             return
         sleep(2)
-    raise AssertionError(
-        f"vis-receive endpoints not ready within {timeout}s: {endpoints}"
-    )
+    raise AssertionError(f"vis-receive endpoints not ready within {timeout}s: {endpoints}")
 
 
 def wait_for_event(
@@ -367,6 +367,20 @@ def wait_for_event(
             f" did not occur within the timeout period of {timeout}s"
         )
     return result
+
+
+def _restart_tango_server(dev_name: str):
+    """Restart the Tango device server hosting the given device.
+
+    :param dev_name: Fully qualified Tango device name
+    :type dev_name: str
+    """
+    dp = DeviceProxy(dev_name)
+    # Correct PyTango client API execution path
+    admin_name = dp.adm_name()
+
+    admin_dp = DeviceProxy(admin_name)
+    admin_dp.RestartServer()
 
 
 @pytest.fixture(autouse=True, scope="session")
@@ -762,6 +776,29 @@ def _(
     configure_scan_artifact_path = f"{settings['artifact_dir']}/configure_scan.json"
     with open(configure_scan_artifact_path, "w") as configure_scan_config_file:
         json.dump(configure_scan_payload, configure_scan_config_file, indent=4)
+
+    try:
+        wait_for_event(
+            tmc.subarray_node,
+            "isSubarrayAvailable",
+            True,
+            timeout=60.0,
+        )
+    except EventWaitTimeout:
+        logger.warning(
+            "isSubarrayAvailable did not become True within the timeout period. "
+            "Restarting DishLeafNode device servers and retrying."
+        )
+        for receptor in RECEPTORS:
+            dish_leaf_node_dp = tmc.get_dish_leaf_node_dp(receptor)
+            _restart_tango_server(dish_leaf_node_dp.name())
+
+        wait_for_event(
+            tmc.subarray_node,
+            "isSubarrayAvailable",
+            True,
+            timeout=60.0,
+        )
 
     tmc.subarray_node.Configure(
         configure_scan_payload
