@@ -413,13 +413,26 @@ helm-rebuild-ska-mid:
 	@make k8s-template-chart K8S_CHART=ska-mid
 
 loop-dishes-k8s-info:
-	@if [ "$(KUBE_NAMESPACE)" != "staging" ]; then \
-		echo "Warning: currently only KUBE_NAMESPACE 'staging' is supported, not '$(KUBE_NAMESPACE)'"; \
+	@if [ "$(DISH_LMC_IN_THE_LOOP)" != "true" ]; then \
+		echo "DISH_LMC_IN_THE_LOOP is `false`, skipping dish container info; \
 		exit 0; \
 	fi; \
 	DISH_IDS_CLEAN="$(strip $(subst ",,$(DISH_IDS)))"; \
+	case "$(KUBE_NAMESPACE)" in \
+	staging) \
+		DISH_NS_PREFIX=staging-dish-lmc-; DISH_NS_POSTFIX= ;; \
+	integration) \
+		DISH_NS_PREFIX=integration-dish-lmc-; DISH_NS_POSTFIX= ;; \
+	testing) \
+		DISH_NS_PREFIX=testing-dish-lmc-; DISH_NS_POSTFIX= ;; \
+	ci-ska-mid-itf-*) \
+		DISH_NS_PREFIX=ci-dish-lmc-; DISH_NS_POSTFIX=-$(CI_COMMIT_REF_NAME) ;; \
+	*) \
+		echo "Warning: KUBE_NAMESPACE '$(KUBE_NAMESPACE)' is not supported by loop-dishes-k8s-info"; \
+		exit 0 ;; \
+	esac; \
 	echo "Looping through dish IDs: $$DISH_IDS_CLEAN"; \
 	for DISH_ID in $$DISH_IDS_CLEAN; do \
 		echo "Container info for $$DISH_ID:"; \
-		make k8s-info KUBE_NAMESPACE=staging-dish-lmc-$$DISH_ID; \
+		make k8s-info KUBE_NAMESPACE=$$DISH_NS_PREFIX$$DISH_ID$$DISH_NS_POSTFIX; \
 	done
