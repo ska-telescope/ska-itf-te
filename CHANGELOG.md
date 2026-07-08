@@ -1,6 +1,9 @@
 # Version History
 
 ## Unreleased
+* [AT-3734]
+  * Upgrade dish-lmc to `10.0.0-rc.1`
+  * Upgrade TMC to `1.21.1`
 * [AT-3712]
   * Ansible playbook to set up NTP server on SPFRx, implemented adding hosts according to DISH_INDEX
 
