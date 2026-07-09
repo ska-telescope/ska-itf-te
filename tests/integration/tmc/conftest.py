@@ -25,6 +25,7 @@ from scripts.oso.generate_payloads import (
 )
 from scripts.sequence_diagrammer.generate_sequence_diagram import SequenceDiagrammer
 from utils.enums import DishMode
+from utils.telescope_teardown import TelescopeHandler, TelescopeState
 
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), ".jupyter-notebooks")))
 from src.notebook_tools import generate_fsp  # noqa: E402
@@ -1281,6 +1282,32 @@ def _(telescope_handlers, receptor_ids):
     """
     logger.info("Checking telescope state")
     _, cbf, _, _ = telescope_handlers
+
+
+@then("the telescope is in the OFF state")
+def _(settings, receptor_ids):
+    """Check that the telescope is in the OFF state.
+
+    :param settings: _description_
+    :type settings: _type_
+    :param receptor_ids: _description_
+    :type receptor_ids: _type_
+    """
+    base_dish_states_standby_lp = {
+        receptor_id: DishMode.STANDBY_LP for receptor_id in receptor_ids
+    }
+
+    off_state_1 = TelescopeState(dishes=base_dish_states_standby_lp)
+
+    # Due to known issue with state aggregation for telescopeState
+    off_state_2 = TelescopeState(dishes=base_dish_states_standby_lp, central_node=DevState.UNKNOWN)
+
+    telescope_handler = TelescopeHandler(
+        settings["SUT_namespace"], settings["sut_cluster_domain"], receptor_ids
+    )
+    current_telescope_state = telescope_handler.get_current_state()
+
+    assert current_telescope_state in [off_state_1, off_state_2]
 
 
 @pytest.fixture
