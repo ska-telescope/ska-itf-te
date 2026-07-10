@@ -91,7 +91,16 @@ ska-db-oda-umbrella:
 # DISH LMC
 ska-dish-lmc:
   enabled: false
-  ska-mid-dish-ds-manager:
+  ska-mid-dish-b5dc-proxy:
+    b5dcproxy:
+      endpoints:
+        - 172.38.0.10:10001
+      image:
+        registry: artefact.skao.int
+        image: ska-mid-dish-b5dc-proxy
+        tag: 0.1.2
+        pullPolicy: IfNotPresent
+    enabled: trueska-mid-dish-ds-manager:
     enabled: true
   ska-mid-dish-manager:
     enabled: true
