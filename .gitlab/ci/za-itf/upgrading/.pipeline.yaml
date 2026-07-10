@@ -15,11 +15,10 @@ test-upgradability:
     - .test-upgrade-rules
   variables:
     INTEGRATION_TEST_SOURCE: tests/integration/tmc/test_upgradability.py::test_upgrade_path
+    SIM_MODE: "true"
   script:
-    - git clone --branch main --depth 1 https://oauth2:${CI_JOB_TOKEN}@gitlab.com/ska-telescope/ska-mid-helmreleases.git
-    - export SKA_MID_SITE_CHART_VERSION=$(grep 'version:' ska-mid-helmreleases/datacentres/shared/deployment/central-controller/helmrelease.yml | sed 's/.*version: *//;s/"//g;s/ //g')
+    - export SKA_MID_SITE_CHART_VERSION=$(bash .gitlab/ci/za-itf/upgrading/get_site_version.sh)
     - echo "ska-mid chart version from ska-mid-helmreleases main - ${SKA_MID_SITE_CHART_VERSION}"
-    - rm -rf ska-mid-helmreleases
     - make integration-test
     - '[ -f build/status ] || (echo "Something went wrong with the test (no build/status file); exit 1")'
     - exit $(cat build/status)
