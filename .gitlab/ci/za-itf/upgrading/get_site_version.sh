@@ -16,7 +16,7 @@ GITLAB_HOST="gitlab.com"
 HELMRELEASE_FILE="ska-mid-helmreleases/datacentres/shared/deployment/central-controller/helmrelease.yml"
 
 if [ -n "${CI_JOB_TOKEN:-}" ]; then
-    CLONE_URL="https://oauth2:${CI_JOB_TOKEN}@${GITLAB_HOST}/${REPO_PATH}.git"
+    CLONE_URL="https://gitlab-ci-token:${CI_JOB_TOKEN}@${GITLAB_HOST}/${REPO_PATH}.git"
 elif [ -n "${HELMRELEASES_ACCESS_TOKEN:-}" ]; then
     CLONE_URL="https://oauth2:${HELMRELEASES_ACCESS_TOKEN}@${GITLAB_HOST}/${REPO_PATH}.git"
 else
