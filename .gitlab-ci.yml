@@ -32,6 +32,7 @@ stages:
   - integration
   - upload
   - publish
+  - upgrade
   - pages
   - scan
 
@@ -76,6 +77,7 @@ include:
   - local: .gitlab/ci/za-itf/eda-api/.pipeline.yaml
   - local: .gitlab/ci/za-itf/octopus/.pipeline.yaml
   - local: .gitlab/ci/za-itf/testing/.pipeline.yaml
+  - local: .gitlab/ci/za-itf/upgrading/.pipeline.yaml
 
 
 xray-publish:

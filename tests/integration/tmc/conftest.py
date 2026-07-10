@@ -4,6 +4,7 @@ import json
 import logging
 import os
 import pathlib
+import subprocess
 import sys
 from itertools import cycle
 from queue import Empty, Queue
@@ -408,6 +409,57 @@ def sequence_diagrammer(settings):
         else:
             pathlib.Path(sequence_diagrammer.get_puml_filename()).unlink(missing_ok=True)
             logger.info("Sequence diagram generation correctly skipped")
+
+
+@given(
+    "a deployment in the ITF of the version of ska-mid currently in ska-mid-helmreleases main with 1 subarray"
+)
+def _(telescope_handlers, settings):
+    """Assert the ska-mid chart deployed in the ITF matches the version pinned in ska-mid-helmreleases main.
+
+    Reads SKA_MID_SITE_CHART_VERSION set by the CI before_script and compares it against
+    the version reported by helm list in the test namespace.
+
+    :param telescope_handlers: Triggers instantiation of all telescope handler objects.
+    :param settings: Test settings.
+    """
+    site_chart_version = settings["site_chart_version"]
+    assert site_chart_version, (
+        "SKA_MID_SITE_CHART_VERSION is not set. "
+        "Ensure the CI before_script has cloned ska-mid-helmreleases and extracted the version."
+    )
+
+    namespace = settings["SUT_namespace"]
+    chart_name = "ska-mid"
+
+    result = subprocess.run(
+        ["helm", "list", "-n", namespace, "--output", "json"],
+        stdout=subprocess.PIPE,
+        check=True,
+    )
+    helm_list = json.loads(result.stdout)
+
+    deployed_chart = next(
+        (chart for chart in helm_list if chart.get("chart", "").startswith(f"{chart_name}-")),
+        None,
+    )
+
+    assert deployed_chart is not None, (
+        f"No '{chart_name}' chart found deployed in namespace '{namespace}'"
+    )
+
+    # helm list returns the chart field as "ska-mid-<version>", e.g. "ska-mid-31.2.0"
+    deployed_version = deployed_chart["chart"][len(f"{chart_name}-"):]
+
+    assert deployed_version == site_chart_version, (
+        f"Deployed ska-mid version '{deployed_version}' does not match "
+        f"the version pinned in ska-mid-helmreleases main '{site_chart_version}'"
+    )
+
+    logger.info(
+        f"Confirmed: deployed ska-mid version '{deployed_version}' matches "
+        f"ska-mid-helmreleases main version '{site_chart_version}'"
+    )
 
 
 @given("an SUT deployment with 1 subarray")

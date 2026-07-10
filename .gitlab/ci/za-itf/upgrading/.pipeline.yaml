@@ -1,0 +1,35 @@
+# Template that clones ska-mid-helmreleases, checks out main, extracts the ska-mid chart
+# version pinned there, and exports it as SKA_MID_SITE_CHART_VERSION for the test step.
+.helmreleases-version-script:
+  before_script:
+    - git clone --branch main --depth 1 https://oauth2:${CI_JOB_TOKEN}@gitlab.com/ska-telescope/ska-mid-helmreleases.git
+    - |
+      export SKA_MID_SITE_CHART_VERSION=$(.venv/bin/python3 -c '
+      import yaml
+      with open("ska-mid-helmreleases/datacentres/shared/deployment/central-controller/helmrelease.yml") as f:
+          data = yaml.safe_load(f)
+      print(data["spec"]["chart"]["spec"]["version"].strip())
+      ')
+    - echo "ska-mid chart version in ska-mid-helmreleases main: ${SKA_MID_SITE_CHART_VERSION}"
+    - rm -rf ska-mid-helmreleases
+
+.test-upgrade-rules:
+  rules:
+    - if: '$CI_COMMIT_TAG != null'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: manual
+      allow_failure: true
+    - when: never
+
+test-upgradability:
+  stage: upgrade
+  extends:
+    - .integration-env
+    - .test-end-to-end-with-hw
+    - .test-upgrade-rules
+  variables:
+    INTEGRATION_TEST_SOURCE: tests/integration/tmc/test_upgradability.py::test_upgrade_path
+  before_script:
+    - !reference [.test-end-to-end-with-hw, before_script]
+    - !reference [.helmreleases-version-script, before_script]
