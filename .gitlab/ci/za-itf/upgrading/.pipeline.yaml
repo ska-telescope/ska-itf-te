@@ -18,7 +18,8 @@ test-upgradability:
     INTEGRATION_TEST_SOURCE: tests/integration/tmc/test_upgradability.py::test_upgrade_path
     SIM_MODE: "true"
   script:
-    - export SKA_MID_SITE_CHART_VERSION=$(bash .gitlab/ci/za-itf/upgrading/get_site_version.sh)
+    - SKA_MID_SITE_CHART_VERSION=$(bash .gitlab/ci/za-itf/upgrading/get_site_version.sh)
+    - export SKA_MID_SITE_CHART_VERSION
     - echo "ska-mid chart version from ska-mid-helmreleases main - ${SKA_MID_SITE_CHART_VERSION}"
     - make integration-test
     - '[ -f build/status ] || (echo "Something went wrong with the test (no build/status file); exit 1")'
