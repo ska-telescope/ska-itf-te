@@ -212,3 +212,4 @@ The SKA Mid Helm chart describes the combination of products that are deployed t
 
 When updating the test code (for instance modifying the initial system parameters file which loaded during the LoadDishVccConfig command), you need to build the image defined in the Dockerfile (`images/ska-mid-testing/Dockerfile`) using a pipeline first. Once that was done, navigate to the Gitlab pipeline that runs after your commit, open the [oci-image-build-testing](https://gitlab.com/ska-telescope/ska-mid/-/jobs/14122639684) job (link is just an example!), and copy the tag pushed at the end of the job. Now paste it in the values (`./charts/ska-mid-testing/values.yaml`) file of the chart. Remember to save the changes! Now, when you run your test makefile targets, you will see the updates in your test.
 
+
