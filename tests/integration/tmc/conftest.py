@@ -412,10 +412,10 @@ def sequence_diagrammer(settings):
 
 
 @given(
-    "a deployment in the ITF of the version of ska-mid currently in ska-mid-helmreleases main with 1 subarray"
+    "a deployment in the ITF of the version of ska-mid currently in ska-mid-helmreleases main with 1 subarray"  # noqa: E501
 )
 def _(telescope_handlers, settings):
-    """Assert the ska-mid chart deployed in the ITF matches the version pinned in ska-mid-helmreleases main.
+    """Check that the deployed ska-mid chart version matches ska-mid-helmreleases main.
 
     Reads SKA_MID_SITE_CHART_VERSION set by the CI before_script and compares it against
     the version reported by helm list in the test namespace.
@@ -444,12 +444,12 @@ def _(telescope_handlers, settings):
         None,
     )
 
-    assert deployed_chart is not None, (
-        f"No '{chart_name}' chart found deployed in namespace '{namespace}'"
-    )
+    assert (
+        deployed_chart is not None
+    ), f"No '{chart_name}' chart found deployed in namespace '{namespace}'"
 
     # helm list returns the chart field as "ska-mid-<version>", e.g. "ska-mid-31.2.0"
-    deployed_version = deployed_chart["chart"][len(f"{chart_name}-"):]
+    deployed_version = deployed_chart["chart"][len(f"{chart_name}-") :]
 
     assert deployed_version == site_chart_version, (
         f"Deployed ska-mid version '{deployed_version}' does not match "
