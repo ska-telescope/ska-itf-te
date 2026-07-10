@@ -25,7 +25,6 @@ from scripts.oso.generate_payloads import (
 )
 from scripts.sequence_diagrammer.generate_sequence_diagram import SequenceDiagrammer
 from utils.enums import DishMode
-from utils.telescope_teardown import TelescopeHandler, TelescopeState
 
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), ".jupyter-notebooks")))
 from src.notebook_tools import generate_fsp  # noqa: E402

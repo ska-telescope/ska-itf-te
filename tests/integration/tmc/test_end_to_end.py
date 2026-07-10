@@ -95,6 +95,7 @@ def _(settings, receptor_ids):
 
     assert current_telescope_state in valid_released_resources_states
 
+
 @then("the telescope is in the OFF state")
 def _(settings, receptor_ids):
     """Check that the telescope is in the OFF state.
@@ -119,3 +120,4 @@ def _(settings, receptor_ids):
     current_telescope_state = telescope_handler.get_current_state()
 
     assert current_telescope_state in [off_state_1, off_state_2]
+    
