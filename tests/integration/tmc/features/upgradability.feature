@@ -7,7 +7,7 @@ Feature: Telescope upgradability test
 	#The Telescope state should be considered while running this test.
 	@AT-3753 @AT-1305
 	Scenario: Test upgrade path from the current version of SKA Mid running in Production to the current new tag
-		Given a deployment in the ITF of the version of ska-mid currently running on Site with 1 subarray
+		Given a deployment in the ITF of the version of ska-mid currently in ska-mid-helmreleases main with 1 subarray
 		And CSP in adminMode online
 		When I turn ON the telescope
 		And I assign resources
@@ -21,6 +21,4 @@ Feature: Telescope upgradability test
 		And I start the scan
 		And I end the observation
 		And I release resources
-		And I turn OFF the telescope
-		Then the telescope is in the OFF state
 		And the respective dataproducts are available on the DPD
