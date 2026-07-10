@@ -12,11 +12,37 @@
   tags:
     - spfrx
 
+- name: Update NTP Configuration
+  ansible.builtin.import_tasks: ntp.yml
+  vars:
+    ntp_path: "{{ ntp_dir }}/ntp.conf"
+  tags:
+    - spfrx
+
 - name: Restart networking
   ansible.builtin.systemd:
     state: restarted
     daemon_reload: true
     name: systemd-networkd.service
   become: true
+  async: 1
+  poll: 0
+  tags:
+    - spfrx
+
+- name: Set expected new IP address
+  ansible.builtin.set_fact:
+    new_ip: "{{ ('10.160.' + dish_index | string + '.5') if dish_index is defined else ansible_host }}"
+  tags:
+    - spfrx
+
+- name: Wait for device to be reachable on new IP address
+  ansible.builtin.wait_for:
+    host: "{{ new_ip }}"
+    port: 22
+    delay: 5
+    timeout: 60
+    state: started
+  delegate_to: localhost
   tags:
     - spfrx
