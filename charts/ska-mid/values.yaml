@@ -100,7 +100,8 @@ ska-dish-lmc:
         image: ska-mid-dish-b5dc-proxy
         tag: 0.1.2
         pullPolicy: IfNotPresent
-    enabled: trueska-mid-dish-ds-manager:
+    enabled: true
+  ska-mid-dish-ds-manager:
     enabled: true
   ska-mid-dish-manager:
     enabled: true
