@@ -120,4 +120,3 @@ def _(settings, receptor_ids):
     current_telescope_state = telescope_handler.get_current_state()
 
     assert current_telescope_state in [off_state_1, off_state_2]
-    
