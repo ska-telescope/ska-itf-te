@@ -463,6 +463,19 @@ def _(telescope_handlers, settings):
             f"ska-mid-helmreleases main version '{site_chart_version}'"
         )
 
+    release_name = deployed_chart["name"]
+    values_result = subprocess.run(
+        ["helm", "get", "values", release_name, "-n", namespace, "--output", "json"],
+        stdout=subprocess.PIPE,
+        check=True,
+    )
+    helm_values = json.loads(values_result.stdout)
+    subarray_count = helm_values.get("ska-tmc-mid", {}).get("subarray_count")
+
+    assert subarray_count == 1, (
+        f"Expected ska-tmc-mid.subarray_count to be 1, got {subarray_count!r}"
+    )
+
 
 @given("an SUT deployment with 1 subarray")
 def _(telescope_handlers):
