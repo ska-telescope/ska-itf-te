@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=resources/schemas/config-schema.json
 name: ska-mid
-version: 31.3.0-test-dish-manager-patch
+version: 31.3.0-test-dish-manager-fix
 parts:
   ska-tango-base:
     version: "file://charts/ska-mid/Chart.yaml"
