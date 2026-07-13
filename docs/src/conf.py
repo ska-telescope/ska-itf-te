@@ -29,7 +29,7 @@ author = "ATLAS Team"
 
 # The full version, including alpha/beta/rc tags
 
-release = "31.2.2"
+release = "31.3.0-test-dish-manager-patch"
 
 # -- General configuration ---------------------------------------------------
 
