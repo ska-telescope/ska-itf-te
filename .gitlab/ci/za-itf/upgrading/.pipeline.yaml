@@ -17,6 +17,8 @@ test-upgradability:
   variables:
     INTEGRATION_TEST_SOURCE: tests/integration/tmc/test_upgradability.py::test_upgrade_path
     SIM_MODE: "true"
+    KUBE_NAMESPACE: ci-ska-mid-itf-$CI_COMMIT_REF_NAME
+    KUBE_NAMESPACE_SDP: ci-ska-mid-itf-$CI_COMMIT_REF_NAME-sdp
   script:
     - SKA_MID_SITE_CHART_VERSION=$(bash .gitlab/ci/za-itf/upgrading/get_site_version.sh)
     - export SKA_MID_SITE_CHART_VERSION
