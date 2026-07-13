@@ -472,9 +472,9 @@ def _(telescope_handlers, settings):
     helm_values = json.loads(values_result.stdout)
     subarray_count = helm_values.get("ska-tmc-mid", {}).get("subarray_count")
 
-    assert subarray_count == 1, (
-        f"Expected ska-tmc-mid.subarray_count to be 1, got {subarray_count!r}"
-    )
+    assert (
+        subarray_count == 1
+    ), f"Expected ska-tmc-mid.subarray_count to be 1, got {subarray_count!r}"
 
 
 @given("an SUT deployment with 1 subarray")
