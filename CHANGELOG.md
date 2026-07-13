@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3756]
+  * apply dish-manager patch `10.0.0-dev.c4a8a4c03`
 
 ## 31.2.2
 * [AT-3734]
