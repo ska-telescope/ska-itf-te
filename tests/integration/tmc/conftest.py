@@ -1136,6 +1136,128 @@ def _(telescope_handlers):
     wait_for_event(tmc_subarray_node, "obsState", ObsState.EMPTY)
 
 
+@when("I upgrade to this tagged pipeline version")
+def _(telescope_handlers, settings):
+    """Upgrade the ska-mid helm release to the version defined in this pipeline.
+
+    Determines the target chart version from CI_COMMIT_TAG if set, otherwise reads
+    it from charts/ska-mid/Chart.yaml. Performs a helm upgrade with --wait so the
+    call blocks until all pods are ready, then polls Tango device proxies until
+    they are reachable again after the pod restarts.
+
+    :param telescope_handlers: Telescope device proxies (Tango reconnects automatically).
+    :param settings: Test settings.
+    """
+    target_version = os.getenv("CI_COMMIT_TAG")
+    if not target_version:
+        result = subprocess.run(
+            ["bash", ".gitlab/ci/za-itf/upgrading/get_chart_version.sh"],
+            stdout=subprocess.PIPE,
+            check=True,
+        )
+        target_version = result.stdout.decode().strip()
+
+    assert target_version, (
+        "Could not determine the upgrade target version. "
+        "Set CI_COMMIT_TAG or ensure charts/ska-mid/Chart.yaml contains a 'version' field."
+    )
+
+    namespace = settings["SUT_namespace"]
+    chart_name = "ska-mid"
+    helm_repo_name = "ska"
+    helm_repo_url = "https://artefact.skao.int/repository/helm-internal"
+
+    logger.info(
+        f"Upgrading '{chart_name}' to version '{target_version}' in namespace '{namespace}'"
+    )
+
+    # Add/update the SKA helm repository so the target version is available
+    subprocess.run(
+        ["helm", "repo", "add", helm_repo_name, helm_repo_url, "--force-update"],
+        check=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    subprocess.run(
+        ["helm", "repo", "update", helm_repo_name],
+        check=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+
+    # Locate the current ska-mid release in the namespace
+    result = subprocess.run(
+        ["helm", "list", "-n", namespace, "--output", "json"],
+        stdout=subprocess.PIPE,
+        check=True,
+    )
+    helm_list = json.loads(result.stdout)
+    deployed_chart = next(
+        (c for c in helm_list if c.get("chart", "").startswith(f"{chart_name}-")),
+        None,
+    )
+    assert deployed_chart is not None, (
+        f"No '{chart_name}' release found in namespace '{namespace}'. Cannot upgrade."
+    )
+    release_name = deployed_chart["name"]
+    logger.info(f"Upgrading release '{release_name}' to chart version '{target_version}'")
+
+    # Upgrade; --wait blocks until all pods in the release are ready
+    subprocess.run(
+        [
+            "helm",
+            "upgrade",
+            release_name,
+            f"{helm_repo_name}/{chart_name}",
+            "--version",
+            target_version,
+            "--namespace",
+            namespace,
+            "--reuse-values",
+            "--wait",
+            "--timeout",
+            "20m",
+        ],
+        check=True,
+    )
+    logger.info(f"Helm upgrade to version '{target_version}' completed")
+
+    # Poll until all Tango device proxies are reachable again after pod restarts
+    tmc, _, csp, _ = telescope_handlers
+    tango_devices = [
+        tmc.central_node,
+        tmc.subarray_node,
+        tmc.sdp_subarray_leaf_node,
+        tmc.csp_master_leaf_node,
+        tmc.csp_subarray_leaf_node,
+        tmc.sdp_master_leaf_node,
+        csp.control,
+        csp.subarray,
+    ]
+
+    poll_timeout = 300  # seconds
+    poll_interval = 10
+    deadline = time() + poll_timeout
+
+    logger.info("Waiting for Tango devices to be reachable after upgrade...")
+    while time() < deadline:
+        try:
+            for dp in tango_devices:
+                dp.ping()
+            logger.info("All Tango devices are reachable after upgrade")
+            break
+        except Exception as exc:
+            logger.debug(
+                f"Tango devices not yet reachable: {exc}. Retrying in {poll_interval}s..."
+            )
+            sleep(poll_interval)
+    else:
+        pytest.fail(
+            f"Tango devices did not become reachable within {poll_timeout}s "
+            f"after upgrade to version '{target_version}'"
+        )
+
+
 @when("I turn OFF the telescope")
 def _(telescope_handlers, receptor_ids):
     """Turn the telescope OFF via TMC.
