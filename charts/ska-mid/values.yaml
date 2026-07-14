@@ -402,6 +402,12 @@ ska-tmc-mid:
       CspScanInterfaceURL: https://schema.skao.int/ska-csp-scan/2.2   # TEMPORARY COMMIT - not to be overwritten in makefile
       LoggingLevel: "5"
     dishleafnode:
+      image:
+        registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-dishleafnode
+        image: ska-tmc-dishleafnode
+        tag: 0.44.5-dev.c26513513
+        tag: 0.44.5-dev.c26513513
+        pullPolicy: IfNotPresent
       CommandTimeOutDefault: 320
       LoggingLevel: "5"
   resources:
