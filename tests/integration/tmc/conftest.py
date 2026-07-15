@@ -664,6 +664,8 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids, default_assign_resources,
     :type telescope_handlers: _type_
     :param receptor_ids: _description_
     :type receptor_ids: _type_
+    :param pb_and_eb_ids: Mutable container updated with the generated pb_id and eb_id.
+    :type pb_and_eb_ids: dict
     :param default_assign_resources: _description_
     :type default_assign_resources: _type_
     :param settings: _description_
@@ -1290,13 +1292,10 @@ def _(telescope_handlers, receptor_ids):
 def _(pb_and_eb_ids):
     """Check that the respective dataproducts are available on the DPD via the dataproducts API.
 
-    :param pb_and_eb_ids: _description_
-    :type pb_and_eb_ids: _type_
+    :param pb_and_eb_ids: Container holding the most recently submitted pb_id and eb_id.
+    :type pb_and_eb_ids: dict
     """
-    # TODO: Implement
-    pb_id = pb_and_eb_ids["pb_id"]
-    eb_id = pb_and_eb_ids["eb_id"]
-
+    # TODO: Implement - use pb_and_eb_ids["pb_id"] and pb_and_eb_ids["eb_id"] to verify
     assert True
 
 
