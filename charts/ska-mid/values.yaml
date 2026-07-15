@@ -108,6 +108,10 @@ ska-dish-lmc:
     dishmanager:
       actions:
         timeout_seconds: "300"
+      image:
+        registry: registry.gitlab.com/ska-telescope/mid-dish/ska-mid-dish-manager
+        image: ska-mid-dish-manager
+        tag: 10.0.0-dev.c4a8a4c03
     # Leaving this here just as an example
     # dishmanager:
     #   image:
