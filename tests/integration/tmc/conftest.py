@@ -1196,9 +1196,9 @@ def _(telescope_handlers, settings):
         (c for c in helm_list if c.get("chart", "").startswith(f"{chart_name}-")),
         None,
     )
-    assert deployed_chart is not None, (
-        f"No '{chart_name}' release found in namespace '{namespace}'. Cannot upgrade."
-    )
+    assert (
+        deployed_chart is not None
+    ), f"No '{chart_name}' release found in namespace '{namespace}'. Cannot upgrade."
     release_name = deployed_chart["name"]
     logger.info(f"Upgrading release '{release_name}' to chart version '{target_version}'")
 
