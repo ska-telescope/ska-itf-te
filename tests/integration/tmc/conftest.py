@@ -338,25 +338,16 @@ def set_context(settings):
 
 
 @pytest.fixture(scope="session")
-def pb_and_eb_ids(settings) -> Tuple[str, str]:
-    """Fixture for generating pb and eb ids for the scan.
+def pb_and_eb_ids() -> dict:
+    """Mutable container holding the most recently submitted pb_id and eb_id.
 
-    :param settings: test settings
-    :type settings: dict
-    :return: pb_id and eb_id for use in the assign_resources.json
-    :rtype: Tuple[str, str]
+    I assign resources writes into this dict on every call so that subsequent
+    steps (e.g. the dataproducts check) always see the last-used IDs.
+
+    :return: dict with keys 'pb_id' and 'eb_id', initially empty
+    :rtype: dict
     """
-    if settings["use_oso_payloads"]:
-        logger.info("Generating SKUID-based pb and eb ids for oso payloads")
-        return mint_skuid(EntityType.PB), mint_skuid(EntityType.EB)
-    time_now = localtime()
-    date = strftime("%Y%m%d", time_now)
-    time_now = strftime("%H%M%S", time_now)
-    eb_id_prefix = settings["eb_id_prefix"]
-    pb_id_prefix = settings["pb_id_prefix"]
-    eb_id = f"{eb_id_prefix}-{date}-{time_now}"
-    pb_id = f"{pb_id_prefix}-{date}-{time_now}"
-    return pb_id, eb_id
+    return {}
 
 
 @pytest.fixture(scope="session")
@@ -673,8 +664,6 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids, default_assign_resources,
     :type telescope_handlers: _type_
     :param receptor_ids: _description_
     :type receptor_ids: _type_
-    :param pb_and_eb_ids: _description_
-    :type pb_and_eb_ids: _type_
     :param default_assign_resources: _description_
     :type default_assign_resources: _type_
     :param settings: _description_
@@ -685,7 +674,22 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids, default_assign_resources,
     logger.info("Assigning resources")
 
     tmc, cbf, _, _ = telescope_handlers
-    pb_id, eb_id = pb_and_eb_ids
+
+    # Generate fresh IDs on every call so that a second assign resources (e.g. after an upgrade)
+    # does not reuse a previously submitted EB ID and trigger a duplicate-block error in SDP.
+    if settings["use_oso_payloads"]:
+        pb_id = mint_skuid(EntityType.PB)
+        eb_id = mint_skuid(EntityType.EB)
+    else:
+        time_now = localtime()
+        date = strftime("%Y%m%d", time_now)
+        time_str = strftime("%H%M%S", time_now)
+        eb_id = f"{settings['eb_id_prefix']}-{date}-{time_str}"
+        pb_id = f"{settings['pb_id_prefix']}-{date}-{time_str}"
+
+    # Write into the shared container so the then step sees the latest IDs
+    pb_and_eb_ids["pb_id"] = pb_id
+    pb_and_eb_ids["eb_id"] = eb_id
 
     tmc_subarray_node = tmc.subarray_node
     sdp_subarray_leaf_node = tmc.sdp_subarray_leaf_node
@@ -1290,7 +1294,8 @@ def _(pb_and_eb_ids):
     :type pb_and_eb_ids: _type_
     """
     # TODO: Implement
-    pb_id, eb_id = pb_and_eb_ids
+    pb_id = pb_and_eb_ids["pb_id"]
+    eb_id = pb_and_eb_ids["eb_id"]
 
     assert True
 
