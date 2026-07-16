@@ -16,6 +16,8 @@ Feature: Telescope upgradability test
 		And I end the observation
 		And I release resources
 		And I upgrade to this tagged pipeline version
+		And CSP in adminMode online
+		And I turn ON the telescope
 		And I assign resources
 		And configure it for a 10 second band 1 scan
 		And I start the scan
