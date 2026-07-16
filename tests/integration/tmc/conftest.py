@@ -502,7 +502,11 @@ def _(sequence_diagrammer, settings):
 
 
 def _set_csp_adminmode_online(telescope_handlers, settings):
-    """Set CSP adminMode to Online after handling simulation/hw_in_the_loop."""
+    """Set CSP adminMode to Online after handling simulation/hw_in_the_loop.
+
+    :param telescope_handlers: Telescope device proxy handlers.
+    :param settings: Test settings.
+    """
     logger.info("Setting CSP adminmode")
 
     _, _, csp, _ = telescope_handlers
