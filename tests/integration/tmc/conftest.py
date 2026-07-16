@@ -501,15 +501,8 @@ def _(sequence_diagrammer, settings):
         logger.info("Skipping sequence diagram generation")
 
 
-@given("CSP in adminMode online", target_fixture="csp")
-def _(telescope_handlers, settings):
-    """Set CSP adminMode to Online after handling simulation/hw_in_the_loop.
-
-    :param telescope_handlers: _description_
-    :type telescope_handlers: _type_
-    :param settings: _description_
-    :type settings: _type_
-    """
+def _set_csp_adminmode_online(telescope_handlers, settings):
+    """Set CSP adminMode to Online after handling simulation/hw_in_the_loop."""
     logger.info("Setting CSP adminmode")
 
     _, _, csp, _ = telescope_handlers
@@ -545,6 +538,30 @@ def _(telescope_handlers, settings):
         f"CSP adminMode is: {csp_control.adminMode},"
         f" CBF Simulation mode is: {csp_control.cbfSimulationMode}"
     )
+
+
+@given("CSP in adminMode online", target_fixture="csp")
+def _(telescope_handlers, settings):
+    """Set CSP adminMode to Online after handling simulation/hw_in_the_loop.
+
+    :param telescope_handlers: _description_
+    :type telescope_handlers: _type_
+    :param settings: _description_
+    :type settings: _type_
+    """
+    _set_csp_adminmode_online(telescope_handlers, settings)
+
+
+@when("I put CSP in adminMode online")
+def _(telescope_handlers, settings):
+    """Set CSP adminMode to Online after an upgrade or other mid-scenario reset.
+
+    :param telescope_handlers: _description_
+    :type telescope_handlers: _type_
+    :param settings: _description_
+    :type settings: _type_
+    """
+    _set_csp_adminmode_online(telescope_handlers, settings)
 
 
 @when("I turn ON the telescope")
