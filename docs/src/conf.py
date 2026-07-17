@@ -29,7 +29,7 @@ author = "ATLAS Team"
 
 # The full version, including alpha/beta/rc tags
 
-release = "31.2.2-test-teapot-b"
+release = "31.2.2-test-teapot-c"
 
 # -- General configuration ---------------------------------------------------
 
