@@ -273,12 +273,15 @@ def wait_for_vis_receive_ready(sdp_subarray_dp: DeviceProxy, timeout: float = 12
         )
 
     addresses = json.loads(raw) if isinstance(raw, str) else raw
-    endpoints = [
-        (h[1], p[1])
-        for stream in addresses.values()
-        for h in stream.get("host", [])
-        for p in stream.get("port", [])
-    ]
+    endpoints = list(
+        {
+            (h[1], p[1])
+            for scan_type in addresses.values()
+            for stream in scan_type.values()
+            for h in stream.get("host", [])
+            for p in stream.get("port", [])
+        }
+    )
 
     if not endpoints:
         raise AssertionError(f"No endpoints found in receiveAddresses: {raw}")
