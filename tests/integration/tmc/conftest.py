@@ -442,7 +442,6 @@ def _(telescope_handlers, settings):
     # helm list returns the chart field as "ska-mid-<version>", e.g. "ska-mid-31.2.0"
     deployed_version = deployed_chart["chart"][len(f"{chart_name}-") :]
 
-
     # TODO: Temporary soft assert - revert to hard assert once confirmed working
     if deployed_version != site_chart_version:
         logger.warning(
