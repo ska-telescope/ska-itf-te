@@ -648,7 +648,6 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids, default_assign_resources,
     wait_for_event(sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.IDLE)
     wait_for_event(csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.IDLE)
     wait_for_event(tmc_subarray_node, "obsState", ObsState.IDLE)
-    # sleep(30)  # TEMPORARY COMMIT: see https://tinyurl.com/4mu3a5dn
 
 
 @when(
