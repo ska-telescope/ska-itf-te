@@ -406,10 +406,11 @@ def sequence_diagrammer(settings):
     "a deployment in the ITF of the version of ska-mid currently in ska-mid-helmreleases main with 1 subarray"  # noqa: E501
 )
 def _(telescope_handlers, settings):
-    """Check that the deployed ska-mid chart version matches ska-mid-helmreleases main.
+    """Ensure the deployed ska-mid chart version matches ska-mid-helmreleases main.
 
     Reads SKA_MID_SITE_CHART_VERSION set by the CI before_script and compares it against
-    the version reported by helm list in the test namespace.
+    the version reported by helm list in the test namespace. If the versions differ,
+    upgrades to the ska-mid-helmreleases main version before continuing.
 
     :param telescope_handlers: Triggers instantiation of all telescope handler objects.
     :param settings: Test settings.
@@ -422,6 +423,8 @@ def _(telescope_handlers, settings):
 
     namespace = settings["SUT_namespace"]
     chart_name = "ska-mid"
+    helm_repo_name = "ska"
+    helm_repo_url = "https://artefact.skao.int/repository/helm-internal"
 
     result = subprocess.run(
         ["helm", "list", "-n", namespace, "--output", "json"],
@@ -441,28 +444,87 @@ def _(telescope_handlers, settings):
 
     # helm list returns the chart field as "ska-mid-<version>", e.g. "ska-mid-31.2.0"
     deployed_version = deployed_chart["chart"][len(f"{chart_name}-") :]
+    release_name = deployed_chart["name"]
 
-    # TODO: Temporary soft assert - revert to hard assert once confirmed working
     if deployed_version != site_chart_version:
-        logger.warning(
+        logger.info(
             f"Deployed ska-mid version '{deployed_version}' does not match "
-            f"the version pinned in ska-mid-helmreleases main '{site_chart_version}'"
+            f"ska-mid-helmreleases main version '{site_chart_version}'. "
+            f"Upgrading to '{site_chart_version}'..."
         )
+
+        subprocess.run(
+            ["helm", "repo", "add", helm_repo_name, helm_repo_url, "--force-update"],
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+        subprocess.run(
+            ["helm", "repo", "update", helm_repo_name],
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+
+        subprocess.run(
+            [
+                "helm",
+                "upgrade",
+                release_name,
+                f"{helm_repo_name}/{chart_name}",
+                "--version",
+                site_chart_version,
+                "--namespace",
+                namespace,
+                "--reuse-values",
+                "--wait",
+                "--timeout",
+                "20m",
+            ],
+            check=True,
+        )
+        logger.info(f"Helm upgrade to version '{site_chart_version}' completed")
+
+        # Poll until all Tango device proxies are reachable again after pod restarts
+        tmc, _, csp, _ = telescope_handlers
+        tango_devices = [
+            tmc.central_node,
+            tmc.subarray_node,
+            tmc.sdp_subarray_leaf_node,
+            tmc.csp_master_leaf_node,
+            tmc.csp_subarray_leaf_node,
+            tmc.sdp_master_leaf_node,
+            csp.control,
+            csp.subarray,
+        ]
+
+        poll_timeout = 300  # seconds
+        poll_interval = 10
+        deadline = time() + poll_timeout
+
+        logger.info("Waiting for Tango devices to be reachable after upgrade...")
+        while time() < deadline:
+            try:
+                for dp in tango_devices:
+                    dp.ping()
+                logger.info("All Tango devices are reachable after upgrade")
+                break
+            except Exception as exc:
+                logger.debug(
+                    f"Tango devices not yet reachable: {exc}. Retrying in {poll_interval}s..."
+                )
+                sleep(poll_interval)
+        else:
+            pytest.fail(
+                f"Tango devices did not become reachable within {poll_timeout}s "
+                f"after upgrade to version '{site_chart_version}'"
+            )
     else:
         logger.info(
             f"Confirmed: deployed ska-mid version '{deployed_version}' matches "
             f"ska-mid-helmreleases main version '{site_chart_version}'"
         )
-    # assert deployed_version == site_chart_version, (
-    #     f"Deployed ska-mid version '{deployed_version}' does not match "
-    #     f"the version pinned in ska-mid-helmreleases main '{site_chart_version}'"
-    # )
-    # logger.info(
-    #     f"Confirmed: deployed ska-mid version '{deployed_version}' matches "
-    #     f"ska-mid-helmreleases main version '{site_chart_version}'"
-    # )
 
-    release_name = deployed_chart["name"]
     values_result = subprocess.run(
         ["helm", "get", "values", release_name, "-n", namespace, "--output", "json"],
         stdout=subprocess.PIPE,
