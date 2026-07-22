@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+
+## 31.4.0
 * [SKB-1436]
   * Upgraded TMC to `1.21.2`
   * Removed vis-receive sleep in e2e test
