@@ -95,11 +95,6 @@ ska-dish-lmc:
     b5dcproxy:
       endpoints:
         - 172.38.0.10:10001
-      image:
-        registry: artefact.skao.int
-        image: ska-mid-dish-b5dc-proxy
-        tag: 0.1.2
-        pullPolicy: IfNotPresent
     enabled: true
   ska-mid-dish-ds-manager:
     enabled: true
@@ -108,10 +103,6 @@ ska-dish-lmc:
     dishmanager:
       actions:
         timeout_seconds: "300"
-      image:
-        registry: registry.gitlab.com/ska-telescope/mid-dish/ska-mid-dish-manager
-        image: ska-mid-dish-manager
-        tag: 10.0.0-dev.cbf7cff18
     # Leaving this here just as an example
     # dishmanager:
     #   image:
