@@ -1,10 +1,13 @@
 # Version History
 
 ## Unreleased
-
 * [SKB-1436]
   * Upgraded TMC to `1.21.2`
   * Removed vis-receive sleep in e2e test
+
+* [AT-3756]
+  * Upgrade dish-lmc to `10.0.1`
+  * Upgrade TMC to `1.21.2`
 
 ## 31.2.2
 * [AT-3734]
