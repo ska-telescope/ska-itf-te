@@ -6,6 +6,7 @@ import os
 import pathlib
 import subprocess
 import sys
+import tempfile
 from itertools import cycle
 from queue import Empty, Queue
 from time import localtime, sleep, strftime, time
@@ -311,6 +312,184 @@ def wait_for_event(
     return result
 
 
+# ---------------------------------------------------------------------------
+# Helm helper utilities (used by upgrade/redeploy step definitions)
+# ---------------------------------------------------------------------------
+
+SKA_HELM_REPO_NAME = "ska"
+SKA_HELM_REPO_URL = "https://artefact.skao.int/repository/helm-internal"
+SKA_MID_CHART_NAME = "ska-mid"
+
+
+def _ensure_helm_repo(repo_name: str = SKA_HELM_REPO_NAME, repo_url: str = SKA_HELM_REPO_URL) -> None:
+    """Add (or update) a helm repository."""
+    subprocess.run(
+        ["helm", "repo", "add", repo_name, repo_url, "--force-update"],
+        check=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    subprocess.run(
+        ["helm", "repo", "update", repo_name],
+        check=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+
+
+def _get_helm_release(namespace: str, chart_name: str = SKA_MID_CHART_NAME) -> dict | None:
+    """Return the helm release dict for chart_name in namespace, or None if not found."""
+    result = subprocess.run(
+        ["helm", "list", "-n", namespace, "--output", "json"],
+        stdout=subprocess.PIPE,
+        check=True,
+    )
+    helm_list = json.loads(result.stdout)
+    return next(
+        (c for c in helm_list if c.get("chart", "").startswith(f"{chart_name}-")),
+        None,
+    )
+
+
+def _redeploy_helm_release(
+    release_name: str,
+    namespace: str,
+    version: str,
+    chart_ref: str = f"{SKA_HELM_REPO_NAME}/{SKA_MID_CHART_NAME}",
+    delete_namespace: bool = True,
+) -> None:
+    """Uninstall a release, optionally delete its namespace, then reinstall at *version*.
+
+    Current user-supplied values are captured before uninstall and reused on install
+    so that dish-specific configuration (EDA params, SPFRX addresses, etc.) is preserved.
+    """
+    # Capture current user-supplied values
+    values_result = subprocess.run(
+        ["helm", "get", "values", release_name, "-n", namespace, "--output", "yaml"],
+        stdout=subprocess.PIPE,
+        check=True,
+    )
+    current_values_yaml = values_result.stdout
+
+    # Uninstall
+    logger.info(f"Uninstalling '{release_name}' from namespace '{namespace}'")
+    subprocess.run(
+        ["helm", "uninstall", release_name, "-n", namespace],
+        check=True,
+    )
+
+    if delete_namespace:
+        logger.info(f"Deleting namespace '{namespace}'")
+        subprocess.run(["kubectl", "delete", "namespace", namespace], check=True)
+        # Best-effort wait for the namespace to be fully removed
+        subprocess.run(
+            ["kubectl", "wait", "--for=delete", f"namespace/{namespace}", "--timeout=120s"],
+            check=False,
+        )
+
+    # Reinstall with preserved values written to a temp file
+    with tempfile.NamedTemporaryFile(
+        mode="wb", suffix=".yaml", delete=False
+    ) as values_file:
+        values_file.write(current_values_yaml)
+        values_path = values_file.name
+
+    try:
+        logger.info(
+            f"Installing '{release_name}' from '{chart_ref}' version '{version}' "
+            f"into namespace '{namespace}'"
+        )
+        subprocess.run(
+            [
+                "helm",
+                "install",
+                release_name,
+                chart_ref,
+                "--version",
+                version,
+                "--namespace",
+                namespace,
+                "--create-namespace",
+                "--values",
+                values_path,
+                "--wait",
+                "--timeout",
+                "20m",
+            ],
+            check=True,
+        )
+    finally:
+        os.unlink(values_path)
+
+
+def _upgrade_helm_release(
+    release_name: str,
+    namespace: str,
+    version: str,
+    chart_ref: str = f"{SKA_HELM_REPO_NAME}/{SKA_MID_CHART_NAME}",
+) -> None:
+    """In-place helm upgrade, reusing existing values."""
+    logger.info(
+        f"Upgrading '{release_name}' in namespace '{namespace}' to version '{version}'"
+    )
+    subprocess.run(
+        [
+            "helm",
+            "upgrade",
+            release_name,
+            chart_ref,
+            "--version",
+            version,
+            "--namespace",
+            namespace,
+            "--reuse-values",
+            "--wait",
+            "--timeout",
+            "20m",
+        ],
+        check=True,
+    )
+
+
+def _wait_for_tango_devices(telescope_handlers, version: str, poll_timeout: int = 300) -> None:
+    """Poll Tango device proxies until all are reachable, failing if timeout is exceeded."""
+    tmc, _, csp, _ = telescope_handlers
+    tango_devices = [
+        tmc.central_node,
+        tmc.subarray_node,
+        tmc.sdp_subarray_leaf_node,
+        tmc.csp_master_leaf_node,
+        tmc.csp_subarray_leaf_node,
+        tmc.sdp_master_leaf_node,
+        csp.control,
+        csp.subarray,
+    ]
+    poll_interval = 10
+    deadline = time() + poll_timeout
+    logger.info("Waiting for Tango devices to be reachable...")
+    while time() < deadline:
+        try:
+            for dp in tango_devices:
+                dp.ping()
+            logger.info("All Tango devices are reachable")
+            return
+        except Exception as exc:
+            logger.debug(f"Tango devices not yet reachable: {exc}. Retrying in {poll_interval}s...")
+            sleep(poll_interval)
+    pytest.fail(
+        f"Tango devices did not become reachable within {poll_timeout}s "
+        f"after version '{version}'"
+    )
+
+
+def _dish_namespace(sut_namespace: str, dish_id: str) -> str:
+    """Return the dish-lmc namespace name for a given SUT namespace and dish ID."""
+    return f"{sut_namespace}-dish-lmc-{dish_id.lower()}"
+
+
+# ---------------------------------------------------------------------------
+
+
 @pytest.fixture(autouse=True, scope="session")
 def set_context(settings):
     """Fixture for configuring environment and global variables for the test.
@@ -406,13 +585,14 @@ def sequence_diagrammer(settings):
     "a deployment in the ITF of the version of ska-mid currently in ska-mid-helmreleases main with 1 subarray"  # noqa: E501
 )
 def _(telescope_handlers, settings):
-    """Ensure the deployed ska-mid chart version matches ska-mid-helmreleases main.
+    """Ensure the environment is a clean-slate deployment at the ska-mid-helmreleases main version.
 
-    Reads SKA_MID_SITE_CHART_VERSION set by the CI before_script and compares it against
-    the version reported by helm list in the test namespace. If the versions differ,
-    upgrades to the ska-mid-helmreleases main version before continuing.
+    Reads SKA_MID_SITE_CHART_VERSION set by the CI before_script. If the deployed version
+    differs, performs a full uninstall + reinstall across all dish-lmc namespaces (deleting
+    each namespace) and the SUT namespace (keeping the namespace), so that the test always
+    starts from a clean, known state before the first observation.
 
-    :param telescope_handlers: Triggers instantiation of all telescope handler objects.
+    :param telescope_handlers: Telescope device proxies (used to wait for Tango readiness).
     :param settings: Test settings.
     """
     site_chart_version = settings["site_chart_version"]
@@ -422,108 +602,55 @@ def _(telescope_handlers, settings):
     )
 
     namespace = settings["SUT_namespace"]
-    chart_name = "ska-mid"
-    helm_repo_name = "ska"
-    helm_repo_url = "https://artefact.skao.int/repository/helm-internal"
 
-    result = subprocess.run(
-        ["helm", "list", "-n", namespace, "--output", "json"],
-        stdout=subprocess.PIPE,
-        check=True,
-    )
-    helm_list = json.loads(result.stdout)
-
-    deployed_chart = next(
-        (chart for chart in helm_list if chart.get("chart", "").startswith(f"{chart_name}-")),
-        None,
+    deployed_chart = _get_helm_release(namespace)
+    assert deployed_chart is not None, (
+        f"No '{SKA_MID_CHART_NAME}' chart found deployed in namespace '{namespace}'"
     )
 
-    assert (
-        deployed_chart is not None
-    ), f"No '{chart_name}' chart found deployed in namespace '{namespace}'"
-
-    # helm list returns the chart field as "ska-mid-<version>", e.g. "ska-mid-31.2.0"
-    deployed_version = deployed_chart["chart"][len(f"{chart_name}-") :]
+    deployed_version = deployed_chart["chart"][len(f"{SKA_MID_CHART_NAME}-"):]
     release_name = deployed_chart["name"]
 
-    if deployed_version != site_chart_version:
+    if deployed_version == site_chart_version:
         logger.info(
-            f"Deployed ska-mid version '{deployed_version}' does not match "
-            f"ska-mid-helmreleases main version '{site_chart_version}'. "
-            f"Upgrading to '{site_chart_version}'..."
-        )
-
-        subprocess.run(
-            ["helm", "repo", "add", helm_repo_name, helm_repo_url, "--force-update"],
-            check=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-        )
-        subprocess.run(
-            ["helm", "repo", "update", helm_repo_name],
-            check=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-        )
-
-        subprocess.run(
-            [
-                "helm",
-                "upgrade",
-                release_name,
-                f"{helm_repo_name}/{chart_name}",
-                "--version",
-                site_chart_version,
-                "--namespace",
-                namespace,
-                "--reuse-values",
-                "--wait",
-                "--timeout",
-                "20m",
-            ],
-            check=True,
-        )
-        logger.info(f"Helm upgrade to version '{site_chart_version}' completed")
-
-        # Poll until all Tango device proxies are reachable again after pod restarts
-        tmc, _, csp, _ = telescope_handlers
-        tango_devices = [
-            tmc.central_node,
-            tmc.subarray_node,
-            tmc.sdp_subarray_leaf_node,
-            tmc.csp_master_leaf_node,
-            tmc.csp_subarray_leaf_node,
-            tmc.sdp_master_leaf_node,
-            csp.control,
-            csp.subarray,
-        ]
-
-        poll_timeout = 300  # seconds
-        poll_interval = 10
-        deadline = time() + poll_timeout
-
-        logger.info("Waiting for Tango devices to be reachable after upgrade...")
-        while time() < deadline:
-            try:
-                for dp in tango_devices:
-                    dp.ping()
-                logger.info("All Tango devices are reachable after upgrade")
-                break
-            except Exception as exc:
-                logger.debug(
-                    f"Tango devices not yet reachable: {exc}. Retrying in {poll_interval}s..."
-                )
-                sleep(poll_interval)
-        else:
-            pytest.fail(
-                f"Tango devices did not become reachable within {poll_timeout}s "
-                f"after upgrade to version '{site_chart_version}'"
-            )
-    else:
-        logger.info(
-            f"Confirmed: deployed ska-mid version '{deployed_version}' matches "
+            f"Deployed version '{deployed_version}' already matches "
             f"ska-mid-helmreleases main version '{site_chart_version}'"
         )
+    else:
+        logger.info(
+            f"Deployed version '{deployed_version}' does not match "
+            f"ska-mid-helmreleases main '{site_chart_version}'. "
+            f"Performing clean-slate redeploy across all namespaces..."
+        )
+
+        _ensure_helm_repo()
+
+        # Redeploy each dish-lmc namespace (full namespace delete + reinstall)
+        dish_ids = [d.strip() for d in settings["dish_ids"].split()]
+        for dish_id in dish_ids:
+            dish_ns = _dish_namespace(namespace, dish_id)
+            dish_release = _get_helm_release(dish_ns)
+            if dish_release:
+                _redeploy_helm_release(
+                    dish_release["name"],
+                    dish_ns,
+                    site_chart_version,
+                    delete_namespace=True,
+                )
+            else:
+                logger.warning(
+                    f"No '{SKA_MID_CHART_NAME}' release found in '{dish_ns}', skipping"
+                )
+
+        # Redeploy the SUT namespace (uninstall + reinstall, keep namespace)
+        _redeploy_helm_release(
+            release_name,
+            namespace,
+            site_chart_version,
+            delete_namespace=False,
+        )
+
+        _wait_for_tango_devices(telescope_handlers, site_chart_version)
 
     values_result = subprocess.run(
         ["helm", "get", "values", release_name, "-n", namespace, "--output", "json"],
@@ -1214,12 +1341,12 @@ def _(telescope_handlers):
 
 @when("I upgrade to this tagged pipeline version")
 def _(telescope_handlers, settings):
-    """Upgrade the ska-mid helm release to the version defined in this pipeline.
+    """Upgrade all ska-mid helm releases to the version defined in this pipeline.
 
     Determines the target chart version from CI_COMMIT_TAG if set, otherwise reads
-    it from charts/ska-mid/Chart.yaml. Performs a helm upgrade with --wait so the
-    call blocks until all pods are ready, then polls Tango device proxies until
-    they are reachable again after the pod restarts.
+    it from charts/ska-mid/Chart.yaml. Performs an in-place helm upgrade (--reuse-values)
+    across all dish-lmc namespaces first, then the SUT namespace, then polls Tango device
+    proxies until they are reachable again.
 
     :param telescope_handlers: Telescope device proxies (Tango reconnects automatically).
     :param settings: Test settings.
@@ -1239,99 +1366,33 @@ def _(telescope_handlers, settings):
     )
 
     namespace = settings["SUT_namespace"]
-    chart_name = "ska-mid"
-    helm_repo_name = "ska"
-    helm_repo_url = "https://artefact.skao.int/repository/helm-internal"
 
-    logger.info(
-        f"Upgrading '{chart_name}' to version '{target_version}' in namespace '{namespace}'"
-    )
+    logger.info(f"Upgrading to version '{target_version}' across all namespaces...")
 
-    # Add/update the SKA helm repository so the target version is available
-    subprocess.run(
-        ["helm", "repo", "add", helm_repo_name, helm_repo_url, "--force-update"],
-        check=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-    )
-    subprocess.run(
-        ["helm", "repo", "update", helm_repo_name],
-        check=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-    )
+    _ensure_helm_repo()
 
-    # Locate the current ska-mid release in the namespace
-    result = subprocess.run(
-        ["helm", "list", "-n", namespace, "--output", "json"],
-        stdout=subprocess.PIPE,
-        check=True,
-    )
-    helm_list = json.loads(result.stdout)
-    deployed_chart = next(
-        (c for c in helm_list if c.get("chart", "").startswith(f"{chart_name}-")),
-        None,
-    )
-    assert (
-        deployed_chart is not None
-    ), f"No '{chart_name}' release found in namespace '{namespace}'. Cannot upgrade."
-    release_name = deployed_chart["name"]
-    logger.info(f"Upgrading release '{release_name}' to chart version '{target_version}'")
-
-    # Upgrade; --wait blocks until all pods in the release are ready
-    subprocess.run(
-        [
-            "helm",
-            "upgrade",
-            release_name,
-            f"{helm_repo_name}/{chart_name}",
-            "--version",
-            target_version,
-            "--namespace",
-            namespace,
-            "--reuse-values",
-            "--wait",
-            "--timeout",
-            "20m",
-        ],
-        check=True,
-    )
-    logger.info(f"Helm upgrade to version '{target_version}' completed")
-
-    # Poll until all Tango device proxies are reachable again after pod restarts
-    tmc, _, csp, _ = telescope_handlers
-    tango_devices = [
-        tmc.central_node,
-        tmc.subarray_node,
-        tmc.sdp_subarray_leaf_node,
-        tmc.csp_master_leaf_node,
-        tmc.csp_subarray_leaf_node,
-        tmc.sdp_master_leaf_node,
-        csp.control,
-        csp.subarray,
-    ]
-
-    poll_timeout = 300  # seconds
-    poll_interval = 10
-    deadline = time() + poll_timeout
-
-    logger.info("Waiting for Tango devices to be reachable after upgrade...")
-    while time() < deadline:
-        try:
-            for dp in tango_devices:
-                dp.ping()
-            logger.info("All Tango devices are reachable after upgrade")
-            break
-        except Exception as exc:
-            logger.debug(
-                f"Tango devices not yet reachable: {exc}. Retrying in {poll_interval}s..."
+    # Upgrade dish-lmc namespaces first so they are ready before the SUT restarts
+    dish_ids = [d.strip() for d in settings["dish_ids"].split()]
+    for dish_id in dish_ids:
+        dish_ns = _dish_namespace(namespace, dish_id)
+        dish_release = _get_helm_release(dish_ns)
+        if dish_release:
+            _upgrade_helm_release(dish_release["name"], dish_ns, target_version)
+        else:
+            logger.warning(
+                f"No '{SKA_MID_CHART_NAME}' release found in '{dish_ns}', skipping upgrade"
             )
-            sleep(poll_interval)
-    else:
-        pytest.fail(
-            f"Tango devices did not become reachable within {poll_timeout}s "
-            f"after upgrade to version '{target_version}'"
-        )
+
+    # Upgrade the SUT namespace
+    deployed_chart = _get_helm_release(namespace)
+    assert deployed_chart is not None, (
+        f"No '{SKA_MID_CHART_NAME}' release found in namespace '{namespace}'. Cannot upgrade."
+    )
+    _upgrade_helm_release(deployed_chart["name"], namespace, target_version)
+
+    logger.info(f"Helm upgrade to version '{target_version}' completed across all namespaces")
+
+    _wait_for_tango_devices(telescope_handlers, target_version)
 
 
 @when("I turn OFF the telescope")
