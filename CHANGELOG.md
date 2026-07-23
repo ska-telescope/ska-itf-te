@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+* [AT-3761]
+  * Updated test code to wait for actual control system events instead of sleep(n)ing.
+
 ## 31.4.0
 * [SKB-1436]
   * Upgraded TMC to `1.21.2`
