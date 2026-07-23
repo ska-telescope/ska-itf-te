@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* [AT-3762]
+  * Added ska102 dish archive config file for staging to test using the teapot server EDA
 * [AT-3761]
   * Updated test code to wait for actual control system events instead of sleep(n)ing.
 
