@@ -691,7 +691,7 @@ def _(settings):
     starts from a clean, known state before the first observation.
 
     Does NOT take ``telescope_handlers`` as a parameter — Tango may not yet be reachable
-    when this step runs. Readiness is verified via :func:`_wait_for_tango_by_name` which
+    when this step runs. Readiness is verified via ``_wait_for_tango_by_name`` which
     creates fresh DeviceProxy objects in a retry loop instead of relying on pre-built
     proxies. Subsequent steps that depend on ``telescope_handlers`` will only trigger that
     fixture after Tango is confirmed reachable.
