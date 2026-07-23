@@ -728,7 +728,8 @@ def _(settings):
 
         _ensure_helm_repo()
 
-        # Redeploy each dish-lmc namespace (full namespace delete + reinstall)
+        # Redeploy each dish-lmc namespace (full namespace delete + reinstall).
+        # Dish-lmc namespaces have no externally-referenced PVCs so full teardown is safe.
         dish_ids = [d.strip() for d in settings["dish_ids"].split()]
         for dish_id in dish_ids:
             dish_ns = _dish_namespace(namespace, dish_id)
@@ -743,13 +744,10 @@ def _(settings):
             else:
                 logger.warning(f"No '{SKA_MID_CHART_NAME}' release found in '{dish_ns}', skipping")
 
-        # Redeploy the SUT namespace (uninstall + reinstall, keep namespace)
-        _redeploy_helm_release(
-            release_name,
-            namespace,
-            site_chart_version,
-            delete_namespace=False,
-        )
+        # Upgrade the SUT namespace in-place (--reuse-values) rather than uninstall+reinstall.
+        # A full reinstall would lose externally-referenced PVCs (e.g. artifacts-pvc-{release})
+        # that are created by the chart on first install and deleted on helm uninstall.
+        _upgrade_helm_release(release_name, namespace, site_chart_version)
 
         _wait_for_tango_by_name(site_chart_version)
 
