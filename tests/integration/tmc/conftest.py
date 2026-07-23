@@ -321,8 +321,16 @@ SKA_HELM_REPO_URL = "https://artefact.skao.int/repository/helm-internal"
 SKA_MID_CHART_NAME = "ska-mid"
 
 
-def _ensure_helm_repo(repo_name: str = SKA_HELM_REPO_NAME, repo_url: str = SKA_HELM_REPO_URL) -> None:
-    """Add (or update) a helm repository."""
+def _ensure_helm_repo(
+    repo_name: str = SKA_HELM_REPO_NAME, repo_url: str = SKA_HELM_REPO_URL
+) -> None:
+    """Add (or update) a helm repository.
+
+    :param repo_name: Helm repository alias, defaults to SKA_HELM_REPO_NAME.
+    :type repo_name: str
+    :param repo_url: Helm repository URL, defaults to SKA_HELM_REPO_URL.
+    :type repo_url: str
+    """
     subprocess.run(
         ["helm", "repo", "add", repo_name, repo_url, "--force-update"],
         check=True,
@@ -338,7 +346,15 @@ def _ensure_helm_repo(repo_name: str = SKA_HELM_REPO_NAME, repo_url: str = SKA_H
 
 
 def _get_helm_release(namespace: str, chart_name: str = SKA_MID_CHART_NAME) -> dict | None:
-    """Return the helm release dict for chart_name in namespace, or None if not found."""
+    """Return the helm release dict for chart_name in namespace, or None if not found.
+
+    :param namespace: Kubernetes namespace to search.
+    :type namespace: str
+    :param chart_name: Chart name prefix to match, defaults to SKA_MID_CHART_NAME.
+    :type chart_name: str
+    :return: Helm release dict, or None if no matching release exists.
+    :rtype: dict | None
+    """
     result = subprocess.run(
         ["helm", "list", "-n", namespace, "--output", "json"],
         stdout=subprocess.PIPE,
@@ -362,6 +378,18 @@ def _redeploy_helm_release(
 
     Current user-supplied values are captured before uninstall and reused on install
     so that dish-specific configuration (EDA params, SPFRX addresses, etc.) is preserved.
+
+    :param release_name: Helm release name to uninstall and reinstall.
+    :type release_name: str
+    :param namespace: Kubernetes namespace the release lives in.
+    :type namespace: str
+    :param version: Chart version to install.
+    :type version: str
+    :param chart_ref: Helm chart reference (repo/chart), defaults to ska/ska-mid.
+    :type chart_ref: str
+    :param delete_namespace: Whether to delete the namespace before reinstalling,
+        defaults to True.
+    :type delete_namespace: bool
     """
     # Capture current user-supplied values
     values_result = subprocess.run(
@@ -388,9 +416,7 @@ def _redeploy_helm_release(
         )
 
     # Reinstall with preserved values written to a temp file
-    with tempfile.NamedTemporaryFile(
-        mode="wb", suffix=".yaml", delete=False
-    ) as values_file:
+    with tempfile.NamedTemporaryFile(mode="wb", suffix=".yaml", delete=False) as values_file:
         values_file.write(current_values_yaml)
         values_path = values_file.name
 
@@ -428,10 +454,18 @@ def _upgrade_helm_release(
     version: str,
     chart_ref: str = f"{SKA_HELM_REPO_NAME}/{SKA_MID_CHART_NAME}",
 ) -> None:
-    """In-place helm upgrade, reusing existing values."""
-    logger.info(
-        f"Upgrading '{release_name}' in namespace '{namespace}' to version '{version}'"
-    )
+    """In-place helm upgrade, reusing existing values.
+
+    :param release_name: Helm release name to upgrade.
+    :type release_name: str
+    :param namespace: Kubernetes namespace the release lives in.
+    :type namespace: str
+    :param version: Target chart version.
+    :type version: str
+    :param chart_ref: Helm chart reference (repo/chart), defaults to ska/ska-mid.
+    :type chart_ref: str
+    """
+    logger.info(f"Upgrading '{release_name}' in namespace '{namespace}' to version '{version}'")
     subprocess.run(
         [
             "helm",
@@ -452,7 +486,14 @@ def _upgrade_helm_release(
 
 
 def _wait_for_tango_devices(telescope_handlers, version: str, poll_timeout: int = 300) -> None:
-    """Poll Tango device proxies until all are reachable, failing if timeout is exceeded."""
+    """Poll Tango device proxies until all are reachable, failing if timeout is exceeded.
+
+    :param telescope_handlers: Tuple of (TMC, CBF, CSP, dishes) telescope handler objects.
+    :param version: Chart version string used in the failure message.
+    :type version: str
+    :param poll_timeout: Maximum seconds to wait for devices, defaults to 300.
+    :type poll_timeout: int
+    """
     tmc, _, csp, _ = telescope_handlers
     tango_devices = [
         tmc.central_node,
@@ -474,7 +515,9 @@ def _wait_for_tango_devices(telescope_handlers, version: str, poll_timeout: int 
             logger.info("All Tango devices are reachable")
             return
         except Exception as exc:
-            logger.debug(f"Tango devices not yet reachable: {exc}. Retrying in {poll_interval}s...")
+            logger.debug(
+                f"Tango devices not yet reachable: {exc}. Retrying in {poll_interval}s..."
+            )
             sleep(poll_interval)
     pytest.fail(
         f"Tango devices did not become reachable within {poll_timeout}s "
@@ -483,7 +526,15 @@ def _wait_for_tango_devices(telescope_handlers, version: str, poll_timeout: int 
 
 
 def _dish_namespace(sut_namespace: str, dish_id: str) -> str:
-    """Return the dish-lmc namespace name for a given SUT namespace and dish ID."""
+    """Return the dish-lmc namespace name for a given SUT namespace and dish ID.
+
+    :param sut_namespace: SUT namespace (e.g. 'integration' or 'staging').
+    :type sut_namespace: str
+    :param dish_id: Dish ID with the SKA prefix, e.g. 'SKA001'.
+    :type dish_id: str
+    :return: Derived dish-lmc namespace name, e.g. 'integration-dish-lmc-ska001'.
+    :rtype: str
+    """
     return f"{sut_namespace}-dish-lmc-{dish_id.lower()}"
 
 
@@ -604,11 +655,11 @@ def _(telescope_handlers, settings):
     namespace = settings["SUT_namespace"]
 
     deployed_chart = _get_helm_release(namespace)
-    assert deployed_chart is not None, (
-        f"No '{SKA_MID_CHART_NAME}' chart found deployed in namespace '{namespace}'"
-    )
+    assert (
+        deployed_chart is not None
+    ), f"No '{SKA_MID_CHART_NAME}' chart found deployed in namespace '{namespace}'"
 
-    deployed_version = deployed_chart["chart"][len(f"{SKA_MID_CHART_NAME}-"):]
+    deployed_version = deployed_chart["chart"][len(f"{SKA_MID_CHART_NAME}-") :]
     release_name = deployed_chart["name"]
 
     if deployed_version == site_chart_version:
@@ -638,9 +689,7 @@ def _(telescope_handlers, settings):
                     delete_namespace=True,
                 )
             else:
-                logger.warning(
-                    f"No '{SKA_MID_CHART_NAME}' release found in '{dish_ns}', skipping"
-                )
+                logger.warning(f"No '{SKA_MID_CHART_NAME}' release found in '{dish_ns}', skipping")
 
         # Redeploy the SUT namespace (uninstall + reinstall, keep namespace)
         _redeploy_helm_release(
@@ -1385,9 +1434,9 @@ def _(telescope_handlers, settings):
 
     # Upgrade the SUT namespace
     deployed_chart = _get_helm_release(namespace)
-    assert deployed_chart is not None, (
-        f"No '{SKA_MID_CHART_NAME}' release found in namespace '{namespace}'. Cannot upgrade."
-    )
+    assert (
+        deployed_chart is not None
+    ), f"No '{SKA_MID_CHART_NAME}' release found in namespace '{namespace}'. Cannot upgrade."
     _upgrade_helm_release(deployed_chart["name"], namespace, target_version)
 
     logger.info(f"Helm upgrade to version '{target_version}' completed across all namespaces")
