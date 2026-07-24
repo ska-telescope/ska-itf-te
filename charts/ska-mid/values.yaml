@@ -385,7 +385,7 @@ ska-tmc-mid:
       DefaultArrayLayoutSourceURIs: "car:ska-mid?main#tmdata"
       DefaultArrayLayoutPath: "instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json"      
       DishVccConfig:
-        DishVccUri: "car:ska-mid?27.3.0#tmdata"
+        DishVccUri: "car:ska-mid?31.4.1-vcc-swap#tmdata"
         DishVccFilePath: "instrument/ska1_mid_itf/vcc-config/ska-mid-cbf-system-parameters.json"
     cspsubarrayleafnode:
       CommandTimeOutDefault: 300
