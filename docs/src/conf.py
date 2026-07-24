@@ -29,7 +29,7 @@ author = "ATLAS Team"
 
 # The full version, including alpha/beta/rc tags
 
-release = "31.4.0"
+release = "31.4.1-vcc-swap"
 
 # -- General configuration ---------------------------------------------------
 
