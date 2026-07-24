@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+* [AT-3761]
+  * Updated test code to wait for actual control system events instead of sleep(n)ing.
+
+## 31.4.0
+* [SKB-1436]
+  * Upgraded TMC to `1.21.2`
+  * Removed vis-receive sleep in e2e test
+
+* [AT-3756]
+  * Upgrade dish-lmc to `10.0.1`
+  * Upgrade TMC to `1.21.2`
+
 ## 31.2.2
 * [AT-3734]
   * Upgrade dish-lmc to `10.0.0`

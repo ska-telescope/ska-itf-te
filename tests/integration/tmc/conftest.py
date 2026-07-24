@@ -155,13 +155,11 @@ class CSP:
         """
         if simulation_mode:
             self.control.cbfSimulationMode = 1
-            sleep(5)  # TODO: Enable use of events to check simulationmode
-            # wait_for_event(self.control, "cbfSimulationMode", 1)
+            wait_for_event(self.control, "cbfSimulationMode", 1)
             self.cbf_sim_mode = simulation_mode
         else:
             self.control.cbfSimulationMode = 0
-            sleep(5)  # TODO: Enable use of events to check simulationmode
-            # wait_for_event(self.control, "cbfSimulationMode", 1)
+            wait_for_event(self.control, "cbfSimulationMode", 0)
             self.cbf_sim_mode = simulation_mode
 
 
@@ -808,7 +806,7 @@ def _(telescope_handlers, settings):
     """
     logger.info("Setting CSP adminmode")
 
-    _, _, csp, _ = telescope_handlers
+    _, cbf, csp, _ = telescope_handlers
     csp_control = csp.control
 
     assert csp_control.ping() > 0
@@ -823,7 +821,12 @@ def _(telescope_handlers, settings):
     # if reset_csp_adminmode:
     csp_control.adminMode = 1
     wait_for_event(csp_control, "adminMode", 1)
-    sleep(8)
+    # Wait for the CBF sub-element controller to actually settle into DISABLE
+    # (i.e. finish tearing down communications) before touching
+    # cbfSimulationMode below. Writing cbfSimulationMode while CBF is still
+    # reacting to the adminMode change races with CBF's own admin-mode-driven
+    # start/stop_communicating calls on its SLIM devices (see AT-3761).
+    wait_for_event(cbf.controller, "state", DevState.DISABLE)
 
     if not sim_mode:
         csp.set_cbf_simulation_mode(False)
@@ -835,7 +838,13 @@ def _(telescope_handlers, settings):
 
     csp_control.adminMode = 0
     wait_for_event(csp_control, "adminMode", 0)
-    sleep(15)  # TODO: Find out exactly why this is needed
+    # Wait for the CBF sub-element controller (and by extension its SLIM
+    # devices) to finish coming back online and settle into OFF before
+    # proceeding, instead of blindly sleeping. This is the transition that
+    # was racing with the cbfSimulationMode write above and leaving the SLIM
+    # devices stuck in DISABLE, causing the downstream LoadDishCfg /
+    # isDishVccConfigSet timeout (see AT-3761).
+    wait_for_event(cbf.controller, "state", DevState.OFF)
 
     logger.info(
         f"CSP adminMode is: {csp_control.adminMode},"
@@ -1017,7 +1026,6 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids, default_assign_resources,
     wait_for_event(sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.IDLE)
     wait_for_event(csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.IDLE)
     wait_for_event(tmc_subarray_node, "obsState", ObsState.IDLE)
-    sleep(30)  # TODO: Remove sleep for vis-receive
 
 
 @when(
