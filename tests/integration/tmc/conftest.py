@@ -583,6 +583,77 @@ def _dish_namespace(sut_namespace: str, dish_id: str) -> str:
     return f"{sut_namespace}-dish-lmc-{dish_id.lower()}"
 
 
+def _redeploy_sut_via_make(release_name: str, namespace: str, version: str) -> None:
+    """Destroy and redeploy the SUT namespace using the same make targets as the CI.
+
+    Mirrors the ``redeploy-sut-integration`` CI job: runs the ``.cleanup`` script
+    (``pvc-patch-delete`` + ``k8s-uninstall-chart``) followed by the ``.deploy``
+    script (``k8s-install-chart`` + ``pvc-patch-apply`` +
+    ``taranta-deploy-all-tangogql-instances``), with ``K8S_SKIP_DEP_BUILD=true``
+    and ``K8S_UMBRELLA_CHART_PATH`` overridden to install a specific version from
+    the SKA CAR helm repository.
+
+    This avoids the ``existingClaim`` PVC failure that occurs when saved helm values
+    are reused after an ``helm uninstall``: by not passing ``--values`` from the old
+    deployment the chart creates all PVCs fresh on reinstall, exactly as the CI does.
+
+    :param release_name: Helm release name (e.g. 'integration-main').
+    :type release_name: str
+    :param namespace: SUT Kubernetes namespace (e.g. 'integration').
+    :type namespace: str
+    :param version: Chart version to install from CAR (e.g. '31.4.0').
+    :type version: str
+    """
+    sdp_namespace = f"{namespace}-sdp"
+
+    # ---- Destroy phase (mirrors .cleanup before_script) ----
+    logger.info(f"Destroying SUT release '{release_name}' in namespace '{namespace}'...")
+    subprocess.run(
+        ["make", "pvc-patch-delete"],
+        env={**os.environ, "KUBE_NAMESPACE_SDP": sdp_namespace},
+        check=False,
+    )
+    subprocess.run(
+        ["make", "k8s-uninstall-chart"],
+        env={**os.environ, "HELM_RELEASE": release_name, "KUBE_NAMESPACE": namespace},
+        check=False,
+    )
+
+    # ---- Deploy phase (mirrors .deploy script) ----
+    # K8S_SKIP_DEP_BUILD=true skips 'helm dep build' (not valid for a CAR chart ref).
+    # K8S_UMBRELLA_CHART_PATH is set to "ska/<chart> --version <X>" so that
+    # k8s-do-install-chart expands it into:
+    #   helm upgrade --install <release> $(K8S_CHART_PARAMS) ska/ska-mid --version X -n <ns>
+    # No --values from the old deployment are passed, so the chart creates its PVCs fresh.
+    logger.info(f"Deploying SUT from CAR version '{version}' into namespace '{namespace}'...")
+    subprocess.run(
+        [
+            "make",
+            "k8s-install-chart",
+            "K8S_SKIP_DEP_BUILD=true",
+            f"K8S_UMBRELLA_CHART_PATH=ska/{SKA_MID_CHART_NAME} --version {version}",
+            f"HELM_RELEASE={release_name}",
+            f"KUBE_NAMESPACE={namespace}",
+        ],
+        check=True,
+    )
+
+    # Create the SDP data-product PVC (post-install, mirrors .deploy script)
+    subprocess.run(
+        ["make", "pvc-patch-apply"],
+        env={**os.environ, "KUBE_NAMESPACE_SDP": sdp_namespace},
+        check=True,
+    )
+
+    # Deploy TangoGQL for multi-DB Taranta access to dish namespaces
+    if os.environ.get("DISH_LMC_IN_THE_LOOP", "false").lower() == "true":
+        subprocess.run(
+            ["make", "taranta-deploy-all-tangogql-instances"],
+            env={**os.environ, "KUBE_NAMESPACE": namespace},
+            check=False,
+        )
+
+
 # ---------------------------------------------------------------------------
 
 
@@ -742,10 +813,11 @@ def _(settings):
             else:
                 logger.warning(f"No '{SKA_MID_CHART_NAME}' release found in '{dish_ns}', skipping")
 
-        # Upgrade the SUT namespace in-place (--reuse-values) rather than uninstall+reinstall.
-        # A full reinstall would lose externally-referenced PVCs (e.g. artifacts-pvc-{release})
-        # that are created by the chart on first install and deleted on helm uninstall.
-        _upgrade_helm_release(release_name, namespace, site_chart_version)
+        # Destroy and redeploy the SUT via make targets (mirrors redeploy-sut-integration).
+        # This avoids the existingClaim PVC failure that occurs when saved values are reused
+        # after helm uninstall; the make targets install with fresh CI parameters so the
+        # chart creates all PVCs anew, exactly as the CI deploy job does.
+        _redeploy_sut_via_make(release_name, namespace, site_chart_version)
 
         _wait_for_tango_by_name(site_chart_version)
 
