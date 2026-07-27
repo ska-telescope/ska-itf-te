@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+* [AT-3732]
+  * Force-deleting zombie pods
+
 * [AT-3761]
   * Updated test code to wait for actual control system events instead of sleep(n)ing.
 
