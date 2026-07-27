@@ -57,7 +57,7 @@
       fi
     - make pvc-patch-apply
     - |
-      if [ "$DISH_LMC_IN_THE_LOOP" == "true" ]; then 
+      if [ "$DISH_LMC_IN_THE_LOOP" == "true" ] && [ "$KUBE_NAMESPACE" == "staging" ]; then
         bash .make/resources/gitlab_section.sh install_tangoGQL "Install TangoGQL for multiDB" make taranta-deploy-all-tangogql-instances;
       fi
     - env | grep RUNNER_AFTER_SCRIPT_TIMEOUT
