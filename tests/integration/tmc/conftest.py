@@ -793,7 +793,8 @@ def _(settings):
             f"Deployed version '{deployed_version}' does not match "
             f"ska-mid-helmreleases main '{site_chart_version}'. "
         )
-    # TODO: Uncomment the following block when redeploying is desired. (replace else above with this block)
+    # TODO: Uncomment the following block when redeploying is desired.
+    # (replace else above with this block)
     # else:
     #     logger.info(
     #         f"Deployed version '{deployed_version}' does not match "
@@ -817,7 +818,9 @@ def _(settings):
     #                 delete_namespace=True,
     #             )
     #         else:
-    #             logger.warning(f"No '{SKA_MID_CHART_NAME}' release found in '{dish_ns}', skipping")
+    #             logger.warning(
+    #                 f"No '{SKA_MID_CHART_NAME}' release found in '{dish_ns}', skipping"
+    #             )
 
     #     # Destroy and redeploy the SUT via make targets (mirrors redeploy-sut-integration).
     #     # This avoids the existingClaim PVC failure that occurs when saved values are reused
