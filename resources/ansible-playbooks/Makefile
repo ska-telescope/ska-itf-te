@@ -28,6 +28,8 @@ ifneq ($(filter $(SPFRX_GOALS),$(MAKECMDGOALS)),)
 AD_USER ?= $(USER)
 endif
 
+SERIAL ?= ## Serial number of the SPFRX unit (required for setup_spfrx targets; max 49 characters)
+
 ifndef AD_USER
 $(error AD_USER is not set: set this to your active directory user (i.e. Jira username.))
 endif
@@ -50,6 +52,12 @@ vars:  ## Variables
 guard-%:
 	@if [ -z "$($(*))" ]; then echo "ERROR: $* is not set. Run 'make help' for usage."; exit 1; fi
 .PHONY: guard-%
+
+# Guard target: fails if SERIAL is unset or exceeds 49 characters.
+guard-SERIAL:
+	@if [ -z "$(SERIAL)" ]; then echo "ERROR: SERIAL is not set. Provide a serial number with SERIAL=..."; exit 1; fi
+	@if [ $$(printf '%s' '$(SERIAL)' | wc -c) -ge 50 ]; then echo "ERROR: SERIAL must be less than 50 characters."; exit 1; fi
+.PHONY: guard-SERIAL
 
 # Guard target: fails if DISH_INDEX is unset or not a positive integer.
 guard-DISH_INDEX:
@@ -74,24 +82,24 @@ setup_pi_dry_run: setup ## Runs the full playbook against the Raspberry Pi in dr
 	$(ANSIBLE_COMMAND_DRY_RUN) --limit raspberry_pi $(MKFILE_DIR)site.yml
 .PHONY: setup_pi_dry_run
 
-setup_spfrx: refresh_inventory guard-DISH_INDEX ## Runs the playbook against the SPFRX host for a given DISH_INDEX. Usage: make setup_spfrx DISH_INDEX=1
+setup_spfrx: refresh_inventory guard-DISH_INDEX guard-SERIAL ## Runs the playbook against the SPFRX host for a given DISH_INDEX. Usage: make setup_spfrx DISH_INDEX=1 SERIAL=<serial>
 	@SPFRX_HOST=$$(awk '/dish_index=$(DISH_INDEX)([[:space:]]|$$)/{print $$1}' $(INVENTORY_FILE)); \
 	if [ -z "$$SPFRX_HOST" ]; then \
 		echo "No host with dish_index=$(DISH_INDEX) found. Adding spfrx$(DISH_INDEX) to [spfrx_mid]."; \
 		printf 'spfrx$(DISH_INDEX) ansible_host=10.10.101.148 host_identifier="spfrx$(DISH_INDEX)" dish_index=$(DISH_INDEX)\n' >> $(INVENTORY_FILE); \
 		SPFRX_HOST=spfrx$(DISH_INDEX); \
 	fi; \
-	$(ANSIBLE_COMMAND) --limit $$SPFRX_HOST $(MKFILE_DIR)site.yml
+	$(ANSIBLE_COMMAND) -e serial=$(SERIAL) --limit $$SPFRX_HOST $(MKFILE_DIR)site.yml
 .PHONY: setup_spfrx
 
-setup_spfrx_dry_run: refresh_inventory guard-DISH_INDEX ## Runs the playbook against the SPFRX host for a given DISH_INDEX in dry-run mode. Usage: make setup_spfrx_dry_run DISH_INDEX=1
+setup_spfrx_dry_run: refresh_inventory guard-DISH_INDEX guard-SERIAL ## Runs the playbook against the SPFRX host for a given DISH_INDEX in dry-run mode. Usage: make setup_spfrx_dry_run DISH_INDEX=1 SERIAL=<serial>
 	@SPFRX_HOST=$$(awk '/dish_index=$(DISH_INDEX)([[:space:]]|$$)/{print $$1}' $(INVENTORY_FILE)); \
 	if [ -z "$$SPFRX_HOST" ]; then \
 		echo "No host with dish_index=$(DISH_INDEX) found. Adding spfrx$(DISH_INDEX) to [spfrx_mid]."; \
 		printf 'spfrx$(DISH_INDEX) ansible_host=10.10.101.148 host_identifier="spfrx$(DISH_INDEX)" dish_index=$(DISH_INDEX)\n' >> $(INVENTORY_FILE); \
 		SPFRX_HOST=spfrx$(DISH_INDEX); \
 	fi; \
-	$(ANSIBLE_COMMAND_DRY_RUN) --limit $$SPFRX_HOST $(MKFILE_DIR)site.yml
+	$(ANSIBLE_COMMAND_DRY_RUN) -e serial=$(SERIAL) --limit $$SPFRX_HOST $(MKFILE_DIR)site.yml
 .PHONY: setup_spfrx_dry_run
 
 setup_spfrx_host: refresh_inventory guard-HOST ## Runs the playbook for a specific SPFRX host, with spfrx tags. Usage: make setup_spfrx_host HOST=spfrx03

@@ -1,3 +1,8 @@
+- name: Save serial number to file
+  ansible.builtin.import_tasks: serial.yml
+  tags:
+    - spfrx
+
 - name: Update DNS in 00-eth.network
   ansible.builtin.import_tasks: network.yml
   vars:
@@ -30,22 +35,19 @@
   tags:
     - spfrx
 
-# This task has been disabled because the device will be unreachable, since it will be configured to be on a completely different subnet.
-# Therefore this part of the playbook would always fail. 
+- name: Set expected new IP address
+  ansible.builtin.set_fact:
+    new_ip: "{{ ('10.160.' + dish_index | string + '.5') if dish_index is defined else ansible_host }}"
+  tags:
+    - spfrx
 
-# - name: Set expected new IP address
-#   ansible.builtin.set_fact:
-#     new_ip: "{{ ('10.160.' + dish_index | string + '.5') if dish_index is defined else ansible_host }}"
-#   tags:
-#     - spfrx
-
-# - name: Wait for device to be reachable on new IP address
-#   ansible.builtin.wait_for:
-#     host: "{{ new_ip }}"
-#     port: 22
-#     delay: 5
-#     timeout: 60
-#     state: started
-#   delegate_to: localhost
-#   tags:
-#     - spfrx
+- name: Wait for device to be reachable on new IP address
+  ansible.builtin.wait_for:
+    host: "{{ new_ip }}"
+    port: 22
+    delay: 5
+    timeout: 60
+    state: started
+  delegate_to: localhost
+  tags:
+    - spfrx
