@@ -23,7 +23,7 @@ ANSIBLE_COMMAND_DRY_RUN := $(ANSIBLE_COMMAND) --check --diff
 V ?=
 USER ?= $(shell whoami)
 
-SPFRX_GOALS := setup_spfrx setup_spfrx_dry_run setup_spfrx_host setup_spfrx_host_dry_run
+SPFRX_GOALS := setup_spfrx setup_spfrx_dry_run setup_spfrx_host setup_spfrx_host_dry_run help long-help
 ifneq ($(filter $(SPFRX_GOALS),$(MAKECMDGOALS)),)
 AD_USER ?= $(USER)
 endif
@@ -185,13 +185,25 @@ list_tasks: ## Prints the tasks to be executed during a playbook run.
 		--list-tasks
 .PHONY: list_tasks
 
+HELP_FILTER_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
+HELP_FILTER_PATTERN := $(firstword $(HELP_FILTER_ARGS))
+
 # Note: in order for a target to show up in the help message,
 # it needs to have a comment starting with '##' on the same line.
-help:  ## Show this help.
-	@echo "make targets:"
-	@grep -E '^[0-9a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ": .*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
-	@echo ""; echo "make vars (+defaults):"
-	@grep -E '^[0-9a-zA-Z_-]+ \?=.*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = " \\?= "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+help:  ## Show this help (optional filter: make help spfrx).
+	@echo ""; echo "$(HELP_POWDER_BLUE)SECTION:$(HELP_NORMAL) ansible-playbooks"; \
+	echo "$(HELP_GREEN)MAKE TARGETS:$(HELP_NORMAL)"; \
+	if [ -n "$(HELP_FILTER_PATTERN)" ]; then \
+		grep -E '^[0-9a-zA-Z_-]+:.*?## .*$$' $(MKFILE_PATH) | grep "$(HELP_FILTER_PATTERN)" | sort | awk 'BEGIN {FS = ": .*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'; \
+	else \
+		grep -E '^[0-9a-zA-Z_-]+:.*?## .*$$' $(MKFILE_PATH) | sort | awk 'BEGIN {FS = ": .*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'; \
+	fi; \
+	echo ""; echo "$(HELP_YELLOW)MAKE VARS (+defaults):$(HELP_NORMAL)"; \
+	if [ -n "$(HELP_FILTER_PATTERN)" ]; then \
+		grep -E '^[0-9a-zA-Z_-]+ \?=.*$$' $(MKFILE_PATH) | grep "$(HELP_FILTER_PATTERN)" | sort | awk 'BEGIN {FS = " \\?= "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' || true; \
+	else \
+		grep -E '^[0-9a-zA-Z_-]+ \?=.*$$' $(MKFILE_PATH) | sort | awk 'BEGIN {FS = " \\?= "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' || true; \
+	fi
 .PHONY: help
 
 echo_vars:
