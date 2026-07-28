@@ -158,9 +158,7 @@ class CSP:
                 "cbfSimulationMode", EventType.CHANGE_EVENT, event_queue.put
             )
             self.control.cbfSimulationMode = 1
-            self._wait_for_queued_event(
-                event_queue, event_id, "cbfSimulationMode", 1
-            )
+            self._wait_for_queued_event(event_queue, event_id, "cbfSimulationMode", 1)
             self.cbf_sim_mode = simulation_mode
         else:
             # Subscribe to event BEFORE changing attribute to avoid race condition
@@ -169,9 +167,7 @@ class CSP:
                 "cbfSimulationMode", EventType.CHANGE_EVENT, event_queue.put
             )
             self.control.cbfSimulationMode = 0
-            self._wait_for_queued_event(
-                event_queue, event_id, "cbfSimulationMode", 0
-            )
+            self._wait_for_queued_event(event_queue, event_id, "cbfSimulationMode", 0)
             self.cbf_sim_mode = simulation_mode
 
     def _wait_for_queued_event(
@@ -586,9 +582,7 @@ def _(telescope_handlers, settings):
     # if reset_csp_adminmode:
     # Subscribe to event BEFORE changing attribute to avoid race condition
     event_queue = Queue()
-    event_id = csp_control.subscribe_event(
-        "adminMode", EventType.CHANGE_EVENT, event_queue.put
-    )
+    event_id = csp_control.subscribe_event("adminMode", EventType.CHANGE_EVENT, event_queue.put)
     csp_control.adminMode = 1
     wait_for_queued_event(csp_control, event_queue, event_id, "adminMode", 1)
     # Wait for the CBF sub-element controller to actually settle into DISABLE
@@ -608,9 +602,7 @@ def _(telescope_handlers, settings):
 
     # Subscribe to event BEFORE changing attribute to avoid race condition
     event_queue = Queue()
-    event_id = csp_control.subscribe_event(
-        "adminMode", EventType.CHANGE_EVENT, event_queue.put
-    )
+    event_id = csp_control.subscribe_event("adminMode", EventType.CHANGE_EVENT, event_queue.put)
     csp_control.adminMode = 0
     wait_for_queued_event(csp_control, event_queue, event_id, "adminMode", 0)
     # Wait for the CBF sub-element controller (and by extension its SLIM
