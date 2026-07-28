@@ -37,8 +37,9 @@ dependencies:
 
   # Mid CBF TDC MCS
   - name: ska-mid-cbf-tdc-mcs
-    version: 1.4.1
-    repository: https://artefact.skao.int/repository/helm-internal
+    version: 1.4.1-dev.c1c9aa70d
+    # repository: https://artefact.skao.int/repository/helm-internal
+    repository: https://gitlab.com/api/v4/projects/65335629/packages/helm/dev
     condition: ska-mid-cbf-tdc-mcs.enabled
 
   # Mid CBF TM Simulator - temporary only for CBF internal testing at the KAPB
@@ -49,8 +50,9 @@ dependencies:
 
   # Mid CBF EC
   - name: ska-mid-cbf-engineering-console
-    version: 2.0.0
-    repository: https://artefact.skao.int/repository/helm-internal
+    version: 2.0.0-dev.cec6e2689
+    # repository: https://artefact.skao.int/repository/helm-internal
+    repository: https://gitlab.com/api/v4/projects/29657133/packages/helm/dev
     condition: ska-mid-cbf-engineering-console.enabled
 
   # PST

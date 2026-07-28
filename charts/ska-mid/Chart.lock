@@ -8,7 +8,6 @@ dependencies:
 - name: ska-tmc-mid
   repository: https://artefact.skao.int/repository/helm-internal
   version: 1.21.2
-  version: 1.21.2
 - name: ska-mid-wms
   repository: https://artefact.skao.int/repository/helm-internal
   version: 1.1.1
@@ -16,11 +15,11 @@ dependencies:
   repository: https://artefact.skao.int/repository/helm-internal
   version: 1.7.0
 - name: ska-mid-cbf-tdc-mcs
-  repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.4.1
+  repository: https://gitlab.com/api/v4/projects/65335629/packages/helm/dev
+  version: 1.4.1-dev.c1c9aa70d
 - name: ska-mid-cbf-engineering-console
-  repository: https://artefact.skao.int/repository/helm-internal
-  version: 2.0.0
+  repository: https://gitlab.com/api/v4/projects/29657133/packages/helm/dev
+  version: 2.0.0-dev.cec6e2689
 - name: ska-sdp
   repository: https://artefact.skao.int/repository/helm-internal
   version: 2.3.0
@@ -69,5 +68,5 @@ dependencies:
 - name: ska-eda-rest-api
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.1.0-rc.8
-digest: sha256:99552db68a42439c9386f732b321816899c9d13568101b01acebc1bdc2d0f909
-generated: "2026-07-22T11:26:35.905154+02:00"
+digest: sha256:94576c49942bf9a6e6d90ba8911d050e1775a309b823df1bb8342fa08ed19c3b
+generated: "2026-07-28T13:16:57.29794+02:00"
