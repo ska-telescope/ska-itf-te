@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* [AT-3733]
+  * RXPU serial number is written to a file on the SPFRx host.
 * [AT-3761]
   * Updated test code to wait for actual control system events instead of sleep(n)ing.
 
