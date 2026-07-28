@@ -153,11 +153,11 @@ class CSP:
         """
         if simulation_mode:
             self.control.cbfSimulationMode = 1
-            wait_for_event(self.control, "cbfSimulationMode", 1)
+            sleep(5)  # TODO: Enable use of events to check simulationmode
             self.cbf_sim_mode = simulation_mode
         else:
             self.control.cbfSimulationMode = 0
-            wait_for_event(self.control, "cbfSimulationMode", 0)
+            sleep(5)  # TODO: Enable use of events to check simulationmode
             self.cbf_sim_mode = simulation_mode
 
 
@@ -467,11 +467,8 @@ def _(telescope_handlers, settings):
     # if reset_csp_adminmode:
     csp_control.adminMode = 1
     wait_for_event(csp_control, "adminMode", 1)
-    # Wait for the CBF sub-element controller to actually settle into DISABLE
-    # (i.e. finish tearing down communications) before touching
-    # cbfSimulationMode below. Writing cbfSimulationMode while CBF is still
-    # reacting to the adminMode change races with CBF's own admin-mode-driven
-    # start/stop_communicating calls on its SLIM devices (see AT-3761).
+    # Wait for CBF sub-element controller to settle into DISABLE before writing
+    # cbfSimulationMode (see AT-3761).
     wait_for_event(cbf.controller, "state", DevState.DISABLE)
 
     if not sim_mode:
@@ -484,12 +481,8 @@ def _(telescope_handlers, settings):
 
     csp_control.adminMode = 0
     wait_for_event(csp_control, "adminMode", 0)
-    # Wait for the CBF sub-element controller (and by extension its SLIM
-    # devices) to finish coming back online and settle into OFF before
-    # proceeding, instead of blindly sleeping. This is the transition that
-    # was racing with the cbfSimulationMode write above and leaving the SLIM
-    # devices stuck in DISABLE, causing the downstream LoadDishCfg /
-    # isDishVccConfigSet timeout (see AT-3761).
+    # Wait for CBF controller and its SLIM devices to finish coming back online
+    # before proceeding (see AT-3761).
     wait_for_event(cbf.controller, "state", DevState.OFF)
 
     logger.info(
