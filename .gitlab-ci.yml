@@ -125,3 +125,7 @@ container_scanning:
 docs-build-rtd:
   rules:
     - when: never
+
+python-uv-lint:
+  needs:
+    - python-uv-build-for-development
