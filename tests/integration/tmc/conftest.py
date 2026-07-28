@@ -601,7 +601,14 @@ def _(telescope_handlers, receptor_ids, settings):
 
 
 @when("I assign resources")
-def _(telescope_handlers, receptor_ids, pb_and_eb_ids, default_assign_resources, settings, sbd):
+def _(
+    telescope_handlers,
+    receptor_ids,
+    pb_and_eb_ids,
+    default_assign_resources,
+    settings,
+    sbd,
+):
     """Assign resources via TMC.
 
     :param telescope_handlers: _description_

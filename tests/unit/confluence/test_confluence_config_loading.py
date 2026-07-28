@@ -9,7 +9,9 @@ import pytest
 from assertpy import assert_that
 
 from scripts.confluence.confluence.config.factory import Dependency, get_config
-from scripts.confluence.confluence.config.generate_diagram import generate_diagrams_from_config
+from scripts.confluence.confluence.config.generate_diagram import (
+    generate_diagrams_from_config,
+)
 from scripts.confluence.confluence.config.implementation import Factory
 
 
@@ -36,8 +38,8 @@ def fxt_expected_dependencies():
 def _digest(dependency: Dependency) -> str:
     value = (
         f"{dependency.name}{dependency.version}"
-        f"{''.join(d.name+d.version for d in dependency.dependencies)}"
-        f"{''.join(d.name+d.version for d in dependency.platformDependents)}"
+        f"{''.join(d.name + d.version for d in dependency.dependencies)}"
+        f"{''.join(d.name + d.version for d in dependency.platformDependents)}"
     )
     return sha256(value.encode()).hexdigest()
 

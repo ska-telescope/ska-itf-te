@@ -465,7 +465,10 @@ def test_get_attachment_data(
 def test_token_authentication():
     """_summary_."""
     confluence_connection = ConfluenceConnection()
-    header = {**confluence_connection._base_headers, **confluence_connection._auth_header}
+    header = {
+        **confluence_connection._base_headers,
+        **confluence_connection._auth_header,
+    }
     resource = confluence_connection.contents_url.format(PAGE_ID)
     url = f"{confluence_connection._host}{resource}"
     requests_api = get_requests_api()
