@@ -9,8 +9,8 @@ Feature: Telescope upgradability test
 	Scenario: Test upgrade path from the current version of SKA Mid running in Production to the current new tag
 		Given a deployment in the ITF of the version of ska-mid currently in ska-mid-helmreleases main with 1 subarray
 		And CSP in adminMode online
-		When I turn ON the telescope
-		And I assign resources
+		And the telescope is ON
+		When I assign resources
 		And configure it for a 10 second band 1 scan
 		And I start the scan
 		And I end the observation
