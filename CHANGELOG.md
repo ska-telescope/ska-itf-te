@@ -3,7 +3,7 @@
 ## Unreleased
 
 * [AT-3765]
-  * Fixed race condition in tests caused by removal of sleep(n)s.
+  * Restored sleep for `cbfSimulationMode` event not emitted; kept waits for `cbf.controller` state instead of sleep(n)s.
 
 * [AT-3761]
   * Updated test code to wait for actual control system events instead of sleep(n)ing.
