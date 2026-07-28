@@ -130,6 +130,12 @@ ska-log-consumer:
 # CBF EC
 ska-mid-cbf-engineering-console:
   enabled: false
+  engineeringconsole:
+    image:
+      registry: registry.gitlab.com/ska-telescope/ska-mid-cbf-engineering-console
+      image: ska-mid-cbf-engineering-console
+      tag: 2.0.0-dev.cec6e2689
+      pullPolicy: IfNotPresent
   bar:
     secret:
       vault:
@@ -148,6 +154,12 @@ ska-mid-cbf-engineering-console:
 # CBF Talon Demonstration Correlator Master Control Software
 ska-mid-cbf-tdc-mcs:
   enabled: false
+  midcbf:
+    image:
+      registry: registry.gitlab.com/ska-telescope/ska-mid-cbf-tdc-mcs
+      image: ska-mid-cbf-tdc-mcs
+      tag: 1.4.1-dev.c1c9aa70d
+      pullPolicy: IfNotPresent
   global:
     labels:
       skao.int/clone-pvc: cbf-ec-pvc
