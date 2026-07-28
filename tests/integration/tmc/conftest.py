@@ -152,68 +152,13 @@ class CSP:
         :type simulation_mode: bool
         """
         if simulation_mode:
-            # Subscribe to event BEFORE changing attribute to avoid race condition
-            event_queue = Queue()
-            event_id = self.control.subscribe_event(
-                "cbfSimulationMode", EventType.CHANGE_EVENT, event_queue.put
-            )
             self.control.cbfSimulationMode = 1
-            self._wait_for_queued_event(event_queue, event_id, "cbfSimulationMode", 1)
+            sleep(5)  # TODO: Enable use of events to check simulationmode
             self.cbf_sim_mode = simulation_mode
         else:
-            # Subscribe to event BEFORE changing attribute to avoid race condition
-            event_queue = Queue()
-            event_id = self.control.subscribe_event(
-                "cbfSimulationMode", EventType.CHANGE_EVENT, event_queue.put
-            )
             self.control.cbfSimulationMode = 0
-            self._wait_for_queued_event(event_queue, event_id, "cbfSimulationMode", 0)
+            sleep(5)  # TODO: Enable use of events to check simulationmode
             self.cbf_sim_mode = simulation_mode
-
-    def _wait_for_queued_event(
-        self, event_queue: Queue, event_id: int, attr_name: str, desired_value: Any
-    ) -> bool:
-        """Wait for an event that's already been subscribed to.
-
-        :param event_queue: Queue receiving the events
-        :param event_id: Event subscription ID for cleanup
-        :param attr_name: Attribute name for logging
-        :param desired_value: Expected value
-        :return: True if event received, False otherwise
-        :raises EventWaitTimeout: If timeout occurs
-        """
-        result = False
-        timeout = 150.0
-        time_start = time()
-
-        try:
-            while (time() - time_start) < timeout:
-                if not event_queue.empty():
-                    try:
-                        event = event_queue.get(timeout=2)
-                        assert not event.err, "Event error"
-                        if event.attr_value.value == desired_value:
-                            logger.info(
-                                f"Device {self.control.name()} attribute {attr_name} "
-                                f"changed to desired value: {desired_value}"
-                            )
-                            result = True
-                            break
-                    except Empty:
-                        logger.error("Event queue empty")
-        finally:
-            self.control.unsubscribe_event(event_id)
-
-        if not result:
-            logger.error(
-                f"Desired event {self.control.name()} {attr_name}={desired_value} "
-                f"did not occur within timeout of {timeout}s"
-            )
-            raise EventWaitTimeout(
-                f"Desired event {self.control.name()} {attr_name}={desired_value} "
-                f"did not occur within timeout of {timeout}s"
-            )
-        return result
 
 
 class Dish:
@@ -359,66 +304,6 @@ def wait_for_event(
         raise EventWaitTimeout(
             f"Desired event {device_proxy.name()} {attr_name}={attr_val_name}"
             f" did not occur within the timeout period of {timeout}s"
-        )
-    return result
-
-
-def wait_for_queued_event(
-    device_proxy: DeviceProxy,
-    event_queue: Queue,
-    event_id: int,
-    attr_name: str,
-    desired_value: Any,
-    timeout: float = 150.0,
-) -> bool:
-    """Wait for an event that's already been subscribed to (pre-subscribed).
-
-    Use this when the event subscription must happen BEFORE the attribute change
-    to avoid race conditions where the event fires before the listener is ready.
-
-    :param device_proxy: Device proxy (used for logging and cleanup)
-    :param event_queue: Queue receiving the events
-    :param event_id: Event subscription ID for cleanup
-    :param attr_name: Attribute name for logging
-    :param desired_value: Expected value
-    :param timeout: Maximum period in [s] to wait, defaults to 150.0
-    :return: True if event received, False otherwise
-    :raises EventWaitTimeout: If timeout occurs
-    """
-    result = False
-    attr_val_name = desired_value
-    try:
-        attr_val_name = desired_value.name
-    except AttributeError:
-        pass
-
-    time_start = time()
-    try:
-        while (time() - time_start) < timeout:
-            if not event_queue.empty():
-                try:
-                    event = event_queue.get(timeout=2)
-                    assert not event.err, "Event error"
-                    if event.attr_value.value == desired_value:
-                        logger.info(
-                            f"Device {device_proxy.name()} attribute {attr_name} "
-                            f"changed to desired value: {attr_val_name}"
-                        )
-                        result = True
-                        break
-                except Empty:
-                    logger.error("Event queue empty")
-    finally:
-        device_proxy.unsubscribe_event(event_id)
-
-    if not result:
-        logger.error(
-            f"Desired event {device_proxy.name()} {attr_name}={attr_val_name} "
-            f"did not occur within timeout of {timeout}s"
-        )
-        raise EventWaitTimeout(
-            f"Desired event {device_proxy.name()} {attr_name}={attr_val_name} "
-            f"did not occur within timeout of {timeout}s"
         )
     return result
 
@@ -580,16 +465,10 @@ def _(telescope_handlers, settings):
 
     # # CSP should be OFFLINE when CBF Sim mode is set
     # if reset_csp_adminmode:
-    # Subscribe to event BEFORE changing attribute to avoid race condition
-    event_queue = Queue()
-    event_id = csp_control.subscribe_event("adminMode", EventType.CHANGE_EVENT, event_queue.put)
     csp_control.adminMode = 1
-    wait_for_queued_event(csp_control, event_queue, event_id, "adminMode", 1)
-    # Wait for the CBF sub-element controller to actually settle into DISABLE
-    # (i.e. finish tearing down communications) before touching
-    # cbfSimulationMode below. Writing cbfSimulationMode while CBF is still
-    # reacting to the adminMode change races with CBF's own admin-mode-driven
-    # start/stop_communicating calls on its SLIM devices (see AT-3761).
+    wait_for_event(csp_control, "adminMode", 1)
+    # Wait for CBF sub-element controller to settle into DISABLE before writing
+    # cbfSimulationMode (see AT-3761).
     wait_for_event(cbf.controller, "state", DevState.DISABLE)
 
     if not sim_mode:
@@ -600,17 +479,10 @@ def _(telescope_handlers, settings):
     csp_control.commandTimeout = 99  # TO BE REMOVED once CSP-CBF LRC's are implemented
     csp_control.commandTimeout = 99  # TO BE REMOVED once CSP-CBF LRC's are implemented
 
-    # Subscribe to event BEFORE changing attribute to avoid race condition
-    event_queue = Queue()
-    event_id = csp_control.subscribe_event("adminMode", EventType.CHANGE_EVENT, event_queue.put)
     csp_control.adminMode = 0
-    wait_for_queued_event(csp_control, event_queue, event_id, "adminMode", 0)
-    # Wait for the CBF sub-element controller (and by extension its SLIM
-    # devices) to finish coming back online and settle into OFF before
-    # proceeding, instead of blindly sleeping. This is the transition that
-    # was racing with the cbfSimulationMode write above and leaving the SLIM
-    # devices stuck in DISABLE, causing the downstream LoadDishCfg /
-    # isDishVccConfigSet timeout (see AT-3761).
+    wait_for_event(csp_control, "adminMode", 0)
+    # Wait for CBF controller and its SLIM devices to finish coming back online
+    # before proceeding (see AT-3761).
     wait_for_event(cbf.controller, "state", DevState.OFF)
 
     logger.info(
