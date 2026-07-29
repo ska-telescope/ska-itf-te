@@ -894,6 +894,15 @@ def _(telescope_handlers, settings):
 
     sim_mode = settings["sim_mode"]
 
+    # Skip configuration if CSP adminMode is already ONLINE and simulation mode matches
+    desired_cbf_sim_mode = 1 if sim_mode else 0
+    if csp_control.adminMode == 0 and csp_control.cbfSimulationMode == desired_cbf_sim_mode:
+        logger.info(
+            f"CSP adminMode is already ONLINE and CBF simulation mode is already "
+            f"{csp_control.cbfSimulationMode}. Skipping adminMode configuration."
+        )
+        return
+
     # reset_csp_adminmode = (sim_mode != csp_control.cbfSimulationMode) and (
     #     (csp_control.adminMode == 0)
     # )
