@@ -207,7 +207,10 @@ endif
 #   --set ska-sdp.data-pvc.create=true # check syntax for this one
 # endif
 
+SDP_JOBS_TTL ?= 300
+
 SDP_PARAMS ?= --set ska-sdp.processingNamespace=$(KUBE_NAMESPACE_SDP) \
+	--set ska-sdp.jobs.ttl=$(SDP_JOBS_TTL) \
 	--set ska-sdp.qa.api.grafanaBaseUrl=https://k8s.miditf.internal.skao.int/grafana \
 	--set ska-sdp.qa.api.kibanaBaseUrl=https://k8s.stfc.skao.int \
 	$(SDP_EXTRA_PARAMS)

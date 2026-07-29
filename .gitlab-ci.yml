@@ -5,6 +5,7 @@ default:
 
 variables:
   MINIKUBE: "false"
+  SDP_JOBS_TTL: "300"
   CI_DEBUG_SERVICES: "true"
   GIT_SUBMODULE_STRATEGY: normal
   EXPOSE_All_DS: "true"
