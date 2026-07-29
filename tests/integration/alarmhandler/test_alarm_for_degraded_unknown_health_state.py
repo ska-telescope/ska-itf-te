@@ -62,13 +62,7 @@ def configure_alarm_healthstate(response_data: ResponseData, device1: str, devic
         add_api_response = httpx.post(
             f"http://alarm-handler-configurator.{namespace}.svc.miditf.internal.skao.int"
             + ":8004/add-alarms?trl=alarm%2Fhandler%2F01",
-            files={
-                "file": (
-                    "alarm_rule_healthstate_degraded_unknown.txt",
-                    file,
-                    "text/plain",
-                )
-            },
+            files={"file": ("alarm_rule_healthstate_degraded_unknown.txt", file, "text/plain")},
             data={"trl": "alarm/handler/01"},
         )
         response_data.response = add_api_response.json()
@@ -96,10 +90,7 @@ def check_alarms(device1: str, device2: str, alarm_handler_test_context: AlarmHa
     ).value
     device2_result = tango_device2.read_attribute("healthState").value
     # If the dish is deployed the value will not be DEGRADED
-    assert alarm_handler_test_context.device1_result in (
-        HealthState.DEGRADED,
-        HealthState.UNKNOWN,
-    )
+    assert alarm_handler_test_context.device1_result in (HealthState.DEGRADED, HealthState.UNKNOWN)
     assert device2_result in (HealthState.DEGRADED, HealthState.UNKNOWN)
 
 
@@ -120,11 +111,7 @@ def check_alarm_state(
     elif alarm_handler_test_context.device1_result == HealthState.UNKNOWN:
         alarm_tag = tuple([alarm_tag[1]])
     assert wait_for_event(
-        alarm_handler,
-        "alarmUnacknowledged",
-        alarm_tag,
-        print_event_details=True,
-        timeout=250.0,
+        alarm_handler, "alarmUnacknowledged", alarm_tag, print_event_details=True, timeout=250.0
     )
     # acknowledge the alarm
     alarm_handler.Ack(alarm_tag)

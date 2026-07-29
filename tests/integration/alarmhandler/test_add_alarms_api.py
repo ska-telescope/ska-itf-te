@@ -38,8 +38,7 @@ def add_alarms_api(response_data, alarm_rule_file):
     :param alarm_rule_file: alarm rules file as input for add-alarms API
     """
     file_path = os.path.join(
-        os.getcwd(),
-        f"tests/integration/alarmhandler/data/alarm_rules/{alarm_rule_file}",
+        os.getcwd(), f"tests/integration/alarmhandler/data/alarm_rules/{alarm_rule_file}"
     )
     with open(file_path, "rb") as file:
         add_api_response = httpx.post(

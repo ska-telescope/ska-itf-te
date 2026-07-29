@@ -243,7 +243,6 @@ engineering-tools submodule working tree:
 - Keep uv bootstrap guards in root CI until a uv-capable engineering-tools image is published and confirmed in MR/default pipelines.
 - Complete engineering-tools upstream migration items (Docker dependency path, remaining Poetry command usage in submodule-owned CI/jobs).
 - Consolidate root lint path to Ruff-only once all jobs/scripts are confirmed not to depend on legacy lint tooling.
-- TODO: Upstream .make/python-uv.mk should honor PYTHON_LINE_LENGTH in python-do-format and python-do-lint so local Makefile overrides can be dropped.
 
 ### Quality Gate Snapshot
 

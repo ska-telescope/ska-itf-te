@@ -17,10 +17,7 @@ logger = logging.getLogger(__name__)
 
 
 @pytest.mark.skamid
-@scenario(
-    "features/configure_unknown_state_alarm.feature",
-    "Configure Alarm for UNKNOWN State",
-)
+@scenario("features/configure_unknown_state_alarm.feature", "Configure Alarm for UNKNOWN State")
 def test_tmc_alarm_for_state_unknown():
     """Configure and raise alarms.
 
@@ -52,8 +49,7 @@ def configure_alarm_state(response_data, device_name, state_value):
     :param state_value: tango device attribute value for alarm condition
     """
     file_path = os.path.join(
-        os.getcwd(),
-        "tests/integration/alarmhandler/data/alarm_rules/alarm_rule_state_unknown.txt",
+        os.getcwd(), "tests/integration/alarmhandler/data/alarm_rules/alarm_rule_state_unknown.txt"
     )
     with open(file_path, "rb") as file:
         add_api_response = httpx.post(

@@ -121,6 +121,3 @@ max-line-length = 99
 
 [tool.black]
 line_length = 99
-
-[tool.ruff]
-line-length = 99

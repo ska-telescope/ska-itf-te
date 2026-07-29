@@ -342,18 +342,6 @@ include .make/helm.mk
 # Include Python support
 include .make/python-uv.mk
 
-# Keep repository line-length policy aligned with legacy behavior.
-# python-uv.mk does not consume PYTHON_LINE_LENGTH by default, so we override
-# the command hooks here to pass it explicitly to ruff.
-# TODO: Remove these local overrides once .make/python-uv.mk natively supports
-# TODO: PYTHON_LINE_LENGTH for both python-do-format and python-do-lint.
-python-do-format:
-	uv run ruff check --fix --line-length $(PYTHON_LINE_LENGTH) $(PYTHON_LINT_TARGET)
-	uv run ruff format --line-length $(PYTHON_LINE_LENGTH) $(PYTHON_LINT_TARGET)
-
-python-do-lint:
-	uv run ruff check --line-length $(PYTHON_LINE_LENGTH) $(PYTHON_LINT_TARGET)
-
 # include raw support
 include .make/raw.mk
 
