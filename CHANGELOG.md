@@ -7,6 +7,8 @@
   * Restored sleep for `cbfSimulationMode` event not emitted; kept waits for `cbf.controller` state instead of sleep(n)s.
 * [AT-3761]
   * Updated test code to wait for actual control system events instead of sleep(n)ing.
+* [AT-3731]
+  * Completed `uv` migration in this and `.engineering-tools` repository, and sped up `uv sync` jobs by grouping dependencies for installation.
 
 ## 31.4.0
 * [SKB-1436]
