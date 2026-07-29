@@ -9,6 +9,7 @@
   * Updated test code to wait for actual control system events instead of sleep(n)ing.
 * [AT-3731]
   * Completed `uv` migration in this and `.engineering-tools` repository, and sped up `uv sync` jobs by grouping dependencies for installation.
+  * Patched SDP Config scripts job TTL to avoid CI pipeline race condition.
 
 ## 31.4.0
 * [SKB-1436]
