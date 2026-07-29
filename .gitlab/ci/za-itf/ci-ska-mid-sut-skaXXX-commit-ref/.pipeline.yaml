@@ -48,7 +48,7 @@ deploy-aa05-dishes:
   script:
     - export PATH=.venv/bin:${PATH} # TEMPORARY COMMIT: fix in one place
     - command -v uv >/dev/null 2>&1 || python3 -m pip install uv
-    - uv sync --all-groups
+    - uv sync --frozen --no-default-groups --group engineering-tools
     - echo "Deploying multiple dishes in downstream dish-aiv stage - first deploy ska001 manually"
     - echo "Deploying dishes $DISH_IDS:"
     - make itf-dish-ids

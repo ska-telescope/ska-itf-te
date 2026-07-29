@@ -311,6 +311,40 @@ Evidence (current state):
 - `pyproject.toml` (optional, if adding a dedicated CI group)
    - Add a minimal dependency group for k8s test runner jobs.
 
+### DEPLOY_IMAGE Job Inventory and Scrutiny
+
+Jobs/templates using `image: $DEPLOY_IMAGE` were reviewed and grouped by runtime behavior.
+
+Deploy/test templates that perform Python sync (patched):
+- `.deploy` template in `.gitlab/ci/.jobs.yaml`
+   - Used by: `deploy-sut-on-demand`, `redeploy-sut-on-demand`, `deploy-sut-integration`, `redeploy-sut-integration`, `deploy-sut-testing`, `redeploy-sut-testing`.
+   - Behavior: full deploy flow plus smoke-test paths.
+   - Sync profile: `uv sync --frozen --no-default-groups --group engineering-tools`.
+
+- `.deploy-dish-lmc` template in `.gitlab/ci/za-itf/dish-lmc-skaXXX/.pipeline.yaml`
+   - Used by dish deployment jobs (including testing matrix via inherited templates).
+   - Behavior: chart install/wait/logs + optional SPFRx smoke checks.
+   - Sync profile: `uv sync --frozen --no-default-groups --group engineering-tools`.
+
+- `deploy-aa05-dishes` in `.gitlab/ci/za-itf/ci-ska-mid-sut-skaXXX-commit-ref/.pipeline.yaml`
+   - Behavior: dish-id prep + deployment orchestration.
+   - Sync profile: `uv sync --frozen --no-default-groups --group engineering-tools`.
+
+DEPLOY_IMAGE jobs without Python sync (left unchanged intentionally):
+- EDA API jobs in `.gitlab/ci/za-itf/eda-api/.pipeline.yaml`.
+- Octopus jobs in `.gitlab/ci/za-itf/octopus/.pipeline.yaml`.
+- `.dish-env` and `.testing_dish_env` image declarations where no direct `uv sync` is invoked in those templates.
+
+Additional k8s-test-runner tuning (outside DEPLOY_IMAGE inheritance but high impact):
+- `k8s-test-runner` in `.gitlab/ci/za-itf/ci-ska-mid-itf-commit-ref/.pipeline.yaml`.
+- `publish-k8s-test-results` in the same file.
+- Sync profile changed to: `uv sync --frozen --no-default-groups`.
+- Rationale from import audit:
+   - `k8s-test-runner` executes integration `pytest` flows and Kubernetes/Make operations.
+   - `publish-k8s-test-results` runs `upload-to-confluence` from repository scripts.
+   - Neither path imports `ska-mid-itf-engineering-tools` directly.
+   - Keep `--group engineering-tools` only in deploy paths where hardware commands such as `talon_on` can be invoked.
+
 ### Suggested Minimal Diff Pattern
 
 Before:

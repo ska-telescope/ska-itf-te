@@ -15,7 +15,8 @@
   script:
     - mkdir deploy
     - &uv_bootstrap_cmd command -v uv >/dev/null 2>&1 || python3 -m pip install uv
-    - bash .make/resources/gitlab_section.sh uv "Sync Python dependencies" uv sync --all-groups
+    # Keep deploy sync lean: install base deps plus engineering-tools extras only.
+    - bash .make/resources/gitlab_section.sh uv "Sync Python dependencies" uv sync --frozen --no-default-groups --group engineering-tools
     # - wget -qO /usr/bin/yq  https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 && chmod +x /usr/bin/yq # TEMPORARY COMMIT: Move to Engineering Tools
     # - bash .make/resources/gitlab_section.sh gettext "install missing package" apt-get update && sudo apt-get install gettext-base # TEMPORARY COMMIT: Move to Engineering Tools
     - export PATH=.venv/bin:${PATH} # TEMPORARY COMMIT: fix in one place
@@ -186,7 +187,7 @@ docs-build:
     - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
     - "make help | grep k8s-test"
     - *uv_bootstrap_cmd
-    - bash .make/resources/gitlab_section.sh uv "Sync Python dependencies" uv sync --all-groups
+    - bash .make/resources/gitlab_section.sh uv "Sync Python dependencies" uv sync --frozen --no-default-groups
     - export TANGO_HOST=tango-databaseds.$E2E_TEST_EXECUTION_NAMESPACE.svc.miditf.internal.skao.int:10000
     - bash .make/resources/gitlab_section.sh deployed-image-check "Check deployed container images match Helm values" make deployment-images-check
     - bash .make/resources/gitlab_section.sh default-image-check "Check if our values override any default container images" make check-image-overrides
