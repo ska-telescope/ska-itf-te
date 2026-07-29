@@ -100,15 +100,7 @@
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
     - bash .make/resources/gitlab_section.sh pvc-running "Check which PVCs are currently in SDP namespace" make pvc-check KUBE_NAMESPACE=$KUBE_NAMESPACE_SDP
     - make pvc-patch-delete || true
-    - make k8s-uninstall-chart || true
-    - |
-      if [ "$KEEP_NAMESPACE" != "true" ]; then
-        make k8s-delete-namespace
-        if [ "$KUBE_NAMESPACE_SDP" != "" ]; then
-          kubectl wait --for=delete pvc/staging-pvc -n $KUBE_NAMESPACE_SDP --timeout=60s
-          make k8s-delete-namespace KUBE_NAMESPACE=$KUBE_NAMESPACE_SDP
-        fi
-      fi
+    - make remove-sut-deployment
 
 .redeploy:
   extends:
@@ -120,9 +112,7 @@
     - echo $CI_JOB_NAME - $CI_JOB_STAGE
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
     - bash .make/resources/gitlab_section.sh env "Environment dump" env
-    - make k8s-uninstall-chart || true
-    - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps,pgdbinstances.database.skao.int --all --ignore-not-found
-    - make k8s-delete-namespace
+    - make remove-sut-deployment
 
 # If the pipeline is being exectued as a downstream, do not lint
 # or build
