@@ -254,3 +254,110 @@ Poetry Active Path Status:
 - Root CI template path: switched to python-uv.
 - Root ansible playbook test helper: switched to uv run.
 - Global repository status: Poetry is not yet fully eliminated due deferred and out-of-scope areas listed above.
+
+## CI Patch Proposal: Reduce Repeated uv Sync Cost (2026-07-29)
+
+Objective:
+- Reduce CI wall-clock time in deploy/test jobs that currently re-run `uv sync --all-groups` in each job container, while keeping dependency correctness and rollback safety.
+
+Evidence (current state):
+- Multiple job scripts invoke full dependency sync in the job workspace (for example k8s test runner paths).
+- The deploy image already provides tooling, but project dependencies are still synchronized per-job from the current repository checkout.
+- No explicit uv cache strategy is active in root CI files, so each job pays most resolution/download/install cost.
+
+### Root Cause Summary
+
+1. Per-job workspace install is explicit in CI scripts.
+2. Sync scope is broad (`--all-groups`) for jobs that likely need only a subset.
+3. Jobs are ephemeral; without cache wiring, installed environments are not reused across jobs.
+
+### Proposed Patch Set (Low Risk First)
+
+1. Narrow sync scope in test/deploy jobs.
+    - Replace `uv sync --all-groups` with the minimum required groups (example: `--group dev` or a dedicated CI group).
+    - If needed, introduce a dedicated group (for example `ci-k8s`) in `pyproject.toml` containing only runtime test dependencies.
+
+2. Add uv cache persistence in CI.
+    - Set a project-local cache directory, then cache it between jobs.
+    - Example variables:
+       - `UV_CACHE_DIR: .uv-cache`
+    - Example cache key:
+       - key inputs should include `uv.lock` and Python version.
+
+3. Keep `.venv` non-portable unless proven stable for this runner fleet.
+    - Prefer caching uv artifacts first.
+    - Only cache `.venv` as a later optimization if deterministic reuse is demonstrated.
+
+4. Optional second phase: pre-bake a minimal `ska-mid` test dependency layer.
+    - Build a dedicated test image that already contains resolved `ci-k8s` dependencies.
+    - Keep this separate from engineering-tools base image to avoid coupling project-specific dependency churn to tooling image lifecycle.
+
+### Candidate File Touches
+
+- `.gitlab/ci/.jobs.yaml`
+   - Introduce common uv cache variables/cache block for jobs that run uv.
+   - Replace broad sync command in shared hooks where safe.
+
+- `.gitlab/ci/za-itf/ci-ska-mid-itf-commit-ref/.pipeline.yaml`
+   - Patch k8s-test-runner sync command to narrow group(s).
+   - Reuse shared cache block.
+
+- `.gitlab/ci/za-itf/ci-ska-mid-sut-skaXXX-commit-ref/.pipeline.yaml`
+   - Apply same narrowing/caching pattern.
+
+- `.gitlab/ci/za-itf/dish-lmc-skaXXX/.pipeline.yaml`
+   - Apply same narrowing/caching pattern where uv sync is used.
+
+- `pyproject.toml` (optional, if adding a dedicated CI group)
+   - Add a minimal dependency group for k8s test runner jobs.
+
+### Suggested Minimal Diff Pattern
+
+Before:
+```yaml
+before_script:
+   - uv sync --all-groups
+```
+
+After (phase 1):
+```yaml
+variables:
+   UV_CACHE_DIR: .uv-cache
+
+cache:
+   key:
+      files:
+         - uv.lock
+   paths:
+      - .uv-cache/
+
+before_script:
+   - uv sync --group dev
+```
+
+After (phase 2, only if needed):
+```yaml
+before_script:
+   - uv sync --group ci-k8s
+```
+
+### Validation Plan
+
+1. Baseline current job timing for affected runners.
+2. Apply phase 1 (cache + narrower groups where obvious).
+3. Compare wall-clock and `uv sync` segment timings.
+4. If savings are insufficient, add dedicated `ci-k8s` group and retest.
+5. Keep quick rollback path by reverting only CI script lines.
+
+### Acceptance Criteria
+
+- No regression in k8s/deploy test reliability.
+- Measurable reduction in `uv sync` time in affected jobs.
+- No accidental dependency omissions (validated by full test target execution).
+
+### Rollback
+
+If any job fails due to missing dependencies:
+1. Restore previous `uv sync --all-groups` in that job.
+2. Keep cache wiring (safe to retain).
+3. Re-introduce narrowed groups incrementally with explicit dependency audit.
