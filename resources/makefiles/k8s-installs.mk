@@ -69,11 +69,21 @@ sut-namespaces: ## Create both normal & SDP helmdeploy namespaces for SUT.
 remove-sut-deployment:
 	$(eval KUBE_NAMESPACE_SDP ?= $(KUBE_NAMESPACE)-sdp)
 	@make k8s-uninstall-chart || true
-	@echo "Attempted to uninstall Helm release "$(HELM_RELEASE)". Now forcefully removing all resources in the namespace $(KUBE_NAMESPACE) and $(KUBE_NAMESPACE_SDP):"
+	@echo "Attempted to uninstall Helm release $(HELM_RELEASE). Now forcefully removing all resources in the namespace $(KUBE_NAMESPACE):"
 	@kubectl -n $(KUBE_NAMESPACE) delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all --ignore-not-found --force
-	@kubectl -n $(KUBE_NAMESPACE_SDP) delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all --ignore-not-found --force
-	@make k8s-delete-namespace || true
-	@make k8s-delete-namespace KUBE_NAMESPACE=$(KUBE_NAMESPACE_SDP) || true
+	@if kubectl get namespace $(KUBE_NAMESPACE_SDP) 2>/dev/null; then \
+		echo "Removing resources from SDP namespace $(KUBE_NAMESPACE_SDP):"; \
+		kubectl -n $(KUBE_NAMESPACE_SDP) delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all --ignore-not-found --force; \
+	fi
+	@if [ "$(KEEP_NAMESPACE)" != "true" ]; then \
+		make k8s-delete-namespace || true; \
+		if kubectl get namespace $(KUBE_NAMESPACE_SDP) 2>/dev/null; then \
+			kubectl wait --for=delete pvc/staging-pvc -n $(KUBE_NAMESPACE_SDP) --timeout=60s 2>/dev/null || true; \
+			make k8s-delete-namespace KUBE_NAMESPACE=$(KUBE_NAMESPACE_SDP) || true; \
+		fi; \
+	else \
+		echo "KEEP_NAMESPACE=true, skipping namespace deletion for $(KUBE_NAMESPACE)."; \
+	fi
 
 itf-cluster-credentials: sut-namespaces ## PIPELINE USE ONLY - allocate credentials for deployment namespaces
 	curl -s https://gitlab.com/ska-telescope/templates-repository/-/raw/master/scripts/namespace_auth.sh | bash -s $(SERVICE_ACCOUNT) $(KUBE_NAMESPACE) $(KUBE_NAMESPACE_SDP) || true
@@ -309,6 +319,10 @@ vars:
 	$(info ###### Uppercase KUBE_APP #####)
 	$(info KUBE_APP=$(shell echo $(KUBE_APP) | tr a-z A-Z))
 	$(info PROJECT_ROOT=$(PROJECT_ROOT))
+	$(info CBF_HW_IN_THE_LOOP=$(CBF_HW_IN_THE_LOOP))
+	$(info DISH_LMC_IN_THE_LOOP=$(DISH_LMC_IN_THE_LOOP))
+	$(info SPFC_IN_THE_LOOP=$(SPFC_IN_THE_LOOP))
+	$(info SPFRX_IN_THE_LOOP=$(SPFRX_IN_THE_LOOP))
 	$(info DS_SIM_OPCUA_FQDN=$(DS_SIM_OPCUA_FQDN))
 	$(info SPFRX_SIM_ENABLE=$(SPFRX_SIM_ENABLE))
 	$(info SWITCH_CSP_ON=$(SWITCH_CSP_ON))
