@@ -17,7 +17,7 @@
       "array_layout_path": "instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json"
     },
     "sdp": {
-      "interface": "https://schema.skao.int/ska-sdp-assignres/1.0",
+      "interface": "https://schema.skao.int/ska-sdp-assignres/2.1",
       "resources": {
         "csp_links": [
           1,
