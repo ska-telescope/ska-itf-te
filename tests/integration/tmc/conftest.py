@@ -955,13 +955,11 @@ def _(telescope_handlers, receptor_ids, settings):
 
     # First, check if the telescope is already ON and isDishVccConfigSet is True
     if tmc_central_node.telescopeState == DevState.ON and tmc_central_node.isDishVccConfigSet:
-        logger.info(
-            "Telescope is already ON and isDishVccConfigSet is True. No action needed."
-        )
+        logger.info("Telescope is already ON and isDishVccConfigSet is True. No action needed.")
         return
 
     # If either condition is not met, proceed to load the dish VCC config and turn the telescope ON
-    
+
     with open(DISH_CONFIG_FILE, encoding="utf-8") as f:
         dish_config_json = json.load(f)
 
