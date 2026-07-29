@@ -58,7 +58,6 @@
     HELM_BUILD_CACHE_DIR: ./chart.tmp
     K8S_USE_CACHED_CHARTS: "true"
   script:
-    - command -v uv >/dev/null 2>&1 || python3 -m pip install uv
     - bash .make/resources/gitlab_section.sh uv "Sync Python dependencies" uv sync --frozen --no-default-groups --group engineering-tools
     - export PATH=.venv/bin:${PATH} # TEMPORARY COMMIT: fix in one place
     - bash .make/resources/gitlab_section.sh setup-cache "Setup cached charts if available" make k8s-setup-cached-charts
