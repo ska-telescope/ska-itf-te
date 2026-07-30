@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3763]
+  * Temporary mapping swap of VCC 1 and VCC 2 to SKA036 and SKA001 repectively in staging environment. Note setting of DishVccUri: "car:ska-mid?31.4.1-vcc-swap#tmdata"
 * [AT-3732]
   * Force-deleting zombie pods
 * [AT-3765]
