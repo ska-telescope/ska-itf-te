@@ -36,6 +36,7 @@
     "execution_block": {
       "eb_id": "eb-test-20250116-015445",
       "context": {},
+      "max_length": 21600.0,
       "channels": [
         {
           "channels_id": "vis_channels",
