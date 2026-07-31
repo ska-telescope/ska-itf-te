@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3774]
+  * Upgrade tmc to `1.24.0`
 * [AT-3732]
   * Force-deleting zombie pods
 * [AT-3765]
