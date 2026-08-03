@@ -356,6 +356,15 @@ def _redeploy_sut_via_make(release_name: str, namespace: str, version: str) -> N
         check=True,
     )
 
+    # k8s-install-chart doesn't --wait, so confirm Jobs/CRs/Pods are ready before proceeding
+    # (mirrors the "K8S wait" step run after k8s-install-chart in the CI pipeline).
+    logger.info(f"Waiting for Jobs/Pods to be ready in namespace '{namespace}'...")
+    subprocess.run(
+        ["make", "k8s-wait"],
+        env={**os.environ, "KUBE_NAMESPACE": namespace},
+        check=True,
+    )
+
     # Create the SDP data-product PVC (post-install, mirrors .deploy script)
     subprocess.run(
         ["make", "pvc-patch-apply"],

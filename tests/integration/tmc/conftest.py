@@ -428,6 +428,10 @@ def _(settings):
     proxies. Subsequent steps that depend on ``telescope_handlers`` will only trigger that
     fixture after Tango is confirmed reachable.
 
+    ``_redeploy_sut_via_make`` also runs ``make k8s-wait`` right after ``k8s-install-chart``
+    (mirroring the CI deploy job) so that Jobs/CRs/Pods are confirmed ready at the k8s
+    level before the Tango-level polling begins.
+
     :param settings: Test settings.
     """
     site_chart_version = settings["site_chart_version"]
