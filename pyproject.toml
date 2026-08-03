@@ -117,7 +117,6 @@ lint.ignore = [
     "D107",  # Missing docstring in `__init__`
     "E501",  # Line too long (covered by formatter)
 ]
-lint.extend-select = ["DOC", "RST"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "numpy"

@@ -135,7 +135,7 @@ def test_helm_install(deployment_smoke_test_settings, k8s_config):
                 chart_deployed = True
 
         if not chart_deployed:
-            assert False, f"{deployed_chart_name} chart has not been deployed"
+            raise AssertionError(f"{deployed_chart_name} chart has not been deployed")
 
     logger.info("Chart installation is complete")
 
@@ -188,9 +188,9 @@ def test_telescope_state(deployment_smoke_test_settings):
     cluster_domain = deployment_smoke_test_settings["cluster_domain"]
     receptors = deployment_smoke_test_settings["receptors"]
 
-    base_dish_states_standby_lp = {receptor: DishMode.STANDBY_LP for receptor in receptors}
-    base_dish_states_standby_fp = {receptor: DishMode.STANDBY_FP for receptor in receptors}
-    base_dish_states_operate = {receptor: DishMode.OPERATE for receptor in receptors}
+    base_dish_states_standby_lp = dict.fromkeys(receptors, DishMode.STANDBY_LP)
+    base_dish_states_standby_fp = dict.fromkeys(receptors, DishMode.STANDBY_FP)
+    base_dish_states_operate = dict.fromkeys(receptors, DishMode.OPERATE)
 
     # Telescope Off base state (Central node: OFF; Subbarray node, CSP subarrayleaf node,
     # and SDP subarray leaf node: EMPTY; Dishes: STANDBY_LP)
@@ -292,7 +292,7 @@ def k8s_config():
         try:
             config.load_incluster_config()
             logger.debug("Loaded in-cluster config")
-        except ConfigException:
+        except ConfigException as inner_err:
             raise RuntimeError(
                 "Failed to load Kubernetes config from both kubeconfig and in-cluster"
-            )
+            ) from inner_err

@@ -24,7 +24,7 @@ Reference:
 
 ## Remaining Future Work
 
-1. Validate MR/default/tag pipelines after the guard-removal and sync-profile updates.
+1. Validate MR/default/tag pipelines after all migration changes.
 2. Optional CI performance follow-up:
    - add uv cache persistence in root CI jobs
    - evaluate a dedicated minimal CI dependency group only if timing data justifies it
@@ -41,6 +41,7 @@ Reference:
 - [x] Root residual Poetry references removed in all in-scope scripts/docs
 - [x] Root lint stack fully consolidated to Ruff-only active path
 - [x] Dev-container configured with Ruff tooling
+- [x] Ruff linting errors fixed in test code (actual bugs and violations addressed)
 - [ ] Full MR/default/tag pipeline validation completed
 
 ## Risks and Mitigations
