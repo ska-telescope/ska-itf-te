@@ -332,7 +332,7 @@ def _redeploy_sut_via_make(release_name: str, namespace: str, version: str) -> N
         check=False,
     )
     subprocess.run(
-        ["make", "k8s-uninstall-chart"],
+        ["make", "remove-sut-deployment"],
         env={**os.environ, "HELM_RELEASE": release_name, "KUBE_NAMESPACE": namespace},
         check=False,
     )
