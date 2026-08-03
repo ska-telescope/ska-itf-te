@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3730]
+  * Get logs for DishLMC namespaces in pipelines
 * [AT-3732]
   * Force-deleting zombie pods
 * [AT-3765]
