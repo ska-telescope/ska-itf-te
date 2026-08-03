@@ -6,7 +6,7 @@
 #   1. CI_JOB_TOKEN     - standard GitLab CI token (same GitLab instance,
 #                         requires ska-mid-helmreleases to allow this project
 #                         in Settings > CI/CD > Token Access)
-#   3. No auth          - fallback for public repos
+#   2. No auth          - fallback for public repos
 set -euo pipefail
 
 REPO_PATH="ska-telescope/ska-mid-helmreleases"
