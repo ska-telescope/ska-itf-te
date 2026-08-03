@@ -95,21 +95,23 @@ setup_spfrx_dry_run: refresh_inventory guard-DISH_INDEX ## Runs the playbook aga
 .PHONY: setup_spfrx_dry_run
 
 validate_spfrx: refresh_inventory guard-DISH_INDEX ## Runs the SPFRx validation tasks (post human intervention) for a given DISH_INDEX. Usage: make validate_spfrx DISH_INDEX=1
-	@SPFRX_HOST=$$(awk '/dish_index=$(DISH_INDEX)([[:space:]]|$$)/{print $$1}' $(INVENTORY_FILE)); \
+	@SPFRX_HOST=$$(awk '/^\[spfrx_mid\]/{f=1;next} /^\[/{f=0} f && /dish_index=$(DISH_INDEX)([[:space:]]|$$)/{print $$1; exit}' $(INVENTORY_FILE)); \
 	if [ -z "$$SPFRX_HOST" ]; then \
-		echo "No host with dish_index=$(DISH_INDEX) found. Adding spfrx$(DISH_INDEX) to [spfrx_mid]."; \
-		printf 'spfrx$(DISH_INDEX) ansible_host=10.10.101.148 host_identifier="spfrx$(DISH_INDEX)" dish_index=$(DISH_INDEX)\n' >> $(INVENTORY_FILE); \
-		SPFRX_HOST=spfrx$(DISH_INDEX); \
+		echo "ERROR: No host with dish_index=$(DISH_INDEX) found in the [spfrx_mid] group of $(INVENTORY_FILE)."; \
+		echo "Add an entry like the following to [spfrx_mid] in $(INVENTORY_FILE) and try again:"; \
+		echo '  spfrx$(DISH_INDEX) ansible_host=<ip_address> host_identifier="spfrx$(DISH_INDEX)" dish_index=$(DISH_INDEX)'; \
+		exit 1; \
 	fi; \
 	$(ANSIBLE_COMMAND) --limit $$SPFRX_HOST --tags spfrx_validate $(MKFILE_DIR)site.yml
 .PHONY: validate_spfrx
 
 validate_spfrx_dry_run: refresh_inventory guard-DISH_INDEX ## Runs the SPFRx validation tasks for a given DISH_INDEX in dry-run mode. Usage: make validate_spfrx_dry_run DISH_INDEX=1
-	@SPFRX_HOST=$$(awk '/dish_index=$(DISH_INDEX)([[:space:]]|$$)/{print $$1}' $(INVENTORY_FILE)); \
+	@SPFRX_HOST=$$(awk '/^\[spfrx_mid\]/{f=1;next} /^\[/{f=0} f && /dish_index=$(DISH_INDEX)([[:space:]]|$$)/{print $$1; exit}' $(INVENTORY_FILE)); \
 	if [ -z "$$SPFRX_HOST" ]; then \
-		echo "No host with dish_index=$(DISH_INDEX) found. Adding spfrx$(DISH_INDEX) to [spfrx_mid]."; \
-		printf 'spfrx$(DISH_INDEX) ansible_host=10.10.101.148 host_identifier="spfrx$(DISH_INDEX)" dish_index=$(DISH_INDEX)\n' >> $(INVENTORY_FILE); \
-		SPFRX_HOST=spfrx$(DISH_INDEX); \
+		echo "ERROR: No host with dish_index=$(DISH_INDEX) found in the [spfrx_mid] group of $(INVENTORY_FILE)."; \
+		echo "Add an entry like the following to [spfrx_mid] in $(INVENTORY_FILE) and try again:"; \
+		echo '  spfrx$(DISH_INDEX) ansible_host=<ip_address> host_identifier="spfrx$(DISH_INDEX)" dish_index=$(DISH_INDEX)'; \
+		exit 1; \
 	fi; \
 	$(ANSIBLE_COMMAND_DRY_RUN) --limit $$SPFRX_HOST --tags spfrx_validate $(MKFILE_DIR)site.yml
 .PHONY: validate_spfrx_dry_run

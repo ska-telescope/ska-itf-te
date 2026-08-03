@@ -207,9 +207,17 @@ Dry run for a specific dish index:
 make setup_spfrx_dry_run DISH_INDEX=1
 ```
 
-After running `setup_spfrx`, the SPFRx moves to a new subnet and requires human
-intervention (e.g. moving a network cable/patch) before it is reachable again.
-Once that has been done, verify the device is reachable with:
+Validating a dish requires the dish index to already have a matching entry
+in the `[spfrx_mid]` group of `inventory/hosts`, for example:
+
+```ini
+[spfrx_mid]
+spfrx12 ansible_host=10.165.3.51 host_identifier="spfrx12" dish_index=12
+```
+
+If no host with the given `dish_index` exists in `[spfrx_mid]`, `validate_spfrx`
+fails with an error instead of creating one automatically. To verify the
+device is reachable at the `ansible_host` listed for it:
 
 ```bash
 make validate_spfrx DISH_INDEX=1

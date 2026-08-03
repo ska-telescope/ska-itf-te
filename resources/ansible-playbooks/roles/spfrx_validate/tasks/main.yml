@@ -1,21 +1,12 @@
 ---
-# These tasks require human intervention before they can succeed: after the
-# network configuration applied by the spfrx_setup role, the device moves to
-# a new subnet and is no longer reachable at its original ansible_host until
-# someone completes the manual step (e.g. moving a network cable/patch).
-# They are therefore split out into their own role, tagged "never" so they
-# only run when explicitly requested (see the validate_spfrx make target).
+# This task validates that the SPFRx host is reachable via SSH at the
+# ansible_host address listed for it in the [spfrx_mid] inventory group.
+# It is tagged "never" so it only runs when explicitly requested (see the
+# validate_spfrx make target).
 
-- name: Set expected new IP address
-  ansible.builtin.set_fact:
-    new_ip: "{{ ('10.160.' + dish_index | string + '.5') if dish_index is defined else ansible_host }}"
-  tags:
-    - spfrx_validate
-    - never
-
-- name: Wait for device to be reachable on new IP address
+- name: Wait for device to be reachable at its listed ansible_host
   ansible.builtin.wait_for:
-    host: "{{ new_ip }}"
+    host: "{{ ansible_host }}"
     port: 22
     delay: 5
     timeout: 60
