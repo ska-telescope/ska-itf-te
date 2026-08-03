@@ -103,7 +103,8 @@ def _redeploy_helm_release(
     Equivalent helm commands:
        helm uninstall <release_name> -n <namespace>
        [kubectl delete namespace <namespace>]
-       helm install <release_name> <chart_ref> --version <version> --namespace <namespace> --values <values_file>
+       helm install <release_name> <chart_ref> --version <version> --namespace <namespace> \
+           --values <values_file>
 
     :param release_name: Helm release name to uninstall and reinstall.
     :type release_name: str
@@ -183,7 +184,8 @@ def _upgrade_helm_release(
     """In-place helm upgrade, reusing existing values.
 
     Equivalent helm command:
-       helm upgrade <release_name> <chart_ref> --version <version> --namespace <namespace> --reuse-values --wait --timeout 20m
+       helm upgrade <release_name> <chart_ref> --version <version> --namespace <namespace> \
+           --reuse-values --wait --timeout 20m
 
     :param release_name: Helm release name to upgrade.
     :type release_name: str

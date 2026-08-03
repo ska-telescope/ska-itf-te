@@ -30,7 +30,10 @@ from tests.integration.tmc.helm_utils import (
     _dish_namespace,
     _ensure_helm_repo,
     _get_helm_release,
+    _redeploy_helm_release,
+    _redeploy_sut_via_make,
     _upgrade_helm_release,
+    _wait_for_tango_by_name,
     _wait_for_tango_devices,
 )
 from utils.enums import DishMode
@@ -452,43 +455,34 @@ def _(settings):
         logger.info(
             f"Deployed version '{deployed_version}' does not match "
             f"ska-mid-helmreleases main '{site_chart_version}'. "
+            f"Performing clean-slate redeploy across all namespaces..."
         )
-    # TODO: Uncomment the following block when redeploying is desired.
-    # (replace else above with this block)
-    # else:
-    #     logger.info(
-    #         f"Deployed version '{deployed_version}' does not match "
-    #         f"ska-mid-helmreleases main '{site_chart_version}'. "
-    #         f"Performing clean-slate redeploy across all namespaces..."
-    #     )
 
-    #     _ensure_helm_repo()
+        _ensure_helm_repo()
 
-    #     # Redeploy each dish-lmc namespace (full namespace delete + reinstall).
-    #     # Dish-lmc namespaces have no externally-referenced PVCs so full teardown is safe.
-    #     dish_ids = [d.strip() for d in settings["dish_ids"].split()]
-    #     for dish_id in dish_ids:
-    #         dish_ns = _dish_namespace(namespace, dish_id)
-    #         dish_release = _get_helm_release(dish_ns)
-    #         if dish_release:
-    #             _redeploy_helm_release(
-    #                 dish_release["name"],
-    #                 dish_ns,
-    #                 site_chart_version,
-    #                 delete_namespace=True,
-    #             )
-    #         else:
-    #             logger.warning(
-    #                 f"No '{SKA_MID_CHART_NAME}' release found in '{dish_ns}', skipping"
-    #             )
+        # Redeploy each dish-lmc namespace (full namespace delete + reinstall).
+        # Dish-lmc namespaces have no externally-referenced PVCs so full teardown is safe.
+        dish_ids = [d.strip() for d in settings["dish_ids"].split()]
+        for dish_id in dish_ids:
+            dish_ns = _dish_namespace(namespace, dish_id)
+            dish_release = _get_helm_release(dish_ns)
+            if dish_release:
+                _redeploy_helm_release(
+                    dish_release["name"],
+                    dish_ns,
+                    site_chart_version,
+                    delete_namespace=True,
+                )
+            else:
+                logger.warning(f"No '{SKA_MID_CHART_NAME}' release found in '{dish_ns}', skipping")
 
-    #     # Destroy and redeploy the SUT via make targets (mirrors redeploy-sut-integration).
-    #     # This avoids the existingClaim PVC failure that occurs when saved values are reused
-    #     # after helm uninstall; the make targets install with fresh CI parameters so the
-    #     # chart creates all PVCs anew, exactly as the CI deploy job does.
-    #     _redeploy_sut_via_make(release_name, namespace, site_chart_version)
+        # Destroy and redeploy the SUT via make targets (mirrors redeploy-sut-integration).
+        # This avoids the existingClaim PVC failure that occurs when saved values are reused
+        # after helm uninstall; the make targets install with fresh CI parameters so the
+        # chart creates all PVCs anew, exactly as the CI deploy job does.
+        _redeploy_sut_via_make(release_name, namespace, site_chart_version)
 
-    #     _wait_for_tango_by_name(site_chart_version)
+        _wait_for_tango_by_name(site_chart_version)
 
     values_result = subprocess.run(
         ["helm", "get", "values", release_name, "-n", namespace, "--output", "json"],

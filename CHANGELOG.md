@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3758]
+  * Upgradability test for ska-mid chart (manual trigger only)
 * [AT-3732]
   * Force-deleting zombie pods
 * [AT-3765]
