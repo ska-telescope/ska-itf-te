@@ -414,7 +414,7 @@ helm-rebuild-ska-mid:
 
 loop-dishes-k8s-info:
 	@if [ "$(DISH_LMC_IN_THE_LOOP)" != "true" ]; then \
-		echo "DISH_LMC_IN_THE_LOOP is `false`, skipping dish container info; \
+		echo "DISH_LMC_IN_THE_LOOP is false, skipping dish container info"; \
 		exit 0; \
 	fi; \
 	DISH_IDS_CLEAN="$(strip $(subst ",,$(DISH_IDS)))"; \
