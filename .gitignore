@@ -1,5 +1,6 @@
 dev-values.yaml
 charts/**/charts/*
+logs/*
 .DS_Store
 *.pyc
 UserProfile.mak

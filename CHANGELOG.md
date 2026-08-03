@@ -1,6 +1,26 @@
 # Version History
 
 ## Unreleased
+* [AT-3732]
+  * Force-deleting zombie pods
+* [AT-3765]
+  * Restored sleep for `cbfSimulationMode` event not emitted; kept waits for `cbf.controller` state instead of sleep(n)s.
+* [AT-3761]
+  * Updated test code to wait for actual control system events instead of sleep(n)ing.
+
+## 31.4.0
+* [SKB-1436]
+  * Upgraded TMC to `1.21.2`
+  * Removed vis-receive sleep in e2e test
+
+* [AT-3756]
+  * Upgrade dish-lmc to `10.0.1`
+  * Upgrade TMC to `1.21.2`
+
+## 31.2.2
+* [AT-3734]
+  * Upgrade dish-lmc to `10.0.0`
+  * Upgrade TMC to `1.21.1`
 * [AT-3712]
   * Ansible playbook to set up NTP server on SPFRx, implemented adding hosts according to DISH_INDEX
 
