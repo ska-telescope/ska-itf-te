@@ -41,17 +41,9 @@ docs = [
 	"markupsafe>=2.1.0,<3.0.0",
 ]
 dev = [
-	"black>=24.2.0,<25.0.0",
-	"flake8>=7.0.0,<8.0.0",
-	"isort>=5.12.0,<6.0.0",
-	"pylint>=3.1.0,<4.0.0",
-	"pylint-junit>=0.3.2,<0.4.0",
 	"pytest-cov>=4.0.0,<5.0.0",
-	"flake8-docstrings>=1.7.0,<2.0.0",
-	"flake8-rst-docstrings>=0.3.0,<0.4.0",
-	"darglint>=1.8.1,<2.0.0",
-	"mypy>=1.8.0,<2.0.0",
 	"ruff>=0.6.0,<1.0.0",
+	"mypy>=1.8.0,<2.0.0",
 	"twine>=5.0.0,<6.0.0",
 	"ipykernel>=6.29.5,<7.0.0",
 ]
@@ -61,7 +53,7 @@ ansible = [
 	"ansible-lint>=25.0.0,<26.0.0; platform_system != 'Windows'",
 ]
 engineering-tools = [
-	"ska-mid-itf-engineering-tools==0.10.4",
+	"ska-mid-itf-engineering-tools==0.11.1",
 	"python-casacore<3.8; sys_platform == 'darwin' and platform_machine == 'arm64'",
 ]
 
@@ -111,13 +103,24 @@ build-dir = "docs/_build"
 all_files = 1
 builder = "html"
 
-[tool.isort]
-profile = "black"
-multi_line_output = 3
-line_length = 99
+[tool.ruff]
+line-length = 99
+fix = true
+unsafe-fixes = true
+lint.select = ["E", "F", "W", "C90", "UP", "D", "N", "B", "C4", "PT", "RUF"]
+lint.ignore = [
+    "D100",  # Missing docstring in public module
+    "D101",  # Missing docstring in public class
+    "D102",  # Missing docstring in public method
+    "D104",  # Missing docstring in public package
+    "D105",  # Missing docstring in magic method
+    "D107",  # Missing docstring in `__init__`
+    "E501",  # Line too long (covered by formatter)
+]
+lint.extend-select = ["DOC", "RST"]
 
-[tool.flake8]
-max-line-length = 99
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
 
-[tool.black]
-line_length = 99
+[tool.ruff.format]
+preview = true

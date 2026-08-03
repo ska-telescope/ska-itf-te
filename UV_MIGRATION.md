@@ -11,7 +11,7 @@ Reference:
 
 - uv lock/sync workflow is active.
 - CI Python template include uses `python-uv`.
-- `DEPLOY_IMAGE` points to a uv-capable engineering-tools dev image.
+- `DEPLOY_IMAGE` is pinned to stable engineering-tools `0.11.1` with uv support.
 - uv bootstrap guards have been removed from root CI jobs.
 - k8s test/publish sync profile has been leanified to:
   - `uv sync --frozen --no-default-groups`
@@ -20,16 +20,12 @@ Reference:
 
 ### engineering-tools Dependency
 
-- engineering-tools migration work is available and consumed via dev image.
-- Stable non-dev release adoption is still pending.
+- Stable non-dev release `0.11.1` is adopted and pinned in `DEPLOY_IMAGE`.
 
 ## Remaining Future Work
 
-1. Remove residual Poetry references in in-scope root scripts/docs.
-2. Consolidate root lint stack to Ruff-only active path.
-3. Validate MR/default/tag pipelines after the guard-removal and sync-profile updates.
-4. Adopt a stable non-dev uv-capable engineering-tools image tag and keep `DEPLOY_IMAGE` pinned to it.
-5. Optional CI performance follow-up:
+1. Validate MR/default/tag pipelines after the guard-removal and sync-profile updates.
+2. Optional CI performance follow-up:
    - add uv cache persistence in root CI jobs
    - evaluate a dedicated minimal CI dependency group only if timing data justifies it
 
@@ -41,10 +37,11 @@ Reference:
 - [x] New engineering-tools uv-capable image published
 - [x] Root DEPLOY_IMAGE bumped to new engineering-tools image
 - [x] Root uv bootstrap guards removed
-- [ ] Root residual Poetry references removed in all in-scope scripts/docs
-- [ ] Root lint stack fully consolidated to Ruff-only active path
+- [x] Stable engineering-tools release tag adopted (0.11.1 pinned to DEPLOY_IMAGE)
+- [x] Root residual Poetry references removed in all in-scope scripts/docs
+- [x] Root lint stack fully consolidated to Ruff-only active path
+- [x] Dev-container configured with Ruff tooling
 - [ ] Full MR/default/tag pipeline validation completed
-- [ ] Stable engineering-tools release tag adopted (non-dev)
 
 ## Risks and Mitigations
 
