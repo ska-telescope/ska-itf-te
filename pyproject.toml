@@ -27,6 +27,7 @@ dependencies = [
 	"diagrams>=0.25.1,<0.26.0",
 	"mock>=5.2.0,<6.0.0",
 	"kubernetes>=35.0.0,<36.0.0",
+	"pytest-bdd>=7.0.0,<8.0.0",
 ]
 
 [project.scripts]
