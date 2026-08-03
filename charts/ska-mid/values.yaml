@@ -240,6 +240,8 @@ ska-octopus-backend:
 
 # SDP
 ska-sdp:
+  jobs:
+    ttl: 300
   enabled: false
   data-pvc:
     create:
