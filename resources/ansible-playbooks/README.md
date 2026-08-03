@@ -207,6 +207,20 @@ Dry run for a specific dish index:
 make setup_spfrx_dry_run DISH_INDEX=1
 ```
 
+After running `setup_spfrx`, the SPFRx moves to a new subnet and requires human
+intervention (e.g. moving a network cable/patch) before it is reachable again.
+Once that has been done, verify the device is reachable with:
+
+```bash
+make validate_spfrx DISH_INDEX=1
+```
+
+Dry run:
+
+```bash
+make validate_spfrx_dry_run DISH_INDEX=1
+```
+
 ## Additional Info
 
 ### Help

@@ -23,7 +23,7 @@ ANSIBLE_COMMAND_DRY_RUN := $(ANSIBLE_COMMAND) --check --diff
 V ?=
 USER ?= $(shell whoami)
 
-SPFRX_GOALS := setup_spfrx setup_spfrx_dry_run setup_spfrx_host setup_spfrx_host_dry_run
+SPFRX_GOALS := setup_spfrx setup_spfrx_dry_run setup_spfrx_host setup_spfrx_host_dry_run validate_spfrx validate_spfrx_dry_run
 ifneq ($(filter $(SPFRX_GOALS),$(MAKECMDGOALS)),)
 AD_USER ?= $(USER)
 endif
@@ -93,6 +93,26 @@ setup_spfrx_dry_run: refresh_inventory guard-DISH_INDEX ## Runs the playbook aga
 	fi; \
 	$(ANSIBLE_COMMAND_DRY_RUN) --limit $$SPFRX_HOST $(MKFILE_DIR)site.yml
 .PHONY: setup_spfrx_dry_run
+
+validate_spfrx: refresh_inventory guard-DISH_INDEX ## Runs the SPFRx validation tasks (post human intervention) for a given DISH_INDEX. Usage: make validate_spfrx DISH_INDEX=1
+	@SPFRX_HOST=$$(awk '/dish_index=$(DISH_INDEX)([[:space:]]|$$)/{print $$1}' $(INVENTORY_FILE)); \
+	if [ -z "$$SPFRX_HOST" ]; then \
+		echo "No host with dish_index=$(DISH_INDEX) found. Adding spfrx$(DISH_INDEX) to [spfrx_mid]."; \
+		printf 'spfrx$(DISH_INDEX) ansible_host=10.10.101.148 host_identifier="spfrx$(DISH_INDEX)" dish_index=$(DISH_INDEX)\n' >> $(INVENTORY_FILE); \
+		SPFRX_HOST=spfrx$(DISH_INDEX); \
+	fi; \
+	$(ANSIBLE_COMMAND) --limit $$SPFRX_HOST --tags spfrx_validate $(MKFILE_DIR)site.yml
+.PHONY: validate_spfrx
+
+validate_spfrx_dry_run: refresh_inventory guard-DISH_INDEX ## Runs the SPFRx validation tasks for a given DISH_INDEX in dry-run mode. Usage: make validate_spfrx_dry_run DISH_INDEX=1
+	@SPFRX_HOST=$$(awk '/dish_index=$(DISH_INDEX)([[:space:]]|$$)/{print $$1}' $(INVENTORY_FILE)); \
+	if [ -z "$$SPFRX_HOST" ]; then \
+		echo "No host with dish_index=$(DISH_INDEX) found. Adding spfrx$(DISH_INDEX) to [spfrx_mid]."; \
+		printf 'spfrx$(DISH_INDEX) ansible_host=10.10.101.148 host_identifier="spfrx$(DISH_INDEX)" dish_index=$(DISH_INDEX)\n' >> $(INVENTORY_FILE); \
+		SPFRX_HOST=spfrx$(DISH_INDEX); \
+	fi; \
+	$(ANSIBLE_COMMAND_DRY_RUN) --limit $$SPFRX_HOST --tags spfrx_validate $(MKFILE_DIR)site.yml
+.PHONY: validate_spfrx_dry_run
 
 setup_spfrx_host: refresh_inventory guard-HOST ## Runs the playbook for a specific SPFRX host, with spfrx tags. Usage: make setup_spfrx_host HOST=spfrx03
 	@if ! grep -qE "^$(HOST)[[:space:]]" $(INVENTORY_FILE); then echo "ERROR: No host '$(HOST)' found in $(INVENTORY_FILE)"; exit 1; fi; \
