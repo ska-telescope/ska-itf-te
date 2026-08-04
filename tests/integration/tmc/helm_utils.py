@@ -16,20 +16,6 @@ SKA_HELM_REPO_NAME = "ska"
 SKA_HELM_REPO_URL = "https://artefact.skao.int/repository/helm-internal"
 SKA_MID_CHART_NAME = "ska-mid"
 
-# Core TMC/CSP device names used to verify Tango readiness after a redeploy.
-# DeviceProxy objects are created fresh on every poll attempt so that no
-# pre-existing (potentially stale) proxies are required.
-_TANGO_CORE_DEVICE_NAMES = [
-    "mid-tmc/central-node/0",
-    "mid-tmc/subarray/01",
-    "mid-tmc/subarray-leaf-node-sdp/01",
-    "mid-tmc/leaf-node-csp/0",
-    "mid-tmc/subarray-leaf-node-csp/01",
-    "mid-tmc/leaf-node-sdp/0",
-    "mid-csp/control/0",
-    "mid-csp/subarray/01",
-]
-
 
 def _ensure_helm_repo(
     repo_name: str = SKA_HELM_REPO_NAME, repo_url: str = SKA_HELM_REPO_URL
@@ -243,38 +229,6 @@ def _wait_for_tango_devices(telescope_handlers, version: str, poll_timeout: int 
         try:
             for dp in tango_devices:
                 dp.ping()
-            logger.info("All Tango devices are reachable")
-            return
-        except Exception as exc:
-            logger.debug(
-                f"Tango devices not yet reachable: {exc}. Retrying in {poll_interval}s..."
-            )
-            sleep(poll_interval)
-    pytest.fail(
-        f"Tango devices did not become reachable within {poll_timeout}s "
-        f"after version '{version}'"
-    )
-
-
-def _wait_for_tango_by_name(version: str, poll_timeout: int = 300) -> None:
-    """Poll core Tango devices by name until all are reachable.
-
-    Creates fresh DeviceProxy objects on every attempt so that no pre-existing
-    (potentially stale) proxy handles are required. Use this variant when
-    Tango may not yet be reachable (e.g. immediately after a helm redeploy).
-
-    :param version: Chart version string used in the failure message.
-    :type version: str
-    :param poll_timeout: Maximum seconds to wait for devices, defaults to 300.
-    :type poll_timeout: int
-    """
-    poll_interval = 10
-    deadline = time() + poll_timeout
-    logger.info("Waiting for Tango devices to be reachable (by name)...")
-    while time() < deadline:
-        try:
-            for name in _TANGO_CORE_DEVICE_NAMES:
-                DeviceProxy(name).ping()
             logger.info("All Tango devices are reachable")
             return
         except Exception as exc:

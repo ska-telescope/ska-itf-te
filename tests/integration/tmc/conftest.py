@@ -33,7 +33,6 @@ from tests.integration.tmc.helm_utils import (
     _redeploy_helm_release,
     _redeploy_sut_via_make,
     _upgrade_helm_release,
-    _wait_for_tango_by_name,
     _wait_for_tango_devices,
 )
 from utils.enums import DishMode
@@ -350,7 +349,7 @@ def set_context(settings):
 def pb_and_eb_ids() -> dict:
     """Mutable container holding the most recently submitted pb_id and eb_id.
 
-    I assign resources writes into this dict on every call so that subsequent
+    When assigning resources, this writes into this dict so that subsequent
     steps (e.g. the dataproducts check) always see the last-used IDs.
 
     :return: dict with keys 'pb_id' and 'eb_id', initially empty
@@ -423,14 +422,11 @@ def _(settings):
     starts from a clean, known state before the first observation.
 
     Does NOT take ``telescope_handlers`` as a parameter — Tango may not yet be reachable
-    when this step runs. Readiness is verified via ``_wait_for_tango_by_name`` which
-    creates fresh DeviceProxy objects in a retry loop instead of relying on pre-built
-    proxies. Subsequent steps that depend on ``telescope_handlers`` will only trigger that
-    fixture after Tango is confirmed reachable.
-
-    ``_redeploy_sut_via_make`` also runs ``make k8s-wait`` right after ``k8s-install-chart``
-    (mirroring the CI deploy job) so that Jobs/CRs/Pods are confirmed ready at the k8s
-    level before the Tango-level polling begins.
+    when this step runs. Readiness is verified via ``make k8s-wait``, run inside
+    ``_redeploy_sut_via_make`` right after ``k8s-install-chart`` (mirroring the CI deploy
+    job), which waits on the Tango Operator's DatabaseDS/DeviceServer CRs and Pods directly
+    rather than polling individual device names. Subsequent steps that depend on
+    ``telescope_handlers`` will only trigger that fixture afterwards.
 
     :param settings: Test settings.
     """
@@ -483,10 +479,9 @@ def _(settings):
         # Destroy and redeploy the SUT via make targets (mirrors redeploy-sut-integration).
         # This avoids the existingClaim PVC failure that occurs when saved values are reused
         # after helm uninstall; the make targets install with fresh CI parameters so the
-        # chart creates all PVCs anew, exactly as the CI deploy job does.
+        # chart creates all PVCs anew, exactly as the CI deploy job does. It also runs
+        # `make k8s-wait` internally, confirming Tango Operator CRs/Pods are ready.
         _redeploy_sut_via_make(release_name, namespace, site_chart_version)
-
-        _wait_for_tango_by_name(site_chart_version)
 
     values_result = subprocess.run(
         ["helm", "get", "values", release_name, "-n", namespace, "--output", "json"],
