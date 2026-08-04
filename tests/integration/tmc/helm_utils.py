@@ -8,7 +8,6 @@ import tempfile
 from time import sleep, time
 
 import pytest
-from tango import DeviceProxy
 
 logger = logging.getLogger(__name__)
 
