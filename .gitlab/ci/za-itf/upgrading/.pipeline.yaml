@@ -15,7 +15,6 @@ test-upgradability:
   variables:
     DISH_IDS: "SKA063"
     INTEGRATION_TEST_SOURCE: tests/integration/tmc/test_upgradability.py::test_upgrade_path
-    SIM_MODE: "true"
     KUBE_NAMESPACE_PREFIX: "staging-dish-lmc-" 
   script:
     - SKA_MID_SITE_CHART_VERSION=$(bash .gitlab/ci/za-itf/upgrading/get_site_version.sh)
