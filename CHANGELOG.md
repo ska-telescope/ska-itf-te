@@ -1,6 +1,9 @@
 # Version History
 
 ## Unreleased
+* [AT-3767]
+  * Upgraded sdp to `2.6.1`
+  * Upgraded vis-receive to `9.1.0`
 * [AT-3732]
   * Force-deleting zombie pods
 * [AT-3765]
