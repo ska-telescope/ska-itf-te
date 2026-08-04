@@ -29,7 +29,7 @@ author = "ATLAS Team"
 
 # The full version, including alpha/beta/rc tags
 
-release = "31.4.1-test-sdp-2-6-1b"
+release = "31.4.0"
 
 # -- General configuration ---------------------------------------------------
 
