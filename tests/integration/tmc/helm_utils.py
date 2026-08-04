@@ -269,6 +269,13 @@ def _redeploy_sut_via_make(release_name: str, namespace: str, version: str) -> N
     are reused after an ``helm uninstall``: by not passing ``--values`` from the old
     deployment the chart creates all PVCs fresh on reinstall, exactly as the CI does.
 
+    The SUT namespace (``staging``/``integration``) itself is never deleted, only its
+    pods/resources are removed and reinstalled - matching the ``KEEP_NAMESPACE: "true"``
+    setting used by the ``redeploy-sut-integration``/``redeploy-sut-staging`` CI jobs.
+    ``KEEP_NAMESPACE=true`` is passed explicitly here rather than relying on it being
+    inherited from the CI job's environment, so this is safe even if the fixture is
+    ever invoked outside of that exact CI job context.
+
     :param release_name: Helm release name (e.g. 'integration-main').
     :type release_name: str
     :param namespace: SUT Kubernetes namespace (e.g. 'integration').
@@ -287,7 +294,12 @@ def _redeploy_sut_via_make(release_name: str, namespace: str, version: str) -> N
     )
     subprocess.run(
         ["make", "remove-sut-deployment"],
-        env={**os.environ, "HELM_RELEASE": release_name, "KUBE_NAMESPACE": namespace},
+        env={
+            **os.environ,
+            "HELM_RELEASE": release_name,
+            "KUBE_NAMESPACE": namespace,
+            "KEEP_NAMESPACE": "true",
+        },
         check=False,
     )
 

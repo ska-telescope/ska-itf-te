@@ -460,8 +460,10 @@ def _(settings):
 
         _ensure_helm_repo()
 
-        # Redeploy each dish-lmc namespace (full namespace delete + reinstall).
-        # Dish-lmc namespaces have no externally-referenced PVCs so full teardown is safe.
+        # Redeploy each dish-lmc namespace (full namespace delete + reinstall), matching the
+        # redeploy-dishlmc-skaXXX CI jobs, which don't set KEEP_NAMESPACE and so also delete
+        # the dish-lmc namespace. Unlike the SUT namespace below, dish-lmc namespaces have no
+        # externally-referenced PVCs so full teardown is safe.
         dish_ids = [d.strip() for d in settings["dish_ids"].split()]
         for dish_id in dish_ids:
             dish_ns = _dish_namespace(namespace, dish_id)
@@ -477,6 +479,8 @@ def _(settings):
                 logger.warning(f"No '{SKA_MID_CHART_NAME}' release found in '{dish_ns}', skipping")
 
         # Destroy and redeploy the SUT via make targets (mirrors redeploy-sut-integration).
+        # The 'staging'/'integration' namespace itself is never deleted, only its pods are
+        # removed and reinstalled (KEEP_NAMESPACE=true is enforced in _redeploy_sut_via_make).
         # This avoids the existingClaim PVC failure that occurs when saved values are reused
         # after helm uninstall; the make targets install with fresh CI parameters so the
         # chart creates all PVCs anew, exactly as the CI deploy job does. It also runs
