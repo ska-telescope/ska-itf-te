@@ -1,9 +1,15 @@
 # Version History
 
 ## Unreleased
-
 * [AT-3762]
   * Added ska102 dish archive config file for staging to test using the teapot server EDA
+* [AT-3767]
+  * Upgraded sdp to `2.6.1`
+  * Upgraded vis-receive to `9.1.0`
+* [AT-3732]
+  * Force-deleting zombie pods
+* [AT-3765]
+  * Restored sleep for `cbfSimulationMode` event not emitted; kept waits for `cbf.controller` state instead of sleep(n)s.
 * [AT-3761]
   * Updated test code to wait for actual control system events instead of sleep(n)ing.
 
