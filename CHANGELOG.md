@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3730]
+  * Get logs for DishLMC namespaces in pipelines
 * [AT-3774]
   * Upgrade TMC to `1.21.3`
 * [AT-3762]
