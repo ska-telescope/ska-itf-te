@@ -22,7 +22,11 @@
   ansible.builtin.command: ntpdate -q {{ ntp_server }}
   register: ntpdate_output
   changed_when: false
+  tags:
+    - spfrx_validate
 
 - name: Show NTP offset output
   ansible.builtin.debug:
     msg: "{{ ntpdate_output.stdout }}"
+  tags:
+    - spfrx_validate
