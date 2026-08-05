@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3774]
+  * Upgrade TMC to `1.21.3`
 * [AT-3767]
   * Upgraded sdp to `2.6.1`
   * Upgraded vis-receive to `9.1.0`
