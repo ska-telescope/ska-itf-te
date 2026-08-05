@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3774]
+  * Upgrade TMC to `1.21.3`
 * [AT-3762]
   * Added ska102 dish archive config file for staging to test using the teapot server EDA
 * [AT-3767]
