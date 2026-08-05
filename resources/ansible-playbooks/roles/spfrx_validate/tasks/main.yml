@@ -15,3 +15,14 @@
   tags:
     - spfrx_validate
     - never
+
+
+- name: Query NTP server offset
+  become: true
+  ansible.builtin.command: ntpdate -q {{ ntp_server }}
+  register: ntpdate_output
+  changed_when: false
+
+- name: Show NTP offset output
+  ansible.builtin.debug:
+    msg: "{{ ntpdate_output.stdout }}"
