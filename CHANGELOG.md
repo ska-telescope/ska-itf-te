@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3762]
+  * Added ska102 dish archive config file for staging to test using the teapot server EDA
 * [AT-3767]
   * Upgraded sdp to `2.6.1`
   * Upgraded vis-receive to `9.1.0`
