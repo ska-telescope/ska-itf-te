@@ -94,7 +94,7 @@ setup_spfrx_dry_run: refresh_inventory guard-DISH_INDEX ## Runs the playbook aga
 	$(ANSIBLE_COMMAND_DRY_RUN) --limit $$SPFRX_HOST --tags spfrx $(MKFILE_DIR)site.yml
 .PHONY: setup_spfrx_dry_run
 
-validate_spfrx: refresh_inventory guard-DISH_INDEX ## Runs the SPFRx validation tasks (post human intervention) for a given DISH_INDEX. Usage: make validate_spfrx DISH_INDEX=1
+validate_spfrx: setup guard-DISH_INDEX ## Runs the SPFRx validation tasks (post human intervention) for a given DISH_INDEX. Usage: make validate_spfrx DISH_INDEX=1
 	@SPFRX_HOST=$$(awk '/^\[spfrx_mid\]/{f=1;next} /^\[/{f=0} f && /dish_index=$(DISH_INDEX)([[:space:]]|$$)/{print $$1; exit}' $(INVENTORY_FILE)); \
 	if [ -z "$$SPFRX_HOST" ]; then \
 		echo "ERROR: No host with dish_index=$(DISH_INDEX) found in the [spfrx_mid] group of $(INVENTORY_FILE)."; \
@@ -105,7 +105,7 @@ validate_spfrx: refresh_inventory guard-DISH_INDEX ## Runs the SPFRx validation 
 	$(ANSIBLE_COMMAND) --limit $$SPFRX_HOST --tags spfrx_validate $(MKFILE_DIR)site.yml
 .PHONY: validate_spfrx
 
-validate_spfrx_dry_run: refresh_inventory guard-DISH_INDEX ## Runs the SPFRx validation tasks for a given DISH_INDEX in dry-run mode. Usage: make validate_spfrx_dry_run DISH_INDEX=1
+validate_spfrx_dry_run: setup guard-DISH_INDEX ## Runs the SPFRx validation tasks for a given DISH_INDEX in dry-run mode. Usage: make validate_spfrx_dry_run DISH_INDEX=1
 	@SPFRX_HOST=$$(awk '/^\[spfrx_mid\]/{f=1;next} /^\[/{f=0} f && /dish_index=$(DISH_INDEX)([[:space:]]|$$)/{print $$1; exit}' $(INVENTORY_FILE)); \
 	if [ -z "$$SPFRX_HOST" ]; then \
 		echo "ERROR: No host with dish_index=$(DISH_INDEX) found in the [spfrx_mid] group of $(INVENTORY_FILE)."; \
