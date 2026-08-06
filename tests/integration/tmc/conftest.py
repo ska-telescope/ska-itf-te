@@ -8,7 +8,8 @@ import sys
 from itertools import cycle
 from queue import Empty, Queue
 from time import localtime, sleep, strftime, time
-from typing import Any, Generator, List, Tuple
+from typing import Any
+from collections.abc import Generator
 
 import astropy.units as u
 import pytest
@@ -27,7 +28,7 @@ from scripts.sequence_diagrammer.generate_sequence_diagram import SequenceDiagra
 from utils.enums import DishMode
 
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), ".jupyter-notebooks")))
-from src.notebook_tools import generate_fsp  # noqa: E402
+from src.notebook_tools import generate_fsp
 
 logger = logging.getLogger()
 
@@ -228,7 +229,7 @@ class Dish:
             assert proxy.ping() > 0
 
 
-class EventWaitTimeout(Exception):
+class EventWaitTimeoutError(Exception):
     """Exception raised when an event does not occur within a specified timeout."""
 
 
@@ -256,7 +257,7 @@ def wait_for_event(
     :type timeout: float
     :param print_event_details: Toggle printing of event data structure, defaults to False
     :type print_event_details: bool
-    :raises EventWaitTimeout: _description_
+    :raises EventWaitTimeoutError: _description_
     :return: Success or failure flag indicating whether the attribute changed as desired or not
     :rtype: bool
     """
@@ -301,7 +302,7 @@ def wait_for_event(
             f"Desired event {device_proxy.name()} {attr_name}={attr_val_name}"
             f" did not occur within the timeout period of {timeout}s"
         )
-        raise EventWaitTimeout(
+        raise EventWaitTimeoutError(
             f"Desired event {device_proxy.name()} {attr_name}={attr_val_name}"
             f" did not occur within the timeout period of {timeout}s"
         )
@@ -316,10 +317,10 @@ def set_context(settings):
     :type settings: _type_
     :yield: _
     """
-    CURRENT_TANGO_HOST = os.environ.get("TANGO_HOST")
-    CURRENT_TZ = os.environ.get("TZ")
+    CURRENT_TANGO_HOST = os.environ.get("TANGO_HOST")  # noqa: N806
+    CURRENT_TZ = os.environ.get("TZ")  # noqa: N806
 
-    TANGO_HOST = (
+    TANGO_HOST = (  # noqa: N806
         f"tango-databaseds.{settings['SUT_namespace']}.svc.{settings['sut_cluster_domain']}:10000"
     )
     os.environ["TANGO_HOST"] = TANGO_HOST
@@ -335,7 +336,7 @@ def set_context(settings):
 
 
 @pytest.fixture(scope="session")
-def pb_and_eb_ids(settings) -> Tuple[str, str]:
+def pb_and_eb_ids(settings) -> tuple[str, str]:
     """Fixture for generating pb and eb ids for the scan.
 
     :param settings: test settings
@@ -359,7 +360,7 @@ def pb_and_eb_ids(settings) -> Tuple[str, str]:
 @pytest.fixture(scope="session")
 def telescope_handlers(
     receptor_ids, settings
-) -> Generator[Tuple[TMC, CBF, CSP, List[Dish]], None, None]:
+) -> Generator[tuple[TMC, CBF, CSP, list[Dish]], None, None]:
     """Generate telescope handlers containing device proxies. Teardown telescope on completion.
 
     :param receptor_ids: _description_
@@ -369,7 +370,7 @@ def telescope_handlers(
     :rtype: Generator[Tuple[TMC, CBF, CSP, List[Dish]], None, None]
     """
     logger.info(f"Using the following SUT Tango host: {os.getenv('TANGO_HOST')}")
-    RECEPTORS = receptor_ids
+    RECEPTORS = receptor_ids  # noqa: N806
     tmc = TMC()
     cbf = CBF(settings["sim_mode"])
     csp = CSP()
@@ -492,7 +493,7 @@ def _(telescope_handlers, settings):
 
 
 @when("I turn ON the telescope")
-def _(telescope_handlers, receptor_ids, settings):
+def _(telescope_handlers, receptor_ids, settings):  # noqa: C901
     """Turn the telescope ON.
 
     :param telescope_handlers: _description_
@@ -502,7 +503,7 @@ def _(telescope_handlers, receptor_ids, settings):
     :type receptor_ids: _type_
     """
     logger.info("Turning telescope ON")
-    RECEPTORS = receptor_ids
+    RECEPTORS = receptor_ids  # noqa: N806
 
     tmc, cbf, _, _ = telescope_handlers
 
@@ -515,9 +516,9 @@ def _(telescope_handlers, receptor_ids, settings):
     sim_mode = settings["sim_mode"]
 
     # Load DishVCCConfig
-    CONFIG_DATA_DIR = settings["data_dir"]
-    CBF_CONFIGS = os.path.join(CONFIG_DATA_DIR, "cbf")
-    DISH_CONFIG_FILE = f"{CBF_CONFIGS}/sys_params/load_dish_config.json"
+    CONFIG_DATA_DIR = settings["data_dir"]  # noqa: N806
+    CBF_CONFIGS = os.path.join(CONFIG_DATA_DIR, "cbf")  # noqa: N806
+    DISH_CONFIG_FILE = f"{CBF_CONFIGS}/sys_params/load_dish_config.json"  # noqa: N806
 
     with open(DISH_CONFIG_FILE, encoding="utf-8") as f:
         dish_config_json = json.load(f)
@@ -627,7 +628,7 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids, default_assign_resources,
     csp_subarray_leaf_node = tmc.csp_subarray_leaf_node
     cbf_subarray = cbf.subarray
 
-    RECEPTORS = receptor_ids
+    RECEPTORS = receptor_ids  # noqa: N806
 
     assign_resources_payload = update_assign_resources(
         default_assign_resources, RECEPTORS, pb_id, eb_id, settings, sbd
@@ -693,7 +694,7 @@ def _(
     logger.info(f"Configuring a band {scan_band} scan")
 
     tmc, _, _, _ = telescope_handlers
-    RECEPTORS = receptor_ids
+    RECEPTORS = receptor_ids  # noqa: N806
 
     configure_scan_payload = update_configure_scan(
         default_configure_scan_payload, scan_band, scan_time, 1, settings, sbd
@@ -925,7 +926,7 @@ def _(
     )
 
     tmc, _, _, _ = telescope_handlers
-    RECEPTORS = receptor_ids
+    RECEPTORS = receptor_ids  # noqa: N806
 
     for scan_number in range(1, number_of_scans + 1):
         # Configure scan
@@ -1082,7 +1083,7 @@ def _(telescope_handlers, receptor_ids):
     logger.info("Turning OFF the telescope")
 
     tmc, _, _, _ = telescope_handlers
-    RECEPTORS = receptor_ids
+    RECEPTORS = receptor_ids  # noqa: N806
 
     tmc_central_node = tmc.central_node
 
@@ -1102,7 +1103,7 @@ def _(pb_and_eb_ids):
     :type pb_and_eb_ids: _type_
     """
     # TODO: Implement
-    pb_id, eb_id = pb_and_eb_ids
+    _pb_id, _eb_id = pb_and_eb_ids
 
     assert True
 
@@ -1147,17 +1148,17 @@ def _(settings, telescope_handlers, bite_test_id):
     cbf_controller = cbf.controller
     bite = cbf.bite
 
-    CONFIG_DATA_DIR = settings["data_dir"]
-    CBF_INPUT_DATA_DIR = os.path.join(CONFIG_DATA_DIR, "cbf/cbf_input_data")
+    CONFIG_DATA_DIR = settings["data_dir"]  # noqa: N806
+    CBF_INPUT_DATA_DIR = os.path.join(CONFIG_DATA_DIR, "cbf/cbf_input_data")  # noqa: N806
 
     # File containing BITE config selectors and receptor sampling settings
-    CBF_INPUT_FILE = os.path.join(CBF_INPUT_DATA_DIR, "cbf_input_data.json")
+    CBF_INPUT_FILE = os.path.join(CBF_INPUT_DATA_DIR, "cbf_input_data.json")  # noqa: N806
 
     # File containing BITE configs
-    BITE_CONFIG_FILE = os.path.join(CBF_INPUT_DATA_DIR, "bite_config_parameters/bite_configs.json")
+    BITE_CONFIG_FILE = os.path.join(CBF_INPUT_DATA_DIR, "bite_config_parameters/bite_configs.json")  # noqa: N806
 
     # File containing BITE data filter configs
-    FILTERS_FILE = os.path.join(CBF_INPUT_DATA_DIR, "bite_config_parameters/filters.json")
+    FILTERS_FILE = os.path.join(CBF_INPUT_DATA_DIR, "bite_config_parameters/filters.json")  # noqa: N806
 
     files = [
         CBF_INPUT_FILE,
@@ -1171,7 +1172,7 @@ def _(settings, telescope_handlers, bite_test_id):
             logger.error(error)
             pytest.fail(error)
 
-    dishVccConfig = json.loads(cbf_controller.sysparam)
+    dishVccConfig = json.loads(cbf_controller.sysparam)  # noqa: N806
     logger.debug(f"dishVccConfig from CSP Master: \n{dishVccConfig}\n")
 
     with open(CBF_INPUT_FILE, encoding="utf-8") as f:
@@ -1252,13 +1253,13 @@ def bite_test_id(settings):
     :rtype: String
     """
     # TODO: Move to settings
-    BITE_TEST_SELECTOR = os.environ.get("BITE_TEST_SELECTOR", "talon-001 basic gaussian noise")
+    BITE_TEST_SELECTOR = os.environ.get("BITE_TEST_SELECTOR", "talon-001 basic gaussian noise")  # noqa: N806
 
-    CONFIG_DATA_DIR = settings["data_dir"]
-    CBF_INPUT_DATA_DIR = os.path.join(CONFIG_DATA_DIR, "cbf/cbf_input_data")
+    CONFIG_DATA_DIR = settings["data_dir"]  # noqa: N806
+    CBF_INPUT_DATA_DIR = os.path.join(CONFIG_DATA_DIR, "cbf/cbf_input_data")  # noqa: N806
 
     # File containing BITE config selectors and receptor sampling settings
-    CBF_INPUT_FILE = os.path.join(CBF_INPUT_DATA_DIR, "cbf_input_data.json")
+    CBF_INPUT_FILE = os.path.join(CBF_INPUT_DATA_DIR, "cbf_input_data.json")  # noqa: N806
 
     with open(CBF_INPUT_FILE, encoding="utf-8") as f:
         cbf_input_configs = json.load(f)["cbf_input_data"]
@@ -1281,7 +1282,7 @@ def _(telescope_handlers, receptor_ids):
     :type receptor_ids: _type_
     """
     logger.info("Checking telescope state")
-    _, cbf, _, _ = telescope_handlers
+    _, _cbf, _, _ = telescope_handlers
 
 
 @pytest.fixture
@@ -1293,7 +1294,7 @@ def default_assign_resources(settings):
     :return: Default assign resources JSON
     :rtype: dict
     """
-    ASSIGN_RESOURCES_FILE = f"{settings['TMC_configs']}/assign_resources.json"
+    ASSIGN_RESOURCES_FILE = f"{settings['TMC_configs']}/assign_resources.json"  # noqa: N806
 
     with open(ASSIGN_RESOURCES_FILE, encoding="utf-8") as f:
         assign_resources_json = json.load(f)
@@ -1307,7 +1308,7 @@ def update_assign_resources(
     pb_id: str,
     eb_id: str,
     settings: dict,
-    sbd: dict = None,
+    sbd: dict | None = None,
 ) -> dict:
     """Update assign resources payload with test specific parameters.
 
@@ -1332,8 +1333,8 @@ def update_assign_resources(
         assign_resources_payload = generate_assign_resources_tmc_payload(subarray_id=1, sbd=sbd)
         return assign_resources_payload
 
-    NODE_WITH_100G_INTERFACE = settings["node_with_100G_interface"]
-    NODE_LABEL_FOR_100G_GROUP = settings["node_label_for_100G_group"]
+    NODE_WITH_100G_INTERFACE = settings["node_with_100G_interface"]  # noqa: N806
+    NODE_LABEL_FOR_100G_GROUP = settings["node_label_for_100G_group"]  # noqa: N806
 
     # Determine nodeSelector for vis-receive pod prioritising 100G group label if provided
     node_selector_sdp_param = {}
@@ -1403,7 +1404,7 @@ def default_configure_scan_payload(settings):
     :return: Default configure scan JSON
     :rtype: dict
     """
-    CONFIGURE_SCAN_FILE = f"{settings['TMC_configs']}/configure_scan.json"
+    CONFIGURE_SCAN_FILE = f"{settings['TMC_configs']}/configure_scan.json"  # noqa: N806
 
     with open(CONFIGURE_SCAN_FILE, encoding="utf-8") as f:
         configure_scan_json = json.load(f)
@@ -1417,7 +1418,7 @@ def update_configure_scan(
     scan_duration: int,
     scan_number: int,
     settings: dict,
-    sbd: dict = None,
+    sbd: dict | None = None,
 ) -> dict:
     """Update configure scan payload with test specific parameters.
 
@@ -1494,14 +1495,14 @@ def default_scan_payload(settings):
     :return: Default scan JSON
     :rtype: dict
     """
-    SCAN_FILE = f"{settings['TMC_configs']}/scan.json"
+    SCAN_FILE = f"{settings['TMC_configs']}/scan.json"  # noqa: N806
     with open(SCAN_FILE, encoding="utf-8") as f:
         scan_json = json.load(f)
 
     return scan_json
 
 
-def update_scan_payload(scan_payload: dict, scan_number: int, sbd: dict = None) -> dict:
+def update_scan_payload(scan_payload: dict, scan_number: int, sbd: dict | None = None) -> dict:
     """Update scan payload with test specific parameters.
 
     :param scan_payload: Scan JSON payload to update
