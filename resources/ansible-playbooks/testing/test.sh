@@ -71,7 +71,7 @@ function run_ansible_playbook() {
         ;;
     esac
 
-    poetry run ansible-playbook --limit ${NODE} \
+    uv run ansible-playbook --limit ${NODE} \
         -u=${USER} \
         -e @${base_dir}/../group_vars/atlas/atlas.yml \
         -v \

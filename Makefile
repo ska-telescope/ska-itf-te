@@ -5,7 +5,6 @@ OCI_BUILD_ADDITIONAL_ARGS += --cache-from registry.gitlab.com/ska-telescope/ska-
 
 HELM_CHARTS_TO_PUBLISH=ska-mid
 PYTHON_VARS_AFTER_PYTEST= --disable-pytest-warnings
-POETRY_CONFIG_VIRTUALENVS_CREATE = true
 
 # VALUES ?= $(K8S_UMBRELLA_CHART_PATH)values.yaml
 XAUTHORITY ?= $(HOME)/.Xauthority
@@ -25,9 +24,9 @@ INGRESS_HOST = k8s.$(CLUSTER_DOMAIN)## Tango host, cluster domain, what are all 
 INGRESS_PROTOCOL ?= https
 KUBE_HOST ?= $(INGRESS_PROTOCOL)://$(INGRESS_HOST)
 ITANGO_ENABLED ?= true## ITango enabled in ska-tango-base
-PYTHON_RUNNER = poetry run python3 -m
+PYTHON_RUNNER = uv run python3 -m
 PYTHON_LINE_LENGTH = 99
-DOCS_SPHINXBUILD = poetry run python3 -msphinx
+DOCS_SPHINXBUILD = uv run python3 -msphinx
 PYTHON_TEST_FILE = tests/unit/ tests/functional/
 PYTHON_LINT_TARGET ?= tests/
 PYTHON_SWITCHES_FOR_FLAKE8 += --extend-ignore=F824
@@ -208,7 +207,10 @@ endif
 #   --set ska-sdp.data-pvc.create=true # check syntax for this one
 # endif
 
+SDP_JOBS_TTL ?= 300
+
 SDP_PARAMS ?= --set ska-sdp.processingNamespace=$(KUBE_NAMESPACE_SDP) \
+	--set ska-sdp.jobs.ttl=$(SDP_JOBS_TTL) \
 	--set ska-sdp.qa.api.grafanaBaseUrl=https://k8s.miditf.internal.skao.int/grafana \
 	--set ska-sdp.qa.api.kibanaBaseUrl=https://k8s.stfc.skao.int \
 	$(SDP_EXTRA_PARAMS)
@@ -341,7 +343,7 @@ include .make/k8s.mk
 include .make/helm.mk
 
 # Include Python support
-include .make/python.mk
+include .make/python-uv.mk
 
 # include raw support
 include .make/raw.mk
@@ -383,7 +385,7 @@ integration-test: k8s-info loop-dishes-k8s-info
 	@mv sequence-diagram.puml build/sequence-diagram.puml 2>/dev/null || echo "sequence diagram not moved"
 
 upload-to-confluence:
-	@poetry run upload-to-confluence sut_config.yaml build/reports/cucumber.json
+	@uv run upload-to-confluence sut_config.yaml build/reports/cucumber.json
 
 get-deployment-config-info:
 	@helm -n $(KUBE_NAMESPACE) get values $(HELM_RELEASE)
@@ -411,6 +413,24 @@ helm-rebuild-ska-mid:
 	@rm -f charts/ska-mid/Chart.lock
 	@rm -rf charts/ska-mid/charts
 	@make k8s-template-chart K8S_CHART=ska-mid
+
+UNAME_S := $(shell uname -s)
+UNAME_M := $(shell uname -m)
+
+ifeq ($(UNAME_S),Darwin)
+ifeq ($(UNAME_M),arm64)
+UV_CASACORE_BUILD_ENV = CXXFLAGS="-D_LIBCPP_ENABLE_CXX20_REMOVED_ALLOCATOR_MEMBERS -D_LIBCPP_ENABLE_CXX17_REMOVED_ALLOCATOR_MEMBERS" CMAKE_ARGS="-DCMAKE_CXX_STANDARD=17"
+endif
+endif
+
+uv-lock-sync:
+	@uv lock
+	@$(UV_CASACORE_BUILD_ENV) uv sync --all-groups
+
+uv-sync-all:
+	@$(UV_CASACORE_BUILD_ENV) uv sync --all-groups
+
+.PHONY: uv-lock-sync uv-sync-all
 
 loop-dishes-k8s-info:
 	@if [ "$(DISH_LMC_IN_THE_LOOP)" != "true" ]; then \

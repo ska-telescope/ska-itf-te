@@ -2,7 +2,8 @@
 
 import logging
 import os
-from typing import Any, Callable
+from typing import Any
+from collections.abc import Callable
 
 import pytest
 from pytest_bdd import given
@@ -95,10 +96,10 @@ def a_alarm_handler():
     """Given an alarm handler."""
     alarm_handler = DeviceProxy("alarm/handler/01")
     result = alarm_handler.ping()
-    result > 0
+    return result > 0
 
 
-class ResponseData(object):
+class ResponseData:
     """Class to have response data received."""
 
     def __init__(self) -> None:
@@ -138,7 +139,7 @@ def alarm_handler_test_context():
 
     """
     test_context = AlarmHandlerTestContext()
-    yield test_context
+    return test_context
 
 
 @pytest.fixture
