@@ -1,6 +1,14 @@
 # Version History
 
 ## Unreleased
+* [AT-3730]
+  * Get logs for DishLMC namespaces in pipelines
+* [AT-3774]
+  * Upgrade TMC to `1.21.3`
+* [AT-3762]
+  * Added ska102 dish archive config file for staging to test using the teapot server EDA
+* [AT-3763]
+  * Temporary mapping swap of VCC 1 and VCC 2 to SKA036 and SKA001 repectively in staging environment. Note setting of DishVccUri: "car:ska-mid?31.4.1-vcc-swap#tmdata"
 * [AT-3767]
   * Upgraded sdp to `2.6.1`
   * Upgraded vis-receive to `9.1.0`

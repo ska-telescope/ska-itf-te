@@ -378,7 +378,7 @@ CLUSTER_HEADLAMP_BASE_URL?=https://k8s.miditf.internal.skao.int/headlamp
 CLUSTER_DATACENTRE?=mid-itf
 CLUSTER_MONITOR?=mid-itf-monitor
 
-integration-test: k8s-info
+integration-test: k8s-info loop-dishes-k8s-info
 	@mkdir -p build
 	set -o pipefail; $(PYTHON_RUNNER) pytest $(INTEGRATION_TEST_SOURCE) $(INTEGRATION_TEST_ARGS); \
 	echo $$? > build/status
@@ -431,3 +431,28 @@ uv-sync-all:
 	@$(UV_CASACORE_BUILD_ENV) uv sync --all-groups
 
 .PHONY: uv-lock-sync uv-sync-all
+
+loop-dishes-k8s-info:
+	@if [ "$(DISH_LMC_IN_THE_LOOP)" != "true" ]; then \
+		echo "DISH_LMC_IN_THE_LOOP is false, skipping dish container info"; \
+		exit 0; \
+	fi; \
+	DISH_IDS_CLEAN="$(strip $(subst ",,$(DISH_IDS)))"; \
+	case "$(KUBE_NAMESPACE)" in \
+	staging) \
+		DISH_NS_PREFIX=staging-dish-lmc-; DISH_NS_POSTFIX= ;; \
+	integration) \
+		DISH_NS_PREFIX=integration-dish-lmc-; DISH_NS_POSTFIX= ;; \
+	testing) \
+		DISH_NS_PREFIX=testing-dish-lmc-; DISH_NS_POSTFIX= ;; \
+	ci-ska-mid-itf-*) \
+		DISH_NS_PREFIX=ci-dish-lmc-; DISH_NS_POSTFIX=-$(CI_COMMIT_REF_NAME) ;; \
+	*) \
+		echo "Warning: KUBE_NAMESPACE '$(KUBE_NAMESPACE)' is not supported by loop-dishes-k8s-info"; \
+		exit 0 ;; \
+	esac; \
+	echo "Looping through dish IDs: $$DISH_IDS_CLEAN"; \
+	for DISH_ID in $$DISH_IDS_CLEAN; do \
+		echo "Container info for $$DISH_ID:"; \
+		make k8s-info KUBE_NAMESPACE=$$DISH_NS_PREFIX$$DISH_ID$$DISH_NS_POSTFIX; \
+	done
