@@ -129,9 +129,9 @@ def test_helm_install(deployment_smoke_test_settings, k8s_config):
             status = chart.get("status")
             logger.info(f"Helm chart {chart_name} status: {status}")
             if f"{deployed_chart_name}-" in chart_name:
-                assert (
-                    status == "deployed"
-                ), f"Helm chart {chart_name} is not deployed. Status: {status}"
+                assert status == "deployed", (
+                    f"Helm chart {chart_name} is not deployed. Status: {status}"
+                )
                 chart_deployed = True
 
         if not chart_deployed:
@@ -260,10 +260,10 @@ def test_devices_reachable(deployment_smoke_test_settings):
     sut_namespace = deployment_smoke_test_settings["SUT_namespace"]
     cluster_domain = deployment_smoke_test_settings["cluster_domain"]
     central_node = DeviceProxy(
-        f"tango-databaseds.{sut_namespace}.svc.{cluster_domain}" ":10000/mid-tmc/central-node/0"
+        f"tango-databaseds.{sut_namespace}.svc.{cluster_domain}:10000/mid-tmc/central-node/0"
     )
     subarray_node = DeviceProxy(
-        f"tango-databaseds.{sut_namespace}.svc.{cluster_domain}" ":10000/mid-tmc/subarray/01"
+        f"tango-databaseds.{sut_namespace}.svc.{cluster_domain}:10000/mid-tmc/subarray/01"
     )
 
     devices = [central_node, subarray_node]

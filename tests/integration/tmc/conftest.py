@@ -412,7 +412,7 @@ def sequence_diagrammer(settings):
 
 
 @given(
-    "a deployment in the ITF of the version of ska-mid currently in ska-mid-helmreleases main with 1 subarray"  # noqa: E501
+    "a deployment in the ITF of the version of ska-mid currently in ska-mid-helmreleases main with 1 subarray"
 )
 def _(settings):
     """Ensure the environment is a clean-slate deployment at the ska-mid-helmreleases main version.
@@ -440,9 +440,9 @@ def _(settings):
     namespace = settings["SUT_namespace"]
 
     deployed_chart = _get_helm_release(namespace)
-    assert (
-        deployed_chart is not None
-    ), f"No '{SKA_MID_CHART_NAME}' chart found deployed in namespace '{namespace}'"
+    assert deployed_chart is not None, (
+        f"No '{SKA_MID_CHART_NAME}' chart found deployed in namespace '{namespace}'"
+    )
 
     deployed_version = deployed_chart["chart"][len(f"{SKA_MID_CHART_NAME}-") :]
     release_name = deployed_chart["name"]
@@ -496,9 +496,9 @@ def _(settings):
     helm_values = json.loads(values_result.stdout)
     subarray_count = helm_values.get("ska-tmc-mid", {}).get("subarray_count")
 
-    assert (
-        subarray_count == 1
-    ), f"Expected ska-tmc-mid.subarray_count to be 1, got {subarray_count!r}"
+    assert subarray_count == 1, (
+        f"Expected ska-tmc-mid.subarray_count to be 1, got {subarray_count!r}"
+    )
 
 
 @given("an SUT deployment with 1 subarray")
@@ -1236,9 +1236,9 @@ def _(telescope_handlers, settings):
 
     # Upgrade the SUT namespace
     deployed_chart = _get_helm_release(namespace)
-    assert (
-        deployed_chart is not None
-    ), f"No '{SKA_MID_CHART_NAME}' release found in namespace '{namespace}'. Cannot upgrade."
+    assert deployed_chart is not None, (
+        f"No '{SKA_MID_CHART_NAME}' release found in namespace '{namespace}'. Cannot upgrade."
+    )
     _upgrade_helm_release(deployed_chart["name"], namespace, target_version)
 
     logger.info(f"Helm upgrade to version '{target_version}' completed across all namespaces")
@@ -1544,13 +1544,11 @@ def update_assign_resources(
             "receiver"
         ]["options"]["telescope_model"]["telmodel_key"] = settings["dish_layout_telmodel_path"]
 
-    if all(
-        [
-            settings["pointing_target_name"],
-            settings["pointing_target_right_ascension"],
-            settings["pointing_target_declination"],
-        ]
-    ):
+    if all([
+        settings["pointing_target_name"],
+        settings["pointing_target_right_ascension"],
+        settings["pointing_target_declination"],
+    ]):
         pointing_coords = SkyCoord(
             ra=settings["pointing_target_right_ascension"],
             dec=settings["pointing_target_declination"],

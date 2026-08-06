@@ -35,16 +35,14 @@ def _ensure_helm_repo(
     subprocess.run(
         ["helm", "repo", "add", repo_name, repo_url, "--force-update"],
         check=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        capture_output=True,
     )
     # Equivalent helm command:
     #   helm repo update <repo_name>
     subprocess.run(
         ["helm", "repo", "update", repo_name],
         check=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        capture_output=True,
     )
 
 
@@ -236,8 +234,7 @@ def _wait_for_tango_devices(telescope_handlers, version: str, poll_timeout: int 
             )
             sleep(poll_interval)
     pytest.fail(
-        f"Tango devices did not become reachable within {poll_timeout}s "
-        f"after version '{version}'"
+        f"Tango devices did not become reachable within {poll_timeout}s after version '{version}'"
     )
 
 
