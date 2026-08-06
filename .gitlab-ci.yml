@@ -131,4 +131,5 @@ docs-build-rtd:
 
 python-uv-lint:
   needs:
-    - python-uv-build-for-development
+    - job: python-uv-build-for-development
+      optional: true
