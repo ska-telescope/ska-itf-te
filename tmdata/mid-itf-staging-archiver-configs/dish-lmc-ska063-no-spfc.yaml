@@ -1,6 +1,6 @@
 tango_hosts:
   - th1:
-      host: tango-databaseds.dish-lmc-ska100.svc.ska100.mid.internal.skao.int
+      host: tango-databaseds.staging-dish-lmc-ska100.svc.miditf.internal.skao.int
       port: 10000
 event_subscribers:
   - es1:
@@ -29,21 +29,6 @@ defaults:
   - cm: cm1  
   - es: es1
 attributes:
-  - trl: ska100/spf/spfc/hecompdiffpressure
-    es: es1
-    configuration:
-      code_push_event: true
-      archive_abs_change: 0.2
-  - trl: ska100/spf/spfc/b2bodytemp
-    es: es1
-    configuration:
-      code_push_event: true
-      archive_abs_change: 0.1
-  - trl: ska100/spf/spfc/hecompreturnpressure
-    es: es1
-    configuration:
-      code_push_event: true
-      archive_abs_change: 0.2
   - trl: mid-dish/dish-manager/ska100/azimuthoverwrap
     es: es1
     configuration:
@@ -56,20 +41,11 @@ attributes:
     es: es1
     configuration:
       code_push_event: true
-  - trl: ska100/spf/spfc/b2omttemp
-    es: es1
-    configuration:
-      code_push_event: true
-      archive_abs_change: 0.1
   - trl: mid-dish/dish-manager/ska100/lastcommandedmode
     es: es1
     configuration:
       code_push_event: true
   - trl: mid-dish/dish-manager/ska100/buildstate
-    es: es1
-    configuration:
-      code_push_event: true
-  - trl: ska100/spf/spfc/b2cryomotorstate
     es: es1
     configuration:
       code_push_event: true
@@ -101,39 +77,7 @@ attributes:
     es: es1
     configuration:
       code_push_event: true
-  - trl: ska100/spf/spfc/b2coldheadstage1temp
-    es: es1
-    configuration:
-      code_push_event: true
-      archive_abs_change: 0.1
-  - trl: ska100/spf/spfc/b2amp2hpowerstate
-    es: es1
-    configuration:
-      code_push_event: true
-  - trl: ska100/spf/spfc/b2calsourcetemp
-    es: es1
-    configuration:
-      code_push_event: true
-      archive_abs_change: 0.1
-  - trl: ska100/spf/spfc/hecompsupplytemp
-    es: es1
-    configuration:
-      code_push_event: true
-      archive_abs_change: 0.2
-  - trl: ska100/spf/spfc/hecompressorpowerstate
-    es: es1
-    configuration:
-      code_push_event: true
-  - trl: ska100/spf/spfc/b2lnatemp
-    es: es1
-    configuration:
-      code_push_event: true
-      archive_abs_change: 0.1
   - trl: mid-dish/dish-manager/ska100/ignorespfrx
-    es: es1
-    configuration:
-      code_push_event: true
-  - trl: ska100/spf/spfc/b2amp2vpowerstate
     es: es1
     configuration:
       code_push_event: true
@@ -141,52 +85,15 @@ attributes:
     es: es1
     configuration:
       code_push_event: true
-  - trl: ska100/spf/spfc/b2cryomotorspeed
-    es: es1
-    configuration:
-      code_push_event: true
-      archive_abs_change: 1.0
-  - trl: ska100/spf/spfc/hecompsupplypressure
-    es: es1
-    configuration:
-      code_push_event: true
-      archive_abs_change: 0.2
   - trl: mid-dish/dish-manager/ska100/noisediodemode
     es: es1
     configuration:
       code_push_event: true
-  - trl: ska100/spf/spfc/b2manifoldpressure
-    es: es1
-    configuration:
-      code_push_event: true
-      archive_abs_change: 0.1
-  - trl: ska100/spf/spfc/b2lnahpowerstate
-    es: es1
-    configuration:
-      code_push_event: true
-  - trl: ska100/spf/spfc/hecompmotortemp
-    es: es1
-    configuration:
-      code_push_event: true
-      archive_abs_change: 0.1
   - trl: mid-dish/dish-manager/ska100/ignorespf
     es: es1
     configuration:
       code_push_event: true
-  - trl: ska100/spf/spfc/b2lnavpowerstate
-    es: es1
-    configuration:
-      code_push_event: true
-  - trl: ska100/spf/spfc/b2cryopressure
-    es: es1
-    configuration:
-      code_push_event: true
-      archive_abs_change: 0.00001
   - trl: mid-dish/dish-manager/ska100/configuredband
-    es: es1
-    configuration:
-      code_push_event: true
-  - trl: ska100/spf/spfc/b2calsourcepowerstate
     es: es1
     configuration:
       code_push_event: true
@@ -211,10 +118,6 @@ attributes:
     configuration:
       code_push_event: true
   - trl: mid-dish/dish-manager/ska100/tracktableloadmode
-    es: es1
-    configuration:
-      code_push_event: true
-  - trl: mid-dish/dish-manager/ska100/spfconnectionstate
     es: es1
     configuration:
       code_push_event: true
@@ -2696,27 +2599,11 @@ attributes:
       code_push_event: true
       archive_abs_change: 1
     es: es9
-  - trl: ska100/spf/spfc/operatingmode
-    es: es1
-    configuration:
-      code_push_event: true
   - trl: mid-dish/dish-manager/ska100/status
     es: es9
     configuration:
       code_push_event: true
   - trl: mid-dish/dish-manager/ska100/dscerrorstatuses
     es: es9
-    configuration:
-      code_push_event: true
-  - trl: ska100/spf/spfc/b1defaultstartstate
-    es: es1
-    configuration:
-      code_push_event: true
-  - trl: ska100/spf/spfc/b2defaultstartstate
-    es: es1
-    configuration:
-      code_push_event: true
-  - trl: ska100/spf/spfc/b345defaultstartstate
-    es: es1
     configuration:
       code_push_event: true
