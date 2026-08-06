@@ -69,7 +69,7 @@ def _(settings, receptor_ids):
     :param receptor_ids: _description_
     :type receptor_ids: _type_
     """
-    base_dish_states_operate = {receptor_id: DishMode.OPERATE for receptor_id in receptor_ids}
+    base_dish_states_operate = dict.fromkeys(receptor_ids, DishMode.OPERATE)
 
     released_resources_state = TelescopeState(
         dishes=base_dish_states_operate,
@@ -105,9 +105,7 @@ def _(settings, receptor_ids):
     :param receptor_ids: _description_
     :type receptor_ids: _type_
     """
-    base_dish_states_standby_lp = {
-        receptor_id: DishMode.STANDBY_LP for receptor_id in receptor_ids
-    }
+    base_dish_states_standby_lp = dict.fromkeys(receptor_ids, DishMode.STANDBY_LP)
 
     off_state_1 = TelescopeState(dishes=base_dish_states_standby_lp)
 

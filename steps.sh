@@ -17,36 +17,25 @@ git checkout $CI_COMMIT_SHA -q && git show -q
 # infra login https://boundary.skao.int --enable-ssh
 # infra use za-itf-k8s-master01-k8s
 
-# IF PYTHONPATH FIX WORKS, DELETE THIS:
-# # Activate the virtual environment in the container if you want to run make lint
-# poetry shell
-
-# BEFORE poetry shell:
+# Set up environment and run development tasks
 root@30ce45f0f0aa:/build/ska-telescope/ska-mid-itf# env | grep PATH
 PYTHONPATH=/app/src:/app/src:/app/.venv/lib/python3.10/site-packages
 PATH=/app/.venv/bin:/app/bin:/app/.venv/bin:/app/.local/bin:/app/bin:/app/.local/bin:/app/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
-# AFTER poetry shell:
-(ska-mid-itf-py3.10) root@30ce45f0f0aa:/build/ska-telescope/ska-mid-itf# env | grep PATH
-PYTHONPATH=/app/src:/app/src:/app/.venv/lib/python3.10/site-packages
-PATH=/build/ska-telescope/ska-mid-itf/.venv/bin:/app/.venv/bin:/app/bin:/app/.venv/bin:/app/.local/bin:/app/bin:/app/.local/bin:/app/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+# Install dependencies using uv
+uv sync --all-groups
 
-# INSTEAD OF poetry shell, run:
-
-# Once the shell is active, install everything
-poetry install && export PATH=/build/ska-telescope/ska-mid-itf/.venv/bin:${PATH}
-
+# Run development tasks
 make python-format
 make python-lint # add a few #noqas to get the thing going
 
-# before executing the latest version install again
-poetry install
+# Sync dependencies before executing
+uv sync --all-groups
 
-# run talon_on like the Gitlab Runner:
+# Run talon_on like the Gitlab Runner:
 talon_on
 
-# if you DON'T have the .venv running and you just ran poetry install, 
-# use the following command but with `poetry run ` prepended
+# Run the talon_on module directly
 python3 -m src.ska_mid_itf_engineering_tools.talon_on
 
 # prepended means
