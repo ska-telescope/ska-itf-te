@@ -552,13 +552,13 @@ def _(telescope_handlers, settings):
     sim_mode = settings["sim_mode"]
 
     # Skip configuration if CSP adminMode is already ONLINE and simulation mode matches
-    desired_cbf_sim_mode = 1 if sim_mode else 0
-    if csp_control.adminMode == 0 and csp_control.cbfSimulationMode == desired_cbf_sim_mode:
-        logger.info(
-            f"CSP adminMode is already ONLINE and CBF simulation mode is already "
-            f"{csp_control.cbfSimulationMode}. Skipping adminMode configuration."
-        )
-        return
+    # desired_cbf_sim_mode = 1 if sim_mode else 0
+    # if csp_control.adminMode == 0 and csp_control.cbfSimulationMode == desired_cbf_sim_mode:
+    #     logger.info(
+    #         f"CSP adminMode is already ONLINE and CBF simulation mode is already "
+    #         f"{csp_control.cbfSimulationMode}. Skipping adminMode configuration."
+    #     )
+    #     return
 
     # reset_csp_adminmode = (sim_mode != csp_control.cbfSimulationMode) and (
     #     (csp_control.adminMode == 0)
@@ -591,107 +591,12 @@ def _(telescope_handlers, settings):
         f" CBF Simulation mode is: {csp_control.cbfSimulationMode}"
     )
 
-
-@given("the telescope is ON")
-def _(telescope_handlers, receptor_ids, settings):
-    """Ensure the telescope is ON with isDishVccConfigSet=true.
-
-    If the telescope is already ON and isDishVccConfigSet is True, this step
-    passes without issuing any commands. Otherwise, it loads the dish VCC config
-    (if needed) and issues a TelescopeOn command.
-
-    :param telescope_handlers: _description_
-    :type telescope_handlers: _type_
-    :param receptor_ids: _description_
-    :type receptor_ids: _type_
-    :param settings: _description_
-    :type settings: _type_
-    """
-    logger.info("Ensuring telescope is ON with isDishVccConfigSet=true")
-    RECEPTORS = receptor_ids
-
-    tmc, cbf, _, _ = telescope_handlers
-    tmc_central_node = tmc.central_node
-    sim_mode = settings["sim_mode"]
-
-    # Load DishVCCConfig if not already set or if k-value is incorrect
-    CONFIG_DATA_DIR = settings["data_dir"]
-    CBF_CONFIGS = os.path.join(CONFIG_DATA_DIR, "cbf")
-    DISH_CONFIG_FILE = f"{CBF_CONFIGS}/sys_params/load_dish_config.json"
-
-    # First, check if the telescope is already ON and isDishVccConfigSet is True
-    if tmc_central_node.telescopeState == DevState.ON and tmc_central_node.isDishVccConfigSet:
-        logger.info("Telescope is already ON and isDishVccConfigSet is True. No action needed.")
-        return
-
-    # If either condition is not met, proceed to load the dish VCC config and turn the telescope ON
-
-    with open(DISH_CONFIG_FILE, encoding="utf-8") as f:
-        dish_config_json = json.load(f)
-
-    if settings["dish_vcc_config_source"]:
-        logger.info(f"Overriding dish VCC config source to {settings['dish_vcc_config_source']}")
-        dish_config_json["tm_data_sources"][0] = settings["dish_vcc_config_source"]
-
-    if settings["dish_vcc_config_file_path"]:
-        logger.info(
-            f"Overriding dish VCC config filepath to {settings['dish_vcc_config_file_path']}"
-        )
-        dish_config_json["tm_data_filepath"] = settings["dish_vcc_config_file_path"]
-
-    logger.debug(f"dish_config_json file contents: \n{dish_config_json}")
-
-    is_k_value_correct = True
-    raw_vcc_config = tmc.csp_master_leaf_node.dishVccConfig
-
-    if tmc_central_node.isDishVccConfigSet and raw_vcc_config:
-        try:
-            dish_vcc_config = json.loads(tmc.csp_master_leaf_node.dishVccConfig)
-            for receptor in RECEPTORS:
-                if (
-                    dish_vcc_config["dish_parameters"][receptor]["k"]
-                    != settings["expected_k_value"]
-                ):
-                    is_k_value_correct = False
-                    break
-        except json.JSONDecodeError:
-            logger.warning("dishVccConfig could not be decoded. Will re-load config.")
-
-    if not raw_vcc_config or not tmc_central_node.isDishVccConfigSet or not is_k_value_correct:
-        tmc_central_node.LoadDishCfg(json.dumps(dish_config_json))
-        wait_for_event(tmc_central_node, "isDishVccConfigSet", True)
-
-        logger.debug(json.dumps(dish_config_json))
-
-        dish_config_artifact_path = f"{settings['artifact_dir']}/load_dish_config.json"
-        with open(dish_config_artifact_path, "w") as dish_config_file:
-            json.dump(dish_config_json, dish_config_file, indent=2)
-
-        sleep(5)
-
-    # Turn ON the telescope if not already ON
-    if tmc_central_node.telescopeState == DevState.ON and cbf.controller.state == DevState.ON:
-        logger.info("Telescope is already in the ON state. Not issuing TelescopeOn command.")
-    else:
-        logger.info("Issuing TelescopeOn command")
-        tmc_central_node.TelescopeOn()
-        wait_for_event(tmc_central_node, "telescopeState", DevState.ON)
-
-    wait_for_event(cbf.controller, "state", DevState.ON)
-
-    if not sim_mode:
-        number_of_talons = 4
-        for i in range(1, number_of_talons + 1):
-            talon_board_dp = cbf.get_talon_board_proxy(i)
-            wait_for_event(talon_board_dp, "healthState", HealthState.OK)
-
-    assert tmc_central_node.isDishVccConfigSet, "isDishVccConfigSet is not True after setup"
-    assert tmc_central_node.telescopeState in [DevState.ON, DevState.UNKNOWN]
-
-
 @when("I turn ON the telescope")
 def _(telescope_handlers, receptor_ids, settings):
     """Turn the telescope ON.
+
+    Only run this if the telescope is not already ON.
+    Otherwise continue without issuing any commands.
 
     :param telescope_handlers: _description_
     :type settings: _type_
