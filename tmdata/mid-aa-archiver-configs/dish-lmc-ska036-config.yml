@@ -2697,7 +2697,7 @@ attributes:
       archive_abs_change: 1
     es: es9
   - trl: ska036/spf/spfc/operatingmode
-    es: es9
+    es: es1
     configuration:
       code_push_event: true
   - trl: mid-dish/dish-manager/ska036/status
@@ -2709,14 +2709,14 @@ attributes:
     configuration:
       code_push_event: true
   - trl: ska036/spf/spfc/b1defaultstartstate
-    es: es9
+    es: es1
     configuration:
       code_push_event: true
   - trl: ska036/spf/spfc/b2defaultstartstate
-    es: es9
+    es: es1
     configuration:
       code_push_event: true
   - trl: ska036/spf/spfc/b345defaultstartstate
-    es: es9
+    es: es1
     configuration:
       code_push_event: true
