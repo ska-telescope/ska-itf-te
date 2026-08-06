@@ -254,6 +254,8 @@ ska-sdp:
     subarray:
       timeoutAssignResources: 60 # Increase if timeouts occur during AssignResources - pulling docker images may take longer than 60s
       timeoutConfigure: 60 # Increase if timeouts occur during Configure - pulling docker images may take longer than 60s
+  jobs:
+    ttl: 300
   # QA display
   qa:
     api:
@@ -385,7 +387,7 @@ ska-tmc-mid:
       DefaultArrayLayoutSourceURIs: "car:ska-mid?main#tmdata"
       DefaultArrayLayoutPath: "instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json"      
       DishVccConfig:
-        DishVccUri: "car:ska-mid?27.3.0#tmdata"
+        DishVccUri: "car:ska-mid?31.4.1-vcc-swap#tmdata"
         DishVccFilePath: "instrument/ska1_mid_itf/vcc-config/ska-mid-cbf-system-parameters.json"
     cspsubarrayleafnode:
       CommandTimeOutDefault: 300

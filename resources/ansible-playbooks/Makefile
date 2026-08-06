@@ -154,7 +154,7 @@ $(INVENTORY_FILE): $(INVENTORY_TEMPLATE) # Sets up the inventory file with the c
 	$(MAKE) refresh_inventory
 
 lint: ## Lint check playbook
-	poetry run ansible-lint -v -c $(MKFILE_DIR).ansible-lint $(MKFILE_DIR)site.yml
+	uv run ansible-lint -v -c $(MKFILE_DIR).ansible-lint $(MKFILE_DIR)site.yml
 .PHONY: lint
 
 test: test-default test-gaia test-raspberry_pi ## Runs all playbook tests.
