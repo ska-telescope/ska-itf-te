@@ -68,7 +68,7 @@ url = "https://pypi.org/simple"
 default = true
 
 [tool.uv]
-default-groups = ["docs", "dev", "ansible", "engineering-tools"]
+default-groups = ["docs", "dev", "engineering-tools"]
 index-strategy = "unsafe-best-match"
 
 [tool.uv.sources]
