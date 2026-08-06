@@ -3,6 +3,9 @@
 ## Unreleased
 * [AT-3758]
   * Upgradability test for ska-mid chart (manual trigger only)
+* [AT-3786] 
+  * Update EDA dish configs so that all spfc attributes are on the same ES
+  * reinstate staging dish eda configs
 * [AT-3730]
   * Get logs for DishLMC namespaces in pipelines
 * [AT-3774]
