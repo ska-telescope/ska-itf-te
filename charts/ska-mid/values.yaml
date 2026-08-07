@@ -93,6 +93,11 @@ ska-dish-lmc:
   enabled: false
   ska-mid-dish-ds-manager:
     enabled: true
+    dishstructuremanager:
+      image:
+        image: ska-mid-dish-ds-manager
+        registry: registry.gitlab.com/ska-telescope/mid-dish/ska-mid-dish-ds-manager
+        tag: 8.2.6-dev.cc7cc9048
   ska-mid-dish-manager:
     enabled: true
     dishmanager:
