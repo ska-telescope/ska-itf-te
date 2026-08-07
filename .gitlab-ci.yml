@@ -25,6 +25,7 @@ stages:
   - platform
   - deploy-dish-aiv
   - remove-dish-aiv
+  - upgrade # TODO remove
   - test
   - lint
   - staging
@@ -32,7 +33,7 @@ stages:
   - integration
   - upload
   - publish
-  - upgrade
+  # - upgrade TODO: add
   - pages
   - scan
 

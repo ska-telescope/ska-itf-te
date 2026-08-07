@@ -23,3 +23,4 @@ test-upgradability:
     - make integration-test
     - '[ -f build/status ] || (echo "Something went wrong with the test (no build/status file); exit 1")'
     - exit $(cat build/status)
+  needs: []
