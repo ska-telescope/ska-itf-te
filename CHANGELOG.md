@@ -3,6 +3,8 @@
 ## Unreleased
 * [AT-3758]
   * Upgradability test for ska-mid chart (manual trigger only)
+
+## 31.5.0
 * [AT-3786] 
   * Update EDA dish configs so that all spfc attributes are on the same ES
   * reinstate staging dish eda configs
