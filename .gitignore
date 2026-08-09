@@ -1,3 +1,4 @@
+*workspace
 dev-values.yaml
 charts/**/charts/*
 logs/*
