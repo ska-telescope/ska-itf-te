@@ -165,7 +165,7 @@ destroy-sut-testing:
 .test-testing-rules:
   rules:
     - if: '$CI_COMMIT_TAG != null'
-      when: never
+      when: manual
     - if: '$CI_COMMIT_BRANCH == "main"'
       when: manual
       allow_failure: true
