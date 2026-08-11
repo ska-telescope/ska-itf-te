@@ -29,7 +29,7 @@ author = "ATLAS Team"
 
 # The full version, including alpha/beta/rc tags
 
-release = "31.5.0-test-upgradability-b"
+release = "31.5.0-test-upgradability-c"
 
 # -- General configuration ---------------------------------------------------
 
