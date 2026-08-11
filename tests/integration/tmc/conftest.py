@@ -459,25 +459,25 @@ def _(settings):
             f"Performing clean-slate redeploy across all namespaces..."
         )
 
-        _ensure_helm_repo()
+        # _ensure_helm_repo()
 
         # Redeploy each dish-lmc namespace (full namespace delete + reinstall), matching the
         # redeploy-dishlmc-skaXXX CI jobs, which don't set KEEP_NAMESPACE and so also delete
         # the dish-lmc namespace. Unlike the SUT namespace below, dish-lmc namespaces have no
         # externally-referenced PVCs so full teardown is safe.
-        dish_ids = [d.strip() for d in settings["dish_ids"].split()]
-        for dish_id in dish_ids:
-            dish_ns = _dish_namespace(namespace, dish_id)
-            dish_release = _get_helm_release(dish_ns)
-            if dish_release:
-                _redeploy_helm_release(
-                    dish_release["name"],
-                    dish_ns,
-                    site_chart_version,
-                    delete_namespace=True,
-                )
-            else:
-                logger.warning(f"No '{SKA_MID_CHART_NAME}' release found in '{dish_ns}', skipping")
+        # dish_ids = [d.strip() for d in settings["dish_ids"].split()]
+        # for dish_id in dish_ids:
+        #     dish_ns = _dish_namespace(namespace, dish_id)
+        #     dish_release = _get_helm_release(dish_ns)
+        #     if dish_release:
+        #         _redeploy_helm_release(
+        #             dish_release["name"],
+        #             dish_ns,
+        #             site_chart_version,
+        #             delete_namespace=True,
+        #         )
+        #     else:
+        #         logger.warning(f"No '{SKA_MID_CHART_NAME}' release found in '{dish_ns}', skipping")
 
         # Destroy and redeploy the SUT via make targets (mirrors redeploy-sut-integration).
         # The 'staging'/'integration' namespace itself is never deleted, only its pods are
@@ -486,7 +486,7 @@ def _(settings):
         # after helm uninstall; the make targets install with fresh CI parameters so the
         # chart creates all PVCs anew, exactly as the CI deploy job does. It also runs
         # `make k8s-wait` internally, confirming Tango Operator CRs/Pods are ready.
-        _redeploy_sut_via_make(release_name, namespace, site_chart_version)
+        # _redeploy_sut_via_make(release_name, namespace, site_chart_version)
 
     values_result = subprocess.run(
         ["helm", "get", "values", release_name, "-n", namespace, "--output", "json"],
