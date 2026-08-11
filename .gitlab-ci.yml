@@ -136,6 +136,6 @@ python-uv-publish-to-car:
   rules:
     - when: never
 
-pythin-uv-publish-to-gitlab:
+python-uv-publish-to-gitlab:
   rules:
     - when: never
