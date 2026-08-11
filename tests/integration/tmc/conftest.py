@@ -1241,6 +1241,9 @@ def _(telescope_handlers, settings):
     # so confirm that before starting the SUT upgrade.
     _wait_for_dish_devices(dishes, target_version)
 
+    # Extra grace period beyond reachability, so the dishes are truly settled before the SUT restarts
+    sleep(10)
+
     # Upgrade the SUT namespace
     deployed_chart = _get_helm_release(namespace)
     assert deployed_chart is not None, (

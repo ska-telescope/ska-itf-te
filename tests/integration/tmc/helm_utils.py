@@ -8,8 +8,14 @@ import tempfile
 from time import sleep, time
 
 import pytest
+from ska_control_model import ObsState
 
 logger = logging.getLogger(__name__)
+
+# Grace period after all devices report reachable, allowing LRC executors and Tango
+# event subscriptions across the CSP/SDP/Dish command chain to fully settle before the
+# next AssignResources/Configure is attempted (see AT-3753 upgrade path timeouts).
+POST_UPGRADE_SETTLE_TIME = 30
 
 SKA_HELM_REPO_NAME = "ska"
 SKA_HELM_REPO_URL = "https://artefact.skao.int/repository/helm-internal"
@@ -236,13 +242,22 @@ def _wait_for_dish_devices(dishes: list, version: str, poll_timeout: int = 300) 
 def _wait_for_tango_devices(telescope_handlers, version: str, poll_timeout: int = 300) -> None:
     """Poll Tango device proxies until all are reachable, failing if timeout is exceeded.
 
+    A bare ``ping()`` only confirms the device server process is answering the Tango DB -
+    it does not confirm that a device's component manager has finished (re)establishing
+    its own downstream connections/event subscriptions after the pod restart caused by the
+    upgrade. The dish leaf nodes in particular are recreated by this same upgrade and depend
+    on a live connection back to the (already-upgraded) dish-lmc DishManager devices, and the
+    subarray node depends on CSP/SDP/dish leaf nodes reporting obsState correctly. Reading
+    ``dishMode``/``obsState`` after ping succeeds exercises that whole chain, not just
+    liveness of the process itself.
+
     :param telescope_handlers: Tuple of (TMC, CBF, CSP, dishes) telescope handler objects.
     :param version: Chart version string used in the failure message.
     :type version: str
     :param poll_timeout: Maximum seconds to wait for devices, defaults to 300.
     :type poll_timeout: int
     """
-    tmc, _, csp, _ = telescope_handlers
+    tmc, _, csp, dishes = telescope_handlers
     tango_devices = [
         tmc.central_node,
         tmc.subarray_node,
@@ -260,16 +275,28 @@ def _wait_for_tango_devices(telescope_handlers, version: str, poll_timeout: int 
         try:
             for dp in tango_devices:
                 dp.ping()
+            for dish in dishes:
+                tmc.get_dish_leaf_node_dp(dish.dish_id).dishMode
+            assert tmc.subarray_node.obsState == ObsState.EMPTY, (
+                f"subarray_node.obsState is {tmc.subarray_node.obsState!s}, expected EMPTY"
+            )
             logger.info("All Tango devices are reachable")
-            return
+            break
         except Exception as exc:
             logger.debug(
                 f"Tango devices not yet reachable: {exc}. Retrying in {poll_interval}s..."
             )
             sleep(poll_interval)
-    pytest.fail(
-        f"Tango devices did not become reachable within {poll_timeout}s after version '{version}'"
+    else:
+        pytest.fail(
+            f"Tango devices did not become reachable within {poll_timeout}s after version "
+            f"'{version}'"
+        )
+
+    logger.info(
+        f"Waiting {POST_UPGRADE_SETTLE_TIME}s for command chains to settle after upgrade..."
     )
+    sleep(POST_UPGRADE_SETTLE_TIME)
 
 
 def _dish_namespace(sut_namespace: str, dish_id: str) -> str:
