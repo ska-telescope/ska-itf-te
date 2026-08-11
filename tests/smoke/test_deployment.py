@@ -188,6 +188,7 @@ def test_telescope_state(deployment_smoke_test_settings):
     cluster_domain = deployment_smoke_test_settings["cluster_domain"]
     receptors = deployment_smoke_test_settings["receptors"]
 
+    base_dish_states_stow = dict.fromkeys(receptors, DishMode.STOW)
     base_dish_states_standby_lp = dict.fromkeys(receptors, DishMode.STANDBY_LP)
     base_dish_states_standby_fp = dict.fromkeys(receptors, DishMode.STANDBY_FP)
     base_dish_states_operate = dict.fromkeys(receptors, DishMode.OPERATE)
@@ -195,6 +196,10 @@ def test_telescope_state(deployment_smoke_test_settings):
     # Telescope Off base state (Central node: OFF; Subbarray node, CSP subarrayleaf node,
     # and SDP subarray leaf node: EMPTY; Dishes: STANDBY_LP)
     telescope_state_off = TelescopeState(dishes=base_dish_states_standby_lp)
+
+    # Dishes are now allowed to start in STOW mode, so this is also a valid 
+    # telescope OFF base state
+    telescope_state_off_stow = TelescopeState(dishes=base_dish_states_stow)
 
     # Also a valid telescope OFF base state, pending TMC state aggregation improvement
     # Telescope Off base state (Central node: UNKNOWN; Subbarray node, CSP subarrayleaf
@@ -230,6 +235,7 @@ def test_telescope_state(deployment_smoke_test_settings):
     allowed_states = [
         telescope_state_off_central_node_unknown,
         telescope_state_off,
+        telescope_state_off_stow,
         telescope_state_on_operate,
         telescope_state_on_standby,
         telescope_state_on_central_node_unknown_operate,
