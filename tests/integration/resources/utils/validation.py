@@ -3,7 +3,7 @@
 from ska_control_model import ResultCode
 
 
-class CommandException(Exception):
+class CommandError(Exception):
     """Fail with an exception.
 
     :param: Exception: _description_

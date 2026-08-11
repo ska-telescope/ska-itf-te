@@ -254,6 +254,8 @@ ska-sdp:
     subarray:
       timeoutAssignResources: 60 # Increase if timeouts occur during AssignResources - pulling docker images may take longer than 60s
       timeoutConfigure: 60 # Increase if timeouts occur during Configure - pulling docker images may take longer than 60s
+  jobs:
+    ttl: 300
   # QA display
   qa:
     api:
