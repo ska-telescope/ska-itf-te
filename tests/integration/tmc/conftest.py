@@ -34,6 +34,7 @@ from tests.integration.tmc.helm_utils import (
     _redeploy_helm_release,
     _redeploy_sut_via_make,
     _upgrade_helm_release,
+    _wait_for_dish_devices,
     _wait_for_tango_devices,
 )
 from utils.enums import DishMode
@@ -1196,12 +1197,14 @@ def _(telescope_handlers, settings):
 
     Determines the target chart version from CI_COMMIT_TAG if set, otherwise reads
     it from charts/ska-mid/Chart.yaml. Performs an in-place helm upgrade (--reuse-values)
-    across all dish-lmc namespaces first, then the SUT namespace, then polls Tango device
-    proxies until they are reachable again.
+    across all dish-lmc namespaces first, waits for their Tango devices to be reachable
+    (the SUT cannot talk to the dishes until they are up), then upgrades the SUT
+    namespace and polls its Tango device proxies until they are reachable again.
 
     :param telescope_handlers: Telescope device proxies (Tango reconnects automatically).
     :param settings: Test settings.
     """
+    _, _, _, dishes = telescope_handlers
     target_version = os.getenv("CI_COMMIT_TAG")
     if not target_version:
         result = subprocess.run(
@@ -1233,6 +1236,10 @@ def _(telescope_handlers, settings):
             logger.warning(
                 f"No '{SKA_MID_CHART_NAME}' release found in '{dish_ns}', skipping upgrade"
             )
+
+    # The SUT cannot communicate with the dishes until their Tango devices are up,
+    # so confirm that before starting the SUT upgrade.
+    _wait_for_dish_devices(dishes, target_version)
 
     # Upgrade the SUT namespace
     deployed_chart = _get_helm_release(namespace)

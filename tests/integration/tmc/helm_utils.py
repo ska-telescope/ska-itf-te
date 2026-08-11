@@ -199,6 +199,40 @@ def _upgrade_helm_release(
     )
 
 
+def _wait_for_dish_devices(dishes: list, version: str, poll_timeout: int = 300) -> None:
+    """Poll dish-manager device proxies until all dishes are reachable.
+
+    A dish-lmc release being helm-ready does not guarantee its Tango device server is
+    already accepting connections, so this is polled separately (and before the SUT
+    upgrade begins) since the SUT cannot talk to the dishes until they are up.
+
+    :param dishes: List of Dish helper objects to poll.
+    :type dishes: list
+    :param version: Chart version string used in the failure message.
+    :type version: str
+    :param poll_timeout: Maximum seconds to wait for devices, defaults to 300.
+    :type poll_timeout: int
+    """
+    poll_interval = 10
+    deadline = time() + poll_timeout
+    logger.info("Waiting for dish-lmc Tango devices to be reachable...")
+    while time() < deadline:
+        try:
+            for dish in dishes:
+                dish.get_dish_manager_proxy()
+            logger.info("All dish-lmc Tango devices are reachable")
+            return
+        except Exception as exc:
+            logger.debug(
+                f"Dish-lmc devices not yet reachable: {exc}. Retrying in {poll_interval}s..."
+            )
+            sleep(poll_interval)
+    pytest.fail(
+        f"Dish-lmc Tango devices did not become reachable within {poll_timeout}s "
+        f"after upgrading to version '{version}'"
+    )
+
+
 def _wait_for_tango_devices(telescope_handlers, version: str, poll_timeout: int = 300) -> None:
     """Poll Tango device proxies until all are reachable, failing if timeout is exceeded.
 
