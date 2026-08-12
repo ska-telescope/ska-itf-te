@@ -1,72 +1,93 @@
-[tool.poetry]
+[project]
 name = "ska-mid-itf"
-version = "31.4.0"
+version = "31.5.0"
 description = "Integration testing and deployment project for the Mid ITF"
-authors = ["ATLAS"]
-license = "BSD 3-Clause"
 readme = "README.md"
-packages = [{ include = "tests/integration" }]
+requires-python = ">=3.10,<3.11"
+license = "BSD-3-Clause"
+authors = [{ name = "ATLAS" }]
+dependencies = [
+	"ska-tmc-cdm>=8.3.0",
+	"pytest-json-report>=1.5.0,<2.0.0",
+	"pytest-repeat>=0.9.1,<0.10.0",
+	"ska_ser_logging>=0.4.1,<0.5.0",
+	"pyyaml>=6.0.1,<7.0.0",
+	"httpx>=0.27.0,<0.28.0",
+	"h11>=0.14.0,<0.15.0",
+	"annotated-types>=0.6.0,<1.0.0",
+	"black>=24.3.0,<25.0.0",
+	"ska-telmodel>=1.13.0,<2.0.0",
+	"ska-oso-scripting==17.0.0",
+	"astropy>=6.0.0,<7.0.0",
+	"pydantic[email]>=2.12.5,<3.0.0",
+	"ska-schemas>=1.36.0,<2.0.0",
+	"psycopg[binary]>=3.3.3,<4.0.0",
+	"assertpy>=1.1,<2.0.0",
+	"lxml>=6.0.4,<7.0.0",
+	"diagrams>=0.25.1,<0.26.0",
+	"mock>=5.2.0,<6.0.0",
+	"kubernetes>=35.0.0,<36.0.0",
+	"pytest-bdd>=7.0.0,<8.0.0",
+]
 
-[[tool.poetry.source]]
-name = 'skao'
-url = 'https://artefact.skao.int/repository/pypi-internal/simple'
+[project.scripts]
+telescope_state_control = "scripts.telescope_control.state:main"
+upload-to-confluence = "scripts.confluence.upload_to_confluence:main"
 
-[[tool.poetry.source]]
-name = "PyPI-public"
-url = 'https://pypi.org/simple'
+[dependency-groups]
+docs = [
+	"Sphinx>=7.2.6,<8.0.0",
+	"sphinx-rtd-theme>=1.3.0,<2.0.0",
+	"recommonmark>=0.7.1,<0.8.0",
+	"markupsafe>=2.1.0,<3.0.0",
+]
+dev = [
+	"pytest-cov>=4.0.0,<5.0.0",
+	"ruff>=0.6.0,<1.0.0",
+	"mypy>=1.8.0,<2.0.0",
+	"twine>=5.0.0,<6.0.0",
+	"ipykernel>=6.29.5,<7.0.0",
+]
+ansible = [
+	"ansible>=9.3.0,<10.0.0",
+	"ansible-compat>=25.1.0,<26.0.0",
+	"ansible-lint>=25.0.0,<26.0.0; platform_system != 'Windows'",
+]
+engineering-tools = [
+	"ska-mid-itf-engineering-tools==0.11.1",
+	"python-casacore<3.8; sys_platform == 'darwin' and platform_machine == 'arm64'",
+]
 
-[tool.poetry.dependencies]
-python = ">=3.10,<3.11"
-ska-tmc-cdm = ">=8.3.0"
-pytest-json-report = "^1.5.0"
-pytest-repeat = "^0.9.1"
-ska_ser_logging = "^0.4.1"
-pyyaml = "^6.0.1"
-ska-mid-itf-engineering-tools = "0.10.4-rc.3"
-httpx = "^0.27.0"
-h11 = "^0.14.0"
-annotated-types = ">=0.6.0,<1.0.0"
-black = "^24.3.0"
-ska-telmodel = "^1.13.0"
-ska-oso-scripting = "17.0.0"
-astropy = "^6.0.0" 
-pydantic = {extras = ["email"], version = "^2.12.5"}
-ska-schemas = "^1.36.0"
-psycopg = {extras = ["binary"], version = "^3.3.3"}
-assertpy = "^1.1"
-lxml = "^6.0.4"
-diagrams = "^0.25.1"
-mock = "^5.2.0"
-kubernetes = "^35.0.0"
+[[tool.uv.index]]
+name = "skao"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
 
-[tool.poetry.group.docs.dependencies]
-Sphinx = "^7.2.6"
-sphinx-rtd-theme = "^1.3.0"
-recommonmark = "^0.7.1"
-markupsafe = "^2.1.0"
+[[tool.uv.index]]
+name = "pypi-public"
+url = "https://pypi.org/simple"
+default = true
 
-[tool.poetry.group.dev.dependencies]
-black = "^24.2.0"
-flake8 = "^7.0.0"
-isort = "^5.12.0"
-pylint = "^3.1.0"
-pylint-junit = "^0.3.2"
-pytest-cov = "^4.0.0"
-flake8-docstrings = "^1.7.0"
-flake8-rst-docstrings = "^0.3.0"
-darglint = "^1.8.1"
-mypy = "^1.8.0"
-twine = "^5.0.0"
-ipykernel = "^6.29.5"
+[tool.uv]
+default-groups = ["docs", "dev", "engineering-tools"]
+index-strategy = "unsafe-best-match"
 
-[tool.poetry.group.ansible.dependencies]
-ansible = "^9.3.0"
-ansible-compat = "^25.1.0"
-ansible-lint = { version = "^24.2.0", markers = "platform_system != 'Windows'" }
+[tool.uv.sources]
+ska-tmc-cdm = { index = "skao" }
+ska_ser_logging = { index = "skao" }
+ska-mid-itf-engineering-tools = { index = "skao" }
+ska-control-model = { index = "skao" }
+ska-telmodel = { index = "skao" }
+ska-oso-scripting = { index = "skao" }
+ska-db-oda = { index = "skao" }
+ska-schemas = { index = "skao" }
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["setuptools>=68", "wheel", "packaging>=24.2"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["scripts*", "utils*"]
 
 [tool.pytest.ini_options]
 addopts = "-p no:warnings"
@@ -83,17 +104,23 @@ build-dir = "docs/_build"
 all_files = 1
 builder = "html"
 
-[tool.isort]
-profile = "black"
-multi_line_output = 3
-line_length = 99
+[tool.ruff]
+line-length = 99
+fix = true
+unsafe-fixes = true
+lint.select = ["E", "F", "W", "C90", "UP", "D", "N", "B", "C4", "PT", "RUF"]
+lint.ignore = [
+    "D100",  # Missing docstring in public module
+    "D101",  # Missing docstring in public class
+    "D102",  # Missing docstring in public method
+    "D104",  # Missing docstring in public package
+    "D105",  # Missing docstring in magic method
+    "D107",  # Missing docstring in `__init__`
+    "E501",  # Line too long (covered by formatter)
+]
 
-[tool.flake8]
-max-line-length = 99
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
 
-[tool.black]
-line_length = 99
-
-[tool.poetry.scripts]
-telescope_state_control = "scripts.telescope_control.state:main"
-upload-to-confluence = "scripts.confluence.upload_to_confluence:main"
+[tool.ruff.format]
+preview = true

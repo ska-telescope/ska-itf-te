@@ -5,13 +5,13 @@ default:
 
 variables:
   MINIKUBE: "false"
+  SDP_JOBS_TTL: "300"
   CI_DEBUG_SERVICES: "true"
   GIT_SUBMODULE_STRATEGY: normal
   EXPOSE_All_DS: "true"
   CLEAN_UP_TEST_ENVIRONMENT: "true"
   DEPLOYMENT_CONFIGURATION: "ska-$CONFIG"
-  POETRY_CONFIG_VIRTUALENVS_CREATE: "true"
-  DEPLOY_IMAGE: ${CI_REGISTRY}/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools:0.10.4
+  DEPLOY_IMAGE: ${CI_REGISTRY}/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools:0.11.1
   MCS_CONFIG_FILE_PATH: resources/mcs
   DISH_IDS: "SKA001 SKA036 SKA063 SKA100" # SKA063 SKA100 Add additional Dishes back when adding their pipelines in this order"
   SMOKE_TEST_SOURCE: tests/smoke
@@ -39,7 +39,7 @@ include:
   # - project: "ska-telescope/templates-repository" TEMPORARY COMMIT: NOT PUBLISHING TO CAR FOR THE MOMENT - POSSIBLY NEED TO RELOOK THIS IN FUTURE
   #   file: "gitlab-ci/includes/python.gitlab-ci.yml"
   - project: "ska-telescope/templates-repository"
-    file: "gitlab-ci/includes/python-lint.gitlab-ci.yml"
+    file: "gitlab-ci/includes/python-uv.gitlab-ci.yml"
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/docs.gitlab-ci.yml"
   - project: "ska-telescope/templates-repository"
@@ -126,3 +126,8 @@ container_scanning:
 docs-build-rtd:
   rules:
     - when: never
+
+python-uv-lint:
+  needs:
+    - job: python-uv-build-for-development
+      optional: true

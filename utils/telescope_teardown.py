@@ -10,7 +10,7 @@ from ska_control_model import ObsState
 from tango import DevState
 
 # TODO: Get these  helper classes moved into utils
-from tests.integration.tmc.conftest import TMC, EventWaitTimeout, wait_for_event
+from tests.integration.tmc.conftest import TMC, EventWaitTimeoutError, wait_for_event
 from utils.enums import DishMode, PointingState
 
 # TODO: Think about passing an instance of logger, and not global logger
@@ -98,7 +98,7 @@ class TelescopeHandler:
             self._teardown_sut_subsystem(
                 subsystem="tmc_subarray", current_state=current_telescope_state.subarray
             )
-        except EventWaitTimeout:
+        except EventWaitTimeoutError:
             logger.info(
                 "Failed to teardown telescope via the TMC Subarray. Attempting contingencies"
             )
