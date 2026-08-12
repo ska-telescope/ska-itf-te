@@ -1,6 +1,12 @@
 # Version History
 
 ## Unreleased
+* [AT-3798]
+  * Upgrade TMC to `1.24.1`
+  * Upgrade CSP to `1.8.0`
+  * Upgrade SDP to `1.26.2`
+  * Upgrade DishLMC to `1.10.2`
+  * Upgrade ska-tango-archiver to `5.0.4`
 
 ## 31.5.0
 * [AT-3786] 
