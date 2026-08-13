@@ -276,7 +276,7 @@ def _wait_for_tango_devices(telescope_handlers, version: str, poll_timeout: int 
             for dp in tango_devices:
                 dp.ping()
             for dish in dishes:
-                tmc.get_dish_leaf_node_dp(dish.dish_id).dishMode
+                _ = tmc.get_dish_leaf_node_dp(dish.dish_id).dishMode
             assert tmc.subarray_node.obsState == ObsState.EMPTY, (
                 f"subarray_node.obsState is {tmc.subarray_node.obsState!s}, expected EMPTY"
             )

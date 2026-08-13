@@ -31,8 +31,8 @@ from tests.integration.tmc.helm_utils import (
     _dish_namespace,
     _ensure_helm_repo,
     _get_helm_release,
-    _redeploy_helm_release,
-    _redeploy_sut_via_make,
+    # _redeploy_helm_release, TODO: put back
+    # _redeploy_sut_via_make, TODO: put back
     _upgrade_helm_release,
     _wait_for_dish_devices,
     _wait_for_tango_devices,
