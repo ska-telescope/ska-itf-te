@@ -24,4 +24,4 @@ environment:
   EDA_DATABASE_NAME: ska001_eda
   CONNECTION_POOL_MAX_CONN: 10
 startup:
-  command: '"sh", "-c", "poetry run grafana-connector"'
+  command: '"sh", "-c", "grafana-connector"'
