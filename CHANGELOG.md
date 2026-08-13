@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* [AT-3733]
+  * RXPU serial number is written to a file on the SPFRx host.
 ## 31.5.0
 * [AT-3786] 
   * Update EDA dish configs so that all spfc attributes are on the same ES

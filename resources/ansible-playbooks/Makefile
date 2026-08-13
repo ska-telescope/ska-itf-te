@@ -23,10 +23,12 @@ ANSIBLE_COMMAND_DRY_RUN := $(ANSIBLE_COMMAND) --check --diff
 V ?=
 USER ?= $(shell whoami)
 
-SPFRX_GOALS := setup_spfrx setup_spfrx_dry_run setup_spfrx_host setup_spfrx_host_dry_run validate_spfrx validate_spfrx_dry_run
+SPFRX_GOALS := setup_spfrx setup_spfrx_dry_run setup_spfrx_host setup_spfrx_host_dry_run validate_spfrx validate_spfrx_dry_run help long-help
 ifneq ($(filter $(SPFRX_GOALS),$(MAKECMDGOALS)),)
 AD_USER ?= $(USER)
 endif
+
+SERIAL ?= ## Serial number of the SPFRX unit (required for setup_spfrx targets; max 49 characters)
 
 ifndef AD_USER
 $(error AD_USER is not set: set this to your active directory user (i.e. Jira username.))
@@ -51,6 +53,12 @@ guard-%:
 	@if [ -z "$($(*))" ]; then echo "ERROR: $* is not set. Run 'make help' for usage."; exit 1; fi
 .PHONY: guard-%
 
+# Guard target: fails if SERIAL is unset or exceeds 49 characters.
+guard-SERIAL:
+	@if [ -z "$(SERIAL)" ]; then echo "ERROR: SERIAL is not set. Provide a serial number with SERIAL=..."; exit 1; fi
+	@if [ $$(printf '%s' '$(SERIAL)' | wc -c) -ge 50 ]; then echo "ERROR: SERIAL must be less than 50 characters."; exit 1; fi
+.PHONY: guard-SERIAL
+
 # Guard target: fails if DISH_INDEX is unset or not a positive integer.
 guard-DISH_INDEX:
 	@if [ -z "$(DISH_INDEX)" ]; then echo "ERROR: DISH_INDEX is not set. Run 'make help' for usage."; exit 1; fi
@@ -74,7 +82,7 @@ setup_pi_dry_run: setup ## Runs the full playbook against the Raspberry Pi in dr
 	$(ANSIBLE_COMMAND_DRY_RUN) --limit raspberry_pi $(MKFILE_DIR)site.yml
 .PHONY: setup_pi_dry_run
 
-setup_spfrx: guard-DISH_INDEX ## Runs the playbook against the SPFRX host for a given DISH_INDEX. Usage: make setup_spfrx DISH_INDEX=1
+setup_spfrx: guard-DISH_INDEX guard-SERIAL## Runs the playbook against the SPFRX host for a given DISH_INDEX. Usage: make setup_spfrx DISH_INDEX=1
 	@SPFRX_HOST=$$(awk '/dish_index=$(DISH_INDEX)([[:space:]]|$$)/{print $$1}' $(INVENTORY_FILE)); \
 	if [ -z "$$SPFRX_HOST" ]; then \
 		echo "No host with dish_index=$(DISH_INDEX) found. Adding spfrx$(DISH_INDEX) to [spfrx_mid]."; \
@@ -86,14 +94,14 @@ setup_spfrx: guard-DISH_INDEX ## Runs the playbook against the SPFRX host for a 
 	rm -f $(INVENTORY_FILE).x
 .PHONY: setup_spfrx
 
-setup_spfrx_dry_run: guard-DISH_INDEX ## Runs the playbook against the SPFRX host for a given DISH_INDEX in dry-run mode. Usage: make setup_spfrx_dry_run DISH_INDEX=1
+setup_spfrx_dry_run: guard-DISH_INDEX guard-SERIAL ## Runs the playbook against the SPFRX host for a given DISH_INDEX in dry-run mode. Usage: make setup_spfrx_dry_run DISH_INDEX=1
 	@SPFRX_HOST=$$(awk '/dish_index=$(DISH_INDEX)([[:space:]]|$$)/{print $$1}' $(INVENTORY_FILE)); \
 	if [ -z "$$SPFRX_HOST" ]; then \
 		echo "No host with dish_index=$(DISH_INDEX) found. Adding spfrx$(DISH_INDEX) to [spfrx_mid]."; \
 		printf 'spfrx$(DISH_INDEX) ansible_host=10.10.101.148 host_identifier="spfrx$(DISH_INDEX)" dish_index=$(DISH_INDEX)\n' >> $(INVENTORY_FILE); \
 		SPFRX_HOST=spfrx$(DISH_INDEX); \
 	fi; \
-	$(ANSIBLE_COMMAND_DRY_RUN) --limit $$SPFRX_HOST --tags spfrx $(MKFILE_DIR)site.yml
+	$(ANSIBLE_COMMAND_DRY_RUN) -e serial=$(SERIAL) --limit $$SPFRX_HOST --tags spfrx $(MKFILE_DIR)site.yml
 	sed -i.x -E "/dish_index=$(DISH_INDEX)([[:space:]]|$$)/s/ansible_host=[^[:space:]]*/ansible_host=10.160.$(DISH_INDEX).5/" $(INVENTORY_FILE)
 	rm -f $(INVENTORY_FILE).x
 .PHONY: setup_spfrx_dry_run
@@ -199,13 +207,25 @@ list_tasks: ## Prints the tasks to be executed during a playbook run.
 		--list-tasks
 .PHONY: list_tasks
 
+HELP_FILTER_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
+HELP_FILTER_PATTERN := $(firstword $(HELP_FILTER_ARGS))
+
 # Note: in order for a target to show up in the help message,
 # it needs to have a comment starting with '##' on the same line.
-help:  ## Show this help.
-	@echo "make targets:"
-	@grep -E '^[0-9a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ": .*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
-	@echo ""; echo "make vars (+defaults):"
-	@grep -E '^[0-9a-zA-Z_-]+ \?=.*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = " \\?= "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+help:  ## Show this help (optional filter: make help spfrx).
+	@echo ""; echo "$(HELP_POWDER_BLUE)SECTION:$(HELP_NORMAL) ansible-playbooks"; \
+	echo "$(HELP_GREEN)MAKE TARGETS:$(HELP_NORMAL)"; \
+	if [ -n "$(HELP_FILTER_PATTERN)" ]; then \
+		grep -E '^[0-9a-zA-Z_-]+:.*?## .*$$' $(MKFILE_PATH) | grep "$(HELP_FILTER_PATTERN)" | sort | awk 'BEGIN {FS = ": .*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'; \
+	else \
+		grep -E '^[0-9a-zA-Z_-]+:.*?## .*$$' $(MKFILE_PATH) | sort | awk 'BEGIN {FS = ": .*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'; \
+	fi; \
+	echo ""; echo "$(HELP_YELLOW)MAKE VARS (+defaults):$(HELP_NORMAL)"; \
+	if [ -n "$(HELP_FILTER_PATTERN)" ]; then \
+		grep -E '^[0-9a-zA-Z_-]+ \?=.*$$' $(MKFILE_PATH) | grep "$(HELP_FILTER_PATTERN)" | sort | awk 'BEGIN {FS = " \\?= "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' || true; \
+	else \
+		grep -E '^[0-9a-zA-Z_-]+ \?=.*$$' $(MKFILE_PATH) | sort | awk 'BEGIN {FS = " \\?= "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' || true; \
+	fi
 .PHONY: help
 
 echo_vars:
