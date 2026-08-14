@@ -426,7 +426,7 @@ def _(telescope_handlers, receptor_ids, settings):
 
     :param settings: Test settings.
     """
-    _, cbf, csp, tmc, _ = telescope_handlers
+    tmc, cbf, csp, _ = telescope_handlers
     RECEPTORS = receptor_ids  # noqa: N806
 
     site_chart_version = settings["site_chart_version"]
@@ -461,12 +461,12 @@ def _(telescope_handlers, receptor_ids, settings):
     logger.info("Verifying that the telescope is in the correct state before assigning resources.")
     logger.info(f" CBF Simulation mode is: {csp.control.cbfSimulationMode}")
     assert csp.control.adminMode == 0, "CSP adminMode is not online. Ensure CSP is in the correct state before running the test."
-    assert cbf.controller.state == cbf.controller.State.ON, "CBF controller is not in the ON state. Ensure CBF is in the correct state before running the test."
+    assert cbf.controller.state == DevState.ON, "CBF controller is not in the ON state. Ensure CBF is in the correct state before running the test."
     assert tmc.central_node.telescopeState == DevState.ON, "TMC central node is not in the ON state. Ensure TMC is in the correct state before running the test."
 
     assert cbf.fspcorrsubarray.obsstate == ObsState.IDLE, "CBF FSP/Corr subarray is not in the IDLE state. Ensure CBF is in the correct state before running the test."
     assert tmc.subarray_node.obsState == ObsState.EMPTY, "TMC subarray node is not in the EMPTY state. Ensure TMC is in the correct state before running the test."
-    assert csp.subarray_leaf_node.cspSubarrayObsState == ObsState.EMPTY, "CSP subarray leaf node is not in the EMPTY state. Ensure CSP is in the correct state before running the test."
+    assert tmc.csp_subarray_leaf_node.cspSubarrayObsState == ObsState.EMPTY, "CSP subarray leaf node is not in the EMPTY state. Ensure CSP is in the correct state before running the test."
     assert tmc.sdp_subarray_leaf_node.sdpSubarrayObsState == ObsState.EMPTY, "TMC SDP subarray leaf node is not in the EMPTY state. Ensure TMC is in the correct state before running the test."
 
     for receptor in RECEPTORS:
