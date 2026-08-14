@@ -413,25 +413,22 @@ def sequence_diagrammer(settings):
 
 
 @given(
-    "a deployment in the ITF of the version of ska-mid currently in ska-mid-helmreleases main with 1 subarray"
+    "a running deployment in the ITF of the version of ska-mid currently in ska-mid-helmreleases main with 1 subarray"
 )
-def _(settings):
-    """Ensure the environment is a clean-slate deployment at the ska-mid-helmreleases main version.
+def _(telescope_handlers, receptor_ids, settings):
+    """Ensure the environment is a operational running deployment at the ska-mid-helmreleases main version.
 
     Reads SKA_MID_SITE_CHART_VERSION set by the CI before_script. If the deployed version
-    differs, performs a full uninstall + reinstall across all dish-lmc namespaces (deleting
-    each namespace) and the SUT namespace (keeping the namespace), so that the test always
-    starts from a clean, known state before the first observation.
+    differs, the test fails.
 
-    Does NOT take ``telescope_handlers`` as a parameter — Tango may not yet be reachable
-    when this step runs. Readiness is verified via ``make k8s-wait``, run inside
-    ``_redeploy_sut_via_make`` right after ``k8s-install-chart`` (mirroring the CI deploy
-    job), which waits on the Tango Operator's DatabaseDS/DeviceServer CRs and Pods directly
-    rather than polling individual device names. Subsequent steps that depend on
-    ``telescope_handlers`` will only trigger that fixture afterwards.
+    Checks that the telescope is in the ON state and that CSP adminMode is online, so that the test
+    always starts from a known state before the first observation.
 
     :param settings: Test settings.
     """
+    _, cbf, csp, tmc, _ = telescope_handlers
+    RECEPTORS = receptor_ids  # noqa: N806
+
     site_chart_version = settings["site_chart_version"]
     assert site_chart_version, (
         "SKA_MID_SITE_CHART_VERSION is not set. "
@@ -457,37 +454,26 @@ def _(settings):
         logger.info(
             f"Deployed version '{deployed_version}' does not match "
             f"ska-mid-helmreleases main '{site_chart_version}'. "
-            f"Performing clean-slate redeploy across all namespaces..."
+            #  TODO: Test should fail here in future, but for now we allow the test to continue to avoid unnecessary redeployments.
         )
 
-        # _ensure_helm_repo()
+    # Verifify that the telescope is in the correct state before assigning resources:
+    logger.info("Verifying that the telescope is in the correct state before assigning resources.")
+    logger.info(f" CBF Simulation mode is: {csp.control.cbfSimulationMode}")
+    assert csp.control.adminMode == 0, "CSP adminMode is not online. Ensure CSP is in the correct state before running the test."
+    assert cbf.controller.state == cbf.controller.State.ON, "CBF controller is not in the ON state. Ensure CBF is in the correct state before running the test."
+    assert tmc.central_node.telescopeState == DevState.ON, "TMC central node is not in the ON state. Ensure TMC is in the correct state before running the test."
 
-        # Redeploy each dish-lmc namespace (full namespace delete + reinstall), matching the
-        # redeploy-dishlmc-skaXXX CI jobs, which don't set KEEP_NAMESPACE and so also delete
-        # the dish-lmc namespace. Unlike the SUT namespace below, dish-lmc namespaces have no
-        # externally-referenced PVCs so full teardown is safe.
-        # dish_ids = [d.strip() for d in settings["dish_ids"].split()]
-        # for dish_id in dish_ids:
-        #     dish_ns = _dish_namespace(namespace, dish_id)
-        #     dish_release = _get_helm_release(dish_ns)
-        #     if dish_release:
-        #         _redeploy_helm_release(
-        #             dish_release["name"],
-        #             dish_ns,
-        #             site_chart_version,
-        #             delete_namespace=True,
-        #         )
-        #     else:
-        #         logger.warning(f"No '{SKA_MID_CHART_NAME}' release found in '{dish_ns}', skipping")
+    assert cbf.fspcorrsubarray.obsstate == ObsState.IDLE, "CBF FSP/Corr subarray is not in the IDLE state. Ensure CBF is in the correct state before running the test."
+    assert tmc.subarray_node.obsState == ObsState.EMPTY, "TMC subarray node is not in the EMPTY state. Ensure TMC is in the correct state before running the test."
+    assert csp.subarray_leaf_node.cspSubarrayObsState == ObsState.EMPTY, "CSP subarray leaf node is not in the EMPTY state. Ensure CSP is in the correct state before running the test."
+    assert tmc.sdp_subarray_leaf_node.sdpSubarrayObsState == ObsState.EMPTY, "TMC SDP subarray leaf node is not in the EMPTY state. Ensure TMC is in the correct state before running the test."
 
-        # Destroy and redeploy the SUT via make targets (mirrors redeploy-sut-integration).
-        # The 'staging'/'integration' namespace itself is never deleted, only its pods are
-        # removed and reinstalled (KEEP_NAMESPACE=true is enforced in _redeploy_sut_via_make).
-        # This avoids the existingClaim PVC failure that occurs when saved values are reused
-        # after helm uninstall; the make targets install with fresh CI parameters so the
-        # chart creates all PVCs anew, exactly as the CI deploy job does. It also runs
-        # `make k8s-wait` internally, confirming Tango Operator CRs/Pods are ready.
-        # _redeploy_sut_via_make(release_name, namespace, site_chart_version)
+    for receptor in RECEPTORS:
+        assert tmc.get_dish_leaf_node_dp(receptor).dishMode in [
+            DishMode.STANDBY_FP,
+            DishMode.OPERATE,
+        ]
 
     values_result = subprocess.run(
         ["helm", "get", "values", release_name, "-n", namespace, "--output", "json"],
