@@ -461,7 +461,7 @@ def _(telescope_handlers, receptor_ids, settings):
     logger.info("Verifying that the telescope is in the correct state before assigning resources.")
     logger.info(f" CBF Simulation mode is: {csp.control.cbfSimulationMode}")
     assert csp.control.adminMode == 0, "CSP adminMode is not online. Ensure CSP is in the correct state before running the test."
-    assert cbf.controller.state == DevState.ON, "CBF controller is not in the ON state. Ensure CBF is in the correct state before running the test."
+    assert cbf.controller.state() == DevState.ON, "CBF controller is not in the ON state. Ensure CBF is in the correct state before running the test."
     assert tmc.central_node.telescopeState == DevState.ON, "TMC central node is not in the ON state. Ensure TMC is in the correct state before running the test."
 
     assert cbf.fspcorrsubarray.obsstate == ObsState.IDLE, "CBF FSP/Corr subarray is not in the IDLE state. Ensure CBF is in the correct state before running the test."
@@ -665,7 +665,7 @@ def _(telescope_handlers, receptor_ids, settings):  # noqa: C901
     assert csp_subarray_leaf_node.cspSubarrayObsState == ObsState.EMPTY
     assert sdp_subarray_leaf_node.sdpSubarrayObsState == ObsState.EMPTY
 
-    if tmc_central_node.telescopeState == DevState.ON and cbf.controller.state == DevState.ON:
+    if tmc_central_node.telescopeState == DevState.ON and cbf.controller.state() == DevState.ON:
         logger.info("Telescope is already in the ON state. Not issuing TelescopeOn command.")
     else:
         # Turn ON the telescope
