@@ -174,41 +174,41 @@ destroy-sut-testing:
 test-end-to-end-testing:
   stage: test
   extends:
-    - .testing-env
     - .test-end-to-end-with-hw
+    - .testing-env
     - .test-testing-rules
 
 test-telescope-on-testing:
   stage: test
   extends:
-    - .testing-env
     - .test-telescope-on-with-hw
+    - .testing-env
     - .test-testing-rules
 
 test-scan-testing:
   stage: test
   extends:
-    - .testing-env
     - .test-scan-with-hw
+    - .testing-env
     - .test-testing-rules
 
 test-multiscan-with-reconfigure-testing:
   stage: test
   extends:
-    - .testing-env
     - .test-multiscan-with-reconfigure-with-hw
+    - .testing-env
     - .test-testing-rules
 
 test-multiscan-without-reconfigure-testing:
   stage: test
   extends:
-    - .testing-env
     - .test-multiscan-without-reconfigure-with-hw
+    - .testing-env
     - .test-testing-rules
 
 test-telescope-off-testing:
   stage: test
   extends:
-    - .testing-env
     - .test-telescope-off-with-hw
+    - .testing-env
     - .test-testing-rules
