@@ -7,6 +7,7 @@
   * Upgrade SDP to `1.26.2`
   * Upgrade DishLMC to `1.10.2`
   * Upgrade ska-tango-archiver to `5.0.4`
+  * Upgrade ska-mid-itf-engineering-tools to `0.11.4`
 
 ## 31.5.0
 * [AT-3786] 
