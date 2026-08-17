@@ -314,6 +314,16 @@ def wait_for_event(
             f"Desired event {device_proxy.name()} {attr_name}={attr_val_name}"
             f" did not occur within the timeout period of {timeout}s"
         )
+        # Dump current device state to help diagnose a hung/deadlocked device,
+        # since the device may have stopped logging/processing events entirely.
+        try:
+            current_value = device_proxy.read_attribute(attr_name).value
+            logger.error(
+                f"Device {device_proxy.name()} current {attr_name}={current_value}, "
+                f"state={device_proxy.state()}, status={device_proxy.status()}"
+            )
+        except Exception as diag_exc:  # pylint: disable=broad-except
+            logger.error(f"Failed to read diagnostic info from {device_proxy.name()}: {diag_exc}")
         raise EventWaitTimeoutError(
             f"Desired event {device_proxy.name()} {attr_name}={attr_val_name}"
             f" did not occur within the timeout period of {timeout}s"
