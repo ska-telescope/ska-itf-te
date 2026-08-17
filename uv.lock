@@ -2428,7 +2428,7 @@ docs = [
 ]
 engineering-tools = [
     { name = "python-casacore", marker = "platform_machine == 'arm64' and sys_platform == 'darwin'", specifier = "<3.8" },
-    { name = "ska-mid-itf-engineering-tools", specifier = "==0.11.2", index = "https://artefact.skao.int/repository/pypi-internal/simple" },
+    { name = "ska-mid-itf-engineering-tools", specifier = "==0.11.3", index = "https://artefact.skao.int/repository/pypi-internal/simple" },
 ]
 
 [[package]]
@@ -2453,9 +2453,9 @@ dependencies = [
     { name = "slack-sdk" },
     { name = "toml" },
 ]
-sdist = { url = "https://artefact.skao.int/repository/pypi-internal/packages/ska-mid-itf-engineering-tools/0.11.2/ska_mid_itf_engineering_tools-0.11.2.tar.gz", hash = "sha256:875857a287fe8f4dba5e491457b127fc60715453dba6d0661ab8bffc2dd0a5b7" }
+sdist = { url = "https://artefact.skao.int/repository/pypi-internal/packages/ska-mid-itf-engineering-tools/0.11.3/ska_mid_itf_engineering_tools-0.11.3.tar.gz", hash = "sha256:dd579eeb0af95cf577a2ba086792c8249613d46361d331533dc5e8f707043201" }
 wheels = [
-    { url = "https://artefact.skao.int/repository/pypi-internal/packages/ska-mid-itf-engineering-tools/0.11.2/ska_mid_itf_engineering_tools-0.11.2-py3-none-any.whl", hash = "sha256:a937b9b540f240566f0d7db0d98bfdbddb5d9461cbeb39add56494cd111cec83" },
+    { url = "https://artefact.skao.int/repository/pypi-internal/packages/ska-mid-itf-engineering-tools/0.11.3/ska_mid_itf_engineering_tools-0.11.3-py3-none-any.whl", hash = "sha256:fbce194937b7e55f7a9ef632d177b97263c5cf7383075056bbc49045eca0d546" },
 ]
 
 [[package]]
