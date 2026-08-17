@@ -2433,7 +2433,7 @@ engineering-tools = [
 
 [[package]]
 name = "ska-mid-itf-engineering-tools"
-version = "0.11.2"
+version = "0.11.3"
 source = { registry = "https://artefact.skao.int/repository/pypi-internal/simple" }
 dependencies = [
     { name = "gitpython" },
