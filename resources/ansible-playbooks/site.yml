@@ -65,14 +65,6 @@
   roles:
     - local_ssh
 
-# Configure SPFRx (za-itf-sw)
-- name: Setup SPFRx
-  hosts:
-    - spfrx_mid
-    - spfrx_itf
-    - spfrx_test
-  roles:
-    - role: spfrx_setup
 
 # Validate SPFRx (za-itf-sw)
 - name: Validate SPFRx
@@ -84,3 +76,14 @@
   gather_facts: false
   roles:
     - role: spfrx_validate
+# Configure SPFRx (za-itf-sw)
+- name: Setup SPFRx
+  hosts:
+    - spfrx_mid
+    - spfrx_itf
+    - spfrx_test
+  # Ansible gathers facts per matched play regardless of --tags, so disable it here too (spfrx37 may be unreachable until spfrx_validate's netplan fix runs).
+  gather_facts: false
+  roles:
+    - role: spfrx_setup
+
