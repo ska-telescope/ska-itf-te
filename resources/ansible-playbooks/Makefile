@@ -89,7 +89,7 @@ setup_spfrx: setup guard-DISH_INDEX guard-SERIAL## Runs the playbook against the
 		printf 'spfrx$(DISH_INDEX) ansible_host=10.10.101.148 host_identifier="spfrx$(DISH_INDEX)" dish_index=$(DISH_INDEX) serial=${SERIAL}\n' >> $(INVENTORY_FILE); \
 		SPFRX_HOST=spfrx$(DISH_INDEX); \
 	fi; \
- 	$(ANSIBLE_COMMAND) --limit $$SPFRX_HOST --tags spfrx $(MKFILE_DIR)site.yml
+ 	$(ANSIBLE_COMMAND) --ask-become-pass --limit $$SPFRX_HOST --tags spfrx $(MKFILE_DIR)site.yml
 	sed -i.x -E "/dish_index=$(DISH_INDEX)([[:space:]]|$$)/s/ansible_host=[^[:space:]]*/ansible_host=10.160.$(DISH_INDEX).5/" $(INVENTORY_FILE)
 	rm -f $(INVENTORY_FILE).x
 .PHONY: setup_spfrx
@@ -101,7 +101,7 @@ setup_spfrx_dry_run: setup guard-DISH_INDEX guard-SERIAL ## Runs the playbook ag
 		printf 'spfrx$(DISH_INDEX) ansible_host=10.10.101.148 host_identifier="spfrx$(DISH_INDEX)" dish_index=$(DISH_INDEX) serial=${SERIAL}\n' >> $(INVENTORY_FILE); \
 		SPFRX_HOST=spfrx$(DISH_INDEX); \
 	fi; \
-	$(ANSIBLE_COMMAND_DRY_RUN) -e serial=$(SERIAL) --limit $$SPFRX_HOST --tags spfrx $(MKFILE_DIR)site.yml
+	$(ANSIBLE_COMMAND_DRY_RUN) -e serial=$(SERIAL) --ask-become-pass --limit $$SPFRX_HOST --tags spfrx $(MKFILE_DIR)site.yml
 	sed -i.x -E "/dish_index=$(DISH_INDEX)([[:space:]]|$$)/s/ansible_host=[^[:space:]]*/ansible_host=10.160.$(DISH_INDEX).5/" $(INVENTORY_FILE)
 	rm -f $(INVENTORY_FILE).x
 .PHONY: setup_spfrx_dry_run
@@ -112,7 +112,7 @@ validate_spfrx: setup guard-DISH_INDEX ## Runs the SPFRx validation tasks (post 
 		echo "ERROR: No host with dish_index=$(DISH_INDEX) found in the [spfrx_mid] group of $(INVENTORY_FILE)."; \
 		exit 1; \
 	fi; \
-	$(ANSIBLE_COMMAND) --limit $$SPFRX_HOST --tags spfrx_validate $(MKFILE_DIR)site.yml
+	$(ANSIBLE_COMMAND) --ask-become-pass --limit $$SPFRX_HOST --tags spfrx_validate $(MKFILE_DIR)site.yml
 .PHONY: validate_spfrx
 
 validate_spfrx_dry_run: setup guard-DISH_INDEX ## Runs the SPFRx validation tasks for a given DISH_INDEX in dry-run mode. Usage: make validate_spfrx_dry_run DISH_INDEX=1
@@ -121,7 +121,7 @@ validate_spfrx_dry_run: setup guard-DISH_INDEX ## Runs the SPFRx validation task
 		echo "ERROR: No host with dish_index=$(DISH_INDEX) found in the [spfrx_mid] group of $(INVENTORY_FILE)."; \
 		exit 1; \
 	fi; \
-	$(ANSIBLE_COMMAND_DRY_RUN) --limit $$SPFRX_HOST --tags spfrx_validate $(MKFILE_DIR)site.yml
+	$(ANSIBLE_COMMAND_DRY_RUN) --ask-become-pass --limit $$SPFRX_HOST --tags spfrx_validate $(MKFILE_DIR)site.yml
 .PHONY: validate_spfrx_dry_run
 
 setup_spfrx_host: refresh_inventory guard-HOST ## Runs the playbook for a specific SPFRX host, with spfrx tags. Usage: make setup_spfrx_host HOST=spfrx03
