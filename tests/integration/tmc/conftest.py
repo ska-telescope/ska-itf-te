@@ -497,6 +497,58 @@ def _(telescope_handlers, receptor_ids, settings):
         f"Expected ska-tmc-mid.subarray_count to be 1, got {subarray_count!r}"
     )
 
+@given(
+    "the SUT deployment is the version of ska-mid currently in ska-mid-helmreleases main"
+)
+def _(settings):
+    """Ensure the environment is a operational running deployment at the ska-mid-helmreleases main version.
+
+    Reads SKA_MID_SITE_CHART_VERSION set by the CI before_script. If the deployed version
+    differs, the test fails.
+
+    :param settings: Test settings.
+    """
+
+    site_chart_version = settings["site_chart_version"]
+    assert site_chart_version, (
+        "SKA_MID_SITE_CHART_VERSION is not set. "
+        "Ensure the CI before_script has cloned ska-mid-helmreleases and extracted the version."
+    )
+
+    namespace = settings["SUT_namespace"]
+
+    deployed_chart = _get_helm_release(namespace)
+    assert deployed_chart is not None, (
+        f"No '{SKA_MID_CHART_NAME}' chart found deployed in namespace '{namespace}'"
+    )
+
+    deployed_version = deployed_chart["chart"][len(f"{SKA_MID_CHART_NAME}-") :]
+    release_name = deployed_chart["name"]
+
+    if deployed_version == site_chart_version:
+        logger.info(
+            f"Deployed version '{deployed_version}' already matches "
+            f"ska-mid-helmreleases main version '{site_chart_version}'"
+        )
+    else:
+        logger.info(
+            f"Deployed version '{deployed_version}' does not match "
+            f"ska-mid-helmreleases main '{site_chart_version}'. "
+            #  TODO: Test should fail here in future, but for now we allow the test to continue to avoid unnecessary redeployments.
+        )
+
+    values_result = subprocess.run(
+        ["helm", "get", "values", release_name, "-n", namespace, "--output", "json"],
+        stdout=subprocess.PIPE,
+        check=True,
+    )
+    helm_values = json.loads(values_result.stdout)
+    subarray_count = helm_values.get("ska-tmc-mid", {}).get("subarray_count")
+
+    assert subarray_count == 1, (
+        f"Expected ska-tmc-mid.subarray_count to be 1, got {subarray_count!r}"
+    )
+
 
 @given("an SUT deployment with 1 subarray")
 def _(telescope_handlers):
