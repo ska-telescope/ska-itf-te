@@ -73,4 +73,14 @@
     - spfrx_test
   roles:
     - role: spfrx_setup
+
+# Validate SPFRx (za-itf-sw)
+- name: Validate SPFRx
+  hosts:
+    - spfrx_mid
+    - spfrx_itf
+    - spfrx_test
+  # The host may be unreachable at its old address until spfrx_validate's netplan fix runs, so skip auto fact-gathering.
+  gather_facts: false
+  roles:
     - role: spfrx_validate
