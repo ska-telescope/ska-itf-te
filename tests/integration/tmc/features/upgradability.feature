@@ -9,13 +9,13 @@ Feature: Telescope upgradability test
 	Scenario: Test upgrade path from the current version of SKA Mid running in Production to the current new tag
 		Given a running deployment in the ITF of the version of ska-mid currently in ska-mid-helmreleases main with 1 subarray
 		When I assign resources
-		And configure it for a 10 second band 1 scan
+		And configure it for a 120 second band 1 scan
 		And I start the scan
 		And I end the observation
 		And I release resources
 		And I upgrade to this tagged pipeline version
 		And I assign resources
-		And configure it for a 10 second band 1 scan
+		And configure it for a 120 second band 1 scan
 		And I start the scan
 		And I end the observation
 		And I release resources
