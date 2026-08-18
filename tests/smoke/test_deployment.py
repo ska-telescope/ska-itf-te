@@ -193,20 +193,39 @@ def test_telescope_state(deployment_smoke_test_settings):
     base_dish_states_standby_fp = dict.fromkeys(receptors, DishMode.STANDBY_FP)
     base_dish_states_operate = dict.fromkeys(receptors, DishMode.OPERATE)
 
-    # Telescope Off base state (Central node: OFF; Subbarray node, CSP subarrayleaf node,
-    # and SDP subarray leaf node: EMPTY; Dishes: STANDBY_LP)
-    telescope_state_off = TelescopeState(dishes=base_dish_states_standby_lp)
+    def _off_dish_state_variants() -> list[dict[str, DishMode]]:
+        """Return all valid OFF states for the dishes.
 
-    # Dishes are now allowed to start in STOW mode, so this is also a valid 
-    # telescope OFF base state
-    telescope_state_off_stow = TelescopeState(dishes=base_dish_states_stow)
+        Dishes may be in either STOW or STANDBY_LP while the telescope remains in a usable
+        OFF state, depending on how the deployment was started.
+        """
+        variants = []
+        for mask in range(1 << len(receptors)):
+            dish_states = {}
+            for idx, receptor in enumerate(receptors):
+                dish_states[receptor] = (
+                    DishMode.STOW if (mask >> idx) & 1 else DishMode.STANDBY_LP
+                )
+            variants.append(dish_states)
+        return variants
+
+    off_dish_state_variants = _off_dish_state_variants()
+
+    # Telescope Off base state (Central node: OFF; Subbarray node, CSP subarrayleaf node,
+    # and SDP subarray leaf node: EMPTY). Dishes may be either STANDBY_LP or STOW depending
+    # on how the deployment was started.
+    telescope_state_off = [
+        TelescopeState(central_node=DevState.OFF, dishes=dish_states)
+        for dish_states in off_dish_state_variants
+    ]
 
     # Also a valid telescope OFF base state, pending TMC state aggregation improvement
     # Telescope Off base state (Central node: UNKNOWN; Subbarray node, CSP subarrayleaf
-    # node, and SDP subarray leaf node: EMPTY; Dishes: STANDBY_LP)
-    telescope_state_off_central_node_unknown = TelescopeState(
-        central_node=DevState.UNKNOWN, dishes=base_dish_states_standby_lp
-    )
+    # node, and SDP subarray leaf node: EMPTY). Dishes may be either STANDBY_LP or STOW.
+    telescope_state_off_central_node_unknown = [
+        TelescopeState(central_node=DevState.UNKNOWN, dishes=dish_states)
+        for dish_states in off_dish_state_variants
+    ]
 
     telescope_state_on_central_node_unknown_operate = TelescopeState(
         central_node=DevState.UNKNOWN, dishes=base_dish_states_operate
@@ -233,9 +252,8 @@ def test_telescope_state(deployment_smoke_test_settings):
 
     # List of expected "healthy" telescope states supported as a starting point by existing tests
     allowed_states = [
-        telescope_state_off_central_node_unknown,
-        telescope_state_off,
-        telescope_state_off_stow,
+        *telescope_state_off,
+        *telescope_state_off_central_node_unknown,
         telescope_state_on_operate,
         telescope_state_on_standby,
         telescope_state_on_central_node_unknown_operate,
