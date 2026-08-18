@@ -4,6 +4,26 @@
 # It is tagged "never" so it only runs when explicitly requested (see the
 # validate_spfrx make target).
 
+# The RXPU-facing interface must be on the same subnet as the RXPU's new IP before it can be reached.
+- name: Point RXPU-facing interface at this dish's RXPU subnet in local netplan config
+  ansible.builtin.replace:
+    path: "{{ netplan_path }}"
+    regexp: '(?s)(enx54af9786d668:\s*\n\s*addresses:\s*\n\s*- )[0-9.]+/[0-9]+'
+    replace: '\g<1>10.160.{{ dish_index }}.4/24'
+  become: true
+  delegate_to: localhost
+  tags:
+    - spfrx_validate
+    - never
+
+- name: Apply local netplan configuration
+  ansible.builtin.command: netplan apply
+  become: true
+  delegate_to: localhost
+  tags:
+    - spfrx_validate
+    - never
+
 - name: Wait for device to be reachable at its listed ansible_host
   ansible.builtin.wait_for:
     host: "{{ ansible_host }}"
@@ -30,3 +50,23 @@
     msg: "{{ ntpdate_output.stdout }}"
   tags:
     - spfrx_validate
+
+# Restore the RXPU-facing interface so it can be used the same way for the next validation run.
+- name: Restore RXPU-facing interface to its original address in local netplan config
+  ansible.builtin.replace:
+    path: "{{ netplan_path }}"
+    regexp: '(?s)(enx54af9786d668:\s*\n\s*addresses:\s*\n\s*- )[0-9.]+/[0-9]+'
+    replace: '\g<1>10.10.101.100/24'
+  become: true
+  delegate_to: localhost
+  tags:
+    - spfrx_validate
+    - never
+
+- name: Re-apply local netplan configuration after restoring original address
+  ansible.builtin.command: netplan apply
+  become: true
+  delegate_to: localhost
+  tags:
+    - spfrx_validate
+    - never
