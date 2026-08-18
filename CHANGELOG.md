@@ -3,6 +3,8 @@
 ## Unreleased
 
 * [AT-3733]
+  * Ansible playbook tested for use on site, including validation of new IP.
+* [AT-3733]
   * RXPU serial number is written to a file on the SPFRx host.
 ## 31.5.0
 * [AT-3786] 
