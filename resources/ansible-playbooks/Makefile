@@ -86,7 +86,7 @@ setup_spfrx: setup guard-DISH_INDEX guard-SERIAL## Runs the playbook against the
 	@SPFRX_HOST=$$(awk '/dish_index=$(DISH_INDEX)([[:space:]]|$$)/{print $$1}' $(INVENTORY_FILE)); \
 	if [ -z "$$SPFRX_HOST" ]; then \
 		echo "No host with dish_index=$(DISH_INDEX) found. Adding spfrx$(DISH_INDEX) to [spfrx_mid]."; \
-		printf 'spfrx$(DISH_INDEX) ansible_host=10.10.101.148 host_identifier="spfrx$(DISH_INDEX)" dish_index=$(DISH_INDEX)\n' >> $(INVENTORY_FILE); \
+		printf 'spfrx$(DISH_INDEX) ansible_host=10.10.101.148 host_identifier="spfrx$(DISH_INDEX)" dish_index=$(DISH_INDEX) serial=${SERIAL}\n' >> $(INVENTORY_FILE); \
 		SPFRX_HOST=spfrx$(DISH_INDEX); \
 	fi; \
  	$(ANSIBLE_COMMAND) --limit $$SPFRX_HOST --tags spfrx $(MKFILE_DIR)site.yml
@@ -98,7 +98,7 @@ setup_spfrx_dry_run: setup guard-DISH_INDEX guard-SERIAL ## Runs the playbook ag
 	@SPFRX_HOST=$$(awk '/dish_index=$(DISH_INDEX)([[:space:]]|$$)/{print $$1}' $(INVENTORY_FILE)); \
 	if [ -z "$$SPFRX_HOST" ]; then \
 		echo "No host with dish_index=$(DISH_INDEX) found. Adding spfrx$(DISH_INDEX) to [spfrx_mid]."; \
-		printf 'spfrx$(DISH_INDEX) ansible_host=10.10.101.148 host_identifier="spfrx$(DISH_INDEX)" dish_index=$(DISH_INDEX)\n' >> $(INVENTORY_FILE); \
+		printf 'spfrx$(DISH_INDEX) ansible_host=10.10.101.148 host_identifier="spfrx$(DISH_INDEX)" dish_index=$(DISH_INDEX) serial=${SERIAL}\n' >> $(INVENTORY_FILE); \
 		SPFRX_HOST=spfrx$(DISH_INDEX); \
 	fi; \
 	$(ANSIBLE_COMMAND_DRY_RUN) -e serial=$(SERIAL) --limit $$SPFRX_HOST --tags spfrx $(MKFILE_DIR)site.yml
