@@ -82,7 +82,7 @@ setup_pi_dry_run: setup ## Runs the full playbook against the Raspberry Pi in dr
 	$(ANSIBLE_COMMAND_DRY_RUN) --limit raspberry_pi $(MKFILE_DIR)site.yml
 .PHONY: setup_pi_dry_run
 
-setup_spfrx: guard-DISH_INDEX guard-SERIAL## Runs the playbook against the SPFRX host for a given DISH_INDEX. Usage: make setup_spfrx DISH_INDEX=1
+setup_spfrx: setup guard-DISH_INDEX guard-SERIAL## Runs the playbook against the SPFRX host for a given DISH_INDEX. Usage: make setup_spfrx DISH_INDEX=1
 	@SPFRX_HOST=$$(awk '/dish_index=$(DISH_INDEX)([[:space:]]|$$)/{print $$1}' $(INVENTORY_FILE)); \
 	if [ -z "$$SPFRX_HOST" ]; then \
 		echo "No host with dish_index=$(DISH_INDEX) found. Adding spfrx$(DISH_INDEX) to [spfrx_mid]."; \
@@ -94,7 +94,7 @@ setup_spfrx: guard-DISH_INDEX guard-SERIAL## Runs the playbook against the SPFRX
 	rm -f $(INVENTORY_FILE).x
 .PHONY: setup_spfrx
 
-setup_spfrx_dry_run: guard-DISH_INDEX guard-SERIAL ## Runs the playbook against the SPFRX host for a given DISH_INDEX in dry-run mode. Usage: make setup_spfrx_dry_run DISH_INDEX=1
+setup_spfrx_dry_run: setup guard-DISH_INDEX guard-SERIAL ## Runs the playbook against the SPFRX host for a given DISH_INDEX in dry-run mode. Usage: make setup_spfrx_dry_run DISH_INDEX=1
 	@SPFRX_HOST=$$(awk '/dish_index=$(DISH_INDEX)([[:space:]]|$$)/{print $$1}' $(INVENTORY_FILE)); \
 	if [ -z "$$SPFRX_HOST" ]; then \
 		echo "No host with dish_index=$(DISH_INDEX) found. Adding spfrx$(DISH_INDEX) to [spfrx_mid]."; \
