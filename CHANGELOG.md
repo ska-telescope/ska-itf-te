@@ -6,6 +6,12 @@
   * Put `testing` namespace test jobs in tagged pipelines
   * Update smoke test that checks telescope state to be fine with dishes starting up in either STOW or STANDBY_LP
   * Cherry-picked in a casacore fix for mac users from [AT-3758]
+* [AT-3798]
+  * Upgrade ska-csp-lmc-mid to `1.8.0`
+  * Upgrade ska-sdp to `2.6.2`
+  * Upgrade ska-dish-lmc to `10.0.2`
+  * Upgrade ska-tango-archiver to `5.0.4`
+  * Upgrade ska-mid-itf-engineering-tools to `0.11.4`
 
 ## 31.5.0
 * [AT-3786] 
