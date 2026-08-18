@@ -3,8 +3,8 @@
 ## Unreleased
 * [AT-3798]
   * Upgrade CSP to `1.8.0`
-  * Upgrade SDP to `1.26.2`
-  * Upgrade DishLMC to `1.10.2`
+  * Upgrade SDP to `2.6.2`
+  * Upgrade DishLMC to `10.0.2`
   * Upgrade ska-tango-archiver to `5.0.4`
   * Upgrade ska-mid-itf-engineering-tools to `0.11.4`
 
