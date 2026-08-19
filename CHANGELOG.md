@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+
+## 31.5.1
 * [AT-3797]
   * Clean up the pipelines after the uv migration by removing the python uv publish jobs
   * Put `testing` namespace test jobs in tagged pipelines
