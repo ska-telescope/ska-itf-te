@@ -4,6 +4,19 @@
 
 * [AT-3733]
   * Ansible playbook tested for use on site, including validation of new IP, serial number is recorded.
+## 31.5.1
+* [AT-3797]
+  * Clean up the pipelines after the uv migration by removing the python uv publish jobs
+  * Put `testing` namespace test jobs in tagged pipelines
+  * Update smoke test that checks telescope state to be fine with dishes starting up in either STOW or STANDBY_LP
+  * Cherry-picked in a casacore fix for mac users from [AT-3758]
+* [AT-3798]
+  * Upgrade ska-csp-lmc-mid to `1.8.0`
+  * Upgrade ska-sdp to `2.6.2`
+  * Upgrade ska-dish-lmc to `10.0.2`
+  * Upgrade ska-tango-archiver to `5.0.4`
+  * Upgrade ska-mid-itf-engineering-tools to `0.11.4`
+
 ## 31.5.0
 * [AT-3786] 
   * Update EDA dish configs so that all spfc attributes are on the same ES

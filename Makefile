@@ -419,7 +419,10 @@ UNAME_M := $(shell uname -m)
 
 ifeq ($(UNAME_S),Darwin)
 ifeq ($(UNAME_M),arm64)
-UV_CASACORE_BUILD_ENV = CXXFLAGS="-D_LIBCPP_ENABLE_CXX20_REMOVED_ALLOCATOR_MEMBERS -D_LIBCPP_ENABLE_CXX17_REMOVED_ALLOCATOR_MEMBERS" CMAKE_ARGS="-DCMAKE_CXX_STANDARD=17"
+# python-casacore has no macOS wheel, so it builds from source and needs the native
+# casacore library. Install it first: brew tap casacore/tap && brew install casacore
+CASACORE_PREFIX := $(shell brew --prefix casacore 2>/dev/null)
+UV_CASACORE_BUILD_ENV = CXXFLAGS="-D_LIBCPP_ENABLE_CXX20_REMOVED_ALLOCATOR_MEMBERS -D_LIBCPP_ENABLE_CXX17_REMOVED_ALLOCATOR_MEMBERS" CMAKE_ARGS="-DCMAKE_CXX_STANDARD=17 -DCASACORE_ROOT_DIR=$(CASACORE_PREFIX)"
 endif
 endif
 
