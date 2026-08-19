@@ -23,7 +23,7 @@ ANSIBLE_COMMAND_DRY_RUN := $(ANSIBLE_COMMAND) --check --diff
 V ?=
 USER ?= $(shell whoami)
 
-SPFRX_GOALS := setup_spfrx setup_spfrx_dry_run setup_spfrx_host setup_spfrx_host_dry_run validate_spfrx validate_spfrx_dry_run help long-help
+SPFRX_GOALS := setup_spfrx setup_spfrx_dry_run setup_spfrx_host setup_spfrx_host_dry_run validate_spfrx validate_spfrx_dry_run setup_and_validate_spfrx setup_and_validate_spfrx_dry_run help long-help
 ifneq ($(filter $(SPFRX_GOALS),$(MAKECMDGOALS)),)
 AD_USER ?= $(USER)
 endif
@@ -123,6 +123,16 @@ validate_spfrx_dry_run: setup guard-DISH_INDEX ## Runs the SPFRx validation task
 	fi; \
 	$(ANSIBLE_COMMAND_DRY_RUN) --ask-become-pass --limit $$SPFRX_HOST --tags spfrx_validate $(MKFILE_DIR)site.yml
 .PHONY: validate_spfrx_dry_run
+
+setup_and_validate_spfrx: setup guard-DISH_INDEX guard-SERIAL ## Runs setup_spfrx then validate_spfrx for a given DISH_INDEX. Usage: make setup_and_validate_spfrx DISH_INDEX=1 SERIAL=...
+	$(MAKE) setup_spfrx DISH_INDEX=$(DISH_INDEX) SERIAL=$(SERIAL)
+	$(MAKE) validate_spfrx DISH_INDEX=$(DISH_INDEX)
+.PHONY: setup_and_validate_spfrx
+
+setup_and_validate_spfrx_dry_run: setup guard-DISH_INDEX guard-SERIAL ## Runs setup_spfrx_dry_run then validate_spfrx_dry_run for a given DISH_INDEX. Usage: make setup_and_validate_spfrx_dry_run DISH_INDEX=1 SERIAL=...
+	$(MAKE) setup_spfrx_dry_run DISH_INDEX=$(DISH_INDEX) SERIAL=$(SERIAL)
+	$(MAKE) validate_spfrx_dry_run DISH_INDEX=$(DISH_INDEX)
+.PHONY: setup_and_validate_spfrx_dry_run
 
 setup_spfrx_host: refresh_inventory guard-HOST ## Runs the playbook for a specific SPFRX host, with spfrx tags. Usage: make setup_spfrx_host HOST=spfrx03
 	@if ! grep -qE "^$(HOST)[[:space:]]" $(INVENTORY_FILE); then echo "ERROR: No host '$(HOST)' found in $(INVENTORY_FILE)"; exit 1; fi; \
