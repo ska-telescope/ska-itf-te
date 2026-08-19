@@ -134,3 +134,11 @@ python-uv-lint:
   needs:
     - job: python-uv-build-for-development
       optional: true
+
+python-uv-publish-to-car:
+  rules:
+    - when: never
+
+python-uv-publish-to-gitlab:
+  rules:
+    - when: never
