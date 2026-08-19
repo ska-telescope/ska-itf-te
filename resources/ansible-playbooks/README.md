@@ -211,7 +211,7 @@ make setup_spfrx_dry_run DISH_INDEX=1 SERIAL=<serial-number>
 ```
 
 To run the SPFRx playbook against an inventory host that already has a
-matching entry, use `setup_spfrx_host` instead:
+matching entry (these would have been manually added), use `setup_spfrx_host` instead:
 
 ```bash
 make setup_spfrx_host HOST=spfrx03
@@ -224,7 +224,7 @@ make setup_spfrx_host_dry_run HOST=spfrx03
 ```
 
 Validating a dish requires the dish index to already have a matching entry
-in the `[spfrx_mid]` group of `inventory/hosts`, for example:
+in the `[spfrx_mid]` group of `inventory/hosts` (added during the `setup_spfrx` step), for example:
 
 ```ini
 [spfrx_mid]

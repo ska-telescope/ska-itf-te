@@ -36,6 +36,5 @@
     - spfrx
 
 # The device will be unreachable immediately after this, since it will be configured
-# to be on a completely different subnet, requiring human intervention (e.g. moving a
-# network cable/patch) before it can be reached again. That verification is handled by
+# to be on a completely different subnet. That verification is handled by
 # the spfrx_validate role, triggered separately via `make validate_spfrx`.
