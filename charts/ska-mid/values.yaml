@@ -259,6 +259,8 @@ ska-sdp:
     subarray:
       timeoutAssignResources: 60 # Increase if timeouts occur during AssignResources - pulling docker images may take longer than 60s
       timeoutConfigure: 60 # Increase if timeouts occur during Configure - pulling docker images may take longer than 60s
+  jobs:
+    ttl: 300
   # QA display
   qa:
     api:
@@ -411,6 +413,8 @@ ska-tmc-mid:
       CspScanInterfaceURL: https://schema.skao.int/ska-csp-scan/2.2   # TEMPORARY COMMIT - not to be overwritten in makefile
     dishleafnode:
       CommandTimeOutDefault: 320
+  global:
+    dish_devices: ["dishmaster", "dishleafnode"]
   resources:
     # limits:
     #   cpu: 800m

@@ -47,7 +47,7 @@ deploy-aa05-dishes:
     - .aa05-env
   script:
     - export PATH=.venv/bin:${PATH} # TEMPORARY COMMIT: fix in one place
-    - poetry install
+    - uv sync --frozen --no-default-groups --group engineering-tools
     - echo "Deploying multiple dishes in downstream dish-aiv stage - first deploy ska001 manually"
     - echo "Deploying dishes $DISH_IDS:"
     - make itf-dish-ids

@@ -14,7 +14,8 @@
     # - bash .make/resources/gitlab_section.sh poetry "Install Python dependencies" poetry install
   script:
     - mkdir deploy
-    - bash .make/resources/gitlab_section.sh poetry "Poetry Install" poetry install
+    # Keep deploy sync lean: install base deps plus engineering-tools extras only.
+    - bash .make/resources/gitlab_section.sh uv "Sync Python dependencies" uv sync --frozen --no-default-groups --group engineering-tools
     # - wget -qO /usr/bin/yq  https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 && chmod +x /usr/bin/yq # TEMPORARY COMMIT: Move to Engineering Tools
     # - bash .make/resources/gitlab_section.sh gettext "install missing package" apt-get update && sudo apt-get install gettext-base # TEMPORARY COMMIT: Move to Engineering Tools
     - export PATH=.venv/bin:${PATH} # TEMPORARY COMMIT: fix in one place
@@ -59,7 +60,7 @@
       fi
     - make pvc-patch-apply
     - |
-      if [[ "$DISH_LMC_IN_THE_LOOP" == "true" && "$TEAPOT_LMC_IN_THE_LOOP" != "true" ]]; then 
+      if [ "$DISH_LMC_IN_THE_LOOP" == "true" ] && [ "$KUBE_NAMESPACE" != "testing" ] && [ "$TEAPOT_LMC_IN_THE_LOOP" != "true" ]; then 
         bash .make/resources/gitlab_section.sh install_tangoGQL "Install TangoGQL for multiDB" make taranta-deploy-all-tangogql-instances;
       fi
     - env | grep RUNNER_AFTER_SCRIPT_TIMEOUT
@@ -102,15 +103,7 @@
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
     - bash .make/resources/gitlab_section.sh pvc-running "Check which PVCs are currently in SDP namespace" make pvc-check KUBE_NAMESPACE=$KUBE_NAMESPACE_SDP
     - make pvc-patch-delete || true
-    - make k8s-uninstall-chart || true
-    - |
-      if [ "$KEEP_NAMESPACE" != "true" ]; then
-        make k8s-delete-namespace
-        if [ "$KUBE_NAMESPACE_SDP" != "" ]; then
-          kubectl wait --for=delete pvc/staging-pvc -n $KUBE_NAMESPACE_SDP --timeout=60s
-          make k8s-delete-namespace KUBE_NAMESPACE=$KUBE_NAMESPACE_SDP
-        fi
-      fi
+    - make remove-sut-deployment
 
 .redeploy:
   extends:
@@ -122,9 +115,7 @@
     - echo $CI_JOB_NAME - $CI_JOB_STAGE
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
     - bash .make/resources/gitlab_section.sh env "Environment dump" env
-    - make k8s-uninstall-chart || true
-    - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps,pgdbinstances.database.skao.int --all --ignore-not-found
-    - make k8s-delete-namespace
+    - make remove-sut-deployment
 
 # If the pipeline is being exectued as a downstream, do not lint
 # or build
@@ -196,7 +187,7 @@ docs-build:
     - mkdir -p config
     - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
     - "make help | grep k8s-test"
-    - bash .make/resources/gitlab_section.sh poetry "Poetry Install" poetry install
+    - bash .make/resources/gitlab_section.sh uv "Sync Python dependencies" uv sync --frozen --no-default-groups
     - export TANGO_HOST=tango-databaseds.$E2E_TEST_EXECUTION_NAMESPACE.svc.miditf.internal.skao.int:10000
     - bash .make/resources/gitlab_section.sh deployed-image-check "Check deployed container images match Helm values" make deployment-images-check
     - bash .make/resources/gitlab_section.sh default-image-check "Check if our values override any default container images" make check-image-overrides

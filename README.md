@@ -25,6 +25,27 @@ You need to be on the SKAO ITF VPN (connect via AnyConnect client) - see instruc
 
 Populate your `PrivateRules.mak` file with make variables if you are testing / developing from a local machine.
 
+### Python On Apple Silicon (M-series)
+
+On macOS arm64, `python-casacore` has no prebuilt wheel, so it builds from source against a native `casacore` library. Install `casacore` first, from its dedicated Homebrew tap (there is no formula for it in Homebrew core):
+
+```bash
+brew tap casacore/tap
+brew install casacore
+```
+
+Once `casacore` is installed, use the provided helper target, which applies a local build workaround (C++ standard flags and `CASACORE_ROOT_DIR`) automatically:
+
+```bash
+make uv-lock-sync
+```
+
+If you only need to re-sync dependencies:
+
+```bash
+make uv-sync-all
+```
+
 ## infraHQ
 
 To connect to the relevant clusters, you need the correct permissions and also have infra installed on your machine. See [Confluence page](https://confluence.skatelescope.org/x/NoxRDg) for more information.

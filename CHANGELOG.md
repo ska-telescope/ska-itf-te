@@ -2,6 +2,44 @@
 
 ## Unreleased
 
+## 31.5.1
+* [AT-3797]
+  * Clean up the pipelines after the uv migration by removing the python uv publish jobs
+  * Put `testing` namespace test jobs in tagged pipelines
+  * Update smoke test that checks telescope state to be fine with dishes starting up in either STOW or STANDBY_LP
+  * Cherry-picked in a casacore fix for mac users from [AT-3758]
+* [AT-3798]
+  * Upgrade ska-csp-lmc-mid to `1.8.0`
+  * Upgrade ska-sdp to `2.6.2`
+  * Upgrade ska-dish-lmc to `10.0.2`
+  * Upgrade ska-tango-archiver to `5.0.4`
+  * Upgrade ska-mid-itf-engineering-tools to `0.11.4`
+
+## 31.5.0
+* [AT-3786] 
+  * Update EDA dish configs so that all spfc attributes are on the same ES
+  * reinstate staging dish eda configs
+* [AT-3730]
+  * Get logs for DishLMC namespaces in pipelines
+* [AT-3774]
+  * Upgrade TMC to `1.21.3`
+* [AT-3762]
+  * Added ska102 dish archive config file for staging to test using the teapot server EDA
+* [AT-3763]
+  * Temporary mapping swap of VCC 1 and VCC 2 to SKA036 and SKA001 repectively in staging environment. Note setting of DishVccUri: "car:ska-mid?31.4.1-vcc-swap#tmdata"
+* [AT-3767]
+  * Upgraded sdp to `2.6.1`
+  * Upgraded vis-receive to `9.1.0`
+* [AT-3732]
+  * Force-deleting zombie pods
+* [AT-3765]
+  * Restored sleep for `cbfSimulationMode` event not emitted; kept waits for `cbf.controller` state instead of sleep(n)s.
+* [AT-3761]
+  * Updated test code to wait for actual control system events instead of sleep(n)ing.
+* [AT-3731]
+  * Completed `uv` migration in this and `.engineering-tools` repository, and sped up `uv sync` jobs by grouping dependencies for installation.
+  * Patched SDP Config scripts job TTL to avoid CI pipeline race condition.
+
 ## 31.4.0
 * [SKB-1436]
   * Upgraded TMC to `1.21.2`

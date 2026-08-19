@@ -17,7 +17,7 @@
     "correction": "UPDATE"
   },
   "sdp": {
-    "interface": "https://schema.skao.int/ska-sdp-configure/1.0",
+    "interface": "https://schema.skao.int/ska-sdp-configure/2.1",
     "scan_type": "science"
   },
   "csp": {

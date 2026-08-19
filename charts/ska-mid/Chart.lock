@@ -7,13 +7,13 @@ dependencies:
   version: 1.1.0
 - name: ska-tmc-mid
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.21.2
+  version: 1.21.3
 - name: ska-mid-wms
   repository: https://artefact.skao.int/repository/helm-internal
   version: 1.1.1
 - name: ska-csp-lmc-mid
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.7.0
+  version: 1.8.0
 - name: ska-mid-cbf-tdc-mcs
   repository: https://artefact.skao.int/repository/helm-internal
   version: 1.4.1
@@ -22,7 +22,7 @@ dependencies:
   version: 2.0.0
 - name: ska-sdp
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 2.3.0
+  version: 2.6.2
 - name: ska-oso-integration
   repository: https://artefact.skao.int/repository/helm-internal
   version: 2.3.0
@@ -55,7 +55,7 @@ dependencies:
   version: 0.17.0
 - name: ska-tango-archiver
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 5.0.4-rc.1
+  version: 5.0.4
 - name: ska-log-consumer
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.1.6
@@ -68,5 +68,5 @@ dependencies:
 - name: ska-eda-rest-api
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.1.0-rc.8
-digest: sha256:4fc3c1e723f569abf0e9b4a09a24719cbf45deaa7588e175967f25a7d5c89a07
-generated: "2026-08-04T10:18:37.745615113+02:00"
+digest: sha256:9d3d68517af39f81e8c6ea0a5444662dbc0c5824e1ef62784ea22065d416ce27
+generated: "2026-08-18T09:12:10.280683049+02:00"
