@@ -67,7 +67,7 @@ dependencies:
 
   # OSO integration
   - name: ska-oso-integration
-    version: 2.3.0
+    version: 2.5.1
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-oso-integration.enabled
 
