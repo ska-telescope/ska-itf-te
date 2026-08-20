@@ -1,6 +1,10 @@
 # Version History
 
 ## Unreleased
+* [AT-3783]
+  * Upgrade ska-tmc-mid to `1.25.0`
+  * Upgrade ska-oso-integration to `2.5.1`
+  * upgrade ska-db-oda-umbrella to `19.2.2`
 
 ## 31.5.1
 * [AT-3797]
