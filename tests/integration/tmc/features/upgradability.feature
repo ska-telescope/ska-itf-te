@@ -3,8 +3,6 @@
 # We want to use commands closely simulating the actions taken while upgrading using FluxCD.
 # The Telescope state should be considered while running this test.
 
-# Given a running deployment in the ITF of the version of ska-mid currently in ska-mid-helmreleases main with 1 subarray
-
 Feature: Telescope upgradability test
 
 	@AT-3753 @AT-1305

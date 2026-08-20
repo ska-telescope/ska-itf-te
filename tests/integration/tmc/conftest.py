@@ -312,16 +312,6 @@ def wait_for_event(
             f"Desired event {device_proxy.name()} {attr_name}={attr_val_name}"
             f" did not occur within the timeout period of {timeout}s"
         )
-        # Dump current device state to help diagnose a hung/deadlocked device,
-        # since the device may have stopped logging/processing events entirely.
-        try:
-            current_value = device_proxy.read_attribute(attr_name).value
-            logger.error(
-                f"Device {device_proxy.name()} current {attr_name}={current_value}, "
-                f"state={device_proxy.state()}, status={device_proxy.status()}"
-            )
-        except Exception as diag_exc:  # pylint: disable=broad-except
-            logger.error(f"Failed to read diagnostic info from {device_proxy.name()}: {diag_exc}")
         raise EventWaitTimeoutError(
             f"Desired event {device_proxy.name()} {attr_name}={attr_val_name}"
             f" did not occur within the timeout period of {timeout}s"
@@ -418,82 +408,6 @@ def sequence_diagrammer(settings):
         else:
             pathlib.Path(sequence_diagrammer.get_puml_filename()).unlink(missing_ok=True)
             logger.info("Sequence diagram generation correctly skipped")
-
-
-@given(
-    "a running deployment in the ITF of the version of ska-mid currently in ska-mid-helmreleases main with 1 subarray"
-)
-def _(telescope_handlers, receptor_ids, settings):
-    """Ensure the environment is a operational running deployment at the ska-mid-helmreleases main version.
-
-    Reads SKA_MID_SITE_CHART_VERSION set by the CI before_script. If the deployed version
-    differs, the test fails.
-
-    Checks that the telescope is in the ON state and that CSP adminMode is online, so that the test
-    always starts from a known state before the first observation.
-
-    :param settings: Test settings.
-    """
-    tmc, cbf, csp, _ = telescope_handlers
-    RECEPTORS = receptor_ids  # noqa: N806
-
-    site_chart_version = settings["site_chart_version"]
-    assert site_chart_version, (
-        "SKA_MID_SITE_CHART_VERSION is not set. "
-        "Ensure the CI before_script has cloned ska-mid-helmreleases and extracted the version."
-    )
-
-    namespace = settings["SUT_namespace"]
-
-    deployed_chart = _get_helm_release(namespace)
-    assert deployed_chart is not None, (
-        f"No '{SKA_MID_CHART_NAME}' chart found deployed in namespace '{namespace}'"
-    )
-
-    deployed_version = deployed_chart["chart"][len(f"{SKA_MID_CHART_NAME}-") :]
-    release_name = deployed_chart["name"]
-
-    if deployed_version == site_chart_version:
-        logger.info(
-            f"Deployed version '{deployed_version}' already matches "
-            f"ska-mid-helmreleases main version '{site_chart_version}'"
-        )
-    else:
-        logger.info(
-            f"Deployed version '{deployed_version}' does not match "
-            f"ska-mid-helmreleases main '{site_chart_version}'. "
-            #  TODO: Test should fail here in future, but for now we allow the test to continue to avoid unnecessary redeployments.
-        )
-
-    # Verifify that the telescope is in the correct state before assigning resources:
-    logger.info("Verifying that the telescope is in the correct state before assigning resources.")
-    logger.info(f" CBF Simulation mode is: {csp.control.cbfSimulationMode}")
-    assert csp.control.adminMode == 0, "CSP adminMode is not online. Ensure CSP is in the correct state before running the test."
-    assert cbf.controller.state() == DevState.ON, "CBF controller is not in the ON state. Ensure CBF is in the correct state before running the test."
-    assert tmc.central_node.telescopeState == DevState.ON, "TMC central node is not in the ON state. Ensure TMC is in the correct state before running the test."
-
-    assert cbf.fspcorrsubarray.obsstate == ObsState.IDLE, "CBF FSP/Corr subarray is not in the IDLE state. Ensure CBF is in the correct state before running the test."
-    assert tmc.subarray_node.obsState == ObsState.EMPTY, "TMC subarray node is not in the EMPTY state. Ensure TMC is in the correct state before running the test."
-    assert tmc.csp_subarray_leaf_node.cspSubarrayObsState == ObsState.EMPTY, "CSP subarray leaf node is not in the EMPTY state. Ensure CSP is in the correct state before running the test."
-    assert tmc.sdp_subarray_leaf_node.sdpSubarrayObsState == ObsState.EMPTY, "TMC SDP subarray leaf node is not in the EMPTY state. Ensure TMC is in the correct state before running the test."
-
-    for receptor in RECEPTORS:
-        assert tmc.get_dish_leaf_node_dp(receptor).dishMode in [
-            DishMode.STANDBY_FP,
-            DishMode.OPERATE,
-        ]
-
-    values_result = subprocess.run(
-        ["helm", "get", "values", release_name, "-n", namespace, "--output", "json"],
-        stdout=subprocess.PIPE,
-        check=True,
-    )
-    helm_values = json.loads(values_result.stdout)
-    subarray_count = helm_values.get("ska-tmc-mid", {}).get("subarray_count")
-
-    assert subarray_count == 1, (
-        f"Expected ska-tmc-mid.subarray_count to be 1, got {subarray_count!r}"
-    )
 
 @given(
     "the SUT deployment is the version of ska-mid currently in ska-mid-helmreleases main"
@@ -597,15 +511,6 @@ def _(telescope_handlers, settings):
     assert csp_control.ping() > 0
 
     sim_mode = settings["sim_mode"]
-
-    # Skip configuration if CSP adminMode is already ONLINE and simulation mode matches
-    # desired_cbf_sim_mode = 1 if sim_mode else 0
-    # if csp_control.adminMode == 0 and csp_control.cbfSimulationMode == desired_cbf_sim_mode:
-    #     logger.info(
-    #         f"CSP adminMode is already ONLINE and CBF simulation mode is already "
-    #         f"{csp_control.cbfSimulationMode}. Skipping adminMode configuration."
-    #     )
-    #     return
 
     # reset_csp_adminmode = (sim_mode != csp_control.cbfSimulationMode) and (
     #     (csp_control.adminMode == 0)
