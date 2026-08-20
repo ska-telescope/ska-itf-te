@@ -43,12 +43,14 @@
   changed_when: false
   tags:
     - spfrx_validate
+    - never
 
 - name: Show NTP offset output
   ansible.builtin.debug:
     msg: "{{ ntpdate_output.stdout }}"
   tags:
     - spfrx_validate
+    - never
 
 # Restore the RXPU-facing interface so it can be used the same way for the next validation run.
 - name: Restore RXPU-facing interface to its original address in local netplan config

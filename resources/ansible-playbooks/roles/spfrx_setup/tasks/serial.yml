@@ -1,4 +1,4 @@
-- name: Save serial number to file
+- name: Save serial number {{ serial }} to file
   ansible.builtin.copy:
     content: "{{ serial }}\n"
     dest: /serial.txt

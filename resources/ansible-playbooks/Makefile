@@ -89,8 +89,11 @@ setup_spfrx: setup guard-DISH_INDEX guard-SERIAL## Runs the playbook against the
 		printf 'spfrx$(DISH_INDEX) ansible_host=10.10.101.148 host_identifier="spfrx$(DISH_INDEX)" dish_index=$(DISH_INDEX) serial=${SERIAL}\n' >> $(INVENTORY_FILE); \
 		SPFRX_HOST=spfrx$(DISH_INDEX); \
 	fi; \
- 	$(ANSIBLE_COMMAND) --ask-become-pass --limit $$SPFRX_HOST --tags spfrx $(MKFILE_DIR)site.yml
+ 	$(ANSIBLE_COMMAND) -e serial=$(SERIAL) --ask-become-pass --limit $$SPFRX_HOST --tags spfrx $(MKFILE_DIR)site.yml
+	# 	Replace ansible_host with the updated IP in the inventory file.
 	sed -i.x -E "/dish_index=$(DISH_INDEX)([[:space:]]|$$)/s/ansible_host=[^[:space:]]*/ansible_host=10.160.$(DISH_INDEX).5/" $(INVENTORY_FILE)
+	# 	Replace serial in case it does not match the one in the inventory file.
+	sed -i.x -E "/dish_index=$(DISH_INDEX)([[:space:]]|$$)/s/serial=[^[:space:]]*/serial=$(SERIAL)/" $(INVENTORY_FILE)
 	rm -f $(INVENTORY_FILE).x
 .PHONY: setup_spfrx
 
@@ -102,7 +105,10 @@ setup_spfrx_dry_run: setup guard-DISH_INDEX guard-SERIAL ## Runs the playbook ag
 		SPFRX_HOST=spfrx$(DISH_INDEX); \
 	fi; \
 	$(ANSIBLE_COMMAND_DRY_RUN) -e serial=$(SERIAL) --ask-become-pass --limit $$SPFRX_HOST --tags spfrx $(MKFILE_DIR)site.yml
+	# 	Replace ansible_host with the updated IP in the inventory file.
 	sed -i.x -E "/dish_index=$(DISH_INDEX)([[:space:]]|$$)/s/ansible_host=[^[:space:]]*/ansible_host=10.160.$(DISH_INDEX).5/" $(INVENTORY_FILE)
+	# 	Replace serial in case it does not match the one in the inventory file.
+	sed -i.x -E "/dish_index=$(DISH_INDEX)([[:space:]]|$$)/s/serial=[^[:space:]]*/serial=$(SERIAL)/" $(INVENTORY_FILE)
 	rm -f $(INVENTORY_FILE).x
 .PHONY: setup_spfrx_dry_run
 
@@ -133,16 +139,6 @@ setup_and_validate_spfrx_dry_run: setup guard-DISH_INDEX guard-SERIAL ## Runs se
 	$(MAKE) setup_spfrx_dry_run DISH_INDEX=$(DISH_INDEX) SERIAL=$(SERIAL)
 	$(MAKE) validate_spfrx_dry_run DISH_INDEX=$(DISH_INDEX)
 .PHONY: setup_and_validate_spfrx_dry_run
-
-setup_spfrx_host: refresh_inventory guard-HOST ## Runs the playbook for a specific SPFRX host, with spfrx tags. Usage: make setup_spfrx_host HOST=spfrx03
-	@if ! grep -qE "^$(HOST)[[:space:]]" $(INVENTORY_FILE); then echo "ERROR: No host '$(HOST)' found in $(INVENTORY_FILE)"; exit 1; fi; \
-	$(ANSIBLE_COMMAND) --limit $(HOST) --tags spfrx $(MKFILE_DIR)site.yml
-.PHONY: setup_spfrx_host
-
-setup_spfrx_host_dry_run: refresh_inventory guard-HOST ## Runs the playbook for a specific SPFRX host with spfrx tags in dry-run mode. Usage: make setup_spfrx_host_dry_run HOST=spfrx03
-	@if ! grep -qE "^$(HOST)[[:space:]]" $(INVENTORY_FILE); then echo "ERROR: No host '$(HOST)' found in $(INVENTORY_FILE)"; exit 1; fi; \
-	$(ANSIBLE_COMMAND_DRY_RUN) --limit $(HOST) --tags spfrx $(MKFILE_DIR)site.yml
-.PHONY: setup_spfrx_host_dry_run
 
 setup_gaia: setup ## Runs the full playbook against Gaia.
 	$(ANSIBLE_COMMAND) --limit gaia $(MKFILE_DIR)site.yml
