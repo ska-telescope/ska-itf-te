@@ -409,9 +409,8 @@ def sequence_diagrammer(settings):
             pathlib.Path(sequence_diagrammer.get_puml_filename()).unlink(missing_ok=True)
             logger.info("Sequence diagram generation correctly skipped")
 
-@given(
-    "the SUT deployment is the version of ska-mid currently in ska-mid-helmreleases main"
-)
+
+@given("the SUT deployment is the version of ska-mid currently in ska-mid-helmreleases main")
 def _(settings):
     """Ensure the environment is a operational running deployment at the ska-mid-helmreleases main version.
 

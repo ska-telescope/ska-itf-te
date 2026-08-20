@@ -203,9 +203,7 @@ def test_telescope_state(deployment_smoke_test_settings):
         for mask in range(1 << len(receptors)):
             dish_states = {}
             for idx, receptor in enumerate(receptors):
-                dish_states[receptor] = (
-                    DishMode.STOW if (mask >> idx) & 1 else DishMode.STANDBY_LP
-                )
+                dish_states[receptor] = DishMode.STOW if (mask >> idx) & 1 else DishMode.STANDBY_LP
             variants.append(dish_states)
         return variants
 

@@ -74,6 +74,7 @@ def _get_helm_release(namespace: str, chart_name: str = SKA_MID_CHART_NAME) -> d
         None,
     )
 
+
 def _upgrade_helm_release(
     release_name: str,
     namespace: str,
