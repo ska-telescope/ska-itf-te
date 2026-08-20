@@ -1,2 +1,3 @@
 ntp_server: "10.97.64.1"
 ansible_user: root
+netplan_path: /etc/netplan/50-cloud-init.yaml
