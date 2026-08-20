@@ -188,8 +188,8 @@ def test_telescope_state(deployment_smoke_test_settings):
     cluster_domain = deployment_smoke_test_settings["cluster_domain"]
     receptors = deployment_smoke_test_settings["receptors"]
 
-    base_dish_states_stow = dict.fromkeys(receptors, DishMode.STOW)
-    base_dish_states_standby_lp = dict.fromkeys(receptors, DishMode.STANDBY_LP)
+    dict.fromkeys(receptors, DishMode.STOW)
+    dict.fromkeys(receptors, DishMode.STANDBY_LP)
     base_dish_states_standby_fp = dict.fromkeys(receptors, DishMode.STANDBY_FP)
     base_dish_states_operate = dict.fromkeys(receptors, DishMode.OPERATE)
 
