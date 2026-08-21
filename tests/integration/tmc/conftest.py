@@ -435,17 +435,12 @@ def _(settings):
     deployed_version = deployed_chart["chart"][len(f"{SKA_MID_CHART_NAME}-") :]
     release_name = deployed_chart["name"]
 
-    if deployed_version == site_chart_version:
-        logger.info(
-            f"Deployed version '{deployed_version}' already matches "
-            f"ska-mid-helmreleases main version '{site_chart_version}'"
-        )
-    else:
-        logger.info(
-            f"Deployed version '{deployed_version}' does not match "
-            f"ska-mid-helmreleases main '{site_chart_version}'. "
-            #  TODO: Test should fail here in future, but for now we allow the test to continue to avoid unnecessary redeployments.
-        )
+
+    assert deployed_version == site_chart_version, (
+        f"Deployed version '{deployed_version}' does not match "
+        f"ska-mid-helmreleases main version '{site_chart_version}'. "
+        f"Upgrade to the correct version before running this job."
+    )
 
     values_result = subprocess.run(
         ["helm", "get", "values", release_name, "-n", namespace, "--output", "json"],
