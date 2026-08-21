@@ -1155,18 +1155,35 @@ def _(telescope_handlers, settings):
     """
     _, _, _, dishes = telescope_handlers
     target_version = os.getenv("CI_COMMIT_TAG")
-    if not target_version:
-        result = subprocess.run(
-            ["bash", ".gitlab/ci/za-itf/upgrading/get_chart_version.sh"],
-            stdout=subprocess.PIPE,
-            check=True,
-        )
-        target_version = result.stdout.decode().strip()
+    result = subprocess.run(
+        ["bash", ".gitlab/ci/za-itf/upgrading/get_chart_version.sh"],
+        stdout=subprocess.PIPE,
+        check=True,
+    )
+    target_version_from_chart = result.stdout.decode().strip()
 
     assert target_version, (
-        "Could not determine the upgrade target version. "
-        "Set CI_COMMIT_TAG or ensure charts/ska-mid/Chart.yaml contains a 'version' field."
+        "Could not determine the upgrade target version from CI_COMMIT_TAG."
+        "Set CI_COMMIT_TAG before running the upgrade."
     )
+
+    assert target_version_from_chart, (
+        "Could not determine the upgrade target version from Chart.yaml. "
+        "Ensure charts/ska-mid/Chart.yaml contains a 'version' field before running the upgrade."
+    )
+
+    #  TODO: put back
+    # assert target_version == target_version_from_chart, (
+    #     f"Upgrade target version '{target_version}' does not match the version in Chart.yaml '{target_version_from_chart}'."
+    #     "Ensure the CI_COMMIT_TAG matches the version in Chart.yaml before running the upgrade."
+    # )
+
+    #  TODO: Remove
+    if target_version != target_version_from_chart:
+        logger.warning(
+            f"Upgrade target version '{target_version}' does not match the version in Chart.yaml '{target_version_from_chart}'."
+            "Ensure the CI_COMMIT_TAG matches the version in Chart.yaml before running the upgrade."
+        )
 
     namespace = settings["SUT_namespace"]
 
