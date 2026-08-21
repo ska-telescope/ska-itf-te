@@ -5,6 +5,10 @@
   * Upgrade ska-tmc-mid to `1.25.0`
   * Upgrade ska-oso-integration to `2.5.1`
   * upgrade ska-db-oda-umbrella to `19.2.2`
+* [AT-3807]
+  * Added EDA config for SKA046 to Telmodel
+* [AT-3733]
+  * Ansible playbook tested for use on site, including validation of new IP, serial number is recorded.
 
 ## 31.5.1
 * [AT-3797]
