@@ -435,7 +435,6 @@ def _(settings):
     deployed_version = deployed_chart["chart"][len(f"{SKA_MID_CHART_NAME}-") :]
     release_name = deployed_chart["name"]
 
-
     assert deployed_version == site_chart_version, (
         f"Deployed version '{deployed_version}' does not match "
         f"ska-mid-helmreleases main version '{site_chart_version}'. "
