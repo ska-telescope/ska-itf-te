@@ -5,6 +5,7 @@
   * Upgrade ska-tmc-mid to `1.25.0`
   * Upgrade ska-oso-integration to `2.5.1`
   * upgrade ska-db-oda-umbrella to `19.2.2`
+  * Upgrade ska-mid-itf-engineering-tools to `0.12.0`
 * [AT-3807]
   * Added EDA config for SKA046 to Telmodel
 * [AT-3733]
