@@ -29,7 +29,7 @@ author = "ATLAS Team"
 
 # The full version, including alpha/beta/rc tags
 
-release = "31.5.1-skb-1061-test"
+release = "31.5.1-skb-1061-test-b"
 
 # -- General configuration ---------------------------------------------------
 
