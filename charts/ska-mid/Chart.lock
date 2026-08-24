@@ -19,7 +19,7 @@ dependencies:
   version: 1.4.2-rc.1
 - name: ska-mid-cbf-engineering-console
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 2.0.0
+  version: 2.0.1-rc.1
 - name: ska-sdp
   repository: https://artefact.skao.int/repository/helm-internal
   version: 2.6.2
@@ -68,5 +68,5 @@ dependencies:
 - name: ska-eda-rest-api
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.1.0-rc.8
-digest: sha256:287f068dfeb327d27a3a4758153b5444544d85a9787847c917d66bfc10b17588
-generated: "2026-08-19T13:38:09.29091689+02:00"
+digest: sha256:946ae98da77a71a36b3b0ad1625ae6ada7b7872f951466f62f092767badd21c1
+generated: "2026-08-24T08:42:50.335438631+02:00"
