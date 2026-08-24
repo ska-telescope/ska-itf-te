@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+
+## 31.5.2
 * [AT-3783]
   * Upgrade ska-tmc-mid to `1.25.0`
   * Upgrade ska-oso-integration to `2.5.1`
