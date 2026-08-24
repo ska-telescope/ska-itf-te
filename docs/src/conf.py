@@ -29,7 +29,7 @@ author = "ATLAS Team"
 
 # The full version, including alpha/beta/rc tags
 
-release = "31.5.2-test-tmc-b"
+release = "31.5.1"
 
 # -- General configuration ---------------------------------------------------
 
