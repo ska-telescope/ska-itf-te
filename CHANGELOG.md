@@ -10,10 +10,6 @@
 * [AT-3733]
   * Ansible playbook tested for use on site, including validation of new IP, serial number is recorded.
 
-* [AT-3807]
-  * Added EDA config for SKA046 to Telmodel
-* [AT-3733]
-  * Ansible playbook tested for use on site, including validation of new IP, serial number is recorded.
 ## 31.5.1
 * [AT-3797]
   * Clean up the pipelines after the uv migration by removing the python uv publish jobs
