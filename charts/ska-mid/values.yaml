@@ -76,7 +76,7 @@ ska-oso-integration:
     vault:
       enabled: false
   ska-oso-slt-services:
-    vaultStaticSecret:
+    vault:
       enabled: false
   
 # ODA

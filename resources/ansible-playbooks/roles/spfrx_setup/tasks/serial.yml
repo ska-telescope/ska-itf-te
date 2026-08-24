@@ -1,0 +1,10 @@
+- name: Save serial number {{ serial }} to file
+  ansible.builtin.copy:
+    content: "{{ serial }}\n"
+    dest: /serial.txt
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
+  tags:
+    - spfrx
