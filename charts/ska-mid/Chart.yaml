@@ -19,7 +19,7 @@ dependencies:
 
   # Mid TMC
   - name: ska-tmc-mid
-    version: 1.21.3
+    version: 1.25.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-tmc-mid.enabled
 
@@ -67,14 +67,14 @@ dependencies:
 
   # OSO integration
   - name: ska-oso-integration
-    version: 2.3.0
+    version: 2.5.1
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-oso-integration.enabled
 
   # SKA ODA
   - name: ska-db-oda-umbrella
     repository: https://artefact.skao.int/repository/helm-internal
-    version: 18.1.0
+    version: 19.2.2
     condition: ska-db-oda-umbrella.enabled
 
   # DISH LMC CHART
