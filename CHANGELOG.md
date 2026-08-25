@@ -4,8 +4,17 @@
 * [AT-3758]
   * Upgradability test for ska-mid chart (manual trigger only)
 
+## 31.5.2
+* [AT-3783]
+  * Upgrade ska-tmc-mid to `1.25.0`
+  * Upgrade ska-oso-integration to `2.5.1`
+  * upgrade ska-db-oda-umbrella to `19.2.2`
+  * Upgrade ska-mid-itf-engineering-tools to `0.12.0`
+* [AT-3807]
+  * Added EDA config for SKA046 to Telmodel
 * [AT-3733]
   * Ansible playbook tested for use on site, including validation of new IP, serial number is recorded.
+
 ## 31.5.1
 * [AT-3797]
   * Clean up the pipelines after the uv migration by removing the python uv publish jobs
@@ -48,7 +57,6 @@
 * [SKB-1436]
   * Upgraded TMC to `1.21.2`
   * Removed vis-receive sleep in e2e test
-
 * [AT-3756]
   * Upgrade dish-lmc to `10.0.1`
   * Upgrade TMC to `1.21.2`
