@@ -206,7 +206,7 @@
         "script": {
           "kind": "realtime",
           "name": "vis-receive",
-          "version": "9.1.0"
+          "version": "8.1.1"
         },
         "parameters": {
           "channels_per_port": 20,
@@ -217,6 +217,39 @@
             "nchan_avg": 50,
             "window_count": 5,
             "rounding_sensitivity": 10
+          },
+          "telstate": {
+            "target_trls": {
+              "vis0": {
+                "SKA001": "mid-tmc/dish-pointing/ska001/pointingProgramTrackTable",
+                "SKA036": "mid-tmc/dish-pointing/ska036/pointingProgramTrackTable"
+              }
+            },
+            "direction_trls": {
+              "vis0": {
+                "SKA001": "tango-databaseds.dish-lmc-ska001.svc.ska001.mid.internal.skao.int:10000/mid-dish/dish-manager/SKA001/achievedPointing",
+                "SKA036": "tango-databaseds.dish-lmc-ska036.svc.ska036.mid.internal.skao.int:10000/mid-dish/dish-manager/SKA036/achievedPointing"
+              }
+            },
+            "source_offset_trls": {
+              "vis0": {
+                "SKA001": "mid-tmc/leaf-node-dish/ska001/sourceOffset",
+                "SKA036": "mid-tmc/leaf-node-dish/ska036/sourceOffset"
+              }
+            }
+          }, 
+          "processors": {
+            "mswriter": {
+              "args": [
+                "realtime.receive.processors.sdp.mswriter_processor.MSWriterProcessor",
+                "--plasma_socket",
+                "/plasma/socket",
+                "--readiness-file",
+                "/tmp/processor_ready",
+                "output.ms",
+                "--pointing={\"dataqueue_server\": \"ska-sdp-kafka.staging:9092\", \"commanded_pointing_topics\": {\"vis0\": \"commanded-pointings\"}, \"actual_pointing_topics\": {\"vis0\": \"actual-pointings\"}, \"source_offset_topics\": {\"vis0\": \"source-offsets\"}}"
+              ]
+            }
           },
           "extra_helm_values": {
             "receiver": {
