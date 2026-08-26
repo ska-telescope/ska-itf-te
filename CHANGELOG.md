@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3758]
+  * Upgradability test for ska-mid chart (manual trigger only)
 
 ## 31.5.2
 * [AT-3783]
