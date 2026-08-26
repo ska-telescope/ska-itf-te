@@ -1,12 +1,10 @@
 # Version History
 
 ## Unreleased
-<<<<<<< CHANGELOG.md
 * [AT-3812]
   * Upgrade ska-tmc-mid to `1.25.1`
 * [AT-3758]
   * Upgradability test for ska-mid chart (manual trigger only)
->>>>>>> CHANGELOG.md
 
 ## 31.5.2
 * [AT-3783]
