@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3812]
+  * Upgrade ska-tmc-mid to `1.25.1`
 
 ## 31.5.2
 * [AT-3783]
