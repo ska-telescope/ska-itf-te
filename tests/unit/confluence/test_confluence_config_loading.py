@@ -36,8 +36,8 @@ def fxt_expected_dependencies():
 def _digest(dependency: Dependency) -> str:
     value = (
         f"{dependency.name}{dependency.version}"
-        f"{''.join(d.name+d.version for d in dependency.dependencies)}"
-        f"{''.join(d.name+d.version for d in dependency.platformDependents)}"
+        f"{''.join(d.name + d.version for d in dependency.dependencies)}"
+        f"{''.join(d.name + d.version for d in dependency.platformDependents)}"
     )
     return sha256(value.encode()).hexdigest()
 
