@@ -1166,18 +1166,10 @@ def _(telescope_handlers, settings):
         "Ensure charts/ska-mid/Chart.yaml contains a 'version' field before running the upgrade."
     )
 
-    #  TODO: put back
-    # assert target_version == target_version_from_chart, (
-    #     f"Upgrade target version '{target_version}' does not match the version in Chart.yaml '{target_version_from_chart}'."
-    #     "Ensure the CI_COMMIT_TAG matches the version in Chart.yaml before running the upgrade."
-    # )
-
-    #  TODO: Remove
-    if target_version != target_version_from_chart:
-        logger.warning(
-            f"Upgrade target version '{target_version}' does not match the version in Chart.yaml '{target_version_from_chart}'."
-            "Ensure the CI_COMMIT_TAG matches the version in Chart.yaml before running the upgrade."
-        )
+    assert target_version == target_version_from_chart, (
+        f"Upgrade target version '{target_version}' does not match the version in Chart.yaml '{target_version_from_chart}'."
+        "Ensure the CI_COMMIT_TAG matches the version in Chart.yaml before running the upgrade."
+    )
 
     namespace = settings["SUT_namespace"]
 
