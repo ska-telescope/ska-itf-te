@@ -1,10 +1,10 @@
 dependencies:
 - name: ska-tango-base
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.1.0
+  version: 1.2.1
 - name: ska-tango-util
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.1.0
+  version: 1.2.1
 - name: ska-tmc-mid
   repository: https://artefact.skao.int/repository/helm-internal
   version: 1.25.1
@@ -68,5 +68,5 @@ dependencies:
 - name: ska-eda-rest-api
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.1.0-rc.8
-digest: sha256:e663506a58bc0c41feb312f7bdaf302c4d3cc33d2bc9038d80b06860c9d7da61
-generated: "2026-08-25T19:15:55.39350406+02:00"
+digest: sha256:7c4b02c5da06fbde7710a09f76ea5f1f0d7f2a9c9751e4ca105c0e54b3117f28
+generated: "2026-08-31T15:19:58.682384+02:00"
