@@ -129,9 +129,9 @@ def test_helm_install(deployment_smoke_test_settings, k8s_config):
             status = chart.get("status")
             logger.info(f"Helm chart {chart_name} status: {status}")
             if f"{deployed_chart_name}-" in chart_name:
-                assert (
-                    status == "deployed"
-                ), f"Helm chart {chart_name} is not deployed. Status: {status}"
+                assert status == "deployed", (
+                    f"Helm chart {chart_name} is not deployed. Status: {status}"
+                )
                 chart_deployed = True
 
         if not chart_deployed:
@@ -188,8 +188,8 @@ def test_telescope_state(deployment_smoke_test_settings):
     cluster_domain = deployment_smoke_test_settings["cluster_domain"]
     receptors = deployment_smoke_test_settings["receptors"]
 
-    base_dish_states_stow = dict.fromkeys(receptors, DishMode.STOW)
-    base_dish_states_standby_lp = dict.fromkeys(receptors, DishMode.STANDBY_LP)
+    dict.fromkeys(receptors, DishMode.STOW)
+    dict.fromkeys(receptors, DishMode.STANDBY_LP)
     base_dish_states_standby_fp = dict.fromkeys(receptors, DishMode.STANDBY_FP)
     base_dish_states_operate = dict.fromkeys(receptors, DishMode.OPERATE)
 
@@ -203,9 +203,7 @@ def test_telescope_state(deployment_smoke_test_settings):
         for mask in range(1 << len(receptors)):
             dish_states = {}
             for idx, receptor in enumerate(receptors):
-                dish_states[receptor] = (
-                    DishMode.STOW if (mask >> idx) & 1 else DishMode.STANDBY_LP
-                )
+                dish_states[receptor] = DishMode.STOW if (mask >> idx) & 1 else DishMode.STANDBY_LP
             variants.append(dish_states)
         return variants
 
@@ -284,10 +282,10 @@ def test_devices_reachable(deployment_smoke_test_settings):
     sut_namespace = deployment_smoke_test_settings["SUT_namespace"]
     cluster_domain = deployment_smoke_test_settings["cluster_domain"]
     central_node = DeviceProxy(
-        f"tango-databaseds.{sut_namespace}.svc.{cluster_domain}" ":10000/mid-tmc/central-node/0"
+        f"tango-databaseds.{sut_namespace}.svc.{cluster_domain}:10000/mid-tmc/central-node/0"
     )
     subarray_node = DeviceProxy(
-        f"tango-databaseds.{sut_namespace}.svc.{cluster_domain}" ":10000/mid-tmc/subarray/01"
+        f"tango-databaseds.{sut_namespace}.svc.{cluster_domain}:10000/mid-tmc/subarray/01"
     )
 
     devices = [central_node, subarray_node]

@@ -58,6 +58,7 @@ def settings():
     settings["dish_layout_telmodel_path"] = os.getenv("DISH_LAYOUT_TELMODEL_PATH", "")
     settings["dish_vcc_config_source"] = os.getenv("DISH_VCC_CONFIG_SOURCE", "")
     settings["dish_vcc_config_file_path"] = os.getenv("DISH_VCC_CONFIG_FILE_PATH", "")
+    settings["site_chart_version"] = os.getenv("SKA_MID_SITE_CHART_VERSION")
 
     # These settings are used to determine whether to use OSO generated payloads or not.
     settings["use_oso_payloads"] = os.getenv("USE_OSO_PAYLOADS", "false").lower() in ("true", "1")

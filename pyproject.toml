@@ -1,6 +1,6 @@
 [project]
 name = "ska-mid-itf"
-version = "31.5.1"
+version = "31.5.2"
 description = "Integration testing and deployment project for the Mid ITF"
 readme = "README.md"
 requires-python = ">=3.10,<3.11"

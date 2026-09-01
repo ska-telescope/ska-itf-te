@@ -1,6 +1,15 @@
 # Version History
 
 ## Unreleased
+* [AT-3815]
+  * Upgrade ska-tango-base to `1.2.1`
+  * Upgrade ska-tango-utils to `1.2.1`
+* [AT-3812]
+  * Upgrade ska-tmc-mid to `1.25.1`
+* [AT-3758]
+  * Upgradability test for ska-mid chart (manual trigger only)
+
+## 31.5.2
 * [AT-3783]
   * Upgrade ska-tmc-mid to `1.25.0`
   * Upgrade ska-oso-integration to `2.5.1`
