@@ -81,8 +81,8 @@ deploy-sut-staging-teapot:
     - .staging-env
     - .teapot_rules
   when: on_success
-  # needs:
-  #   - k8s-test-runner
+  needs:
+    - k8s-test-runner
   environment:
     name: mid-itf/ska-$CONFIG-staging
     kubernetes:

@@ -25,9 +25,9 @@ stages:
   - platform
   - deploy-dish-aiv
   - remove-dish-aiv
-  - staging
   - test
   - lint
+  - staging
   - testing
   - integration
   - upload
