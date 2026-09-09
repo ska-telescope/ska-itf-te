@@ -389,6 +389,11 @@ ska-tmc-mid:
       DishVccConfig:
         DishVccUri: "car:ska-mid?31.4.1-vcc-swap#tmdata"
         DishVccFilePath: "instrument/ska1_mid_itf/vcc-config/ska-mid-cbf-system-parameters.json"
+      global_pointing_model:
+        version: "1.13.2"
+        interface: "https://schema.skao.int/ska-mid-dish-gpm/1.2"
+        data_sources_prefix: "gitlab://gitlab.com/ska-telescope/ska-mid"
+        file_path_prefix: "instrument/ska1_mid_aa/gpm"
     cspsubarrayleafnode:
       CommandTimeOutDefault: 300
       # DelayCadence: 10.0
