@@ -1,0 +1,61 @@
+{
+  "interface": "https://schema.skao.int/ska-mid-dish-gpm/1.4",
+  "antenna": "SKA077",
+  "band": "Band_2",
+  "coefficients": {
+    "IA": {
+      "value": -260.5797354267761
+    },
+    "CA": {
+      "value": -9.988948817692048
+    },
+    "NPAE": {
+      "value": 0.0
+    },
+    "AN": {
+      "value": 5.143623721237307
+    },
+    "AN0": {
+      "value": 0.0
+    },
+    "AW": {
+      "value": 0.0
+    },
+    "AW0": {
+      "value": 0.0
+    },
+    "ACEC": {
+      "value": 0.0
+    },
+    "ACES": {
+      "value": 0.0
+    },
+    "ABA": {
+      "value": 0.0
+    },
+    "ABphi": {
+      "value": 0.0
+    },
+    "IE": {
+      "value": -845.7178354859079
+    },
+    "ECEC": {
+      "value": 23.215096628308437
+    },
+    "ECES": {
+      "value": 44.86536938943008
+    },
+    "HECE4": {
+      "value": 0.0
+    },
+    "HESE4": {
+      "value": 0.0
+    },
+    "HECE8": {
+      "value": 0.0
+    },
+    "HESE8": {
+      "value": 0.0
+    }
+  }
+}
