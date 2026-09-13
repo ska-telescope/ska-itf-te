@@ -80,9 +80,12 @@ class SpectrumCapture:
 
 class SPFRxSATExecutor:
 
-    def __init__(self, tango_host: str = None, dish_id: str = None):
-        if not (tango_host := os.environ.get("TANGO_HOST", tango_host)):
-            raise ValueError("SPFRx TANGO_HOST is not set.")
+    def __init__(self, tango_host: str = None, sat_environment: str = None, dish_id: str = None, spfrx_ip: str = None):
+        if not sat_environment:
+            raise ValueError("SPFRx SAT_ENVIRONMENT is not set.")
+        
+        if sat_environment == "ITF" and not spfrx_ip:
+            raise ValueError("Automatic SPFRx IP is not supported for ITF environment. Please provide SPFRx IP.")
 
         if not dish_id:
             raise ValueError("SPFRx DISH_ID is not set.")
@@ -90,9 +93,19 @@ class SPFRxSATExecutor:
         if not re.match(r"SKA\d+", dish_id):
             raise ValueError("SPFRx DISH_ID must be in the format SKAXXX.")
 
+        if not tango_host:
+            # Find the appropriate TANGO_HOST based on the SAT_ENVIRONMENT and DISH_ID
+            if sat_environment == "ITF":
+                tango_host = f"tango-databaseds.staging-dish-lmc-{dish_id.lower()}.svc.miditf.internal.skao.int:10000"
+            elif sat_environment == "Production":
+                tango_host = f"tango-databaseds.dish-lmc-{dish_id.lower()}.svc.{dish_id.lower()}.mid.internal.skao.int:10000"
+            else:
+                raise ValueError(f"Unknown SAT_ENVIRONMENT: {sat_environment}. Supported values are 'ITF' and 'Production'.")
+
         self.dish_tango_host = tango_host
         self.dish_id = dish_id
-        self.spfrx_ip = f"10.160.{int(dish_id.split('SKA')[1])}.5"
+        self.spfrx_ip = spfrx_ip if spfrx_ip else f"10.160.{int(dish_id.split('SKA')[1])}.5"
+
         self.spfrx_controller_trl = f"{tango_host}/{dish_id}/spfrxpu/controller"
         self.pktcap_trl = f"{tango_host}/{dish_id}/spfrxpu/pktcap"
         self.eth100g_trl = f"{tango_host}/{dish_id}/spfrxpu/100gigeth"
@@ -398,30 +411,48 @@ class SPFRxSATExecutor:
         # captures = self.capture_packets()
         # print(captures)
 
-parser = argparse.ArgumentParser(description="Run the SPFRx SAT flow.")
-parser.add_argument(
-    "--tango-host",
-    default=os.environ.get("TANGO_HOST"),
-    help="Tango host, e.g. tango-databaseds...:10000",
-)
-parser.add_argument(
-    "--dish-id",
-    default=os.environ.get("DISH_ID"),
-    help="Dish identifier, e.g. SKA100",
-)
-parser.add_argument(
-    "--band",
-    type=int,
-    nargs="*",
-    default=[1, 2],
-    help="Band(s) to execute. Defaults to both 1 and 2.",
-)
-args = parser.parse_args()
-
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Run the SPFRx SAT flow.")
+    parser.add_argument(
+        "--tango-host",
+        default=os.environ.get("TANGO_HOST"),
+        help="Tango host, e.g. tango-databaseds...:10000",
+        type=str,
+        required=False
+    )
+    parser.add_argument(
+        "--dish-id",
+        default=os.environ.get("DISH_ID"),
+        help="Dish identifier, e.g. SKA100",
+        type=str,
+        required=True
+    )
+    parser.add_argument(
+        "--band",
+        type=int,
+        nargs="*",
+        default=[1, 2],
+        help="Band(s) to execute. Defaults to both 1 and 2.",
+    )
+    parser.add_argument(
+        "--sat-environment",
+        default=os.environ.get("SAT_ENVIRONMENT"),
+        help="SAT environment, Choose between 'ITF' or 'Production'",
+    )
+    parser.add_argument(
+        "--spfrx-ip",
+        default=os.environ.get("SPFRX_IP"),
+        help="SPFRx IP address, e.g. 10.160.1.5",
+        type=str,
+        required=False
+    )
+    args = parser.parse_args()
+    
     spfrx_sat_executor = SPFRxSATExecutor(
         tango_host=args.tango_host,
+        sat_environment=args.sat_environment,
         dish_id=args.dish_id,
+        spfrx_ip=args.spfrx_ip
     )
     logger.info("Starting SPFRx SAT execution...")
 
