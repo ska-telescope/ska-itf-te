@@ -1,14 +1,22 @@
 image:
   registry: registry.gitlab.com/ska-telescope/ska-mid
   image: ska-mid-testing
-  tag: 31.5.0
+<<<<<<< Updated upstream
+  tag: 31.5.2
+=======
+<<<<<<< Updated upstream
+  tag: 31.5.2-sprts-1155-wa
+=======
+  tag: 31.4.1-test-tmc-dev.c8fc8ece2
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
   pullPolicy: IfNotPresent
 environment:
   E2E_TEST_EXECUTION_NAMESPACE: "ska-mid-central-controller"
   KUBE_NAMESPACE: "ska-mid-central-controller"
   SIM_MODE: "false"
   SUT_CLUSTER_DOMAIN: "mid.internal.skao.int"
-  DISH_IDS: "SKA001 SKA100"
+  DISH_IDS: "SKA077"
   PB_ID_PREFIX: "pb-ska001demo"
   EB_ID_PREFIX: "eb-ska001demo"
   OVERRIDE_SCAN_BAND: "2"
@@ -21,9 +29,9 @@ environment:
   POINTING_TARGET_NAME: "J1939-6342"
   POINTING_TARGET_RIGHT_ASCENSION: 294.85427667
   POINTING_TARGET_DECLINATION: -63.71267361
-  TELMODEL_SOURCE: "car:ska-mid?main#tmdata"
+  TELMODEL_SOURCE: "car:ska-mid?30.5.0#tmdata"
   DISH_LAYOUT_TELMODEL_PATH: "instrument/ska1_mid_aa/layout/mid-layout.json"
-  DISH_VCC_CONFIG_SOURCE: "car:ska-mid?main#tmdata"
+  DISH_VCC_CONFIG_SOURCE: "car:ska-mid?30.5.0#tmdata"
   DISH_VCC_CONFIG_FILE_PATH: "instrument/ska1_mid_aa/vcc-config/ska-mid-cbf-system-parameters.json"
 testReportsPVC: pvc-test-data-storage
 mountPath: /data/test-reports

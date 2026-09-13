@@ -124,79 +124,66 @@
               "epoch": 2000.0
             }
           },
-          "pointing_fqdn": "low-tmc/telstate/0/pointing"
-        },
-        {
-          "field_id": "field_b",
-          "phase_dir": {
-            "target_name": "target_b",
-            "reference_frame": "icrs",
-            "attrs": {
-              "c1": 12.48519,
-              "c2": 2.052388,
-              "epoch": 2000.0
-            }
-          },
-          "pointing_fqdn": "low-tmc/telstate/0/pointing"
-        }
-      ],
-      "beams": [
-        {
-          "beam_id": "vis0",
-          "function": "visibilities"
-        }
-      ],
-      "scan_types": [
-        {
-          "scan_type_id": "science",
-          "scan_intents": [
-            "science"
-          ],
-          "integration_time": 1.4,
-          "averaging_channels": 1,
-          "averaging_samples": 1,
-          "max_length": 21600.0,
-          "beams": {
-            "vis0": {
-              "polarisations_id": "all",
-              "field_id": "field_a",
-              "channels_id": "vis_channels"
-            }
-          }
-        },
-        {
-          "scan_type_id": "science_band2",
-          "scan_intents": [
-            "science"
-          ],
-          "integration_time": 1.4,
-          "averaging_channels": 1,
-          "averaging_samples": 1,
-          "max_length": 21600.0,
-          "beams": {
-            "vis0": {
-              "polarisations_id": "all",
-              "field_id": "field_a",
-              "channels_id": "vis_band2_channels"
-            }
-          }
-        },
-        {
-          "scan_type_id": "calibration",
-          "scan_intents": [
-            "calibration"
-          ],
-          "integration_time": 1.4,
-          "averaging_channels": 1,
-          "averaging_samples": 1,
-          "max_length": 21600.0,
-          "beams": {
-            "vis0": {
-              "polarisations_id": "all",
-              "field_id": "field_b",
-              "channels_id": "vis_channels"
-            }
-          }
+          "parameters": {
+            "channels_per_port": 20,
+            "signal_display": {
+                "metrics": ["all"],
+                "nchan_avg": 50,
+                "window_count": 5,
+                "rounding_sensitivity": 10
+            },
+            "telstate": {
+              "target_trls": {
+                "vis0": {
+                  "SKA063": "mid-tmc/dish-pointing/ska063/pointingProgramTrackTable",
+                  "SKA100": "mid-tmc/dish-pointing/ska100/pointingProgramTrackTable"
+                }
+              },
+              "direction_trls": {
+                "vis0": {
+                  "SKA063": "tango-databaseds.dish-lmc-ska063.svc.ska063.mid.internal.skao.int:10000/mid-dish/dish-manager/SKA063/achievedPointing",
+                  "SKA100": "tango-databaseds.dish-lmc-ska100.svc.ska100.mid.internal.skao.int:10000/mid-dish/dish-manager/SKA100/achievedPointing"
+                }
+              },
+              "source_offset_trls": {
+                "vis0": {
+                  "SKA063": "mid-tmc/leaf-node-dish/ska063/sourceOffset",
+                  "SKA100": "mid-tmc/leaf-node-dish/ska100/sourceOffset"
+                }
+              }
+            }, 
+            "processors": {
+              "mswriter": {
+                "args": [
+                  "realtime.receive.processors.sdp.mswriter_processor.MSWriterProcessor",
+                  "--plasma_socket",
+                  "/plasma/socket",
+                  "--readiness-file",
+                  "/tmp/processor_ready",
+                  "output.ms",
+                  "--pointing={\"dataqueue_server\": \"ska-sdp-kafka.staging:9092\", \"commanded_pointing_topics\": {\"vis0\": \"commanded-pointings\"}, \"actual_pointing_topics\": {\"vis0\": \"actual-pointings\"}, \"source_offset_topics\": {\"vis0\": \"source-offsets\"}}"
+                ]
+              }
+            },
+            "extra_helm_values": {
+              "receiver": {
+                "options": {
+                  "telescope_model": {
+                    "telmodel_key": "instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json",
+                    "telmodel_source_uris": "car:ska-mid?main#tmdata"
+                  }
+                }
+              }
+            },
+            "pod_settings": [
+              {
+                "securityContext": {
+                  "runAsUser": 0,
+                  "fsGroup": 0
+                }
+              }
+            ]
+           }
         }
       ]
     },

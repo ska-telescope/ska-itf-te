@@ -1,11 +1,20 @@
+#! .venv/bin/python3
 import os
 from tango import DeviceProxy
 from dataclasses import dataclass
 from time import sleep
 import logging
+import sys
+from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parents[3]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
 from tests.integration.tmc.conftest import wait_for_event
 import subprocess, signal
 import re
+import argparse
 
 import numpy as np
 
@@ -115,21 +124,23 @@ class SPFRxSATExecutor:
 
     def check_data_flow(self) -> dict:
         # Implementation of the data flow check logic
-        initial_value = self.eth100g.read_attribute("TxFrameOctetsOK").value
-
-        sleep(10)  # Wait for 10 seconds before checking the attribute again
-        value_at_eval = self.eth100g.read_attribute("TxFrameOctetsOK").value
         result = {
-            "initial": initial_value,
-            "value_at_eval": value_at_eval,
-            "status": True,
+            "TxFrameOctetsOK_initial": "",
+            "TxFrameOctetsOK_at_eval": "",
+            "data_flowing": False,
         }
-        if value_at_eval > initial_value:
-            result["status"] = True
+        TxFrameOctetsOK_initial = self.eth100g.read_attribute("TxFrameOctetsOK").value
+        sleep(10)  # Wait for 10 seconds before checking the attribute again
+        TxFrameOctetsOK_at_eval = self.eth100g.read_attribute("TxFrameOctetsOK").value
+
+        result["TxFrameOctetsOK_initial"] = TxFrameOctetsOK_initial
+        result["TxFrameOctetsOK_at_eval"] = TxFrameOctetsOK_at_eval
+
+        if TxFrameOctetsOK_at_eval > TxFrameOctetsOK_initial:
+            result["data_flowing"] = True
             return result
-        else:
-            result["status"] = False
-            return result
+
+        return result
 
     def set_attenuation_levels(self, attenuation_levels: AttenuationLevels):
         # Implementation of the attenuation level setting logic
@@ -153,16 +164,12 @@ class SPFRxSATExecutor:
 
     def configure_band(self, band: int):
         # Implementation of the band setting logic and operatingmode check
-        logger.info(f"Current band: {self.spfrx_controller.configuredBand}")
-        logger.info(f"Current pps deviation: {self.band_processor.pps_deviation}")
-        logger.info(f"Current kLocked: {self.spfrx_controller.isKLocked}")
-        logger.info(f"Checking data flow: {self.check_data_flow()}")
 
         if band == 1:
-            logger.info(f"Configuring band {band}.")
+            logger.info(f"Configuring band {band} with PPS Sync.")
             self.spfrx_controller.configureband1(True)
         elif band == 2:
-            logger.info(f"Configuring band {band}.")
+            logger.info(f"Configuring band {band} with PPS Sync.")
             self.spfrx_controller.configureband2(True)
         else:
             raise ValueError(f"Invalid band: {band}. Only bands 1 and 2 are supported.")
@@ -338,50 +345,83 @@ class SPFRxSATExecutor:
         logger.info(f"Current band: {self.spfrx_controller.configuredBand}")
         logger.info(f"Current pps deviation: {self.band_processor.pps_deviation}")
         logger.info(f"Current kLocked: {self.spfrx_controller.isKLocked}")
-        logger.info(f"Checking data flow: {self.check_data_flow()}")
         logger.info(f"Current Operating mode: {self.spfrx_controller.operatingMode}")
+        logger.info(f"Checking data flow")
+        logger.info(f"Data flow check result: {self.check_data_flow()}")
         logger.info("Setting operating mode to STANDBY.")
         self.spfrx_controller.setstandbymode()
-
+        
         logger.info("Setting attenuation levels to initial values.")
         self.set_attenuation_levels(self.initial_attenuation_levels)
         logger.info(f"Current attenuation levels: {self.get_attenuation_levels()}")
         logger.info("Setting noise source to 0")
         self.set_noise_source(0)
-        
+        logger.info("Initialisation complete.")
+
         # SAT Flow
         self.configure_band(band)
-        
+        # sleep(10)
+        logger.info(f"Current band: {self.spfrx_controller.configuredBand}")
+        logger.info(f"Current pps deviation: {self.band_processor.pps_deviation}")
+        logger.info(f"Current kLocked: {self.spfrx_controller.isKLocked}")
+        logger.info(f"Current Operating mode: {self.spfrx_controller.operatingMode}")
+        logger.info(f"Checking data flow")
+        logger.info(f"Data flow check result: {self.check_data_flow()}")
+
         # Manual verification of the spectrum
         user_input = input(f"Is the spectrum correct for the following attenuation levels: {self.get_attenuation_levels()} (Y/N): ").strip().upper()
         if user_input != "Y":
-            logger.info("SAT execution cancelled.")
+            logger.info(f"Result not accepted. SAT failed for band {band}.")
             return
         
         # Manual verification of the spectrum with noise source on
         self.set_noise_source(2)
         user_input = input(f"Is the spectrum correct for noise source=2? (Y/N): ").strip().upper()
         if user_input != "Y":
-            logger.info("SAT execution cancelled.")
+            logger.info(f"Result not accepted. SAT failed for band {band}.")
             return
         
         self.set_noise_source(0)
+        sleep(5)
+        logger.info("Setting attenuation levels to new values.")
         self.set_attenuation_levels(self.new_attenuation_levels)
+        logger.info(f"Current attenuation levels: {self.get_attenuation_levels()}")
 
         # Manual verification of the spectrum after attenuation increase and noise source off
         user_input = input(f"Is the spectrum correct for the following attenuation levels: {self.get_attenuation_levels()} (Y/N): ").strip().upper()
         if user_input != "Y":
-            logger.info("SAT execution cancelled.")
+            logger.info(f"Result not accepted. SAT failed for band {band}.")
             return
+        
+        logger.info(f"SAT passed for band {band}.")
 
         # captures = self.capture_packets()
         # print(captures)
 
+parser = argparse.ArgumentParser(description="Run the SPFRx SAT flow.")
+parser.add_argument(
+    "--tango-host",
+    default=os.environ.get("TANGO_HOST"),
+    help="Tango host, e.g. tango-databaseds...:10000",
+)
+parser.add_argument(
+    "--dish-id",
+    default=os.environ.get("DISH_ID"),
+    help="Dish identifier, e.g. SKA100",
+)
+parser.add_argument(
+    "--band",
+    type=int,
+    nargs="*",
+    default=[1, 2],
+    help="Band(s) to execute. Defaults to both 1 and 2.",
+)
+args = parser.parse_args()
 
 if __name__ == "__main__":
     spfrx_sat_executor = SPFRxSATExecutor(
-        tango_host="tango-databaseds.staging-dish-lmc-ska100.svc.miditf.internal.skao.int:10000",
-        dish_id="SKA100",
+        tango_host=args.tango_host,
+        dish_id=args.dish_id,
     )
     logger.info("Starting SPFRx SAT execution...")
 
