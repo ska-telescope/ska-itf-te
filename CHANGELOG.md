@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AIV-824]
+  * Added Mid AA pointing models for SKA001, SKA036, SKA077, SKA100
 * [AT-3815]
   * Upgrade ska-tango-base to `1.2.1`
   * Upgrade ska-tango-utils to `1.2.1`
