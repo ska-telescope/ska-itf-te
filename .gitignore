@@ -1,5 +1,6 @@
 dev-values.yaml
 charts/**/charts/*
+logs/*
 .DS_Store
 *.pyc
 UserProfile.mak
@@ -192,3 +193,4 @@ results.json
 sut-logs
 helmcommands.sh
 charts/experimental
+chart_script.sh

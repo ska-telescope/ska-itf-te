@@ -14,7 +14,8 @@
     # - bash .make/resources/gitlab_section.sh poetry "Install Python dependencies" poetry install
   script:
     - mkdir deploy
-    - bash .make/resources/gitlab_section.sh poetry "Poetry Install" poetry install
+    # Keep deploy sync lean: install base deps plus engineering-tools extras only.
+    - bash .make/resources/gitlab_section.sh uv "Sync Python dependencies" uv sync --frozen --no-default-groups --group engineering-tools
     # - wget -qO /usr/bin/yq  https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 && chmod +x /usr/bin/yq # TEMPORARY COMMIT: Move to Engineering Tools
     # - bash .make/resources/gitlab_section.sh gettext "install missing package" apt-get update && sudo apt-get install gettext-base # TEMPORARY COMMIT: Move to Engineering Tools
     - export PATH=.venv/bin:${PATH} # TEMPORARY COMMIT: fix in one place
@@ -28,9 +29,20 @@
       fi
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
     - bash .make/resources/gitlab_section.sh creds "Create K8s Credentials" make itf-cluster-credentials
+    - bash .make/resources/gitlab_section.sh setup-cache "Setup cached charts if available" make k8s-setup-cached-charts
+    - |
+      # Use cached charts if available, skip dependency build
+      if [ -d "chart-repo-cache" ] && [ "$(ls -A chart-repo-cache/*.tgz 2>/dev/null)" ]; then
+        export CACHED_CHART=$(ls -1 chart-repo-cache/*.tgz | head -1)
+        if [ -f "$CACHED_CHART" ]; then
+          export K8S_UMBRELLA_CHART_PATH="$CACHED_CHART"
+          export K8S_SKIP_DEP_BUILD=true
+          echo "Using cached chart: $CACHED_CHART"
+        fi
+      fi
     - |
       if [ "$K8S_INSTALL_FROM_CAR" != "true" ]; then
-        bash .make/resources/gitlab_section.sh install "Installing $K8S_CHART Charts - not from CAR" make k8s-install-chart
+        bash .make/resources/gitlab_section.sh install "Installing $K8S_CHART Charts - not from CAR" make k8s-install-chart K8S_SKIP_DEP_BUILD=${K8S_SKIP_DEP_BUILD:-false}
       else
         bash .make/resources/gitlab_section.sh install "Installing $K8S_CHART Charts from CAR" make k8s-install-chart-car
       fi
@@ -39,8 +51,6 @@
       if [ "$CBF_HW_IN_THE_LOOP" == "true" ]; then
         bash .make/resources/gitlab_section.sh dress-rehearsal-1 "Check steps that will be followed first" make itf-cbf-setup --dry;
         bash .make/resources/gitlab_section.sh dress-rehearsal-2 "Check Talon status" make itf-cbf-talonlru-status && sleep 1;
-        bash .make/resources/gitlab_section.sh cbf-lru-off "Switch Off Talon(s)" make itf-cbf-talonlru-off && sleep 3;
-        bash .make/resources/gitlab_section.sh cbf-lru-on "Switch On Talon(s)" make itf-cbf-talonlru-on && sleep 45;
         bash .make/resources/gitlab_section.sh copy-cbf-bitstream-rpd "Copy CBF Bitstream RPD" make copy-cbf-bitstream-rpd;
         bash .make/resources/gitlab_section.sh mcs_config "Configure MCS" make itf-cbf-config-mcs && sleep 3;
         bash .make/resources/gitlab_section.sh talon_on "Talon Tango ON" make itf-cbf-tango-on && sleep 3;
@@ -48,14 +58,8 @@
       fi
     - make pvc-patch-apply
     - |
-      if [ "$DISH_LMC_IN_THE_LOOP" == "true" ]; then 
+      if [ "$DISH_LMC_IN_THE_LOOP" == "true" ] && [ "$KUBE_NAMESPACE" != "testing" ]; then
         bash .make/resources/gitlab_section.sh install_tangoGQL "Install TangoGQL for multiDB" make taranta-deploy-all-tangogql-instances;
-      fi
-    - |
-      if [ "${KUBE_NAMESPACE}" == "staging" ]; then
-        bash .jupyter-notebooks/scripts/load_sbd_oda.sh "http://ska-db-oda-rest-staging.${KUBE_NAMESPACE}.svc.${CLUSTER_DOMAIN}:5000" ".jupyter-notebooks/data/scheduling_block/itf/" "${KUBE_NAMESPACE}"
-      else
-        bash .jupyter-notebooks/scripts/load_sbd_oda.sh "http://ska-db-oda-rest-sut.${KUBE_NAMESPACE}.svc.${CLUSTER_DOMAIN}:5000" ".jupyter-notebooks/data/scheduling_block/itf/" "${KUBE_NAMESPACE}"
       fi
     - env | grep RUNNER_AFTER_SCRIPT_TIMEOUT
     - export SUT_CLUSTER_DOMAIN=miditf.internal.skao.int ADDMARKS=true SMOKE_TEST_MARKS="not requires_talons_on and not dish_deployment"
@@ -69,7 +73,13 @@
     paths:
       - "build/"
       - "deploy/"
+  needs:
+    - job: helm-chart-build
+      artifacts: true
+      optional: true
   variables:
+    HELM_BUILD_CACHE_DIR: ./chart.tmp
+    K8S_USE_CACHED_CHARTS: "true"
     SWITCH_CSP_ON: "false"
     SUT_CHART_DIR: ${CI_PROJECT_DIR}/charts/ska-mid
     RUNNER_AFTER_SCRIPT_TIMEOUT: 6m
@@ -91,15 +101,7 @@
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
     - bash .make/resources/gitlab_section.sh pvc-running "Check which PVCs are currently in SDP namespace" make pvc-check KUBE_NAMESPACE=$KUBE_NAMESPACE_SDP
     - make pvc-patch-delete || true
-    - make k8s-uninstall-chart || true
-    - |
-      if [ "$KEEP_NAMESPACE" != "true" ]; then
-        make k8s-delete-namespace
-        if [ "$KUBE_NAMESPACE_SDP" != "" ]; then
-          kubectl wait --for=delete pvc/staging-pvc -n $KUBE_NAMESPACE_SDP --timeout=60s
-          make k8s-delete-namespace KUBE_NAMESPACE=$KUBE_NAMESPACE_SDP
-        fi
-      fi
+    - make remove-sut-deployment
 
 .redeploy:
   extends:
@@ -111,9 +113,7 @@
     - echo $CI_JOB_NAME - $CI_JOB_STAGE
     - bash .make/resources/gitlab_section.sh vars "Make config dump" make vars
     - bash .make/resources/gitlab_section.sh env "Environment dump" env
-    - make k8s-uninstall-chart || true
-    - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps,pgdbinstances.database.skao.int --all --ignore-not-found
-    - make k8s-delete-namespace
+    - make remove-sut-deployment
 
 # If the pipeline is being exectued as a downstream, do not lint
 # or build
@@ -178,14 +178,14 @@ docs-build:
     PYTEST_ADDOPTS: --log-cli-level=INFO
     SUT_CHART_DIR: ${CI_PROJECT_DIR}/charts/ska-mid
     POINTING_TARGET_NAME: "Polaris Australis"
-    POINTING_TARGET_RIGHT_ASCENSION: "21:08:47.92"
-    POINTING_TARGET_DECLINATION: "-88:57:22.9"
+    POINTING_TARGET_RIGHT_ASCENSION: 317.199
+    POINTING_TARGET_DECLINATION: -88.95636
   before_script:
     - make vars
     - mkdir -p config
     - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
     - "make help | grep k8s-test"
-    - bash .make/resources/gitlab_section.sh poetry "Poetry Install" poetry install
+    - bash .make/resources/gitlab_section.sh uv "Sync Python dependencies" uv sync --frozen --no-default-groups
     - export TANGO_HOST=tango-databaseds.$E2E_TEST_EXECUTION_NAMESPACE.svc.miditf.internal.skao.int:10000
     - bash .make/resources/gitlab_section.sh deployed-image-check "Check deployed container images match Helm values" make deployment-images-check
     - bash .make/resources/gitlab_section.sh default-image-check "Check if our values override any default container images" make check-image-overrides

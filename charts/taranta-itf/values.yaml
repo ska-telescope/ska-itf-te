@@ -1,7 +1,6 @@
 # TANGOGQL
 tangogql:
   tangoDB: environment-dish-lmc-dishid # environment should be `staging` or `integration`, dishid should be set in makefile
-  tango_host: databaseds-tango-base.k8s-namespace-2.svc.cluster.local:10000 # Set this in Makefile on deploy time
   enabled: true
   ska-tango-base:
     enabled: false

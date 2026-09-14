@@ -4,24 +4,41 @@ import json
 import logging
 import os
 import pathlib
+import subprocess
 import sys
 from itertools import cycle
 from queue import Empty, Queue
 from time import localtime, sleep, strftime, time
-from typing import Any, Generator, List, Tuple
+from typing import Any
+from collections.abc import Generator
 
 import astropy.units as u
 import pytest
 from astropy.coordinates import SkyCoord
 from pytest_bdd import given, parsers, then, when
 from ska_control_model import HealthState, ObsState
+from ska_ser_skuid import EntityType, mint_skuid
 from tango import DeviceProxy, DevState, EventType
 
-from scripts.sequence_diagrammer.generate_sequence_diagram import sequenceDiagrammer
+from scripts.oso.generate_payloads import (
+    generate_assign_resources_tmc_payload,
+    generate_configure_tmc_payloads,
+    get_scan_command,
+)
+from scripts.sequence_diagrammer.generate_sequence_diagram import SequenceDiagrammer
+from tests.integration.tmc.helm_utils import (
+    SKA_MID_CHART_NAME,
+    _dish_namespace,
+    _ensure_helm_repo,
+    _get_helm_release,
+    _upgrade_helm_release,
+    _wait_for_dish_devices,
+    _wait_for_tango_devices,
+)
 from utils.enums import DishMode
 
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), ".jupyter-notebooks")))
-from src.notebook_tools import generate_fsp  # noqa: E402
+from src.notebook_tools import generate_fsp
 
 logger = logging.getLogger()
 
@@ -148,12 +165,10 @@ class CSP:
         if simulation_mode:
             self.control.cbfSimulationMode = 1
             sleep(5)  # TODO: Enable use of events to check simulationmode
-            # wait_for_event(self.control, "cbfSimulationMode", 1)
             self.cbf_sim_mode = simulation_mode
         else:
             self.control.cbfSimulationMode = 0
             sleep(5)  # TODO: Enable use of events to check simulationmode
-            # wait_for_event(self.control, "cbfSimulationMode", 1)
             self.cbf_sim_mode = simulation_mode
 
 
@@ -224,7 +239,7 @@ class Dish:
             assert proxy.ping() > 0
 
 
-class EventWaitTimeout(Exception):
+class EventWaitTimeoutError(Exception):
     """Exception raised when an event does not occur within a specified timeout."""
 
 
@@ -252,7 +267,7 @@ def wait_for_event(
     :type timeout: float
     :param print_event_details: Toggle printing of event data structure, defaults to False
     :type print_event_details: bool
-    :raises EventWaitTimeout: _description_
+    :raises EventWaitTimeoutError: _description_
     :return: Success or failure flag indicating whether the attribute changed as desired or not
     :rtype: bool
     """
@@ -297,7 +312,7 @@ def wait_for_event(
             f"Desired event {device_proxy.name()} {attr_name}={attr_val_name}"
             f" did not occur within the timeout period of {timeout}s"
         )
-        raise EventWaitTimeout(
+        raise EventWaitTimeoutError(
             f"Desired event {device_proxy.name()} {attr_name}={attr_val_name}"
             f" did not occur within the timeout period of {timeout}s"
         )
@@ -312,10 +327,10 @@ def set_context(settings):
     :type settings: _type_
     :yield: _
     """
-    CURRENT_TANGO_HOST = os.environ.get("TANGO_HOST")
-    CURRENT_TZ = os.environ.get("TZ")
+    CURRENT_TANGO_HOST = os.environ.get("TANGO_HOST")  # noqa: N806
+    CURRENT_TZ = os.environ.get("TZ")  # noqa: N806
 
-    TANGO_HOST = (
+    TANGO_HOST = (  # noqa: N806
         f"tango-databaseds.{settings['SUT_namespace']}.svc.{settings['sut_cluster_domain']}:10000"
     )
     os.environ["TANGO_HOST"] = TANGO_HOST
@@ -331,28 +346,22 @@ def set_context(settings):
 
 
 @pytest.fixture(scope="session")
-def pb_and_eb_ids(settings) -> Tuple[str, str]:
-    """Fixture for generating pb and eb ids for the scan.
+def pb_and_eb_ids() -> dict:
+    """Mutable container holding the most recently submitted pb_id and eb_id.
 
-    :param settings: test settings
-    :type settings: dict
-    :return: pb_id and eb_id for use in the assign_resources.json
-    :rtype: Tuple[str, str]
+    When assigning resources, this writes into this dict so that subsequent
+    steps (e.g. the dataproducts check) always see the last-used IDs.
+
+    :return: dict with keys 'pb_id' and 'eb_id', initially empty
+    :rtype: dict
     """
-    time_now = localtime()
-    date = strftime("%Y%m%d", time_now)
-    time_now = strftime("%H%M%S", time_now)
-    eb_id_prefix = settings["eb_id_prefix"]
-    pb_id_prefix = settings["pb_id_prefix"]
-    eb_id = f"{eb_id_prefix}-{date}-{time_now}"
-    pb_id = f"{pb_id_prefix}-{date}-{time_now}"
-    return pb_id, eb_id
+    return {}
 
 
 @pytest.fixture(scope="session")
 def telescope_handlers(
     receptor_ids, settings
-) -> Generator[Tuple[TMC, CBF, CSP, List[Dish]], None, None]:
+) -> Generator[tuple[TMC, CBF, CSP, list[Dish]], None, None]:
     """Generate telescope handlers containing device proxies. Teardown telescope on completion.
 
     :param receptor_ids: _description_
@@ -362,7 +371,7 @@ def telescope_handlers(
     :rtype: Generator[Tuple[TMC, CBF, CSP, List[Dish]], None, None]
     """
     logger.info(f"Using the following SUT Tango host: {os.getenv('TANGO_HOST')}")
-    RECEPTORS = receptor_ids
+    RECEPTORS = receptor_ids  # noqa: N806
     tmc = TMC()
     cbf = CBF(settings["sim_mode"])
     csp = CSP()
@@ -385,10 +394,10 @@ def sequence_diagrammer(settings):
 
     :param settings: test settings
     :type settings: dict[str]
-    :yield: An instance of sequenceDiagrammer for tracking events.
-    :rtype: sequenceDiagrammer
+    :yield: An instance of SequenceDiagrammer for tracking events.
+    :rtype: SequenceDiagrammer
     """
-    sequence_diagrammer = sequenceDiagrammer(settings["SUT_namespace"])
+    sequence_diagrammer = SequenceDiagrammer(settings["SUT_namespace"])
 
     try:
         yield sequence_diagrammer  # Provide instance to test
@@ -399,6 +408,50 @@ def sequence_diagrammer(settings):
         else:
             pathlib.Path(sequence_diagrammer.get_puml_filename()).unlink(missing_ok=True)
             logger.info("Sequence diagram generation correctly skipped")
+
+
+@given("the SUT deployment is the version of ska-mid currently in ska-mid-helmreleases main")
+def _(settings):
+    """Ensure the environment is a operational running deployment at the ska-mid-helmreleases main version.
+
+    Reads SKA_MID_SITE_CHART_VERSION set by the CI before_script. If the deployed version
+    differs, the test fails.
+
+    :param settings: Test settings.
+    """
+    site_chart_version = settings["site_chart_version"]
+    assert site_chart_version, (
+        "SKA_MID_SITE_CHART_VERSION is not set. "
+        "Ensure the CI before_script has cloned ska-mid-helmreleases and extracted the version."
+    )
+
+    namespace = settings["SUT_namespace"]
+
+    deployed_chart = _get_helm_release(namespace)
+    assert deployed_chart is not None, (
+        f"No '{SKA_MID_CHART_NAME}' chart found deployed in namespace '{namespace}'"
+    )
+
+    deployed_version = deployed_chart["chart"][len(f"{SKA_MID_CHART_NAME}-") :]
+    release_name = deployed_chart["name"]
+
+    assert deployed_version == site_chart_version, (
+        f"Deployed version '{deployed_version}' does not match "
+        f"ska-mid-helmreleases main version '{site_chart_version}'. "
+        f"Upgrade to the correct version before running this job."
+    )
+
+    values_result = subprocess.run(
+        ["helm", "get", "values", release_name, "-n", namespace, "--output", "json"],
+        stdout=subprocess.PIPE,
+        check=True,
+    )
+    helm_values = json.loads(values_result.stdout)
+    subarray_count = helm_values.get("ska-tmc-mid", {}).get("subarray_count")
+
+    assert subarray_count == 1, (
+        f"Expected ska-tmc-mid.subarray_count to be 1, got {subarray_count!r}"
+    )
 
 
 @given("an SUT deployment with 1 subarray")
@@ -420,9 +473,9 @@ def _(sequence_diagrammer, settings):
     The events captured during the test will be used to generate a sequence
     diagram at the end of the test.
 
-    :param sequence_diagrammer: An instance of sequenceDiagrammer that manages
+    :param sequence_diagrammer: An instance of SequenceDiagrammer that manages
                                 event tracking and diagram generation.
-    :type sequence_diagrammer: sequenceDiagrammer
+    :type sequence_diagrammer: SequenceDiagrammer
     :param settings: test settings
     :type settings: dict[str]
     """
@@ -445,7 +498,7 @@ def _(telescope_handlers, settings):
     """
     logger.info("Setting CSP adminmode")
 
-    _, _, csp, _ = telescope_handlers
+    _, cbf, csp, _ = telescope_handlers
     csp_control = csp.control
 
     assert csp_control.ping() > 0
@@ -460,7 +513,9 @@ def _(telescope_handlers, settings):
     # if reset_csp_adminmode:
     csp_control.adminMode = 1
     wait_for_event(csp_control, "adminMode", 1)
-    sleep(8)
+    # Wait for CBF sub-element controller to settle into DISABLE before writing
+    # cbfSimulationMode (see AT-3761).
+    wait_for_event(cbf.controller, "state", DevState.DISABLE)
 
     if not sim_mode:
         csp.set_cbf_simulation_mode(False)
@@ -472,7 +527,9 @@ def _(telescope_handlers, settings):
 
     csp_control.adminMode = 0
     wait_for_event(csp_control, "adminMode", 0)
-    sleep(15)  # TODO: Find out exactly why this is needed
+    # Wait for CBF controller and its SLIM devices to finish coming back online
+    # before proceeding (see AT-3761).
+    wait_for_event(cbf.controller, "state", DevState.OFF)
 
     logger.info(
         f"CSP adminMode is: {csp_control.adminMode},"
@@ -481,8 +538,11 @@ def _(telescope_handlers, settings):
 
 
 @when("I turn ON the telescope")
-def _(telescope_handlers, receptor_ids, settings):
+def _(telescope_handlers, receptor_ids, settings):  # noqa: C901
     """Turn the telescope ON.
+
+    Only run this if the telescope is not already ON.
+    Otherwise continue without issuing any commands.
 
     :param telescope_handlers: _description_
     :type settings: _type_
@@ -491,7 +551,7 @@ def _(telescope_handlers, receptor_ids, settings):
     :type receptor_ids: _type_
     """
     logger.info("Turning telescope ON")
-    RECEPTORS = receptor_ids
+    RECEPTORS = receptor_ids  # noqa: N806
 
     tmc, cbf, _, _ = telescope_handlers
 
@@ -504,17 +564,23 @@ def _(telescope_handlers, receptor_ids, settings):
     sim_mode = settings["sim_mode"]
 
     # Load DishVCCConfig
-    CONFIG_DATA_DIR = settings["data_dir"]
-    CBF_CONFIGS = os.path.join(CONFIG_DATA_DIR, "cbf")
-    DISH_CONFIG_FILE = f"{CBF_CONFIGS}/sys_params/load_dish_config.json"
+    CONFIG_DATA_DIR = settings["data_dir"]  # noqa: N806
+    CBF_CONFIGS = os.path.join(CONFIG_DATA_DIR, "cbf")  # noqa: N806
+    DISH_CONFIG_FILE = f"{CBF_CONFIGS}/sys_params/load_dish_config.json"  # noqa: N806
 
     with open(DISH_CONFIG_FILE, encoding="utf-8") as f:
         dish_config_json = json.load(f)
 
-    dish_config_json["tm_data_sources"][0] = "car:ska-mid?27.3.0#tmdata"
-    dish_config_json["tm_data_filepath"] = (
-        "instrument/ska1_mid_itf/vcc-config/ska-mid-cbf-system-parameters.json"
-    )
+    if settings["dish_vcc_config_source"]:
+        logger.info(f"Overriding dish VCC config source to {settings['dish_vcc_config_source']}")
+        dish_config_json["tm_data_sources"][0] = settings["dish_vcc_config_source"]
+
+    if settings["dish_vcc_config_file_path"]:
+        logger.info(
+            f"Overriding dish VCC config filepath to {settings['dish_vcc_config_file_path']}"
+        )
+        dish_config_json["tm_data_filepath"] = settings["dish_vcc_config_file_path"]
+
     logger.debug(f"dish_config_json file contents: \n{dish_config_json}")
 
     is_k_value_correct = True
@@ -556,7 +622,7 @@ def _(telescope_handlers, receptor_ids, settings):
     assert csp_subarray_leaf_node.cspSubarrayObsState == ObsState.EMPTY
     assert sdp_subarray_leaf_node.sdpSubarrayObsState == ObsState.EMPTY
 
-    if tmc_central_node.telescopeState == DevState.ON and cbf.controller.state == DevState.ON:
+    if tmc_central_node.telescopeState == DevState.ON and cbf.controller.state() == DevState.ON:
         logger.info("Telescope is already in the ON state. Not issuing TelescopeOn command.")
     else:
         # Turn ON the telescope
@@ -584,33 +650,51 @@ def _(telescope_handlers, receptor_ids, settings):
 
 
 @when("I assign resources")
-def _(telescope_handlers, receptor_ids, pb_and_eb_ids, default_assign_resources, settings):
+def _(telescope_handlers, receptor_ids, pb_and_eb_ids, default_assign_resources, settings, sbd):
     """Assign resources via TMC.
 
     :param telescope_handlers: _description_
-    :type settings: _type_
     :type telescope_handlers: _type_
     :param receptor_ids: _description_
     :type receptor_ids: _type_
-    :param pb_and_eb_ids: _description_
-    :type pb_and_eb_ids: _type_
+    :param pb_and_eb_ids: Mutable container updated with the generated pb_id and eb_id.
+    :type pb_and_eb_ids: dict
     :param default_assign_resources: _description_
     :type default_assign_resources: _type_
+    :param settings: _description_
+    :type settings: _type_
+    :param sbd: _description_
+    :type sbd: _type_
     """
     logger.info("Assigning resources")
 
     tmc, cbf, _, _ = telescope_handlers
-    pb_id, eb_id = pb_and_eb_ids
+
+    # Generate fresh IDs on every call so that a second assign resources (e.g. after an upgrade)
+    # does not reuse a previously submitted EB ID and trigger a duplicate-block error in SDP.
+    if settings["use_oso_payloads"]:
+        pb_id = mint_skuid(EntityType.PB)
+        eb_id = mint_skuid(EntityType.EB)
+    else:
+        time_now = localtime()
+        date = strftime("%Y%m%d", time_now)
+        time_str = strftime("%H%M%S", time_now)
+        eb_id = f"{settings['eb_id_prefix']}-{date}-{time_str}"
+        pb_id = f"{settings['pb_id_prefix']}-{date}-{time_str}"
+
+    # Write into the shared container so the then step sees the latest IDs
+    pb_and_eb_ids["pb_id"] = pb_id
+    pb_and_eb_ids["eb_id"] = eb_id
 
     tmc_subarray_node = tmc.subarray_node
     sdp_subarray_leaf_node = tmc.sdp_subarray_leaf_node
     csp_subarray_leaf_node = tmc.csp_subarray_leaf_node
     cbf_subarray = cbf.subarray
 
-    RECEPTORS = receptor_ids
+    RECEPTORS = receptor_ids  # noqa: N806
 
     assign_resources_payload = update_assign_resources(
-        default_assign_resources, RECEPTORS, pb_id, eb_id, settings
+        default_assign_resources, RECEPTORS, pb_id, eb_id, settings, sbd
     )
 
     logger.info(f"PB ID: {pb_id}, EB ID: {eb_id}")
@@ -621,12 +705,15 @@ def _(telescope_handlers, receptor_ids, pb_and_eb_ids, default_assign_resources,
     with open(assign_resources_artifact_path, "w") as assign_resources_config_file:
         json.dump(assign_resources_payload, assign_resources_config_file, indent=4)
 
-    tmc.central_node.AssignResources(json.dumps(assign_resources_payload))
+    tmc.central_node.AssignResources(
+        assign_resources_payload
+        if isinstance(assign_resources_payload, str)
+        else json.dumps(assign_resources_payload)
+    )
     wait_for_event(cbf_subarray, "obsState", ObsState.IDLE)
     wait_for_event(sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.IDLE)
     wait_for_event(csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.IDLE)
     wait_for_event(tmc_subarray_node, "obsState", ObsState.IDLE)
-    sleep(30)  # TODO: Remove sleep for vis-receive
 
 
 @when(
@@ -642,11 +729,11 @@ def _(
     scan_time,
     default_configure_scan_payload,
     settings,
+    sbd,
 ):
     """Configure scan via TMC.
 
     :param telescope_handlers: _description_
-    :type settings: _type_
     :type telescope_handlers: _type_
     :param receptor_ids: _description_
     :type receptor_ids: _type_
@@ -656,6 +743,10 @@ def _(
     :type scan_time: _type_
     :param default_configure_scan_payload: _description_
     :type default_configure_scan_payload: _type_
+    :param settings: _description_
+    :type settings: _type_
+    :param sbd: _description_
+    :type sbd: _type_
     """
     if settings["override_scan_band"]:
         scan_band = int(settings["override_scan_band"])
@@ -666,19 +757,23 @@ def _(
     logger.info(f"Configuring a band {scan_band} scan")
 
     tmc, _, _, _ = telescope_handlers
-    RECEPTORS = receptor_ids
+    RECEPTORS = receptor_ids  # noqa: N806
 
     configure_scan_payload = update_configure_scan(
-        default_configure_scan_payload, scan_band, scan_time, 1, settings
+        default_configure_scan_payload, scan_band, scan_time, 1, settings, sbd
     )
 
-    logger.debug(json.dumps(configure_scan_payload))
+    logger.debug(configure_scan_payload)
 
     configure_scan_artifact_path = f"{settings['artifact_dir']}/configure_scan.json"
     with open(configure_scan_artifact_path, "w") as configure_scan_config_file:
         json.dump(configure_scan_payload, configure_scan_config_file, indent=4)
 
-    tmc.subarray_node.Configure(json.dumps(configure_scan_payload))
+    tmc.subarray_node.Configure(
+        configure_scan_payload
+        if isinstance(configure_scan_payload, str)
+        else json.dumps(configure_scan_payload)
+    )
     wait_for_event(tmc.csp_subarray_leaf_node, "cspSubarrayObsState", ObsState.READY)
     wait_for_event(tmc.sdp_subarray_leaf_node, "sdpSubarrayObsState", ObsState.READY)
     for receptor in RECEPTORS:
@@ -894,7 +989,7 @@ def _(
     )
 
     tmc, _, _, _ = telescope_handlers
-    RECEPTORS = receptor_ids
+    RECEPTORS = receptor_ids  # noqa: N806
 
     for scan_number in range(1, number_of_scans + 1):
         # Configure scan
@@ -1039,6 +1134,80 @@ def _(telescope_handlers):
     wait_for_event(tmc_subarray_node, "obsState", ObsState.EMPTY)
 
 
+@when("I upgrade to this tagged pipeline version")
+def _(telescope_handlers, settings):
+    """Upgrade all ska-mid helm releases to the version defined in this pipeline.
+
+    Determines the target chart version from CI_COMMIT_TAG if set, otherwise reads
+    it from charts/ska-mid/Chart.yaml. Performs an in-place helm upgrade (--reuse-values)
+    across all dish-lmc namespaces first, waits for their Tango devices to be reachable
+    (the SUT cannot talk to the dishes until they are up), then upgrades the SUT
+    namespace and polls its Tango device proxies until they are reachable again.
+
+    :param telescope_handlers: Telescope device proxies (Tango reconnects automatically).
+    :param settings: Test settings.
+    """
+    _, _, _, dishes = telescope_handlers
+    target_version = os.getenv("CI_COMMIT_TAG")
+    result = subprocess.run(
+        ["bash", ".gitlab/ci/za-itf/upgrading/get_chart_version.sh"],
+        stdout=subprocess.PIPE,
+        check=True,
+    )
+    target_version_from_chart = result.stdout.decode().strip()
+
+    assert target_version, (
+        "Could not determine the upgrade target version from CI_COMMIT_TAG."
+        "Set CI_COMMIT_TAG before running the upgrade."
+    )
+
+    assert target_version_from_chart, (
+        "Could not determine the upgrade target version from Chart.yaml. "
+        "Ensure charts/ska-mid/Chart.yaml contains a 'version' field before running the upgrade."
+    )
+
+    assert target_version == target_version_from_chart, (
+        f"Upgrade target version '{target_version}' does not match the version in Chart.yaml '{target_version_from_chart}'."
+        "Ensure the CI_COMMIT_TAG matches the version in Chart.yaml before running the upgrade."
+    )
+
+    namespace = settings["SUT_namespace"]
+
+    logger.info(f"Upgrading to version '{target_version}' across all namespaces...")
+
+    _ensure_helm_repo()
+
+    # Upgrade dish-lmc namespaces first so they are ready before the SUT restarts
+    dish_ids = [d.strip() for d in settings["dish_ids"].split()]
+    for dish_id in dish_ids:
+        dish_ns = _dish_namespace(namespace, dish_id)
+        dish_release = _get_helm_release(dish_ns)
+        if dish_release:
+            _upgrade_helm_release(dish_release["name"], dish_ns, target_version)
+        else:
+            logger.warning(
+                f"No '{SKA_MID_CHART_NAME}' release found in '{dish_ns}', skipping upgrade"
+            )
+
+    # The SUT cannot communicate with the dishes until their Tango devices are up,
+    # so confirm that before starting the SUT upgrade.
+    _wait_for_dish_devices(dishes, target_version)
+
+    # Extra grace period beyond reachability, so the dishes are truly settled before the SUT restarts
+    sleep(10)
+
+    # Upgrade the SUT namespace
+    deployed_chart = _get_helm_release(namespace)
+    assert deployed_chart is not None, (
+        f"No '{SKA_MID_CHART_NAME}' release found in namespace '{namespace}'. Cannot upgrade."
+    )
+    _upgrade_helm_release(deployed_chart["name"], namespace, target_version)
+
+    logger.info(f"Helm upgrade to version '{target_version}' completed across all namespaces")
+
+    _wait_for_tango_devices(telescope_handlers, target_version)
+
+
 @when("I turn OFF the telescope")
 def _(telescope_handlers, receptor_ids):
     """Turn the telescope OFF via TMC.
@@ -1051,7 +1220,7 @@ def _(telescope_handlers, receptor_ids):
     logger.info("Turning OFF the telescope")
 
     tmc, _, _, _ = telescope_handlers
-    RECEPTORS = receptor_ids
+    RECEPTORS = receptor_ids  # noqa: N806
 
     tmc_central_node = tmc.central_node
 
@@ -1067,12 +1236,10 @@ def _(telescope_handlers, receptor_ids):
 def _(pb_and_eb_ids):
     """Check that the respective dataproducts are available on the DPD via the dataproducts API.
 
-    :param pb_and_eb_ids: _description_
-    :type pb_and_eb_ids: _type_
+    :param pb_and_eb_ids: Container holding the most recently submitted pb_id and eb_id.
+    :type pb_and_eb_ids: dict
     """
-    # TODO: Implement
-    pb_id, eb_id = pb_and_eb_ids
-
+    # TODO: Implement - use pb_and_eb_ids["pb_id"] and pb_and_eb_ids["eb_id"] to verify
     assert True
 
 
@@ -1116,17 +1283,17 @@ def _(settings, telescope_handlers, bite_test_id):
     cbf_controller = cbf.controller
     bite = cbf.bite
 
-    CONFIG_DATA_DIR = settings["data_dir"]
-    CBF_INPUT_DATA_DIR = os.path.join(CONFIG_DATA_DIR, "cbf/cbf_input_data")
+    CONFIG_DATA_DIR = settings["data_dir"]  # noqa: N806
+    CBF_INPUT_DATA_DIR = os.path.join(CONFIG_DATA_DIR, "cbf/cbf_input_data")  # noqa: N806
 
     # File containing BITE config selectors and receptor sampling settings
-    CBF_INPUT_FILE = os.path.join(CBF_INPUT_DATA_DIR, "cbf_input_data.json")
+    CBF_INPUT_FILE = os.path.join(CBF_INPUT_DATA_DIR, "cbf_input_data.json")  # noqa: N806
 
     # File containing BITE configs
-    BITE_CONFIG_FILE = os.path.join(CBF_INPUT_DATA_DIR, "bite_config_parameters/bite_configs.json")
+    BITE_CONFIG_FILE = os.path.join(CBF_INPUT_DATA_DIR, "bite_config_parameters/bite_configs.json")  # noqa: N806
 
     # File containing BITE data filter configs
-    FILTERS_FILE = os.path.join(CBF_INPUT_DATA_DIR, "bite_config_parameters/filters.json")
+    FILTERS_FILE = os.path.join(CBF_INPUT_DATA_DIR, "bite_config_parameters/filters.json")  # noqa: N806
 
     files = [
         CBF_INPUT_FILE,
@@ -1140,7 +1307,7 @@ def _(settings, telescope_handlers, bite_test_id):
             logger.error(error)
             pytest.fail(error)
 
-    dishVccConfig = json.loads(cbf_controller.sysparam)
+    dishVccConfig = json.loads(cbf_controller.sysparam)  # noqa: N806
     logger.debug(f"dishVccConfig from CSP Master: \n{dishVccConfig}\n")
 
     with open(CBF_INPUT_FILE, encoding="utf-8") as f:
@@ -1221,13 +1388,13 @@ def bite_test_id(settings):
     :rtype: String
     """
     # TODO: Move to settings
-    BITE_TEST_SELECTOR = os.environ.get("BITE_TEST_SELECTOR", "talon-001 basic gaussian noise")
+    BITE_TEST_SELECTOR = os.environ.get("BITE_TEST_SELECTOR", "talon-001 basic gaussian noise")  # noqa: N806
 
-    CONFIG_DATA_DIR = settings["data_dir"]
-    CBF_INPUT_DATA_DIR = os.path.join(CONFIG_DATA_DIR, "cbf/cbf_input_data")
+    CONFIG_DATA_DIR = settings["data_dir"]  # noqa: N806
+    CBF_INPUT_DATA_DIR = os.path.join(CONFIG_DATA_DIR, "cbf/cbf_input_data")  # noqa: N806
 
     # File containing BITE config selectors and receptor sampling settings
-    CBF_INPUT_FILE = os.path.join(CBF_INPUT_DATA_DIR, "cbf_input_data.json")
+    CBF_INPUT_FILE = os.path.join(CBF_INPUT_DATA_DIR, "cbf_input_data.json")  # noqa: N806
 
     with open(CBF_INPUT_FILE, encoding="utf-8") as f:
         cbf_input_configs = json.load(f)["cbf_input_data"]
@@ -1250,7 +1417,7 @@ def _(telescope_handlers, receptor_ids):
     :type receptor_ids: _type_
     """
     logger.info("Checking telescope state")
-    _, cbf, _, _ = telescope_handlers
+    _, _cbf, _, _ = telescope_handlers
 
 
 @pytest.fixture
@@ -1262,7 +1429,7 @@ def default_assign_resources(settings):
     :return: Default assign resources JSON
     :rtype: dict
     """
-    ASSIGN_RESOURCES_FILE = f"{settings['TMC_configs']}/assign_resources.json"
+    ASSIGN_RESOURCES_FILE = f"{settings['TMC_configs']}/assign_resources.json"  # noqa: N806
 
     with open(ASSIGN_RESOURCES_FILE, encoding="utf-8") as f:
         assign_resources_json = json.load(f)
@@ -1276,6 +1443,7 @@ def update_assign_resources(
     pb_id: str,
     eb_id: str,
     settings: dict,
+    sbd: dict | None = None,
 ) -> dict:
     """Update assign resources payload with test specific parameters.
 
@@ -1289,11 +1457,19 @@ def update_assign_resources(
     :type eb_id: str
     :param settings: _description_
     :type settings: dict
+    :param sbd: _description_
+    :type sbd: dict
     :return: Updated assign resources payload
     :rtype: dict
     """
-    NODE_WITH_100G_INTERFACE = settings["node_with_100G_interface"]
-    NODE_LABEL_FOR_100G_GROUP = settings["node_label_for_100G_group"]
+    if sbd:
+        # Use OSO generated payloads if SBD is provided
+        logger.info("Generating assign resources payload using OSO scripting")
+        assign_resources_payload = generate_assign_resources_tmc_payload(subarray_id=1, sbd=sbd)
+        return assign_resources_payload
+
+    NODE_WITH_100G_INTERFACE = settings["node_with_100G_interface"]  # noqa: N806
+    NODE_LABEL_FOR_100G_GROUP = settings["node_label_for_100G_group"]  # noqa: N806
 
     # Determine nodeSelector for vis-receive pod prioritising 100G group label if provided
     node_selector_sdp_param = {}
@@ -1330,13 +1506,11 @@ def update_assign_resources(
             "receiver"
         ]["options"]["telescope_model"]["telmodel_key"] = settings["dish_layout_telmodel_path"]
 
-    if all(
-        [
-            settings["pointing_target_name"],
-            settings["pointing_target_right_ascension"],
-            settings["pointing_target_declination"],
-        ]
-    ):
+    if all([
+        settings["pointing_target_name"],
+        settings["pointing_target_right_ascension"],
+        settings["pointing_target_declination"],
+    ]):
         pointing_coords = SkyCoord(
             ra=settings["pointing_target_right_ascension"],
             dec=settings["pointing_target_declination"],
@@ -1363,7 +1537,7 @@ def default_configure_scan_payload(settings):
     :return: Default configure scan JSON
     :rtype: dict
     """
-    CONFIGURE_SCAN_FILE = f"{settings['TMC_configs']}/configure_scan.json"
+    CONFIGURE_SCAN_FILE = f"{settings['TMC_configs']}/configure_scan.json"  # noqa: N806
 
     with open(CONFIGURE_SCAN_FILE, encoding="utf-8") as f:
         configure_scan_json = json.load(f)
@@ -1377,6 +1551,7 @@ def update_configure_scan(
     scan_duration: int,
     scan_number: int,
     settings: dict,
+    sbd: dict | None = None,
 ) -> dict:
     """Update configure scan payload with test specific parameters.
 
@@ -1390,9 +1565,17 @@ def update_configure_scan(
     :type scan_number: int
     :param settings: _description_
     :type settings: dict
+    :param sbd: _description_
+    :type sbd: dict
     :return: Updated configure scan JSON payload
     :rtype: dict
     """
+    if sbd:
+        # Use OSO generated payloads if SBD is provided
+        logger.info("Generating configure payload using OSO scripting")
+        configure_payload = generate_configure_tmc_payloads(sbd=sbd)[0]
+        return configure_payload
+
     band_params = generate_fsp.generate_band_params(scan_band)
 
     configure_scan_payload["dish"]["receiver_band"] = str(scan_band)
@@ -1419,17 +1602,17 @@ def update_configure_scan(
     configure_scan_payload["tmc"]["scan_duration"] = float(scan_duration)
 
     if settings["pointing_target_name"]:
-        configure_scan_payload["pointing"]["target"]["target_name"] = settings[
+        configure_scan_payload["pointing"]["groups"][0]["field"]["target_name"] = settings[
             "pointing_target_name"
         ]
 
     if settings["pointing_target_right_ascension"]:
-        configure_scan_payload["pointing"]["target"]["ra"] = settings[
+        configure_scan_payload["pointing"]["groups"][0]["field"]["attrs"]["c1"] = settings[
             "pointing_target_right_ascension"
         ]
 
     if settings["pointing_target_declination"]:
-        configure_scan_payload["pointing"]["target"]["dec"] = settings[
+        configure_scan_payload["pointing"]["groups"][0]["field"]["attrs"]["c2"] = settings[
             "pointing_target_declination"
         ]
 
@@ -1445,14 +1628,14 @@ def default_scan_payload(settings):
     :return: Default scan JSON
     :rtype: dict
     """
-    SCAN_FILE = f"{settings['TMC_configs']}/scan.json"
+    SCAN_FILE = f"{settings['TMC_configs']}/scan.json"  # noqa: N806
     with open(SCAN_FILE, encoding="utf-8") as f:
         scan_json = json.load(f)
 
     return scan_json
 
 
-def update_scan_payload(scan_payload: dict, scan_number: int) -> dict:
+def update_scan_payload(scan_payload: dict, scan_number: int, sbd: dict | None = None) -> dict:
     """Update scan payload with test specific parameters.
 
     :param scan_payload: Scan JSON payload to update
@@ -1461,7 +1644,14 @@ def update_scan_payload(scan_payload: dict, scan_number: int) -> dict:
     :type scan_number: int
     :return: Updated scan JSON payload
     :rtype: dict
+    :param sbd: _description_
+    :type sbd: dict
     """
+    if sbd:
+        # Use OSO generated payloads if SBD is provided
+        scan_payload = get_scan_command(subarray_id=1)
+        return scan_payload
+
     scan_payload["scan_id"] = scan_number
     scan_payload["transaction_id"] = f"txn-....-{scan_number:05}"
     return scan_payload

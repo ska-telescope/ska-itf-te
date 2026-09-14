@@ -3,6 +3,230 @@
 ## Unreleased
 * [AT-3553]
   * Add IC@MS umbrella chart and deployment jobs for Mid ITF.
+* [AT-3815]
+  * Upgrade ska-tango-base to `1.2.1`
+  * Upgrade ska-tango-utils to `1.2.1`
+* [AT-3812]
+  * Upgrade ska-tmc-mid to `1.25.1`
+* [AT-3758]
+  * Upgradability test for ska-mid chart (manual trigger only)
+
+## 31.5.2
+* [AT-3783]
+  * Upgrade ska-tmc-mid to `1.25.0`
+  * Upgrade ska-oso-integration to `2.5.1`
+  * upgrade ska-db-oda-umbrella to `19.2.2`
+  * Upgrade ska-mid-itf-engineering-tools to `0.12.0`
+* [AT-3807]
+  * Added EDA config for SKA046 to Telmodel
+* [AT-3733]
+  * Ansible playbook tested for use on site, including validation of new IP, serial number is recorded.
+
+## 31.5.1
+* [AT-3797]
+  * Clean up the pipelines after the uv migration by removing the python uv publish jobs
+  * Put `testing` namespace test jobs in tagged pipelines
+  * Update smoke test that checks telescope state to be fine with dishes starting up in either STOW or STANDBY_LP
+  * Cherry-picked in a casacore fix for mac users from [AT-3758]
+* [AT-3798]
+  * Upgrade ska-csp-lmc-mid to `1.8.0`
+  * Upgrade ska-sdp to `2.6.2`
+  * Upgrade ska-dish-lmc to `10.0.2`
+  * Upgrade ska-tango-archiver to `5.0.4`
+  * Upgrade ska-mid-itf-engineering-tools to `0.11.4`
+
+## 31.5.0
+* [AT-3786] 
+  * Update EDA dish configs so that all spfc attributes are on the same ES
+  * reinstate staging dish eda configs
+* [AT-3730]
+  * Get logs for DishLMC namespaces in pipelines
+* [AT-3774]
+  * Upgrade TMC to `1.21.3`
+* [AT-3762]
+  * Added ska102 dish archive config file for staging to test using the teapot server EDA
+* [AT-3763]
+  * Temporary mapping swap of VCC 1 and VCC 2 to SKA036 and SKA001 repectively in staging environment. Note setting of DishVccUri: "car:ska-mid?31.4.1-vcc-swap#tmdata"
+* [AT-3767]
+  * Upgraded sdp to `2.6.1`
+  * Upgraded vis-receive to `9.1.0`
+* [AT-3732]
+  * Force-deleting zombie pods
+* [AT-3765]
+  * Restored sleep for `cbfSimulationMode` event not emitted; kept waits for `cbf.controller` state instead of sleep(n)s.
+* [AT-3761]
+  * Updated test code to wait for actual control system events instead of sleep(n)ing.
+* [AT-3731]
+  * Completed `uv` migration in this and `.engineering-tools` repository, and sped up `uv sync` jobs by grouping dependencies for installation.
+  * Patched SDP Config scripts job TTL to avoid CI pipeline race condition.
+
+## 31.4.0
+* [SKB-1436]
+  * Upgraded TMC to `1.21.2`
+  * Removed vis-receive sleep in e2e test
+* [AT-3756]
+  * Upgrade dish-lmc to `10.0.1`
+  * Upgrade TMC to `1.21.2`
+
+## 31.2.2
+* [AT-3734]
+  * Upgrade dish-lmc to `10.0.0`
+  * Upgrade TMC to `1.21.1`
+* [AT-3712]
+  * Ansible playbook to set up NTP server on SPFRx, implemented adding hosts according to DISH_INDEX
+
+## 31.2.1
+* [AT-3726]
+  * Upgrade ska-mid-dish-spfrx-talondx-console to `3.1.2`
+* [AT-3713]
+  * Ansible playbook updates for SPFRx in Makefile
+* [AT-3640]
+  * Added ska-eda-rest-api as a dependency of ska-mid. The EDA API charts and core values have been migrated to the ska-eda-api repository.
+* [AT-3714]
+  * Upgrade ska-oso-integration to `2.3.0`
+  * Upgrade ska-db-oda-umbrella to `18.1.0`
+* [AT-3708] & [SKB-1387]
+  * Upgrade to ska-tmc-mid `1.21.0` for 5-point scan testing and holography
+  * Upgrade ska-tmc-configure schema interface to v6.1
+
+## 31.2.0
+* [AT-3698]
+  * Ansible playbook updates for SPFRx network configuration changes (ITF and provisionally site)
+* [AT-3715]
+  * Upgrade dish-lmc to `9.5.0`
+* [SKB-1368]
+  * Fix telescope name in layout files
+
+## 31.1.0
+* [AT-3424]
+  * Extended Helm chart caching to deployment jobs to speed up deploy stage execution
+* [AT-3711]
+  * Upgrade tangoGQL-ariadne to `1.0.13`
+* [AT-3704]
+  * Upgrade dish-lmc to `9.4.0`
+  * Upgrade csp-lmc to `1.7.0`
+  * merge in skb-956 which introduces changes to the layout files and an update to the schema to 1.3
+  * Upgrade octopus frontend to `0.6.6`
+* [SKB-956]
+  * Update layout files to schema version 1.3
+
+## 31.0.0
+* [AT-3683]
+  * Upgrade octopus backend to `0.6.3` 
+  * Upgrade octopus frontend to `0.6.3`
+* [AT-3673]
+  * Upgrade ska-mid-dish-spfrx-talondx-console to `3.0.0`
+  * Upgrade taranta to `2.18.7`
+* [AT-3619]
+  * Add option to run TMC tests using TMC command payloads generated using OSO scripting.
+
+## 30.5.0
+* [AT-3675]
+  * Update SKA077 coordinates in the mid-layout file
+* [SKB-1006]
+  * Upgrade ska-tango-archiver to `5.0.4-rc.1`
+  * Set archiver default logging level to INFO and add console logging target
+* [AT-3665]
+  * Upgrade ska-tangogql-ariadne to `1.0.11`
+  * Upgrade vis-receive to `8.1.1`
+  * Upgrade ska-mid-wms to `1.1.1`
+* [AT-3668]
+  * Added the following attributes to the dish archiver configs (example for ska001):
+  * ska001/spf/spfc/b1defaultstartstate
+  * ska001/spf/spfc/b2defaultstartstate
+  * ska001/spf/spfc/b345defaultstartstate
+  * ska001/spf/spfc/operatingmode
+  * mid-dish/dish-manager/ska001/status
+  * mid-dish/dish-manager/ska001/dscerrorstatuses
+* [AT-3656]
+  * Upgrade ska-mid-cbf-tdc-mcs to `1.4.1`
+  * Upgrade ska-mid-cbf-engineering-console `2.0.0` which includes using BAR for artefact downloads
+* [AT-3651]
+  * Add kubernetes python package to resolve ITF smoke tests failure following AT-2200.
+* [AT-3669]
+  * Add make target for executing multiple scan test (no reconfigure) in KAPB
+* [AT-3659]
+  * Upgrade octopus backend to `0.4.6`
+  * Upgrade octopus frontend to `0.4.27`
+  * Add `deployEnv` variable to octopus values
+* [AT-3655]
+  * Updated [vcc-config](tmdata/instrument/ska1_mid_aa/vcc-config/ska-mid-cbf-system-parameters.json) file for Mid-AA (Mid CBF SysParams)
+  * Allow configuration of dish VCC config source and filepath in tests using DISH_VCC_CONFIG_SOURCE and DISH_VCC_CONFIG_FILE_PATH env vars respectively.
+* [AT-3658]
+  * Added microwave_mixer_voltage to archiver config files.
+
+## 30.3.1
+* [AT-3645]
+  * Product upgrades:
+    * ska-tango-base and ska-tango-util to `1.1.0`
+    * ska-csp-lmc-mid to `1.6.0`
+    * oso-integration to `2.1.0`
+    * ska-db-oda-umbrella to `17.4.0`
+    * ska-mid-dish-spfrx-talondx-console to `2.1.1`
+  * Updated the ska-sdp-configure schema interface to `1.0`
+* [AT-3646]
+  * Upgrade dpd to `0.17.0`
+* [AT-3621]
+  * Migrated the confluence tooling from ska-ser-skallop into this repository. Added python dependencies required by these tools.
+* [AT-2200]
+  * Added ska-oso-scripting dependency and made a number of adjustments to dependencies to allow package version resolution.
+  * Added methods to generate TMC Assign, Configure, Scan payloads using oso-scripting
+  * Bump ska-mid-itf-engineering tools to `0.10.4`
+* [AT-3601]
+  * Upgrade Tango Alarmhandler to `0.6.3`
+* [AT-3629]
+  * Upgrade Octopus frontend and backend to `0.4.8` and `0.4.1` respectively.
+  * Add Mid ITF EDA API connection strings to Octopus config.
+
+## 30.3.0
+* [SKB-1253]
+  * Upgrade Taranta to `2.18.6` - fix enum labels disappearing when devices are unavailable
+* [AT-3637]
+  * Upgrade SPFC to `0.5.0` - archiving on ChangeEvents enabled for all devices
+* [AT-3636]
+  * Expose tangodatabaseds using LoadBalancer service type (ska-tango-base made all DS ClusterIP by default)
+* [AT-3631]
+  * Upgrade tangogql in taranta-itf chart to `1.0.10`
+* [AT-3630]
+  * product updates
+    * ska-csp-lmc-mid to `1.5.0`
+    * ska-tango-base and ska-tango-util to `1.0.7`
+    * ska-dish-lmc to `9.3.0`
+    * ska-tango-taranta to `2.18.5`
+* [AT-3590]
+  * Upgrade Octopus to `0.3.0` and update config vars for Mid ITF staging environment
+* [AT-3590]
+  * Add basic staging alarmhandler config
+
+## 30.2.0
+* [AT-3547]
+  * Upgrade SPFC deployer to `0.4.5`
+* [AT-3580]
+  * update aa-archiver-configs
+* [AT-3602]
+  * Upgrade ODA umbrella to `17.2.0`
+  * Upgrade oso-integration to `2.0.2`
+* [AT-3586]
+  * Add OST Vault secret to deployment
+
+## 30.1.0
+* [AT-3538]
+  * update EDA API to V0.0.12
+* [AT-3511] & [AT-3512]
+  * Create `testing` namespace and jobs for its deployment
+  * Ensure OSO tools are enabled in the new namespace job's enablers
+* [AT-3576]
+  * Upgrade tangogql Ariadne to `1.0.10`
+* [AT-3582]
+  * Upgrade ska-tango-archiver to `5.0.2-rc.2` to resolve SKB-1224
+* [AT-3577]
+  * Set Mid ITF dish archiver configs to be pulled from main.
+* [AT-3540]
+  * Fixed sequence diagrammer so it no longer crashes. Removed dependency on jupyter-notebooks submodule
+* [AT-3548]
+  * Upgrade ODA umbrella to `17.1.0`
+  * Upgrade oso-integration to `2.0.0`
+  * Upgrade ska-tmc-assignresources schema to v2.4
 * [AT-3534]
   * Use vault to set octopus credentials
 

@@ -3,9 +3,8 @@
 
 OCI_BUILD_ADDITIONAL_ARGS += --cache-from registry.gitlab.com/ska-telescope/ska-mid-itf/ska-mid-itf-base:0.1.4
 
-HELM_CHARTS_TO_PUBLISH=ska-mid ska-mid-itf-ghosts ska-mid-cbf-engineering-console-cache ska-mid-icams-web-app-test
+HELM_CHARTS_TO_PUBLISH=ska-mid ska-mid-icams-web-app-test
 PYTHON_VARS_AFTER_PYTEST= --disable-pytest-warnings
-POETRY_CONFIG_VIRTUALENVS_CREATE = true
 
 # VALUES ?= $(K8S_UMBRELLA_CHART_PATH)values.yaml
 XAUTHORITY ?= $(HOME)/.Xauthority
@@ -14,7 +13,7 @@ DISPLAY ?= $(THIS_HOST):0
 JIVE ?= false# Enable jive
 TARANTA ?= false# Enable Taranta
 MINIKUBE ?= true ## Minikube or not
-EXPOSE_All_DS ?= true ## Expose All Tango Services to the external network (enable Loadbalancer service)
+EXPOSE_All_DS = true ## Expose All Tango Services to the external network (enable Loadbalancer service)
 SKA_TANGO_OPERATOR ?= true
 EXPOSE_DATABASE_DS ?= true## 
 TANGO_DATABASE_DS ?= tango-databaseds## TANGO_DATABASE_DS name
@@ -25,9 +24,9 @@ INGRESS_HOST = k8s.$(CLUSTER_DOMAIN)## Tango host, cluster domain, what are all 
 INGRESS_PROTOCOL ?= https
 KUBE_HOST ?= $(INGRESS_PROTOCOL)://$(INGRESS_HOST)
 ITANGO_ENABLED ?= true## ITango enabled in ska-tango-base
-PYTHON_RUNNER = poetry run python3 -m
+PYTHON_RUNNER = uv run python3 -m
 PYTHON_LINE_LENGTH = 99
-DOCS_SPHINXBUILD = poetry run python3 -msphinx
+DOCS_SPHINXBUILD = uv run python3 -msphinx
 PYTHON_TEST_FILE = tests/unit/ tests/functional/
 PYTHON_LINT_TARGET ?= tests/
 PYTHON_SWITCHES_FOR_FLAKE8 += --extend-ignore=F824
@@ -129,7 +128,10 @@ ifeq ($(SPFRX_IN_THE_LOOP), true)
 	--set ska-mid-dish-spfrx-talondx-console.instance=$(SPFRX_TANGO_INSTANCE) \
 	--set ska-mid-dish-spfrx-talondx-console.logging_level=$(SPFRX_TANGO_LOGGING_LEVEL) \
 	--set ska-dish-lmc.ska-mid-dish-manager.dishmanager.spfrx.fqdn=$(SPFRX_TRL) \
-	--set ska-dish-lmc.ska-mid-dish-simulators.deviceServers.spfrxdevice.enabled=$(SPFRX_SIM_ENABLE)
+	--set ska-dish-lmc.ska-mid-dish-simulators.deviceServers.spfrxdevice.enabled=$(SPFRX_SIM_ENABLE) \
+	--set ska-mid-dish-spfrx-talondx-console.bar.secret.vault.enabled=true \
+	--set ska-mid-dish-spfrx-talondx-console.bar.secret.vault.mount=mid-itf \
+	--set ska-mid-dish-spfrx-talondx-console.bar.secret.vault.secretPath=bar-token
 endif
 
 CBF_HW_IN_THE_LOOP ?= 
@@ -140,24 +142,15 @@ endif
 
 DISH_LMC_PARAMS ?= $(DISH_LMC_INITIAL_PARAMS) $(DISH_LMC_EXTRA_PARAMS) $(DISH_LMC_EDA_PARAMS)
 
-# Note: remember to update major versions here if charts have major version upgrades
-ODA_URL ?= $(KUBE_HOST)/$(KUBE_NAMESPACE)/oda/api/v14
-SLT_SERVICES_URL ?= $(KUBE_HOST)/$(KUBE_NAMESPACE)/slt/api/v2
-
-OSO_PARAMS ?= \
-  	--set ska-oso-integration.ska-oso-oet.rest.ingress.enabled=true \
- 	--set ska-oso-integration.ska-oso-oet-ui.backendURLODA=$(ODA_URL) \
-	--set ska-oso-integration.ska-oso-slt-ui.backendURL=$(SLT_SERVICES_URL)
-
 ###################################################################
 ### THIS SECTION NEEDS REVIEW FROM SDP ARCHITECTS
 SDP_EXTRA_PARAMS ?=
 DPD_PARAMS ?= 
 
-ifeq ($(KUBE_APP),ska-mid-itf-dpd)
-	DPD_PARAMS += \
-	--set global.ska-sdp.processingNamespace=$(KUBE_NAMESPACE_SDP)
-endif
+# ifeq ($(KUBE_APP),ska-mid-itf-dpd)
+# 	DPD_PARAMS += \
+# 	--set global.ska-sdp.processingNamespace=$(KUBE_NAMESPACE_SDP)
+# endif
 
 ifneq ($(DPD_PVC_NAME),)
 	SDP_EXTRA_PARAMS += \
@@ -174,6 +167,7 @@ ifeq ($(KUBE_NAMESPACE),staging)
 	SDP_EXTRA_PARAMS += \
 		--set global.data-product-pvc-name=staging-pvc \
 		--set ska-dataproduct-dashboard.dataProductPVC.name=staging-pvc \
+		--set ska-dataproduct-dashboard.api.sdpConfigdbHost=ska-sdp-etcd.ska-mid-central-controller \
 		--set ska-sdp.data-pvc.create.clone-pvc=staging-pvc \
 		--set ska-sdp.data-pvc.create.clone-pvc-namespace=shared-ska-dataproducts \
 		--set ska-sdp.data-pvc.create.enabled=true \
@@ -213,10 +207,12 @@ endif
 #   --set ska-sdp.data-pvc.create=true # check syntax for this one
 # endif
 
-SDP_PARAMS ?= --set ska-sdp.ska-sdp-qa.zookeeper.clusterDomain=$(CLUSTER_DOMAIN) \
-	--set ska-sdp.kafka.clusterDomain=$(CLUSTER_DOMAIN) \
-	--set ska-sdp.ska-sdp-qa.redis.clusterDomain=$(CLUSTER_DOMAIN) \
-	--set ska-sdp.processingNamespace=$(KUBE_NAMESPACE_SDP) \
+SDP_JOBS_TTL ?= 300
+
+SDP_PARAMS ?= --set ska-sdp.processingNamespace=$(KUBE_NAMESPACE_SDP) \
+	--set ska-sdp.jobs.ttl=$(SDP_JOBS_TTL) \
+	--set ska-sdp.qa.api.grafanaBaseUrl=https://k8s.miditf.internal.skao.int/grafana \
+	--set ska-sdp.qa.api.kibanaBaseUrl=https://k8s.stfc.skao.int \
 	$(SDP_EXTRA_PARAMS)
 
 ###################################################################
@@ -246,7 +242,6 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	--set ska-tango-base.jive.enabled=$(JIVE) \
 	--set ska-tango-base.itango.enabled=$(ITANGO_ENABLED) \
 	$(SDP_PARAMS) \
-	$(OSO_PARAMS) \
 	$(DISH_LMC_PARAMS) \
 	$(TARANTA_PARAMS) \
 	${K8S_TEST_TANGO_IMAGE_PARAMS} \
@@ -261,6 +256,7 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	$(ODA_ENABLERS) \
 	$(DPD_ENABLERS) \
 	$(OCTOPUS_ENABLERS) \
+	$(EDA_API_ENABLERS)
 
 
 TMC_VALUES_PATH?=charts/ska-mid/tmc-values.yaml
@@ -347,7 +343,7 @@ include .make/k8s.mk
 include .make/helm.mk
 
 # Include Python support
-include .make/python.mk
+include .make/python-uv.mk
 
 # include raw support
 include .make/raw.mk
@@ -382,14 +378,14 @@ CLUSTER_HEADLAMP_BASE_URL?=https://k8s.miditf.internal.skao.int/headlamp
 CLUSTER_DATACENTRE?=mid-itf
 CLUSTER_MONITOR?=mid-itf-monitor
 
-integration-test: k8s-info
+integration-test: k8s-info loop-dishes-k8s-info
 	@mkdir -p build
 	set -o pipefail; $(PYTHON_RUNNER) pytest $(INTEGRATION_TEST_SOURCE) $(INTEGRATION_TEST_ARGS); \
 	echo $$? > build/status
 	@mv sequence-diagram.puml build/sequence-diagram.puml 2>/dev/null || echo "sequence diagram not moved"
 
 upload-to-confluence:
-	@poetry run upload-to-confluence sut_config.yaml build/reports/cucumber.json
+	@uv run upload-to-confluence sut_config.yaml build/reports/cucumber.json
 
 get-deployment-config-info:
 	@helm -n $(KUBE_NAMESPACE) get values $(HELM_RELEASE)
@@ -417,3 +413,49 @@ helm-rebuild-ska-mid:
 	@rm -f charts/ska-mid/Chart.lock
 	@rm -rf charts/ska-mid/charts
 	@make k8s-template-chart K8S_CHART=ska-mid
+
+UNAME_S := $(shell uname -s)
+UNAME_M := $(shell uname -m)
+
+ifeq ($(UNAME_S),Darwin)
+ifeq ($(UNAME_M),arm64)
+# python-casacore has no macOS wheel, so it builds from source and needs the native
+# casacore library. Install it first: brew tap casacore/tap && brew install casacore
+CASACORE_PREFIX := $(shell brew --prefix casacore 2>/dev/null)
+UV_CASACORE_BUILD_ENV = CXXFLAGS="-D_LIBCPP_ENABLE_CXX20_REMOVED_ALLOCATOR_MEMBERS -D_LIBCPP_ENABLE_CXX17_REMOVED_ALLOCATOR_MEMBERS" CMAKE_ARGS="-DCMAKE_CXX_STANDARD=17 -DCASACORE_ROOT_DIR=$(CASACORE_PREFIX)"
+endif
+endif
+
+uv-lock-sync:
+	@uv lock
+	@$(UV_CASACORE_BUILD_ENV) uv sync --all-groups
+
+uv-sync-all:
+	@$(UV_CASACORE_BUILD_ENV) uv sync --all-groups
+
+.PHONY: uv-lock-sync uv-sync-all
+
+loop-dishes-k8s-info:
+	@if [ "$(DISH_LMC_IN_THE_LOOP)" != "true" ]; then \
+		echo "DISH_LMC_IN_THE_LOOP is false, skipping dish container info"; \
+		exit 0; \
+	fi; \
+	DISH_IDS_CLEAN="$(strip $(subst ",,$(DISH_IDS)))"; \
+	case "$(KUBE_NAMESPACE)" in \
+	staging) \
+		DISH_NS_PREFIX=staging-dish-lmc-; DISH_NS_POSTFIX= ;; \
+	integration) \
+		DISH_NS_PREFIX=integration-dish-lmc-; DISH_NS_POSTFIX= ;; \
+	testing) \
+		DISH_NS_PREFIX=testing-dish-lmc-; DISH_NS_POSTFIX= ;; \
+	ci-ska-mid-itf-*) \
+		DISH_NS_PREFIX=ci-dish-lmc-; DISH_NS_POSTFIX=-$(CI_COMMIT_REF_NAME) ;; \
+	*) \
+		echo "Warning: KUBE_NAMESPACE '$(KUBE_NAMESPACE)' is not supported by loop-dishes-k8s-info"; \
+		exit 0 ;; \
+	esac; \
+	echo "Looping through dish IDs: $$DISH_IDS_CLEAN"; \
+	for DISH_ID in $$DISH_IDS_CLEAN; do \
+		echo "Container info for $$DISH_ID:"; \
+		make k8s-info KUBE_NAMESPACE=$$DISH_NS_PREFIX$$DISH_ID$$DISH_NS_POSTFIX; \
+	done

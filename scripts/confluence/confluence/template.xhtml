@@ -1,0 +1,246 @@
+<div>
+    <h1 class="auto-cursor-target">Introduction</h1>
+    <p>This page captures the results of Integration Tests and configuration of the System Under Test at the Mid ITF,
+        executed on <time datetime="2023-08-16" /> .</p>
+    <h1 class="auto-cursor-target">Test Execution details</h1>
+    <div>
+        <p class="auto-cursor-target"><br /></p>
+        <table class="wrapped">
+            <tbody>
+                <tr>
+                    <th>Jira Issue</th>
+                    <td><br /></td>
+                </tr>
+                <tr>
+                    <th>Gitlab pipeline job URL</th>
+                    <td><br /></td>
+                </tr>
+            </tbody>
+        </table>
+        <h1 class="auto-cursor-target">Configuration of the System Under Test for a Gitlab Pipeline executing Tests</h1>
+        <p>Fig 1 shows the dependency graph of the System Under Test (SUT) exercised during the Test Execution. Read
+            from top to bottom, the lines in the graph represent the verb &quot;calls&quot; in the phrase
+            &quot;Subsystem X calls Subsystem Y during Observations&quot;.</p>
+        <p class="auto-cursor-target">
+            <ac:image ac:border="true" ac:height="1243" ac:width="947">
+                <ri:attachment ri:filename="dependencies.png" />
+            </ac:image>
+        </p>
+        <p class="auto-cursor-target">Fig. 1: Dependency graph of the System Under Test.</p>
+        <h2 class="auto-cursor-target">Test Summary</h2>
+        <p>Table 1: Tests from the SKA Mid ITF Tests repository, with their results and related L2 Requirements linked:
+        </p>
+        <div class="resultsTable">
+            <p class="auto-cursor-target"><br /></p>
+            <table class="resultsTable wrapped">
+                <colgroup>
+                    <col />
+                    <col />
+                    <col />
+                    <col />
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <th>Jira Item</th>
+                        <th>Path</th>
+                        <th>Result</th>
+                        <th>Jama Requirement Test</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="content-wrapper">
+                                <p><ac:structured-macro ac:name="jira" ac:schema-version="1"
+                                        ac:macro-id="f31878db-f086-4187-90b7-e19c3b0cb7f1">
+                                        <ac:parameter ac:name="server">SKA Jira</ac:parameter>
+                                        <ac:parameter ac:name="columnIds">
+                                            issuekey,summary,issuetype,created,updated,duedate,assignee,reporter,priority,status,resolution
+                                        </ac:parameter>
+                                        <ac:parameter ac:name="columns">
+                                            key,summary,type,created,updated,due,assignee,reporter,priority,status,resolution
+                                        </ac:parameter>
+                                        <ac:parameter ac:name="serverId">ad75ab71-1245-3349-8713-12bcc32bca7c
+                                        </ac:parameter>
+                                        <ac:parameter ac:name="key">XTP-4506</ac:parameter>
+                                    </ac:structured-macro></p>
+                            </div>
+                        </td>
+                        <td>tests/unit/confluence/test_confluence_results_loading.py</td>
+                        <td>passed</td>
+                        <td>
+                            <ol>
+                                <li><a
+                                        href="https://skaoffice.jamacloud.com/perspective.req?projectId=335&amp;docId=1056423">SKAO-TM_REQ-706</a>
+                                </li>
+                            </ol>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="content-wrapper">
+                                <p><ac:structured-macro ac:name="jira" ac:schema-version="1"
+                                        ac:macro-id="4098797a-b7d8-4be1-b4c3-ec7232693845">
+                                        <ac:parameter ac:name="server">SKA Jira</ac:parameter>
+                                        <ac:parameter ac:name="columnIds">
+                                            issuekey,summary,issuetype,created,updated,duedate,assignee,reporter,priority,status,resolution
+                                        </ac:parameter>
+                                        <ac:parameter ac:name="columns">
+                                            key,summary,type,created,updated,due,assignee,reporter,priority,status,resolution
+                                        </ac:parameter>
+                                        <ac:parameter ac:name="serverId">ad75ab71-1245-3349-8713-12bcc32bca7c
+                                        </ac:parameter>
+                                        <ac:parameter ac:name="key">XTP-20083</ac:parameter>
+                                    </ac:structured-macro></p>
+                            </div>
+                        </td>
+                        <td>test_abort_in_resourcing_sdp_subarray_in_mid</td>
+                        <td>passed</td>
+                        <td><br /></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="content-wrapper">
+                                <p><ac:structured-macro ac:name="jira" ac:schema-version="1"
+                                        ac:macro-id="2d6c1115-1031-459c-9dd2-a61c8b116a9f">
+                                        <ac:parameter ac:name="server">SKA Jira</ac:parameter>
+                                        <ac:parameter ac:name="columnIds">
+                                            issuekey,summary,issuetype,created,updated,duedate,assignee,reporter,priority,status,resolution
+                                        </ac:parameter>
+                                        <ac:parameter ac:name="columns">
+                                            key,summary,type,created,updated,due,assignee,reporter,priority,status,resolution
+                                        </ac:parameter>
+                                        <ac:parameter ac:name="serverId">ad75ab71-1245-3349-8713-12bcc32bca7c
+                                        </ac:parameter>
+                                        <ac:parameter ac:name="key">XTP-14873</ac:parameter>
+                                    </ac:structured-macro></p>
+                            </div>
+                        </td>
+                        <td>test_release_all_resources_from_sdp_subarray_in_mid</td>
+                        <td>passed</td>
+                        <td><br /></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="content-wrapper">
+                                <p><ac:structured-macro ac:name="jira" ac:schema-version="1"
+                                        ac:macro-id="a4748e6c-7f5a-4368-b0f5-2816f92c96ac">
+                                        <ac:parameter ac:name="server">SKA Jira</ac:parameter>
+                                        <ac:parameter ac:name="columnIds">
+                                            issuekey,summary,issuetype,created,updated,duedate,assignee,reporter,priority,status,resolution
+                                        </ac:parameter>
+                                        <ac:parameter ac:name="columns">
+                                            key,summary,type,created,updated,due,assignee,reporter,priority,status,resolution
+                                        </ac:parameter>
+                                        <ac:parameter ac:name="serverId">ad75ab71-1245-3349-8713-12bcc32bca7c
+                                        </ac:parameter>
+                                        <ac:parameter ac:name="key">XTP-16343</ac:parameter>
+                                    </ac:structured-macro></p>
+                            </div>
+                        </td>
+                        <td>test_abort_configuring_in_mid</td>
+                        <td>passed</td>
+                        <td><br /></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="content-wrapper">
+                                <p><ac:structured-macro ac:name="jira" ac:schema-version="1"
+                                        ac:macro-id="df458965-7a23-45a0-910f-bae3b4e9aa5c">
+                                        <ac:parameter ac:name="server">SKA Jira</ac:parameter>
+                                        <ac:parameter ac:name="columnIds">
+                                            issuekey,summary,issuetype,created,updated,duedate,assignee,reporter,priority,status,resolution
+                                        </ac:parameter>
+                                        <ac:parameter ac:name="columns">
+                                            key,summary,type,created,updated,due,assignee,reporter,priority,status,resolution
+                                        </ac:parameter>
+                                        <ac:parameter ac:name="serverId">ad75ab71-1245-3349-8713-12bcc32bca7c
+                                        </ac:parameter>
+                                        <ac:parameter ac:name="key">XTP-4593</ac:parameter>
+                                    </ac:structured-macro></p>
+                            </div>
+                        </td>
+                        <td>test_configure_scan_on_sdp_subarray_in_mid</td>
+                        <td>passed</td>
+                        <td><br /></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="content-wrapper">
+                                <p><ac:structured-macro ac:name="jira" ac:schema-version="1"
+                                        ac:macro-id="c1e72f72-03bf-4d2e-9d2b-d152885c2369">
+                                        <ac:parameter ac:name="server">SKA Jira</ac:parameter>
+                                        <ac:parameter ac:name="columnIds">
+                                            issuekey,summary,issuetype,created,updated,duedate,assignee,reporter,priority,status,resolution
+                                        </ac:parameter>
+                                        <ac:parameter ac:name="columns">
+                                            key,summary,type,created,updated,due,assignee,reporter,priority,status,resolution
+                                        </ac:parameter>
+                                        <ac:parameter ac:name="serverId">ad75ab71-1245-3349-8713-12bcc32bca7c
+                                        </ac:parameter>
+                                        <ac:parameter ac:name="key">XTP-4774</ac:parameter>
+                                    </ac:structured-macro></p>
+                            </div>
+                        </td>
+                        <td>test_run_a_scan_on_sdp_subarray_in_mid</td>
+                        <td>passed</td>
+                        <td><br /></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="content-wrapper">
+                                <p><ac:structured-macro ac:name="jira" ac:schema-version="1"
+                                        ac:macro-id="68ce289c-4769-467b-95b5-db4c028bf350">
+                                        <ac:parameter ac:name="server">SKA Jira</ac:parameter>
+                                        <ac:parameter ac:name="columnIds">
+                                            issuekey,summary,issuetype,created,updated,duedate,assignee,reporter,priority,status,resolution
+                                        </ac:parameter>
+                                        <ac:parameter ac:name="columns">
+                                            key,summary,type,created,updated,due,assignee,reporter,priority,status,resolution
+                                        </ac:parameter>
+                                        <ac:parameter ac:name="serverId">ad75ab71-1245-3349-8713-12bcc32bca7c
+                                        </ac:parameter>
+                                        <ac:parameter ac:name="key">XTP-16344</ac:parameter>
+                                    </ac:structured-macro></p>
+                            </div>
+                        </td>
+                        <td>test_abort_scanning</td>
+                        <td>passed</td>
+                        <td><br /></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="content-wrapper">
+                                <p><ac:structured-macro ac:name="jira" ac:schema-version="1"
+                                        ac:macro-id="a6d8532d-9929-440f-9534-2d8a42228295">
+                                        <ac:parameter ac:name="server">SKA Jira</ac:parameter>
+                                        <ac:parameter ac:name="columnIds">
+                                            issuekey,summary,issuetype,created,updated,duedate,assignee,reporter,priority,status,resolution
+                                        </ac:parameter>
+                                        <ac:parameter ac:name="columns">
+                                            key,summary,type,created,updated,due,assignee,reporter,priority,status,resolution
+                                        </ac:parameter>
+                                        <ac:parameter ac:name="serverId">ad75ab71-1245-3349-8713-12bcc32bca7c
+                                        </ac:parameter>
+                                        <ac:parameter ac:name="key">XTP-3958</ac:parameter>
+                                    </ac:structured-macro></p>
+                            </div>
+                        </td>
+                        <td>test_sdp_start_up_telescope_mid</td>
+                        <td>passed</td>
+                        <td><br /></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="auto-cursor-target"><br /></p>
+        </div>
+        <p class="auto-cursor-target"><br /></p>
+    </div>
+    <p class="auto-cursor-target"><br /></p>
+    <h2 class="auto-cursor-target">Platform Dependency Graph</h2>
+    <p>Figure 2 shows the Platform dependency graph for the System Under Test. Reading the graph from bottom up, the
+        lines represent the &quot;depends on&quot; verb of the phrase &quot;Product X depends on Platform Y&quot;.</p>
+    <p class="auto-cursor-target">
+        <ac:image ac:border="true" ac:height="618" ac:width="1708">
+            <ri:attachment ri:filename="platform.png" />
+        </ac:image>
+    </p>
+</div>

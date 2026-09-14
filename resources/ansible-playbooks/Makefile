@@ -23,13 +23,12 @@ ANSIBLE_COMMAND_DRY_RUN := $(ANSIBLE_COMMAND) --check --diff
 V ?=
 USER ?= $(shell whoami)
 
-#Extract SPFRX network config file from Vault
-SPFRX_CONFIG ?=
-ifndef INITIAL_LOGIN
-	SPFRX_CONFIG = $(shell vault login  -method=github token=$(VAULT_TOKEN))
-else
-	SPFRX_CONFIG = $(shell vault login -method=oidc & vault login  -method=github token=$(VAULT_TOKEN))
+SPFRX_GOALS := setup_spfrx setup_spfrx_dry_run setup_spfrx_host setup_spfrx_host_dry_run validate_spfrx validate_spfrx_dry_run setup_and_validate_spfrx setup_and_validate_spfrx_dry_run help long-help
+ifneq ($(filter $(SPFRX_GOALS),$(MAKECMDGOALS)),)
+AD_USER ?= $(USER)
 endif
+
+SERIAL ?= ## Serial number of the SPFRX unit (required for setup_spfrx targets; max 49 characters)
 
 ifndef AD_USER
 $(error AD_USER is not set: set this to your active directory user (i.e. Jira username.))
@@ -49,7 +48,31 @@ vars:  ## Variables
 	@echo "V=$(V)"
 .PHONY: vars
 
+# Guard target: fails with a clear error if the named variable is unset.
+guard-%:
+	@if [ -z "$($(*))" ]; then echo "ERROR: $* is not set. Run 'make help' for usage."; exit 1; fi
+.PHONY: guard-%
+
+# Guard target: fails if SERIAL is unset or exceeds 49 characters.
+guard-SERIAL:
+	@if [ -z "$(SERIAL)" ]; then echo "ERROR: SERIAL is not set. Provide a serial number with SERIAL=..."; exit 1; fi
+	@if [ $$(printf '%s' '$(SERIAL)' | wc -c) -ge 50 ]; then echo "ERROR: SERIAL must be less than 50 characters."; exit 1; fi
+.PHONY: guard-SERIAL
+
+# Guard target: fails if DISH_INDEX is unset or not a positive integer.
+guard-DISH_INDEX:
+	@if [ -z "$(DISH_INDEX)" ]; then echo "ERROR: DISH_INDEX is not set. Run 'make help' for usage."; exit 1; fi
+	@if ! echo "$(DISH_INDEX)" | grep -qE '^[0-9]+$$'; then echo "ERROR: DISH_INDEX must be a numerical value."; exit 1; fi
+.PHONY: guard-DISH_INDEX
+
 setup: $(INVENTORY_FILE)
+
+refresh_inventory: ## Regenerates the inventory file from the template.
+	cp $(INVENTORY_TEMPLATE) $(INVENTORY_FILE)
+	sed -i.x 's|<AD_USER>|$(AD_USER)|g' $(INVENTORY_FILE)
+	sed -i.x 's|<USER>|$(USER)|g' $(INVENTORY_FILE)
+	rm -f $(INVENTORY_FILE).x
+.PHONY: refresh_inventory
 
 setup_pi: setup ## Runs the full playbook against the Raspberry Pi.
 	$(ANSIBLE_COMMAND) --limit raspberry_pi $(MKFILE_DIR)site.yml
@@ -59,15 +82,63 @@ setup_pi_dry_run: setup ## Runs the full playbook against the Raspberry Pi in dr
 	$(ANSIBLE_COMMAND_DRY_RUN) --limit raspberry_pi $(MKFILE_DIR)site.yml
 .PHONY: setup_pi_dry_run
 
-setup_spfrx: setup ## Runs the full playbook against the SPFRX's.
-	$(SPFRX_CONFIG) $(shell vault kv get --field SPFRX_CONFIG -mount="kv" "groups/ska-dev/atlas" > /tmp/spfrx_configs.yaml)
-	$(ANSIBLE_COMMAND) --limit spfrx $(MKFILE_DIR)site.yml
+setup_spfrx: setup guard-DISH_INDEX guard-SERIAL## Runs the playbook against the SPFRX host for a given DISH_INDEX. Usage: make setup_spfrx DISH_INDEX=1
+	@SPFRX_HOST=$$(awk '/dish_index=$(DISH_INDEX)([[:space:]]|$$)/{print $$1}' $(INVENTORY_FILE)); \
+	if [ -z "$$SPFRX_HOST" ]; then \
+		echo "No host with dish_index=$(DISH_INDEX) found. Adding spfrx$(DISH_INDEX) to [spfrx_mid]."; \
+		printf 'spfrx$(DISH_INDEX) ansible_host=10.10.101.148 host_identifier="spfrx$(DISH_INDEX)" dish_index=$(DISH_INDEX) serial=${SERIAL}\n' >> $(INVENTORY_FILE); \
+		SPFRX_HOST=spfrx$(DISH_INDEX); \
+	fi; \
+ 	$(ANSIBLE_COMMAND) -e serial=$(SERIAL) --ask-become-pass --limit $$SPFRX_HOST --tags spfrx $(MKFILE_DIR)site.yml
+	# 	Replace ansible_host with the updated IP in the inventory file.
+	sed -i.x -E "/dish_index=$(DISH_INDEX)([[:space:]]|$$)/s/ansible_host=[^[:space:]]*/ansible_host=10.160.$(DISH_INDEX).5/" $(INVENTORY_FILE)
+	# 	Replace serial in case it does not match the one in the inventory file.
+	sed -i.x -E "/dish_index=$(DISH_INDEX)([[:space:]]|$$)/s/serial=[^[:space:]]*/serial=$(SERIAL)/" $(INVENTORY_FILE)
+	rm -f $(INVENTORY_FILE).x
 .PHONY: setup_spfrx
 
-setup_spfrx_dry_run: setup ## Runs the full playbook against the SPFRX's.
-	$(SPFRX_CONFIG) $(shell vault kv get --field SPFRX_CONFIG -mount="kv" "groups/ska-dev/atlas" > /tmp/spfrx_configs.yaml)
-	$(ANSIBLE_COMMAND_DRY_RUN) --limit spfrx $(MKFILE_DIR)site.yml
+setup_spfrx_dry_run: setup guard-DISH_INDEX guard-SERIAL ## Runs the playbook against the SPFRX host for a given DISH_INDEX in dry-run mode. Usage: make setup_spfrx_dry_run DISH_INDEX=1
+	@SPFRX_HOST=$$(awk '/dish_index=$(DISH_INDEX)([[:space:]]|$$)/{print $$1}' $(INVENTORY_FILE)); \
+	if [ -z "$$SPFRX_HOST" ]; then \
+		echo "No host with dish_index=$(DISH_INDEX) found. Adding spfrx$(DISH_INDEX) to [spfrx_mid]."; \
+		printf 'spfrx$(DISH_INDEX) ansible_host=10.10.101.148 host_identifier="spfrx$(DISH_INDEX)" dish_index=$(DISH_INDEX) serial=${SERIAL}\n' >> $(INVENTORY_FILE); \
+		SPFRX_HOST=spfrx$(DISH_INDEX); \
+	fi; \
+	$(ANSIBLE_COMMAND_DRY_RUN) -e serial=$(SERIAL) --ask-become-pass --limit $$SPFRX_HOST --tags spfrx $(MKFILE_DIR)site.yml
+	# 	Replace ansible_host with the updated IP in the inventory file.
+	sed -i.x -E "/dish_index=$(DISH_INDEX)([[:space:]]|$$)/s/ansible_host=[^[:space:]]*/ansible_host=10.160.$(DISH_INDEX).5/" $(INVENTORY_FILE)
+	# 	Replace serial in case it does not match the one in the inventory file.
+	sed -i.x -E "/dish_index=$(DISH_INDEX)([[:space:]]|$$)/s/serial=[^[:space:]]*/serial=$(SERIAL)/" $(INVENTORY_FILE)
+	rm -f $(INVENTORY_FILE).x
 .PHONY: setup_spfrx_dry_run
+
+validate_spfrx: setup guard-DISH_INDEX ## Runs the SPFRx validation tasks (post human intervention) for a given DISH_INDEX. Usage: make validate_spfrx DISH_INDEX=1
+	@SPFRX_HOST=$$(awk '/^\[spfrx_mid\]/{f=1;next} /^\[/{f=0} f && /dish_index=$(DISH_INDEX)([[:space:]]|$$)/{print $$1; exit}' $(INVENTORY_FILE)); \
+	if [ -z "$$SPFRX_HOST" ]; then \
+		echo "ERROR: No host with dish_index=$(DISH_INDEX) found in the [spfrx_mid] group of $(INVENTORY_FILE)."; \
+		exit 1; \
+	fi; \
+	$(ANSIBLE_COMMAND) --ask-become-pass --limit $$SPFRX_HOST --tags spfrx_validate $(MKFILE_DIR)site.yml
+.PHONY: validate_spfrx
+
+validate_spfrx_dry_run: setup guard-DISH_INDEX ## Runs the SPFRx validation tasks for a given DISH_INDEX in dry-run mode. Usage: make validate_spfrx_dry_run DISH_INDEX=1
+	@SPFRX_HOST=$$(awk '/^\[spfrx_mid\]/{f=1;next} /^\[/{f=0} f && /dish_index=$(DISH_INDEX)([[:space:]]|$$)/{print $$1; exit}' $(INVENTORY_FILE)); \
+	if [ -z "$$SPFRX_HOST" ]; then \
+		echo "ERROR: No host with dish_index=$(DISH_INDEX) found in the [spfrx_mid] group of $(INVENTORY_FILE)."; \
+		exit 1; \
+	fi; \
+	$(ANSIBLE_COMMAND_DRY_RUN) --ask-become-pass --limit $$SPFRX_HOST --tags spfrx_validate $(MKFILE_DIR)site.yml
+.PHONY: validate_spfrx_dry_run
+
+setup_and_validate_spfrx: setup guard-DISH_INDEX guard-SERIAL ## Runs setup_spfrx then validate_spfrx for a given DISH_INDEX. Usage: make setup_and_validate_spfrx DISH_INDEX=1 SERIAL=...
+	$(MAKE) setup_spfrx DISH_INDEX=$(DISH_INDEX) SERIAL=$(SERIAL)
+	$(MAKE) validate_spfrx DISH_INDEX=$(DISH_INDEX)
+.PHONY: setup_and_validate_spfrx
+
+setup_and_validate_spfrx_dry_run: setup guard-DISH_INDEX guard-SERIAL ## Runs setup_spfrx_dry_run then validate_spfrx_dry_run for a given DISH_INDEX. Usage: make setup_and_validate_spfrx_dry_run DISH_INDEX=1 SERIAL=...
+	$(MAKE) setup_spfrx_dry_run DISH_INDEX=$(DISH_INDEX) SERIAL=$(SERIAL)
+	$(MAKE) validate_spfrx_dry_run DISH_INDEX=$(DISH_INDEX)
+.PHONY: setup_and_validate_spfrx_dry_run
 
 setup_gaia: setup ## Runs the full playbook against Gaia.
 	$(ANSIBLE_COMMAND) --limit gaia $(MKFILE_DIR)site.yml
@@ -93,13 +164,11 @@ setup_local_ssh_config_dry_run: setup ## Sets up your localhost for using the an
 	$(ANSIBLE_COMMAND_DRY_RUN) --limit localhost $(MKFILE_DIR)site.yml
 .PHONY: setup_local_ssh_config_dry_run
 
-$(INVENTORY_FILE): # Sets up the inventory file with the correct user variables. Make sure you have AD_USER set.
-	cp $(INVENTORY_TEMPLATE) $(INVENTORY_FILE)
-	sed -i 's/<AD_USER>/$(AD_USER)/g' $(INVENTORY_FILE)
-	sed -i 's/<USER>/$(USER)/g' $(INVENTORY_FILE)
+$(INVENTORY_FILE): $(INVENTORY_TEMPLATE) # Sets up the inventory file with the correct user variables. Make sure you have AD_USER set.
+	$(MAKE) refresh_inventory
 
 lint: ## Lint check playbook
-	poetry run ansible-lint -v -c $(MKFILE_DIR).ansible-lint $(MKFILE_DIR)site.yml
+	uv run ansible-lint -v -c $(MKFILE_DIR).ansible-lint $(MKFILE_DIR)site.yml
 .PHONY: lint
 
 test: test-default test-gaia test-raspberry_pi ## Runs all playbook tests.
@@ -144,13 +213,25 @@ list_tasks: ## Prints the tasks to be executed during a playbook run.
 		--list-tasks
 .PHONY: list_tasks
 
+HELP_FILTER_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
+HELP_FILTER_PATTERN := $(firstword $(HELP_FILTER_ARGS))
+
 # Note: in order for a target to show up in the help message,
 # it needs to have a comment starting with '##' on the same line.
-help:  ## Show this help.
-	@echo "make targets:"
-	@grep -E '^[0-9a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ": .*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
-	@echo ""; echo "make vars (+defaults):"
-	@grep -E '^[0-9a-zA-Z_-]+ \?=.*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = " \\?= "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+help:  ## Show this help (optional filter: make help spfrx).
+	@echo ""; echo "$(HELP_POWDER_BLUE)SECTION:$(HELP_NORMAL) ansible-playbooks"; \
+	echo "$(HELP_GREEN)MAKE TARGETS:$(HELP_NORMAL)"; \
+	if [ -n "$(HELP_FILTER_PATTERN)" ]; then \
+		grep -E '^[0-9a-zA-Z_-]+:.*?## .*$$' $(MKFILE_PATH) | grep "$(HELP_FILTER_PATTERN)" | sort | awk 'BEGIN {FS = ": .*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'; \
+	else \
+		grep -E '^[0-9a-zA-Z_-]+:.*?## .*$$' $(MKFILE_PATH) | sort | awk 'BEGIN {FS = ": .*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'; \
+	fi; \
+	echo ""; echo "$(HELP_YELLOW)MAKE VARS (+defaults):$(HELP_NORMAL)"; \
+	if [ -n "$(HELP_FILTER_PATTERN)" ]; then \
+		grep -E '^[0-9a-zA-Z_-]+ \?=.*$$' $(MKFILE_PATH) | grep "$(HELP_FILTER_PATTERN)" | sort | awk 'BEGIN {FS = " \\?= "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' || true; \
+	else \
+		grep -E '^[0-9a-zA-Z_-]+ \?=.*$$' $(MKFILE_PATH) | sort | awk 'BEGIN {FS = " \\?= "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' || true; \
+	fi
 .PHONY: help
 
 echo_vars:

@@ -1,0 +1,106 @@
+{
+    "results": [
+        {
+            "id": "232111237",
+            "type": "attachment",
+            "status": "current",
+            "title": "test.png",
+            "metadata": {
+                "mediaType": "application/octet-stream",
+                "labels": {
+                    "results": [],
+                    "start": 0,
+                    "limit": 200,
+                    "size": 0,
+                    "_links": {
+                        "self": "https://confluence.skatelescope.org/rest/api/content/232111237/label"
+                    }
+                },
+                "_expandable": {
+                    "currentuser": "",
+                    "frontend": "",
+                    "editorHtml": "",
+                    "properties": ""
+                }
+            },
+            "extensions": {
+                "mediaType": "application/octet-stream",
+                "fileSize": 61997,
+                "comment": ""
+            },
+            "_links": {
+                "webui": "/display/TS/Mid+ITF+Configuration+and+Tests?preview=%2F232111210%2F232111237%2Ftest.png",
+                "download": "/download/attachments/232111210/test.png?version=13&modificationDate=1692607840357&api=v2",
+                "thumbnail": "/download/thumbnails/232111210/test.png?api=v2",
+                "self": "https://confluence.skatelescope.org/rest/api/content/232111237"
+            },
+            "_expandable": {
+                "container": "/rest/api/content/232111210",
+                "operations": "",
+                "children": "/rest/api/content/232111237/child",
+                "restrictions": "/rest/api/content/232111237/restriction/byOperation",
+                "history": "/rest/api/content/232111237/history",
+                "ancestors": "",
+                "body": "",
+                "version": "",
+                "descendants": "/rest/api/content/232111237/descendant",
+                "space": "/rest/api/space/TS"
+            }
+        },
+        {
+            "id": "232114331",
+            "type": "attachment",
+            "status": "current",
+            "title": "platform.png",
+            "metadata": {
+                "mediaType": "application/octet-stream",
+                "labels": {
+                    "results": [],
+                    "start": 0,
+                    "limit": 200,
+                    "size": 0,
+                    "_links": {
+                        "self": "https://confluence.skatelescope.org/rest/api/content/232114331/label"
+                    }
+                },
+                "_expandable": {
+                    "currentuser": "",
+                    "frontend": "",
+                    "editorHtml": "",
+                    "properties": ""
+                }
+            },
+            "extensions": {
+                "mediaType": "application/octet-stream",
+                "fileSize": 34026,
+                "comment": ""
+            },
+            "_links": {
+                "webui": "/display/TS/Mid+ITF+Configuration+and+Tests?preview=%2F232111210%2F232114331%2Fplatform.png",
+                "download": "/download/attachments/232111210/platform.png?version=2&modificationDate=1692107687767&api=v2",
+                "thumbnail": "/download/thumbnails/232111210/platform.png?api=v2",
+                "self": "https://confluence.skatelescope.org/rest/api/content/232114331"
+            },
+            "_expandable": {
+                "container": "/rest/api/content/232111210",
+                "operations": "",
+                "children": "/rest/api/content/232114331/child",
+                "restrictions": "/rest/api/content/232114331/restriction/byOperation",
+                "history": "/rest/api/content/232114331/history",
+                "ancestors": "",
+                "body": "",
+                "version": "",
+                "descendants": "/rest/api/content/232114331/descendant",
+                "space": "/rest/api/space/TS"
+            }
+        }
+    ],
+    "start": 0,
+    "limit": 50,
+    "size": 2,
+    "_links": {
+        "self": "https://confluence.skatelescope.org/rest/api/content/232111210/child/attachment/",
+        "base": "https://confluence.skatelescope.org",
+        "context": ""
+    }
+}

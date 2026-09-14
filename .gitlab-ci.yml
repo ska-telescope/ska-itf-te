@@ -1,14 +1,17 @@
-image: $SKA_K8S_TOOLS_BUILD_DEPLOY
+default:
+  image: $SKA_K8S_TOOLS_BUILD_DEPLOY
+  tags:
+    - ska-k8srunner-za-itf
 
 variables:
   MINIKUBE: "false"
+  SDP_JOBS_TTL: "300"
   CI_DEBUG_SERVICES: "true"
   GIT_SUBMODULE_STRATEGY: normal
   EXPOSE_All_DS: "true"
   CLEAN_UP_TEST_ENVIRONMENT: "true"
   DEPLOYMENT_CONFIGURATION: "ska-$CONFIG"
-  POETRY_CONFIG_VIRTUALENVS_CREATE: "true"
-  DEPLOY_IMAGE: ${CI_REGISTRY}/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools:0.10.2
+  DEPLOY_IMAGE: ${CI_REGISTRY}/ska-telescope/ska-mid-itf-engineering-tools/ska-mid-itf-engineering-tools:0.12.0
   MCS_CONFIG_FILE_PATH: resources/mcs
   DISH_IDS: "SKA001 SKA036 SKA063 SKA100" # SKA063 SKA100 Add additional Dishes back when adding their pipelines in this order"
   SMOKE_TEST_SOURCE: tests/smoke
@@ -16,18 +19,20 @@ variables:
   # PYTEST_SUBSYS_MARK: (csp_startup or sdp or eda)
   # K8S_INSTALL_FROM_CAR: "false"remove redundant cache
 stages:
-  - on_demand_itf_sut
   - build
+  - on_demand_itf_sut
   - deploy-supplementary-services
+  - platform
   - deploy-dish-aiv
   - remove-dish-aiv
   - test
   - lint
-  - platform
-  - integration
   - staging
+  - testing
+  - integration
   - upload
   - publish
+  - upgrade
   - pages
   - scan
 
@@ -35,7 +40,7 @@ include:
   # - project: "ska-telescope/templates-repository" TEMPORARY COMMIT: NOT PUBLISHING TO CAR FOR THE MOMENT - POSSIBLY NEED TO RELOOK THIS IN FUTURE
   #   file: "gitlab-ci/includes/python.gitlab-ci.yml"
   - project: "ska-telescope/templates-repository"
-    file: "gitlab-ci/includes/python-lint.gitlab-ci.yml"
+    file: "gitlab-ci/includes/python-uv.gitlab-ci.yml"
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/docs.gitlab-ci.yml"
   - project: "ska-telescope/templates-repository"
@@ -69,8 +74,10 @@ include:
   - local: .gitlab/ci/za-itf/ci-ska-db-oda-commit-ref/.pipeline.yaml
   - local: .gitlab/ci/za-itf/sdp-data-product-dashboard/.pipeline.yaml
   - local: .gitlab/ci/za-itf/cbf-engineering-console/.pipeline.yaml
-  - local: .gitlab/ci/za-itf/eda-grafana-connector/.pipeline.yaml
+  - local: .gitlab/ci/za-itf/eda-api/.pipeline.yaml
   - local: .gitlab/ci/za-itf/octopus/.pipeline.yaml
+  - local: .gitlab/ci/za-itf/testing/.pipeline.yaml
+  - local: .gitlab/ci/za-itf/upgrading/.pipeline.yaml
   - local: .gitlab/ci/za-itf/icams/.pipeline.yaml
 
 xray-publish:
@@ -108,16 +115,6 @@ oci-image-build-testing:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
 
-oci-image-build-eda-grafana-connector:
-  extends:
-    - .image_builder_template
-  stage: build
-  variables:
-    OCI_IMAGES: "ska-mid-eda-grafana-connector"
-  rules:
-    - when: manual
-      allow_failure: true
-
 container_scanning:
   needs:
     - oci-image-build-testing
@@ -129,5 +126,18 @@ container_scanning:
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
 
 docs-build-rtd:
+  rules:
+    - when: never
+
+python-uv-lint:
+  needs:
+    - job: python-uv-build-for-development
+      optional: true
+
+python-uv-publish-to-car:
+  rules:
+    - when: never
+
+python-uv-publish-to-gitlab:
   rules:
     - when: never

@@ -1,11 +1,11 @@
 print-telescope-state:
-	@poetry run telescope_state_control --print-state -n ${E2E_TEST_EXECUTION_NAMESPACE} -d "${DISH_IDS}"
+	@telescope_state_control --print-state -n ${E2E_TEST_EXECUTION_NAMESPACE} -d "${DISH_IDS}"
 
 teardown-telescope:
-	@poetry run telescope_state_control --teardown -n ${E2E_TEST_EXECUTION_NAMESPACE} -d "${DISH_IDS}"
+	@telescope_state_control --teardown -n ${E2E_TEST_EXECUTION_NAMESPACE} -d "${DISH_IDS}"
 
 teardown-telescope-to-pre-assign:
-	@poetry run telescope_state_control --teardown -n ${E2E_TEST_EXECUTION_NAMESPACE} -d "${DISH_IDS}" -c "ON" -b "STANDBY_FP"
+	@telescope_state_control --teardown -n ${E2E_TEST_EXECUTION_NAMESPACE} -d "${DISH_IDS}" -c "ON" -b "STANDBY_FP"
 
 CWD := $(shell pwd)
 
@@ -77,6 +77,12 @@ test-assign-resources-kapb: ## Run assign resources test using ska-mid-testing K
 test-configure-scan-kapb: ## Run configure scan test using ska-mid-testing K8s test job in the Mid-AA (Losberg) cluster
 	$(eval TEST_NAME := configure-scan-test)
 	@yq -i '.testNodeID = "tests/integration/tmc/test_individual_commands.py::test_configure_scan_via_tmc"' $(CWD)/charts/ska-mid-testing/values.yaml
+	@yq -i '.testJobName = "$(TEST_NAME)"' $(CWD)/charts/ska-mid-testing/values.yaml
+	$(call RENDER_AND_EXECUTE_TEST_JOB,$(TEST_NAME))
+
+test-multiple-scans-without-reconfiguration-kapb: ## Run multiple scans without reconfiguration test using ska-mid-testing K8s test job in the Mid-AA (Losberg) cluster. This will execute assign resources once, and a sequence of SCAN-ENDSCAN commands with interval, and then release resources and end observation at the end.
+	$(eval TEST_NAME := multiple-scan-test-no-reconfig)
+	@yq -i '.testNodeID = "tests/integration/tmc/test_scan.py::test_perform_multiple_scans_via_tmc_without_reconfiguring"' $(CWD)/charts/ska-mid-testing/values.yaml
 	@yq -i '.testJobName = "$(TEST_NAME)"' $(CWD)/charts/ska-mid-testing/values.yaml
 	$(call RENDER_AND_EXECUTE_TEST_JOB,$(TEST_NAME))
 

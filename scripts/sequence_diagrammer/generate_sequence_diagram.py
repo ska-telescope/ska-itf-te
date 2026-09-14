@@ -7,22 +7,20 @@ from datetime import datetime, timezone
 from scripts.sequence_diagrammer.event_printer import EventPrinter, TrackedDevice
 from scripts.sequence_diagrammer.events_and_logs_parser import EventsAndLogsFileParser
 from scripts.sequence_diagrammer.log_retriever import LogRetriever
-
-# Submodule imports
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Directory of the script
-SUBMODULE_PATH = os.path.abspath(os.path.join(BASE_DIR, "../../.jupyter-notebooks/src"))
-sys.path.append(SUBMODULE_PATH)
-
-from ska_mid_jupyter_notebooks.helpers.configuration import get_dish_namespace
-from notebook_tools.sequence_diagram_setup import (
+from scripts.sequence_diagrammer.sequence_diagram_setup import (
     # Functions
     define_pods_for_logs,
     define_tracked_device_trls,
     setup_device_hierarchy,
 )
 
+# Submodule imports
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Directory of the script
 
-class sequenceDiagrammer:
+from ska_mid_jupyter_notebooks.helpers.configuration import get_dish_namespace
+
+
+class SequenceDiagrammer:
     """Class for starting event listing and generating sequence diagrams."""
 
     def __init__(self, sut_namespace: str = ''):
@@ -140,6 +138,17 @@ class sequenceDiagrammer:
         self.file_parser.parse(
             events_and_logs_file_path, self.sequence_diagram_file_name, actor='test'
         )
+
+        # Remove lines starting with '<' from sequence-diagram.puml
+        # TEMPCOMMIT: This is a workaround to be potentially removed once the standard log 
+        # format is adopted by the teams. For now, it keeps the diagram from failing.
+        try:
+            with open(self.sequence_diagram_file_name, "r", encoding="utf-8") as f:
+                lines = [line for line in f if not line.lstrip().startswith("<")]
+            with open(self.sequence_diagram_file_name, "w", encoding="utf-8") as f:
+                f.write(lines)
+        except Exception as e:
+            print(f"Warning: Failed to clean sequence-diagram.puml: {e}")
 
     def get_puml_filename(self) -> str:
         return self.sequence_diagram_file_name

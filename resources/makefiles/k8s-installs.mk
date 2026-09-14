@@ -67,11 +67,23 @@ sut-namespaces: ## Create both normal & SDP helmdeploy namespaces for SUT.
 	@make k8s-namespace KUBE_NAMESPACE=$(KUBE_NAMESPACE_SDP)
 
 remove-sut-deployment:
+	$(eval KUBE_NAMESPACE_SDP ?= $(KUBE_NAMESPACE)-sdp)
 	@make k8s-uninstall-chart || true
-	@kubectl -n $(KUBE_NAMESPACE) delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all --ignore-not-found
-	@kubectl -n $(KUBE_NAMESPACE_SDP) delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all --ignore-not-found
-	@make k8s-delete-namespace || true
-	@make k8s-delete-namespace KUBE_NAMESPACE=$(KUBE_NAMESPACE_SDP) || true
+	@echo "Attempted to uninstall Helm release $(HELM_RELEASE). Now forcefully removing all resources in the namespace $(KUBE_NAMESPACE):"
+	@kubectl -n $(KUBE_NAMESPACE) delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all --ignore-not-found --force
+	@if kubectl get namespace $(KUBE_NAMESPACE_SDP) 2>/dev/null; then \
+		echo "Removing resources from SDP namespace $(KUBE_NAMESPACE_SDP):"; \
+		kubectl -n $(KUBE_NAMESPACE_SDP) delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all --ignore-not-found --force; \
+	fi
+	@if [ "$(KEEP_NAMESPACE)" != "true" ]; then \
+		make k8s-delete-namespace || true; \
+		if kubectl get namespace $(KUBE_NAMESPACE_SDP) 2>/dev/null; then \
+			kubectl wait --for=delete pvc/staging-pvc -n $(KUBE_NAMESPACE_SDP) --timeout=60s 2>/dev/null || true; \
+			make k8s-delete-namespace KUBE_NAMESPACE=$(KUBE_NAMESPACE_SDP) || true; \
+		fi; \
+	else \
+		echo "KEEP_NAMESPACE=true, skipping namespace deletion for $(KUBE_NAMESPACE)."; \
+	fi
 
 itf-cluster-credentials: sut-namespaces ## PIPELINE USE ONLY - allocate credentials for deployment namespaces
 	curl -s https://gitlab.com/ska-telescope/templates-repository/-/raw/master/scripts/namespace_auth.sh | bash -s $(SERVICE_ACCOUNT) $(KUBE_NAMESPACE) $(KUBE_NAMESPACE_SDP) || true
@@ -233,6 +245,26 @@ get-deployed-charts:
 	}' > $(DEPLOYED_CHART)
 .PHONY: get-deployed-charts
 
+## TARGET: k8s-setup-cached-charts
+## SYNOPSIS: make k8s-setup-cached-charts
+## DESCRIPTION:
+##   If K8S_USE_CACHED_CHARTS=true and cached charts exist, copy them to the
+##   working directory for use by helm. Otherwise, skip this step.
+## VARS:
+##   K8S_USE_CACHED_CHARTS - Set to "true" to use cached charts
+##   HELM_BUILD_CACHE_DIR - Directory containing cached .tgz chart files
+
+k8s-setup-cached-charts:
+	@if [ "$(K8S_USE_CACHED_CHARTS)" = "true" ] && [ -d "$(HELM_BUILD_CACHE_DIR)" ]; then \
+		echo "Using cached charts from $(HELM_BUILD_CACHE_DIR)"; \
+		mkdir -p chart-repo-cache; \
+		cp $(HELM_BUILD_CACHE_DIR)/*.tgz chart-repo-cache/ 2>/dev/null || true; \
+		ls -la chart-repo-cache/ || echo "No cached charts found"; \
+	else \
+		echo "Not using cached charts (K8S_USE_CACHED_CHARTS=$(K8S_USE_CACHED_CHARTS), HELM_BUILD_CACHE_DIR=$(HELM_BUILD_CACHE_DIR))"; \
+	fi
+.PHONY: k8s-setup-cached-charts
+
 vars:
 	$(info KUBE_NAMESPACE=$(KUBE_NAMESPACE))
 	$(info #####################################)
@@ -271,8 +303,6 @@ vars:
 	$(info DPD_PVC_NAME=$(DPD_PVC_NAME))
 	$(info DPD_PARAMS=$(DPD_PARAMS))
 	$(info SDP_PARAMS=$(SDP_PARAMS))
-	$(info ODA_PARAMS=$(ODA_PARAMS))
-	$(info OSO_PARAMS=$(OSO_PARAMS))
 	$(info TMC_PARAMS=$(TMC_PARAMS))
 	$(info SKA_TANGO_OPERATOR_DEPLOYED=$(SKA_TANGO_OPERATOR_DEPLOYED))
 	$(info DISH_ID=$(DISH_ID))
@@ -289,6 +319,10 @@ vars:
 	$(info ###### Uppercase KUBE_APP #####)
 	$(info KUBE_APP=$(shell echo $(KUBE_APP) | tr a-z A-Z))
 	$(info PROJECT_ROOT=$(PROJECT_ROOT))
+	$(info CBF_HW_IN_THE_LOOP=$(CBF_HW_IN_THE_LOOP))
+	$(info DISH_LMC_IN_THE_LOOP=$(DISH_LMC_IN_THE_LOOP))
+	$(info SPFC_IN_THE_LOOP=$(SPFC_IN_THE_LOOP))
+	$(info SPFRX_IN_THE_LOOP=$(SPFRX_IN_THE_LOOP))
 	$(info DS_SIM_OPCUA_FQDN=$(DS_SIM_OPCUA_FQDN))
 	$(info SPFRX_SIM_ENABLE=$(SPFRX_SIM_ENABLE))
 	$(info SWITCH_CSP_ON=$(SWITCH_CSP_ON))
@@ -307,3 +341,5 @@ vars:
 	$(info NODE_LABEL_FOR_100G_GROUP=$(NODE_LABEL_FOR_100G_GROUP))
 	$(info DOWNLOAD_CBF_BITSTREAMS=$(DOWNLOAD_CBF_BITSTREAMS))
 	$(info EDA_API_ID=$(EDA_API_ID))
+	$(info K8S_USE_CACHED_CHARTS=$(K8S_USE_CACHED_CHARTS))
+	$(info HELM_BUILD_CACHE_DIR=$(HELM_BUILD_CACHE_DIR))

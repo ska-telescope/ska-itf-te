@@ -22,11 +22,11 @@ def talon_firmware_compatibility_settings():
     talon_firmware_compatibility_settings = {}
 
     # Path where the CBF EC clone PVC volume is mounted
-    CBF_EC_MOUNT_PATH = os.environ.get("CBF_EC_MOUNT_PATH", "/app/cbf-ec")
+    CBF_EC_MOUNT_PATH = os.environ.get("CBF_EC_MOUNT_PATH", "/app/cbf-ec")  # noqa: N806
 
     # Get CBF Talon IPs
     hw_config_relative_path = "resources/mcs/hw_config.yaml"
-    with open(hw_config_relative_path, "r") as f:
+    with open(hw_config_relative_path) as f:
         talon_board_ips = yaml.safe_load(f)["talon_board"]
 
     talon_firmware_compatibility_settings["talon_board_ips"] = talon_board_ips
@@ -35,7 +35,7 @@ def talon_firmware_compatibility_settings():
 
     # Get SPFRX IPs
     spfrx_hw_config_relative_path = "resources/spfrx/spfrx_hw_config.yaml"
-    with open(spfrx_hw_config_relative_path, "r") as f:
+    with open(spfrx_hw_config_relative_path) as f:
         spfrx_talon_board_ips = yaml.safe_load(f)["talon_board"]
 
     talon_firmware_compatibility_settings["spfrx_talon_board_ips"] = spfrx_talon_board_ips
@@ -196,7 +196,7 @@ def get_chart_dependency_version(umbrella_chart_relative_path: str, dependency_n
     :rtype: str | None
     """
     version = None
-    with open(umbrella_chart_relative_path, "r") as f:
+    with open(umbrella_chart_relative_path) as f:
         chart = yaml.safe_load(f)
 
         for dependency in chart["dependencies"]:

@@ -8,16 +8,17 @@
 ##
 ##  Create a TangoGQL deployment instance
 
-taranta-deploy-dish-tangogql: TARANTA_PARAMS="--set tangogql.tangoDB=$(DISH_ID) --set global.tango_host=$(TANGO_DATABASE_DS).$(DISH_NAMESPACE).svc.$(CLUSTER_DOMAIN):10000 --set global.cluster_domain=$(CLUSTER_DOMAIN)"
+taranta-deploy-dish-tangogql: TARANTA_PARAMS="--set tangogql.tangoDB=$(DISH_ID) --set tangogql.tango_host=$(TANGO_DATABASE_DS).$(DISH_NAMESPACE).svc.$(CLUSTER_DOMAIN):10000 --set tangogql.global.cluster_domain=$(CLUSTER_DOMAIN)"
 
 taranta-deploy-dish-tangogql: taranta-check-env ## Deploy TangoGQL instance
 	$(info Deployment Namespace: $(KUBE_NAMESPACE))
 	$(info Dish Namespace: $(DISH_NAMESPACE))
 	$(info Helm Release for base deployment: $(HELM_RELEASE))
 	$(info Helm Release for this deployment: $(HELM_RELEASE)-$(DISH_ID))
+	$(info Helm Chart Path for this deployment: ./charts/taranta-itf)
 	$(info Tango Host: $(TANGO_DATABASE_DS).$(DISH_NAMESPACE).svc.$(CLUSTER_DOMAIN):10000)
 	$(info Setting Helm Chart Params: $(TARANTA_PARAMS))
-	@make k8s-install-chart K8S_CHART=taranta-itf K8S_CHART_PARAMS=$(TARANTA_PARAMS) HELM_RELEASE=$(HELM_RELEASE)-$(DISH_ID)
+	@make k8s-install-chart K8S_CHART=taranta-itf K8S_CHARTS=taranta-itf K8S_UMBRELLA_CHART_PATH=./charts/taranta-itf K8S_SKIP_DEP_BUILD=false K8S_CHART_PARAMS=$(TARANTA_PARAMS) HELM_RELEASE=$(HELM_RELEASE)-$(DISH_ID)
 
 LOWER_DISH_IDS=$(shell echo $(DISH_IDS) | tr A-Z a-z)
 taranta-deploy-all-tangogql-instances:

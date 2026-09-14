@@ -25,6 +25,27 @@ You need to be on the SKAO ITF VPN (connect via AnyConnect client) - see instruc
 
 Populate your `PrivateRules.mak` file with make variables if you are testing / developing from a local machine.
 
+### Python On Apple Silicon (M-series)
+
+On macOS arm64, `python-casacore` has no prebuilt wheel, so it builds from source against a native `casacore` library. Install `casacore` first, from its dedicated Homebrew tap (there is no formula for it in Homebrew core):
+
+```bash
+brew tap casacore/tap
+brew install casacore
+```
+
+Once `casacore` is installed, use the provided helper target, which applies a local build workaround (C++ standard flags and `CASACORE_ROOT_DIR`) automatically:
+
+```bash
+make uv-lock-sync
+```
+
+If you only need to re-sync dependencies:
+
+```bash
+make uv-sync-all
+```
+
 ## infraHQ
 
 To connect to the relevant clusters, you need the correct permissions and also have infra installed on your machine. See [Confluence page](https://confluence.skatelescope.org/x/NoxRDg) for more information.
@@ -206,3 +227,8 @@ that the SPFC will be communicating with:
 
 global:
   dish_id: ska001
+
+## Testing chart
+The SKA Mid Helm chart describes the combination of products that are deployed to the Mid AA cluster and the Dish clusters. We also have the ska-mid-testing Helm chart (`charts/ska-mid-testing/`) in this project, which is used for testing the Mid AA Telescope without interacting with the OSO Tools. This is/was especially useful for testing during System AIV while we verify interfaces that are not available yet, during the System AIV phase of Mid Construction.
+
+When updating the test code (for instance modifying the initial system parameters file which loaded during the LoadDishVccConfig command), you need to build the image defined in the Dockerfile (`images/ska-mid-testing/Dockerfile`) using a pipeline first. Once that was done, navigate to the Gitlab pipeline that runs after your commit, open the [oci-image-build-testing](https://gitlab.com/ska-telescope/ska-mid/-/jobs/14122639684) job (link is just an example!), and copy the tag pushed at the end of the job. Now paste it in the values (`./charts/ska-mid-testing/values.yaml`) file of the chart. Remember to save the changes! Now, when you run your test makefile targets, you will see the updates in your test.

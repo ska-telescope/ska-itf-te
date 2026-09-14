@@ -4,7 +4,7 @@
 #   where outlets can be 1 to 24, or "all"
 
 set USER apc
-set PASS apc
+set PASS aivrocks
 set PDU_ADDR 10.20.2.14
 
 set IN_CMD [lindex $argv 0]

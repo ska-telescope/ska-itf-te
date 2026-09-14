@@ -31,8 +31,12 @@
                 "gitPrefix.replacement": "p1.replace(/(\\w+)/, function(v) { return v.toUpperCase();})+\": \"",
                 "gitPrefix.replacementIsFunction": true,
                 "[python]": {
-                    "editor.defaultFormatter": "ms-python.black-formatter",
-                    "editor.formatOnSave": true
+                    "editor.defaultFormatter": "charliermarsh.ruff",
+                    "editor.formatOnSave": true,
+                    "editor.codeActionsOnSave": {
+                        "source.organizeImports.ruff": "explicit",
+                        "source.fixAll.ruff": "explicit"
+                    }
                 },
                 "python.testing.pytestArgs": [
                     "tests"
@@ -54,11 +58,8 @@
                 "njpwerner.autodocstring",
                 "streetsidesoftware.code-spell-checker",
                 "bungcip.better-toml",
-                "freakypie.code-python-isort",
+                "charliermarsh.ruff",
                 "srmeyers.git-prefix",
-                "ms-python.black-formatter",
-                "ms-python.flake8",
-                "ms-python.isort",
                 "tamasfe.even-better-toml",
                 "ms-toolsai.jupyter"
             ]
@@ -81,7 +82,7 @@
     // Use 'forwardPorts' to make a list of ports inside the container available locally.
     // "forwardPorts": [],
     // Use 'postCreateCommand' to run commands after the container is created.
-    "postCreateCommand": "poetry config virtualenvs.in-project true",
+    "postCreateCommand": "uv sync --all-groups",
     // if you want to work with k8 and helm directly from this container:
     /*
     "features": {

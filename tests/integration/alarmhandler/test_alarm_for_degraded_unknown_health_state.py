@@ -107,9 +107,9 @@ def check_alarm_state(
     alarm_handler = DeviceProxy("alarm/handler/01")
     alarm_tag = response_data.response["alarm_summary"]["tag"]
     if alarm_handler_test_context.device1_result == HealthState.DEGRADED:
-        alarm_tag = tuple([alarm_tag[0]])
+        alarm_tag = (alarm_tag[0],)
     elif alarm_handler_test_context.device1_result == HealthState.UNKNOWN:
-        alarm_tag = tuple([alarm_tag[1]])
+        alarm_tag = (alarm_tag[1],)
     assert wait_for_event(
         alarm_handler, "alarmUnacknowledged", alarm_tag, print_event_details=True, timeout=250.0
     )

@@ -4,7 +4,7 @@ Manage server configuration and user access in the Mid ITF.
 
 ## Setup
 
-To install and use the playbooks, make sure you have no virtual environment active. Change Directory into this one (same as this `README`), run `poetry shell` and then `poetry install` - this should install Ansible in a new virtual environment. You can find more details on managing environments with poetry [here](https://python-poetry.org/docs/managing-environments/).
+To install and use the playbooks, change directory into this one (same as this `README`) and run `uv sync --group ansible`. This creates or updates the project virtual environment and installs Ansible tooling.
 
 ## Summary
 
@@ -188,17 +188,65 @@ make test_gaia
 
 ### SPFRx
 
-The SPFRx playbook can be executed as follows:
-If the SPFRx is ran for the first time, please pass the `INITIAL_LOGIN` flag set to 1 as follows:
+The SPFRx playbook can be executed by targeting a dish index using `DISH_INDEX`.
+Setting up a device also requires its serial number via `SERIAL` (must be
+less than 50 characters):
 
 ```bash
-make setup_spfrx INITIAL_LOGIN=1
+make setup_spfrx DISH_INDEX=1 SERIAL=<serial-number>
 ```
-If the SPFRx notebook has been ran recently and Vault login is still active, please execute the command below:
+
+You will be prompted for the become/`sudo` password on the target host.
+
+If no host with the given `dish_index` exists yet in the `[spfrx_mid]` group
+of `inventory/hosts`, one is added automatically (using a temporary
+`ansible_host` for the initial connection). Once the play completes, its
+`ansible_host` is updated to `10.160.<DISH_INDEX>.5`, the address the dish
+uses once configured.
+
+Dry run for a specific dish index:
+
 ```bash
-make setup_spfrx
+make setup_spfrx_dry_run DISH_INDEX=1 SERIAL=<serial-number>
 ```
-Please ensure that SPFRX_CONFIG variable is set in the PrivateRules.mak file
+
+To run the SPFRx playbook against an inventory host that already has a
+matching entry (these would have been manually added), use `setup_spfrx_host` instead:
+
+```bash
+make setup_spfrx_host HOST=spfrx03
+```
+
+Dry run:
+
+```bash
+make setup_spfrx_host_dry_run HOST=spfrx03
+```
+
+Validating a dish requires the dish index to already have a matching entry
+in the `[spfrx_mid]` group of `inventory/hosts` (added during the `setup_spfrx` step), for example:
+
+```ini
+[spfrx_mid]
+spfrx12 ansible_host=10.160.12.5 host_identifier="spfrx12" dish_index=12 serial=<serial-number>
+```
+
+If no host with the given `dish_index` exists in `[spfrx_mid]`, `validate_spfrx`
+fails with an error instead of creating one automatically. Validation
+temporarily points your localhost's network interface at the dish's RXPU
+subnet, waits for the device to become reachable at the `ansible_host` listed
+for it, checks its NTP offset, and then restores your local network
+configuration:
+
+```bash
+make validate_spfrx DISH_INDEX=1
+```
+
+Dry run:
+
+```bash
+make validate_spfrx_dry_run DISH_INDEX=1
+```
 
 ## Additional Info
 
