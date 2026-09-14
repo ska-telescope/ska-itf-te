@@ -40,11 +40,19 @@ logger.setLevel(logging.DEBUG)
 
 
 @dataclass
-class AttenuationLevels:
+class B2AttenuationLevels:
     b2PolHAttenuation1: float
     b2PolHAttenuation2: float
     b2PolVAttenuation1: float
     b2PolVAttenuation2: float
+
+
+@dataclass
+class B1AttenuationLevels:
+    b1PolHAttenuation1: float
+    b1PolHAttenuation2: float
+    b1PolVAttenuation1: float
+    b1PolVAttenuation2: float
 
 
 @dataclass
@@ -121,18 +129,31 @@ class SPFRxSATExecutor:
         self.spfrx_controller.set_timeout_millis(5000)
         self.pktcap.set_timeout_millis(5000)
 
-        self.initial_attenuation_levels = AttenuationLevels(
+        self.initial_attenuation_levels_b2 = B2AttenuationLevels(
             b2PolHAttenuation1=10.0,
             b2PolHAttenuation2=10.0,
             b2PolVAttenuation1=10.0,
             b2PolVAttenuation2=10.0,
         )
 
-        self.new_attenuation_levels = AttenuationLevels(
+        self.new_attenuation_levels_b2 = B2AttenuationLevels(
             b2PolHAttenuation1=15.0,
             b2PolHAttenuation2=15.0,
             b2PolVAttenuation1=15.0,
             b2PolVAttenuation2=15.0,
+        )
+        self.initial_attenuation_levels_b1 = B1AttenuationLevels(
+            b1PolHAttenuation1=10.0,
+            b1PolHAttenuation2=10.0,
+            b1PolVAttenuation1=10.0,
+            b1PolVAttenuation2=10.0,
+        )
+
+        self.new_attenuation_levels_b1 = B1AttenuationLevels(
+            b1PolHAttenuation1=15.0,
+            b1PolHAttenuation2=15.0,
+            b1PolVAttenuation1=15.0,
+            b1PolVAttenuation2=15.0,
         )
 
     def check_data_flow(self) -> dict:
@@ -155,16 +176,31 @@ class SPFRxSATExecutor:
 
         return result
 
-    def set_attenuation_levels(self, attenuation_levels: AttenuationLevels):
+    def set_attenuation_levels(self, band, attenuation_levels):
         # Implementation of the attenuation level setting logic
-        self.spfrx_controller.b2PolHAttenuation1 = attenuation_levels.b2PolHAttenuation1
-        self.spfrx_controller.b2PolHAttenuation2 = attenuation_levels.b2PolHAttenuation2
-        self.spfrx_controller.b2PolVAttenuation1 = attenuation_levels.b2PolVAttenuation1
-        self.spfrx_controller.b2PolVAttenuation2 = attenuation_levels.b2PolVAttenuation2
+        if band == 1:
+            self.spfrx_controller.b1PolHAttenuation1 = attenuation_levels.b1PolHAttenuation1
+            self.spfrx_controller.b1PolHAttenuation2 = attenuation_levels.b1PolHAttenuation2
+            self.spfrx_controller.b1PolVAttenuation1 = attenuation_levels.b1PolVAttenuation1
+            self.spfrx_controller.b1PolVAttenuation2 = attenuation_levels.b1PolVAttenuation2
+        elif band == 2:
+            self.spfrx_controller.b2PolHAttenuation1 = attenuation_levels.b2PolHAttenuation1
+            self.spfrx_controller.b2PolHAttenuation2 = attenuation_levels.b2PolHAttenuation2
+            self.spfrx_controller.b2PolVAttenuation1 = attenuation_levels.b2PolVAttenuation1
+            self.spfrx_controller.b2PolVAttenuation2 = attenuation_levels.b2PolVAttenuation2
 
-    def get_attenuation_levels(self) -> AttenuationLevels:
+    def get_attenuation_levels_b1(self) -> B1AttenuationLevels:
         # Implementation of the attenuation level retrieval logic
-        return AttenuationLevels(
+        return B1AttenuationLevels(
+            b1PolHAttenuation1=self.spfrx_controller.b1PolHAttenuation1,
+            b1PolHAttenuation2=self.spfrx_controller.b1PolHAttenuation2,
+            b1PolVAttenuation1=self.spfrx_controller.b1PolVAttenuation1,
+            b1PolVAttenuation2=self.spfrx_controller.b1PolVAttenuation2,
+        )
+
+    def get_attenuation_levels_b2(self) -> B2AttenuationLevels:
+        # Implementation of the attenuation level retrieval logic
+        return B2AttenuationLevels(
             b2PolHAttenuation1=self.spfrx_controller.b2PolHAttenuation1,
             b2PolHAttenuation2=self.spfrx_controller.b2PolHAttenuation2,
             b2PolVAttenuation1=self.spfrx_controller.b2PolVAttenuation1,
@@ -305,7 +341,7 @@ class SPFRxSATExecutor:
             raw=raw,
         )
 
-    def validate_spfrx_output(self, attenuation_levels: AttenuationLevels):
+    def validate_spfrx_output(self, attenuation_levels):
         # Implementation of the SPFRx output validation logic
         pass
 
@@ -365,15 +401,20 @@ class SPFRxSATExecutor:
         self.spfrx_controller.setstandbymode()
         
         logger.info("Setting attenuation levels to initial values.")
-        self.set_attenuation_levels(self.initial_attenuation_levels)
-        logger.info(f"Current attenuation levels: {self.get_attenuation_levels()}")
-        logger.info("Setting noise source to 0")
+        if band == 1:
+            self.set_attenuation_levels(band, self.initial_attenuation_levels_b1)
+            logger.info(f"Current attenuation levels: {self.get_attenuation_levels_b1()}")
+        elif band == 2:
+            self.set_attenuation_levels(band, self.initial_attenuation_levels_b2)
+            logger.info(f"Current attenuation levels: {self.get_attenuation_levels_b2()}")
+
+        logger.info("Setting noise source to 0 (VGB)")
         self.set_noise_source(0)
         logger.info("Initialisation complete.")
 
         # SAT Flow
         self.configure_band(band)
-        # sleep(10)
+        sleep(10)
         logger.info(f"Current band: {self.spfrx_controller.configuredBand}")
         logger.info(f"Current pps deviation: {self.band_processor.pps_deviation}")
         logger.info(f"Current kLocked: {self.spfrx_controller.isKLocked}")
@@ -381,27 +422,59 @@ class SPFRxSATExecutor:
         logger.info(f"Checking data flow")
         logger.info(f"Data flow check result: {self.check_data_flow()}")
 
-        # Manual verification of the spectrum
-        user_input = input(f"Is the spectrum correct for the following attenuation levels: {self.get_attenuation_levels()} (Y/N): ").strip().upper()
+        # Manual verification of the spectrum (Noise source off, VGB)
+        if band == 1:
+            user_input = input(f"Is the spectrum correct for the following attenuation levels: {self.get_attenuation_levels_b1()} (Y/N): ").strip().upper()
+        elif band == 2:
+            user_input = input(f"Is the spectrum correct for the following attenuation levels: {self.get_attenuation_levels_b2()} (Y/N): ").strip().upper()
+
         if user_input != "Y":
             logger.info(f"Result not accepted. SAT failed for band {band}.")
             return
         
-        # Manual verification of the spectrum with noise source on
-        self.set_noise_source(2)
-        user_input = input(f"Is the spectrum correct for noise source=2? (Y/N): ").strip().upper()
-        if user_input != "Y":
-            logger.info(f"Result not accepted. SAT failed for band {band}.")
-            return
-        
-        self.set_noise_source(0)
+        # Set noise source 50OHm
+        logger.info("Setting noise source to 1 (50Ohm)")
+        self.set_noise_source(1)
         sleep(5)
+
+        # Manual verification of the spectrum after attenuation increase and noise source at 50OHm
+        user_input = input(f"Is the spectrum correct for noise source=1 (50Ohm)? (Y/N): ").strip().upper()
+        if user_input != "Y":
+            logger.info(f"Result not accepted. SAT failed for band {band}.")
+            return
+
+        # Set noise source to INTERNAL
+        logger.info("Setting noise source to 2 (INTERNAL)")
+        self.set_noise_source(2)
+        logger.info("Waiting 10s before increasing attenuations")
+        sleep(10)
         logger.info("Setting attenuation levels to new values.")
-        self.set_attenuation_levels(self.new_attenuation_levels)
-        logger.info(f"Current attenuation levels: {self.get_attenuation_levels()}")
+        if band == 1:
+            self.set_attenuation_levels(band, self.new_attenuation_levels_b1)
+            logger.info(f"Current attenuation levels: {self.get_attenuation_levels_b1()}")
+        elif band == 2:
+            self.set_attenuation_levels(band, self.new_attenuation_levels_b2)
+            logger.info(f"Current attenuation levels: {self.get_attenuation_levels_b2()}")
+
+        # Manual verification of the spectrum with noise source on (INTERNAL)
+        if band == 1:
+            user_input = input(f"Is the spectrum correct for noise source=2 (INTERNAL), and the following attenuation levels: {self.get_attenuation_levels_b1()}? (Y/N): ").strip().upper()
+        elif band == 2:
+            user_input = input(f"Is the spectrum correct for noise source=2 (INTERNAL), and the following attenuation levels: {self.get_attenuation_levels_b2()}? (Y/N): ").strip().upper()
+        if user_input != "Y":
+            logger.info(f"Result not accepted. SAT failed for band {band}.")
+            return
+        
+        # Switch noise source off
+        logger.info("Switching noise source to 0 (VGB).")
+        self.set_noise_source(0)
+        sleep(10)
 
         # Manual verification of the spectrum after attenuation increase and noise source off
-        user_input = input(f"Is the spectrum correct for the following attenuation levels: {self.get_attenuation_levels()} (Y/N): ").strip().upper()
+        if band == 1:
+            user_input = input(f"Is the spectrum correct for noise source=0 (VGB), and the following attenuation levels: {self.get_attenuation_levels_b1()}? (Y/N): ").strip().upper()
+        elif band == 2:
+            user_input = input(f"Is the spectrum correct for noise source=0 (VGB), and the following attenuation levels: {self.get_attenuation_levels_b2()}? (Y/N): ").strip().upper()
         if user_input != "Y":
             logger.info(f"Result not accepted. SAT failed for band {band}.")
             return
@@ -447,7 +520,7 @@ if __name__ == "__main__":
         required=False
     )
     args = parser.parse_args()
-    
+
     spfrx_sat_executor = SPFRxSATExecutor(
         tango_host=args.tango_host,
         sat_environment=args.sat_environment,
