@@ -50,15 +50,18 @@
       allow_failure: true
   variables:
     KUBE_NAMESPACE_PREFIX: dish-lmc-
-    DISH_VCC_CONFIG_SOURCE: "car:ska-mid?31.4.0-test-teapot-c#tmdata"
-    DISH_VCC_CONFIG_FILE_PATH: "instrument/ska1_mid_itf/vcc-config/ska-mid-b5dc-102-cbf-system-parameters.json"
-    TELMODEL_SOURCE: "car:ska-mid?31.4.0-test-teapot-c#tmdata"
-    DISH_LAYOUT_TELMODEL_PATH: "instrument/ska1_mid_itf/layout/b5dc-test-itf-layout.json"
     TEAPOT_LMC_IN_THE_LOOP: "true"
+    TEAPOT_DATA_FILES: "-f .gitlab/ci/za-itf/staging/teapot-data-files.yaml"
     KIND_OF_TEA: Buchu
     DISH_IDS: SKA102
     GENERATE_SEQUENCE_DIAGRAM: "false"
     OVERRIDE_SCAN_BAND: "1"
+    # Example overrides: set these instead of/alongside TEAPOT_DATA_FILES to override
+    # individual data file settings via env vars rather than the values file above.
+    # DISH_VCC_CONFIG_SOURCE: "car:ska-mid?31.4.0-test-teapot-c#tmdata"
+    # DISH_VCC_CONFIG_FILE_PATH: "instrument/ska1_mid_itf/vcc-config/ska-mid-b5dc-102-cbf-system-parameters.json"
+    # TELMODEL_SOURCE: "car:ska-mid?31.4.0-test-teapot-c#tmdata"
+    # DISH_LAYOUT_TELMODEL_PATH: "instrument/ska1_mid_itf/layout/b5dc-test-itf-layout.json"
 
 deploy-sut-staging:
   extends:
