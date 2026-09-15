@@ -91,11 +91,6 @@ ska-db-oda-umbrella:
 # DISH LMC
 ska-dish-lmc:
   enabled: false
-  ska-mid-dish-b5dc-proxy:
-    b5dcproxy:
-      endpoints:
-        - 172.38.0.10:10001
-    enabled: true
   ska-mid-dish-ds-manager:
     enabled: true
   ska-mid-dish-manager:
