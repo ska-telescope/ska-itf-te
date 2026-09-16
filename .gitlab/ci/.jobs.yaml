@@ -22,7 +22,9 @@
     - echo $CI_JOB_NAME - $CI_JOB_STAGE > deploy/ci_details.txt # This is just to double-check if the job output to the build folder works
     - echo $CI_JOB_NAME - $CI_JOB_STAGE
     - |
-      if [ "$DISH_LMC_IN_THE_LOOP" != "true" ]; then
+      if [ "$TEAPOT_LMC_IN_THE_LOOP" == "true" ]; then
+        touch $SUT_CHART_DIR/tmc-values.yaml
+      elif [ "$DISH_LMC_IN_THE_LOOP" != "true" ]; then
         export TMC_VALUES_PATH=charts/ska-mid/values.yaml
       else
         bash .make/resources/gitlab_section.sh tmc-values "Generate tmc-values.yaml file from Dish IDs" make itf-dish-ids
@@ -58,7 +60,7 @@
       fi
     - make pvc-patch-apply
     - |
-      if [ "$DISH_LMC_IN_THE_LOOP" == "true" ] && [ "$KUBE_NAMESPACE" != "testing" ]; then
+      if [ "$DISH_LMC_IN_THE_LOOP" == "true" ] && [ "$KUBE_NAMESPACE" != "testing" ] && [ "$TEAPOT_LMC_IN_THE_LOOP" != "true" ]; then 
         bash .make/resources/gitlab_section.sh install_tangoGQL "Install TangoGQL for multiDB" make taranta-deploy-all-tangogql-instances;
       fi
     - env | grep RUNNER_AFTER_SCRIPT_TIMEOUT

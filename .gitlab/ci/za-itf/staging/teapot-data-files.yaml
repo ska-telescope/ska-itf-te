@@ -1,0 +1,16 @@
+# Chart-level overrides for TMC data files (dish layout, VCC config, global pointing model).
+# These are TEAPOT-specific tmdata sources and must only be applied via .teapot_rules,
+# never as defaults for other (e.g. staging) environments.
+ska-tmc-mid:
+  deviceServers:
+    centralnode:
+      DefaultArrayLayoutSourceURIs: "car:ska-mid?31.4.0-test-teapot-c#tmdata"
+      DefaultArrayLayoutPath: "instrument/ska1_mid_itf/layout/b5dc-test-itf-layout.json"
+      DishVccConfig:
+        DishVccUri: "car:ska-mid?31.4.0-test-teapot-c#tmdata"
+        DishVccFilePath: "instrument/ska1_mid_itf/vcc-config/ska-mid-b5dc-102-cbf-system-parameters.json"
+      global_pointing_model:
+        version: "1.0"
+        interface: "https://schema.skao.int/ska-mid-global-pointing-model/1.0"
+        data_sources_prefix: "car:ska-mid?31.4.0-test-teapot-c#tmdata"
+        file_path_prefix: "instrument/ska1_mid_itf/global_pointing_model_data"

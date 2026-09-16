@@ -1,6 +1,14 @@
 # Version History
 
 ## Unreleased
+* [AT-3650]
+  * Create deployment and test jobs for the central controller to the teapot (default dish is SKA102)
+  * Add tmc dish values files for the three Teapot dish setup combinations
+  * Add global pointing model data for bands 1, 2 and 5 for Teapot SKA101 and SKA102
+  * Add layout file for ITF B5DC setup testing
+  * Add VCC configs for the three Teapot dish setup combinations
+* [AIV-824]
+  * Added Mid AA pointing models for SKA001, SKA036, SKA077, SKA100
 * [AT-3815]
   * Upgrade ska-tango-base to `1.2.1`
   * Upgrade ska-tango-utils to `1.2.1`
