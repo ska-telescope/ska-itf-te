@@ -107,7 +107,7 @@ def define_pods_for_logs(
         "ds-cbfcontroller-controller-0",
         "ds-cbfsubarray-cbfsubarray-0",
     ]
-    sut_device_pods.extend(f"ds-dishleafnode-{index}-0" for index in dish_indexes)
+    sut_device_pods.extend(f"ds-dishleafnode-ska{index}-0" for index in dish_indexes)
 
     dish_device_pods = [
         [
