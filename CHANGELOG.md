@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3826]
+  * Undid temporary mapping swap of VCC 1 and VCC 2 to SKA036 and SKA001 repectively in staging environment. * Set DishVccUri back to "car:ska-mid?27.3.0#tmdata"
 * [AT-3650]
   * Create deployment and test jobs for the central controller to the teapot (default dish is SKA102)
   * Add tmc dish values files for the three Teapot dish setup combinations
