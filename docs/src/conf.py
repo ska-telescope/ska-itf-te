@@ -29,7 +29,7 @@ author = "ATLAS Team"
 
 # The full version, including alpha/beta/rc tags
 
-release = "31.6.0-dev1-vis.rec"
+release = "31.6.0-dev2-vis.rec"
 
 # -- General configuration ---------------------------------------------------
 
