@@ -478,7 +478,16 @@ class SPFRxSATExecutor:
         if user_input != "Y":
             logger.info(f"Result not accepted. SAT failed for band {band}.")
             return
-        
+
+        # Set attenuation levels back to initial values
+        logger.info("Setting attenuation levels back to initial values.")
+        if band == 1:
+            self.set_attenuation_levels(band, self.initial_attenuation_levels_b1)
+            logger.info(f"Current attenuation levels: {self.get_attenuation_levels_b1()}")
+        elif band == 2:
+            self.set_attenuation_levels(band, self.initial_attenuation_levels_b2)
+            logger.info(f"Current attenuation levels: {self.get_attenuation_levels_b2()}")
+
         logger.info(f"SAT passed for band {band}.")
 
         # captures = self.capture_packets()
