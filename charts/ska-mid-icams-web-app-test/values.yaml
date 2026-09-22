@@ -12,11 +12,10 @@ global:
     ska-tango-base:
       enabled: false
 
-# ska-icams-web-app: # TEMP COMMIT: Incorrect image version in tag 1.2.1
-#   image:
-#     repository: artefact.skao.int/ska-icams-web-app
-#     pullPolicy: IfNotPresent
-#     tag: 1.2.1
+ska-icams-web-app:
+  config:
+    auth:
+      loginType: legacy
 
 ska-app-s2i-icams-scheduler:
   config:
@@ -32,13 +31,6 @@ ska-web-s2i-flask-tango-panicapi:
       prefixPath: "/{{ $.Release.Namespace }}/ska-ams"
   ingress:
     enabled: false
-  ###### THIS IS A TEMPORARY SECTION AND NEEDS TO BE REMOVED ONCE INTEGRATION IS DONE #####
-  # image:
-  #   # repository: artefact.skao.int/ska-web-s2i-flask-tango-panicapi
-  #   repository: registry.gitlab.com/ska-telescope/ska-ams/ska-web-s2i-flask-tango-panicapi/ska-web-s2i-flask-tango-panicapi
-  #   pullPolicy: IfNotPresent
-  #   tag: 1.0.5-dev.c07813809
-######################################################################################
 
 ska-tangogql:
   config:
