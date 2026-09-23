@@ -6,8 +6,8 @@
   variables:
     KUBE_APP: icams
     K8S_CHART: ska-mid-icams-web-app-test
-    KUBE_NAMESPACE: icams-test
-    HELM_RELEASE: icams-test
+    KUBE_NAMESPACE: icams
+    HELM_RELEASE: icams
     K8S_SKIP_DEP_BUILD: "true"
   when: manual
   script:
