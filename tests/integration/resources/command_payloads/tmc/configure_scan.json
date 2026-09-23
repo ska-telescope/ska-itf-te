@@ -9,8 +9,21 @@
           "reference_frame": "ICRS",
           "attrs": {
             "c1": 294.85427667,
-            "c2": -63.71267361
+            "c2": -63.71267361,
+            "epoch": 2000.0,
+            "radial_velocity": 11900.0
           }
+        },
+        "trajectory": {
+          "name": "fixed",
+          "attrs": {
+            "x": 0.0,
+            "y": 0.0
+          }
+        },
+        "projection": {
+          "name": "SIN",
+          "alignment": "ICRS"
         }
       }
     ],
@@ -22,7 +35,6 @@
   },
   "csp": {
     "interface": "https://schema.skao.int/ska-csp-configurescan/8.1",
-    "transaction_id": "txn-....-00001",
     "common": {
       "config_id": "1 receptor, band 1, 2 FSP, no options",
       "eb_id": "eb-m001-20230712-56789",

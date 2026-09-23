@@ -1,6 +1,11 @@
 # Version History
 
 ## Unreleased
+* [AT-3826]
+  * Update to vis-receive 10.0.0 with necessary changes to our assign resources and configure jsons
+  * Undid temporary mapping swap of VCC 1 and VCC 2 to SKA036 and SKA001 repectively in staging environment.
+  * Set DishVccUri back to "car:ska-mid?27.3.0#tmdata"
+  * Include a make target to override labeled tags and releases to conform to PEP 440 standards that clash with Docker / OCI standards, before running `set-release` and similar make targets
 * [AT-3650]
   * Create deployment and test jobs for the central controller to the teapot (default dish is SKA102)
   * Add tmc dish values files for the three Teapot dish setup combinations
