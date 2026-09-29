@@ -2332,7 +2332,7 @@ wheels = [
 
 [[package]]
 name = "ska-mid-itf"
-version = "31.5.2"
+version = "32.0.0"
 source = { editable = "." }
 dependencies = [
     { name = "annotated-types" },
