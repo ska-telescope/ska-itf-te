@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+
+## 32.0.0
 * [AT-3826]
   * Update to vis-receive 10.0.0 with necessary changes to our assign resources and configure jsons
   * Undid temporary mapping swap of VCC 1 and VCC 2 to SKA036 and SKA001 repectively in staging environment.
