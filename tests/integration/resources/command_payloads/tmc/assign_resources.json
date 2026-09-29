@@ -19,19 +19,12 @@
   "sdp": {
     "interface": "https://schema.skao.int/ska-sdp-assignres/2.1",
     "resources": {
-      "csp_links": [
-        1,
-        2,
-        3,
-        4
-      ],
       "receptors": [
         "SKA001",
         "SKA036",
         "SKA063",
         "SKA100"
-      ],
-      "receive_nodes": 1
+      ]
     },
     "execution_block": {
       "eb_id": "eb-test-20250116-015445",
@@ -47,25 +40,7 @@
               "start": 0,
               "stride": 1,
               "freq_min": 350000000.0,
-              "freq_max": 1090006400.0,
-              "link_map": [
-                [
-                  0,
-                  0
-                ],
-                [
-                  200,
-                  1
-                ],
-                [
-                  744,
-                  2
-                ],
-                [
-                  944,
-                  3
-                ]
-              ]
+              "freq_max": 1090006400.0
             }
           ]
         },
@@ -78,25 +53,7 @@
               "start": 0,
               "stride": 1,
               "freq_min": 940000000.0,
-              "freq_max": 1684307200.0,
-              "link_map": [
-                [
-                  0,
-                  0
-                ],
-                [
-                  200,
-                  1
-                ],
-                [
-                  744,
-                  2
-                ],
-                [
-                  944,
-                  3
-                ]
-              ]
+              "freq_max": 1684307200.0
             }
           ]
         }
@@ -123,8 +80,7 @@
               "c2": -63.71267361,
               "epoch": 2000.0
             }
-          },
-          "pointing_fqdn": "low-tmc/telstate/0/pointing"
+          }
         },
         {
           "field_id": "field_b",
@@ -136,14 +92,14 @@
               "c2": 2.052388,
               "epoch": 2000.0
             }
-          },
-          "pointing_fqdn": "low-tmc/telstate/0/pointing"
+          }
         }
       ],
       "beams": [
         {
           "beam_id": "vis0",
-          "function": "visibilities"
+          "function": "visibilities",
+          "visibility_beam_id": 1
         }
       ],
       "scan_types": [
@@ -206,17 +162,49 @@
         "script": {
           "kind": "realtime",
           "name": "vis-receive",
-          "version": "9.1.0"
+          "version": "10.0.0"
         },
         "parameters": {
           "channels_per_port": 20,
+          "mswriter": {
+            "telescope_name": "ska1_mid",
+            "phase": "SOLID",
+            "enabled": true,
+            "expires_at": "2099-12-31T00:00:00Z",
+            "upper_triangular_baselines": false
+          },
+          "rcal": {
+            "fov": 5,
+            "uv_min": 100,
+            "enabled": false,
+            "autoflag": true,
+            "flip_uvw": false,
+            "sky_model": "",
+            "flux_limit": 0,
+            "scale_gains": false,
+            "gain_headroom": 0.1,
+            "accumulation_time": 10,
+            "low_gain_threshold": 0.1,
+            "threshold_headroom": false
+          },
+          "dry_run": false,
+          "port_start": 21000,
+          "processors": {},
           "signal_display": {
             "metrics": [
               "all"
             ],
             "nchan_avg": 50,
             "window_count": 5,
+            "max_message_bytes": 52428800,
             "rounding_sensitivity": 10
+          },
+          "telescope_model": {
+            "sources": [
+              "car:ska-mid?main#tmdata"
+            ],
+            "layout_key": "instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json",
+            "station_data_key_path": "stations"
           },
           "extra_helm_values": {
             "receiver": {
@@ -231,12 +219,15 @@
           "pod_settings": [
             {
               "securityContext": {
-                "runAsUser": 0,
-                "fsGroup": 0
+                "runAsUser": 0
               }
             }
-          ]
-        }
+          ],
+          "reception_network": "auto",
+          "transport_protocol": "udp",
+          "allow_hostnames_in_receive_addresses": false
+        },
+        "sbi_ids": []
       }
     ]
   }

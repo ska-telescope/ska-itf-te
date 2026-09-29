@@ -43,10 +43,46 @@
       allow_failure: true
     - when: never
 
+.teapot_rules:
+  rules:
+    - if: "$CI_COMMIT_TAG != null"
+      when: manual
+      allow_failure: true
+  variables:
+    KUBE_NAMESPACE_PREFIX: dish-lmc-
+    TEAPOT_LMC_IN_THE_LOOP: "true"
+    TEAPOT_DATA_FILES: "-f .gitlab/ci/za-itf/staging/teapot-data-files.yaml"
+    KIND_OF_TEA: Buchu
+    DISH_IDS: SKA102
+    GENERATE_SEQUENCE_DIAGRAM: "false"
+    OVERRIDE_SCAN_BAND: "1"
+    # Example overrides: set these instead of/alongside TEAPOT_DATA_FILES to override
+    # individual data file settings via env vars rather than the values file above.
+    # DISH_VCC_CONFIG_SOURCE: "car:ska-mid?31.4.0-test-teapot-c#tmdata"
+    # DISH_VCC_CONFIG_FILE_PATH: "instrument/ska1_mid_itf/vcc-config/ska-mid-b5dc-102-cbf-system-parameters.json"
+    # TELMODEL_SOURCE: "car:ska-mid?31.4.0-test-teapot-c#tmdata"
+    # DISH_LAYOUT_TELMODEL_PATH: "instrument/ska1_mid_itf/layout/b5dc-test-itf-layout.json"
+
 deploy-sut-staging:
   extends:
     - .deploy
     - .staging-env
+  when: on_success
+  needs:
+    - k8s-test-runner
+  environment:
+    name: mid-itf/ska-$CONFIG-staging
+    kubernetes:
+      # This repetition is needed for gitlab to parse the namespace correctly
+      namespace: $KUBE_NAMESPACE
+    url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
+    on_stop: destroy-sut-staging
+
+deploy-sut-staging-teapot:
+  extends:
+    - .deploy
+    - .staging-env
+    - .teapot_rules
   when: on_success
   needs:
     - k8s-test-runner
@@ -123,11 +159,27 @@ test-telescope-on-staging:
     - .test-telescope-on-with-hw
     - .test-staging-rules
 
+test-telescope-on-teapot:
+  stage: test
+  extends:
+    - .staging-env
+    - .test-telescope-on-with-hw
+    - .teapot_rules
+    - .test-staging-rules
+
 test-scan-staging:
   stage: test
   extends:
     - .staging-env
     - .test-scan-with-hw
+    - .test-staging-rules
+
+test-scan-teapot:
+  stage: test
+  extends:
+    - .staging-env
+    - .test-scan-with-hw
+    - .teapot_rules
     - .test-staging-rules
 
 test-multiscan-with-reconfigure-staging:

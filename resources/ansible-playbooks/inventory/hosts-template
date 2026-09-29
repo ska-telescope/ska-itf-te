@@ -22,14 +22,5 @@ ansible_python_interpreter=python3
 ansible_user="<AD_USER>"
 
 # SPFRxs
-[spfrx_itf]
-spfrx01 ansible_host=10.165.3.20 host_identifier="spfrx01"
-spfrx02 ansible_host=10.165.3.21 host_identifier="spfrx02"
-spfrx03 ansible_host=10.165.3.22 host_identifier="spfrx03"
-spfrx04 ansible_host=10.165.3.23 host_identifier="spfrx04"
-
-# Testing only
-[spfrx_test]
-spfrx05 ansible_host=10.165.3.50 host_identifier="spfrx05"
 
 [spfrx_mid]

@@ -72,6 +72,8 @@ DISH_LMC_INITIAL_PARAMS ?=
 DISH_LMC_EXTRA_PARAMS ?=
 DISH_LMC_EDA_PARAMS ?=
 
+TEAPOT_LMC_IN_THE_LOOP ?= false
+
 ifneq ($(DISH_ID),)
 DISH_LMC_EXTRA_PARAMS = \
 	--set global.dish_id=$(DISH_ID) \
@@ -228,6 +230,42 @@ EDA_PARAMS ?= --set ska-tango-archiver.dbpassword=${EDA_DB_PASSWORD} \
 
 K8S_TEST_RUNNER_PARAMS ?=
 
+DISH_LAYOUT_TELMODEL_PATH ?=
+DISH_VCC_CONFIG_SOURCE ?=
+DISH_VCC_CONFIG_FILE_PATH ?=
+TELMODEL_SOURCE ?=
+TEAPOT_DATA_FILES ?=
+
+TEAPOT_PARAMS ?=
+
+ifeq ($(TEAPOT_LMC_IN_THE_LOOP),true)
+TEAPOT_PARAMS += \
+	--set ska-tmc-mid.deviceServers.centralnode.DefaultArrayLayoutPath=${DISH_LAYOUT_TELMODEL_PATH} \
+	--set ska-tmc-mid.deviceServers.centralnode.DefaultArrayLayoutSourceURIs=${TELMODEL_SOURCE} \
+	--set ska-tmc-mid.deviceServers.centralnode.DishVccConfig.DishVccUri=${DISH_VCC_CONFIG_SOURCE} \
+	--set ska-tmc-mid.deviceServers.centralnode.DishVccConfig.DishVccFilePath=${DISH_VCC_CONFIG_FILE_PATH} \
+	$(TEAPOT_DATA_FILES)
+endif
+
+ifeq ($(KIND_OF_TEA),Rooibos)
+	TEAPOT_PARAMS += \
+	--set ska-tango-taranta.TANGO_DBS[0]="ska101" \
+	--set global.dishids[0]="SKA101" \
+	-f resources/teapot/tmc-values-ska101.yaml
+else ifeq ($(KIND_OF_TEA),Buchu)
+	TEAPOT_PARAMS += \
+	--set ska-tango-taranta.TANGO_DBS[0]="ska102" \
+	--set global.dishids[0]="SKA102" \
+	-f resources/teapot/tmc-values-ska102.yaml
+else ifeq ($(KIND_OF_TEA),Mix)
+	TEAPOT_PARAMS += \
+	--set ska-tango-taranta.TANGO_DBS[0]="ska101" \
+	--set ska-tango-taranta.TANGO_DBS[1]="ska102" \
+	--set global.dishids[0]="SKA101" \
+	--set global.dishids[1]="SKA102" \
+	-f resources/teapot/tmc-values-ska101-ska102.yaml
+endif
+
 K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	--set global.exposeAllDS=$(EXPOSE_All_DS) \
 	--set global.exposeDatabaseDS=$(EXPOSE_DATABASE_DS) \
@@ -251,6 +289,7 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	$(TMC_PARAMS) \
 	$(CSP_PARAMS) \
 	$(EDA_PARAMS) \
+	$(TEAPOT_PARAMS) \
 	$(SUT_ENABLERS) \
 	$(DISH_ENABLERS) \
 	$(ODA_ENABLERS) \
@@ -369,6 +408,9 @@ include .make/tmdata.mk
 # include testing tools
 include resources/makefiles/integration-testing.mk
 
+# include release tags editing to PEP 440 for Python only.
+include resources/makefiles/release-version.mk
+
 
 XRAY_TEST_RESULT_FILE ?= build/reports/cucumber.json
 XRAY_EXECUTION_CONFIG_FILE ?= tests/xray-config.json
@@ -419,7 +461,10 @@ UNAME_M := $(shell uname -m)
 
 ifeq ($(UNAME_S),Darwin)
 ifeq ($(UNAME_M),arm64)
-UV_CASACORE_BUILD_ENV = CXXFLAGS="-D_LIBCPP_ENABLE_CXX20_REMOVED_ALLOCATOR_MEMBERS -D_LIBCPP_ENABLE_CXX17_REMOVED_ALLOCATOR_MEMBERS" CMAKE_ARGS="-DCMAKE_CXX_STANDARD=17"
+# python-casacore has no macOS wheel, so it builds from source and needs the native
+# casacore library. Install it first: brew tap casacore/tap && brew install casacore
+CASACORE_PREFIX := $(shell brew --prefix casacore 2>/dev/null)
+UV_CASACORE_BUILD_ENV = CXXFLAGS="-D_LIBCPP_ENABLE_CXX20_REMOVED_ALLOCATOR_MEMBERS -D_LIBCPP_ENABLE_CXX17_REMOVED_ALLOCATOR_MEMBERS" CMAKE_ARGS="-DCMAKE_CXX_STANDARD=17 -DCASACORE_ROOT_DIR=$(CASACORE_PREFIX)"
 endif
 endif
 

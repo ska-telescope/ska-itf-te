@@ -17,9 +17,8 @@
     - .deploy-additional-lmc
     - .ska036-env
   needs:
-    - 1-deploy-dishlmc-ska001
     - deploy-aa05-dishes
-  when: on_success
+  when: manual
   environment:
     on_stop: 2-uninstall-dishlmc-ska036
 

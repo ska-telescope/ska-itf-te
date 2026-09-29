@@ -69,7 +69,17 @@
 - name: Setup SPFRx
   hosts:
     - spfrx_mid
-    - spfrx_itf
-    - spfrx_test
+  # (Ansible gathers facts per matched play regardless of --tags, so disable it here too)
+  # The host may be unreachable at its old address until spfrx_validate's netplan apply runs, so skip auto fact-gathering.
+  gather_facts: false
   roles:
     - role: spfrx_setup
+
+# Validate SPFRx (za-itf-sw)
+- name: Validate SPFRx
+  hosts:
+    - spfrx_mid
+  # The host may be unreachable at its old address until spfrx_validate's netplan fix runs, so skip auto fact-gathering.
+  gather_facts: false
+  roles:
+    - role: spfrx_validate

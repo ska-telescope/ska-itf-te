@@ -1,0 +1,79 @@
+{
+  "interface": "https://schema.skao.int/ska-mid-dish-gpm/1.4",
+  "antenna": "SKA036",
+  "band": "Band_2",
+  "coefficients": {
+    "IA": {
+      "value": -126.12263466081009,
+      "units": "arcsec"
+    },
+    "CA": {
+      "value": 0.0,
+      "units": "arcsec"
+    },
+    "NPAE": {
+      "value": 0.0,
+      "units": "arcsec"
+    },
+    "AN": {
+      "value": -55.19066584107089,
+      "units": "arcsec"
+    },
+    "AN0": {
+      "value": 0.0,
+      "units": "arcsec"
+    },
+    "AW": {
+      "value": 0.0,
+      "units": "arcsec"
+    },
+    "AW0": {
+      "value": 0.0,
+      "units": "arcsec"
+    },
+    "ACEC": {
+      "value": 0.0,
+      "units": "arcsec"
+    },
+    "ACES": {
+      "value": 0.0,
+      "units": "arcsec"
+    },
+    "ABA": {
+      "value": 0.0,
+      "units": "arcsec"
+    },
+    "ABphi": {
+      "value": 0.0,
+      "units": "deg"
+    },
+    "IE": {
+      "value": -663.5039590767442,
+      "units": "arcsec"
+    },
+    "ECEC": {
+      "value": 0.0,
+      "units": "arcsec"
+    },
+    "ECES": {
+      "value": 0.0,
+      "units": "arcsec"
+    },
+    "HECE4": {
+      "value": 0.0,
+      "units": "arcsec"
+    },
+    "HESE4": {
+      "value": 0.0,
+      "units": "arcsec"
+    },
+    "HECE8": {
+      "value": 0.0,
+      "units": "arcsec"
+    },
+    "HESE8": {
+      "value": 0.0,
+      "units": "arcsec"
+    }
+  }
+}

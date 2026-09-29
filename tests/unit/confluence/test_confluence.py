@@ -456,9 +456,9 @@ def test_get_attachment_data(
     :type expected_dependency_title: str
     """
     results = get_attachment_data(page_id=page_id)
-    assert_that(results).contains_entry(
-        {expected_dependency_title: expected_dependency_attachment}
-    )
+    assert_that(results).contains_entry({
+        expected_dependency_title: expected_dependency_attachment
+    })
 
 
 @pytest.mark.usefixtures("mock_requests")

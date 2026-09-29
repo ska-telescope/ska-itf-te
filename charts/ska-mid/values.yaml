@@ -76,7 +76,7 @@ ska-oso-integration:
     vault:
       enabled: false
   ska-oso-slt-services:
-    vaultStaticSecret:
+    vault:
       enabled: false
   
 # ODA
@@ -387,8 +387,13 @@ ska-tmc-mid:
       DefaultArrayLayoutSourceURIs: "car:ska-mid?main#tmdata"
       DefaultArrayLayoutPath: "instrument/ska1_mid_itf/layout/aa05-zerodelay-itf-layout.json"      
       DishVccConfig:
-        DishVccUri: "car:ska-mid?31.4.1-vcc-swap#tmdata"
+        DishVccUri: "car:ska-mid?27.3.0#tmdata"
         DishVccFilePath: "instrument/ska1_mid_itf/vcc-config/ska-mid-cbf-system-parameters.json"
+      global_pointing_model:
+        version: "main"
+        interface: "https://schema.skao.int/ska-mid-dish-gpm/1.2"
+        data_sources_prefix: "gitlab://gitlab.com/ska-telescope/ska-mid"
+        file_path_prefix: "instrument/ska1_mid_aa/gpm"
     cspsubarrayleafnode:
       CommandTimeOutDefault: 300
       # DelayCadence: 10.0
@@ -403,6 +408,8 @@ ska-tmc-mid:
       CspScanInterfaceURL: https://schema.skao.int/ska-csp-scan/2.2   # TEMPORARY COMMIT - not to be overwritten in makefile
     dishleafnode:
       CommandTimeOutDefault: 320
+  global:
+    dish_devices: ["dishmaster", "dishleafnode"]
   resources:
     # limits:
     #   cpu: 800m

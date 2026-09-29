@@ -28,7 +28,7 @@ author = "ATLAS Team"
 
 # The full version, including alpha/beta/rc tags
 
-release = "31.5.1-test-secrets"
+release = "32.0.0"
 
 # -- General configuration ---------------------------------------------------
 

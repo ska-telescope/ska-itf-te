@@ -27,9 +27,14 @@ Populate your `PrivateRules.mak` file with make variables if you are testing / d
 
 ### Python On Apple Silicon (M-series)
 
-On macOS arm64, `python-casacore` may fail to build with the default C++20 setting when linked against local Homebrew `casacore` headers.
+On macOS arm64, `python-casacore` has no prebuilt wheel, so it builds from source against a native `casacore` library. Install `casacore` first, from its dedicated Homebrew tap (there is no formula for it in Homebrew core):
 
-Use the provided helper target, which applies a local build workaround automatically:
+```bash
+brew tap casacore/tap
+brew install casacore
+```
+
+Once `casacore` is installed, use the provided helper target, which applies a local build workaround (C++ standard flags and `CASACORE_ROOT_DIR`) automatically:
 
 ```bash
 make uv-lock-sync
