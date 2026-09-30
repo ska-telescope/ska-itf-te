@@ -28,7 +28,7 @@ author = "ATLAS Team"
 
 # The full version, including alpha/beta/rc tags
 
-release = "32.0.1-dev1-spfrx"
+release = "32.0.1-dev2-spfrx-lmc"
 
 # -- General configuration ---------------------------------------------------
 
