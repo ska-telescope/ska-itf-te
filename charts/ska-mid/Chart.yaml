@@ -74,7 +74,7 @@ dependencies:
   # SKA ODA
   - name: ska-db-oda-umbrella
     repository: https://artefact.skao.int/repository/helm-internal
-    version: 19.2.2
+    version: 19.6.0
     condition: ska-db-oda-umbrella.enabled
 
   # DISH LMC CHART
