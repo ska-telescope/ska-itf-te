@@ -62,7 +62,7 @@ ska-dataproduct-dashboard:
 # OSO
 ska-oso-integration:
   enabled: false
-  ska-db-oda-umbrella:
+  ska-db-oda:
     enabled: false # The ODA database is provisioned separately, and the liquibase job runs in a separate namespace
   ska-oso-oet:
     rest:
