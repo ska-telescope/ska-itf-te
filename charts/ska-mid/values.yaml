@@ -33,6 +33,8 @@ global:
           name: ~
         vault:
           enabled: false
+  oso:
+    telescope: ska_mid
 
 # Alarm Handler
 ska-tango-alarmhandler:
