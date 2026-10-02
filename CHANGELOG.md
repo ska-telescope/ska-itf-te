@@ -4,7 +4,7 @@
 * [AT-3859]
   * Upgrade ska-dataproduct-dashboard to `0.19.0`
   * Upgrade ska-oso-integration to `2.7.0`
-  * Upgrade ska-db-oda-umbrella to `19.6.0`
+  * Upgrade ska-db-oda-umbrella to `19.6.0`, was dependent on postgres v18 and BANG-1762
 
 ## 32.1.0
 * [AT-3862]
