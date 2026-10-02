@@ -1,6 +1,9 @@
 # Version History
 
 ## Unreleased
+* [AT-3860]
+  * Upgrade ska-mid-cbf-tdc-mcs to `1.4.2`
+  * Upgrade ska-mid-cbf-engineering-console to `2.0.1`
 
 ## 32.1.0
 * [AT-3862]
