@@ -70,7 +70,7 @@ ska-oso-integration:
         enabled: true
   ska-oso-ost-services:
     enabled: true
-    vaultStaticSecret:
+    vault:
       enabled: true
       mount: mid-itf
       path: ost-credentials
