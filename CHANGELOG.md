@@ -3,6 +3,9 @@
 ## Unreleased
 
 ## 32.1.0
+* [AT-3861]
+  * Upgrade octopus backend to `0.9.6` 
+  * Upgrade octopus frontend to `0.9.5`
 * [AT-3862]
   * Revert ska-tango-base and ska-tango-util back to `1.1.0` due to SKB-1601
 
