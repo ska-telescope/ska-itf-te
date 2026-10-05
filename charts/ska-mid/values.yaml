@@ -240,7 +240,7 @@ ska-octopus-backend:
   ska-octopus-tangogqlcpp:
     enabled: true
     tango:
-      host: tango-databaseds:10000
+      host: tango-databaseds.staging.svc.miditf.internal.skao.int:10000
       # hosts:
       #   - databaseds-tango-base-ska-octopus-direct:10000
       #   - databaseds-tango-base-secondary-direct:10000
