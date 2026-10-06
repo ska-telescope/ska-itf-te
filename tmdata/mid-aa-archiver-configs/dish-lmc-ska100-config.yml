@@ -966,6 +966,16 @@ attributes:
       code_push_event: true
       archive_abs_change: 1
     es: es4
+  - trl: mid-dish/ds-manager/ska100/azimuth_status_v_shape
+    configuration:
+      code_push_event: true
+      archive_abs_change: 1
+    es: es4
+  - trl: mid-dish/ds-manager/ska100/azimuth_status_v_setmax
+    configuration:
+      code_push_event: true
+      archive_abs_change: 1
+    es: es4
   - trl: mid-dish/ds-manager/ska100/azimuth_warningstatus_walim1ccw
     configuration:
       code_push_event: true
