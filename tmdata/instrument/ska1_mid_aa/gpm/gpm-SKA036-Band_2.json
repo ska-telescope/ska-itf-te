@@ -1,14 +1,14 @@
 {
-  "interface": "https://schema.skao.int/ska-mid-dish-gpm/1.4",
+  "interface": "https://schema.skao.int/ska-mid-dish-dpm/1.4",
   "antenna": "SKA036",
   "band": "Band_2",
   "coefficients": {
     "IA": {
-      "value": -126.12263466081009,
+      "value": -460.3360101082978,
       "units": "arcsec"
     },
     "CA": {
-      "value": 0.0,
+      "value": 202.78551881518413,
       "units": "arcsec"
     },
     "NPAE": {
@@ -16,7 +16,7 @@
       "units": "arcsec"
     },
     "AN": {
-      "value": -55.19066584107089,
+      "value": 0.0,
       "units": "arcsec"
     },
     "AN0": {
@@ -45,10 +45,10 @@
     },
     "ABphi": {
       "value": 0.0,
-      "units": "deg"
+      "units": "arcsec"
     },
     "IE": {
-      "value": -663.5039590767442,
+      "value": 656.78372,
       "units": "arcsec"
     },
     "ECEC": {
