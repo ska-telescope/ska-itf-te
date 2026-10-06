@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AIV-835]
+  * Update Mid-AA B2 GPM files for SKA001, SKA036, SKA077, SKA100 
 * [AT-3859]
   * Upgrade ska-dataproduct-dashboard to `0.19.0`
   * Upgrade ska-oso-integration to `2.7.0`
