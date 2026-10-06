@@ -45,7 +45,7 @@
     },
     "ABphi": {
       "value": 0.0,
-      "units": "arcsec"
+      "units": "deg"
     },
     "IE": {
       "value": 656.78372,
