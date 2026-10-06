@@ -197,7 +197,7 @@ ska-octopus-frontend:
     MSENTRA_REDIRECT_URI: "https://k8s.mid.internal.skao.int/octopus/ska-octopus-frontend"
     ROLE_PREFIX: "mid"
   backendServiceName: ska-octopus-backend
-  deployEnv: "MID"
+  deployEnv: "MID-ITF"
   ingress:
     paths:
       frontend: "/octopus/ska-octopus-frontend"

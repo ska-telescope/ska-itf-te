@@ -43,10 +43,6 @@ deploy-octopus:
   extends:
     - .deploy-octopus
 
-redeploy-octopus:
-  extends:
-    - .redeploy-octopus
-
 destroy-octopus:
   extends:
     - .destroy-octopus
