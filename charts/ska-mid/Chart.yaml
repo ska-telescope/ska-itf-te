@@ -37,7 +37,7 @@ dependencies:
 
   # Mid CBF TDC MCS
   - name: ska-mid-cbf-tdc-mcs
-    version: 1.4.1
+    version: 1.4.2
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-mid-cbf-tdc-mcs.enabled
 
@@ -49,7 +49,7 @@ dependencies:
 
   # Mid CBF EC
   - name: ska-mid-cbf-engineering-console
-    version: 2.0.0
+    version: 2.0.1
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-mid-cbf-engineering-console.enabled
 
@@ -67,14 +67,14 @@ dependencies:
 
   # OSO integration
   - name: ska-oso-integration
-    version: 2.5.1
+    version: 2.7.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-oso-integration.enabled
 
   # SKA ODA
   - name: ska-db-oda-umbrella
     repository: https://artefact.skao.int/repository/helm-internal
-    version: 19.2.2
+    version: 19.6.0
     condition: ska-db-oda-umbrella.enabled
 
   # DISH LMC CHART
@@ -123,7 +123,7 @@ dependencies:
 
   # DPD
   - name: ska-dataproduct-dashboard
-    version: 0.17.0
+    version: 0.19.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-dataproduct-dashboard.enabled
 

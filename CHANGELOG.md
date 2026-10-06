@@ -1,6 +1,15 @@
 # Version History
 
 ## Unreleased
+* [AT-3860]
+  * Upgrade ska-mid-cbf-tdc-mcs to `1.4.2`
+  * Upgrade ska-mid-cbf-engineering-console to `2.0.1`
+* [AIV-835]
+  * Update Mid-AA B2 GPM files for SKA001, SKA036, SKA077, SKA100 
+* [AT-3859]
+  * Upgrade ska-dataproduct-dashboard to `0.19.0`
+  * Upgrade ska-oso-integration to `2.7.0`
+  * Upgrade ska-db-oda-umbrella to `19.6.0`, was dependent on postgres v18 and BANG-1762
 
 ## 32.1.0
 * [AT-3861]
