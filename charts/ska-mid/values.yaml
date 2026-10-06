@@ -221,16 +221,10 @@ ska-octopus-backend:
   vars:
     ROLE_PREFIX: "mid"
     TANGO_DBS:
-      - value: "http://tangogql-staging.staging.svc.miditf.internal.skao.int:5004/db"
-        label: "Central Controller"
-      - value: "http://tangogql-staging-ska001.staging.svc.miditf.internal.skao.int:5004/db"
-        label: "Dish SKA001"
-      - value: "http://tangogql-staging-ska036.staging.svc.miditf.internal.skao.int:5004/db"
-        label: "Dish SKA036"
-      - value: "http://tangogql-staging-ska063.staging.svc.miditf.internal.skao.int:5004/db"
-        label: "Dish SKA063"
-      - value: "http://tangogql-staging-ska100.staging.svc.miditf.internal.skao.int:5004/db"
-        label: "Dish SKA100"
+      - value: "http://ska-octopus-tangogqlcpp:5004/db"
+        label: "Tango DB"
+        jwtMode: "msal"
+        wsProtocol: "graphql-transport-ws"
     EDA_API: http://eda-rest-api.ska-mid-eda-api.svc.miditf.internal.skao.int:5001/query
     EDA_API_CENTRAL_CONTROLLER_TARGET: staging
     EDA_API_SKA001_TARGET: staging-dish-lmc-ska001
