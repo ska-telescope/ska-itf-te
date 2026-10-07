@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3870]
+  * Upgrade vis-receive to `10.0.1`
 * [AT-3860]
   * Upgrade ska-mid-cbf-tdc-mcs to `1.4.2`
   * Upgrade ska-mid-cbf-engineering-console to `2.0.1`
