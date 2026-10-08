@@ -3,6 +3,7 @@
 ## Unreleased
 * [AT-3870]
   * Upgrade vis-receive to `10.0.1`
+  * Set the cspsubarrayleafnode DelayModelTimeInAdvance to 15 (was 30) seconds in the value file
 * [AT-3860]
   * Upgrade ska-mid-cbf-tdc-mcs to `1.4.2`
   * Upgrade ska-mid-cbf-engineering-console to `2.0.1`
