@@ -1,6 +1,9 @@
 # Version History
 
 ## Unreleased
+* [AT-3861]
+  * Upgrade octopus backend to `0.9.6` 
+  * Upgrade octopus frontend to `0.9.5`
 
 ## 32.2.0
 * [AT-3860]
