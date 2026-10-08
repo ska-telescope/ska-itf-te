@@ -1,6 +1,10 @@
 # Version History
 
 ## Unreleased
+* [KAR-2516]
+  * Added new DS and DishManager attributes for the EDA
+    * lastcommandfailure
+    * lasttangoeventerror
 
 ## 32.2.0
 * [AT-3860]
@@ -888,4 +892,3 @@
 
 * [AT-2044]
   * Use engineering console version 0.10.6 to mitigate SKB-352.
-
