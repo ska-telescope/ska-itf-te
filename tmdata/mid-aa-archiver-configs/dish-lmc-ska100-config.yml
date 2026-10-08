@@ -26,7 +26,7 @@ configuration_managers:
       trl: mid-eda/cm/01
 defaults:
   - th: th1
-  - cm: cm1  
+  - cm: cm1
   - es: es1
 attributes:
   - trl: ska100/spf/spfc/hecompdiffpressure
@@ -44,6 +44,14 @@ attributes:
     configuration:
       code_push_event: true
       archive_abs_change: 0.2
+  - trl: mid-dish/dish-manager/ska100/lastcommandfailure
+    es: es1
+    configuration:
+      code_push_event: true
+  - trl: mid-dish/dish-manager/ska100/lasttangoeventerror
+    es: es1
+    configuration:
+      code_push_event: true
   - trl: mid-dish/dish-manager/ska100/azimuthoverwrap
     es: es1
     configuration:
@@ -401,6 +409,10 @@ attributes:
     configuration:
       code_push_event: true
       archive_abs_change: 0.01
+  - trl: mid-dish/ds-manager/ska100/lastcommandfailure
+    es: es1
+    configuration:
+      code_push_event: true
   - trl: mid-dish/ds-manager/ska100/azimuth_status_p_shape
     es: es2
     configuration:
