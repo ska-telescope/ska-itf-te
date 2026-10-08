@@ -10,6 +10,7 @@
     KUBE_NAMESPACE: octopus
     HELM_RELEASE: octopus
     K8S_SKIP_DEP_BUILD: "true"
+    K8S_EXTRA_PARAMS: "--set ska-octopus-frontend.config.MSENTRA_REDIRECT_URI=https://k8s.miditf.internal.skao.int/octopus/ska-octopus-frontend"
   when: manual
   script:
     - make vars
@@ -41,10 +42,6 @@
 deploy-octopus:
   extends:
     - .deploy-octopus
-
-redeploy-octopus:
-  extends:
-    - .redeploy-octopus
 
 destroy-octopus:
   extends:
