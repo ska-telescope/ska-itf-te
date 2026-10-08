@@ -399,7 +399,7 @@ ska-tmc-mid:
     cspsubarrayleafnode:
       CommandTimeOutDefault: 300
       # DelayCadence: 10.0
-      # DelayModelTimeInAdvance: 30
+      DelayModelTimeInAdvance: 15 # reduced from the default of 30
       # DelayValidityPeriod: 20.0
       # SleepTime: 1.5
     sdpsubarrayleafnode:
