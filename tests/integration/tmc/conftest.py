@@ -582,9 +582,8 @@ def _(telescope_handlers, receptor_ids, settings):  # noqa: C901
 
     def deployed_vcc_property(property_name):
         property_values = vcc_properties.get(property_name, [])
-        assert (
-            property_values and property_values[0]
-        ), f"Central node {property_name} property is not configured"
+        assert property_values, f"Central node {property_name} property is not configured"
+        assert property_values[0], f"Central node {property_name} property value is empty"
         return property_values[0]
 
     dish_vcc_source = settings["dish_vcc_config_source"] or deployed_vcc_property(
