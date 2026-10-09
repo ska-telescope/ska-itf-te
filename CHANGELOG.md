@@ -1,6 +1,9 @@
 # Version History
 
 ## Unreleased
+* [AT-3870]
+  * Upgrade vis-receive to `10.0.1`
+  * Set the cspsubarrayleafnode DelayModelTimeInAdvance to 15 (was 30) seconds in the value file
 * [AT-3861]
   * Upgrade octopus backend to `0.9.6` 
   * Upgrade octopus frontend to `0.9.5`
