@@ -571,15 +571,33 @@ def _(telescope_handlers, receptor_ids, settings):  # noqa: C901
     with open(DISH_CONFIG_FILE, encoding="utf-8") as f:
         dish_config_json = json.load(f)
 
-    if settings["dish_vcc_config_source"]:
-        logger.info(f"Overriding dish VCC config source to {settings['dish_vcc_config_source']}")
-        dish_config_json["tm_data_sources"][0] = settings["dish_vcc_config_source"]
+    vcc_property_names = []
+    if not settings["dish_vcc_config_source"]:
+        vcc_property_names.append("DishVccUri")
+    if not settings["dish_vcc_config_file_path"]:
+        vcc_property_names.append("DishVccFilePath")
+    vcc_properties = (
+        tmc_central_node.get_property(vcc_property_names) if vcc_property_names else {}
+    )
 
-    if settings["dish_vcc_config_file_path"]:
-        logger.info(
-            f"Overriding dish VCC config filepath to {settings['dish_vcc_config_file_path']}"
+    def deployed_vcc_property(property_name):
+        property_values = vcc_properties.get(property_name, [])
+        assert property_values and property_values[0], (
+            f"Central node {property_name} property is not configured"
         )
-        dish_config_json["tm_data_filepath"] = settings["dish_vcc_config_file_path"]
+        return property_values[0]
+
+    dish_vcc_source = settings["dish_vcc_config_source"] or deployed_vcc_property("DishVccUri")
+    dish_vcc_file_path = settings["dish_vcc_config_file_path"] or deployed_vcc_property(
+        "DishVccFilePath"
+    )
+    if settings["dish_vcc_config_source"]:
+        logger.info(f"Overriding dish VCC config source to {dish_vcc_source}")
+    if settings["dish_vcc_config_file_path"]:
+        logger.info(f"Overriding dish VCC config filepath to {dish_vcc_file_path}")
+
+    dish_config_json["tm_data_sources"][0] = dish_vcc_source
+    dish_config_json["tm_data_filepath"] = dish_vcc_file_path
 
     logger.debug(f"dish_config_json file contents: \n{dish_config_json}")
 
