@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3811]
+  * Added azimuth_status_v_setmax and azimuth_status_v_shape to EDA dish configs
 * [AT-3860]
   * Upgrade ska-mid-cbf-tdc-mcs to `1.4.2`
   * Upgrade ska-mid-cbf-engineering-console to `2.0.1`
