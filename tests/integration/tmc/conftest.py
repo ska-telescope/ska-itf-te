@@ -582,12 +582,14 @@ def _(telescope_handlers, receptor_ids, settings):  # noqa: C901
 
     def deployed_vcc_property(property_name):
         property_values = vcc_properties.get(property_name, [])
-        assert property_values and property_values[0], (
-            f"Central node {property_name} property is not configured"
-        )
+        assert (
+            property_values and property_values[0]
+        ), f"Central node {property_name} property is not configured"
         return property_values[0]
 
-    dish_vcc_source = settings["dish_vcc_config_source"] or deployed_vcc_property("DishVccUri")
+    dish_vcc_source = settings["dish_vcc_config_source"] or deployed_vcc_property(
+        "DishVccUri"
+    )
     dish_vcc_file_path = settings["dish_vcc_config_file_path"] or deployed_vcc_property(
         "DishVccFilePath"
     )
@@ -617,7 +619,11 @@ def _(telescope_handlers, receptor_ids, settings):  # noqa: C901
         except json.JSONDecodeError:
             logger.warning("dishVccConfig could not be decoded. Will re-load config.")
 
-    if not raw_vcc_config or not tmc_central_node.isDishVccConfigSet or not is_k_value_correct:
+    if (
+        not raw_vcc_config
+        or not tmc_central_node.isDishVccConfigSet
+        or not is_k_value_correct
+    ):
         tmc_central_node.LoadDishCfg(json.dumps(dish_config_json))
         wait_for_event(tmc_central_node, "isDishVccConfigSet", True)
 
@@ -632,7 +638,10 @@ def _(telescope_handlers, receptor_ids, settings):  # noqa: C901
     dish_vcc_config = json.loads(tmc.csp_master_leaf_node.dishVccConfig)
 
     for receptor in RECEPTORS:
-        assert dish_vcc_config["dish_parameters"][receptor]["k"] == settings["expected_k_value"]
+        assert (
+            dish_vcc_config["dish_parameters"][receptor]["k"]
+            == settings["expected_k_value"]
+        )
 
     # Turn ON the telescope
     assert cbf_fspcorrsubarray.obsstate == ObsState.IDLE
