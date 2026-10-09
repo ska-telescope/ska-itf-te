@@ -199,7 +199,7 @@ ska-octopus-frontend:
     MSENTRA_REDIRECT_URI: "https://k8s.mid.internal.skao.int/octopus/ska-octopus-frontend"
     ROLE_PREFIX: "mid"
   backendServiceName: ska-octopus-backend
-  deployEnv: "MID"
+  deployEnv: "SeeKAT"
   ingress:
     paths:
       frontend: "/octopus/ska-octopus-frontend"
@@ -223,22 +223,43 @@ ska-octopus-backend:
   vars:
     ROLE_PREFIX: "mid"
     TANGO_DBS:
-      - value: "http://tangogql-staging.staging.svc.miditf.internal.skao.int:5004/db"
-        label: "Central Controller"
-      - value: "http://tangogql-staging-ska001.staging.svc.miditf.internal.skao.int:5004/db"
-        label: "Dish SKA001"
-      - value: "http://tangogql-staging-ska036.staging.svc.miditf.internal.skao.int:5004/db"
-        label: "Dish SKA036"
-      - value: "http://tangogql-staging-ska063.staging.svc.miditf.internal.skao.int:5004/db"
-        label: "Dish SKA063"
-      - value: "http://tangogql-staging-ska100.staging.svc.miditf.internal.skao.int:5004/db"
-        label: "Dish SKA100"
+      - value: "http://ska-octopus-tangogqlcpp:5004/db"
+        label: "Tango DB"
+        jwtMode: "msal"
+        wsProtocol: "graphql-transport-ws"
     EDA_API: http://eda-rest-api.ska-mid-eda-api.svc.miditf.internal.skao.int:5001/query
     EDA_API_CENTRAL_CONTROLLER_TARGET: staging
     EDA_API_SKA001_TARGET: staging-dish-lmc-ska001
     EDA_API_SKA036_TARGET: staging-dish-lmc-ska036
     EDA_API_SKA063_TARGET: staging-dish-lmc-ska063
     EDA_API_SKA100_TARGET: staging-dish-lmc-ska100
+  ska-octopus-tangogqlcpp:
+    enabled: true
+    tango:
+      host: tango-databaseds.staging.svc.miditf.internal.skao.int:10000
+      hosts:
+        - tango-databaseds.test-equipment.svc.miditf.internal.skao.int:10000 # because why not the SkySim also?
+        - tango-databaseds.staging-dish-lmc-ska001.svc.miditf.internal.skao.int:10000 #SKA001
+        - tango-databaseds.staging-dish-lmc-ska036.svc.miditf.internal.skao.int:10000 #SKA036
+        - tango-databaseds.staging-dish-lmc-ska063.svc.miditf.internal.skao.int:10000 #SKA063
+        - tango-databaseds.staging-dish-lmc-ska100.svc.miditf.internal.skao.int:10000 #SKA100
+        - tango-databaseds.dish-lmc-ska101.svc.ska418.miditf.internal.skao.int:10000 # Tea, anyone?
+        - tango-databaseds.dish-lmc-ska102.svc.ska418.miditf.internal.skao.int:10000 # Tea for two, perhaps 
+        # - tango-databaseds.testing.svc.miditf.internal.skao.int:10000 # Central Testing - not in the plans for Flux so maybe unnecessary
+        # - tango-databaseds.testing-dish-lmc-ska001.svc.miditf.internal.skao.int:10000 #SKA001
+        # - tango-databaseds.testing-dish-lmc-ska036.svc.miditf.internal.skao.int:10000 #SKA036
+        # - tango-databaseds.testing-dish-lmc-ska063.svc.miditf.internal.skao.int:10000 #SKA063
+        # - tango-databaseds.testing-dish-lmc-ska100.svc.miditf.internal.skao.int:10000 #SKA100
+        # - tango-databaseds.integration.svc.miditf.internal.skao.int:10000 # Central Integration - Software only TMC etc
+        # - tango-databaseds.integration-dish-lmc-ska001.svc.miditf.internal.skao.int:10000 #SKA001
+        # - tango-databaseds.integration-dish-lmc-ska036.svc.miditf.internal.skao.int:10000 #SKA036
+        # - tango-databaseds.integration-dish-lmc-ska063.svc.miditf.internal.skao.int:10000 #SKA063
+        # - tango-databaseds.integration-dish-lmc-ska100.svc.miditf.internal.skao.int:10000 #SKA100
+    config:
+      requiredGroups:
+        - octopus-mid-operator
+        - octopus-mid-engineer
+        - octopus-mid-admin
 
 # SDP
 ska-sdp:
@@ -399,7 +420,7 @@ ska-tmc-mid:
     cspsubarrayleafnode:
       CommandTimeOutDefault: 300
       # DelayCadence: 10.0
-      # DelayModelTimeInAdvance: 30
+      DelayModelTimeInAdvance: 15 # reduced from the default of 30
       # DelayValidityPeriod: 20.0
       # SleepTime: 1.5
     sdpsubarrayleafnode:
