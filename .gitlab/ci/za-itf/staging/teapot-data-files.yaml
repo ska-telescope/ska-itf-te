@@ -4,7 +4,7 @@
 ska-tmc-mid:
   deviceServers:
     centralnode:
-      DefaultArrayLayoutSourceURIs: "car:ska-mid?main#tmdata"
+      DefaultArrayLayoutSourceURIs: "car:ska-mid?32.3.0-dev1-b5#tmdata"
       DefaultArrayLayoutPath: "instrument/ska1_mid_itf/layout/b5dc-test-itf-layout.json"
       DishVccConfig:
         DishVccUri: "car:ska-mid?main#tmdata"
