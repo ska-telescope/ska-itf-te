@@ -240,10 +240,6 @@ TEAPOT_PARAMS ?=
 
 ifeq ($(TEAPOT_LMC_IN_THE_LOOP),true)
 TEAPOT_PARAMS += \
-	--set ska-tmc-mid.deviceServers.centralnode.DefaultArrayLayoutPath=${DISH_LAYOUT_TELMODEL_PATH} \
-	--set ska-tmc-mid.deviceServers.centralnode.DefaultArrayLayoutSourceURIs=${TELMODEL_SOURCE} \
-	--set ska-tmc-mid.deviceServers.centralnode.DishVccConfig.DishVccUri=${DISH_VCC_CONFIG_SOURCE} \
-	--set ska-tmc-mid.deviceServers.centralnode.DishVccConfig.DishVccFilePath=${DISH_VCC_CONFIG_FILE_PATH} \
 	$(TEAPOT_DATA_FILES)
 endif
 
