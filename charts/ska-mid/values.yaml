@@ -444,6 +444,9 @@ ska-tmc-mid:
   telescope: SKA-mid
   ska-mid-wms:
     dev-name: "ska-mid/weather-monitoring/s1"
+  dishleafnode:
+    image:
+      tag: 0.46.7
 
 # Mid WMS Simulator
 ska-mid-wms:
