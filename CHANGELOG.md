@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3811]
+  * Added azimuth_status_v_setmax and azimuth_status_v_shape to EDA dish configs
 * [AT-3870]
   * Upgrade vis-receive to `10.0.1`
   * Set the cspsubarrayleafnode DelayModelTimeInAdvance to 15 (was 30) seconds in the value file
