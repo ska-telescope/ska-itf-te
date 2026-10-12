@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+
+## 32.2.1
 * [AT-3811]
   * Added azimuth_status_v_setmax and azimuth_status_v_shape to EDA dish configs
 * [AT-3870]
