@@ -3,6 +3,8 @@
 ## Unreleased
 * [AIV-837]
   * Updated dish positions for SKA001, SKA036, SKA077, SKA100
+
+## 32.2.1
 * [AT-3811]
   * Added azimuth_status_v_setmax and azimuth_status_v_shape to EDA dish configs
 * [AT-3870]

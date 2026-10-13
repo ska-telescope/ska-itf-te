@@ -238,23 +238,24 @@ ska-octopus-backend:
     tango:
       host: tango-databaseds.staging.svc.miditf.internal.skao.int:10000
       hosts:
-        - tango-databaseds.test-equipment.svc.miditf.internal.skao.int:10000 # because why not the SkySim also?
-        - tango-databaseds.staging-dish-lmc-ska001.svc.miditf.internal.skao.int:10000 #SKA001
-        - tango-databaseds.staging-dish-lmc-ska036.svc.miditf.internal.skao.int:10000 #SKA036
-        - tango-databaseds.staging-dish-lmc-ska063.svc.miditf.internal.skao.int:10000 #SKA063
-        - tango-databaseds.staging-dish-lmc-ska100.svc.miditf.internal.skao.int:10000 #SKA100
+        - tango-databaseds.staging.svc.miditf.internal.skao.int:10000
+        - tango-databaseds.test-equipment.svc.miditf.internal.skao.int:10000 # SkySim
+        - tango-databaseds.staging-dish-lmc-ska001.svc.miditf.internal.skao.int:10000
+        - tango-databaseds.staging-dish-lmc-ska036.svc.miditf.internal.skao.int:10000
+        - tango-databaseds.staging-dish-lmc-ska063.svc.miditf.internal.skao.int:10000
+        - tango-databaseds.staging-dish-lmc-ska100.svc.miditf.internal.skao.int:10000
         - tango-databaseds.dish-lmc-ska101.svc.ska418.miditf.internal.skao.int:10000 # Tea, anyone?
         - tango-databaseds.dish-lmc-ska102.svc.ska418.miditf.internal.skao.int:10000 # Tea for two, perhaps 
         # - tango-databaseds.testing.svc.miditf.internal.skao.int:10000 # Central Testing - not in the plans for Flux so maybe unnecessary
-        # - tango-databaseds.testing-dish-lmc-ska001.svc.miditf.internal.skao.int:10000 #SKA001
-        # - tango-databaseds.testing-dish-lmc-ska036.svc.miditf.internal.skao.int:10000 #SKA036
-        # - tango-databaseds.testing-dish-lmc-ska063.svc.miditf.internal.skao.int:10000 #SKA063
-        # - tango-databaseds.testing-dish-lmc-ska100.svc.miditf.internal.skao.int:10000 #SKA100
-        # - tango-databaseds.integration.svc.miditf.internal.skao.int:10000 # Central Integration - Software only TMC etc
-        # - tango-databaseds.integration-dish-lmc-ska001.svc.miditf.internal.skao.int:10000 #SKA001
-        # - tango-databaseds.integration-dish-lmc-ska036.svc.miditf.internal.skao.int:10000 #SKA036
-        # - tango-databaseds.integration-dish-lmc-ska063.svc.miditf.internal.skao.int:10000 #SKA063
-        # - tango-databaseds.integration-dish-lmc-ska100.svc.miditf.internal.skao.int:10000 #SKA100
+        # - tango-databaseds.testing-dish-lmc-ska001.svc.miditf.internal.skao.int:10000
+        # - tango-databaseds.testing-dish-lmc-ska036.svc.miditf.internal.skao.int:10000
+        # - tango-databaseds.testing-dish-lmc-ska063.svc.miditf.internal.skao.int:10000
+        # - tango-databaseds.testing-dish-lmc-ska100.svc.miditf.internal.skao.int:10000
+        # - tango-databaseds.integration.svc.miditf.internal.skao.int:10000 # Central Integration - Software only
+        # - tango-databaseds.integration-dish-lmc-ska001.svc.miditf.internal.skao.int:10000
+        # - tango-databaseds.integration-dish-lmc-ska036.svc.miditf.internal.skao.int:10000
+        # - tango-databaseds.integration-dish-lmc-ska063.svc.miditf.internal.skao.int:10000
+        # - tango-databaseds.integration-dish-lmc-ska100.svc.miditf.internal.skao.int:10000
     config:
       requiredGroups:
         - octopus-mid-operator

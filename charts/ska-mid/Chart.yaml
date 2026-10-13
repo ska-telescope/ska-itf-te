@@ -3,8 +3,8 @@ apiVersion: v2
 name: ska-mid
 description: An umbrella Helm chart for deployment of the Mid System
 type: application
-version: 32.2.0-updated-dish-pos
-appVersion: 32.2.0-updated-dish-pos
+version: 32.2.1
+appVersion: 32.2.1
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
   # Tango Base & Deployment Charts: TangoDB, iTango, Tango Operator Utils
@@ -21,7 +21,7 @@ dependencies:
   - name: ska-tmc-mid
     version: 1.25.1
     repository: https://artefact.skao.int/repository/helm-internal
-    condition: ska-tmc-mid.enabled
+    condition: ska-tmc-mid.enabledP
 
   # Mid WMS Simulator
   - name: ska-mid-wms
