@@ -21,7 +21,7 @@ dependencies:
   - name: ska-tmc-mid
     version: 1.25.1
     repository: https://artefact.skao.int/repository/helm-internal
-    condition: ska-tmc-mid.enabledP
+    condition: ska-tmc-mid.enabled
 
   # Mid WMS Simulator
   - name: ska-mid-wms
