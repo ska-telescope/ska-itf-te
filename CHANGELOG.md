@@ -1,6 +1,10 @@
 # Version History
 
 ## Unreleased
+* [AT-3796]
+  * Upgrade DishLMC to v11.0.1
+  * Upgrade SPFRx to v4.0.0 - now with secrets removed from Helm values and TZData fixes.
+  * Minor fixes in utilities scripts
 
 ## 32.2.1
 * [AT-3811]
