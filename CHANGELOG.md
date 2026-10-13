@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AIV-837]
+  * Updated dish positions for SKA001, SKA036, SKA077, SKA100
 
 ## 32.2.1
 * [AT-3811]
