@@ -408,6 +408,9 @@ include .make/tmdata.mk
 # include testing tools
 include resources/makefiles/integration-testing.mk
 
+# include release tags editing to PEP 440 for Python only.
+include resources/makefiles/release-version.mk
+
 
 XRAY_TEST_RESULT_FILE ?= build/reports/cucumber.json
 XRAY_EXECUTION_CONFIG_FILE ?= tests/xray-config.json
