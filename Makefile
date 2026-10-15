@@ -456,6 +456,11 @@ helm-rebuild-ska-mid:
 	@rm -rf charts/ska-mid/charts
 	@make k8s-template-chart K8S_CHART=ska-mid
 
+helm-rebuild-ska-mid-icams-web-app-test:
+	@rm -f charts/ska-mid-icams-web-app-test/Chart.lock
+	@rm -rf charts/ska-mid-icams-web-app-test/charts
+	@make k8s-template-chart K8S_CHART=ska-mid-icams-web-app-test K8S_CHARTS=ska-mid-icams-web-app-test
+
 UNAME_S := $(shell uname -s)
 UNAME_M := $(shell uname -m)
 

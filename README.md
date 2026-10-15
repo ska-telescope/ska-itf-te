@@ -25,6 +25,18 @@ You need to be on the SKAO ITF VPN (connect via AnyConnect client) - see instruc
 
 Populate your `PrivateRules.mak` file with make variables if you are testing / developing from a local machine.
 
+### Rebuild the ICAMS test chart
+
+After changing dependencies in `charts/ska-mid-icams-web-app-test/Chart.yaml`, run:
+
+```bash
+make helm-rebuild-ska-mid-icams-web-app-test
+```
+
+This removes the chart's lockfile and downloaded dependencies, rebuilds them, and
+renders the chart. The target sets both `K8S_CHART` (the chart to render) and
+`K8S_CHARTS` (the charts whose dependencies are built) to the ICAMS test chart.
+
 ### Python On Apple Silicon (M-series)
 
 On macOS arm64, `python-casacore` has no prebuilt wheel, so it builds from source against a native `casacore` library. Install `casacore` first, from its dedicated Homebrew tap (there is no formula for it in Homebrew core):
