@@ -14,15 +14,19 @@ global:
 
 ska-icams-web-app:
   config:
+    customPath:
+      prefixPath: /ska-ams
     auth:
       loginType: entra
       entra:
         clientId: "8f2268cb-a0e7-4d96-81d2-d65384945b34"
         tenantId: "78887040-bad7-494b-8760-88dcacfb3805"
-        redirectUri: "http://localhost:3000"
+        redirectUri: "https://k8s.miditf.internal.skao.int/ska-ams/"
         apiId: "da766800-a9cf-4f3b-9263-751d2015184c"
         tangogqlApiId: "27f76d0a-79d7-443e-8718-5a38438f9eed"
         tangogqlScope: "api://27f76d0a-79d7-443e-8718-5a38438f9eed/Tangogql.Access"
+  ingress:
+    enabled: false
 
 ska-app-s2i-icams-scheduler:
   config:
@@ -32,7 +36,7 @@ ska-web-s2i-flask-tango-panicapi:
   config:
     tango_host: tango-databaseds.staging.svc.miditf.internal.skao.int:10000
     customPath:
-      prefixPath: "/{{ $.Release }}/ska-ams"
+      prefixPath: /ska-ams
   ingress:
     enabled: false
 
