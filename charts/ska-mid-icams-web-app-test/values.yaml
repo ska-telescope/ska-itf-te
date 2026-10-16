@@ -27,15 +27,12 @@ ska-icams-web-app:
 ska-app-s2i-icams-scheduler:
   config:
     tango_host: tango-databaseds.staging.svc.miditf.internal.skao.int:10000
-    # icams_admin_password: admin
 
 ska-web-s2i-flask-tango-panicapi:
   config:
     tango_host: tango-databaseds.staging.svc.miditf.internal.skao.int:10000
-    # icams_admin: admin@gmail.com
-    # icams_admin_password: admin
     customPath:
-      prefixPath: "/{{ $.Release.Namespace }}/ska-ams"
+      prefixPath: "/{{ $.Release }}/ska-ams"
   ingress:
     enabled: false
 
