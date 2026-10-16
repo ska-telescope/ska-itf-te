@@ -1,6 +1,11 @@
 # Version History
 
 ## Unreleased
+* [AT-3888]
+  * Rollback ska-mid-cbf-tdc-mcs to `1.4.1`
+  * Rollback ska-mid-cbf-engineering-console to `2.0.0`
+  * Upgrade octopus backend to `0.14.6` 
+  * Upgrade octopus frontend to `0.14.18` 
 * [AIV-837]
   * Updated dish positions for SKA001, SKA036, SKA077, SKA100
 
