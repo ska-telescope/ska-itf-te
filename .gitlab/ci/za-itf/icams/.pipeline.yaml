@@ -26,13 +26,6 @@
   after_script:
     - rm -rf ./chart.tmp
 
-.redeploy-icams:
-  extends:
-    - .deploy-icams
-  before_script:
-    - !reference [.uninstall-chart, script]
-    - kubectl wait --for=delete namespace/$KUBE_NAMESPACE --timeout=60s
-
 .destroy-icams:
   extends:
     - .deploy-icams
@@ -43,10 +36,6 @@
 deploy-icams:
   extends:
     - .deploy-icams
-
-redeploy-icams:
-  extends:
-    - .redeploy-icams
 
 destroy-icams:
   extends:
