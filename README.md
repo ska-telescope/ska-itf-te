@@ -37,6 +37,12 @@ This removes the chart's lockfile and downloaded dependencies, rebuilds them, an
 renders the chart. The target sets both `K8S_CHART` (the chart to render) and
 `K8S_CHARTS` (the charts whose dependencies are built) to the ICAMS test chart.
 
+The ICAMS test chart exposes `/ska-ams/` through a parent-chart ingress instead
+of the subchart's namespace-prefixed ingress. Its rules deliberately omit `host`
+because the ITF Kyverno policy `ingress-host-not-allowed` forbids explicit ingress
+hosts. The public URL is `https://k8s.miditf.internal.skao.int/ska-ams/`; register
+that exact URL as a SPA redirect URI for the ICAMS Entra application.
+
 ### Python On Apple Silicon (M-series)
 
 On macOS arm64, `python-casacore` has no prebuilt wheel, so it builds from source against a native `casacore` library. Install `casacore` first, from its dedicated Homebrew tap (there is no formula for it in Homebrew core):

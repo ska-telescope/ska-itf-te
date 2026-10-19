@@ -25,6 +25,8 @@ ska-icams-web-app:
         apiId: "da766800-a9cf-4f3b-9263-751d2015184c"
         tangogqlApiId: "27f76d0a-79d7-443e-8718-5a38438f9eed"
         tangogqlScope: "api://27f76d0a-79d7-443e-8718-5a38438f9eed/Tangogql.Access"
+  ingress:
+    enabled: false
 
 ska-app-s2i-icams-scheduler:
   config:
