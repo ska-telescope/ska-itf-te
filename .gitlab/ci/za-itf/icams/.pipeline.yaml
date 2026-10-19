@@ -5,14 +5,17 @@
   image: $DEPLOY_IMAGE
   variables:
     KUBE_APP: icams
-    K8S_CHART: ska-mid-icams-web-app-test
+    K8S_CHART: ska-mid
+    ICAMS_ENABLERS: "-f .gitlab/ci/za-itf/icams/icams-enablers.yaml"
+    K8S_EXTRA_PARAMS: "-f .gitlab/ci/za-itf/icams/icams-values.yaml"
+    TANGO_HOST: tango-databaseds.staging.svc.miditf.internal.skao.int:10000
     KUBE_NAMESPACE: icams
     HELM_RELEASE: icams
     K8S_SKIP_DEP_BUILD: "true"
   when: manual
   script:
     - make vars
-    - export K8S_UMBRELLA_CHART_PATH=$(ls -t ./chart.tmp/ska-mid-icams-web-app-test-[0-9]*.tgz | head -n1)
+    - export K8S_UMBRELLA_CHART_PATH=$(ls -t ./chart.tmp/ska-mid-[0-9]*.tgz | head -n1)
     - sha256sum -c "$K8S_UMBRELLA_CHART_PATH.${CI_PIPELINE_ID}.sha256"
     - echo "Using chart archive - $K8S_UMBRELLA_CHART_PATH"
     - bash .make/resources/gitlab_section.sh install "K8S Install from .tgz" make k8s-install-chart

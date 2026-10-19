@@ -1,3 +1,4 @@
+{{- if index .Values "ska-icams-web-app" "enabled" -}}
 {{- $frontend := index .Subcharts "ska-icams-web-app" -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -17,3 +18,4 @@ spec:
                 name: {{ include "frontend.fullname" $frontend }}
                 port:
                   name: http
+{{- end }}

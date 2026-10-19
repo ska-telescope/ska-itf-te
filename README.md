@@ -25,19 +25,34 @@ You need to be on the SKAO ITF VPN (connect via AnyConnect client) - see instruc
 
 Populate your `PrivateRules.mak` file with make variables if you are testing / developing from a local machine.
 
-### Rebuild the ICAMS test chart
+### Deploy IC@MS with the SKA Mid chart
 
-After changing dependencies in `charts/ska-mid-icams-web-app-test/Chart.yaml`, run:
+IC@MS uses the `ska-mid` umbrella chart, like Octopus. Its frontend, PANIC API,
+and scheduler dependencies are grouped under `IC@MS Suite` in
+`charts/ska-mid/Chart.yaml` and disabled by default. TangoGQL uses the existing
+`tangogql` dependency and is enabled independently of Taranta through
+`tangogql.enabled`; Taranta deployments should enable both flags.
+
+The manual `deploy-icams` and `redeploy-icams` pipeline jobs use
+`.gitlab/ci/za-itf/icams/icams-enablers.yaml` to enable only IC@MS and TangoGQL.
+Environment-specific settings are in `icams-values.yaml` in the same directory.
+All IC@MS services connect to the existing staging Tango database.
+
+After changing dependencies, rebuild the umbrella chart:
 
 ```bash
-make helm-rebuild-ska-mid-icams-web-app-test
+make helm-rebuild-ska-mid
 ```
 
-This removes the chart's lockfile and downloaded dependencies, rebuilds them, and
-renders the chart. The target sets both `K8S_CHART` (the chart to render) and
-`K8S_CHARTS` (the charts whose dependencies are built) to the ICAMS test chart.
+Render only the IC@MS deployment with:
 
-The ICAMS test chart exposes `/ska-ams/` through a parent-chart ingress instead
+```bash
+helm template icams charts/ska-mid --namespace icams \
+  -f .gitlab/ci/za-itf/icams/icams-values.yaml \
+  -f .gitlab/ci/za-itf/icams/icams-enablers.yaml
+```
+
+The umbrella chart exposes `/ska-ams/` through an IC@MS-only parent-chart ingress instead
 of the subchart's namespace-prefixed ingress. Its rules deliberately omit `host`
 because the ITF Kyverno policy `ingress-host-not-allowed` forbids explicit ingress
 hosts. The public URL is `https://k8s.miditf.internal.skao.int/ska-ams/`; register

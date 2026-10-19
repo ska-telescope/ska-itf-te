@@ -112,7 +112,7 @@ dependencies:
   - name: ska-tango-tangogql-ariadne
     version: 1.0.13
     repository: https://artefact.skao.int/repository/helm-internal
-    condition: ska-tango-taranta.enabled
+    condition: tangogql.enabled
     alias: tangogql
 
   # AlarmHandler
@@ -157,6 +157,22 @@ dependencies:
     version: 0.14.18
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-octopus-frontend.enabled
+
+  # IC@MS Suite
+  - name: ska-icams-web-app
+    version: 1.5.1
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-icams-web-app.enabled
+
+  - name: ska-web-s2i-flask-tango-panicapi
+    version: 1.4.1
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-web-s2i-flask-tango-panicapi.enabled
+
+  - name: ska-app-s2i-icams-scheduler
+    version: 1.0.5
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-app-s2i-icams-scheduler.enabled
 
   # EDA API
   - name: ska-eda-rest-api

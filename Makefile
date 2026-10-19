@@ -3,7 +3,7 @@
 
 OCI_BUILD_ADDITIONAL_ARGS += --cache-from registry.gitlab.com/ska-telescope/ska-mid-itf/ska-mid-itf-base:0.1.4
 
-HELM_CHARTS_TO_PUBLISH=ska-mid ska-mid-icams-web-app-test
+HELM_CHARTS_TO_PUBLISH=ska-mid
 PYTHON_VARS_AFTER_PYTEST= --disable-pytest-warnings
 
 # VALUES ?= $(K8S_UMBRELLA_CHART_PATH)values.yaml
@@ -295,6 +295,7 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	$(ODA_ENABLERS) \
 	$(DPD_ENABLERS) \
 	$(OCTOPUS_ENABLERS) \
+	$(ICAMS_ENABLERS) \
 	$(EDA_API_ENABLERS)
 
 
@@ -455,11 +456,6 @@ helm-rebuild-ska-mid:
 	@rm -f charts/ska-mid/Chart.lock
 	@rm -rf charts/ska-mid/charts
 	@make k8s-template-chart K8S_CHART=ska-mid
-
-helm-rebuild-ska-mid-icams-web-app-test:
-	@rm -f charts/ska-mid-icams-web-app-test/Chart.lock
-	@rm -rf charts/ska-mid-icams-web-app-test/charts
-	@make k8s-template-chart K8S_CHART=ska-mid-icams-web-app-test K8S_CHARTS=ska-mid-icams-web-app-test
 
 UNAME_S := $(shell uname -s)
 UNAME_M := $(shell uname -m)
