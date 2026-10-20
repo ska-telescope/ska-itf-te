@@ -55,6 +55,8 @@ helm template icams charts/ska-mid --namespace icams \
 The umbrella chart exposes `/ska-ams/` through an IC@MS-only parent-chart ingress instead
 of the subchart's namespace-prefixed ingress. The public URL is `https://k8s.miditf.internal.skao.int/ska-ams/`
 
+The `tmdata/mid-itf-staging-alarm-configs/test-config.txt` file contains the test configuration for the staging alarm setup. It is not an official configuration and should only be used for testing purposes. It can be uploaded via the alarm configurator. 
+
 ### Python On Apple Silicon (M-series)
 
 On macOS arm64, `python-casacore` has no prebuilt wheel, so it builds from source against a native `casacore` library. Install `casacore` first, from its dedicated Homebrew tap (there is no formula for it in Homebrew core):
