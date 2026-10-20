@@ -53,10 +53,7 @@ helm template icams charts/ska-mid --namespace icams \
 ```
 
 The umbrella chart exposes `/ska-ams/` through an IC@MS-only parent-chart ingress instead
-of the subchart's namespace-prefixed ingress. Its rules deliberately omit `host`
-because the ITF Kyverno policy `ingress-host-not-allowed` forbids explicit ingress
-hosts. The public URL is `https://k8s.miditf.internal.skao.int/ska-ams/`; register
-that exact URL as a SPA redirect URI for the ICAMS Entra application.
+of the subchart's namespace-prefixed ingress. The public URL is `https://k8s.miditf.internal.skao.int/ska-ams/`
 
 ### Python On Apple Silicon (M-series)
 
