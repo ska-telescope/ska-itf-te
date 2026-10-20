@@ -459,6 +459,10 @@ ska-mid-meerkat-wms-tango-device:
   enabled: false
   ska-tango-base:
     enabled: false
+  weathertangodevice:
+    deviceproperties:
+      katcp_hosts: ["10.97.1.29"]
+      katcp_ports: ["5085"]
   deviceServers:
     meerkatwms:
       enabled: true
