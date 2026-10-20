@@ -454,6 +454,17 @@ ska-mid-wms:
     itango:
       enabled: false
 
+# MeerKAT LMC WMS Tango device (uses the umbrella's TangoDB via global.tango_host)
+ska-mid-meerkat-wms-tango-device:
+  enabled: false
+  ska-tango-base:
+    enabled: false
+  deviceServers:
+    meerkatwms:
+      enabled: true
+  ska-mid-meerkat-wms-simulator:
+    enabled: false
+
 # Temporary configuration for PVC
 temp_sdp_pvc: # Hmm... what's this again for?
   enabled: false

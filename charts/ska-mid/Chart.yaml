@@ -164,6 +164,12 @@ dependencies:
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-eda-rest-api.enabled
 
+  # MeerKAT LMC WMS Tango device
+  - name: ska-mid-meerkat-wms-tango-device
+    version: 0.2.0
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-mid-meerkat-wms-tango-device.enabled
+
   # EXAMPLE DEV CHART: DON'T DELETE THIS SECTION
   # - name: ska-sdp
   #   version: 0.19.0-dev.c651132b9
