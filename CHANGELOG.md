@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+
+## 32.3.1
 * [AT-3886]
   * Updated Makefile submodule
   * Fixed utility script
