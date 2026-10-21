@@ -77,5 +77,5 @@ dependencies:
 - name: ska-eda-rest-api
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.1.0-rc.8
-digest: sha256:660bb241c58e73396207d0f8f0486ca64091f8ba18feabdc72895751856854f3
-generated: "2026-10-19T13:56:06.560395+02:00"
+digest: sha256:f37fa98440564278a3fa3b6548eccbd9bed0f69800b430e57b90b85deba44df6
+generated: "2026-10-21T16:58:50.214596+02:00"
