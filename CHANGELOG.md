@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3824]
+  * Add EDA config for SKA081
 
 ## 32.3.1
 * [AT-3886]
