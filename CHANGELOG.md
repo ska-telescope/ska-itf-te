@@ -1,6 +1,10 @@
 # Version History
 
 ## Unreleased
+* [AT-3886]
+  * Updated Makefile submodule
+  * Fixed utility script
+  * Upgrade SFPRx Console to `4.0.1`
 
 ## 32.3.0
 * [AT-3888]
