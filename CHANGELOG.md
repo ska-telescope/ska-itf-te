@@ -4,6 +4,12 @@
 * [AT-3837]
   * Add IC@MS chart and deployment jobs for Mid ITF.
 
+## 32.3.1
+* [AT-3886]
+  * Updated Makefile submodule
+  * Fixed utility script
+  * Upgrade SFPRx Console to `4.0.1`
+
 ## 32.3.0
 * [AT-3888]
   * Rollback ska-mid-cbf-tdc-mcs to `1.4.1`
