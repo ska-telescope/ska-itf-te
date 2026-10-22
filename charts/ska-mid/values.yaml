@@ -467,7 +467,7 @@ ska-mid-wms:
       enabled: false
 
 # MeerKAT LMC WMS Tango device (uses the umbrella's TangoDB via global.tango_host)
-ska-mid-meerkat-wms-tango-device:
+meerkat-wms-td:
   enabled: false
   ska-tango-base:
     enabled: false
