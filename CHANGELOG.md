@@ -1,6 +1,10 @@
 # Version History
 
 ## Unreleased
+* [AT-3837]
+  * Add IC@MS chart and deployment jobs for Mid ITF.
+* [AT-3824]
+  * Add EDA config for SKA081
 
 ## 32.3.1
 * [AT-3886]

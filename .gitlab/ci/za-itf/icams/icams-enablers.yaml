@@ -1,0 +1,16 @@
+---
+# Tango uses the existing staging database, not a local Tango deployment.
+ska-tango-base:
+  enabled: false
+ska-tango-util:
+  enabled: false
+
+# IC@MS Suite
+ska-icams-web-app:
+  enabled: true
+ska-web-s2i-flask-tango-panicapi:
+  enabled: true
+ska-app-s2i-icams-scheduler:
+  enabled: true
+tangogql:
+  enabled: true

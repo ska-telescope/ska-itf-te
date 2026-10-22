@@ -65,11 +65,20 @@ dependencies:
 - name: ska-octopus-frontend
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.14.18
+- name: ska-icams-web-app
+  repository: https://artefact.skao.int/repository/helm-internal
+  version: 1.5.1
+- name: ska-web-s2i-flask-tango-panicapi
+  repository: https://artefact.skao.int/repository/helm-internal
+  version: 1.4.1
+- name: ska-app-s2i-icams-scheduler
+  repository: https://artefact.skao.int/repository/helm-internal
+  version: 1.0.5
 - name: ska-eda-rest-api
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.1.0-rc.8
 - name: ska-mid-meerkat-wms-tango-device
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.2.0
-digest: sha256:8680dd1d66d3613be737d0dd321e984833ad7925f63a7b1c63555ee22de1322f
-generated: "2026-10-20T17:15:26.429121+02:00"
+digest: sha256:da60a574560418069639c78c162edd15ce5c5ae265c881744ecd4cb351c5774a
+generated: "2026-10-22T11:23:01.290112+02:00"

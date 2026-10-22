@@ -192,6 +192,16 @@ ska-mid-dish-spfrx-talondx-console:
         mount: mid-itf
         secretPath: bar-token
 
+# IC@MS
+ska-icams-web-app:
+  enabled: false
+
+ska-web-s2i-flask-tango-panicapi:
+  enabled: false
+
+ska-app-s2i-icams-scheduler:
+  enabled: false
+
 # OCTOPUS
 ska-octopus-frontend:
   enabled: false

@@ -296,6 +296,7 @@ K8S_CHART_PARAMS ?= --set global.minikube=$(MINIKUBE) \
 	$(ODA_ENABLERS) \
 	$(DPD_ENABLERS) \
 	$(OCTOPUS_ENABLERS) \
+	$(ICAMS_ENABLERS) \
 	$(EDA_API_ENABLERS)
 
 
