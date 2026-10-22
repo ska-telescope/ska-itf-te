@@ -49,10 +49,6 @@ ska-tango-archiver:
 ska-mid-wms:
   enabled: true
 
-# TODO: remove: MeerKAT LMC WMS Tango device (stations and endpoints are set in charts/ska-mid/values.yaml)
-ska-mid-meerkat-wms-tango-device:
-  enabled: true
-
 # Uncategorized
 global:
   ska-tango-archiver:
