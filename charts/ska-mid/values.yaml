@@ -19,6 +19,8 @@ global:
   raw_user_account: bond
   raw_user_pass: jamesbond
   tango_host: tango-databaseds:10000
+  # MeerKAT WMS stations: devices ska-mid/mk-weather-monitoring/<station_id>
+  station_ids: ["mk-wms-1", "mk-wms-2"]
   # tangodb_fqdn: localhost
   tangodb_port: 10000
   use_aws: true
@@ -471,8 +473,9 @@ ska-mid-meerkat-wms-tango-device:
     enabled: false
   weathertangodevice:
     deviceproperties:
-      katcp_hosts: ["10.97.1.29"]
-      katcp_ports: ["5085"]
+      # One entry per station, in the same order as global.station_ids
+      katcp_hosts: ["10.97.1.29", "10.97.1.29"]
+      katcp_ports: ["5085", "5086"]
   deviceServers:
     meerkatwms:
       enabled: true
