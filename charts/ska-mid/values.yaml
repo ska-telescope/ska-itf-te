@@ -20,7 +20,7 @@ global:
   raw_user_pass: jamesbond
   tango_host: tango-databaseds:10000
   # MeerKAT WMS stations: devices ska-mid/mk-weather-monitoring/<station_id>
-  station_ids: ["mk-wms-1", "mk-wms-2"]
+  station_ids: ["s1", "s2"]
   # tangodb_fqdn: localhost
   tangodb_port: 10000
   use_aws: true
