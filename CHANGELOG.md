@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3880]
+  * Add ska-mid-meerkat-wms-tango-device chart
 * [AT-3837]
   * Add IC@MS chart and deployment jobs for Mid ITF.
 * [AT-3824]

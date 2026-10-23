@@ -77,5 +77,8 @@ dependencies:
 - name: ska-eda-rest-api
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.1.0-rc.8
-digest: sha256:f37fa98440564278a3fa3b6548eccbd9bed0f69800b430e57b90b85deba44df6
-generated: "2026-10-21T16:58:50.214596+02:00"
+- name: ska-mid-meerkat-wms-tango-device
+  repository: https://artefact.skao.int/repository/helm-internal
+  version: 0.2.0
+digest: sha256:af8716e16fb134851d0f5f505680fc0a088848f68b497a714cdb79bc78970b7b
+generated: "2026-10-23T09:42:27.799148+02:00"

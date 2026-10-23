@@ -19,6 +19,8 @@ global:
   raw_user_account: bond
   raw_user_pass: jamesbond
   tango_host: tango-databaseds:10000
+  # MeerKAT WMS stations: devices ska-mid/mk-weather-monitoring/<station_id>
+  station_ids: ["s1", "s2"]
   # tangodb_fqdn: localhost
   tangodb_port: 10000
   use_aws: true
@@ -463,6 +465,22 @@ ska-mid-wms:
     enabled: false
     itango:
       enabled: false
+
+# MeerKAT LMC WMS Tango device (uses the umbrella's TangoDB via global.tango_host)
+meerkat-wms-td:
+  enabled: false
+  ska-tango-base:
+    enabled: false
+  weathertangodevice:
+    deviceproperties:
+      # One entry per station, in the same order as global.station_ids
+      katcp_hosts: ["10.97.1.29", "10.97.1.29"]
+      katcp_ports: ["5085", "5086"]
+  deviceServers:
+    meerkatwms:
+      enabled: true
+  ska-mid-meerkat-wms-simulator:
+    enabled: false
 
 # Temporary configuration for PVC
 temp_sdp_pvc: # Hmm... what's this again for?
