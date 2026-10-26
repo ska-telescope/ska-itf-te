@@ -165,7 +165,7 @@ dependencies:
     condition: ska-icams-web-app.enabled
 
   - name: ska-web-s2i-flask-tango-panicapi
-    version: 1.4.1
+    version: 1.4.2
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-web-s2i-flask-tango-panicapi.enabled
 
