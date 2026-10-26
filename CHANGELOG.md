@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+
+## 32.3.2
 * [AT-3880]
   * Add ska-mid-meerkat-wms-tango-device chart
 * [AT-3837]
