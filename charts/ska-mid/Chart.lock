@@ -31,7 +31,7 @@ dependencies:
   version: 19.6.0
 - name: ska-dish-lmc
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 10.0.2
+  version: 11.0.1
 - name: ska-te-dish-structure-simulator
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.11.0
@@ -80,5 +80,5 @@ dependencies:
 - name: ska-mid-meerkat-wms-tango-device
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.2.0
-digest: sha256:af8716e16fb134851d0f5f505680fc0a088848f68b497a714cdb79bc78970b7b
-generated: "2026-10-23T09:42:27.799148+02:00"
+digest: sha256:de969f1e8139fb500596887f11b7e123a3197bd6546e665ba11ab2c252e5e74b
+generated: "2026-10-26T12:27:20.834250548+02:00"
