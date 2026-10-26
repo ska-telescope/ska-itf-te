@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+
+## 32.3.2
 * [AT-3878]
   * Upgrade dish-lmc to `11.0.1`
 * [AT-3880]
