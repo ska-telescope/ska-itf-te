@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3878]
+  * Upgrade dish-lmc to `11.0.1`
 * [AT-3880]
   * Add ska-mid-meerkat-wms-tango-device chart
 * [AT-3837]
