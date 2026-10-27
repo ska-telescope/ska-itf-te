@@ -460,9 +460,9 @@ ska-tmc-mid:
   cspsubarrayleafnode:
     image:
       image: ska-tmc-cspleafnodes
-      registry: http://registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-cspleafnodes
-      tag: 0.46.2-dev.ca44b6c1c
-      
+      registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-cspleafnodes
+      tag: a44b6c1c
+
 # Mid WMS Simulator
 ska-mid-wms:
   enabled: false
