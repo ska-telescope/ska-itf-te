@@ -458,10 +458,11 @@ ska-tmc-mid:
   ska-mid-wms:
     dev-name: "ska-mid/weather-monitoring/s1"
   cspsubarrayleafnode:
-    image: ska-tmc-cspleafnodes
-    registry: http://registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-cspleafnodes
-    tag: 0.46.2-dev.ca44b6c1c
-
+    image:
+      image: ska-tmc-cspleafnodes
+      registry: http://registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-cspleafnodes
+      tag: 0.46.2-dev.ca44b6c1c
+      
 # Mid WMS Simulator
 ska-mid-wms:
   enabled: false
