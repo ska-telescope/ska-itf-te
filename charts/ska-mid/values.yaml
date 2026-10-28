@@ -70,12 +70,16 @@ ska-oso-integration:
     rest:
       ingress:
         enabled: true
+    telescope: SKA-Mid
   ska-oso-ost-services:
     enabled: true
+    telescope: SKA-Mid
     vault:
       enabled: true
       mount: mid-itf
       path: ost-credentials
+  ska-oso-ost-ui:
+    telescope: ska_mid
   ska-oso-services:
     vault:
       enabled: false
