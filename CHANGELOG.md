@@ -3,8 +3,6 @@
 ## Unreleased
 * [AT-3883]
   * Upgrade ska-oso-integration to `2.9.0`
-  * Upgrade ska-tmc-mid to `1.25.1`
-  * Upgrade vis-receive to `10.1.0`
 
 ## 32.3.2
 * [AT-3878]
