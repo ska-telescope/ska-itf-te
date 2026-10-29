@@ -70,12 +70,16 @@ ska-oso-integration:
     rest:
       ingress:
         enabled: true
+    telescope: SKA-Mid
   ska-oso-ost-services:
     enabled: true
+    telescope: SKA-Mid
     vault:
       enabled: true
       mount: mid-itf
       path: ost-credentials
+  ska-oso-ost-ui:
+    telescope: ska_mid
   ska-oso-services:
     vault:
       enabled: false
@@ -457,6 +461,11 @@ ska-tmc-mid:
   telescope: SKA-mid
   ska-mid-wms:
     dev-name: "ska-mid/weather-monitoring/s1"
+  cspsubarrayleafnode:
+    image:
+      image: ska-tmc-cspleafnodes
+      registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-cspleafnodes
+      tag: a44b6c1c
 
 # Mid WMS Simulator
 ska-mid-wms:
