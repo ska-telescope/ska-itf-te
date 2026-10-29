@@ -3,6 +3,7 @@
 ## Unreleased
 * [AT-3883]
   * Upgrade ska-oso-integration to `2.9.0`
+  * Include dev image for `cspsubarrayleafnode` to fix IERS issue
 
 ## 32.3.2
 * [AT-3878]
