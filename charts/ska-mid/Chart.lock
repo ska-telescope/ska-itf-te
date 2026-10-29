@@ -25,13 +25,13 @@ dependencies:
   version: 2.6.2
 - name: ska-oso-integration
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 2.7.0
+  version: 2.9.0
 - name: ska-db-oda-umbrella
   repository: https://artefact.skao.int/repository/helm-internal
   version: 19.6.0
 - name: ska-dish-lmc
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 10.0.2
+  version: 11.0.1
 - name: ska-te-dish-structure-simulator
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.11.0
@@ -40,7 +40,7 @@ dependencies:
   version: 0.5.0
 - name: ska-mid-dish-spfrx-talondx-console
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 3.1.2
+  version: 4.0.1
 - name: ska-tango-taranta
   repository: https://artefact.skao.int/repository/helm-internal
   version: 2.18.7
@@ -65,8 +65,20 @@ dependencies:
 - name: ska-octopus-frontend
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.14.18
+- name: ska-icams-web-app
+  repository: https://artefact.skao.int/repository/helm-internal
+  version: 1.5.1
+- name: ska-web-s2i-flask-tango-panicapi
+  repository: https://artefact.skao.int/repository/helm-internal
+  version: 1.4.2
+- name: ska-app-s2i-icams-scheduler
+  repository: https://artefact.skao.int/repository/helm-internal
+  version: 1.0.5
 - name: ska-eda-rest-api
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.1.0-rc.8
-digest: sha256:38f629a3bee850eb41ecb2bb1b9a492ea3b550c6935f62f9a6fbfc3105039d10
-generated: "2026-10-26T11:36:22.001011784+02:00"
+- name: ska-mid-meerkat-wms-tango-device
+  repository: https://artefact.skao.int/repository/helm-internal
+  version: 0.2.0
+digest: sha256:00f2064a787e459824e50f6bda754a8e0aa43b0d6414d7ca3ee6876d2d957b9f
+generated: "2026-10-27T12:01:39.806136516+02:00"

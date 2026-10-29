@@ -1,6 +1,25 @@
 # Version History
 
 ## Unreleased
+* [AT-3883]
+  * Upgrade ska-oso-integration to `2.9.0`
+  * Include dev image for `cspsubarrayleafnode` to fix IERS issue
+
+## 32.3.2
+* [AT-3878]
+  * Upgrade dish-lmc to `11.0.1`
+* [AT-3880]
+  * Add ska-mid-meerkat-wms-tango-device chart
+* [AT-3837]
+  * Add IC@MS chart and deployment jobs for Mid ITF.
+* [AT-3824]
+  * Add EDA config for SKA081
+
+## 32.3.1
+* [AT-3886]
+  * Updated Makefile submodule
+  * Fixed utility script
+  * Upgrade SFPRx Console to `4.0.1`
 
 ## 32.3.0
 * [AT-3888]

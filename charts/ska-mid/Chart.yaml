@@ -3,8 +3,8 @@ apiVersion: v2
 name: ska-mid
 description: An umbrella Helm chart for deployment of the Mid System
 type: application
-version: 32.3.1-dev2-b5
-appVersion: 32.3.1-dev2-b5
+version: 32.3.2
+appVersion: 32.3.2
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
   # Tango Base & Deployment Charts: TangoDB, iTango, Tango Operator Utils
@@ -67,7 +67,7 @@ dependencies:
 
   # OSO integration
   - name: ska-oso-integration
-    version: 2.7.0
+    version: 2.9.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-oso-integration.enabled
 
@@ -79,7 +79,7 @@ dependencies:
 
   # DISH LMC CHART
   - name: ska-dish-lmc
-    version: 10.0.2
+    version: 11.0.1
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-dish-lmc.enabled
 
@@ -98,7 +98,7 @@ dependencies:
 
   # SPFRx DEPLOYER CHART
   - name: ska-mid-dish-spfrx-talondx-console
-    version: 3.1.2
+    version: 4.0.1
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-mid-dish-spfrx-talondx-console.enabled
 
@@ -112,7 +112,7 @@ dependencies:
   - name: ska-tango-tangogql-ariadne
     version: 1.0.13
     repository: https://artefact.skao.int/repository/helm-internal
-    condition: ska-tango-taranta.enabled
+    condition: tangogql.enabled
     alias: tangogql
 
   # AlarmHandler
@@ -158,11 +158,34 @@ dependencies:
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-octopus-frontend.enabled
 
+  # IC@MS Suite
+  - name: ska-icams-web-app
+    version: 1.5.1
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-icams-web-app.enabled
+
+  - name: ska-web-s2i-flask-tango-panicapi
+    version: 1.4.2
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-web-s2i-flask-tango-panicapi.enabled
+
+  - name: ska-app-s2i-icams-scheduler
+    version: 1.0.5
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-app-s2i-icams-scheduler.enabled
+
   # EDA API
   - name: ska-eda-rest-api
     version: 0.1.0-rc.8
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-eda-rest-api.enabled
+
+  # MeerKAT LMC WMS Tango device
+  - name: ska-mid-meerkat-wms-tango-device
+    version: 0.2.0
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-mid-meerkat-wms-tango-device.enabled
+    alias: meerkat-wms-td
 
   # EXAMPLE DEV CHART: DON'T DELETE THIS SECTION
   # - name: ska-sdp
