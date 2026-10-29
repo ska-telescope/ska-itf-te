@@ -80,5 +80,5 @@ dependencies:
 - name: ska-mid-meerkat-wms-tango-device
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.2.0
-digest: sha256:00f2064a787e459824e50f6bda754a8e0aa43b0d6414d7ca3ee6876d2d957b9f
-generated: "2026-10-27T12:01:39.806136516+02:00"
+digest: sha256:e9e6ed87b9186bb5e5afd6952677b8bce13842c5474a4f00fa02afe882bda354
+generated: "2026-10-29T14:26:35.813196793+02:00"
