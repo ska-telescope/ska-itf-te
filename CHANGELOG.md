@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3871]
+  * Fixes for band 5 teapot testing. 
 * [AT-3883]
   * Upgrade ska-oso-integration to `2.9.0`
   * Include dev image for `cspsubarrayleafnode` to fix IERS issue
