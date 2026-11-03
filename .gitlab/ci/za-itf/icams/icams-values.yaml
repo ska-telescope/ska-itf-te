@@ -1,0 +1,46 @@
+global:
+  cluster_domain: miditf.internal.skao.int
+  clusterDomain: miditf.internal.skao.int
+  labels:
+    app: icams
+  tango_host: tango-databaseds.staging.svc.miditf.internal.skao.int:10000
+  operator: true
+  minikube: false
+  sub-system:
+    ska-tango-base:
+      enabled: false
+
+ska-icams-web-app:
+  config:
+    tangoGQL: "http://tangogql-{{ .Release.Name }}:5004"
+    customPath:
+      prefixPath: /ska-ams
+    auth:
+      loginType: entra
+      entra:
+        clientId: "8f2268cb-a0e7-4d96-81d2-d65384945b34"
+        tenantId: "78887040-bad7-494b-8760-88dcacfb3805"
+        redirectUri: "https://k8s.miditf.internal.skao.int/ska-ams/"
+        apiId: "da766800-a9cf-4f3b-9263-751d2015184c"
+        tangogqlApiId: "27f76d0a-79d7-443e-8718-5a38438f9eed"
+        tangogqlScope: "api://27f76d0a-79d7-443e-8718-5a38438f9eed/Tangogql.Access"
+  ingress:
+    enabled: false
+
+ska-app-s2i-icams-scheduler:
+  config:
+    tango_host: tango-databaseds.staging.svc.miditf.internal.skao.int:10000
+
+ska-web-s2i-flask-tango-panicapi:
+  config:
+    # This chart does not evaluate templates in tangogql_url.
+    tangogql_url: "http://tangogql-icams:5004/db"
+    tango_host: tango-databaseds.staging.svc.miditf.internal.skao.int:10000
+    customPath:
+      prefixPath: /ska-ams
+  ingress:
+    enabled: false
+
+tangogql:
+  tangoDB: icams
+  tango_host: tango-databaseds.staging.svc.miditf.internal.skao.int:10000

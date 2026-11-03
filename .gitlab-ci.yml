@@ -78,7 +78,7 @@ include:
   - local: .gitlab/ci/za-itf/octopus/.pipeline.yaml
   - local: .gitlab/ci/za-itf/testing/.pipeline.yaml
   - local: .gitlab/ci/za-itf/upgrading/.pipeline.yaml
-
+  - local: .gitlab/ci/za-itf/icams/.pipeline.yaml
 
 xray-publish:
   when: always

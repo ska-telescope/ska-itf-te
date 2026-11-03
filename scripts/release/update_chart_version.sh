@@ -1,28 +1,20 @@
-#!/bin/bash
-# $1 image value you want to replace
-# $2 is the file you want to edit
 #!/bin/sh
+set -eu
 
-case "$(uname -sr)" in
-    Darwin*)
-        echo 'Mac OS X'
-        sed -i "" "/^\(version: \).*/s//\1$1/" $2
-    ;;
-    Linux*Microsoft*)
-        echo 'WSL'  # Windows Subsystem for Linux
-    ;;
-    Linux*)
-        echo 'Linux'
-        sed -i "/^\(version: \).*/s//\1$1/" $2
-    ;;
-    CYGWIN*|MINGW*|MINGW32*|MSYS*)
-        echo 'MS Windows'
-    ;;
+if [ "$#" -ne 2 ]; then
+    echo "Usage: $0 VERSION FILE" >&2
+    exit 2
+fi
 
-   # Add here more strings to compare
+version=$1
+file=$2
+if [ ! -f "$file" ]; then
+    echo "File not found: $file" >&2
+    exit 1
+fi
 
-   *)
-        echo 'Other OS' 
-        sed -i "/^\(version: \).*/s//\1$1/" $2
-    ;;
-esac
+temporary_file=$(mktemp "${file}.tmp.XXXXXX")
+trap 'rm -f "$temporary_file"' 0 HUP INT TERM
+
+sed "s/^version: .*/version: $version/" "$file" > "$temporary_file"
+cat "$temporary_file" > "$file"

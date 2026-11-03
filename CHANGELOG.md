@@ -5,6 +5,44 @@
   * Added new DS and DishManager attributes for the EDA
     * lastcommandfailure
     * lasttangoeventerror
+* [AT-3883]
+  * Upgrade ska-oso-integration to `2.9.0`
+  * Include dev image for `cspsubarrayleafnode` to fix IERS issue
+
+## 32.3.2
+* [AT-3878]
+  * Upgrade dish-lmc to `11.0.1`
+* [AT-3880]
+  * Add ska-mid-meerkat-wms-tango-device chart
+* [AT-3837]
+  * Add IC@MS chart and deployment jobs for Mid ITF.
+* [AT-3824]
+  * Add EDA config for SKA081
+
+## 32.3.1
+* [AT-3886]
+  * Updated Makefile submodule
+  * Fixed utility script
+  * Upgrade SFPRx Console to `4.0.1`
+
+## 32.3.0
+* [AT-3888]
+  * Rollback ska-mid-cbf-tdc-mcs to `1.4.1`
+  * Rollback ska-mid-cbf-engineering-console to `2.0.0`
+  * Upgrade octopus backend to `0.14.6` 
+  * Upgrade octopus frontend to `0.14.18` 
+* [AIV-837]
+  * Updated dish positions for SKA001, SKA036, SKA077, SKA100
+
+## 32.2.1
+* [AT-3811]
+  * Added azimuth_status_v_setmax and azimuth_status_v_shape to EDA dish configs
+* [AT-3870]
+  * Upgrade vis-receive to `10.0.1`
+  * Set the cspsubarrayleafnode DelayModelTimeInAdvance to 15 (was 30) seconds in the value file
+* [AT-3861]
+  * Upgrade octopus backend to `0.9.6` 
+  * Upgrade octopus frontend to `0.9.5`
 
 ## 32.2.0
 * [AT-3860]

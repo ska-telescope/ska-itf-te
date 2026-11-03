@@ -1,0 +1,21 @@
+{{- if index .Values "ska-icams-web-app" "enabled" -}}
+{{- $frontend := index .Subcharts "ska-icams-web-app" -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "frontend.fullname" $frontend }}
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: {{ $frontend.Values.config.customPath.prefixPath | quote }}
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "frontend.fullname" $frontend }}
+                port:
+                  name: http
+{{- end }}
