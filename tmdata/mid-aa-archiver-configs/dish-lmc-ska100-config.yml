@@ -48,6 +48,22 @@ attributes:
     es: es1
     configuration:
       code_push_event: true
+  - trl: mid-dish/dish-manager/ska100/lrcexecuting
+    es: es1
+    configuration:
+      code_push_event: true
+  - trl: mid-dish/dish-manager/ska100/lrcfinished
+    es: es1
+    configuration:
+      code_push_event: true
+  - trl: mid-dish/dish-manager/ska100/lrcqueue
+    es: es1
+    configuration:
+      code_push_event: true
+  - trl: mid-dish/dish-manager/ska100/_lrcevent
+    es: es1
+    configuration:
+      code_push_event: true
   - trl: mid-dish/dish-manager/ska100/band2pointingmodelparams
     es: es1
     configuration:

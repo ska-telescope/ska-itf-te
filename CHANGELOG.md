@@ -3,8 +3,9 @@
 ## Unreleased
 * [KAR-2516]
   * Added new DS and DishManager attributes for the EDA
-    * lastcommandfailure
-    * lasttangoeventerror
+    * lastcommandfailure for dishmanager and ds_manager
+    * lasttangoeventerror for dishmanager
+  * Added 4 new spectrum attributes for dishmanager (lrcexecuting, lrcfinished, lrcqueue,    _lrcevent)
 * [AT-3883]
   * Upgrade ska-oso-integration to `2.9.0`
   * Include dev image for `cspsubarrayleafnode` to fix IERS issue
