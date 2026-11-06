@@ -1,6 +1,9 @@
 # Version History
 
 ## Unreleased
+* [AT-3860]
+  * Bring back ska-mid-cbf-tdc-mcs upgrade to `1.4.2`
+  * Bring back ska-mid-cbf-engineering-console upgrade to `2.0.1`
 * [KAR-2516]
   * Added new DS and DishManager attributes for the EDA
     * lastcommandfailure for dishmanager and ds_manager
