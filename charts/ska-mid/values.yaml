@@ -167,6 +167,16 @@ ska-mid-cbf-tdc-mcs:
   pvc:
     storageClassName: ceph-cephfs
     volumeMode: Filesystem
+  # To deploy the EC as part of the MCS, enable below
+  ska-mid-cbf-engineering-console:
+    enabled: false
+    # Uncomment the section below to set custom Engineering Console image version
+    # engineeringconsole:
+    #   image:
+    #     registry: registry.gitlab.com/ska-telescope/ska-mid-cbf-engineering-console
+    #     image: ska-mid-cbf-engineering-console
+    #     tag: 2.0.1
+    #     pullPolicy: IfNotPresent
 
 # CBF Delay model simulator
 # TEMPORARY for CBF Testing at KAPB. Default is False. VAULT will be overwritten for KAPB

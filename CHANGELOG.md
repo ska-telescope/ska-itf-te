@@ -4,6 +4,8 @@
 * [AT-3871]
   * Fixes for band 5 teapot testing.  
   * Temporary dev images for IERS bypass and dishleafnode 0.46.7 removed
+
+## 32.4.0
 * [AT-3860]
   * Bring back ska-mid-cbf-tdc-mcs upgrade to `1.4.2`
   * Bring back ska-mid-cbf-engineering-console upgrade to `2.0.1`
