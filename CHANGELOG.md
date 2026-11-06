@@ -2,7 +2,8 @@
 
 ## Unreleased
 * [AT-3871]
-  * Fixes for band 5 teapot testing. 
+  * Fixes for band 5 teapot testing.  
+  * Temporary dev images for IERS bypass and dishleafnode 0.46.7 removed
 * [AT-3883]
   * Upgrade ska-oso-integration to `2.9.0`
   * Include dev image for `cspsubarrayleafnode` to fix IERS issue
