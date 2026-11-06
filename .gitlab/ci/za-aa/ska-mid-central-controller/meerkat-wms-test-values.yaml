@@ -1,0 +1,113 @@
+global:
+  data-product-pvc-name: shared-dataproduct-pvc
+  # Avoid overriding dynamic chart values here.
+  # Dish ID and environment should be passed via pipeline variables
+  # dish_id: ska007
+  # dish_suffix: elt/master
+  # dishes: ["100"]
+  exposeAllDS: true
+  exposeDatabaseDS: true
+  facility: mid-itf
+  minikube: false
+  operator: true
+  cluster_domain: mid.internal.skao.int
+  ska-tango-archiver:
+    enabled: false
+  sub-system:
+    ska-tango-base:
+      enabled: false
+  raw_user_account: bond
+  raw_user_pass: jamesbond
+  tango_host: tango-databaseds:10000
+  # MeerKAT WMS stations: devices ska-mid/mk-weather-monitoring/<station_id>
+  station_ids: ["s1", "s2"]
+  # tangodb_fqdn: localhost
+  tangodb_port: 10000
+  ingress:
+    host: https://k8s.mid.internal.skao.int
+
+
+# Tango Base & Deployment Charts: TangoDB, iTango, Tango Operator Utils
+
+# Mid TMC
+ska-tmc-mid:
+  enabled: false
+
+# Mid CSP LMC
+ska-csp-lmc-mid:
+  enabled: false
+
+# Mid CBF TDC MCS
+ska-mid-cbf-tdc-mcs:
+  enabled: false
+
+# Mid CBF TM Simulator - temporary only for CBF internal testing at the KAPB
+ska-mid-cbf-tdc-tmleafnode:
+  enabled: false
+
+# SDP
+ska-sdp:
+  enabled: false
+
+# KAFKA
+kafka:
+  enabled: false
+
+# OSO
+ska-oso-integration:
+  enabled: false
+
+# TARANTA SUITE
+ska-tango-taranta:
+  enabled: false
+
+# MULTIDB TANGOGQL
+tangogql:
+  enabled: false
+
+# AlarmHandler
+ska-tango-alarmhandler:
+  enabled: false
+
+# EDA
+ska-tango-archiver:
+  enabled: false
+
+# WMS
+ska-mid-wms:
+  enabled: false
+
+# Uncategorized
+temp_sdp_pvc:
+  enabled: false
+
+# MeerKAT LMC WMS Tango device (uses the umbrella's TangoDB via global.tango_host)
+ska-mid-meerkat-wms-tango-device:
+  enabled: true
+  ska-tango-base:
+    enabled: false
+  weathertangodevice:
+    deviceproperties:
+      # One entry per station, in the same order as global.station_ids
+      katcp_hosts: ["10.97.1.29", "10.97.1.29"]
+      katcp_ports: ["5085", "5086"]
+  deviceServers:
+    meerkatwms:
+      enabled: true
+  ska-mid-meerkat-wms-simulator:
+    enabled: false
+
+## THIS MAY BE HELPFUL?
+# enabled: true
+# ska-tango-base:
+#   enabled: false
+# weathertangodevice:
+#   deviceproperties:
+#     # One entry per station, in the same order as global.station_ids
+#     katcp_hosts: ["10.97.1.29", "10.97.1.29"]
+#     katcp_ports: ["5085", "5086"]
+# deviceServers:
+#   meerkatwms:
+#     enabled: true
+# ska-mid-meerkat-wms-simulator:
+#   enabled: false
