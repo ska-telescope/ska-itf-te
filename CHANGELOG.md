@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3915]
+  * create EDA config files for ska045, ska048 and ska101 using ska001 as a starting point.   Excluded spfrxpu and spfc attributes (to be added back later)
 
 ## 32.4.0
 * [AT-3860]
