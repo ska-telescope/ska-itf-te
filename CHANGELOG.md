@@ -4,6 +4,14 @@
 * [AT-3871]
   * Fixes for band 5 teapot testing.  
   * Temporary dev images for IERS bypass and dishleafnode 0.46.7 removed
+* [AT-3860]
+  * Bring back ska-mid-cbf-tdc-mcs upgrade to `1.4.2`
+  * Bring back ska-mid-cbf-engineering-console upgrade to `2.0.1`
+* [KAR-2516]
+  * Added new DS and DishManager attributes for the EDA
+    * lastcommandfailure for dishmanager and ds_manager
+    * lasttangoeventerror for dishmanager
+  * Added 4 new spectrum attributes for dishmanager (lrcexecuting, lrcfinished, lrcqueue,    _lrcevent)
 * [AT-3883]
   * Upgrade ska-oso-integration to `2.9.0`
   * Include dev image for `cspsubarrayleafnode` to fix IERS issue
@@ -929,4 +937,3 @@
 
 * [AT-2044]
   * Use engineering console version 0.10.6 to mitigate SKB-352.
-
