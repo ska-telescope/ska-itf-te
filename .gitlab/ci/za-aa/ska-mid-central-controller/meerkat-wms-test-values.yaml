@@ -28,6 +28,8 @@ global:
 
 
 # Tango Base & Deployment Charts: TangoDB, iTango, Tango Operator Utils
+ska-tango-base:
+  enabled: false
 
 # Mid TMC
 ska-tmc-mid:
@@ -82,7 +84,8 @@ temp_sdp_pvc:
   enabled: false
 
 # MeerKAT LMC WMS Tango device (uses the umbrella's TangoDB via global.tango_host)
-ska-mid-meerkat-wms-tango-device:
+# Helm passes subchart configuration through the dependency alias.
+meerkat-wms-td:
   enabled: true
   ska-tango-base:
     enabled: false
@@ -94,6 +97,8 @@ ska-mid-meerkat-wms-tango-device:
   deviceServers:
     meerkatwms:
       enabled: true
+      # One entry per station, in the same order as global.station_ids.
+      loadBalancerIPs: ["10.162.10.10", "10.162.10.11"]
   ska-mid-meerkat-wms-simulator:
     enabled: false
 

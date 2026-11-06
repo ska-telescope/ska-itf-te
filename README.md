@@ -57,6 +57,38 @@ of the subchart's namespace-prefixed ingress. The public URL is `https://k8s.mid
 
 The `tmdata/mid-itf-staging-alarm-configs/test-config.txt` file contains the test configuration for the staging alarm setup. It is not an official configuration and should only be used for testing purposes. It can be uploaded via the alarm configurator. 
 
+### MeerKAT WMS static load balancer IPs (local chart patch)
+
+The locally patched MeerKAT WMS dependency accepts
+`deviceServers.meerkatwms.loadBalancerIPs`, ordered like `global.station_ids`.
+Leave the array empty for automatic allocation, or provide one entry per station;
+an empty string allows automatic allocation for that station.
+
+The umbrella chart uses `meerkat-wms-td` as the dependency alias for configuration,
+but its current enable condition still checks the original chart name:
+
+```yaml
+global:
+  station_ids: ["s1", "s2"]
+  exposeAllDS: true
+meerkat-wms-td:
+  deviceServers:
+    meerkatwms:
+      enabled: true
+      loadBalancerIPs: ["10.162.10.10", "10.162.10.11"]
+```
+
+With the Tango operator enabled, these become `DeviceServer.spec.loadBalancerIP`;
+without it, they become `Service.spec.loadBalancerIP`. Load balancer exposure must
+be enabled (for example with `global.exposeAllDS: true`).
+
+Changes under `charts/ska-mid/charts/` are ignored downloaded dependencies, not
+versioned chart source. Rebuilding dependencies can overwrite this patch. If a
+packaged `.tgz` copy also exists, refresh it with `helm package` after editing the
+unpacked chart. Use `K8S_SKIP_DEP_BUILD=true` when templating the local patch through
+Make. For a permanent fix, release the change from the MeerKAT LMC source chart
+and update the umbrella dependency version and lock file.
+
 ### Python On Apple Silicon (M-series)
 
 On macOS arm64, `python-casacore` has no prebuilt wheel, so it builds from source against a native `casacore` library. Install `casacore` first, from its dedicated Homebrew tap (there is no formula for it in Homebrew core):
