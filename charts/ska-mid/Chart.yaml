@@ -31,7 +31,7 @@ dependencies:
 
   # Mid CSP LMC
   - name: ska-csp-lmc-mid
-    version: 1.8.0
+    version: 1.11.0
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-csp-lmc-mid.enabled
 
@@ -61,7 +61,7 @@ dependencies:
 
   # SDP
   - name: ska-sdp
-    version: 2.6.2
+    version: 2.9.1
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-sdp.enabled
 

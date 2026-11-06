@@ -13,7 +13,7 @@ dependencies:
   version: 1.1.1
 - name: ska-csp-lmc-mid
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.8.0
+  version: 1.11.0
 - name: ska-mid-cbf-tdc-mcs
   repository: https://artefact.skao.int/repository/helm-internal
   version: 1.4.2
@@ -22,7 +22,7 @@ dependencies:
   version: 2.0.1
 - name: ska-sdp
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 2.6.2
+  version: 2.9.1
 - name: ska-oso-integration
   repository: https://artefact.skao.int/repository/helm-internal
   version: 2.9.0
@@ -80,5 +80,5 @@ dependencies:
 - name: ska-mid-meerkat-wms-tango-device
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.2.0
-digest: sha256:1e4c6b74c37fcf0c5747e90d3842011d0247491252e0d9b24c8dc24fe7016942
-generated: "2026-11-06T08:46:39.643392+02:00"
+digest: sha256:e3c7c39a2c6044c36b4700e2132f2d320baed373c61b4ebb96eec6cb00c2aa8c
+generated: "2026-11-06T12:39:23.884685896+02:00"
