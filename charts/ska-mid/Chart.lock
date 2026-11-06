@@ -7,7 +7,7 @@ dependencies:
   version: 1.1.0
 - name: ska-tmc-mid
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.26.0
+  version: 1.25.2
 - name: ska-mid-wms
   repository: https://artefact.skao.int/repository/helm-internal
   version: 1.1.1
@@ -80,5 +80,5 @@ dependencies:
 - name: ska-mid-meerkat-wms-tango-device
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.2.0
-digest: sha256:e9e6ed87b9186bb5e5afd6952677b8bce13842c5474a4f00fa02afe882bda354
-generated: "2026-11-06T10:36:59.036981725+02:00"
+digest: sha256:41adc87de77ce2f54356c842d5885aec90e4c72999b94243a660481a8170d95f
+generated: "2026-11-06T11:04:48.870581284+02:00"
