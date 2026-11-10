@@ -63,7 +63,7 @@
     # TELMODEL_SOURCE: "car:ska-mid?31.4.0-test-teapot-c#tmdata"
     # DISH_LAYOUT_TELMODEL_PATH: "instrument/ska1_mid_itf/layout/b5dc-test-itf-layout.json"
 
-deploy-sut-staging:
+.deploy-sut-staging:
   extends:
     - .deploy
     - .staging-env
@@ -78,7 +78,7 @@ deploy-sut-staging:
     url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
     on_stop: destroy-sut-staging
 
-deploy-sut-staging-teapot:
+.deploy-sut-staging-teapot:
   extends:
     - .deploy
     - .staging-env
@@ -94,7 +94,7 @@ deploy-sut-staging-teapot:
     url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
     on_stop: destroy-sut-staging
 
-redeploy-sut-staging:
+.redeploy-sut-staging:
   variables:
     CBF_HW_IN_THE_LOOP: "true"
     PDU_IP: "10.20.2.14"
@@ -118,7 +118,7 @@ info-sut-staging:
     - .info
     - .staging-env
 
-destroy-sut-staging:
+.destroy-sut-staging:
   extends:
     - .cleanup
     - .staging-env

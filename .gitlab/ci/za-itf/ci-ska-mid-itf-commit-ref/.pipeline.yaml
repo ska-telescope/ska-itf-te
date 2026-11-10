@@ -29,7 +29,7 @@
 .on-demand-stage:
   stage: on_demand_itf_sut
 
-deploy-sut-on-demand:
+.deploy-sut-on-demand:
   extends:
     - .deploy
     - .ci-env
@@ -44,7 +44,7 @@ deploy-sut-on-demand:
     url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
     on_stop: destroy-sut-on-demand
 
-redeploy-sut-on-demand:
+.redeploy-sut-on-demand:
   extends:
     - .redeploy
     - .ci-env
@@ -65,7 +65,7 @@ info-sut-on-demand:
     - .on_demand_rules
     - .on-demand-stage
 
-destroy-sut-on-demand:
+.destroy-sut-on-demand:
   extends:
     - .cleanup
     - .ci-env
