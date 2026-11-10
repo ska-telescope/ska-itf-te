@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3896]
+  * upgrade ska-mid-meerkat-wms-tango-device chart to `0.3.1`
 * [AT-3915]
   * create EDA config files for ska045, ska048 and ska101 using ska001 as a starting point.   Excluded spfrxpu and spfc attributes (to be added back later)
 
