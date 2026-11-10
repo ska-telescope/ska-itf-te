@@ -3,8 +3,8 @@ apiVersion: v2
 name: ska-mid
 description: An umbrella Helm chart for deployment of the Mid System
 type: application
-version: 32.4.0
-appVersion: 32.4.0
+version: 32.4.1
+appVersion: 32.4.1
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 dependencies:
   # Tango Base & Deployment Charts: TangoDB, iTango, Tango Operator Utils
@@ -182,9 +182,9 @@ dependencies:
 
   # MeerKAT LMC WMS Tango device
   - name: ska-mid-meerkat-wms-tango-device
-    version: 0.2.0
+    version: 0.3.1
     repository: https://artefact.skao.int/repository/helm-internal
-    condition: ska-mid-meerkat-wms-tango-device.enabled
+    condition: meerkat-wms-td.enabled
     alias: meerkat-wms-td
 
   # EXAMPLE DEV CHART: DON'T DELETE THIS SECTION

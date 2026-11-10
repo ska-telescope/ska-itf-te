@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-3896]
+  * upgrade ska-mid-meerkat-wms-tango-device chart to `0.3.1`
 * [AT-3902]
   * Upgrade SKA-AMS:
     * ska-tango-tangogql-ariadne to `1.1.2`
