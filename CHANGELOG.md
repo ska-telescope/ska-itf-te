@@ -1,6 +1,13 @@
 # Version History
 
 ## Unreleased
+* [AT-3915]
+  * create EDA config files for ska045, ska048 and ska101 using ska001 as a starting point.   Excluded spfrxpu and spfc attributes (to be added back later)
+
+## 32.4.0
+* [AT-3860]
+  * Bring back ska-mid-cbf-tdc-mcs upgrade to `1.4.2`
+  * Bring back ska-mid-cbf-engineering-console upgrade to `2.0.1`
 * [KAR-2516]
   * Added new DS and DishManager attributes for the EDA
     * lastcommandfailure for dishmanager and ds_manager
