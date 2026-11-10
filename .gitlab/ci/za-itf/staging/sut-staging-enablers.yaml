@@ -45,6 +45,10 @@ ska-tango-alarmhandler:
 ska-tango-archiver:
   enabled: true
 
+# MeerKAT WMS Tango Devices
+meerkat-wms-td:
+  enabled: true
+
 # WMS
 ska-mid-wms:
   enabled: true
