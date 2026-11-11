@@ -16,10 +16,10 @@ dependencies:
   version: 1.8.0
 - name: ska-mid-cbf-tdc-mcs
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 1.4.2
+  version: 1.4.3
 - name: ska-mid-cbf-engineering-console
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 2.0.1
+  version: 2.0.2
 - name: ska-sdp
   repository: https://artefact.skao.int/repository/helm-internal
   version: 2.6.2
@@ -80,5 +80,5 @@ dependencies:
 - name: ska-mid-meerkat-wms-tango-device
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.3.1
-digest: sha256:51fa34771a5f50c333723ce54c7427a9775ce5ee1f502244c7f40ff42d91fc79
-generated: "2026-11-10T15:45:07.663357+02:00"
+digest: sha256:03f4af0a6c27a0ed2fe8cf06f13ea6cb975cc5c819712e507a4ae7306bf5f941
+generated: "2026-11-11T17:02:06.992517+02:00"

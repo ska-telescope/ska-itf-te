@@ -1,6 +1,12 @@
 # Version History
 
 ## Unreleased
+
+* [AT-3929]
+  * Upgrade CBF.MCS to 1.4.3
+  * Upgrade CBF EC to 2.0.2
+
+## 32.4.1
 * [AT-3896]
   * upgrade ska-mid-meerkat-wms-tango-device chart to `0.3.1`
 * [AT-3902]
