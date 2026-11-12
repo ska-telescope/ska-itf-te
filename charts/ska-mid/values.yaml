@@ -167,6 +167,16 @@ ska-mid-cbf-tdc-mcs:
   pvc:
     storageClassName: ceph-cephfs
     volumeMode: Filesystem
+  # To deploy the EC as part of the MCS, enable below
+  ska-mid-cbf-engineering-console:
+    enabled: false
+    # Uncomment the section below to set custom Engineering Console image version
+    # engineeringconsole:
+    #   image:
+    #     registry: registry.gitlab.com/ska-telescope/ska-mid-cbf-engineering-console
+    #     image: ska-mid-cbf-engineering-console
+    #     tag: 2.0.1
+    #     pullPolicy: IfNotPresent
 
 # CBF Delay model simulator
 # TEMPORARY for CBF Testing at KAPB. Default is False. VAULT will be overwritten for KAPB
@@ -478,18 +488,6 @@ ska-mid-wms:
 # MeerKAT LMC WMS Tango device (uses the umbrella's TangoDB via global.tango_host)
 meerkat-wms-td:
   enabled: false
-  ska-tango-base:
-    enabled: false
-  weathertangodevice:
-    deviceproperties:
-      # One entry per station, in the same order as global.station_ids
-      katcp_hosts: ["10.97.1.29", "10.97.1.29"]
-      katcp_ports: ["5085", "5086"]
-  deviceServers:
-    meerkatwms:
-      enabled: true
-  ska-mid-meerkat-wms-simulator:
-    enabled: false
 
 # Temporary configuration for PVC
 temp_sdp_pvc: # Hmm... what's this again for?

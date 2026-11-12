@@ -1,6 +1,17 @@
 # Version History
 
 ## Unreleased
+* [AT-3896]
+  * upgrade ska-mid-meerkat-wms-tango-device chart to `0.3.1`
+* [AT-3902]
+  * Upgrade SKA-AMS:
+    * ska-tango-tangogql-ariadne to `1.1.2`
+    * ska-icams-web-app to `1.7.0`
+    * ska-web-s2i-flask-tango-panicapi to `1.4.4`
+* [AT-3915]
+  * create EDA config files for ska045, ska048 and ska101 using ska001 as a starting point.   Excluded spfrxpu and spfc attributes (to be added back later)
+
+## 32.4.0
 * [AT-3860]
   * Bring back ska-mid-cbf-tdc-mcs upgrade to `1.4.2`
   * Bring back ska-mid-cbf-engineering-console upgrade to `2.0.1`
