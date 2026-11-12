@@ -297,7 +297,7 @@ ska-sdp:
       size: 2Ti
       storageClassName: ceph-cephfs
   helmdeploy:
-    enableNADClusterRole: true
+    helmdeploy.networkAttachmentDefinitions.labelSelector: true
   lmc:
     prefix: mid
     nsubarray: 1
