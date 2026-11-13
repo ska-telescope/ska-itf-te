@@ -63,6 +63,8 @@ INTEGRATION_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(_MARKS) $(_COUNTS)
 SMOKE_TEST_ARGS = -v -r fEx --disable-pytest-warnings $(_SMOKE_TEST_MARKS) $(_COUNTS) $(EXIT) $(PYTEST_ADDOPTS)
 
 TMC_PARAMS ?=
+TMC_PARAMS += --set ska-tmc-mid.deviceServers.centralnode.global_pointing_model.file_path_prefix="instrument/ska1_mid_itf/gpm"
+
 ifeq ($(DISH_LMC_IN_THE_LOOP),true)
 TMC_PARAMS += --set ska-tmc-mid.deviceServers.mocks.enabled=false \
 	--set ska-tmc-mid.deviceServers.mocks.dish=false
