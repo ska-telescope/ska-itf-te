@@ -3,7 +3,7 @@
 ## Unreleased
 * [AT-3885]
   * Upgrade ska-csp-lmc-mid to `1.11.0`
-  * Upgrade ska-sdp to `2.9.2`
+  * Upgrade ska-sdp to `2.9.1`
   * Upgrade vis-receive to `10.1.0`
 * [AT-3871]
   * Fixes for band 5 teapot testing in python tests so no variables are needed when running the job
