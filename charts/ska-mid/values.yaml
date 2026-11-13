@@ -456,7 +456,6 @@ ska-tmc-mid:
     subarraynode:
       CommandTimeOutDefault: 350
       AbortCommandTimeOut: 350
-      CspScanInterfaceURL: https://schema.skao.int/ska-csp-scan/2.2   # TEMPORARY COMMIT - not to be overwritten in makefile
     dishleafnode:
       CommandTimeOutDefault: 320
   global:
@@ -472,11 +471,15 @@ ska-tmc-mid:
   telescope: SKA-mid
   ska-mid-wms:
     dev-name: "ska-mid/weather-monitoring/s1"
-  cspsubarrayleafnode:
-    image:
-      image: ska-tmc-cspleafnodes
-      registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-cspleafnodes
-      tag: a44b6c1c
+  # examples of how to use dev images
+  # dishleafnode:
+  #   image:
+  #     tag: 0.46.7
+  # cspsubarrayleafnode:
+  #   image:
+  #     image: ska-tmc-cspleafnodes
+  #     registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-cspleafnodes
+  #     tag: a44b6c1c
 
 # Mid WMS Simulator
 ska-mid-wms:
