@@ -4,7 +4,7 @@
 * [AT-3885]
   * Upgrade ska-csp-lmc-mid to `1.11.0`
   * Upgrade ska-sdp to `2.9.1`
-  * Upgrade vis-receive to `10.1.0`
+  * Upgrade vis-receive to `10.1.1`
 * [AT-3871]
   * Fixes for band 5 teapot testing in python tests so no variables are needed when running the job
   * Temporary dev images for IERS bypass and dishleafnode removed but commented for reference
