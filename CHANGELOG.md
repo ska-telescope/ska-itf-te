@@ -1,6 +1,12 @@
 # Version History
 
 ## Unreleased
+* [AT-3871]
+  * Fixes for band 5 teapot testing in python tests so no variables are needed when running the job
+  * Temporary dev images for IERS bypass and dishleafnode removed but commented for reference
+  * Update b5 layout file to use schema 1.3
+  * Update teapot gpm files to match that done in [AIV-835]
+  * Upgrade ska-tmc-mid to `1.25.2`
 * [AT-3931]
   * upgrade ska-tango-taranta chart to `2.18.11`
 
