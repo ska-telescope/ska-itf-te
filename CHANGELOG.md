@@ -5,6 +5,10 @@
   * Upgrade ska-csp-lmc-mid to `1.11.0`
   * Upgrade ska-sdp to `2.9.1`
   * Upgrade vis-receive to `10.1.1`
+  * Use ska-sdp-assignres and ska-sdp-configure v2.2
+  * Update assignresources.json keys to match new schema, keep some legacy keys required by ska-tmc-assignresources v2.4
+  * Include gpm files for staging dishes based off site's ska001 gpm file
+    * This includes updating the Makefile to point to ITF folder, while keeping ska-mid `values.yml` pointing to site's folder
 * [AT-3871]
   * Fixes for band 5 teapot testing in python tests so no variables are needed when running the job
   * Temporary dev images for IERS bypass and dishleafnode removed but commented for reference
