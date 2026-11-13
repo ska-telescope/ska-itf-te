@@ -1,6 +1,9 @@
 # Version History
 
 ## Unreleased
+* [AT-3932]
+  * Upgrade ska-mid-cbf-tdc-mcs to `1.4.3`
+  * Upgrade ska-mid-cbf-engineering-console to `2.0.3`
 * [AT-3871]
   * Fixes for band 5 teapot testing in python tests so no variables are needed when running the job
   * Temporary dev images for IERS bypass and dishleafnode removed but commented for reference
