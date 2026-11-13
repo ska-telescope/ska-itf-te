@@ -401,6 +401,8 @@ ska-tango-util:
 # TANGO DEPLOYMENT
 tangogql:
   enabled: false
+  global:
+    no_auth: true
   tangoDB: taranta  # This is the name of the TangoDB that should always be set first when deploying a multiDB Taranta system
   ska-tango-base:
     enabled: false
