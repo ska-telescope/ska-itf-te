@@ -13,4 +13,4 @@ ska-tmc-mid:
         version: "1.0"
         interface: "https://schema.skao.int/ska-mid-global-pointing-model/1.0"
         data_sources_prefix: "car:ska-mid?main#tmdata"
-        file_path_prefix: "instrument/ska1_mid_itf/global_pointing_model_data"
+        file_path_prefix: "instrument/ska1_mid_itf/gpm"
