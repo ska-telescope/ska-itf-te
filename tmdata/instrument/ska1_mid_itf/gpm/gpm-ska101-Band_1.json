@@ -1,5 +1,5 @@
 {
-  "interface": "https://schema.skao.int/ska-mid-dish-gpm/1.2",
+  "interface": "https://schema.skao.int/ska-mid-dish-dpm/1.4",
   "antenna": "SKA101",
   "band": "Band_1",
   "coefficients": {

@@ -10,7 +10,7 @@ ska-tmc-mid:
         DishVccUri: "car:ska-mid?main#tmdata"
         DishVccFilePath: "instrument/ska1_mid_itf/vcc-config/ska-mid-b5dc-102-cbf-system-parameters.json"
       global_pointing_model:
-        version: "1.0"
-        interface: "https://schema.skao.int/ska-mid-global-pointing-model/1.0"
-        data_sources_prefix: "car:ska-mid?main#tmdata"
+        version: "main"
+        interface: "https://schema.skao.int/ska-mid-dish-gpm/1.2"
+        data_sources_prefix: "gitlab://gitlab.com/ska-telescope/ska-mid"
         file_path_prefix: "instrument/ska1_mid_itf/gpm"
