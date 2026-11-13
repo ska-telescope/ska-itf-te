@@ -43,7 +43,7 @@ dependencies:
   version: 4.0.1
 - name: ska-tango-taranta
   repository: https://artefact.skao.int/repository/helm-internal
-  version: 2.18.7
+  version: 2.18.11
 - name: ska-tango-tangogql-ariadne
   repository: https://artefact.skao.int/repository/helm-internal
   version: 1.1.2
@@ -80,5 +80,5 @@ dependencies:
 - name: ska-mid-meerkat-wms-tango-device
   repository: https://artefact.skao.int/repository/helm-internal
   version: 0.3.1
-digest: sha256:51fa34771a5f50c333723ce54c7427a9775ce5ee1f502244c7f40ff42d91fc79
-generated: "2026-11-10T15:45:07.663357+02:00"
+digest: sha256:459e0943fa22e0882e3157cf5c045229f1828cff84a2ac79b4c7d771f97cf341
+generated: "2026-11-13T10:40:11.371776+02:00"
