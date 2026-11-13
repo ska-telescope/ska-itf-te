@@ -1,6 +1,10 @@
 # Version History
 
 ## Unreleased
+* [AT-3885]
+  * Upgrade ska-csp-lmc-mid to `1.11.0`
+  * Upgrade ska-sdp to `2.9.2`
+  * Upgrade vis-receive to `10.1.0`
 * [AT-3931]
   * upgrade ska-tango-taranta chart to `2.18.11`
 
