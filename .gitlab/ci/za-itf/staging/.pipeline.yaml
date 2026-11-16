@@ -63,11 +63,29 @@
     # TELMODEL_SOURCE: "car:ska-mid?31.4.0-test-teapot-c#tmdata"
     # DISH_LAYOUT_TELMODEL_PATH: "instrument/ska1_mid_itf/layout/b5dc-test-itf-layout.json"
 
+.restart-icams:
+  script:
+    # IC@MS clients keep stale connections to the staging TangoDB once it is recreated, so restart them.
+    - |
+      if kubectl get namespace icams >/dev/null 2>&1; then
+        echo "Restarting IC@MS workloads to reconnect to the recreated staging TangoDB"
+        WORKLOADS=$(kubectl -n icams get deployments,statefulsets -o name | grep -v mongodb || true)
+        if [ -n "$WORKLOADS" ]; then
+          echo "$WORKLOADS" | xargs -n1 kubectl -n icams rollout restart || echo "WARNING: could not restart IC@MS workloads"
+          echo "$WORKLOADS" | xargs -n1 kubectl -n icams rollout status --timeout=300s || echo "WARNING: IC@MS rollout did not complete"
+        fi
+      else
+        echo "icams namespace not found, nothing to restart"
+      fi
+
 deploy-sut-staging:
   extends:
     - .deploy
     - .staging-env
   when: on_success
+  script:
+    - !reference [.deploy, script]
+    - !reference [.restart-icams, script]
   needs:
     - k8s-test-runner
   environment:
@@ -84,6 +102,9 @@ deploy-sut-staging-teapot:
     - .staging-env
     - .teapot_rules
   when: on_success
+  script:
+    - !reference [.deploy, script]
+    - !reference [.restart-icams, script]
   needs:
     - k8s-test-runner
   environment:
@@ -103,6 +124,9 @@ redeploy-sut-staging:
   extends:
     - .redeploy
     - .staging-env
+  script:
+    - !reference [.deploy, script]
+    - !reference [.restart-icams, script]
   needs:
     - k8s-test-runner
   environment:
