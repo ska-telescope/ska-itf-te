@@ -6,7 +6,7 @@ global:
   # dish_id: ska007
   # dish_suffix: elt/master
   # dishes: ["100"]
-  exposeAllDS: true
+  exposeAllDS: false
   exposeDatabaseDS: true
   facility: mid-itf
   minikube: false
