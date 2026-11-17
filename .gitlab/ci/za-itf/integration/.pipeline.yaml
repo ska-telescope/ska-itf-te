@@ -28,7 +28,7 @@
     CBF_HW_IN_THE_LOOP: "false"
     DISH_LMC_IN_THE_LOOP: "true"
 
-deploy-sut-integration:
+.deploy-sut-integration:
   extends:
     - .deploy
     - .integration-env
@@ -41,7 +41,7 @@ deploy-sut-integration:
     url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
     on_stop: destroy-sut-integration
 
-redeploy-sut-integration:
+.redeploy-sut-integration:
   extends:
     - .redeploy
     - .integration-env
@@ -58,7 +58,7 @@ info-sut-integration:
     - .info
     - .integration-env
 
-destroy-sut-integration:
+.destroy-sut-integration:
   extends:
     - .cleanup
     - .integration-env
