@@ -2137,3 +2137,84 @@ attributes:
     configuration:
       code_push_event: true
     th: th1
+  - trl: ska-mid/mk-weather-monitoring/s1/buildState
+    configuration:
+      code_push_event: true
+      archive_abs_change: 1
+    es: es5
+  - trl: ska-mid/mk-weather-monitoring/s1/healthState
+    configuration:
+      code_push_event: true
+      archive_abs_change: 1
+    es: es5
+  - trl: ska-mid/mk-weather-monitoring/s1/controlMode
+    configuration:
+      code_push_event: true
+      archive_abs_change: 1
+    es: es5
+  - trl: ska-mid/mk-weather-monitoring/s1/communicationState
+    configuration:
+      code_push_event: true
+      archive_abs_change: 1
+    es: es5
+  - trl: ska-mid/mk-weather-monitoring/s1/windSpeed
+    configuration:
+      code_push_event: true
+      archive_abs_change: 0.8
+    es: es5
+  - trl: ska-mid/mk-weather-monitoring/s1/windDirection
+    configuration:
+      code_push_event: true
+      archive_abs_change: 1
+    es: es5
+  - trl: ska-mid/mk-weather-monitoring/s2/buildState
+    configuration:
+      code_push_event: true
+      archive_abs_change: 1
+    es: es5
+  - trl: ska-mid/mk-weather-monitoring/s2/healthState
+    configuration:
+      code_push_event: true
+      archive_abs_change: 1
+    es: es5
+  - trl: ska-mid/mk-weather-monitoring/s2/controlMode
+    configuration:
+      code_push_event: true
+      archive_abs_change: 1
+    es: es5
+  - trl: ska-mid/mk-weather-monitoring/s2/windSpeed
+    configuration:
+      code_push_event: true
+      archive_abs_change: 0.8
+    es: es5
+  - trl: ska-mid/mk-weather-monitoring/s2/windDirection
+    configuration:
+      code_push_event: true
+      archive_abs_change: 0.8
+    es: es5
+  - trl: ska-mid/mk-weather-monitoring/s2/temperature
+    configuration:
+      code_push_event: true
+      archive_abs_change: 0.5
+    es: es5
+  - trl: ska-mid/mk-weather-monitoring/s2/pressure
+    configuration:
+      code_push_event: true
+      archive_abs_change: 1
+    es: es5
+  - trl: ska-mid/mk-weather-monitoring/s2/rainfall
+    configuration:
+      code_push_event: true
+      archive_abs_change: 0.5
+    es: es5
+  - trl: ska-mid/mk-weather-monitoring/s2/humidity
+    configuration:
+      code_push_event: true
+      archive_abs_change: 0.5
+    es: es5
+  - trl: ska-mid/mk-weather-monitoring/s2/rainfallRate
+    configuration:
+      code_push_event: true
+      archive_abs_change: 0.5
+    es: es5
+

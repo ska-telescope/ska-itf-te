@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-850]
+  * Add attributes from meerkat wms tango devices to central controller archive config
 * [AT-3871]
   * Fixes for band 5 teapot testing in python tests so no variables are needed when running the job
   * Temporary dev images for IERS bypass and dishleafnode removed but commented for reference
