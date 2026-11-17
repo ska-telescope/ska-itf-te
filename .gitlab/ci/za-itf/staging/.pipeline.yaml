@@ -78,7 +78,7 @@
         echo "icams namespace not found, nothing to restart"
       fi
 
-deploy-sut-staging:
+.deploy-sut-staging:
   extends:
     - .deploy
     - .staging-env
@@ -96,7 +96,7 @@ deploy-sut-staging:
     url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
     on_stop: destroy-sut-staging
 
-deploy-sut-staging-teapot:
+.deploy-sut-staging-teapot:
   extends:
     - .deploy
     - .staging-env
@@ -115,7 +115,7 @@ deploy-sut-staging-teapot:
     url: "http://$INGRESS_HOST/$KUBE_NAMESPACE/taranta"
     on_stop: destroy-sut-staging
 
-redeploy-sut-staging:
+.redeploy-sut-staging:
   variables:
     CBF_HW_IN_THE_LOOP: "true"
     PDU_IP: "10.20.2.14"
@@ -142,7 +142,7 @@ info-sut-staging:
     - .info
     - .staging-env
 
-destroy-sut-staging:
+.destroy-sut-staging:
   extends:
     - .cleanup
     - .staging-env
