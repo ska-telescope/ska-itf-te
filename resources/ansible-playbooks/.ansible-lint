@@ -5,7 +5,7 @@ profile: production # min, basic, moderate,safety, shared, production
 
 # Ansible-lint is able to recognize and load skip rules stored inside
 # `.ansible-lint-ignore` (or `.config/ansible-lint-ignore.txt`) files.
-# To skip a rule just enter filename and tag, like "playbook.yml package-latest"
+# To skip a rule just enter filename and tag, like "playbook.yaml package-latest"
 # on a new line.
 # Optionally you can add comments after the tag, prefixed by "#". We discourage
 # the use of skip_list below because that will hide violations from the output.

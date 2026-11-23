@@ -17,7 +17,7 @@ INVENTORY_TEMPLATE ?= $(MKFILE_DIR)inventory/hosts-template
 INVENTORY_FILE ?= $(MKFILE_DIR)inventory/hosts
 PLAYBOOK_PARAMETERS ?= ## any additional ansible tags can go here - see ansible-playbook --help
 TEAM ?= atlas
-TEAM_VARS_FILE ?= $(MKFILE_DIR)group_vars/$(TEAM)/$(TEAM).yml
+TEAM_VARS_FILE ?= $(MKFILE_DIR)group_vars/$(TEAM)/$(TEAM).yaml
 ANSIBLE_COMMAND := ansible-playbook -i $(INVENTORY_FILE) -e @$(TEAM_VARS_FILE) $(PLAYBOOK_PARAMETERS) $(V)
 ANSIBLE_COMMAND_DRY_RUN := $(ANSIBLE_COMMAND) --check --diff
 V ?=
@@ -75,11 +75,11 @@ refresh_inventory: ## Regenerates the inventory file from the template.
 .PHONY: refresh_inventory
 
 setup_pi: setup ## Runs the full playbook against the Raspberry Pi.
-	$(ANSIBLE_COMMAND) --limit raspberry_pi $(MKFILE_DIR)site.yml
+	$(ANSIBLE_COMMAND) --limit raspberry_pi $(MKFILE_DIR)site.yaml
 .PHONY: setup_pi
 
 setup_pi_dry_run: setup ## Runs the full playbook against the Raspberry Pi in dry-run mode.
-	$(ANSIBLE_COMMAND_DRY_RUN) --limit raspberry_pi $(MKFILE_DIR)site.yml
+	$(ANSIBLE_COMMAND_DRY_RUN) --limit raspberry_pi $(MKFILE_DIR)site.yaml
 .PHONY: setup_pi_dry_run
 
 setup_spfrx: setup guard-DISH_INDEX guard-SERIAL## Runs the playbook against the SPFRX host for a given DISH_INDEX. Usage: make setup_spfrx DISH_INDEX=1
@@ -89,7 +89,7 @@ setup_spfrx: setup guard-DISH_INDEX guard-SERIAL## Runs the playbook against the
 		printf 'spfrx$(DISH_INDEX) ansible_host=10.10.101.148 host_identifier="spfrx$(DISH_INDEX)" dish_index=$(DISH_INDEX) serial=${SERIAL}\n' >> $(INVENTORY_FILE); \
 		SPFRX_HOST=spfrx$(DISH_INDEX); \
 	fi; \
- 	$(ANSIBLE_COMMAND) -e serial=$(SERIAL) --ask-become-pass --limit $$SPFRX_HOST --tags spfrx $(MKFILE_DIR)site.yml
+ 	$(ANSIBLE_COMMAND) -e serial=$(SERIAL) --ask-become-pass --limit $$SPFRX_HOST --tags spfrx $(MKFILE_DIR)site.yaml
 	# 	Replace ansible_host with the updated IP in the inventory file.
 	sed -i.x -E "/dish_index=$(DISH_INDEX)([[:space:]]|$$)/s/ansible_host=[^[:space:]]*/ansible_host=10.160.$(DISH_INDEX).5/" $(INVENTORY_FILE)
 	# 	Replace serial in case it does not match the one in the inventory file.
@@ -104,7 +104,7 @@ setup_spfrx_dry_run: setup guard-DISH_INDEX guard-SERIAL ## Runs the playbook ag
 		printf 'spfrx$(DISH_INDEX) ansible_host=10.10.101.148 host_identifier="spfrx$(DISH_INDEX)" dish_index=$(DISH_INDEX) serial=${SERIAL}\n' >> $(INVENTORY_FILE); \
 		SPFRX_HOST=spfrx$(DISH_INDEX); \
 	fi; \
-	$(ANSIBLE_COMMAND_DRY_RUN) -e serial=$(SERIAL) --ask-become-pass --limit $$SPFRX_HOST --tags spfrx $(MKFILE_DIR)site.yml
+	$(ANSIBLE_COMMAND_DRY_RUN) -e serial=$(SERIAL) --ask-become-pass --limit $$SPFRX_HOST --tags spfrx $(MKFILE_DIR)site.yaml
 	# 	Replace ansible_host with the updated IP in the inventory file.
 	sed -i.x -E "/dish_index=$(DISH_INDEX)([[:space:]]|$$)/s/ansible_host=[^[:space:]]*/ansible_host=10.160.$(DISH_INDEX).5/" $(INVENTORY_FILE)
 	# 	Replace serial in case it does not match the one in the inventory file.
@@ -118,7 +118,7 @@ validate_spfrx: setup guard-DISH_INDEX ## Runs the SPFRx validation tasks (post 
 		echo "ERROR: No host with dish_index=$(DISH_INDEX) found in the [spfrx_mid] group of $(INVENTORY_FILE)."; \
 		exit 1; \
 	fi; \
-	$(ANSIBLE_COMMAND) --ask-become-pass --limit $$SPFRX_HOST --tags spfrx_validate $(MKFILE_DIR)site.yml
+	$(ANSIBLE_COMMAND) --ask-become-pass --limit $$SPFRX_HOST --tags spfrx_validate $(MKFILE_DIR)site.yaml
 .PHONY: validate_spfrx
 
 validate_spfrx_dry_run: setup guard-DISH_INDEX ## Runs the SPFRx validation tasks for a given DISH_INDEX in dry-run mode. Usage: make validate_spfrx_dry_run DISH_INDEX=1
@@ -127,7 +127,7 @@ validate_spfrx_dry_run: setup guard-DISH_INDEX ## Runs the SPFRx validation task
 		echo "ERROR: No host with dish_index=$(DISH_INDEX) found in the [spfrx_mid] group of $(INVENTORY_FILE)."; \
 		exit 1; \
 	fi; \
-	$(ANSIBLE_COMMAND_DRY_RUN) --ask-become-pass --limit $$SPFRX_HOST --tags spfrx_validate $(MKFILE_DIR)site.yml
+	$(ANSIBLE_COMMAND_DRY_RUN) --ask-become-pass --limit $$SPFRX_HOST --tags spfrx_validate $(MKFILE_DIR)site.yaml
 .PHONY: validate_spfrx_dry_run
 
 setup_and_validate_spfrx: setup guard-DISH_INDEX guard-SERIAL ## Runs setup_spfrx then validate_spfrx for a given DISH_INDEX. Usage: make setup_and_validate_spfrx DISH_INDEX=1 SERIAL=...
@@ -141,34 +141,34 @@ setup_and_validate_spfrx_dry_run: setup guard-DISH_INDEX guard-SERIAL ## Runs se
 .PHONY: setup_and_validate_spfrx_dry_run
 
 setup_gaia: setup ## Runs the full playbook against Gaia.
-	$(ANSIBLE_COMMAND) --limit gaia $(MKFILE_DIR)site.yml
+	$(ANSIBLE_COMMAND) --limit gaia $(MKFILE_DIR)site.yaml
 .PHONY: setup_gaia
 
 setup_gaia_dry_run: setup ## Runs the full playbook against Gaia in dry-run mode.
-	$(ANSIBLE_COMMAND_DRY_RUN) --limit gaia $(MKFILE_DIR)site.yml
+	$(ANSIBLE_COMMAND_DRY_RUN) --limit gaia $(MKFILE_DIR)site.yaml
 .PHONY: setup_gaia
 
 setup_talon_boards: setup ## Runs the full playbook against the Talon boards.
-	$(ANSIBLE_COMMAND) --limit talon $(MKFILE_DIR)site.yml
+	$(ANSIBLE_COMMAND) --limit talon $(MKFILE_DIR)site.yaml
 .PHONY: setup_talon
 
 setup_talon_boards_dry_run: setup ## Runs the full playbook against the Talon boards in dry-run mode.
-	$(ANSIBLE_COMMAND_DRY_RUN) --limit talon $(MKFILE_DIR)site.yml
+	$(ANSIBLE_COMMAND_DRY_RUN) --limit talon $(MKFILE_DIR)site.yaml
 .PHONY: setup_talon_boards_dry_run
 
 setup_local_ssh_config: setup ## Sets up your localhost for using the ansible playbooks.
-	$(ANSIBLE_COMMAND) --limit localhost $(MKFILE_DIR)site.yml
+	$(ANSIBLE_COMMAND) --limit localhost $(MKFILE_DIR)site.yaml
 .PHONY: setup_local_ssh_config
 
 setup_local_ssh_config_dry_run: setup ## Sets up your localhost for using the ansible playbooks (dry-run mode).
-	$(ANSIBLE_COMMAND_DRY_RUN) --limit localhost $(MKFILE_DIR)site.yml
+	$(ANSIBLE_COMMAND_DRY_RUN) --limit localhost $(MKFILE_DIR)site.yaml
 .PHONY: setup_local_ssh_config_dry_run
 
 $(INVENTORY_FILE): $(INVENTORY_TEMPLATE) # Sets up the inventory file with the correct user variables. Make sure you have AD_USER set.
 	$(MAKE) refresh_inventory
 
 lint: ## Lint check playbook
-	uv run ansible-lint -v -c $(MKFILE_DIR).ansible-lint $(MKFILE_DIR)site.yml
+	uv run ansible-lint -v -c $(MKFILE_DIR).ansible-lint $(MKFILE_DIR)site.yaml
 .PHONY: lint
 
 test: test-default test-gaia test-raspberry_pi ## Runs all playbook tests.
@@ -208,7 +208,7 @@ test-cicd-raspberry_pi:
 
 list_tasks: ## Prints the tasks to be executed during a playbook run.
 	ansible-playbook -i $(INVENTORY_FILE) \
-		$(MKFILE_DIR)site.yml \
+		$(MKFILE_DIR)site.yaml \
 		$(PLAYBOOK_PARAMETERS) \
 		--list-tasks
 .PHONY: list_tasks

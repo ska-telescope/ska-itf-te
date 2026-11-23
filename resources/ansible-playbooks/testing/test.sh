@@ -73,10 +73,10 @@ function run_ansible_playbook() {
 
     uv run ansible-playbook --limit ${NODE} \
         -u=${USER} \
-        -e @${base_dir}/../group_vars/atlas/atlas.yml \
+        -e @${base_dir}/../group_vars/atlas/atlas.yaml \
         -v \
         -i ${TEMP_INVENTORY_FILE} \
-        ${base_dir}/../site.yml
+        ${base_dir}/../site.yaml
 }
 
 setup_tempdir

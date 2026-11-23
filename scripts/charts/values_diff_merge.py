@@ -23,9 +23,6 @@ def merge_all_values(chart_dirs, output_path="charts/ska-mid/values.yaml", flatt
     merged = {}
     collisions = defaultdict(list)
 
-    if flatten:
-        output_path = output_path.replace('.yaml', '.yml')
-
     for chart_dir in chart_dirs:
         chart_name = get_chart_name(chart_dir)
         values_path = os.path.join(chart_dir, "values.yaml")

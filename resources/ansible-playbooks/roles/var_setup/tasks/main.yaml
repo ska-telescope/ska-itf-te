@@ -43,7 +43,7 @@
         users: "{{ filtered_users | map(attribute='name') }}"
 
     - name: Set user groups
-      ansible.builtin.include_tasks: "user_groups.yml"
+      ansible.builtin.include_tasks: "user_groups.yaml"
       loop: "{{ users }}"
       loop_control:
         loop_var: current_user

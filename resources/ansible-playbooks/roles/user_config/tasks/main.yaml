@@ -20,7 +20,7 @@
     group: "root"
 
 - name: Setup user configuration
-  ansible.builtin.include_tasks: "user_config.yml"
+  ansible.builtin.include_tasks: "user_config.yaml"
   loop: "{{ users }}"
   loop_control:
     loop_var: current_user

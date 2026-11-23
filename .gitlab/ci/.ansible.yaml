@@ -9,7 +9,7 @@
     - uv sync --group ansible
   rules:
     - changes:
-        - .gitlab/ci/ansible.yml
+        - .gitlab/ci/.ansible.yaml
         - resources/ansible-playbooks/*
 
 ansible-lint:

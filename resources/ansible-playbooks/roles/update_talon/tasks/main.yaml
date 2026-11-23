@@ -16,7 +16,7 @@
     mode: '0755'
 
 - name: Update DNS
-  ansible.builtin.include_tasks: "network.yml"
+  ansible.builtin.include_tasks: "network.yaml"
   loop: "{{ network_paths }}"
   loop_control:
     loop_var: network_path

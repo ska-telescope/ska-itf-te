@@ -1,5 +1,5 @@
 - name: Create users
-  ansible.builtin.include_tasks: "create_user.yml"
+  ansible.builtin.include_tasks: "create_user.yaml"
   args:
     apply:
       become: true
@@ -9,7 +9,7 @@
   when: createusers
 
 - name: Remove users
-  ansible.builtin.include_tasks: "remove_user.yml"
+  ansible.builtin.include_tasks: "remove_user.yaml"
   args:
     apply:
       become: true

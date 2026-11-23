@@ -16,7 +16,7 @@ In order for this tooling to work for you, you must already have `ssh` access to
 
 ### group_vars
 
-This directory contains the variables applicable to all roles. The `all.yml` file contains default values for these variables. The directories in this folder contain team-specific configuration.
+This directory contains the variables applicable to all roles. The `all.yaml` file contains default values for these variables. The directories in this folder contain team-specific configuration.
 
 ### inventory
 
@@ -85,7 +85,7 @@ This role parses the team configuration into variables which are easier to use b
 
 This directory contains scripts used to test the execution of the playbooks on containers.
 
-### site.yml
+### site.yaml
 
 This is the Ansible playbook and contains all the tasks we execute in order to add/remove keys and create/delete users. Tasks are executed based on tags and tasks which match the current tag are executed in order.
 
@@ -290,10 +290,10 @@ INVENTORY_TEMPLATE=inventory/hosts-template
 INVENTORY_FILE=inventory/hosts
 PLAYBOOK_PARAMETERS=--extra-vars='{filter_users: [p.jordaan]}'
 TEAM=atlas
-TEAM_VARS_FILE=./group_vars/atlas/atlas.yml
+TEAM_VARS_FILE=./group_vars/atlas/atlas.yaml
 AD_USER=p.jordaan
-ANSIBLE_COMMAND=ansible-playbook -i inventory/hosts -e @./group_vars/atlas/atlas.yml --extra-vars='{filter_users: [p.jordaan]}' -vvv
-ANSIBLE_COMMAND_DRY_RUN=ansible-playbook -i inventory/hosts -e @./group_vars/atlas/atlas.yml --extra-vars='{filter_users: [p.jordaan]}' -vvv --check --diff
+ANSIBLE_COMMAND=ansible-playbook -i inventory/hosts -e @./group_vars/atlas/atlas.yaml --extra-vars='{filter_users: [p.jordaan]}' -vvv
+ANSIBLE_COMMAND_DRY_RUN=ansible-playbook -i inventory/hosts -e @./group_vars/atlas/atlas.yaml --extra-vars='{filter_users: [p.jordaan]}' -vvv --check --diff
 V=-vvv
 ```
 
@@ -311,7 +311,7 @@ Note that some of the plays can fail in dry run mode due to resources or variabl
 
 ### CI/CD
 
-The ansible jobs are defined in the CI/CD file at `.gitlab/ci/ansible.yml` from the project root directory. Each job extends the `setup-ansible` job to install dependencies and set the locale.
+The ansible jobs are defined in the CI/CD file at `.gitlab/ci/.ansible.yaml` from the project root directory. Each job extends the `setup-ansible` job to install dependencies and set the locale.
 
 #### ansible-lint
 
