@@ -1,6 +1,9 @@
 # Version History
 
 ## Unreleased
+* [AT-3885]
+  * Include gpm files for staging dishes based off site's ska001 gpm file
+    * This includes updating the Makefile to point to ITF folder, while keeping ska-mid `values.yml` pointing to site's folder
 * [AT-3871]
   * Fixes for band 5 teapot testing in python tests so no variables are needed when running the job
   * Temporary dev images for IERS bypass and dishleafnode removed but commented for reference
