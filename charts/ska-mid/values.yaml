@@ -298,7 +298,7 @@ ska-sdp:
       storageClassName: ceph-cephfs
   helmdeploy:
     networkAttachmentDefinitions:
-      labelSelector: true
+      enableClusterRole: true
   lmc:
     prefix: mid
     nsubarray: 1
