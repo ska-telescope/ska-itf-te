@@ -2,6 +2,12 @@
 
 ## Unreleased
 * [AT-3885]
+  * Upgrade ska-csp-lmc-mid to `1.11.0`
+  * Upgrade ska-sdp to `2.10.0`
+  * Upgrade vis-receive to `10.1.1`
+  * Upgrade ska-tmc-mid to `1.27.2`
+  * Use ska-sdp-assignres and ska-sdp-configure v2.2
+  * Update assignresources.json keys to match new schema, keep some legacy keys required by ska-tmc-assignresources v2.4
   * Include gpm files for staging dishes based off site's ska001 gpm file
     * This includes updating the Makefile to point to ITF folder, while keeping ska-mid `values.yml` pointing to site's folder
 * [AT-3871]
