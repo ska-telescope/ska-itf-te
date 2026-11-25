@@ -297,7 +297,8 @@ ska-sdp:
       size: 2Ti
       storageClassName: ceph-cephfs
   helmdeploy:
-    enableNADClusterRole: true
+    networkAttachmentDefinitions:
+      enableClusterRole: true
   lmc:
     prefix: mid
     nsubarray: 1
@@ -400,6 +401,8 @@ ska-tango-util:
 # TANGO DEPLOYMENT
 tangogql:
   enabled: false
+  global:
+    no_auth: true
   tangoDB: taranta  # This is the name of the TangoDB that should always be set first when deploying a multiDB Taranta system
   ska-tango-base:
     enabled: false
