@@ -1,6 +1,8 @@
 # Version History
 
 ## Unreleased
+* [AT-850]
+  * Add attributes from meerkat wms tango devices to central controller archive config
 * [AT-3885]
   * Upgrade ska-csp-lmc-mid to `1.11.0`
   * Upgrade ska-sdp to `2.10.0`
